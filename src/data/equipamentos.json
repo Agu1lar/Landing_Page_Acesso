@@ -1,0 +1,1450 @@
+[
+  {
+    "slug": "argamassadeira",
+    "name": "Argamassadeira",
+    "category": "concretagem",
+    "shortDescription": "Locação de Argamassadeira — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["concretagem"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "aspirador-de-po",
+    "name": "aspirador de po",
+    "category": "ferramentas-eletricas",
+    "shortDescription": "Locação de aspirador de po — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["ferramentas"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "betoneira",
+    "name": "betoneira",
+    "category": "concretagem",
+    "shortDescription": "Locação de betoneira — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["concretagem"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "bomba-lameira",
+    "name": "bomba lameira",
+    "category": "concretagem",
+    "shortDescription": "Locação de bomba lameira — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["concretagem"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "bomba-mangote",
+    "name": "bomba mangote",
+    "category": "concretagem",
+    "shortDescription": "Locação de bomba mangote — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["concretagem"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "bomba-mangote-75",
+    "name": "bomba mangote 75\"",
+    "category": "concretagem",
+    "shortDescription": "Locação de bomba mangote 75\" — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["concretagem"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "chave-de-impacto",
+    "name": "chave de impacto",
+    "category": "ferramentas-eletricas",
+    "shortDescription": "Locação de chave de impacto — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["ferramentas"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "compactador-eletrico",
+    "name": "compactador eletrico",
+    "category": "compactacao",
+    "shortDescription": "Locação de compactador eletrico — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["compactacao"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "compactador-eletrico-unidade-2",
+    "name": "Compactador elétrico (unidade 2)",
+    "category": "compactacao",
+    "shortDescription": "Locação de Compactador elétrico (unidade 2) — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["compactacao"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "compressor-220v",
+    "name": "compressor 220v",
+    "category": "energia",
+    "shortDescription": "Locação de compressor 220v — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["energia"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "cortadora",
+    "name": "cortadora",
+    "category": "ferramentas-eletricas",
+    "shortDescription": "Locação de cortadora — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["ferramentas"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "cortadora-de-piso-gasolina",
+    "name": "cortadora de piso gasolina",
+    "category": "ferramentas-eletricas",
+    "shortDescription": "Locação de cortadora de piso gasolina — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["ferramentas"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "escada-fibra-6m-extensiva",
+    "name": "escada fibra 6m extensiva",
+    "category": "ferramentas-eletricas",
+    "shortDescription": "Locação de escada fibra 6m extensiva — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["ferramentas"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "esmerilhadeira-4-5-220v",
+    "name": "esmerilhadeira 4,5\" 220v",
+    "category": "ferramentas-eletricas",
+    "shortDescription": "Locação de esmerilhadeira 4,5\" 220v — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["ferramentas"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "esmerilhadeira-7-m-220v",
+    "name": "esmerilhadeira 7\"m -220v",
+    "category": "ferramentas-eletricas",
+    "shortDescription": "Locação de esmerilhadeira 7\"m -220v — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["ferramentas"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "furadeira-5-8-220v",
+    "name": "furadeira 5/8 220v",
+    "category": "ferramentas-eletricas",
+    "shortDescription": "Locação de furadeira 5/8 220v — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["ferramentas"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "furadeira-1-2-200v",
+    "name": "furadeira 1/2 200v",
+    "category": "ferramentas-eletricas",
+    "shortDescription": "Locação de furadeira 1/2 200v — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["ferramentas"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "gerador-a-gasolina",
+    "name": "gerador a gasolina",
+    "category": "energia",
+    "shortDescription": "Locação de gerador a gasolina — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["energia"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "guincho-de-coluna-200kg",
+    "name": "guincho de coluna 200kg",
+    "category": "outros",
+    "shortDescription": "Locação de guincho de coluna 200kg — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["outros"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "guincho-mini-grua",
+    "name": "guincho mini grua",
+    "category": "outros",
+    "shortDescription": "Locação de guincho mini grua — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["outros"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "lavador-de-alta-pressao",
+    "name": "lavador de alta pressão",
+    "category": "ferramentas-eletricas",
+    "shortDescription": "Locação de lavador de alta pressão — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["ferramentas"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "lixadeira-7-220v",
+    "name": "lixadeira 7\" 220v",
+    "category": "ferramentas-eletricas",
+    "shortDescription": "Locação de lixadeira 7\" 220v — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["ferramentas"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "lixadeira",
+    "name": "lixadeira",
+    "category": "ferramentas-eletricas",
+    "shortDescription": "Locação de lixadeira — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["ferramentas"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "makitao",
+    "name": "makitão",
+    "category": "ferramentas-eletricas",
+    "shortDescription": "Locação de makitão — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["ferramentas"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "mangote-25mm-5m-vibr-port",
+    "name": "mangote 25mm 5m vibr. Port.",
+    "category": "concretagem",
+    "shortDescription": "Locação de mangote 25mm 5m vibr. Port. — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["concretagem"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "mangote-35mm-3m-makita",
+    "name": "mangote 35mm 3m makita",
+    "category": "concretagem",
+    "shortDescription": "Locação de mangote 35mm 3m makita — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["concretagem"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "mangote-35mm-3m-bosch",
+    "name": "mangote 35mm 3m bosch",
+    "category": "concretagem",
+    "shortDescription": "Locação de mangote 35mm 3m bosch — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["concretagem"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "mangote-vibrador-25mm",
+    "name": "mangote vibrador 25mm",
+    "category": "concretagem",
+    "shortDescription": "Locação de mangote vibrador 25mm — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["concretagem"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "mangote-vibrador-35mm",
+    "name": "mangote vibrador 35mm",
+    "category": "concretagem",
+    "shortDescription": "Locação de mangote vibrador 35mm — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["concretagem"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "mangote-vibrador-45mm",
+    "name": "mangote vibrador 45mm",
+    "category": "concretagem",
+    "shortDescription": "Locação de mangote vibrador 45mm — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["concretagem"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "mangote-vibrador-60mm",
+    "name": "mangote vibrador 60mm",
+    "category": "concretagem",
+    "shortDescription": "Locação de mangote vibrador 60mm — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["concretagem"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "maquina-de-solda",
+    "name": "maquina de solda",
+    "category": "ferramentas-eletricas",
+    "shortDescription": "Locação de maquina de solda — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["ferramentas"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "martelo-10-kg",
+    "name": "martelo 10 kg",
+    "category": "demolicao-perfuracao",
+    "shortDescription": "Locação de martelo 10 kg — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["demolicao"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "martelete-sds-combinado",
+    "name": "martelete sds combinado",
+    "category": "demolicao-perfuracao",
+    "shortDescription": "Locação de martelete sds combinado — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["demolicao"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "martelo-5kg",
+    "name": "martelo 5kg",
+    "category": "demolicao-perfuracao",
+    "shortDescription": "Locação de martelo 5kg — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["demolicao"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "martelo-demolidor-15-kg",
+    "name": "martelo demolidor 15 kg",
+    "category": "demolicao-perfuracao",
+    "shortDescription": "Locação de martelo demolidor 15 kg — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["demolicao"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "martelo-demolidor-18kg",
+    "name": "martelo demolidor 18kg",
+    "category": "demolicao-perfuracao",
+    "shortDescription": "Locação de martelo demolidor 18kg — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["demolicao"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "martelo-demolidor-30-kg",
+    "name": "martelo demolidor 30 kg",
+    "category": "demolicao-perfuracao",
+    "shortDescription": "Locação de martelo demolidor 30 kg — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["demolicao"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "misturador-argamassa-portatil",
+    "name": "misturador argamassa portatil",
+    "category": "concretagem",
+    "shortDescription": "Locação de misturador argamassa portatil — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["concretagem"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "motor-weg",
+    "name": "motor weg",
+    "category": "ferramentas-eletricas",
+    "shortDescription": "Locação de motor weg — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["ferramentas"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "motor-vibrador",
+    "name": "motor vibrador",
+    "category": "concretagem",
+    "shortDescription": "Locação de motor vibrador — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["concretagem"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "nivel-laser",
+    "name": "nivel laser",
+    "category": "ferramentas-eletricas",
+    "shortDescription": "Locação de nivel laser — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["ferramentas"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "painel-de-comando",
+    "name": "painel de comando",
+    "category": "ferramentas-eletricas",
+    "shortDescription": "Locação de painel de comando — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["ferramentas"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "parafusadeira",
+    "name": "parafusadeira",
+    "category": "ferramentas-eletricas",
+    "shortDescription": "Locação de parafusadeira — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["ferramentas"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "carregador",
+    "name": "carregador",
+    "category": "ferramentas-eletricas",
+    "shortDescription": "Locação de carregador — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["ferramentas"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "bateria",
+    "name": "bateria",
+    "category": "ferramentas-eletricas",
+    "shortDescription": "Locação de bateria — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["ferramentas"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "placa-vibratoria-gasolina",
+    "name": "placa vibratoria gasolina",
+    "category": "compactacao",
+    "shortDescription": "Locação de placa vibratoria gasolina — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["compactacao"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "plaina-220v",
+    "name": "plaina 220v",
+    "category": "ferramentas-eletricas",
+    "shortDescription": "Locação de plaina 220v — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["ferramentas"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "retifica-220v",
+    "name": "retifica 220v",
+    "category": "ferramentas-eletricas",
+    "shortDescription": "Locação de retifica 220v — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["ferramentas"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "rocadeira",
+    "name": "roçadeira",
+    "category": "ferramentas-eletricas",
+    "shortDescription": "Locação de roçadeira — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["ferramentas"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "serra-circular-7-220v",
+    "name": "serra circular 7 \" 220v",
+    "category": "ferramentas-eletricas",
+    "shortDescription": "Locação de serra circular 7 \" 220v — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["ferramentas"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "serra-circular-9-220v",
+    "name": "serra circular 9\" 220v",
+    "category": "ferramentas-eletricas",
+    "shortDescription": "Locação de serra circular 9\" 220v — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["ferramentas"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "serra-de-bancada",
+    "name": "serra de bancada",
+    "category": "ferramentas-eletricas",
+    "shortDescription": "Locação de serra de bancada — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["ferramentas"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "serra-de-marmore-220v",
+    "name": "serra de marmore 220v",
+    "category": "ferramentas-eletricas",
+    "shortDescription": "Locação de serra de marmore 220v — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["ferramentas"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "serra-policorte-14-220v",
+    "name": "serra policorte 14\" 220v",
+    "category": "ferramentas-eletricas",
+    "shortDescription": "Locação de serra policorte 14\" 220v — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["ferramentas"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "serra-tico-tico-220v",
+    "name": "serra tico tico 220v",
+    "category": "ferramentas-eletricas",
+    "shortDescription": "Locação de serra tico tico 220v — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["ferramentas"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "serra-sabre",
+    "name": "serra sabre",
+    "category": "ferramentas-eletricas",
+    "shortDescription": "Locação de serra sabre — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["ferramentas"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "talha-1t",
+    "name": "talha 1t",
+    "category": "outros",
+    "shortDescription": "Locação de talha 1t — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["outros"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "tranformador",
+    "name": "tranformador",
+    "category": "energia",
+    "shortDescription": "Locação de tranformador — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["energia"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "vibador-conc-port-makita",
+    "name": "vibador conc. Port. Makita",
+    "category": "concretagem",
+    "shortDescription": "Locação de vibador conc. Port. Makita — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["concretagem"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "vibador-conc-port-bosh",
+    "name": "vibador conc. Port. Bosh",
+    "category": "concretagem",
+    "shortDescription": "Locação de vibador conc. Port. Bosh — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["concretagem"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "tubo-galvanizado-de-0-50-m-ate-6-m",
+    "name": "TUBO GALVANIZADO DE 0.50 M ATE 6 M",
+    "category": "andaimes-acesso",
+    "shortDescription": "Locação de TUBO GALVANIZADO DE 0.50 M ATE 6 M — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["andaime"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "rodizio-c-poliuretano",
+    "name": "Rodizio c/ POLIURETANO",
+    "category": "andaimes-acesso",
+    "shortDescription": "Locação de Rodizio c/ POLIURETANO — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["andaime"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "rodizio-de-borracha-c-trava",
+    "name": "RODIZIO DE BORRACHA C/ TRAVA",
+    "category": "andaimes-acesso",
+    "shortDescription": "Locação de RODIZIO DE BORRACHA C/ TRAVA — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["andaime"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "sapata-ajustavel",
+    "name": "SAPATA AJUSTAVEL",
+    "category": "andaimes-acesso",
+    "shortDescription": "Locação de SAPATA AJUSTAVEL — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["andaime"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "sapata-fixa",
+    "name": "SAPATA FIXA",
+    "category": "andaimes-acesso",
+    "shortDescription": "Locação de SAPATA FIXA — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["andaime"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "diagonal-1-00",
+    "name": "diagonal 1,00",
+    "category": "andaimes-acesso",
+    "shortDescription": "Locação de diagonal 1,00 — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["andaime"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "diagonal-1-50",
+    "name": "diagonal 1,50",
+    "category": "andaimes-acesso",
+    "shortDescription": "Locação de diagonal 1,50 — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["andaime"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "diagonal-1-80",
+    "name": "diagonal 1,80",
+    "category": "andaimes-acesso",
+    "shortDescription": "Locação de diagonal 1,80 — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["andaime"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "escada-p-andaime-1-00m",
+    "name": "escada p/ andaime 1,00m",
+    "category": "andaimes-acesso",
+    "shortDescription": "Locação de escada p/ andaime 1,00m — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["andaime"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "escada-p-andaime-2-00m",
+    "name": "escada p/andaime 2,00m",
+    "category": "andaimes-acesso",
+    "shortDescription": "Locação de escada p/andaime 2,00m — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["andaime"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "guarda-corpo-1-00m-c-p",
+    "name": "guarda corpo 1,00M C/P",
+    "category": "andaimes-acesso",
+    "shortDescription": "Locação de guarda corpo 1,00M C/P — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["andaime"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "guarda-corpo-1-0m-s-p",
+    "name": "guarda corpo 1,0M S/P",
+    "category": "andaimes-acesso",
+    "shortDescription": "Locação de guarda corpo 1,0M S/P — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["andaime"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "guarda-corpo-1-00m-s-p-c-encaixe",
+    "name": "guarda corpo 1,00m S/P C/ encaixe",
+    "category": "andaimes-acesso",
+    "shortDescription": "Locação de guarda corpo 1,00m S/P C/ encaixe — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["andaime"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "guarda-corpo-1-5-c-porta",
+    "name": "guarda corpo 1,5 C/ porta",
+    "category": "andaimes-acesso",
+    "shortDescription": "Locação de guarda corpo 1,5 C/ porta — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["andaime"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "guarda-corpo-1-5-s-porta-c-encaixe",
+    "name": "guarda corpo 1,5 s/porta C/ encaixe",
+    "category": "andaimes-acesso",
+    "shortDescription": "Locação de guarda corpo 1,5 s/porta C/ encaixe — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["andaime"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "painel-0-50x1-50m",
+    "name": "painel 0,50x1,50m",
+    "category": "andaimes-acesso",
+    "shortDescription": "Locação de painel 0,50x1,50m — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["andaime"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "painel-1-00x1-00-mecan",
+    "name": "painel 1,00x1,00 mecan",
+    "category": "andaimes-acesso",
+    "shortDescription": "Locação de painel 1,00x1,00 mecan — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["andaime"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "painel-1-00x1-00-prensado",
+    "name": "painel 1,00x1,00 prensado",
+    "category": "andaimes-acesso",
+    "shortDescription": "Locação de painel 1,00x1,00 prensado — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["andaime"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "painel-1-00x1-50-prensado-e-transformado",
+    "name": "painel 1,00x1,50 prensado e transformado",
+    "category": "andaimes-acesso",
+    "shortDescription": "Locação de painel 1,00x1,50 prensado e transformado — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["andaime"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "piso-metalico-1-00x0-33m",
+    "name": "piso metalico 1,00x0,33m",
+    "category": "andaimes-acesso",
+    "shortDescription": "Locação de piso metalico 1,00x0,33m — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["andaime"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "piso-metalico-1-50x0-37m-galv",
+    "name": "piso metalico 1,50x0,37M galv",
+    "category": "andaimes-acesso",
+    "shortDescription": "Locação de piso metalico 1,50x0,37M galv — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["andaime"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "arco-p-escada",
+    "name": "arco p/ escada",
+    "category": "andaimes-acesso",
+    "shortDescription": "Locação de arco p/ escada — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["andaime"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "abracadeira-fixa",
+    "name": "ABRAÇADEIRA FIXA",
+    "category": "andaimes-acesso",
+    "shortDescription": "Locação de ABRAÇADEIRA FIXA — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["andaime"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "abracadeira-fixa-fch",
+    "name": "ABRAÇADEIRA FIXA FCH",
+    "category": "andaimes-acesso",
+    "shortDescription": "Locação de ABRAÇADEIRA FIXA FCH — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["andaime"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "abracadeira-giratoria",
+    "name": "ABRAÇADEIRA GIRATORIA",
+    "category": "andaimes-acesso",
+    "shortDescription": "Locação de ABRAÇADEIRA GIRATORIA — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["andaime"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "arco-aberto",
+    "name": "ARCO ABERTO",
+    "category": "andaimes-acesso",
+    "shortDescription": "Locação de ARCO ABERTO — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["andaime"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "arco-fechado",
+    "name": "ARCO FECHADO",
+    "category": "andaimes-acesso",
+    "shortDescription": "Locação de ARCO FECHADO — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["andaime"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "chave-de-catraca-7-8",
+    "name": "CHAVE DE CATRACA 7/8\"",
+    "category": "andaimes-acesso",
+    "shortDescription": "Locação de CHAVE DE CATRACA 7/8\" — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["andaime"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "degrau-de-escada",
+    "name": "DEGRAU DE ESCADA",
+    "category": "andaimes-acesso",
+    "shortDescription": "Locação de DEGRAU DE ESCADA — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["andaime"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "luva-de-uniao",
+    "name": "LUVA DE UNIÃO",
+    "category": "andaimes-acesso",
+    "shortDescription": "Locação de LUVA DE UNIÃO — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["andaime"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "parafuso-enxerto",
+    "name": "PARAFUSO ENXERTO",
+    "category": "andaimes-acesso",
+    "shortDescription": "Locação de PARAFUSO ENXERTO — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["andaime"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "pranchao-de-1-00-m-ate-3-00-m",
+    "name": "PRANCHÃO DE 1,00 M ATE 3,00 M",
+    "category": "andaimes-acesso",
+    "shortDescription": "Locação de PRANCHÃO DE 1,00 M ATE 3,00 M — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["andaime"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "rodape-de-0-20-x-3-00-m",
+    "name": "RODAPE DE 0,20 X 3,00 M",
+    "category": "andaimes-acesso",
+    "shortDescription": "Locação de RODAPE DE 0,20 X 3,00 M — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["andaime"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "rodape-de-0-20-x-2-00-m",
+    "name": "RODAPE DE 0,20 X 2,00 M",
+    "category": "andaimes-acesso",
+    "shortDescription": "Locação de RODAPE DE 0,20 X 2,00 M — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["andaime"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "rodape-de-0-20-x-1-00-m",
+    "name": "RODAPE DE 0,20 X 1,00 M",
+    "category": "andaimes-acesso",
+    "shortDescription": "Locação de RODAPE DE 0,20 X 1,00 M — valores sob consulta.",
+    "longDescription": "",
+    "specs": [],
+    "tags": ["andaime"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "plataforma-elevatoria-hb-1430",
+    "name": "Plataforma elevatória HB 1430",
+    "category": "equipamentos-aereos",
+    "shortDescription": "Locação de plataforma elevatória HB 1430 — sob consulta.",
+    "longDescription": "",
+    "specs": [
+      {
+        "label": "Tipo",
+        "value": "Tesoura"
+      },
+      {
+        "label": "Altura de trabalho",
+        "value": "~14 m"
+      },
+      {
+        "label": "Capacidade",
+        "value": "~230 kg"
+      },
+      {
+        "label": "Alimentação",
+        "value": "Elétrica"
+      }
+    ],
+    "tags": ["plataforma", "altura"],
+    "featured": true,
+    "available": true
+  },
+  {
+    "slug": "plataforma-elevatoria-hb-p830",
+    "name": "Plataforma elevatória HB P830",
+    "category": "equipamentos-aereos",
+    "shortDescription": "Locação de plataforma elevatória HB P830 — sob consulta.",
+    "longDescription": "",
+    "specs": [
+      {
+        "label": "Tipo",
+        "value": "Tesoura"
+      },
+      {
+        "label": "Altura de trabalho",
+        "value": "~8 m"
+      },
+      {
+        "label": "Capacidade",
+        "value": "~230 kg"
+      },
+      {
+        "label": "Alimentação",
+        "value": "Elétrica"
+      }
+    ],
+    "tags": ["plataforma", "altura"],
+    "featured": true,
+    "available": true
+  },
+  {
+    "slug": "plataforma-elevatoria-pep-p590",
+    "name": "Plataforma elevatória PEP P590",
+    "category": "equipamentos-aereos",
+    "shortDescription": "Locação de plataforma elevatória PEP P590 — sob consulta.",
+    "longDescription": "",
+    "specs": [
+      {
+        "label": "Tipo",
+        "value": "Tesoura"
+      },
+      {
+        "label": "Altura de trabalho",
+        "value": "Consulte"
+      },
+      {
+        "label": "Capacidade",
+        "value": "Consulte"
+      },
+      {
+        "label": "Alimentação",
+        "value": "Elétrica"
+      }
+    ],
+    "tags": ["plataforma", "altura"],
+    "featured": true,
+    "available": true
+  },
+  {
+    "slug": "plataforma-elevatoria-gs-1930s",
+    "name": "Plataforma elevatória GS 1930s",
+    "category": "equipamentos-aereos",
+    "shortDescription": "Locação de plataforma elevatória GS 1930s — sob consulta.",
+    "longDescription": "",
+    "specs": [
+      {
+        "label": "Tipo",
+        "value": "Tesoura"
+      },
+      {
+        "label": "Altura de trabalho",
+        "value": "~5,8 m"
+      },
+      {
+        "label": "Capacidade",
+        "value": "~227 kg"
+      },
+      {
+        "label": "Alimentação",
+        "value": "Elétrica"
+      }
+    ],
+    "tags": ["plataforma", "altura"],
+    "featured": true,
+    "available": true
+  },
+  {
+    "slug": "plataforma-elevatoria-awp-30s",
+    "name": "Plataforma elevatória AWP 30S",
+    "category": "equipamentos-aereos",
+    "shortDescription": "Locação de plataforma elevatória AWP 30S — sob consulta.",
+    "longDescription": "",
+    "specs": [
+      {
+        "label": "Tipo",
+        "value": "Tesoura"
+      },
+      {
+        "label": "Altura de trabalho",
+        "value": "Consulte"
+      },
+      {
+        "label": "Capacidade",
+        "value": "Consulte"
+      },
+      {
+        "label": "Alimentação",
+        "value": "Consulte"
+      }
+    ],
+    "tags": ["plataforma", "altura"],
+    "featured": true,
+    "available": true
+  },
+  {
+    "slug": "plataforma-elevatoria-sj-iii-4740",
+    "name": "Plataforma elevatória SJ III 4740",
+    "category": "equipamentos-aereos",
+    "shortDescription": "Locação de plataforma elevatória SJ III 4740 — sob consulta.",
+    "longDescription": "",
+    "specs": [
+      {
+        "label": "Tipo",
+        "value": "Tesoura"
+      },
+      {
+        "label": "Altura de trabalho",
+        "value": "~14,3 m"
+      },
+      {
+        "label": "Capacidade",
+        "value": "~227 kg"
+      },
+      {
+        "label": "Alimentação",
+        "value": "Elétrica"
+      }
+    ],
+    "tags": ["plataforma", "altura"],
+    "featured": true,
+    "available": true
+  },
+  {
+    "slug": "plataforma-elevatoria-20-mvl",
+    "name": "Plataforma elevatória 20 MVL",
+    "category": "equipamentos-aereos",
+    "shortDescription": "Locação de plataforma elevatória 20 MVL — sob consulta.",
+    "longDescription": "",
+    "specs": [
+      {
+        "label": "Tipo",
+        "value": "Tesoura"
+      },
+      {
+        "label": "Altura de trabalho",
+        "value": "Consulte"
+      },
+      {
+        "label": "Capacidade",
+        "value": "Consulte"
+      },
+      {
+        "label": "Alimentação",
+        "value": "Consulte"
+      }
+    ],
+    "tags": ["plataforma", "altura"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "plataforma-elevatoria-am-36",
+    "name": "Plataforma elevatória AM – 36",
+    "category": "equipamentos-aereos",
+    "shortDescription": "Locação de plataforma elevatória AM — sob consulta.",
+    "longDescription": "",
+    "specs": [
+      {
+        "label": "Tipo",
+        "value": "Tesoura"
+      },
+      {
+        "label": "Altura de trabalho",
+        "value": "Consulte"
+      },
+      {
+        "label": "Capacidade",
+        "value": "Consulte"
+      },
+      {
+        "label": "Alimentação",
+        "value": "Consulte"
+      }
+    ],
+    "tags": ["plataforma", "altura"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "plataforma-elevatoria-z45-25j-dc-lanca-articulada",
+    "name": "Plataforma elevatória Z45/25j- DC –Lança Articulada",
+    "category": "equipamentos-aereos",
+    "shortDescription": "Locação de plataforma elevatória Z45/25j- DC — sob consulta.",
+    "longDescription": "",
+    "specs": [
+      {
+        "label": "Tipo",
+        "value": "Lança articulada"
+      },
+      {
+        "label": "Alcance vertical",
+        "value": "~14 m"
+      },
+      {
+        "label": "Alcance horizontal",
+        "value": "~7,6 m"
+      },
+      {
+        "label": "Alimentação",
+        "value": "Diesel"
+      }
+    ],
+    "tags": ["plataforma", "altura"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "plataforma-elevatoria-sj-iii-3219",
+    "name": "Plataforma elevatória SJ III 3219",
+    "category": "equipamentos-aereos",
+    "shortDescription": "Locação de plataforma elevatória SJ III 3219 — sob consulta.",
+    "longDescription": "",
+    "specs": [
+      {
+        "label": "Tipo",
+        "value": "Tesoura"
+      },
+      {
+        "label": "Altura de trabalho",
+        "value": "~5,8 m"
+      },
+      {
+        "label": "Capacidade",
+        "value": "~227 kg"
+      },
+      {
+        "label": "Alimentação",
+        "value": "Elétrica"
+      }
+    ],
+    "tags": ["plataforma", "altura"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "plataforma-elevatoria-sj-iii-3226",
+    "name": "Plataforma elevatória SJ III 3226",
+    "category": "equipamentos-aereos",
+    "shortDescription": "Locação de plataforma elevatória SJ III 3226 — sob consulta.",
+    "longDescription": "",
+    "specs": [
+      {
+        "label": "Tipo",
+        "value": "Tesoura"
+      },
+      {
+        "label": "Altura de trabalho",
+        "value": "~6,7 m"
+      },
+      {
+        "label": "Capacidade",
+        "value": "~227 kg"
+      },
+      {
+        "label": "Alimentação",
+        "value": "Elétrica"
+      }
+    ],
+    "tags": ["plataforma", "altura"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "plataforma-elevatoria-sj-iii-4632",
+    "name": "Plataforma elevatória SJ III 4632",
+    "category": "equipamentos-aereos",
+    "shortDescription": "Locação de plataforma elevatória SJ III 4632 — sob consulta.",
+    "longDescription": "",
+    "specs": [
+      {
+        "label": "Tipo",
+        "value": "Tesoura"
+      },
+      {
+        "label": "Altura de trabalho",
+        "value": "~9,8 m"
+      },
+      {
+        "label": "Capacidade",
+        "value": "~227 kg"
+      },
+      {
+        "label": "Alimentação",
+        "value": "Elétrica"
+      }
+    ],
+    "tags": ["plataforma", "altura"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "plataforma-elevatoria-z60-37-dc-lanca-articulada",
+    "name": "Plataforma elevatória Z60/37 DC – Lança Articulada",
+    "category": "equipamentos-aereos",
+    "shortDescription": "Locação de plataforma elevatória Z60/37 DC — sob consulta.",
+    "longDescription": "",
+    "specs": [
+      {
+        "label": "Tipo",
+        "value": "Lança articulada"
+      },
+      {
+        "label": "Alcance vertical",
+        "value": "~18 m"
+      },
+      {
+        "label": "Alcance horizontal",
+        "value": "~11 m"
+      },
+      {
+        "label": "Alimentação",
+        "value": "Diesel"
+      }
+    ],
+    "tags": ["plataforma", "altura"],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "plataforma-elevatoria-160-atj-lanca-articulada",
+    "name": "Plataforma elevatória 160 ATJ – Lança Articulada",
+    "category": "equipamentos-aereos",
+    "shortDescription": "Locação de plataforma elevatória 160 ATJ — sob consulta.",
+    "longDescription": "",
+    "specs": [
+      {
+        "label": "Tipo",
+        "value": "Lança articulada"
+      },
+      {
+        "label": "Alcance vertical",
+        "value": "~16 m"
+      },
+      {
+        "label": "Alcance horizontal",
+        "value": "Consulte"
+      },
+      {
+        "label": "Alimentação",
+        "value": "Diesel"
+      }
+    ],
+    "tags": ["plataforma", "altura"],
+    "featured": false,
+    "available": true
+  }
+]

@@ -1,0 +1,85 @@
+/** Brand & contact constants — Acesso Equipamentos */
+export const brand = {
+  name: 'Acesso Equipamentos',
+  legalName: 'Acesso Equipamentos LTDA',
+  foundedYear: 2013,
+  phone: '3133763377',
+  phoneDisplay: '(31) 3376-3377',
+  whatsapp: '5531994700201',
+  email: 'comercial@acessoequipamentos.com.br',
+  instagram: 'acessoequipamentos',
+  address: {
+    street: 'Praça Chuí, 100',
+    neighborhood: 'João Pinheiro',
+    city: 'Belo Horizonte',
+    state: 'MG',
+    zip: '30530-120',
+    full: 'Praça Chuí, 100 — João Pinheiro, Belo Horizonte — MG',
+  },
+  hours: 'Segunda a sexta, 7h30 às 17h15',
+  seoRegion: 'região metropolitana de Belo Horizonte',
+} as const;
+
+export type WhatsAppMessageOptions = {
+  equipmentName?: string;
+  equipmentSlug?: string;
+  /** Identificador de origem para o comercial (ex.: site, home, detalhe) */
+  origin?: string;
+};
+
+export function buildWhatsAppMessage(
+  equipmentOrOptions?: string | WhatsAppMessageOptions,
+  legacyOrigin?: string,
+): string {
+  const options: WhatsAppMessageOptions =
+    typeof equipmentOrOptions === 'string'
+      ? { equipmentName: equipmentOrOptions, origin: legacyOrigin ?? 'site' }
+      : { origin: 'site', ...equipmentOrOptions };
+
+  const item = options.equipmentName
+    ? ` na locação de ${options.equipmentName}`
+    : ' em equipamentos para minha obra';
+  const ref = options.equipmentSlug ? ` Ref.: ${options.equipmentSlug}.` : '';
+  const origin = options.origin ?? 'site';
+
+  return `Olá! Tenho interesse${item} na ${brand.seoRegion}.${ref} Origem: ${origin}. Poderiam enviar um orçamento?`;
+}
+
+/** @deprecated Use buildWhatsAppMessage */
+export function defaultWhatsAppMessage(equipmentName?: string): string {
+  return buildWhatsAppMessage(
+    equipmentName ? { equipmentName, origin: 'site' } : { origin: 'site' },
+  );
+}
+
+export function buildWhatsAppUrl(message: string): string {
+  return `https://wa.me/${brand.whatsapp}?text=${encodeURIComponent(message)}`;
+}
+
+export function buildEquipmentWhatsAppUrl(
+  equipment: { name: string; slug: string },
+  origin = 'site-detalhe',
+): string {
+  return buildWhatsAppUrl(
+    buildWhatsAppMessage({
+      equipmentName: equipment.name,
+      equipmentSlug: equipment.slug,
+      origin,
+    }),
+  );
+}
+
+/** Título SEO: equipamento ou página institucional */
+export function seoTitle(page: string, suffix = brand.name): string {
+  return `${page} | ${suffix}`;
+}
+
+/** Título SEO para equipamento */
+export function equipmentSeoTitle(equipmentName: string): string {
+  return `${equipmentName} para locação em BH | ${brand.name}`;
+}
+
+/** Título SEO para categoria (já em categories-seo; helper genérico) */
+export function categorySeoTitle(categoryLabel: string): string {
+  return `Locação de ${categoryLabel.toLowerCase()} em BH | ${brand.name}`;
+}

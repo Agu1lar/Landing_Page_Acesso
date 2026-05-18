@@ -1,0 +1,46 @@
+@layer theme, base, clerk, components, utilities;
+
+@import 'tailwindcss';
+
+@theme {
+  --color-primary: #c41e24;
+  --color-primary-hover: #a0181e;
+  --color-primary-light: #fef2f2;
+  --color-primary-foreground: #ffffff;
+
+  --color-neutral-900: #0f172a;
+  --color-neutral-800: #1e293b;
+  --color-neutral-600: #475569;
+  --color-neutral-400: #94a3b8;
+  --color-neutral-200: #e2e8f0;
+  --color-neutral-100: #f1f5f9;
+  --color-neutral-50: #f8fafc;
+  --color-surface: #ffffff;
+
+  --color-accent: #1ea0c3;
+  --color-cta-whatsapp: #25d366;
+  --color-cta-whatsapp-hover: #20bd5a;
+
+  --font-heading: var(--font-plus-jakarta), system-ui, sans-serif;
+  --font-body: var(--font-inter), system-ui, sans-serif;
+
+  --shadow-header: 0 1px 3px 0 rgb(15 23 42 / 0.08);
+  --radius-card: 0.75rem;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-neutral-50 font-body text-neutral-800 antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-heading text-neutral-900;
+  }
+}

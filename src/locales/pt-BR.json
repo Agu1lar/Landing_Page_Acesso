@@ -1,0 +1,120 @@
+{
+  "BaseTemplate": {
+    "description": "Locação de equipamentos para construção civil",
+    "footer_text": "© {year} {name}.",
+    "main_navigation_label": "Navegação principal"
+  },
+  "RootLayout": {
+    "home_link": "Início",
+    "equipamentos_link": "Equipamentos",
+    "sobre_link": "Sobre",
+    "contato_link": "Contato",
+    "orcamento_link": "Orçamento",
+    "whatsapp_link": "WhatsApp"
+  },
+  "Search": {
+    "placeholder": "Buscar equipamentos…",
+    "shortcut": "Ctrl+K",
+    "no_results": "Nenhum equipamento encontrado",
+    "view_all": "Ver todos os resultados",
+    "aria_label": "Busca global de equipamentos"
+  },
+  "Index": {
+    "meta_title": "Acesso Equipamentos — Locação em Belo Horizonte",
+    "meta_description": "Locação de plataformas elevatórias, andaimes, máquinas e ferramentas para construção civil na região metropolitana de BH. Valores sob consulta.",
+    "hero_title": "Equipamentos para sua obra, com segurança e agilidade",
+    "hero_subtitle": "Plataformas elevatórias, andaimes, concretagem e ferramentas. Fundada em 2013, com equipe experiente no setor.",
+    "hero_cta_quote": "Solicitar orçamento",
+    "hero_cta_whatsapp": "Falar no WhatsApp",
+    "categories_title": "Categorias",
+    "featured_title": "Equipamentos em destaque",
+    "steps_title": "Como funciona a locação",
+    "steps_subtitle": "Do pedido à entrega na obra, em três passos simples.",
+    "step1_number": "Passo 1",
+    "step1_title": "Escolha o equipamento",
+    "step1_description": "Use a busca no topo do site, navegue por categorias ou consulte o catálogo completo com mais de 100 itens.",
+    "step2_number": "Passo 2",
+    "step2_title": "Solicite o orçamento",
+    "step2_description": "Envie o formulário de orçamento ou fale no WhatsApp informando equipamento, período e local da obra na região metropolitana de BH.",
+    "step3_number": "Passo 3",
+    "step3_title": "Entrega e retirada na obra",
+    "step3_description": "Após a confirmação, combinamos entrega no canteiro e retirada ao final do período de locação, conforme disponibilidade da frota.",
+    "trust_title": "Por que a Acesso Equipamentos?",
+    "trust_founded": "Empresa desde 2013",
+    "trust_team": "Equipe com 20+ anos de experiência",
+    "trust_delivery": "Entrega e retirada na obra",
+    "trust_compliance": "Equipamentos em conformidade com normas de segurança",
+    "cta_final_title": "Precisa de um orçamento?",
+    "cta_final_subtitle": "Nossa equipe comercial responde em horário útil.",
+    "pricing_hint": "Valores sob consulta",
+    "testimonials_title": "O que dizem nossos clientes",
+    "testimonials_subtitle": "Avaliações reais no Google — obrigado pela confiança.",
+    "testimonials_view_all": "Ver no Google Maps"
+  },
+  "Faq": {
+    "meta_title": "Perguntas frequentes — locação de equipamentos | Acesso Equipamentos",
+    "meta_description": "Tire dúvidas sobre orçamento, entrega, documentação, normas NR e área atendida pela Acesso Equipamentos em Belo Horizonte.",
+    "title": "Perguntas frequentes",
+    "intro": "Respostas sobre locação de equipamentos para obra na região metropolitana de BH. Se não encontrar sua dúvida, fale com nosso comercial.",
+    "cta_title": "Ainda com dúvidas?",
+    "cta_text": "Nossa equipe comercial orienta sobre equipamento, prazo e logística.",
+    "cta_quote": "Solicitar orçamento",
+    "cta_whatsapp": "Falar no WhatsApp",
+    "contact_link": "Ver telefone e endereço →"
+  },
+  "Categoria": {
+    "breadcrumb_home": "Início",
+    "breadcrumb_equipment": "Equipamentos",
+    "catalog_title": "Equipamentos — {category}",
+    "results_count": "{count} itens disponíveis para locação",
+    "empty": "Nenhum equipamento nesta categoria no momento. Fale com nosso comercial.",
+    "cta_quote": "Solicitar orçamento",
+    "cta_whatsapp": "Falar no WhatsApp",
+    "view_all_catalog": "Ver catálogo completo →"
+  },
+  "Equipamentos": {
+    "meta_title": "Catálogo de equipamentos",
+    "meta_description": "Confira nossa frota para locação: plataformas, andaimes, ferramentas e mais.",
+    "title": "Equipamentos para locação",
+    "filter_all": "Todos",
+    "results_count": "{count} equipamentos",
+    "empty": "Nenhum equipamento encontrado para sua busca."
+  },
+  "EquipamentoDetail": {
+    "specs_title": "Especificações",
+    "cta_quote": "Solicitar orçamento",
+    "cta_whatsapp": "Falar no WhatsApp",
+    "back": "Voltar ao catálogo",
+    "related_title": "Equipamentos relacionados"
+  },
+  "Footer": {
+    "links": "Links",
+    "contact": "Contato",
+    "address": "Endereço",
+    "hours": "Horário",
+    "rights": "© {year} {name}. Todos os direitos reservados."
+  },
+  "SignIn": {
+    "meta_title": "Entrar",
+    "meta_description": "Acesso à área restrita."
+  },
+  "SignUp": {
+    "meta_title": "Cadastro",
+    "meta_description": "Criar conta."
+  },
+  "Dashboard": {
+    "hello_message": "Olá {email}!",
+    "alternative_message": "Área administrativa.",
+    "max_message": ""
+  },
+  "DashboardLayout": {
+    "meta_title": "Painel",
+    "meta_description": "Gerencie sua conta.",
+    "dashboard_link": "Painel",
+    "user_profile_link": "Perfil",
+    "sign_out": "Sair"
+  },
+  "LocaleSwitcher": {
+    "change_language": "Idioma"
+  }
+}
