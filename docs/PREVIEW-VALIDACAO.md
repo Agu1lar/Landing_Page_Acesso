@@ -1,5 +1,5 @@
 # Roteiro de validação — Preview da landing (Sprint 8)
-
+https://landing-page-acesso.vercel.app/
 | Campo | Valor |
 |-------|-------|
 | **Para** | Cezar (negócio) + equipe Acesso |
@@ -74,10 +74,13 @@ Abra um item aéreo, por exemplo: **Plataforma elevatória HB 1430**.
 | Contato | `/contato` | ☐ | |
 | FAQ | `/faq` | ☐ | |
 | Orçamento | `/orcamento` | ☐ | |
+| Treinamento | `/treinamento-plataformas-aereas` | ☐ | |
 
 | # | Verificar | OK | Ajuste |
 |---|-----------|:--:|--------|
 | 5.1 | Endereço **Praça Chuí, 100** e telefone corretos no rodapé | ☐ | |
+| 5.2 | Formulário em **Orçamento** envia com sucesso (mensagem de confirmação) | ☐ | |
+| 5.3 | Orçamento a partir de um equipamento pré-preenche o nome (`?equipamento=slug`) | ☐ | |
 | 5.2 | Horário **Seg–sex, 7h30–17h15** correto | ☐ | |
 | 5.3 | Depoimentos na home são reais e em português | ☐ | |
 | 5.4 | Seção **“Como funciona”** (3 passos) está clara | ☐ | |

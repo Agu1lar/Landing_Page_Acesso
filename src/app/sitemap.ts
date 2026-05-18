@@ -7,7 +7,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = getBaseUrl();
   const now = new Date();
 
-  const staticRoutes = ['', '/equipamentos', '/sobre', '/contato', '/orcamento', '/faq'];
+  const staticRoutes = [
+    '',
+    '/equipamentos',
+    '/treinamento-plataformas-aereas',
+    '/sobre',
+    '/contato',
+    '/orcamento',
+    '/faq',
+  ];
 
   const categoryRoutes = ALL_EQUIPMENT_CATEGORIES.map((slug) => `/categorias/${slug}`);
   const equipmentRoutes = getAllSlugs().map((slug) => `/equipamentos/${slug}`);

@@ -25,6 +25,11 @@ export async function SiteFooter() {
               </Link>
             </li>
             <li>
+              <Link className="hover:text-white" href="/treinamento-plataformas-aereas">
+                Treinamento — plataformas aéreas
+              </Link>
+            </li>
+            <li>
               <Link className="hover:text-white" href="/faq">
                 Perguntas frequentes
               </Link>

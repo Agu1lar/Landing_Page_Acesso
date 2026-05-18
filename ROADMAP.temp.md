@@ -6,7 +6,18 @@
 >
 > **Stack base:** Next.js 16 (App Router), TypeScript, Tailwind CSS, next-intl, Drizzle ORM, PostgreSQL/PGlite, Zod, React Hook Form.
 >
-> **Última atualização:** 2026-05-18 (hospedagem adiada; melhorias concorrentes mapeadas)
+> **Última atualização:** 2026-05-18 (Sprint 11 painel admin planejado; Sprint 5 leads ✅)
+>
+> ### Status rápido (implementado no código)
+> | Sprint | Status |
+> |--------|--------|
+> | 0–4 | ✅ Catálogo 110 itens, home, sobre, contato, FAQ, busca, CTAs, depoimentos, treinamento |
+> | 5 | ✅ Formulário `/orcamento` + `POST /api/leads` + tabela `leads` (e-mail automático ⏳ 5.7) |
+> | 6 | 🟡 Parcial (sitemap ✅; JSON-LD / legais pendentes) |
+> | 7 | 🟡 Parcial (header compacto, polish pendente) |
+> | 8 | 🟡 Preview deploy ✅ · sign-off Cezar ☐ |
+> | 9–10 | ⏳ Fotos reais · domínio após aprovação |
+> | **11** | 📋 **Planejado** — Painel administrativo + analytics (ver seção dedicada) |
 
 ---
 
@@ -16,6 +27,7 @@
 2. [Princípios de arquitetura](#2-princípios-de-arquitetura)
 3. [Fases do produto](#3-fases-do-produto)
 4. [Roadmap por sprint (detalhado)](#4-roadmap-por-sprint-detalhado)
+4.1. [Sprint 11 — Painel administrativo e analytics](#sprint-11--painel-administrativo-e-analytics-fase-2)
 5. [Estrutura de páginas e rotas](#5-estrutura-de-páginas-e-rotas)
 6. [Modelo de dados](#6-modelo-de-dados)
 7. [Design system e UX](#7-design-system-e-ux)
@@ -159,11 +171,13 @@ Escala de catálogo, prova social, otimizações e ferramentas para o time comer
 
 ---
 
-### Fase 3 — Plataforma (Trimestre 2+)
+### Fase 3 — Painel administrativo e analytics (Trimestre 2+)
 
-Somente se o negócio exigir: disponibilidade, reservas, integração ERP, área logada.
+**Sprint 11** — área logada para o time Acesso gerenciar catálogo, leads e métricas de conversão, sem depender de desenvolvedor para cada alteração de equipamento ou exportação manual.
 
-**Entregáveis possíveis:** admin de frota, status disponível/indisponível, integração Omie/similar, portal cliente.
+**Entregáveis principais:** CRUD de equipamentos com fotos, exportação CSV de leads com filtro por período, dashboard de visitas, cliques no WhatsApp, origem de tráfego (UTM/referrer) e funil de conversão.
+
+**Entregáveis futuros (pós-Sprint 11):** disponibilidade em tempo real, reservas, integração ERP (Omie/similar), portal do cliente.
 
 ---
 
@@ -257,6 +271,7 @@ Somente se o negócio exigir: disponibilidade, reservas, integração ERP, área
 | 4.8 | `/contato` | Endereço, mapa embed, horário, telefones |
 | 4.9 | **Depoimentos Google** | ✅ `TestimonialsSection` + 3 avaliações Google (pt-BR) |
 | 4.10 | **Âncora geo RMBH** | Menção região metropolitana / entrega em obras BH — SEO local |
+| 4.11 | **`/treinamento-plataformas-aereas`** | ✅ Página institucional + menu + faixa na home |
 
 **Critério de saída:** home comunica proposta de valor em < 10s de leitura.
 
@@ -266,17 +281,17 @@ Somente se o negócio exigir: disponibilidade, reservas, integração ERP, área
 
 | ID | Tarefa | Detalhes técnicos |
 |----|--------|-------------------|
-| 5.1 | Schema DB Drizzle | Tabela `leads`: nome, email, telefone, empresa, equipamento, período, cidade, mensagem, origem, createdAt |
-| 5.2 | Migration | `npm run db:generate` + `db:migrate` |
-| 5.3 | API `POST /api/leads` | Validação Zod, rate limit (Arcjet já no projeto) |
-| 5.4 | `QuoteForm` | Pré-preencher `?equipamento=slug` na URL |
-| 5.5 | `ContactForm` | Assunto opcional |
-| 5.6 | Feedback UX | Toast sucesso/erro, loading states |
-| 5.7 | Notificação | Email (Resend/SendGrid) ou webhook para planilha/CRM |
-| 5.8 | Página `/orcamento` | Form principal + resumo lateral (FAQ link para `/faq`) |
+| 5.1 | Schema DB Drizzle | ✅ Tabela `leads` em `src/models/Schema.ts` |
+| 5.2 | Migration | ✅ `migrations/0001_high_wild_child.sql` |
+| 5.3 | API `POST /api/leads` | ✅ Zod + Arcjet `fixedWindow` (8 req / 15 min) |
+| 5.4 | `QuoteForm` | ✅ `src/components/forms/QuoteForm.tsx` + `?equipamento=slug` |
+| 5.5 | `ContactForm` | ⏳ Opcional — contato ainda só dados estáticos |
+| 5.6 | Feedback UX | ✅ Sucesso/erro inline + loading |
+| 5.7 | Notificação | ⏳ E-mail/webhook (leads só no DB + log por enquanto) |
+| 5.8 | Página `/orcamento` | ✅ Formulário funcional |
 | 5.9 | **WhatsApp contextual** | ✅ `buildWhatsAppMessage` + slug + origem por página |
 
-**Critério de saída:** lead salvo no banco + e-mail/notificação recebida em ambiente de teste.
+**Critério de saída:** lead salvo no banco + e-mail/notificação recebida em ambiente de teste. **Parcial:** banco ✅ · e-mail ⏳
 
 ---
 
@@ -343,8 +358,8 @@ Somente se o negócio exigir: disponibilidade, reservas, integração ERP, área
 | 9.2 | Cases de obra / logos clientes | Alta | Santos, Lokaforte |
 | 9.3 | Expandir textos long-tail | Alta | Central Loc, Loca Exata |
 | 9.4 | Blog ou `/dicas` (SEO informacional) | Média | Lokaforte |
-| 9.5 | Avaliar CMS (Sanity/Payload) | Média | — |
-| 9.6 | Painel `/admin/leads` | Média | — |
+| 9.5 | Avaliar CMS (Sanity/Payload) | Média | Substituído por **Sprint 11** (admin próprio) |
+| 9.6 | ~~Painel `/admin/leads`~~ | — | Expandido → **Sprint 11** completo |
 | 9.7 | Landing por bairro/região RMBH (opcional) | Baixa | Lokaforte |
 | 9.8 | Testes A/B de CTA (PostHog) | Baixa | — |
 
@@ -368,6 +383,178 @@ Somente se o negócio exigir: disponibilidade, reservas, integração ERP, área
 | 10.8 | Redirect site legado (se houver) | `acessoequipamentos.com.br` → novo |
 
 **Critério de saída:** site no ar em domínio oficial, formulário e WhatsApp funcionando em produção.
+
+---
+
+### Sprint 11 — Painel administrativo e analytics (Fase 2)
+
+> **Objetivo:** o time Acesso passa a operar catálogo, leads e indicadores sem editar JSON ou pedir exportação manual. **Pré-requisito:** Sprint 10 (domínio oficial) + instrumentação básica de eventos (11.4) ativa em produção.
+
+#### Visão do painel
+
+| Módulo | Rota sugerida | Quem usa |
+|--------|---------------|----------|
+| Dashboard | `/admin` | Gestão / comercial |
+| Equipamentos | `/admin/equipamentos` | Comercial / marketing |
+| Leads | `/admin/leads` | Comercial |
+| Relatórios / CSV | `/admin/exportacoes` | Comercial / financeiro |
+| Analytics | `/admin/analytics` | Gestão / marketing |
+| Configurações | `/admin/configuracoes` | Admin |
+
+**Autenticação:** Clerk (já no projeto) com papel `admin` / `comercial` (comercial = leitura + exportação; admin = CRUD completo).
+
+---
+
+#### 11.1 — Fundação do admin
+
+| ID | Tarefa | Detalhes |
+|----|--------|----------|
+| 11.1.1 | Layout admin | Sidebar, header, breadcrumbs; tema alinhado à marca; responsivo tablet |
+| 11.1.2 | Proteção de rotas | Middleware `(admin)` — só usuários autorizados (Clerk + allowlist e-mail ou org) |
+| 11.1.3 | Papéis (RBAC) | `admin` \| `comercial` — matriz de permissões por módulo |
+| 11.1.4 | Auditoria básica | `created_at` / `updated_at` / `updated_by` em alterações críticas |
+
+**Critério de saída:** login → dashboard vazio acessível apenas para equipe Acesso.
+
+---
+
+#### 11.2 — Catálogo: CRUD de equipamentos
+
+> Hoje o catálogo está em `equipamentos.json`. O admin deve **migrar para PostgreSQL** (tabela `equipment` + `equipment_specs` + `equipment_images`) com job de importação do JSON atual e rebuild/ISR ao publicar.
+
+| ID | Tarefa | Detalhes |
+|----|--------|----------|
+| 11.2.1 | Modelo DB equipamentos | Slug, nome, categoria, descrições, tags, `featured`, `available`, SEO meta |
+| 11.2.2 | Listagem admin | Busca, filtro por categoria, status (ativo/inativo), ordenação |
+| 11.2.3 | Criar equipamento | Formulário validado (Zod); geração de slug; preview antes de publicar |
+| 11.2.4 | Editar equipamento | Todos os campos + specs (tabela dinâmica, variant aéreo) |
+| 11.2.5 | Excluir / arquivar | Soft delete (`deleted_at`) — não quebrar URLs antigas; redirect 301 opcional |
+| 11.2.6 | Duplicar item | Clonar equipamento como rascunho |
+| 11.2.7 | Sincronização site | Ao salvar: invalidar cache / revalidar páginas SSG do slug e listagens |
+
+**Critério de saída:** criar, editar e despublicar equipamento reflete no site público em &lt; 2 min.
+
+---
+
+#### 11.3 — Fotos e mídia
+
+| ID | Tarefa | Detalhes |
+|----|--------|----------|
+| 11.3.1 | Upload de imagens | Vercel Blob, S3 ou Cloudinary; múltiplos arquivos; JPG/WebP |
+| 11.3.2 | Galeria por equipamento | Ordenar (drag-and-drop), definir **foto principal**, texto alternativo (SEO/a11y) |
+| 11.3.3 | Remover foto | Excluir do storage + registro DB |
+| 11.3.4 | Recorte / redimensionamento | Opcional: preset 4:3 e 1200×630 (OG) |
+| 11.3.5 | Placeholder | Fallback quando sem foto (categoria ou genérico) |
+
+**Critério de saída:** equipamento com 3+ fotos exibidas corretamente no detalhe público e no card.
+
+---
+
+#### 11.4 — Leads e exportação de dados
+
+| ID | Tarefa | Detalhes |
+|----|--------|----------|
+| 11.4.1 | Lista de leads | Tabela paginada: data, nome, telefone, e-mail, equipamento, cidade, origem, status |
+| 11.4.2 | Detalhe do lead | Histórico, notas internas, marcar como `contacted` / `quoted` / `won` / `lost` |
+| 11.4.3 | Filtros | Período (**calendário: data início → data fim**), origem (`site-orcamento`, `site-header`, etc.), cidade, equipamento, status |
+| 11.4.4 | **Exportar CSV** | Exportar resultado filtrado (UTF-8 BOM para Excel); colunas configuráveis |
+| 11.4.5 | Exportar JSON (opcional) | Backup / integração CRM |
+| 11.4.6 | Notificação e-mail | Retomar Sprint 5.7 — e-mail ao comercial em cada lead novo |
+
+**Critério de saída:** exportar CSV de janeiro/2026 com todos os leads do mês em um clique.
+
+---
+
+#### 11.5 — Instrumentação de analytics (site público)
+
+> Base para gráficos do admin. Combinar **eventos próprios** (DB) + **PostHog ou GA4** (opcional, Sprint 10.5).
+
+| ID | Evento | Quando disparar | Campos úteis |
+|----|--------|-----------------|--------------|
+| E1 | `page_view` | Cada página marketing | path, locale, session_id |
+| E2 | `whatsapp_click` | Qualquer botão WhatsApp | `origin` (header, float, detalhe, orcamento…), `equipment_slug` |
+| E3 | `quote_submit` | Formulário enviado com sucesso | equipamento, cidade, origem |
+| E4 | `equipment_view` | Abrir detalhe | slug, categoria |
+| E5 | `search` | Busca global (opcional) | query (hash/anônimo) |
+
+**Atribuição de tráfego (campanhas pagas no domínio futuro):**
+
+| Campo | Origem |
+|-------|--------|
+| `utm_source` | Google Ads, Meta, etc. |
+| `utm_medium` | cpc, social, email |
+| `utm_campaign` | nome da campanha |
+| `utm_content` | variação de anúncio |
+| `referrer` | document.referrer (domínio de origem) |
+| `landing_page` | primeira URL da sessão |
+
+Persistir em tabela `analytics_events` (Neon) + agregar por dia em `analytics_daily` (job noturno ou materialized view).
+
+**Critério de saída:** clique no WhatsApp no site gera evento visível no admin em até 5 min.
+
+---
+
+#### 11.6 — Dashboard: gráficos e métricas
+
+| ID | Métrica / gráfico | Descrição |
+|----|-------------------|-----------|
+| 11.6.1 | **Visitantes / sessões** | Total e únicos no período (filtro calendário) |
+| 11.6.2 | **Cliques WhatsApp** | Total + taxa WhatsApp ÷ visitas; breakdown por `origin` |
+| 11.6.3 | **Leads formulário** | Envios no período + taxa conversão |
+| 11.6.4 | **Funil** | Visita → equipamento visto → WhatsApp ou orçamento |
+| 11.6.5 | **Origem do tráfego** | Pizza/bar: UTM source, referrer, direto, orgânico |
+| 11.6.6 | **Campanhas pagas** | Tabela: campanha (utm_campaign) × visitas × WhatsApp × leads |
+| 11.6.7 | **Top equipamentos** | Mais visualizados e mais citados em leads/WhatsApp |
+| 11.6.8 | **Páginas de entrada** | Landing pages mais frequentes (home vs categoria vs detalhe) |
+| 11.6.9 | **Dispositivo** | Mobile vs desktop (user-agent resumido) |
+| 11.6.10 | Comparativo períodos | “Últimos 7 dias” vs “7 dias anteriores” (% variação) |
+
+**UI:** filtros globais de data (presets: hoje, 7d, 30d, mês, custom); gráficos com Recharts ou Chart.js; cards KPI no topo.
+
+**Critério de saída:** gestor responde “quantas pessoas entraram e quantas foram ao WhatsApp em março?” só pelo painel.
+
+---
+
+#### 11.7 — Extras úteis (prioridade média/baixa)
+
+| ID | Funcionalidade | Valor |
+|----|----------------|-------|
+| 11.7.1 | Log de atividades admin | Quem alterou qual equipamento e quando |
+| 11.7.2 | Rascunhos | Publicar equipamento só quando aprovado |
+| 11.7.3 | Import CSV equipamentos | Carga em massa a partir da planilha do cliente |
+| 11.7.4 | Alertas | E-mail semanal: leads da semana + top campanha |
+| 11.7.5 | Integração Google Ads / Meta | Importar custo por campanha (ROAS) — fase posterior |
+| 11.7.6 | API read-only | Token para BI externo (Power BI) |
+
+---
+
+#### Dependências técnicas (Sprint 11)
+
+| Decisão | Recomendação |
+|---------|----------------|
+| Catálogo | Migrar JSON → Postgres; site lê do DB (ISR) |
+| Imagens | Vercel Blob + `next/image` |
+| Auth admin | Clerk Organizations ou metadata `role` |
+| Analytics | Tabela própria + PostHog em paralelo |
+| CSV export | `papaparse` ou gerar no servidor com streaming |
+| Gráficos | Recharts (React) |
+
+---
+
+#### Cronograma estimado Sprint 11
+
+| Sub-sprint | Duração | Entrega |
+|------------|---------|---------|
+| 11.1 Fundação | 1 semana | Login + layout admin |
+| 11.2–11.3 Catálogo + fotos | 2–3 semanas | CRUD completo com mídia |
+| 11.4 Leads + CSV | 1 semana | Lista, filtros, exportação |
+| 11.5 Tracking | 1 semana | Eventos no site público |
+| 11.6 Dashboard | 2 semanas | Gráficos e KPIs |
+| **Total** | **7–8 semanas** | Painel operacional |
+
+---
+
+**Critério de saída global (Sprint 11):** equipe Acesso consegue, sem desenvolvedor: (1) cadastrar equipamento com fotos, (2) exportar leads do mês em CSV, (3) ver visitas e cliques WhatsApp por campanha UTM no período escolhido.
 
 ---
 
@@ -408,6 +595,12 @@ Fonte: [docs/CONCORRENTES-REFERENCIAS.md](docs/CONCORRENTES-REFERENCIAS.md)
 | `/privacidade` | SSG | LGPD |
 | `/faq` | SSG | Entrega, NR, documentação, prazos (ref. Santos) |
 | `/api/leads` | API | POST leads |
+| `/treinamento-plataformas-aereas` | SSG | Treinamento NR / plataformas |
+| `/admin` | SSR (auth) | Dashboard — **Sprint 11** |
+| `/admin/equipamentos` | SSR (auth) | CRUD catálogo — **Sprint 11** |
+| `/admin/leads` | SSR (auth) | Leads + export CSV — **Sprint 11** |
+| `/admin/analytics` | SSR (auth) | Métricas e gráficos — **Sprint 11** |
+| `/api/analytics` | API | POST eventos (page_view, whatsapp_click…) — **Sprint 11** |
 
 ### 5.2 Categorias sugeridas (inicial)
 
@@ -464,6 +657,21 @@ Fonte: [docs/CONCORRENTES-REFERENCIAS.md](docs/CONCORRENTES-REFERENCIAS.md)
 | origem | enum | sim (`orcamento`, `contato`, `whatsapp_redirect`) |
 | status | enum | default `novo` |
 | createdAt | timestamp | auto |
+
+### 6.3 Equipamento no admin (PostgreSQL — Sprint 11)
+
+| Tabela | Campos principais |
+|--------|-------------------|
+| `equipment` | slug, name, category, descriptions, featured, available, deleted_at, seo_title, seo_description |
+| `equipment_spec` | equipment_id, label, value, sort_order |
+| `equipment_image` | equipment_id, url, alt, sort_order, is_primary |
+
+### 6.4 Analytics (PostgreSQL — Sprint 11)
+
+| Tabela | Campos principais |
+|--------|-------------------|
+| `analytics_events` | event_type, session_id, path, origin, equipment_slug, utm_*, referrer, landing_page, device, created_at |
+| `analytics_daily` | date, page_views, unique_sessions, whatsapp_clicks, quote_submits, top_sources (JSON agregado) |
 
 ---
 
@@ -631,8 +839,8 @@ Uma tarefa só está **Done** quando:
 
 ### Tecnologia
 
-- [ ] CMS headless (Sanity/Payload)
-- [ ] Admin de leads com login
+- [ ] **Painel admin completo** → **Sprint 11** (CRUD, fotos, CSV, analytics)
+- [ ] CMS headless (Sanity/Payload) — só se não usar admin próprio
 - [ ] Integração ERP (estoque/disponibilidade)
 - [ ] Geração de PDF de proposta
 - [ ] PWA para equipe comercial
@@ -688,7 +896,8 @@ Uma tarefa só está **Done** quando:
 | **Aprovação (Sprint 8)** | 3–7 dias | Sign-off cliente no `*.vercel.app` |
 | Conteúdo (Sprint 9) | 2–4 semanas | Fotos, cases, SEO (opcional antes do go-live) |
 | **Hospedagem (Sprint 10)** | 2–5 dias | Domínio, SSL, produção — **último passo** |
-| Fase 3 — Plataforma | 3+ meses | Admin, ERP, reservas (se necessário) |
+| **Painel admin (Sprint 11)** | 7–8 semanas | CRUD, fotos, CSV, métricas, campanhas UTM |
+| Fase 3+ — ERP / reservas | 3+ meses | Estoque, portal cliente (se necessário) |
 
 ---
 
@@ -697,6 +906,7 @@ Uma tarefa só está **Done** quando:
 1. **Deploy preview:** seguir `docs/DEPLOY-PREVIEW-VERCEL.md` e colar URL em `docs/PREVIEW-VALIDACAO.md`.
 2. Enviar **PREVIEW-VALIDACAO.md** ao Cezar (checklist §14.2).
 3. Ajustes (Sprint 8.3) → sign-off (8.4) → **Sprint 10** domínio/go-live.
+4. **Sprint 11** — painel admin (após go-live e eventos de analytics em produção).
 
 ---
 

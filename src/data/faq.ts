@@ -9,7 +9,7 @@ export const FAQ_ITEMS: FaqItem[] = [
     id: 'orcamento',
     question: 'Como solicito um orçamento de locação?',
     answer:
-      'Você pode solicitar orçamento pelo formulário em Orçamento, pelo WhatsApp comercial ou pelo telefone (31) 3376-3377, em horário de Segunda a sexta, das 7h30 às 17h15. Informe o equipamento desejado, período estimado de locação, endereço da obra e cidade — assim nossa equipe prepara uma proposta adequada à sua demanda.',
+      'Pelo formulário em Orçamento (nome, telefone, e-mail, cidade e equipamento), pelo WhatsApp comercial ou pelo telefone (31) 3376-3377, em horário de segunda a sexta, das 7h30 às 17h15. Quanto mais detalhes sobre o período e o local da obra, mais rápida será a proposta.',
   },
   {
     id: 'precos',
@@ -52,6 +52,12 @@ export const FAQ_ITEMS: FaqItem[] = [
     question: 'Preciso de operador para plataforma elevatória?',
     answer:
       'A locação é do equipamento; a operação deve ser feita por profissional habilitado, conforme a legislação e as normas de trabalho em altura. A Acesso não inclui operador na locação padrão (conforme escopo do serviço). Orientamos sobre requisitos gerais; o planejamento de segurança da obra é de responsabilidade do contratante.',
+  },
+  {
+    id: 'treinamento',
+    question: 'A Acesso oferece treinamento em plataformas elevatórias?',
+    answer:
+      'Sim. Além da locação, oferecemos treinamento para operação segura de plataformas elevatórias (tesoura, lança articulada e mastro), com conteúdo alinhado à NR-12 e boas práticas de trabalho em altura. Consulte a página Treinamento — plataformas aéreas ou fale com o comercial para turmas, certificado e valores.',
   },
   {
     id: 'prazos',

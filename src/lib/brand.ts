@@ -23,6 +23,8 @@ export const brand = {
 export type WhatsAppMessageOptions = {
   equipmentName?: string;
   equipmentSlug?: string;
+  /** Assunto livre quando não for locação de item específico (ex.: treinamento) */
+  topic?: string;
   /** Identificador de origem para o comercial (ex.: site, home, detalhe) */
   origin?: string;
 };
@@ -38,7 +40,9 @@ export function buildWhatsAppMessage(
 
   const item = options.equipmentName
     ? ` na locação de ${options.equipmentName}`
-    : ' em equipamentos para minha obra';
+    : options.topic
+      ? ` sobre ${options.topic}`
+      : ' em equipamentos para minha obra';
   const ref = options.equipmentSlug ? ` Ref.: ${options.equipmentSlug}.` : '';
   const origin = options.origin ?? 'site';
 

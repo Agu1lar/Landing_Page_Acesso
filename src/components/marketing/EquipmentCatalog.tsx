@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';
 import { EquipmentCard } from '@/components/marketing/EquipmentCard';
+import { buildSearchHaystack, matchesSearchQuery } from '@/lib/search';
 import { CATEGORY_LABELS } from '@/types/equipment';
 import type { Equipment, EquipmentCategory } from '@/types/equipment';
 
@@ -20,7 +21,7 @@ export function EquipmentCatalog({
   const t = useTranslations('Equipamentos');
 
   const filtered = useMemo(() => {
-    const q = initialQuery.trim().toLowerCase();
+    const q = initialQuery.trim();
     return equipment.filter((item) => {
       if (initialCategory && item.category !== initialCategory) {
         return false;
@@ -28,16 +29,15 @@ export function EquipmentCatalog({
       if (!q) {
         return true;
       }
-      const haystack = [
-        item.name,
-        item.slug,
-        item.category,
-        CATEGORY_LABELS[item.category],
-        ...item.tags,
-      ]
-        .join(' ')
-        .toLowerCase();
-      return haystack.includes(q);
+      return matchesSearchQuery(
+        buildSearchHaystack({
+          slug: item.slug,
+          name: item.name,
+          category: item.category,
+          tags: item.tags,
+        }),
+        q,
+      );
     });
   }, [equipment, initialQuery, initialCategory]);
 

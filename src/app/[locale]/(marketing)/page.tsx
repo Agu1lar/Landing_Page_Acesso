@@ -2,11 +2,10 @@ import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { ConversionCtas } from '@/components/marketing/ConversionCtas';
 import { EquipmentCard } from '@/components/marketing/EquipmentCard';
-import { GlobalSearch } from '@/components/marketing/GlobalSearch';
 import { StepsSection } from '@/components/marketing/StepsSection';
 import { TestimonialsSection } from '@/components/marketing/TestimonialsSection';
 import { buildWhatsAppMessage, buildWhatsAppUrl } from '@/lib/brand';
-import { getFeaturedEquipment, getSearchIndex } from '@/lib/equipment';
+import { getFeaturedEquipment } from '@/lib/equipment';
 import { Link } from '@/libs/I18nNavigation';
 import { CATEGORY_LABELS } from '@/types/equipment';
 import type { EquipmentCategory } from '@/types/equipment';
@@ -46,7 +45,6 @@ export default async function HomePage(props: IndexPageProps) {
     namespace: 'Index',
   });
   const featured = getFeaturedEquipment(6);
-  const searchIndex = getSearchIndex();
   const whatsappHome = buildWhatsAppUrl(buildWhatsAppMessage({ origin: 'site-home' }));
 
   return (
@@ -68,9 +66,6 @@ export default async function HomePage(props: IndexPageProps) {
               whatsappHref={whatsappHome}
               whatsappLabel={t('hero_cta_whatsapp')}
             />
-            <div className="mx-auto mt-10 max-w-xl">
-              <GlobalSearch id="hero-search" index={searchIndex} />
-            </div>
           </div>
         </div>
       </section>
@@ -112,6 +107,26 @@ export default async function HomePage(props: IndexPageProps) {
               <EquipmentCard equipment={equipment} key={equipment.slug} />
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="border-y border-primary/20 bg-primary-light">
+        <div className="mx-auto flex max-w-7xl flex-col items-start gap-6 px-4 py-12 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+          <div className="max-w-2xl">
+            <p className="text-sm font-semibold uppercase tracking-wider text-primary">
+              Capacitação
+            </p>
+            <h2 className="mt-2 font-heading text-2xl font-bold text-neutral-900">
+              {t('training_title')}
+            </h2>
+            <p className="mt-3 leading-relaxed text-neutral-700">{t('training_description')}</p>
+          </div>
+          <Link
+            className="inline-flex shrink-0 items-center justify-center rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-primary-hover"
+            href="/treinamento-plataformas-aereas"
+          >
+            {t('training_cta')} →
+          </Link>
         </div>
       </section>
 

@@ -26,7 +26,7 @@ export function ConversionCtas({
 }: ConversionCtasProps) {
   const quoteVariant = 'outline' as const;
   const quoteExtra = onDark
-    ? 'border-white/35 text-white hover:border-white/60 hover:bg-white/10'
+    ? '!border-white/40 !bg-transparent !text-white hover:!border-white hover:!bg-white/10'
     : '';
 
   return (

@@ -1,8 +1,9 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useRouter } from 'next/navigation';
-import { useCallback, useEffect, useId, useRef, useState } from 'react';
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
+import { filterSearchItems } from '@/lib/search';
+import { useRouter } from '@/libs/I18nNavigation';
 import { CATEGORY_LABELS } from '@/types/equipment';
 import type { EquipmentCategory } from '@/types/equipment';
 
@@ -17,9 +18,10 @@ type GlobalSearchProps = {
   index: SearchIndexItem[];
   className?: string;
   id?: string;
+  compact?: boolean;
 };
 
-export function GlobalSearch({ index, className = '', id }: GlobalSearchProps) {
+export function GlobalSearch({ index, className = '', id, compact = false }: GlobalSearchProps) {
   const t = useTranslations('Search');
   const router = useRouter();
   const listId = useId();
@@ -29,23 +31,10 @@ export function GlobalSearch({ index, className = '', id }: GlobalSearchProps) {
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const results = query.trim()
-    ? index
-        .filter((item) => {
-          const q = query.toLowerCase();
-          const haystack = [
-            item.name,
-            item.slug,
-            item.category,
-            CATEGORY_LABELS[item.category],
-            ...item.tags,
-          ]
-            .join(' ')
-            .toLowerCase();
-          return haystack.includes(q);
-        })
-        .slice(0, 8)
-    : [];
+  const results = useMemo(
+    () => filterSearchItems(index, query, 8),
+    [index, query],
+  );
 
   const goToAll = useCallback(() => {
     const q = query.trim();
@@ -111,7 +100,7 @@ export function GlobalSearch({ index, className = '', id }: GlobalSearchProps) {
   };
 
   return (
-    <div ref={rootRef} className={`relative ${className}`}>
+    <div ref={rootRef} className={`relative z-50 ${className}`}>
       <div className="relative">
         <label className="sr-only" htmlFor={id}>
           {t('aria_label')}
@@ -121,7 +110,9 @@ export function GlobalSearch({ index, className = '', id }: GlobalSearchProps) {
         </span>
         <input
           ref={inputRef}
-          className="w-full rounded-lg border border-neutral-200 bg-neutral-50 py-2 pr-16 pl-10 text-sm text-neutral-900 transition-colors placeholder:text-neutral-400 focus:border-primary focus:bg-surface focus:ring-2 focus:ring-primary/20 focus:outline-none"
+          className={`w-full rounded-lg border border-neutral-200 bg-neutral-50 text-neutral-900 transition-colors placeholder:text-neutral-400 focus:border-primary focus:bg-surface focus:ring-2 focus:ring-primary/20 focus:outline-none ${
+            compact ? 'py-1.5 pr-10 pl-9 text-sm' : 'py-2 pr-16 pl-10 text-sm'
+          }`}
           id={id}
           onChange={(e) => {
             setQuery(e.target.value);
@@ -139,14 +130,16 @@ export function GlobalSearch({ index, className = '', id }: GlobalSearchProps) {
           aria-controls={listId}
           aria-autocomplete="list"
         />
-        <kbd className="pointer-events-none absolute top-1/2 right-3 hidden -translate-y-1/2 rounded border border-neutral-200 bg-surface px-1.5 py-0.5 font-mono text-[10px] text-neutral-400 sm:inline">
-          ⌘K
-        </kbd>
+        {!compact && (
+          <kbd className="pointer-events-none absolute top-1/2 right-3 hidden -translate-y-1/2 rounded border border-neutral-200 bg-surface px-1.5 py-0.5 font-mono text-[10px] text-neutral-400 sm:inline">
+            ⌘K
+          </kbd>
+        )}
       </div>
 
       {open && query.trim() ? (
         <ul
-          className="absolute z-50 mt-1 max-h-80 w-full overflow-auto rounded-lg border border-neutral-200 bg-surface py-1 shadow-lg"
+          className="absolute z-[100] mt-1 max-h-80 w-full overflow-auto rounded-lg border border-neutral-200 bg-surface py-1 shadow-lg"
           id={listId}
           role="listbox"
         >

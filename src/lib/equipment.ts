@@ -1,4 +1,5 @@
 import equipmentData from '@/data/equipamentos.json';
+import { buildSearchHaystack, matchesSearchQuery } from '@/lib/search';
 import type { Equipment, EquipmentCategory } from '@/types/equipment';
 
 const items = equipmentData as Equipment[];
@@ -20,20 +21,24 @@ export function getEquipmentByCategory(category: EquipmentCategory): Equipment[]
 }
 
 export function searchEquipment(query: string, limit = 50): Equipment[] {
-  const q = query.trim().toLowerCase();
+  const q = query.trim();
   if (!q) {
     return getAllEquipment();
   }
   return items
-    .filter((e) => {
-      if (!e.available) {
-        return false;
-      }
-      const haystack = [e.name, e.slug, e.category, e.shortDescription, ...e.tags]
-        .join(' ')
-        .toLowerCase();
-      return haystack.includes(q);
-    })
+    .filter(
+      (e) =>
+        e.available &&
+        matchesSearchQuery(
+          buildSearchHaystack({
+            slug: e.slug,
+            name: e.name,
+            category: e.category,
+            tags: e.tags,
+          }),
+          q,
+        ),
+    )
     .slice(0, limit);
 }
 

@@ -4,7 +4,8 @@
 
 | Arquivo | Uso | Dimensões originais |
 |---------|-----|---------------------|
-| `public/assets/brand/logo-acesso.png` | Logo no header do site | 200×200 px (PNG) |
+| `public/assets/brand/logo-acesso-3d.jpg` | **Logo no header** (3D, oficial) | JPG |
+| `public/assets/brand/logo-acesso.png` | Legado (quadrado com margem) | — |
 | `docs/brand/logo-acesso.png` | Cópia de referência no repositório | — |
 
 **Header (código):** altura ~48px (`h-11` mobile, `h-12` desktop), largura automática (`object-contain`).
