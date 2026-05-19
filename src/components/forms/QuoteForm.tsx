@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import { Textarea } from '@/components/ui/Textarea';
-import { brand, buildWhatsAppMessage, buildWhatsAppUrl } from '@/lib/brand';
+import { brand } from '@/lib/brand';
 import * as z from 'zod';
 import { QuoteFormSchema, rentalPeriodOptions } from '@/validations/quote';
 
@@ -17,6 +17,7 @@ type QuoteFormProps = {
     name: string;
   };
   origin?: string;
+  onSuccess?: () => void;
 };
 
 const periodLabels: Record<(typeof rentalPeriodOptions)[number], string> = {
@@ -26,7 +27,8 @@ const periodLabels: Record<(typeof rentalPeriodOptions)[number], string> = {
   ainda_nao_sei: 'Ainda não sei',
 };
 
-export function QuoteForm({ initialEquipment, origin = 'site-orcamento' }: QuoteFormProps) {
+export function QuoteForm(props: QuoteFormProps) {
+  const origin = props.origin ?? 'site-orcamento';
   const [submitted, setSubmitted] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
 
@@ -41,8 +43,8 @@ export function QuoteForm({ initialEquipment, origin = 'site-orcamento' }: Quote
       email: '',
       phone: '',
       company: '',
-      equipmentSlug: initialEquipment?.slug ?? '',
-      equipmentName: initialEquipment?.name ?? '',
+      equipmentSlug: props.initialEquipment?.slug ?? '',
+      equipmentName: props.initialEquipment?.name ?? '',
       rentalPeriod: '',
       city: '',
       message: '',
@@ -68,12 +70,13 @@ export function QuoteForm({ initialEquipment, origin = 'site-orcamento' }: Quote
     }
 
     setSubmitted(true);
+    props.onSuccess?.();
   };
 
   if (submitted) {
     return (
       <div
-        className="rounded-[var(--radius-card)] border border-green-200 bg-green-50 p-6 text-center"
+        className="rounded-[var(--radius-card)] border border-green-200 bg-green-50 p-6"
         role="status"
       >
         <p className="font-heading text-lg font-semibold text-neutral-900">Pedido enviado!</p>
@@ -81,13 +84,13 @@ export function QuoteForm({ initialEquipment, origin = 'site-orcamento' }: Quote
           Recebemos sua solicitação. Nossa equipe comercial retorna em horário útil ({brand.hours}
           ).
         </p>
-        <Button
-          className="mt-6"
-          href={buildWhatsAppUrl(buildWhatsAppMessage({ origin: 'site-orcamento-pos-form' }))}
-          variant="whatsapp"
-        >
-          Falar no WhatsApp agora
-        </Button>
+        <p className="mt-4 text-sm text-neutral-600">
+          Urgente? Ligue{' '}
+          <a className="font-medium text-primary hover:underline" href={`tel:+${brand.phone}`}>
+            {brand.phoneDisplay}
+          </a>
+          .
+        </p>
       </div>
     );
   }
@@ -130,9 +133,9 @@ export function QuoteForm({ initialEquipment, origin = 'site-orcamento' }: Quote
         {...register('city')}
       />
 
-      {initialEquipment ? (
+      {props.initialEquipment ? (
         <div className="rounded-lg bg-primary-light px-4 py-3 text-sm text-neutral-800">
-          Equipamento de interesse: <strong>{initialEquipment.name}</strong>
+          Equipamento de interesse: <strong>{props.initialEquipment.name}</strong>
           <input type="hidden" {...register('equipmentSlug')} />
           <input type="hidden" {...register('equipmentName')} />
         </div>

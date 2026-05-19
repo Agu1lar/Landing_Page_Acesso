@@ -21,7 +21,9 @@ export async function notifyLeadByEmail(lead: LeadRecord) {
   const to = Env.LEADS_NOTIFY_EMAIL;
 
   if (!apiKey || !to) {
-    logger.info('Notificação de lead por e-mail ignorada (RESEND_API_KEY ou LEADS_NOTIFY_EMAIL ausente)');
+    logger.warn(
+      'Notificação de lead por e-mail ignorada: configure RESEND_API_KEY e LEADS_NOTIFY_EMAIL no Vercel (Production e Preview).',
+    );
     return;
   }
 
@@ -48,6 +50,9 @@ export async function notifyLeadByEmail(lead: LeadRecord) {
     .filter(Boolean)
     .join('\n');
 
+  const from = Env.RESEND_FROM_EMAIL ?? `${brand.name} <onboarding@resend.dev>`;
+  const html = text.replace(/\n/g, '<br>');
+
   const response = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
@@ -55,18 +60,33 @@ export async function notifyLeadByEmail(lead: LeadRecord) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      from: Env.RESEND_FROM_EMAIL ?? `${brand.name} <onboarding@resend.dev>`,
+      from,
       to: [to],
-      reply_to: lead.email,
+      reply_to: [lead.email],
       subject,
       text,
+      html,
     }),
   });
 
   if (!response.ok) {
     const body = await response.text();
-    logger.error('Falha ao enviar e-mail de lead', { status: response.status, body });
-    throw new Error('Resend API error');
+    let detail = body;
+    try {
+      const parsed = JSON.parse(body) as { message?: string };
+      if (parsed.message) {
+        detail = parsed.message;
+      }
+    } catch {
+      // keep raw body
+    }
+    logger.error('Falha ao enviar e-mail de lead', {
+      status: response.status,
+      detail,
+      to,
+      from,
+    });
+    throw new Error(`Resend: ${detail}`);
   }
 
   logger.info(`E-mail de lead #${lead.id} enviado para ${to}`);
