@@ -33,9 +33,10 @@ export async function notifyLeadByEmail(lead: LeadRecord) {
 
   const cartLines = formatCartItemsForEmail(lead.itemsJson);
 
-  const subject = `Novo orçamento no site — ${lead.name}`;
+  const subject = `[Registro interno] Orçamento site — ${lead.name}`;
   const text = [
-    `Novo lead #${lead.id} em ${brand.name}`,
+    `Registro interno de orçamento #${lead.id} — ${brand.name}`,
+    '(Cliente envia a proposta pelo WhatsApp comercial; este e-mail é para controle da equipe.)',
     '',
     `Nome: ${lead.name}`,
     `E-mail: ${lead.email}`,
@@ -100,14 +101,21 @@ function formatCartItemsForEmail(itemsJson: string | null) {
     return '';
   }
   try {
-    const items = JSON.parse(itemsJson) as { name?: string; slug?: string; kind?: string }[];
+    const items = JSON.parse(itemsJson) as {
+      name?: string;
+      slug?: string;
+      kind?: string;
+      quantity?: number;
+    }[];
     if (!Array.isArray(items) || items.length === 0) {
       return '';
     }
     return items
       .map((item, index) => {
         const kind = item.kind === 'accessory' ? 'Acessório' : 'Equipamento';
-        return `${index + 1}. ${item.name ?? '—'} (${kind}) — ${item.slug ?? ''}`;
+        const qty =
+          item.quantity && item.quantity > 1 ? ` · qtd. ${item.quantity}` : ' · qtd. 1';
+        return `${index + 1}. ${item.name ?? '—'} (${kind})${qty} — ${item.slug ?? ''}`;
       })
       .join('\n');
   } catch {

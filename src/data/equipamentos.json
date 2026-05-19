@@ -3,7 +3,7 @@
     "slug": "argamassadeira",
     "name": "Argamassadeira",
     "category": "concretagem",
-    "shortDescription": "Locação de Argamassadeira.",
+    "shortDescription": "Locação de argamassadeira.",
     "longDescription": "Argamassadeira: Equipamento para concretagem e misturas em obra civil. Aplicação em fundações, lajes e serviços de alvenaria. Entrega e retirada combinadas com a locação.",
     "specs": [
       {
@@ -27,9 +27,9 @@
   },
   {
     "slug": "aspirador-de-po",
-    "name": "aspirador de po",
+    "name": "Aspirador de Pó",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de aspirador de po.",
+    "shortDescription": "Locação de aspirador de Pó.",
     "longDescription": "Aspirador de po: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
     "specs": [
       {
@@ -53,7 +53,7 @@
   },
   {
     "slug": "betoneira",
-    "name": "betoneira",
+    "name": "Betoneira",
     "category": "concretagem",
     "shortDescription": "Locação de betoneira.",
     "longDescription": "Betoneira: Equipamento para concretagem e misturas em obra civil. Aplicação em fundações, lajes e serviços de alvenaria. Entrega e retirada combinadas com a locação.",
@@ -79,9 +79,9 @@
   },
   {
     "slug": "bomba-lameira",
-    "name": "bomba lameira",
+    "name": "Bomba Lameira",
     "category": "concretagem",
-    "shortDescription": "Locação de bomba lameira.",
+    "shortDescription": "Locação de bomba Lameira.",
     "longDescription": "Bomba lameira: Equipamento para concretagem e misturas em obra civil. Aplicação em fundações, lajes e serviços de alvenaria. Entrega e retirada combinadas com a locação.",
     "specs": [
       {
@@ -105,9 +105,9 @@
   },
   {
     "slug": "bomba-mangote",
-    "name": "bomba mangote",
+    "name": "Bomba Mangote",
     "category": "concretagem",
-    "shortDescription": "Locação de bomba mangote.",
+    "shortDescription": "Locação de bomba Mangote.",
     "longDescription": "Bomba mangote: Equipamento para concretagem e misturas em obra civil. Aplicação em fundações, lajes e serviços de alvenaria. Entrega e retirada combinadas com a locação.",
     "specs": [
       {
@@ -131,9 +131,9 @@
   },
   {
     "slug": "bomba-mangote-75",
-    "name": "bomba mangote 75\"",
+    "name": "Bomba Mangote 75\"",
     "category": "concretagem",
-    "shortDescription": "Locação de bomba mangote 75\".",
+    "shortDescription": "Locação de bomba Mangote 75\".",
     "longDescription": "Bomba mangote 75\": Equipamento para concretagem e misturas em obra civil. Aplicação em fundações, lajes e serviços de alvenaria. Entrega e retirada combinadas com a locação.",
     "specs": [
       {
@@ -157,9 +157,9 @@
   },
   {
     "slug": "chave-de-impacto",
-    "name": "chave de impacto",
+    "name": "Chave de Impacto",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de chave de impacto.",
+    "shortDescription": "Locação de chave de Impacto.",
     "longDescription": "Chave de impacto: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
     "specs": [
       {
@@ -183,9 +183,9 @@
   },
   {
     "slug": "compactador-eletrico",
-    "name": "compactador eletrico",
+    "name": "Compactador Elétrico",
     "category": "compactacao",
-    "shortDescription": "Locação de compactador eletrico.",
+    "shortDescription": "Locação de compactador Elétrico.",
     "longDescription": "Compactador eletrico: Equipamento de compactação de solo para preparação de base e acabamento em obra. Uso em calçadas, valas e áreas de assentamento. Operação com EPI e manual do fabricante.",
     "specs": [
       {
@@ -209,9 +209,9 @@
   },
   {
     "slug": "compactador-eletrico-unidade-2",
-    "name": "Compactador elétrico (unidade 2)",
+    "name": "Compactador Elétrico (unidade 2)",
     "category": "compactacao",
-    "shortDescription": "Locação de Compactador elétrico (unidade 2).",
+    "shortDescription": "Locação de compactador Elétrico (unidade 2).",
     "longDescription": "Compactador elétrico (unidade 2): Equipamento de compactação de solo para preparação de base e acabamento em obra. Uso em calçadas, valas e áreas de assentamento. Operação com EPI e manual do fabricante.",
     "specs": [
       {
@@ -235,9 +235,9 @@
   },
   {
     "slug": "compressor-220v",
-    "name": "compressor 220v",
+    "name": "Compressor 220V",
     "category": "energia",
-    "shortDescription": "Locação de compressor 220v.",
+    "shortDescription": "Locação de compressor 220V.",
     "longDescription": "Compressor 220v: Equipamento de geração ou ar comprimido para canteiro de obras. Dimensionamento conforme demanda do serviço; valores e autonomia sob consulta.",
     "specs": [
       {
@@ -261,7 +261,7 @@
   },
   {
     "slug": "cortadora",
-    "name": "cortadora",
+    "name": "Cortadora",
     "category": "ferramentas-eletricas",
     "shortDescription": "Locação de cortadora.",
     "longDescription": "Cortadora: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
@@ -287,9 +287,9 @@
   },
   {
     "slug": "cortadora-de-piso-gasolina",
-    "name": "cortadora de piso gasolina",
+    "name": "Cortadora de Piso Gasolina",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de cortadora de piso gasolina.",
+    "shortDescription": "Locação de cortadora de Piso Gasolina.",
     "longDescription": "Cortadora de piso gasolina: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
     "specs": [
       {
@@ -313,9 +313,9 @@
   },
   {
     "slug": "escada-fibra-6m-extensiva",
-    "name": "escada fibra 6m extensiva",
+    "name": "Escada Fibra 6m Extensiva",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de escada fibra 6m extensiva.",
+    "shortDescription": "Locação de escada Fibra 6m Extensiva.",
     "longDescription": "Escada fibra 6m extensiva: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
     "specs": [
       {
@@ -339,9 +339,9 @@
   },
   {
     "slug": "esmerilhadeira-4-5-220v",
-    "name": "esmerilhadeira 4,5\" 220v",
+    "name": "Esmerilhadeira 4,5\" 220V",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de esmerilhadeira 4,5\" 220v.",
+    "shortDescription": "Locação de esmerilhadeira 4,5\" 220V.",
     "longDescription": "Esmerilhadeira 4,5\" 220v: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
     "specs": [
       {
@@ -365,9 +365,9 @@
   },
   {
     "slug": "esmerilhadeira-7-m-220v",
-    "name": "esmerilhadeira 7\"m -220v",
+    "name": "Esmerilhadeira 7\" 220V",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de esmerilhadeira 7\"m -220v.",
+    "shortDescription": "Locação de esmerilhadeira 7\" 220V.",
     "longDescription": "Esmerilhadeira 7\"m -220v: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
     "specs": [
       {
@@ -391,9 +391,9 @@
   },
   {
     "slug": "furadeira-5-8-220v",
-    "name": "furadeira 5/8 220v",
+    "name": "Furadeira 5/8 220V",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de furadeira 5/8 220v.",
+    "shortDescription": "Locação de furadeira 5/8 220V.",
     "longDescription": "Furadeira 5/8 220v: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
     "specs": [
       {
@@ -417,9 +417,9 @@
   },
   {
     "slug": "furadeira-1-2-200v",
-    "name": "furadeira 1/2 200v",
+    "name": "Furadeira 1/2 200V",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de furadeira 1/2 200v.",
+    "shortDescription": "Locação de furadeira 1/2 200V.",
     "longDescription": "Furadeira 1/2 200v: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
     "specs": [
       {
@@ -443,9 +443,9 @@
   },
   {
     "slug": "gerador-a-gasolina",
-    "name": "gerador a gasolina",
+    "name": "Gerador a Gasolina",
     "category": "energia",
-    "shortDescription": "Locação de gerador a gasolina.",
+    "shortDescription": "Locação de gerador a Gasolina.",
     "longDescription": "Gerador a gasolina: Equipamento de geração ou ar comprimido para canteiro de obras. Dimensionamento conforme demanda do serviço; valores e autonomia sob consulta.",
     "specs": [
       {
@@ -469,9 +469,9 @@
   },
   {
     "slug": "guincho-de-coluna-200kg",
-    "name": "guincho de coluna 200kg",
+    "name": "Guincho de Coluna 200kg",
     "category": "outros",
-    "shortDescription": "Locação de guincho de coluna 200kg.",
+    "shortDescription": "Locação de guincho de Coluna 200kg.",
     "longDescription": "Guincho de coluna 200kg: Equipamento para locação em obra civil na região metropolitana de Belo Horizonte. Disponibilidade e condições comerciais conforme período de locação.",
     "specs": [
       {
@@ -495,9 +495,9 @@
   },
   {
     "slug": "guincho-mini-grua",
-    "name": "guincho mini grua",
+    "name": "Guincho Mini Grua",
     "category": "outros",
-    "shortDescription": "Locação de guincho mini grua.",
+    "shortDescription": "Locação de guincho Mini Grua.",
     "longDescription": "Guincho mini grua: Equipamento para locação em obra civil na região metropolitana de Belo Horizonte. Disponibilidade e condições comerciais conforme período de locação.",
     "specs": [
       {
@@ -521,9 +521,9 @@
   },
   {
     "slug": "lavador-de-alta-pressao",
-    "name": "lavador de alta pressão",
+    "name": "Lavador de Alta Pressão",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de lavador de alta pressão.",
+    "shortDescription": "Locação de lavador de Alta Pressão.",
     "longDescription": "Lavador de alta pressão: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
     "specs": [
       {
@@ -547,9 +547,9 @@
   },
   {
     "slug": "lixadeira-7-220v",
-    "name": "lixadeira 7\" 220v",
+    "name": "Lixadeira 7\" 220V",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de lixadeira 7\" 220v.",
+    "shortDescription": "Locação de lixadeira 7\" 220V.",
     "longDescription": "Lixadeira 7\" 220v: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
     "specs": [
       {
@@ -573,7 +573,7 @@
   },
   {
     "slug": "lixadeira",
-    "name": "lixadeira",
+    "name": "Lixadeira",
     "category": "ferramentas-eletricas",
     "shortDescription": "Locação de lixadeira.",
     "longDescription": "Lixadeira: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
@@ -599,7 +599,7 @@
   },
   {
     "slug": "makitao",
-    "name": "makitão",
+    "name": "Makitão",
     "category": "ferramentas-eletricas",
     "shortDescription": "Locação de makitão.",
     "longDescription": "Makitão: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
@@ -625,9 +625,9 @@
   },
   {
     "slug": "mangote-25mm-5m-vibr-port",
-    "name": "mangote 25mm 5m vibr. Port.",
+    "name": "Mangote 25mm 5m Vibr. Pórt.",
     "category": "concretagem",
-    "shortDescription": "Locação de mangote 25mm 5m vibr. Port..",
+    "shortDescription": "Locação de mangote 25mm 5m Vibr. Pórt..",
     "longDescription": "Mangote 25mm 5m vibr. port.: Equipamento para concretagem e misturas em obra civil. Aplicação em fundações, lajes e serviços de alvenaria. Entrega e retirada combinadas com a locação.",
     "specs": [
       {
@@ -651,9 +651,9 @@
   },
   {
     "slug": "mangote-35mm-3m-makita",
-    "name": "mangote 35mm 3m makita",
+    "name": "Mangote 35mm 3m Makita",
     "category": "concretagem",
-    "shortDescription": "Locação de mangote 35mm 3m makita.",
+    "shortDescription": "Locação de mangote 35mm 3m Makita.",
     "longDescription": "Mangote 35mm 3m makita: Equipamento para concretagem e misturas em obra civil. Aplicação em fundações, lajes e serviços de alvenaria. Entrega e retirada combinadas com a locação.",
     "specs": [
       {
@@ -677,9 +677,9 @@
   },
   {
     "slug": "mangote-35mm-3m-bosch",
-    "name": "mangote 35mm 3m bosch",
+    "name": "Mangote 35mm 3m Bosch",
     "category": "concretagem",
-    "shortDescription": "Locação de mangote 35mm 3m bosch.",
+    "shortDescription": "Locação de mangote 35mm 3m Bosch.",
     "longDescription": "Mangote 35mm 3m bosch: Equipamento para concretagem e misturas em obra civil. Aplicação em fundações, lajes e serviços de alvenaria. Entrega e retirada combinadas com a locação.",
     "specs": [
       {
@@ -703,9 +703,9 @@
   },
   {
     "slug": "mangote-vibrador-25mm",
-    "name": "mangote vibrador 25mm",
+    "name": "Mangote Vibrador 25mm",
     "category": "concretagem",
-    "shortDescription": "Locação de mangote vibrador 25mm.",
+    "shortDescription": "Locação de mangote Vibrador 25mm.",
     "longDescription": "Mangote vibrador 25mm: Equipamento para concretagem e misturas em obra civil. Aplicação em fundações, lajes e serviços de alvenaria. Entrega e retirada combinadas com a locação.",
     "specs": [
       {
@@ -729,9 +729,9 @@
   },
   {
     "slug": "mangote-vibrador-35mm",
-    "name": "mangote vibrador 35mm",
+    "name": "Mangote Vibrador 35mm",
     "category": "concretagem",
-    "shortDescription": "Locação de mangote vibrador 35mm.",
+    "shortDescription": "Locação de mangote Vibrador 35mm.",
     "longDescription": "Mangote vibrador 35mm: Equipamento para concretagem e misturas em obra civil. Aplicação em fundações, lajes e serviços de alvenaria. Entrega e retirada combinadas com a locação.",
     "specs": [
       {
@@ -755,9 +755,9 @@
   },
   {
     "slug": "mangote-vibrador-45mm",
-    "name": "mangote vibrador 45mm",
+    "name": "Mangote Vibrador 45mm",
     "category": "concretagem",
-    "shortDescription": "Locação de mangote vibrador 45mm.",
+    "shortDescription": "Locação de mangote Vibrador 45mm.",
     "longDescription": "Mangote vibrador 45mm: Equipamento para concretagem e misturas em obra civil. Aplicação em fundações, lajes e serviços de alvenaria. Entrega e retirada combinadas com a locação.",
     "specs": [
       {
@@ -781,9 +781,9 @@
   },
   {
     "slug": "mangote-vibrador-60mm",
-    "name": "mangote vibrador 60mm",
+    "name": "Mangote Vibrador 60mm",
     "category": "concretagem",
-    "shortDescription": "Locação de mangote vibrador 60mm.",
+    "shortDescription": "Locação de mangote Vibrador 60mm.",
     "longDescription": "Mangote vibrador 60mm: Equipamento para concretagem e misturas em obra civil. Aplicação em fundações, lajes e serviços de alvenaria. Entrega e retirada combinadas com a locação.",
     "specs": [
       {
@@ -807,9 +807,9 @@
   },
   {
     "slug": "maquina-de-solda",
-    "name": "maquina de solda",
+    "name": "Maquina de Solda",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de maquina de solda.",
+    "shortDescription": "Locação de maquina de Solda.",
     "longDescription": "Maquina de solda: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
     "specs": [
       {
@@ -833,9 +833,9 @@
   },
   {
     "slug": "martelo-10-kg",
-    "name": "martelo 10 kg",
+    "name": "Martelo 10 Kg",
     "category": "demolicao-perfuracao",
-    "shortDescription": "Locação de martelo 10 kg.",
+    "shortDescription": "Locação de martelo 10 Kg.",
     "longDescription": "Martelo 10 kg: Equipamento para demolição, perfuração ou corte em obra. Indicado para serviços pontuais com operador treinado e proteção adequada.",
     "specs": [
       {
@@ -859,9 +859,9 @@
   },
   {
     "slug": "martelete-sds-combinado",
-    "name": "martelete sds combinado",
+    "name": "Martelete Sds Combinado",
     "category": "demolicao-perfuracao",
-    "shortDescription": "Locação de martelete sds combinado.",
+    "shortDescription": "Locação de martelete Sds Combinado.",
     "longDescription": "Martelete sds combinado: Equipamento para demolição, perfuração ou corte em obra. Indicado para serviços pontuais com operador treinado e proteção adequada.",
     "specs": [
       {
@@ -885,7 +885,7 @@
   },
   {
     "slug": "martelo-5kg",
-    "name": "martelo 5kg",
+    "name": "Martelo 5kg",
     "category": "demolicao-perfuracao",
     "shortDescription": "Locação de martelo 5kg.",
     "longDescription": "Martelo 5kg: Equipamento para demolição, perfuração ou corte em obra. Indicado para serviços pontuais com operador treinado e proteção adequada.",
@@ -911,9 +911,9 @@
   },
   {
     "slug": "martelo-demolidor-15-kg",
-    "name": "martelo demolidor 15 kg",
+    "name": "Martelo Demolidor 15 Kg",
     "category": "demolicao-perfuracao",
-    "shortDescription": "Locação de martelo demolidor 15 kg.",
+    "shortDescription": "Locação de martelo Demolidor 15 Kg.",
     "longDescription": "Martelo demolidor 15 kg: Equipamento para demolição, perfuração ou corte em obra. Indicado para serviços pontuais com operador treinado e proteção adequada.",
     "specs": [
       {
@@ -937,9 +937,9 @@
   },
   {
     "slug": "martelo-demolidor-18kg",
-    "name": "martelo demolidor 18kg",
+    "name": "Martelo Demolidor 18kg",
     "category": "demolicao-perfuracao",
-    "shortDescription": "Locação de martelo demolidor 18kg.",
+    "shortDescription": "Locação de martelo Demolidor 18kg.",
     "longDescription": "Martelo demolidor 18kg: Equipamento para demolição, perfuração ou corte em obra. Indicado para serviços pontuais com operador treinado e proteção adequada.",
     "specs": [
       {
@@ -963,9 +963,9 @@
   },
   {
     "slug": "martelo-demolidor-30-kg",
-    "name": "martelo demolidor 30 kg",
+    "name": "Martelo Demolidor 30 Kg",
     "category": "demolicao-perfuracao",
-    "shortDescription": "Locação de martelo demolidor 30 kg.",
+    "shortDescription": "Locação de martelo Demolidor 30 Kg.",
     "longDescription": "Martelo demolidor 30 kg: Equipamento para demolição, perfuração ou corte em obra. Indicado para serviços pontuais com operador treinado e proteção adequada.",
     "specs": [
       {
@@ -989,9 +989,9 @@
   },
   {
     "slug": "misturador-argamassa-portatil",
-    "name": "misturador argamassa portatil",
+    "name": "Misturador Argamassa Pórtatil",
     "category": "concretagem",
-    "shortDescription": "Locação de misturador argamassa portatil.",
+    "shortDescription": "Locação de misturador Argamassa Pórtatil.",
     "longDescription": "Misturador argamassa portatil: Equipamento para concretagem e misturas em obra civil. Aplicação em fundações, lajes e serviços de alvenaria. Entrega e retirada combinadas com a locação.",
     "specs": [
       {
@@ -1015,9 +1015,9 @@
   },
   {
     "slug": "motor-weg",
-    "name": "motor weg",
+    "name": "Motor WEG",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de motor weg.",
+    "shortDescription": "Locação de motor WEG.",
     "longDescription": "Motor weg: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
     "specs": [
       {
@@ -1041,9 +1041,9 @@
   },
   {
     "slug": "motor-vibrador",
-    "name": "motor vibrador",
+    "name": "Motor Vibrador",
     "category": "concretagem",
-    "shortDescription": "Locação de motor vibrador.",
+    "shortDescription": "Locação de motor Vibrador.",
     "longDescription": "Motor vibrador: Equipamento para concretagem e misturas em obra civil. Aplicação em fundações, lajes e serviços de alvenaria. Entrega e retirada combinadas com a locação.",
     "specs": [
       {
@@ -1067,9 +1067,9 @@
   },
   {
     "slug": "nivel-laser",
-    "name": "nivel laser",
+    "name": "Nivel Laser",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de nivel laser.",
+    "shortDescription": "Locação de nivel Laser.",
     "longDescription": "Nivel laser: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
     "specs": [
       {
@@ -1093,9 +1093,9 @@
   },
   {
     "slug": "painel-de-comando",
-    "name": "painel de comando",
+    "name": "Painel de Comando",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de painel de comando.",
+    "shortDescription": "Locação de painel de Comando.",
     "longDescription": "Painel de comando: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
     "specs": [
       {
@@ -1119,7 +1119,7 @@
   },
   {
     "slug": "parafusadeira",
-    "name": "parafusadeira",
+    "name": "Parafusadeira",
     "category": "ferramentas-eletricas",
     "shortDescription": "Locação de parafusadeira.",
     "longDescription": "Parafusadeira: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
@@ -1145,7 +1145,7 @@
   },
   {
     "slug": "carregador",
-    "name": "carregador",
+    "name": "Carregador",
     "category": "ferramentas-eletricas",
     "shortDescription": "Locação de carregador.",
     "longDescription": "Carregador: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
@@ -1171,7 +1171,7 @@
   },
   {
     "slug": "bateria",
-    "name": "bateria",
+    "name": "Bateria",
     "category": "ferramentas-eletricas",
     "shortDescription": "Locação de bateria.",
     "longDescription": "Bateria: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
@@ -1197,9 +1197,9 @@
   },
   {
     "slug": "placa-vibratoria-gasolina",
-    "name": "placa vibratoria gasolina",
+    "name": "Placa Vibratoria Gasolina",
     "category": "compactacao",
-    "shortDescription": "Locação de placa vibratoria gasolina.",
+    "shortDescription": "Locação de placa Vibratoria Gasolina.",
     "longDescription": "Placa vibratoria gasolina: Equipamento de compactação de solo para preparação de base e acabamento em obra. Uso em calçadas, valas e áreas de assentamento. Operação com EPI e manual do fabricante.",
     "specs": [
       {
@@ -1223,9 +1223,9 @@
   },
   {
     "slug": "plaina-220v",
-    "name": "plaina 220v",
+    "name": "Plaina 220V",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de plaina 220v.",
+    "shortDescription": "Locação de plaina 220V.",
     "longDescription": "Plaina 220v: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
     "specs": [
       {
@@ -1249,9 +1249,9 @@
   },
   {
     "slug": "retifica-220v",
-    "name": "retifica 220v",
+    "name": "Retifica 220V",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de retifica 220v.",
+    "shortDescription": "Locação de retifica 220V.",
     "longDescription": "Retifica 220v: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
     "specs": [
       {
@@ -1275,7 +1275,7 @@
   },
   {
     "slug": "rocadeira",
-    "name": "roçadeira",
+    "name": "Roçadeira",
     "category": "ferramentas-eletricas",
     "shortDescription": "Locação de roçadeira.",
     "longDescription": "Roçadeira: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
@@ -1301,9 +1301,9 @@
   },
   {
     "slug": "serra-circular-7-220v",
-    "name": "serra circular 7 \" 220v",
+    "name": "Serra Circular 7 \" 220V",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de serra circular 7 \" 220v.",
+    "shortDescription": "Locação de serra Circular 7 \" 220V.",
     "longDescription": "Serra circular 7 \" 220v: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
     "specs": [
       {
@@ -1327,9 +1327,9 @@
   },
   {
     "slug": "serra-circular-9-220v",
-    "name": "serra circular 9\" 220v",
+    "name": "Serra Circular 9\" 220V",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de serra circular 9\" 220v.",
+    "shortDescription": "Locação de serra Circular 9\" 220V.",
     "longDescription": "Serra circular 9\" 220v: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
     "specs": [
       {
@@ -1353,9 +1353,9 @@
   },
   {
     "slug": "serra-de-bancada",
-    "name": "serra de bancada",
+    "name": "Serra de Bancada",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de serra de bancada.",
+    "shortDescription": "Locação de serra de Bancada.",
     "longDescription": "Serra de bancada: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
     "specs": [
       {
@@ -1379,9 +1379,9 @@
   },
   {
     "slug": "serra-de-marmore-220v",
-    "name": "serra de marmore 220v",
+    "name": "Serra de Marmore 220V",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de serra de marmore 220v.",
+    "shortDescription": "Locação de serra de Marmore 220V.",
     "longDescription": "Serra de marmore 220v: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
     "specs": [
       {
@@ -1405,9 +1405,9 @@
   },
   {
     "slug": "serra-policorte-14-220v",
-    "name": "serra policorte 14\" 220v",
+    "name": "Serra Pólicorte 14\" 220V",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de serra policorte 14\" 220v.",
+    "shortDescription": "Locação de serra Pólicorte 14\" 220V.",
     "longDescription": "Serra policorte 14\" 220v: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
     "specs": [
       {
@@ -1431,9 +1431,9 @@
   },
   {
     "slug": "serra-tico-tico-220v",
-    "name": "serra tico tico 220v",
+    "name": "Serra Tico Tico 220V",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de serra tico tico 220v.",
+    "shortDescription": "Locação de serra Tico Tico 220V.",
     "longDescription": "Serra tico tico 220v: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
     "specs": [
       {
@@ -1457,9 +1457,9 @@
   },
   {
     "slug": "serra-sabre",
-    "name": "serra sabre",
+    "name": "Serra Sabre",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de serra sabre.",
+    "shortDescription": "Locação de serra Sabre.",
     "longDescription": "Serra sabre: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
     "specs": [
       {
@@ -1483,9 +1483,9 @@
   },
   {
     "slug": "talha-1t",
-    "name": "talha 1t",
+    "name": "Talha 1T",
     "category": "outros",
-    "shortDescription": "Locação de talha 1t.",
+    "shortDescription": "Locação de talha 1T.",
     "longDescription": "Talha 1t: Equipamento para locação em obra civil na região metropolitana de Belo Horizonte. Disponibilidade e condições comerciais conforme período de locação.",
     "specs": [
       {
@@ -1509,7 +1509,7 @@
   },
   {
     "slug": "tranformador",
-    "name": "tranformador",
+    "name": "Tranformador",
     "category": "energia",
     "shortDescription": "Locação de tranformador.",
     "longDescription": "Tranformador: Equipamento de geração ou ar comprimido para canteiro de obras. Dimensionamento conforme demanda do serviço; valores e autonomia sob consulta.",
@@ -1535,9 +1535,9 @@
   },
   {
     "slug": "vibador-conc-port-makita",
-    "name": "vibador conc. Port. Makita",
+    "name": "Vibador Conc. Pórt. Makita",
     "category": "concretagem",
-    "shortDescription": "Locação de vibador conc. Port. Makita.",
+    "shortDescription": "Locação de vibador Conc. Pórt. Makita.",
     "longDescription": "Vibador conc. port. makita: Equipamento para concretagem e misturas em obra civil. Aplicação em fundações, lajes e serviços de alvenaria. Entrega e retirada combinadas com a locação.",
     "specs": [
       {
@@ -1561,9 +1561,9 @@
   },
   {
     "slug": "vibador-conc-port-bosh",
-    "name": "vibador conc. Port. Bosh",
+    "name": "Vibador Conc. Pórt. BOSH",
     "category": "concretagem",
-    "shortDescription": "Locação de vibador conc. Port. Bosh.",
+    "shortDescription": "Locação de vibador Conc. Pórt. BOSH.",
     "longDescription": "Vibador conc. port. bosh: Equipamento para concretagem e misturas em obra civil. Aplicação em fundações, lajes e serviços de alvenaria. Entrega e retirada combinadas com a locação.",
     "specs": [
       {
@@ -1587,9 +1587,9 @@
   },
   {
     "slug": "tubo-galvanizado-de-0-50-m-ate-6-m",
-    "name": "TUBO GALVANIZADO DE 0.50 M ATE 6 M",
+    "name": "Tubo Galvanizado de 0.50 M ate 6 M",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de TUBO GALVANIZADO DE 0.50 M ATE 6 M.",
+    "shortDescription": "Locação de tubo Galvanizado de 0.50 M ate 6 M.",
     "longDescription": "Tubo galvanizado de 0.50 m ate 6 m: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
     "specs": [
       {
@@ -1613,9 +1613,9 @@
   },
   {
     "slug": "rodizio-c-poliuretano",
-    "name": "Rodizio c/ POLIURETANO",
+    "name": "Rodizio C/ Póliuretano",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de Rodizio c/ POLIURETANO.",
+    "shortDescription": "Locação de rodizio C/ Póliuretano.",
     "longDescription": "Rodizio c/ poliuretano: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
     "specs": [
       {
@@ -1639,9 +1639,9 @@
   },
   {
     "slug": "rodizio-de-borracha-c-trava",
-    "name": "RODIZIO DE BORRACHA C/ TRAVA",
+    "name": "Rodizio de Borracha C/ Trava",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de RODIZIO DE BORRACHA C/ TRAVA.",
+    "shortDescription": "Locação de rodizio de Borracha C/ Trava.",
     "longDescription": "Rodizio de borracha c/ trava: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
     "specs": [
       {
@@ -1665,9 +1665,9 @@
   },
   {
     "slug": "sapata-ajustavel",
-    "name": "SAPATA AJUSTAVEL",
+    "name": "Sapata Ajustavel",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de SAPATA AJUSTAVEL.",
+    "shortDescription": "Locação de sapata Ajustavel.",
     "longDescription": "Sapata ajustavel: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
     "specs": [
       {
@@ -1691,9 +1691,9 @@
   },
   {
     "slug": "sapata-fixa",
-    "name": "SAPATA FIXA",
+    "name": "Sapata Fixa",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de SAPATA FIXA.",
+    "shortDescription": "Locação de sapata Fixa.",
     "longDescription": "Sapata fixa: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
     "specs": [
       {
@@ -1717,7 +1717,7 @@
   },
   {
     "slug": "diagonal-1-00",
-    "name": "diagonal 1,00",
+    "name": "Diagonal 1,00",
     "category": "andaimes-acesso",
     "shortDescription": "Locação de diagonal 1,00.",
     "longDescription": "Diagonal 1,00: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
@@ -1743,7 +1743,7 @@
   },
   {
     "slug": "diagonal-1-50",
-    "name": "diagonal 1,50",
+    "name": "Diagonal 1,50",
     "category": "andaimes-acesso",
     "shortDescription": "Locação de diagonal 1,50.",
     "longDescription": "Diagonal 1,50: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
@@ -1769,7 +1769,7 @@
   },
   {
     "slug": "diagonal-1-80",
-    "name": "diagonal 1,80",
+    "name": "Diagonal 1,80",
     "category": "andaimes-acesso",
     "shortDescription": "Locação de diagonal 1,80.",
     "longDescription": "Diagonal 1,80: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
@@ -1795,9 +1795,9 @@
   },
   {
     "slug": "escada-p-andaime-1-00m",
-    "name": "escada p/ andaime 1,00m",
+    "name": "Escada P/ Andaime 1,00m",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de escada p/ andaime 1,00m.",
+    "shortDescription": "Locação de escada P/ Andaime 1,00m.",
     "longDescription": "Escada p/ andaime 1,00m: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
     "specs": [
       {
@@ -1821,9 +1821,9 @@
   },
   {
     "slug": "escada-p-andaime-2-00m",
-    "name": "escada p/andaime 2,00m",
+    "name": "Escada P/andaime 2,00m",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de escada p/andaime 2,00m.",
+    "shortDescription": "Locação de escada P/andaime 2,00m.",
     "longDescription": "Escada p/andaime 2,00m: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
     "specs": [
       {
@@ -1847,9 +1847,9 @@
   },
   {
     "slug": "guarda-corpo-1-00m-c-p",
-    "name": "guarda corpo 1,00M C/P",
+    "name": "Guarda Corpo 1,00M C/p",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de guarda corpo 1,00M C/P.",
+    "shortDescription": "Locação de guarda Corpo 1,00M C/p.",
     "longDescription": "Guarda corpo 1,00m c/p: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
     "specs": [
       {
@@ -1873,9 +1873,9 @@
   },
   {
     "slug": "guarda-corpo-1-0m-s-p",
-    "name": "guarda corpo 1,0M S/P",
+    "name": "Guarda Corpo 1,0M S/p",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de guarda corpo 1,0M S/P.",
+    "shortDescription": "Locação de guarda Corpo 1,0M S/p.",
     "longDescription": "Guarda corpo 1,0m s/p: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
     "specs": [
       {
@@ -1899,9 +1899,9 @@
   },
   {
     "slug": "guarda-corpo-1-00m-s-p-c-encaixe",
-    "name": "guarda corpo 1,00m S/P C/ encaixe",
+    "name": "Guarda Corpo 1,00m S/p C/ Encaixe",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de guarda corpo 1,00m S/P C/ encaixe.",
+    "shortDescription": "Locação de guarda Corpo 1,00m S/p C/ Encaixe.",
     "longDescription": "Guarda corpo 1,00m s/p c/ encaixe: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
     "specs": [
       {
@@ -1925,9 +1925,9 @@
   },
   {
     "slug": "guarda-corpo-1-5-c-porta",
-    "name": "guarda corpo 1,5 C/ porta",
+    "name": "Guarda Corpo 1,5 C/ Pórta",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de guarda corpo 1,5 C/ porta.",
+    "shortDescription": "Locação de guarda Corpo 1,5 C/ Pórta.",
     "longDescription": "Guarda corpo 1,5 c/ porta: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
     "specs": [
       {
@@ -1951,9 +1951,9 @@
   },
   {
     "slug": "guarda-corpo-1-5-s-porta-c-encaixe",
-    "name": "guarda corpo 1,5 s/porta C/ encaixe",
+    "name": "Guarda Corpo 1,5 S/porta C/ Encaixe",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de guarda corpo 1,5 s/porta C/ encaixe.",
+    "shortDescription": "Locação de guarda Corpo 1,5 S/porta C/ Encaixe.",
     "longDescription": "Guarda corpo 1,5 s/porta c/ encaixe: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
     "specs": [
       {
@@ -1977,7 +1977,7 @@
   },
   {
     "slug": "painel-0-50x1-50m",
-    "name": "painel 0,50x1,50m",
+    "name": "Painel 0,50x1,50m",
     "category": "andaimes-acesso",
     "shortDescription": "Locação de painel 0,50x1,50m.",
     "longDescription": "Painel 0,50x1,50m: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
@@ -2003,9 +2003,9 @@
   },
   {
     "slug": "painel-1-00x1-00-mecan",
-    "name": "painel 1,00x1,00 mecan",
+    "name": "Painel 1,00x1,00 Mecan",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de painel 1,00x1,00 mecan.",
+    "shortDescription": "Locação de painel 1,00x1,00 Mecan.",
     "longDescription": "Painel 1,00x1,00 mecan: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
     "specs": [
       {
@@ -2029,9 +2029,9 @@
   },
   {
     "slug": "painel-1-00x1-00-prensado",
-    "name": "painel 1,00x1,00 prensado",
+    "name": "Painel 1,00x1,00 Prensado",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de painel 1,00x1,00 prensado.",
+    "shortDescription": "Locação de painel 1,00x1,00 Prensado.",
     "longDescription": "Painel 1,00x1,00 prensado: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
     "specs": [
       {
@@ -2055,9 +2055,9 @@
   },
   {
     "slug": "painel-1-00x1-50-prensado-e-transformado",
-    "name": "painel 1,00x1,50 prensado e transformado",
+    "name": "Painel 1,00x1,50 Prensado e Transformado",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de painel 1,00x1,50 prensado e transformado.",
+    "shortDescription": "Locação de painel 1,00x1,50 Prensado e Transformado.",
     "longDescription": "Painel 1,00x1,50 prensado e transformado: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
     "specs": [
       {
@@ -2081,9 +2081,9 @@
   },
   {
     "slug": "piso-metalico-1-00x0-33m",
-    "name": "piso metalico 1,00x0,33m",
+    "name": "Piso Metalico 1,00x0,33m",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de piso metalico 1,00x0,33m.",
+    "shortDescription": "Locação de piso Metalico 1,00x0,33m.",
     "longDescription": "Piso metalico 1,00x0,33m: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
     "specs": [
       {
@@ -2107,9 +2107,9 @@
   },
   {
     "slug": "piso-metalico-1-50x0-37m-galv",
-    "name": "piso metalico 1,50x0,37M galv",
+    "name": "Piso Metalico 1,50x0,37m Galv",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de piso metalico 1,50x0,37M galv.",
+    "shortDescription": "Locação de piso Metalico 1,50x0,37m Galv.",
     "longDescription": "Piso metalico 1,50x0,37m galv: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
     "specs": [
       {
@@ -2133,9 +2133,9 @@
   },
   {
     "slug": "arco-p-escada",
-    "name": "arco p/ escada",
+    "name": "Arco P/ Escada",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de arco p/ escada.",
+    "shortDescription": "Locação de arco P/ Escada.",
     "longDescription": "Arco p/ escada: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
     "specs": [
       {
@@ -2159,9 +2159,9 @@
   },
   {
     "slug": "abracadeira-fixa",
-    "name": "ABRAÇADEIRA FIXA",
+    "name": "Abraçadeira Fixa",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de ABRAÇADEIRA FIXA.",
+    "shortDescription": "Locação de abraçadeira Fixa.",
     "longDescription": "Abraçadeira fixa: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
     "specs": [
       {
@@ -2185,9 +2185,9 @@
   },
   {
     "slug": "abracadeira-fixa-fch",
-    "name": "ABRAÇADEIRA FIXA FCH",
+    "name": "Abraçadeira Fixa FCH",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de ABRAÇADEIRA FIXA FCH.",
+    "shortDescription": "Locação de abraçadeira Fixa FCH.",
     "longDescription": "Abraçadeira fixa fch: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
     "specs": [
       {
@@ -2211,9 +2211,9 @@
   },
   {
     "slug": "abracadeira-giratoria",
-    "name": "ABRAÇADEIRA GIRATORIA",
+    "name": "Abraçadeira Giratoria",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de ABRAÇADEIRA GIRATORIA.",
+    "shortDescription": "Locação de abraçadeira Giratoria.",
     "longDescription": "Abraçadeira giratoria: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
     "specs": [
       {
@@ -2237,9 +2237,9 @@
   },
   {
     "slug": "arco-aberto",
-    "name": "ARCO ABERTO",
+    "name": "Arco Aberto",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de ARCO ABERTO.",
+    "shortDescription": "Locação de arco Aberto.",
     "longDescription": "Arco aberto: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
     "specs": [
       {
@@ -2263,9 +2263,9 @@
   },
   {
     "slug": "arco-fechado",
-    "name": "ARCO FECHADO",
+    "name": "Arco Fechado",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de ARCO FECHADO.",
+    "shortDescription": "Locação de arco Fechado.",
     "longDescription": "Arco fechado: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
     "specs": [
       {
@@ -2289,9 +2289,9 @@
   },
   {
     "slug": "chave-de-catraca-7-8",
-    "name": "CHAVE DE CATRACA 7/8\"",
+    "name": "Chave de Catraca 7/8\"",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de CHAVE DE CATRACA 7/8\".",
+    "shortDescription": "Locação de chave de Catraca 7/8\".",
     "longDescription": "Chave de catraca 7/8\": Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
     "specs": [
       {
@@ -2315,9 +2315,9 @@
   },
   {
     "slug": "degrau-de-escada",
-    "name": "DEGRAU DE ESCADA",
+    "name": "Degrau de Escada",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de DEGRAU DE ESCADA.",
+    "shortDescription": "Locação de degrau de Escada.",
     "longDescription": "Degrau de escada: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
     "specs": [
       {
@@ -2341,9 +2341,9 @@
   },
   {
     "slug": "luva-de-uniao",
-    "name": "LUVA DE UNIÃO",
+    "name": "Luva de União",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de LUVA DE UNIÃO.",
+    "shortDescription": "Locação de luva de União.",
     "longDescription": "Luva de união: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
     "specs": [
       {
@@ -2367,9 +2367,9 @@
   },
   {
     "slug": "parafuso-enxerto",
-    "name": "PARAFUSO ENXERTO",
+    "name": "Parafuso Enxerto",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de PARAFUSO ENXERTO.",
+    "shortDescription": "Locação de parafuso Enxerto.",
     "longDescription": "Parafuso enxerto: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
     "specs": [
       {
@@ -2393,9 +2393,9 @@
   },
   {
     "slug": "pranchao-de-1-00-m-ate-3-00-m",
-    "name": "PRANCHÃO DE 1,00 M ATE 3,00 M",
+    "name": "Pranchão de 1,00 M ate 3,00 M",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de PRANCHÃO DE 1,00 M ATE 3,00 M.",
+    "shortDescription": "Locação de pranchão de 1,00 M ate 3,00 M.",
     "longDescription": "Pranchão de 1,00 m ate 3,00 m: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
     "specs": [
       {
@@ -2419,9 +2419,9 @@
   },
   {
     "slug": "rodape-de-0-20-x-3-00-m",
-    "name": "RODAPE DE 0,20 X 3,00 M",
+    "name": "Rodape de 0,20 X 3,00 M",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de RODAPE DE 0,20 X 3,00 M.",
+    "shortDescription": "Locação de rodape de 0,20 X 3,00 M.",
     "longDescription": "Rodape de 0,20 x 3,00 m: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
     "specs": [
       {
@@ -2445,9 +2445,9 @@
   },
   {
     "slug": "rodape-de-0-20-x-2-00-m",
-    "name": "RODAPE DE 0,20 X 2,00 M",
+    "name": "Rodape de 0,20 X 2,00 M",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de RODAPE DE 0,20 X 2,00 M.",
+    "shortDescription": "Locação de rodape de 0,20 X 2,00 M.",
     "longDescription": "Rodape de 0,20 x 2,00 m: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
     "specs": [
       {
@@ -2471,9 +2471,9 @@
   },
   {
     "slug": "rodape-de-0-20-x-1-00-m",
-    "name": "RODAPE DE 0,20 X 1,00 M",
+    "name": "Rodape de 0,20 X 1,00 M",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de RODAPE DE 0,20 X 1,00 M.",
+    "shortDescription": "Locação de rodape de 0,20 X 1,00 M.",
     "longDescription": "Rodape de 0,20 x 1,00 m: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
     "specs": [
       {
@@ -2499,28 +2499,28 @@
     "slug": "plataforma-elevatoria-hb-1430",
     "name": "Plataforma elevatória HB 1430",
     "category": "equipamentos-aereos",
-    "shortDescription": "Locação de plataforma elevatória HB 1430.",
-    "longDescription": "Plataforma elevatória hb 1430: Plataforma elevatória para trabalho em altura com operação segura e estável. Indicada para manutenção, montagem e serviços em fachadas e galpões na região metropolitana de BH. Unidade revisada; classificação e documentação conforme NR-12 e ficha do fabricante.",
+    "shortDescription": "Locação de Plataforma elevatória HB 1430.",
+    "longDescription": "Tesoura elétrica Hy-Brid HB 1430 para trabalho em altura em ambientes internos e lajes. Altura de trabalho em torno de 6 m, ideal para manutenção predial e montagens leves na região metropolitana de BH.",
     "specs": [
       {
         "label": "Tipo",
-        "value": "Tesoura"
+        "value": "Tesoura (laje)"
       },
       {
         "label": "Altura de trabalho",
-        "value": "~14 m"
+        "value": "~6,1 m (20 ft)"
       },
       {
         "label": "Capacidade / peso na plataforma",
-        "value": "~230 kg"
+        "value": "~300 kg"
       },
       {
         "label": "Peso total operacional",
-        "value": "Sob consulta na proposta"
+        "value": "~770 kg"
       },
       {
         "label": "Alimentação",
-        "value": "Elétrica"
+        "value": "Elétrica (bateria)"
       },
       {
         "label": "Classificação ABNT (NR-12)",
@@ -2538,28 +2538,28 @@
     "slug": "plataforma-elevatoria-hb-p830",
     "name": "Plataforma elevatória HB P830",
     "category": "equipamentos-aereos",
-    "shortDescription": "Locação de plataforma elevatória HB P830.",
-    "longDescription": "Plataforma elevatória hb p830: Plataforma elevatória para trabalho em altura com operação segura e estável. Indicada para manutenção, montagem e serviços em fachadas e galpões na região metropolitana de BH. Unidade revisada; classificação e documentação conforme NR-12 e ficha do fabricante.",
+    "shortDescription": "Locação de Plataforma elevatória HB P830.",
+    "longDescription": "Plataforma tipo tesoura compacta HB P830, indicada para corredores estreitos e manutenção em altura moderada (~4 m de trabalho).",
     "specs": [
       {
         "label": "Tipo",
-        "value": "Tesoura"
+        "value": "Tesoura compacta (empurrar)"
       },
       {
         "label": "Altura de trabalho",
-        "value": "~8 m"
+        "value": "~4,3 m (14 ft)"
       },
       {
         "label": "Capacidade / peso na plataforma",
-        "value": "~230 kg"
+        "value": "~227 kg"
       },
       {
         "label": "Peso total operacional",
-        "value": "Sob consulta na proposta"
+        "value": "~360 kg"
       },
       {
         "label": "Alimentação",
-        "value": "Elétrica"
+        "value": "Elétrica (bateria)"
       },
       {
         "label": "Classificação ABNT (NR-12)",
@@ -2575,30 +2575,30 @@
   },
   {
     "slug": "plataforma-elevatoria-pep-p590",
-    "name": "Plataforma elevatória PEP P590",
+    "name": "Plataforma elevatória PEP 590",
     "category": "equipamentos-aereos",
-    "shortDescription": "Locação de plataforma elevatória PEP P590.",
-    "longDescription": "Plataforma elevatória pep p590: Plataforma elevatória para trabalho em altura com operação segura e estável. Indicada para manutenção, montagem e serviços em fachadas e galpões na região metropolitana de BH. Unidade revisada; classificação e documentação conforme NR-12 e ficha do fabricante.",
+    "shortDescription": "Locação de Plataforma elevatória PEP 590.",
+    "longDescription": "Plataforma elevatória Hydrolift PEP 590, fabricação nacional, para trabalhos em até cerca de 6 m. Indicada para manutenção predial e instalações leves.",
     "specs": [
       {
         "label": "Tipo",
-        "value": "Tesoura"
+        "value": "Tesoura (low level)"
       },
       {
         "label": "Altura de trabalho",
-        "value": "Consulte"
+        "value": "~6,0 m"
       },
       {
         "label": "Capacidade / peso na plataforma",
-        "value": "Consulte"
+        "value": "~140 kg (1 operador)"
       },
       {
         "label": "Peso total operacional",
-        "value": "Sob consulta na proposta"
+        "value": "~420 kg"
       },
       {
         "label": "Alimentação",
-        "value": "Elétrica"
+        "value": "Elétrica (bateria 12 V)"
       },
       {
         "label": "Classificação ABNT (NR-12)",
@@ -2616,8 +2616,8 @@
     "slug": "plataforma-elevatoria-gs-1930s",
     "name": "Plataforma elevatória GS 1930s",
     "category": "equipamentos-aereos",
-    "shortDescription": "Locação de plataforma elevatória GS 1930s.",
-    "longDescription": "Plataforma elevatória gs 1930s: Plataforma elevatória para trabalho em altura com operação segura e estável. Indicada para manutenção, montagem e serviços em fachadas e galpões na região metropolitana de BH. Unidade revisada; classificação e documentação conforme NR-12 e ficha do fabricante.",
+    "shortDescription": "Locação de Plataforma elevatória GS 1930s.",
+    "longDescription": "Tesoura elétrica Genie GS-1930 para passagens estreitas e pisos delicados. Altura de trabalho de cerca de 7,9 m em ambiente interno.",
     "specs": [
       {
         "label": "Tipo",
@@ -2625,19 +2625,19 @@
       },
       {
         "label": "Altura de trabalho",
-        "value": "~5,8 m"
+        "value": "~7,9 m (interior) / ~6,5 m (exterior)"
       },
       {
         "label": "Capacidade / peso na plataforma",
-        "value": "~227 kg"
+        "value": "227 kg"
       },
       {
         "label": "Peso total operacional",
-        "value": "Sob consulta na proposta"
+        "value": "~1.456 kg"
       },
       {
         "label": "Alimentação",
-        "value": "Elétrica"
+        "value": "Elétrica (bateria)"
       },
       {
         "label": "Classificação ABNT (NR-12)",
@@ -2655,32 +2655,32 @@
     "slug": "plataforma-elevatoria-awp-30s",
     "name": "Plataforma elevatória AWP 30S",
     "category": "equipamentos-aereos",
-    "shortDescription": "Locação de plataforma elevatória AWP 30S.",
-    "longDescription": "Plataforma elevatória awp 30s: Plataforma elevatória para trabalho em altura com operação segura e estável. Indicada para manutenção, montagem e serviços em fachadas e galpões na região metropolitana de BH. Unidade revisada; classificação e documentação conforme NR-12 e ficha do fabricante.",
+    "shortDescription": "Locação de Plataforma elevatória AWP 30S.",
+    "longDescription": "Plataforma de mastro vertical Genie AWP-30S, leve e manobrável, para manutenção e instalações em altura média (~11 m de trabalho).",
     "specs": [
       {
         "label": "Tipo",
-        "value": "Tesoura"
+        "value": "Mastro vertical (AWP)"
       },
       {
         "label": "Altura de trabalho",
-        "value": "Consulte"
+        "value": "~11 m"
       },
       {
         "label": "Capacidade / peso na plataforma",
-        "value": "Consulte"
+        "value": "~159 kg"
       },
       {
         "label": "Peso total operacional",
-        "value": "Sob consulta na proposta"
+        "value": "~390 kg"
       },
       {
         "label": "Alimentação",
-        "value": "Consulte"
+        "value": "Elétrica"
       },
       {
         "label": "Classificação ABNT (NR-12)",
-        "value": "Tipo 1 · Grupo B (plataforma tesoura — NR-12 / ABNT)"
+        "value": "Tipo 1 · Grupo B (plataforma elevatória — NR-12 / ABNT)"
       }
     ],
     "tags": [
@@ -2694,8 +2694,8 @@
     "slug": "plataforma-elevatoria-sj-iii-4740",
     "name": "Plataforma elevatória SJ III 4740",
     "category": "equipamentos-aereos",
-    "shortDescription": "Locação de plataforma elevatória SJ III 4740.",
-    "longDescription": "Plataforma elevatória sj iii 4740: Plataforma elevatória para trabalho em altura com operação segura e estável. Indicada para manutenção, montagem e serviços em fachadas e galpões na região metropolitana de BH. Unidade revisada; classificação e documentação conforme NR-12 e ficha do fabricante.",
+    "shortDescription": "Locação de Plataforma elevatória SJ III 4740.",
+    "longDescription": "Tesoura elétrica Skyjack SJ III 4740, uma das maiores tesouras da linha, com cerca de 13,8 m de altura de trabalho para montagens e manutenção em galpões.",
     "specs": [
       {
         "label": "Tipo",
@@ -2703,11 +2703,11 @@
       },
       {
         "label": "Altura de trabalho",
-        "value": "~14,3 m"
+        "value": "~13,8 m (47 ft)"
       },
       {
         "label": "Capacidade / peso na plataforma",
-        "value": "~227 kg"
+        "value": "227 kg"
       },
       {
         "label": "Peso total operacional",
@@ -2715,7 +2715,7 @@
       },
       {
         "label": "Alimentação",
-        "value": "Elétrica"
+        "value": "Elétrica (bateria)"
       },
       {
         "label": "Classificação ABNT (NR-12)",
@@ -2733,20 +2733,20 @@
     "slug": "plataforma-elevatoria-20-mvl",
     "name": "Plataforma elevatória 20 MVL",
     "category": "equipamentos-aereos",
-    "shortDescription": "Locação de plataforma elevatória 20 MVL.",
-    "longDescription": "Plataforma elevatória 20 mvl: Plataforma elevatória para trabalho em altura com operação segura e estável. Indicada para manutenção, montagem e serviços em fachadas e galpões na região metropolitana de BH. Unidade revisada; classificação e documentação conforme NR-12 e ficha do fabricante.",
+    "shortDescription": "Locação de Plataforma elevatória 20 MVL.",
+    "longDescription": "Mastro vertical JLG 20MVL, dirigível em altura, para corredores estreitos e manutenção com cerca de 7,6 m de altura de trabalho.",
     "specs": [
       {
         "label": "Tipo",
-        "value": "Tesoura"
+        "value": "Mastro vertical"
       },
       {
         "label": "Altura de trabalho",
-        "value": "Consulte"
+        "value": "~7,6 m (25 ft)"
       },
       {
         "label": "Capacidade / peso na plataforma",
-        "value": "Consulte"
+        "value": "Sob consulta"
       },
       {
         "label": "Peso total operacional",
@@ -2754,11 +2754,11 @@
       },
       {
         "label": "Alimentação",
-        "value": "Consulte"
+        "value": "Elétrica"
       },
       {
         "label": "Classificação ABNT (NR-12)",
-        "value": "Tipo 1 · Grupo B (plataforma tesoura — NR-12 / ABNT)"
+        "value": "Tipo 1 · Grupo B (plataforma elevatória — NR-12 / ABNT)"
       }
     ],
     "tags": [
@@ -2770,49 +2770,10 @@
   },
   {
     "slug": "plataforma-elevatoria-am-36",
-    "name": "Plataforma elevatória AM – 36",
+    "name": "Plataforma elevatória AM-36",
     "category": "equipamentos-aereos",
-    "shortDescription": "Locação de plataforma elevatória AM.",
-    "longDescription": "Plataforma elevatória am – 36: Plataforma elevatória para trabalho em altura com operação segura e estável. Indicada para manutenção, montagem e serviços em fachadas e galpões na região metropolitana de BH. Unidade revisada; classificação e documentação conforme NR-12 e ficha do fabricante.",
-    "specs": [
-      {
-        "label": "Tipo",
-        "value": "Tesoura"
-      },
-      {
-        "label": "Altura de trabalho",
-        "value": "Consulte"
-      },
-      {
-        "label": "Capacidade / peso na plataforma",
-        "value": "Consulte"
-      },
-      {
-        "label": "Peso total operacional",
-        "value": "Sob consulta na proposta"
-      },
-      {
-        "label": "Alimentação",
-        "value": "Consulte"
-      },
-      {
-        "label": "Classificação ABNT (NR-12)",
-        "value": "Tipo 1 · Grupo B (plataforma tesoura — NR-12 / ABNT)"
-      }
-    ],
-    "tags": [
-      "plataforma",
-      "altura"
-    ],
-    "featured": false,
-    "available": true
-  },
-  {
-    "slug": "plataforma-elevatoria-z45-25j-dc-lanca-articulada",
-    "name": "Plataforma elevatória Z45/25j- DC –Lança Articulada",
-    "category": "equipamentos-aereos",
-    "shortDescription": "Locação de plataforma elevatória Z45/25j- DC.",
-    "longDescription": "Plataforma elevatória z45/25j- dc –lança articulada: Plataforma elevatória para trabalho em altura com operação segura e estável. Indicada para manutenção, montagem e serviços em fachadas e galpões na região metropolitana de BH. Unidade revisada; classificação e documentação conforme NR-12 e ficha do fabricante.",
+    "shortDescription": "Locação de Plataforma elevatória AM-36.",
+    "longDescription": "Plataforma com lança articulada AM-36 para trabalho em altura com alcance horizontal. Especificações da unidade disponíveis na proposta.",
     "specs": [
       {
         "label": "Tipo",
@@ -2820,7 +2781,7 @@
       },
       {
         "label": "Altura de trabalho",
-        "value": "~14 m"
+        "value": "~11 m (36 ft)"
       },
       {
         "label": "Capacidade / peso na plataforma",
@@ -2832,11 +2793,54 @@
       },
       {
         "label": "Alcance horizontal",
+        "value": "Sob consulta"
+      },
+      {
+        "label": "Alimentação",
+        "value": "Diesel ou elétrica (conforme unidade)"
+      },
+      {
+        "label": "Classificação ABNT (NR-12)",
+        "value": "Tipo 1 · Grupo B (lança articulada — NR-12 / ABNT)"
+      }
+    ],
+    "tags": [
+      "plataforma",
+      "altura"
+    ],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "plataforma-elevatoria-z45-25j-dc-lanca-articulada",
+    "name": "Plataforma elevatória Z45/25J DC",
+    "category": "equipamentos-aereos",
+    "shortDescription": "Locação de Plataforma elevatória Z45/25J DC.",
+    "longDescription": "Lança articulada elétrica Genie Z-45/25J DC, com cerca de 15,9 m de altura de trabalho e alcance horizontal aproximado de 7,6 m.",
+    "specs": [
+      {
+        "label": "Tipo",
+        "value": "Lança articulada"
+      },
+      {
+        "label": "Altura de trabalho",
+        "value": "~15,9 m"
+      },
+      {
+        "label": "Capacidade / peso na plataforma",
+        "value": "227 kg"
+      },
+      {
+        "label": "Peso total operacional",
+        "value": "Sob consulta na proposta"
+      },
+      {
+        "label": "Alcance horizontal",
         "value": "~7,6 m"
       },
       {
         "label": "Alimentação",
-        "value": "Diesel"
+        "value": "Elétrica (DC)"
       },
       {
         "label": "Classificação ABNT (NR-12)",
@@ -2854,8 +2858,8 @@
     "slug": "plataforma-elevatoria-sj-iii-3219",
     "name": "Plataforma elevatória SJ III 3219",
     "category": "equipamentos-aereos",
-    "shortDescription": "Locação de plataforma elevatória SJ III 3219.",
-    "longDescription": "Plataforma elevatória sj iii 3219: Plataforma elevatória para trabalho em altura com operação segura e estável. Indicada para manutenção, montagem e serviços em fachadas e galpões na região metropolitana de BH. Unidade revisada; classificação e documentação conforme NR-12 e ficha do fabricante.",
+    "shortDescription": "Locação de Plataforma elevatória SJ III 3219.",
+    "longDescription": "Tesoura elétrica compacta Skyjack SJ III 3219 para uso interno, com cerca de 7,6 m de altura de trabalho.",
     "specs": [
       {
         "label": "Tipo",
@@ -2863,19 +2867,19 @@
       },
       {
         "label": "Altura de trabalho",
-        "value": "~5,8 m"
+        "value": "~7,6 m (25 ft)"
       },
       {
         "label": "Capacidade / peso na plataforma",
-        "value": "~227 kg"
+        "value": "~249 kg"
       },
       {
         "label": "Peso total operacional",
-        "value": "Sob consulta na proposta"
+        "value": "~1.170 kg"
       },
       {
         "label": "Alimentação",
-        "value": "Elétrica"
+        "value": "Elétrica (bateria)"
       },
       {
         "label": "Classificação ABNT (NR-12)",
@@ -2893,8 +2897,8 @@
     "slug": "plataforma-elevatoria-sj-iii-3226",
     "name": "Plataforma elevatória SJ III 3226",
     "category": "equipamentos-aereos",
-    "shortDescription": "Locação de plataforma elevatória SJ III 3226.",
-    "longDescription": "Plataforma elevatória sj iii 3226: Plataforma elevatória para trabalho em altura com operação segura e estável. Indicada para manutenção, montagem e serviços em fachadas e galpões na região metropolitana de BH. Unidade revisada; classificação e documentação conforme NR-12 e ficha do fabricante.",
+    "shortDescription": "Locação de Plataforma elevatória SJ III 3226.",
+    "longDescription": "Tesoura elétrica Skyjack SJ III 3226 com cerca de 9,75 m de altura de trabalho, indicada para galpões e manutenção industrial.",
     "specs": [
       {
         "label": "Tipo",
@@ -2902,11 +2906,11 @@
       },
       {
         "label": "Altura de trabalho",
-        "value": "~6,7 m"
+        "value": "~9,75 m (32 ft)"
       },
       {
         "label": "Capacidade / peso na plataforma",
-        "value": "~227 kg"
+        "value": "227 kg"
       },
       {
         "label": "Peso total operacional",
@@ -2914,7 +2918,7 @@
       },
       {
         "label": "Alimentação",
-        "value": "Elétrica"
+        "value": "Elétrica (bateria)"
       },
       {
         "label": "Classificação ABNT (NR-12)",
@@ -2932,8 +2936,8 @@
     "slug": "plataforma-elevatoria-sj-iii-4632",
     "name": "Plataforma elevatória SJ III 4632",
     "category": "equipamentos-aereos",
-    "shortDescription": "Locação de plataforma elevatória SJ III 4632.",
-    "longDescription": "Plataforma elevatória sj iii 4632: Plataforma elevatória para trabalho em altura com operação segura e estável. Indicada para manutenção, montagem e serviços em fachadas e galpões na região metropolitana de BH. Unidade revisada; classificação e documentação conforme NR-12 e ficha do fabricante.",
+    "shortDescription": "Locação de Plataforma elevatória SJ III 4632.",
+    "longDescription": "Tesoura elétrica Skyjack SJ III 4632 para grandes alturas em ambiente coberto, com cerca de 14 m de altura de trabalho.",
     "specs": [
       {
         "label": "Tipo",
@@ -2941,11 +2945,11 @@
       },
       {
         "label": "Altura de trabalho",
-        "value": "~9,8 m"
+        "value": "~14 m (46 ft)"
       },
       {
         "label": "Capacidade / peso na plataforma",
-        "value": "~227 kg"
+        "value": "227 kg"
       },
       {
         "label": "Peso total operacional",
@@ -2953,7 +2957,7 @@
       },
       {
         "label": "Alimentação",
-        "value": "Elétrica"
+        "value": "Elétrica (bateria)"
       },
       {
         "label": "Classificação ABNT (NR-12)",
@@ -2969,10 +2973,10 @@
   },
   {
     "slug": "plataforma-elevatoria-z60-37-dc-lanca-articulada",
-    "name": "Plataforma elevatória Z60/37 DC – Lança Articulada",
+    "name": "Plataforma elevatória Z60/37 DC",
     "category": "equipamentos-aereos",
-    "shortDescription": "Locação de plataforma elevatória Z60/37 DC.",
-    "longDescription": "Plataforma elevatória z60/37 dc – lança articulada: Plataforma elevatória para trabalho em altura com operação segura e estável. Indicada para manutenção, montagem e serviços em fachadas e galpões na região metropolitana de BH. Unidade revisada; classificação e documentação conforme NR-12 e ficha do fabricante.",
+    "shortDescription": "Locação de Plataforma elevatória Z60/37 DC.",
+    "longDescription": "Lança articulada Genie Z-60/37 DC para trabalhos em grande altura (~20 m) com alcance horizontal estendido.",
     "specs": [
       {
         "label": "Tipo",
@@ -2980,11 +2984,11 @@
       },
       {
         "label": "Altura de trabalho",
-        "value": "~18 m"
+        "value": "~20,2 m"
       },
       {
         "label": "Capacidade / peso na plataforma",
-        "value": "Sob consulta"
+        "value": "227 kg"
       },
       {
         "label": "Peso total operacional",
@@ -2992,11 +2996,11 @@
       },
       {
         "label": "Alcance horizontal",
-        "value": "~11 m"
+        "value": "~11,2 m"
       },
       {
         "label": "Alimentação",
-        "value": "Diesel"
+        "value": "Elétrica (DC)"
       },
       {
         "label": "Classificação ABNT (NR-12)",
@@ -3012,10 +3016,10 @@
   },
   {
     "slug": "plataforma-elevatoria-160-atj-lanca-articulada",
-    "name": "Plataforma elevatória 160 ATJ – Lança Articulada",
+    "name": "Plataforma elevatória 160 ATJ",
     "category": "equipamentos-aereos",
-    "shortDescription": "Locação de plataforma elevatória 160 ATJ.",
-    "longDescription": "Plataforma elevatória 160 atj – lança articulada: Plataforma elevatória para trabalho em altura com operação segura e estável. Indicada para manutenção, montagem e serviços em fachadas e galpões na região metropolitana de BH. Unidade revisada; classificação e documentação conforme NR-12 e ficha do fabricante.",
+    "shortDescription": "Locação de Plataforma elevatória 160 ATJ.",
+    "longDescription": "Lança articulada Manitou 160 ATJ, tração 4x4, para obra externa e terrenos irregulares, com cerca de 16 m de altura de trabalho.",
     "specs": [
       {
         "label": "Tipo",
@@ -3027,7 +3031,7 @@
       },
       {
         "label": "Capacidade / peso na plataforma",
-        "value": "Sob consulta"
+        "value": "230 kg"
       },
       {
         "label": "Peso total operacional",
@@ -3035,7 +3039,7 @@
       },
       {
         "label": "Alcance horizontal",
-        "value": "Consulte"
+        "value": "~8,3 m"
       },
       {
         "label": "Alimentação",

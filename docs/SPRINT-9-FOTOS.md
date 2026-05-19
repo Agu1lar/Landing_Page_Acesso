@@ -25,6 +25,14 @@ Formatos aceitos: `.webp` (melhor), `.jpg`, `.jpeg`, `.png`
 
 O script também atualiza `src/data/equipment-image-manifest.json` (necessário para o catálogo no navegador).
 
+Se o nome do arquivo não bater com o slug (ex.: `plataforma HB 1430.png`), o mapeamento está em `src/data/equipment-photo-aliases.json`. Depois de adicionar fotos novas, rode o sync de novo.
+
+Para padronizar títulos no catálogo (maiúsculas/minúsculas):
+
+```shell
+python docs/scripts/normalize-equipment-names.py
+```
+
 ### Ver o que falta
 
 ```shell

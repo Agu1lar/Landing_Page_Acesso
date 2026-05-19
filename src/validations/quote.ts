@@ -6,6 +6,7 @@ export const QuoteCartItemSchema = z.object({
   slug: z.string().trim().min(1).max(120),
   name: z.string().trim().min(1).max(300),
   kind: z.enum(['equipment', 'accessory']),
+  quantity: z.number().int().min(1).max(99),
 });
 
 export const QuoteFormSchema = z.object({
@@ -45,7 +46,10 @@ export function normalizeQuotePayload(data: QuoteFormInput) {
     data.equipmentSlug?.trim() ||
     undefined;
   const equipmentName =
-    cartItems?.map((item) => item.name).join(' · ').slice(0, 300) ||
+    cartItems
+      ?.map((item) => (item.quantity > 1 ? `${item.name} (×${item.quantity})` : item.name))
+      .join(' · ')
+      .slice(0, 300) ||
     data.equipmentName?.trim() ||
     undefined;
 

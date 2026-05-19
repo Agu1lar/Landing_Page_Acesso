@@ -1,41 +1,85 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
-import type { QuoteCartItem } from '@/types/quote-cart';
+import {
+  QUOTE_CART_MAX_QUANTITY,
+  QUOTE_CART_MIN_QUANTITY,
+  type QuoteCartItem,
+} from '@/types/quote-cart';
 
-const STORAGE_KEY = 'acesso-quote-cart';
+const STORAGE_KEY = 'acesso-quote-cart-v2';
 
 type QuoteCartContextValue = {
   items: QuoteCartItem[];
-  addItem: (item: QuoteCartItem) => void;
+  addItem: (item: Omit<QuoteCartItem, 'quantity'> & { quantity?: number }) => void;
+  setItemQuantity: (slug: string, quantity: number) => void;
   removeItem: (slug: string) => void;
   clearCart: () => void;
   hasItem: (slug: string) => boolean;
+  getItemQuantity: (slug: string) => number;
+  /** Total de unidades (soma das quantidades). */
   count: number;
+  /** Quantidade de linhas distintas no carrinho. */
+  lineCount: number;
 };
 
 const QuoteCartContext = createContext<QuoteCartContextValue | null>(null);
+
+function clampQuantity(quantity: number) {
+  return Math.min(QUOTE_CART_MAX_QUANTITY, Math.max(QUOTE_CART_MIN_QUANTITY, quantity));
+}
+
+function normalizeItem(item: QuoteCartItem): QuoteCartItem {
+  return {
+    slug: item.slug,
+    name: item.name,
+    kind: item.kind,
+    quantity: clampQuantity(item.quantity ?? QUOTE_CART_MIN_QUANTITY),
+  };
+}
 
 function readStoredItems(): QuoteCartItem[] {
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) {
-      return [];
+      const legacy = window.localStorage.getItem('acesso-quote-cart');
+      if (!legacy) {
+        return [];
+      }
+      const parsed = JSON.parse(legacy) as QuoteCartItem[];
+      if (!Array.isArray(parsed)) {
+        return [];
+      }
+      return parsed
+        .filter(
+          (item) =>
+            item &&
+            typeof item.slug === 'string' &&
+            typeof item.name === 'string' &&
+            (item.kind === 'equipment' || item.kind === 'accessory'),
+        )
+        .map((item) => normalizeItem(item));
     }
     const parsed = JSON.parse(raw) as QuoteCartItem[];
     if (!Array.isArray(parsed)) {
       return [];
     }
-    return parsed.filter(
-      (item) =>
-        item &&
-        typeof item.slug === 'string' &&
-        typeof item.name === 'string' &&
-        (item.kind === 'equipment' || item.kind === 'accessory'),
-    );
+    return parsed
+      .filter(
+        (item) =>
+          item &&
+          typeof item.slug === 'string' &&
+          typeof item.name === 'string' &&
+          (item.kind === 'equipment' || item.kind === 'accessory'),
+      )
+      .map((item) => normalizeItem(item));
   } catch {
     return [];
   }
+}
+
+function totalUnits(items: QuoteCartItem[]) {
+  return items.reduce((sum, item) => sum + item.quantity, 0);
 }
 
 /**
@@ -54,13 +98,32 @@ export function QuoteCartProvider(props: { children: React.ReactNode }) {
 
   const value: QuoteCartContextValue = {
     items,
-    count: items.length,
+    count: totalUnits(items),
+    lineCount: items.length,
     addItem: (item) => {
+      const quantity = clampQuantity(item.quantity ?? QUOTE_CART_MIN_QUANTITY);
       setItems((current) => {
-        if (current.some((entry) => entry.slug === item.slug)) {
-          return current;
+        const existing = current.find((entry) => entry.slug === item.slug);
+        if (existing) {
+          return current.map((entry) =>
+            entry.slug === item.slug
+              ? {
+                  ...entry,
+                  quantity: clampQuantity(entry.quantity + quantity),
+                }
+              : entry,
+          );
         }
-        return [...current, item];
+        return [...current, { ...item, quantity }];
+      });
+    },
+    setItemQuantity: (slug, quantity) => {
+      const next = clampQuantity(quantity);
+      setItems((current) => {
+        if (next < QUOTE_CART_MIN_QUANTITY) {
+          return current.filter((entry) => entry.slug !== slug);
+        }
+        return current.map((entry) => (entry.slug === slug ? { ...entry, quantity: next } : entry));
       });
     },
     removeItem: (slug) => {
@@ -70,6 +133,7 @@ export function QuoteCartProvider(props: { children: React.ReactNode }) {
       setItems([]);
     },
     hasItem: (slug) => items.some((entry) => entry.slug === slug),
+    getItemQuantity: (slug) => items.find((entry) => entry.slug === slug)?.quantity ?? 0,
   };
 
   return <QuoteCartContext.Provider value={value}>{props.children}</QuoteCartContext.Provider>;

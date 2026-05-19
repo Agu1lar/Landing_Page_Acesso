@@ -22,7 +22,16 @@ ROOT = Path(__file__).resolve().parents[2]
 INCOMING = ROOT / "public" / "equipamentos" / "_incoming"
 OUT_DIR = ROOT / "public" / "equipamentos"
 CATALOG = ROOT / "src" / "data" / "equipamentos.json"
+ALIASES = ROOT / "src" / "data" / "equipment-photo-aliases.json"
 MANIFEST = ROOT / "src" / "data" / "equipment-image-manifest.json"
+
+# Uma foto pode ser copiada para vários slugs (ex.: piso metálico em 3 tamanhos).
+MULTI_COPY: dict[str, list[str]] = {
+    "piso-metalico-deve-abranger-os-3-tamanhos": [
+        "piso-metalico-1-00x0-33m",
+        "piso-metalico-1-50x0-37m-galv",
+    ],
+}
 ALLOWED = {".webp", ".jpg", ".jpeg", ".png"}
 EXT_PRIORITY = [".webp", ".jpg", ".jpeg", ".png"]
 
@@ -38,6 +47,30 @@ def slugify(name: str) -> str:
 def load_slugs() -> set[str]:
     data = json.loads(CATALOG.read_text(encoding="utf-8"))
     return {item["slug"] for item in data if item.get("slug")}
+
+
+def load_aliases() -> dict[str, str]:
+    if not ALIASES.exists():
+        return {}
+    return json.loads(ALIASES.read_text(encoding="utf-8"))
+
+
+def resolve_slug(stem: str, slugs: set[str], aliases: dict[str, str]) -> str | None:
+    candidate = slugify(stem)
+    if candidate in slugs:
+        return candidate
+    if candidate in aliases:
+        return aliases[candidate]
+    if candidate in MULTI_COPY:
+        return MULTI_COPY[candidate][0]
+    return None
+
+
+def target_slugs(stem: str, resolved: str) -> list[str]:
+    candidate = slugify(stem)
+    if candidate in MULTI_COPY:
+        return MULTI_COPY[candidate]
+    return [resolved]
 
 
 def write_manifest() -> int:
@@ -76,6 +109,7 @@ def sync(dry_run: bool) -> None:
         return
 
     slugs = load_slugs()
+    aliases = load_aliases()
     copied = 0
     skipped = 0
     unknown: list[str] = []
@@ -89,25 +123,28 @@ def sync(dry_run: bool) -> None:
             skipped += 1
             continue
 
-        slug = slugify(path.stem)
-        if slug not in slugs:
+        resolved = resolve_slug(path.stem, slugs, aliases)
+        if resolved is None:
             unknown.append(path.name)
             continue
 
-        dest = OUT_DIR / f"{slug}{ext}"
-        if dry_run:
-            print(f"  [dry-run] {path.name} -> equipamentos/{slug}{ext}")
-        else:
-            shutil.copy2(path, dest)
-            print(f"  ok: {path.name} -> equipamentos/{slug}{ext}")
-        copied += 1
+        for slug in target_slugs(path.stem, resolved):
+            dest = OUT_DIR / f"{slug}{ext}"
+            if dry_run:
+                print(f"  [dry-run] {path.name} -> equipamentos/{slug}{ext}")
+            else:
+                shutil.copy2(path, dest)
+                print(f"  ok: {path.name} -> equipamentos/{slug}{ext}")
+            copied += 1
 
     print()
     print(f"Processados: {copied} | Ignorados: {skipped} | Slug desconhecido: {len(unknown)}")
     if unknown:
         print("\nArquivos sem slug no catálogo (renomeie ou ajuste o inventário):")
         for name in unknown:
-            print(f"  - {name}  (tentativa: {slugify(Path(name).stem)})")
+            stem = slugify(Path(name).stem)
+            hint = aliases.get(stem, "sem alias")
+            print(f"  - {name}  (slug: {stem}, alias: {hint})")
 
 
 def list_missing() -> None:

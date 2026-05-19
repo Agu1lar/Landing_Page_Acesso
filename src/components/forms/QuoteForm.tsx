@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import { Textarea } from '@/components/ui/Textarea';
 import { brand } from '@/lib/brand';
+import { buildQuoteWhatsAppUrl } from '@/lib/quote-whatsapp';
 import * as z from 'zod';
 import { QuoteFormSchema, rentalPeriodOptions } from '@/validations/quote';
 
@@ -32,12 +33,14 @@ export function QuoteForm(props: QuoteFormProps) {
   const origin = props.origin ?? 'site-orcamento';
   const cart = useQuoteCart();
   const [submitted, setSubmitted] = useState(false);
+  const [whatsappRetryUrl, setWhatsappRetryUrl] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm({
     resolver: zodResolver(QuoteFormSchema),
     defaultValues: {
@@ -55,24 +58,35 @@ export function QuoteForm(props: QuoteFormProps) {
     },
   });
 
-  const onSubmit = async (data: z.infer<typeof QuoteFormSchema>) => {
-    setServerError(null);
+  const resolveCartItems = (data: z.infer<typeof QuoteFormSchema>) => {
+    if (cart.items.length > 0) {
+      return cart.items;
+    }
+    if (props.initialEquipment) {
+      return [
+        {
+          slug: props.initialEquipment.slug,
+          name: props.initialEquipment.name,
+          kind: 'equipment' as const,
+          quantity: 1,
+        },
+      ];
+    }
+    if (data.equipmentName?.trim()) {
+      return undefined;
+    }
+    return undefined;
+  };
 
-    const cartItems =
-      cart.items.length > 0
-        ? cart.items
-        : props.initialEquipment
-          ? [
-              {
-                slug: props.initialEquipment.slug,
-                name: props.initialEquipment.name,
-                kind: 'equipment' as const,
-              },
-            ]
-          : undefined;
+  const submitLead = async (data: z.infer<typeof QuoteFormSchema>) => {
+    setServerError(null);
+    setIsSubmitting(true);
+
+    const cartItems = resolveCartItems(data);
 
     if (!cartItems?.length && !data.equipmentName?.trim()) {
       setServerError('Adicione itens ao orçamento no catálogo ou informe um equipamento.');
+      setIsSubmitting(false);
       return;
     }
 
@@ -90,12 +104,30 @@ export function QuoteForm(props: QuoteFormProps) {
     const body = (await response.json()) as { error?: string; ok?: boolean };
 
     if (!response.ok) {
-      setServerError(body.error ?? 'Não foi possível enviar. Tente novamente ou use o WhatsApp.');
+      setServerError(body.error ?? 'Não foi possível registrar. Tente novamente.');
+      setIsSubmitting(false);
       return;
     }
 
+    const whatsappUrl = buildQuoteWhatsAppUrl({
+      name: data.name.trim(),
+      email: data.email.trim(),
+      phone: data.phone.trim(),
+      company: data.company?.trim() || undefined,
+      city: data.city.trim(),
+      rentalPeriod: data.rentalPeriod?.trim() || undefined,
+      message: data.message?.trim() || undefined,
+      cartItems,
+      equipmentName: cartItems?.[0]?.name ?? data.equipmentName?.trim(),
+      origin,
+    });
+
+    setWhatsappRetryUrl(whatsappUrl);
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+
     cart.clearCart();
     setSubmitted(true);
+    setIsSubmitting(false);
     props.onSuccess?.();
   };
 
@@ -105,26 +137,41 @@ export function QuoteForm(props: QuoteFormProps) {
         className="rounded-[var(--radius-card)] border border-green-200 bg-green-50 p-6"
         role="status"
       >
-        <p className="font-heading text-lg font-semibold text-neutral-900">Pedido enviado!</p>
+        <p className="font-heading text-lg font-semibold text-neutral-900">Quase pronto!</p>
         <p className="mt-2 text-sm text-neutral-600">
-          Recebemos sua solicitação. Nossa equipe comercial retorna em horário útil ({brand.hours}
-          ) com valores, disponibilidade e prazo.
+          O WhatsApp comercial deve ter aberto com sua mensagem em seu nome. Toque em{' '}
+          <strong>Enviar</strong> no WhatsApp para concluir — a equipe recebe pelo atendimento
+          automático do canal.
         </p>
-        <p className="mt-4 text-sm text-neutral-600">
-          Urgente? Ligue{' '}
-          <a className="font-medium text-primary hover:underline" href={`tel:+${brand.phone}`}>
-            {brand.phoneDisplay}
-          </a>
-          .
+        <p className="mt-2 text-sm text-neutral-600">
+          Também registramos sua solicitação internamente para controle da {brand.name}. Retorno em
+          horário útil ({brand.hours}).
         </p>
+        {whatsappRetryUrl ? (
+          <p className="mt-4 text-sm text-neutral-600">
+            O WhatsApp não abriu?{' '}
+            <a
+              className="font-medium text-primary hover:underline"
+              href={whatsappRetryUrl}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Abrir WhatsApp com sua mensagem
+            </a>{' '}
+            · Urgente:{' '}
+            <a className="font-medium text-primary hover:underline" href={`tel:+${brand.phone}`}>
+              {brand.phoneDisplay}
+            </a>
+          </p>
+        ) : null}
       </div>
     );
   }
 
-  const showManualEquipment = cart.count === 0 && !props.initialEquipment;
+  const showManualEquipment = cart.lineCount === 0 && !props.initialEquipment;
 
   return (
-    <form className="space-y-4" noValidate onSubmit={handleSubmit(onSubmit)}>
+    <form className="space-y-4" noValidate onSubmit={handleSubmit(submitLead)}>
       <Input
         autoComplete="name"
         error={errors.name?.message}
@@ -161,7 +208,7 @@ export function QuoteForm(props: QuoteFormProps) {
         {...register('city')}
       />
 
-      {props.initialEquipment && cart.count === 0 ? (
+      {props.initialEquipment && cart.lineCount === 0 ? (
         <div className="rounded-lg bg-primary-light px-4 py-3 text-sm text-neutral-800">
           Equipamento desta página: <strong>{props.initialEquipment.name}</strong> (será incluído se
           você não montar uma lista no carrinho).
@@ -210,12 +257,12 @@ export function QuoteForm(props: QuoteFormProps) {
       ) : null}
 
       <p className="text-xs text-neutral-500">
-        Ao enviar, você concorda em ser contatado pela {brand.name} sobre esta solicitação. Valores e
-        condições comerciais serão informados pela equipe (LGPD).
+        Ao continuar, sua solicitação é registrada para a equipe (e-mail interno) e você envia o
+        orçamento pelo WhatsApp em seu nome. Dados tratados conforme LGPD.
       </p>
 
-      <Button className="w-full sm:w-auto" disabled={isSubmitting} type="submit" variant="primary">
-        {isSubmitting ? 'Enviando…' : 'Enviar solicitação de orçamento'}
+      <Button className="w-full sm:w-auto" disabled={isSubmitting} type="submit" variant="whatsapp">
+        {isSubmitting ? 'Registrando…' : 'Enviar orçamento pelo WhatsApp'}
       </Button>
     </form>
   );
