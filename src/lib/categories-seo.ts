@@ -108,6 +108,20 @@ export const CATEGORIES_SEO: Record<EquipmentCategory, CategorySeoContent> = {
       'Navegue pelos equipamentos listados nesta página. Para busca rápida por nome, utilize a busca global no topo do site (atalho Ctrl+K).',
     ],
   },
+  acessorios: {
+    slug: 'acessorios',
+    h1: 'Locação de acessórios para obra em Belo Horizonte',
+    metaTitle: 'Locação de acessórios para construção civil em BH | Acesso Equipamentos',
+    metaDescription:
+      'Aluguel de ponteiras, punhos, cabos, mangueiras e acessórios para equipamentos de locação em BH e região metropolitana.',
+    paragraphs: [
+      'Acessórios complementam a locação de ferramentas, guinchos, bombas e demais equipamentos — ponteiras e talhadeiras por peso, punhos para furadeira ou martelo, cabos, mangueiras, chaves e peças para máquina de solda, entre outros itens do dia a dia da obra.',
+      'Na Acesso Equipamentos, em Belo Horizonte e região metropolitana, os acessórios são locados conforme disponibilidade de frota. Ao solicitar orçamento, informe o equipamento principal, o modelo ou peso desejado e o período de uso para que a equipe comercial confirme compatibilidade.',
+      'Fotos e especificações detalhadas podem variar conforme o lote disponível; valores sob consulta. A entrega e retirada seguem as mesmas condições da locação de equipamentos.',
+      'Combine acessórios com ferramentas elétricas, guinchos de coluna, bombas e andaimes na mesma proposta para simplificar a logística do canteiro.',
+      'Navegue pelo catálogo abaixo ou use a busca global (Ctrl+K) para localizar o item pelo nome.',
+    ],
+  },
   outros: {
     slug: 'outros',
     h1: 'Locação de equipamentos diversos para obra em Belo Horizonte',

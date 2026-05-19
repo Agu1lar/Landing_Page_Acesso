@@ -16,6 +16,7 @@ const categories: EquipmentCategory[] = [
   'concretagem',
   'andaimes-acesso',
   'ferramentas-eletricas',
+  'acessorios',
   'demolicao-perfuracao',
   'compactacao',
   'energia',

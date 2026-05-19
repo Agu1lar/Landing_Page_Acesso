@@ -31,6 +31,24 @@ MULTI_COPY: dict[str, list[str]] = {
         "piso-metalico-1-00x0-33m",
         "piso-metalico-1-50x0-37m-galv",
     ],
+    "ponteira-adicionar-para-todos-os-tamanhos": [
+        "ponteira-5-kg",
+        "ponteira-11-kg",
+        "ponteira-15-kg",
+        "ponteira-30-kg",
+    ],
+    "talhadeira-adicionar-para-todos-os-tamanhos": [
+        "talhadeira-5-kg",
+        "talhadeira-11-kg",
+        "talhadeira-15-kg",
+        "talhadeira-30-kg",
+    ],
+    "punho-martelo-15-16-17-18-19-kg": [
+        "punho-martelo-15-kg",
+        "punho-martelo-16-kg",
+        "punho-martelo-18-kg",
+        "punho-martelo-19-kg",
+    ],
 }
 ALLOWED = {".webp", ".jpg", ".jpeg", ".png"}
 EXT_PRIORITY = [".webp", ".jpg", ".jpeg", ".png"]

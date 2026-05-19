@@ -1,8 +1,16 @@
 import equipmentData from '@/data/equipamentos.json';
 import { buildSearchHaystack, matchesSearchQuery } from '@/lib/search';
 import type { Equipment, EquipmentCategory } from '@/types/equipment';
+import type { QuoteCartItemKind } from '@/types/quote-cart';
 
 const items = equipmentData as Equipment[];
+
+/** Maps catalog category to quote-cart item kind. */
+export function getEquipmentQuoteCartKind(
+  equipment: Pick<Equipment, 'category'>,
+): QuoteCartItemKind {
+  return equipment.category === 'acessorios' ? 'accessory' : 'equipment';
+}
 
 export function getAllEquipment(): Equipment[] {
   return items.filter((e) => e.available);

@@ -1,5 +1,6 @@
 import { EquipmentPhoto } from '@/components/marketing/EquipmentPhoto';
 import { AddToQuoteButton } from '@/components/quote-cart/AddToQuoteButton';
+import { getEquipmentQuoteCartKind } from '@/lib/equipment';
 import { Link } from '@/libs/I18nNavigation';
 import { CATEGORY_LABELS } from '@/types/equipment';
 import type { Equipment } from '@/types/equipment';
@@ -27,7 +28,11 @@ export function EquipmentCard(props: EquipmentCardProps) {
         <div className="mt-3">
           <AddToQuoteButton
             className="w-full"
-            item={{ slug: equipment.slug, name: equipment.name, kind: 'equipment' }}
+            item={{
+              slug: equipment.slug,
+              name: equipment.name,
+              kind: getEquipmentQuoteCartKind(equipment),
+            }}
             size="sm"
           />
         </div>

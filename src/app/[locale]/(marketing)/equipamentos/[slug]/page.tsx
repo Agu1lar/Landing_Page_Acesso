@@ -8,7 +8,12 @@ import { AddToQuoteButton } from '@/components/quote-cart/AddToQuoteButton';
 import { SpecTable } from '@/components/marketing/SpecTable';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { buildEquipmentWhatsAppUrl, equipmentSeoTitle } from '@/lib/brand';
-import { getAllSlugs, getEquipmentBySlug, getRelatedEquipment } from '@/lib/equipment';
+import {
+  getAllSlugs,
+  getEquipmentBySlug,
+  getEquipmentQuoteCartKind,
+  getRelatedEquipment,
+} from '@/lib/equipment';
 import { buildProductJsonLd } from '@/lib/json-ld';
 import { getDefaultOgImages, withSiteOpenGraph } from '@/lib/site-metadata';
 import { Link } from '@/libs/I18nNavigation';
@@ -105,7 +110,11 @@ export default async function EquipmentDetailPage(props: EquipmentDetailProps) {
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
             <AddToQuoteButton
-              item={{ slug: equipment.slug, name: equipment.name, kind: 'equipment' }}
+              item={{
+                slug: equipment.slug,
+                name: equipment.name,
+                kind: getEquipmentQuoteCartKind(equipment),
+              }}
               size="md"
             />
             <ConversionCtas

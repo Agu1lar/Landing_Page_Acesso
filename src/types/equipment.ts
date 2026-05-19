@@ -11,6 +11,7 @@ export type EquipmentCategory =
   | 'andaimes-acesso'
   | 'energia'
   | 'ferramentas-eletricas'
+  | 'acessorios'
   | 'outros';
 
 export type Equipment = {
@@ -33,5 +34,6 @@ export const CATEGORY_LABELS: Record<EquipmentCategory, string> = {
   'andaimes-acesso': 'Andaimes e acesso',
   energia: 'Energia',
   'ferramentas-eletricas': 'Ferramentas elétricas',
+  acessorios: 'Acessórios',
   outros: 'Outros',
 };
