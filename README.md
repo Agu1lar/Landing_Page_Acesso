@@ -1,189 +1,197 @@
 # Acesso Equipamentos — Site institucional e captação de orçamentos
 
-Site da **Acesso Equipamentos** (locação de equipamentos para construção e plataformas aéreas). O visitante consulta o catálogo, entende os serviços e solicita orçamento pelo formulário ou WhatsApp. Os pedidos são salvos no banco e o comercial pode receber aviso por e-mail.
+Site da **Acesso Equipamentos** (locação de equipamentos para construção civil e plataformas aéreas). O visitante consulta o catálogo, monta um orçamento com vários itens e quantidades, e envia o pedido pelo **WhatsApp** (fluxo principal para o cliente). O lead é salvo no banco e o comercial recebe **e-mail interno** de registro.
 
-**Preview atual (validação):** [https://landing-page-acesso.vercel.app/](https://landing-page-acesso.vercel.app/)
+**URL de produção / preview (sempre a versão mais nova):** [https://landing-page-acesso.vercel.app/](https://landing-page-acesso.vercel.app/)
 
-**Planejamento técnico detalhado:** [ROADMAP.temp.md](ROADMAP.temp.md) (mantido para a equipe de desenvolvimento)
+> Use só este domínio (ou o domínio oficial em Production na Vercel). Links de deploys antigos na lista da Vercel ficam congelados naquela versão — não atualizam sozinhos.
+
+**Planejamento técnico:** [ROADMAP.temp.md](ROADMAP.temp.md)
 
 ---
 
-## O que o site já oferece hoje
+## Números do catálogo (atual)
+
+| Métrica | Valor |
+|---------|------:|
+| Itens no catálogo | **148** (110 equipamentos + **38 acessórios**) |
+| Categorias | 9 (inclui **Acessórios**) |
+| Fotos publicadas | **~125** itens com imagem (`equipment-image-manifest.json`) |
+| Acessórios com foto | **34 / 38** (faltam 4 — ver roadmap) |
+
+---
+
+## O que já está implementado
 
 ### Páginas públicas
 
-| Página | Endereço (exemplo) | O que o visitante encontra |
-|--------|-------------------|----------------------------|
-| Início | `/` | Apresentação da empresa, categorias, depoimentos, como funciona |
-| Equipamentos | `/equipamentos` | Lista com **110 itens** do inventário |
-| Detalhe do equipamento | `/equipamentos/[nome]` | Ficha técnica, especificações (plataformas aéreas), equipamentos relacionados |
-| Categorias | `/categorias/[categoria]` | Páginas por tipo (betoneiras, compactadores, plataformas, etc.) |
-| Solicitar orçamento | `/orcamento` | Formulário completo (cidade, período, equipamento de interesse) |
-| Treinamento NR | `/treinamento-plataformas-aereas` | Informações sobre treinamento em plataformas aéreas |
-| Sobre | `/sobre` | História, região atendida (RMBH), credenciais |
-| Contato | `/contato` | Telefone, WhatsApp, horário comercial |
-| FAQ | `/faq` | Perguntas frequentes |
-| Privacidade | `/privacidade` | Política de dados (LGPD) |
+| Página | Rota | Conteúdo |
+|--------|------|----------|
+| Início | `/` | Apresentação, categorias (incl. acessórios), depoimentos, como funciona |
+| Equipamentos | `/equipamentos` | Catálogo completo com busca e filtro por categoria |
+| Detalhe | `/equipamentos/[slug]` | Ficha, specs (plataformas aéreas), foto, relacionados, carrinho |
+| Categorias | `/categorias/[slug]` | SEO por linha + listagem (ex.: `/categorias/acessorios`) |
+| Orçamento | `/orcamento` | Formulário + painel do carrinho |
+| Treinamento NR | `/treinamento-plataformas-aereas` | Plataformas aéreas / NR |
+| Sobre, Contato, FAQ, Privacidade | `/sobre`, `/contato`, `/faq`, `/privacidade` | Institucional e LGPD |
 
-### Funcionalidades de conversão
+### Carrinho de orçamento
 
-- **Carrinho de orçamento** — adicione vários equipamentos (e depois acessórios) e envie um único formulário; valores informados só pelo comercial após o contato.
-- **Formulário de orçamento** — dados salvos no banco (PostgreSQL na nuvem).
-- **E-mail ao comercial** — quando configurado no servidor (Resend); o lead continua salvo mesmo se o e-mail falhar.
-- **WhatsApp** — botão no site com mensagem contextual (página, equipamento, origem).
-- **Busca** — barra no topo e atalho **Ctrl+K** no computador.
-- **Mobile** — layout pensado para quem acessa da obra pelo celular.
+- Vários **equipamentos e acessórios** no mesmo pedido.
+- **Quantidade** por item (stepper no card e na página de detalhe).
+- Persistência no navegador (`localStorage`, migração automática de versões antigas).
+- Painel do carrinho em `/orcamento` com edição de quantidades.
 
-### SEO e confiança
+### Envio do orçamento (WhatsApp + registro interno)
 
-- Títulos e descrições por página e por equipamento.
-- Dados estruturados para buscadores (empresa e produtos).
-- Imagens de compartilhamento (redes sociais).
-- Mapa do site e regras para robôs de busca.
-- Preview no Vercel **não é indexado** como site final (evita duplicar conteúdo antes do domínio oficial).
+1. Cliente preenche o formulário e clica em **Enviar orçamento pelo WhatsApp**.
+2. O site grava o lead no **PostgreSQL** (`items_json` com itens e quantidades).
+3. Dispara **e-mail interno** ao comercial (Resend), assunto `[Registro interno]`.
+4. Abre o **WhatsApp** com mensagem em primeira pessoa para o cliente enviar ao comercial.
 
-### Validação do preview
+### Catálogo e conteúdo
 
-- Roteiro de testes: [docs/PREVIEW-VALIDACAO.md](docs/PREVIEW-VALIDACAO.md)
+- **110 equipamentos** do inventário original (betoneiras, plataformas, andaimes, ferramentas, etc.).
+- **38 acessórios** (ponteiras/talhadeiras por peso, punhos, cabo, mangueira, chaves, peças de solda, etc.).
+- **Especificações das 14 plataformas aéreas** revisadas no JSON (alturas/tipos corrigidos).
+- **Nomes padronizados** no catálogo (`normalize-equipment-names.py`).
+- **Fotos da frota:** pasta `public/equipamentos/{slug}.ext` + script `sync-equipment-photos.py` + aliases em `equipment-photo-aliases.json` (nomes de arquivo com instruções, ex.: “adicionar para todos os tamanhos”).
 
-### Fotos da frota (Sprint 9)
+### UX, SEO e conversão
 
-- Guia rápido: [docs/SPRINT-9-FOTOS.md](docs/SPRINT-9-FOTOS.md) — coloque `public/equipamentos/{slug}.webp` ou use o script `sync-equipment-photos.py`
+- Busca global no header + **Ctrl+K**.
+- WhatsApp contextual (página, equipamento, origem).
+- JSON-LD (empresa e produtos), Open Graph, sitemap, robots (preview **noindex**).
+- Layout marketing corrigido (footer/server components sem erro de `getTranslations` no client).
+- Mobile-first; CTAs com WhatsApp em destaque.
+
+### Infraestrutura
+
+- Deploy automático na **Vercel** a cada push em `main`.
+- Banco **Neon** (produção) + migrações Drizzle (`leads`, `items_json`).
+- Rate limit no `POST /api/leads` (Arcjet).
+- Testes: unitários (`quote-whatsapp`, etc.) e E2E Playwright (fluxos de marketing).
 
 ---
 
-## Como rodar o projeto no seu computador
+## O que ainda falta (resumo)
 
-### O que você precisa
+Detalhamento por sprint em [ROADMAP.temp.md](ROADMAP.temp.md).
 
-- **Node.js 22** ou superior
-- Conta **Clerk** (login — usada pelo boilerplate; o site público não exige login do visitante)
-- Banco **PostgreSQL** local (automático ao rodar `dev`) ou URL do **Neon** para apontar à nuvem
+| Prioridade | Item |
+|------------|------|
+| Alta | **Domínio oficial** `acessoequipamentos.com.br` (Sprint 10) |
+| Alta | **4 fotos de acessórios:** punho esmerilhadeira, prato de borracha, maleta, pinça solda |
+| Alta | Cases / logos de clientes na home |
+| Média | Analytics em produção (PostHog / GA) + banner de cookies |
+| Média | CI completo no GitHub (lint + types + e2e em todo PR) |
+| Média | Polish Sprint 7 (a11y, skeletons, PageSpeed alvo) |
+| Planejado | **Painel admin** (Sprint 11): leads CSV, CRUD catálogo, métricas |
+| Planejado | Docker local opcional (Sprint 7.9) |
+| Futuro | CMS/ERP, reservas online, blog, disponibilidade em tempo real |
 
-### Passo a passo
+---
 
-1. **Clonar o repositório** e entrar na pasta do projeto.
+## Fotos e acessórios (operacional)
 
-2. **Copiar variáveis de ambiente:**
-   ```text
-   Copie .env.example para .env.local e preencha os valores.
-   ```
-   O arquivo `.env.example` lista tudo com comentários. O mínimo para subir localmente:
-   - `CLERK_SECRET_KEY` e `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`
-   - `DATABASE_URL` (local: o exemplo com porta 5433; nuvem: Neon com `sslmode=require`)
+1. Coloque arquivos em `public/equipamentos/_incoming/` (o nome pode trazer instruções, ex.: `ponteira (adicionar para todos os tamanhos).webp`).
+2. Rode: `python docs/scripts/sync-equipment-photos.py`
+3. Commit das imagens em `public/equipamentos/` e do `equipment-image-manifest.json`.
 
-3. **Instalar dependências:**
-   ```shell
-   npm install
-   ```
+Guia: [docs/SPRINT-9-FOTOS.md](docs/SPRINT-9-FOTOS.md)
 
-4. **Subir o site em modo desenvolvimento:**
-   ```shell
-   npm run dev
-   ```
+Novos acessórios no catálogo: `python docs/scripts/seed-acessorios.py` (idempotente).
 
-5. Abrir no navegador: **http://localhost:3000**
+Validação do preview: [docs/PREVIEW-VALIDACAO.md](docs/PREVIEW-VALIDACAO.md)
 
-Na primeira execução, o projeto sobe um banco PostgreSQL local e aplica as migrações sozinho. Não é necessário Docker para o dia a dia (há plano opcional de Docker no roadmap).
+---
 
-### E-mail de leads (opcional no local)
+## Como rodar localmente
 
-Para testar notificações por e-mail, configure no `.env.local`:
+### Requisitos
 
-- `RESEND_API_KEY`
-- `RESEND_FROM_EMAIL` (em teste: `Acesso Equipamentos <onboarding@resend.dev>`)
-- `LEADS_NOTIFY_EMAIL` — com domínio de teste do Resend, use o **mesmo e-mail da conta Resend**; depois de verificar `acessoequipamentos.com.br`, use o e-mail comercial.
+- **Node.js 22+**
+- **Clerk** (chaves no `.env.local` — boilerplate; visitante do site não precisa login)
+- **PostgreSQL** (PGlite sobe com `npm run dev` na porta 5433) ou **Neon** via `DATABASE_URL`
 
-### Comandos úteis (desenvolvimento)
+### Passos
 
-| Comando | Para quê |
-|---------|----------|
-| `npm run dev` | Site local com atualização automática |
-| `npm run build-local` | Simular build de produção no PC |
-| `npm run lint` | Verificar qualidade do código |
-| `npm run check:types` | Verificar tipos TypeScript |
-| `npm run test` | Testes automatizados unitários |
-| `npm run test:e2e` | Testes do fluxo no navegador (Playwright) |
+```shell
+# 1. Copiar ambiente
+cp .env.example .env.local   # Windows: copie manualmente
+
+# 2. Instalar e subir
+npm install
+npm run dev
+```
+
+Abrir **http://localhost:3000**
+
+Migrações: aplicadas no `dev` ou `npm run db:migrate` com `DATABASE_URL` apontando para Neon/local.
+
+### E-mail de leads (opcional)
+
+No `.env.local` / Vercel:
+
+- `RESEND_API_KEY`, `RESEND_FROM_EMAIL`, `LEADS_NOTIFY_EMAIL`
+
+### Comandos úteis
+
+| Comando | Uso |
+|---------|-----|
+| `npm run dev` | Desenvolvimento |
+| `npm run build-local` | Build de produção local |
+| `npm run check:types` | TypeScript |
+| `npm run lint` | ESLint |
+| `npm run test` | Testes unitários |
+| `npm run test:e2e` | Playwright |
 
 ---
 
 ## Publicação (Vercel)
 
-O site está hospedado na **Vercel**. Cada push na branch `main` gera um novo deploy do preview.
+- **Branch de produção:** `main`
+- **Build:** `npm run build:next` (ver `vercel.json`)
+- **URL estável:** `https://landing-page-acesso.vercel.app`
 
-**Variáveis obrigatórias no Vercel** (ambientes **Production** e **Preview**):
+### Variáveis (Production + Preview)
 
-- `CLERK_SECRET_KEY`
-- `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`
-- `DATABASE_URL` (Neon)
+| Variável | Obrigatória |
+|----------|:-----------:|
+| `CLERK_SECRET_KEY`, `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | Sim |
+| `DATABASE_URL` (Neon) | Sim |
+| `NEXT_PUBLIC_APP_URL` | Recomendada |
+| `RESEND_API_KEY`, `RESEND_FROM_EMAIL`, `LEADS_NOTIFY_EMAIL` | Para e-mail de leads |
+| `NEXT_PUBLIC_SENTRY_DISABLED=true` | Preview sem Sentry |
 
-**Recomendadas:**
+Guia: [docs/DEPLOY-PREVIEW-VERCEL.md](docs/DEPLOY-PREVIEW-VERCEL.md)
 
-- `NEXT_PUBLIC_APP_URL` — URL do preview ou domínio oficial
-- `RESEND_API_KEY`, `RESEND_FROM_EMAIL`, `LEADS_NOTIFY_EMAIL` — aviso de novos orçamentos
-- `NEXT_PUBLIC_SENTRY_DISABLED=true` — desliga monitoramento de erros no preview, se não estiver em uso
+### Atualizar produção
 
-Guia de deploy: [docs/DEPLOY-PREVIEW-VERCEL.md](docs/DEPLOY-PREVIEW-VERCEL.md) (se existir no repositório)
+```shell
+git push origin main
+```
 
----
-
-## Próximas entregas (roadmap resumido)
-
-Detalhes, datas e tarefas técnicas estão em [ROADMAP.temp.md](ROADMAP.temp.md). Visão para negócio e stakeholders:
-
-### Em breve — conteúdo e go-live
-
-| Entrega | Descrição |
-|---------|-----------|
-| **Fotos reais da frota** | Substituir placeholders pelas fotos dos equipamentos |
-| **Cases e logos de clientes** | Prova social em home e sobre |
-| **Domínio oficial** | Apontar `acessoequipamentos.com.br` para o site novo (SSL, redirects) |
-| **Analytics em produção** | PostHog / Google Analytics para campanhas e origem do tráfego |
-
-### Melhorias de experiência (em andamento)
-
-- Ajustes finos de layout no celular e no header.
-- Banner de cookies, se analytics for ativado.
-- Pequenos refinamentos de acessibilidade e performance.
-
-### Fase 2 — Painel administrativo
-
-Área logada para a equipe Acesso, sem depender de desenvolvedor para tudo:
-
-| Módulo | O que permite |
-|--------|----------------|
-| **Leads** | Ver pedidos de orçamento, exportar planilha (CSV) |
-| **Equipamentos** | Cadastrar, editar e publicar fotos no catálogo |
-| **Analytics** | Visitas, cliques no WhatsApp, origem das campanhas |
-| **Configurações** | Ajustes gerais (perfil administrador) |
-
-Papéis previstos: **admin** (tudo) e **comercial** (leads e relatórios, sem alterar catálogo).
-
-### Futuro (após o site estável)
-
-- Disponibilidade de equipamentos em tempo real e reservas online.
-- Integração com ERP (ex.: Omie).
-- Portal do cliente com histórico de locações.
-- Blog ou dicas para SEO.
-- Ambiente **Docker** opcional para quem preferir subir banco e app em containers no PC.
+Aguarde deploy **Ready** no topo da lista (**Production**, commit mais recente). Não use **Redeploy** em deploys antigos da lista.
 
 ---
 
 ## Documentação no repositório
 
-| Arquivo / pasta | Conteúdo |
-|-----------------|----------|
-| [ROADMAP.temp.md](ROADMAP.temp.md) | Roadmap completo por sprint |
-| [docs/PREVIEW-VALIDACAO.md](docs/PREVIEW-VALIDACAO.md) | Checklist de validação do preview |
-| [docs/SPRINT-8-STATUS.md](docs/SPRINT-8-STATUS.md) | Status do preview (Sprint 8) |
-| [docs/inventario-equipamentos.csv](docs/inventario-equipamentos.csv) | Inventário de 110 equipamentos |
-| [.env.example](.env.example) | Modelo de variáveis de ambiente |
+| Arquivo | Conteúdo |
+|---------|----------|
+| [ROADMAP.temp.md](ROADMAP.temp.md) | Sprints, feito vs pendente |
+| [docs/PREVIEW-VALIDACAO.md](docs/PREVIEW-VALIDACAO.md) | Checklist de validação |
+| [docs/SPRINT-9-FOTOS.md](docs/SPRINT-9-FOTOS.md) | Fluxo de fotos |
+| [docs/DEPLOY-PREVIEW-VERCEL.md](docs/DEPLOY-PREVIEW-VERCEL.md) | Deploy Vercel |
+| [docs/inventario-equipamentos.csv](docs/inventario-equipamentos.csv) | Inventário base (110 itens) |
+| [.env.example](.env.example) | Variáveis de ambiente |
 
 ---
 
-## Base técnica (referência)
+## Base técnica
 
-O projeto foi iniciado a partir do **Next.js Boilerplate** (React, TypeScript, Tailwind). Serviços em uso ou previstos: **Vercel** (hospedagem), **Neon** (banco), **Clerk** (autenticação futura do admin), **Resend** (e-mail), **Arcjet** (proteção contra abuso no formulário).
+**Next.js** (App Router), **TypeScript**, **Tailwind v4**, **next-intl** (pt-BR), **Drizzle** + **PostgreSQL**, **Zod**, **React Hook Form**, **Resend**, **Arcjet**, **Clerk** (admin futuro), hospedagem **Vercel**, banco **Neon**.
 
 ---
 

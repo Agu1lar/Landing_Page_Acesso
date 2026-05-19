@@ -6,19 +6,36 @@
 >
 > **Stack base:** Next.js 16 (App Router), TypeScript, Tailwind CSS, next-intl, Drizzle ORM, PostgreSQL/PGlite, Zod, React Hook Form.
 >
-> **Última atualização:** 2026-05-19 (Sprint 7.9 Docker planejado; fundo marca; avisos README)
+> **Última atualização:** 2026-05-20 (catálogo 148 itens, carrinho, WhatsApp orçamento, fotos ~125, acessórios)
 >
 > ### Status rápido (implementado no código)
 > | Sprint | Status |
 > |--------|--------|
-> | 0–4 | ✅ Catálogo 110 itens, home, sobre, contato, FAQ, busca, CTAs, depoimentos, treinamento |
-> | 5 | ✅ Formulário + leads + e-mail Resend (5.7 — configurar `RESEND_*` no Vercel) |
+> | 0–4 | ✅ Catálogo base 110 itens, home, sobre, contato, FAQ, busca, CTAs, depoimentos, treinamento, **relacionados no detalhe** |
+> | 5 | ✅ Formulário + leads + Resend + **carrinho multi-item** + **`items_json`** + **orçamento via WhatsApp** (e-mail interno) |
 > | 6 | ✅ JSON-LD, Privacidade, OG, robots preview noindex (cookie banner ⏳ se PostHog) |
-> | 7 | 🟡 Parcial (header compacto, polish pendente) |
+> | 7 | 🟡 Parcial (CTA hierarquia ✅; a11y, skeleton, PageSpeed alvo ⏳) |
 > | **7.9** | 📋 **Planejado** — Docker Compose (app, db, studio por serviço) |
 > | 8 | ✅ Preview · E2E · sign-off **Flaviano** (2026-05-19) — ver `docs/SPRINT-8-STATUS.md` |
-> | 9–10 | ⏳ Fotos reais · domínio após aprovação |
+> | 9 | 🟡 **Parcial** — fotos ~125/148; **38 acessórios**; specs plataformas revisadas; cases/logos ⏳ |
+> | 10 | ⏳ Domínio oficial + go-live (`acessoequipamentos.com.br`) |
 > | **11** | 📋 **Planejado** — Painel administrativo + analytics (ver seção dedicada) |
+>
+> ### Entregas incrementais (pós sign-off Sprint 8)
+>
+> | Entrega | Status | Referência |
+> |---------|--------|------------|
+> | Carrinho com quantidade por item | ✅ | `QuoteCartProvider`, `QuoteCartQuantityStepper` |
+> | Lead com vários itens (`items_json`) | ✅ | `migrations/0002_leads_cart_items.sql` |
+> | Orçamento: WhatsApp (cliente) + e-mail interno | ✅ | `quote-whatsapp.ts`, `QuoteForm.tsx` |
+> | Shell marketing (server/client) | ✅ | `MarketingShell.tsx` (sem `MarketingClientShell`) |
+> | Fotos: sync + aliases + multi-cópia (pesos) | ✅ | `sync-equipment-photos.py`, `equipment-photo-aliases.json` |
+> | Nomes padronizados no catálogo | ✅ | `normalize-equipment-names.py` |
+> | Specs 14 plataformas aéreas corrigidas | ✅ | `fix-platform-specs.py`, `equipamentos.json` |
+> | Categoria **acessorios** (38 itens) | ✅ | `seed-acessorios.py` — 34 com foto |
+> | Deploy Vercel `main` | ✅ | `landing-page-acesso.vercel.app` — commit `73ad35b`+ |
+>
+> **Ainda sem foto (acessórios):** `punho-para-esmerilhadeira`, `prato-de-borracha`, `maleta`, `pinca-para-maquina-de-solda`.
 
 ---
 
@@ -292,8 +309,12 @@ Escala de catálogo, prova social, otimizações e ferramentas para o time comer
 | 5.7 | Notificação | ✅ E-mail via Resend (`RESEND_API_KEY` + `LEADS_NOTIFY_EMAIL`) |
 | 5.8 | Página `/orcamento` | ✅ Formulário funcional |
 | 5.9 | **WhatsApp contextual** | ✅ `buildWhatsAppMessage` + slug + origem por página |
+| 5.10 | **Carrinho multi-item** | ✅ `QuoteCartProvider` — equipamento + acessório, persistência v2 |
+| 5.11 | **Quantidade por item** | ✅ Stepper no card e detalhe; totais no painel `/orcamento` |
+| 5.12 | **`items_json` no lead** | ✅ Migration `0002_leads_cart_items.sql` + API + e-mail |
+| 5.13 | **Orçamento via WhatsApp** | ✅ POST `/api/leads` → e-mail `[Registro interno]` → `wa.me` com mensagem 1ª pessoa |
 
-**Critério de saída:** lead salvo no banco + e-mail/notificação recebida em ambiente de teste. **Configurar** `RESEND_API_KEY` e `LEADS_NOTIFY_EMAIL` na Vercel para produção.
+**Critério de saída:** lead salvo no banco (com itens/quantidades) + e-mail interno + cliente redirecionado ao WhatsApp. **Configurar** `RESEND_*` e `LEADS_NOTIFY_EMAIL` na Vercel para produção.
 
 ---
 
@@ -393,18 +414,21 @@ Escala de catálogo, prova social, otimizações e ferramentas para o time comer
 
 ### Sprint 9 — Conteúdo e diferenciação (pós-aprovação preview)
 
-| ID | Tarefa | Prioridade | Ref. concorrentes |
-|----|--------|------------|-------------------|
-| 9.1 | Fotos reais da frota | Alta | Todos (gap vs Acesso) |
-| 9.2 | Cases de obra / logos clientes | Alta | Santos, Lokaforte |
-| 9.3 | Expandir textos long-tail | Alta | Central Loc, Loca Exata |
-| 9.4 | Blog ou `/dicas` (SEO informacional) | Média | Lokaforte |
-| 9.5 | Avaliar CMS (Sanity/Payload) | Média | Substituído por **Sprint 11** (admin próprio) |
-| 9.6 | ~~Painel `/admin/leads`~~ | — | Expandido → **Sprint 11** completo |
-| 9.7 | Landing por bairro/região RMBH (opcional) | Baixa | Lokaforte |
-| 9.8 | Testes A/B de CTA (PostHog) | Baixa | — |
+| ID | Tarefa | Prioridade | Status |
+|----|--------|------------|--------|
+| 9.1 | Fotos reais da frota | Alta | 🟡 **~125/148** com foto (`equipment-image-manifest.json`); script + aliases |
+| 9.1a | **Acessórios no catálogo** | Alta | ✅ 38 itens, categoria `acessorios`, 34 fotos |
+| 9.1b | **4 fotos pendentes (acessórios)** | Alta | ⏳ punho esmerilhadeira, prato borracha, maleta, pinça solda |
+| 9.1c | Nomes e specs plataformas | Alta | ✅ `normalize-equipment-names.py`, `fix-platform-specs.py` |
+| 9.2 | Cases de obra / logos clientes | Alta | ⏳ |
+| 9.3 | Expandir textos long-tail | Alta | ⏳ |
+| 9.4 | Blog ou `/dicas` (SEO informacional) | Média | ⏳ |
+| 9.5 | Avaliar CMS (Sanity/Payload) | Média | 📋 Substituído por **Sprint 11** |
+| 9.6 | ~~Painel `/admin/leads`~~ | — | → **Sprint 11** |
+| 9.7 | Landing por bairro/região RMBH (opcional) | Baixa | ⏳ |
+| 9.8 | Testes A/B de CTA (PostHog) | Baixa | ⏳ |
 
-**Critério de saída:** conteúdo diferenciado publicado no preview; pronto para apontar domínio.
+**Critério de saída:** conteúdo diferenciado no preview; **fotos críticas** sem placeholder nos destaques; pronto para Sprint 10 (domínio).
 
 ---
 
@@ -649,7 +673,7 @@ Fonte: [docs/CONCORRENTES-REFERENCIAS.md](docs/CONCORRENTES-REFERENCIAS.md)
 | Páginas por equipamento (long-tail) | ✅ 110 slugs SSG | Sprint 3 |
 | Números na home (credibilidade) | Parcial | 4.4 |
 | Depoimentos Google pt-BR | ✅ | 4.9 |
-| Equipamentos relacionados | Pendente | 3.9 |
+| Equipamentos relacionados | ✅ | 3.9 / `getRelatedEquipment` |
 | Hierarquia CTA (sem excesso de canais) | ✅ | 7.8 |
 | Alinhar Google Meu Negócio (NAP) | Pendente | 6.12 |
 | Domínio / hospedagem / SSL | Adiado | **10** (não Sprint 0) |
@@ -687,6 +711,7 @@ Fonte: [docs/CONCORRENTES-REFERENCIAS.md](docs/CONCORRENTES-REFERENCIAS.md)
 4. **Demolição / perfuração** — marteletes, rompedores, britadeiras
 5. **Energia e iluminação** — geradores, torres (se aplicável)
 6. **Acesso e andaimes** — treliças, escadas, linhas de vida (se aplicável)
+7. **Acessórios** — ponteiras, punhos, cabos, mangueiras, peças para solda, etc. (**38 itens**)
 
 *Ajustar conforme frota real da empresa.*
 
@@ -899,7 +924,7 @@ Uma tarefa só está **Done** quando:
 **MVP Go-live (Sprint 10) Done** quando:
 
 - [ ] Todas as rotas da Fase 1 no domínio oficial
-- [ ] Mínimo 8 equipamentos com foto real ou aprovada
+- [x] Maioria da frota com foto (~125 itens) — revisar destaques sem imagem antes do domínio
 - [ ] Formulário salva lead + notificação funciona
 - [ ] WhatsApp testado em iOS e Android
 - [ ] Sitemap no Search Console
@@ -915,7 +940,7 @@ Uma tarefa só está **Done** quando:
 - [x] Busca global no header (Ctrl+K) — **diferencial vs concorrentes**
 - [ ] Comparador de equipamentos (2–3 itens)
 - [ ] Calculadora rápida de período (dias × diária estimada)
-- [ ] “Equipamentos relacionados” no detalhe → **Sprint 3.9**
+- [x] “Equipamentos relacionados” no detalhe — **implementado**
 - [ ] Multi-unidade / filiais por cidade
 - [ ] Disponibilidade (`disponivel: false` com badge “consulte prazo”)
 
