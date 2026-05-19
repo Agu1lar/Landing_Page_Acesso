@@ -4,9 +4,13 @@ import { notFound } from 'next/navigation';
 import { ConversionCtas } from '@/components/marketing/ConversionCtas';
 import { EquipmentCard } from '@/components/marketing/EquipmentCard';
 import { SpecTable } from '@/components/marketing/SpecTable';
+import { JsonLd } from '@/components/seo/JsonLd';
 import { buildEquipmentWhatsAppUrl, equipmentSeoTitle } from '@/lib/brand';
 import { getAllSlugs, getEquipmentBySlug, getRelatedEquipment } from '@/lib/equipment';
+import { buildProductJsonLd } from '@/lib/json-ld';
+import { getDefaultOgImages, withSiteOpenGraph } from '@/lib/site-metadata';
 import { Link } from '@/libs/I18nNavigation';
+import { getBaseUrl } from '@/utils/Helpers';
 import { CATEGORY_LABELS } from '@/types/equipment';
 import { resolveAppLocale } from '@/utils/locale';
 
@@ -24,10 +28,19 @@ export async function generateMetadata(props: EquipmentDetailProps): Promise<Met
   if (!equipment) {
     return { title: 'Equipamento' };
   }
-  return {
+  const pageUrl = `${getBaseUrl()}/equipamentos/${equipment.slug}`;
+
+  return withSiteOpenGraph({
     title: equipmentSeoTitle(equipment.name),
     description: equipment.shortDescription,
-  };
+    alternates: { canonical: pageUrl },
+    openGraph: {
+      title: equipment.name,
+      description: equipment.shortDescription,
+      url: pageUrl,
+      images: getDefaultOgImages(`/equipamentos/${equipment.slug}/opengraph-image`),
+    },
+  });
 }
 
 export default async function EquipmentDetailPage(props: EquipmentDetailProps) {
@@ -48,7 +61,9 @@ export default async function EquipmentDetailPage(props: EquipmentDetailProps) {
   const related = getRelatedEquipment(slug);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+    <>
+      <JsonLd data={buildProductJsonLd(equipment)} />
+      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <Link className="text-sm font-medium text-primary hover:underline" href="/equipamentos">
         ← {t('back')}
       </Link>
@@ -102,5 +117,6 @@ export default async function EquipmentDetailPage(props: EquipmentDetailProps) {
         </section>
       )}
     </div>
+    </>
   );
 }

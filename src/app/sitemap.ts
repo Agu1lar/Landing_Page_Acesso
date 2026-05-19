@@ -15,6 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/contato',
     '/orcamento',
     '/faq',
+    '/privacidade',
   ];
 
   const categoryRoutes = ALL_EQUIPMENT_CATEGORIES.map((slug) => `/categorias/${slug}`);

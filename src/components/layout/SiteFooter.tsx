@@ -44,6 +44,11 @@ export async function SiteFooter() {
                 Orçamento
               </Link>
             </li>
+            <li>
+              <Link className="hover:text-white" href="/privacidade">
+                {t('privacy_link')}
+              </Link>
+            </li>
           </ul>
         </div>
         <div>

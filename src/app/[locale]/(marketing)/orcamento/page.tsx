@@ -56,7 +56,7 @@ export default async function OrcamentoPage(props: PageProps) {
         />
       </div>
 
-      <aside className="mt-10 rounded-[var(--radius-card)] border border-neutral-200 bg-neutral-50 p-6">
+      <aside className="mt-10 rounded-[var(--radius-card)] border border-neutral-200 bg-background-muted p-6">
         <h2 className="font-heading text-lg font-semibold text-neutral-900">Prefere falar agora?</h2>
         <p className="mt-2 text-sm text-neutral-600">
           WhatsApp · Telefone {brand.phoneDisplay} · {brand.hours}

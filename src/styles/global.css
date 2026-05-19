@@ -5,7 +5,9 @@
 @theme {
   --color-primary: #c41e24;
   --color-primary-hover: #a0181e;
-  --color-primary-light: #fef2f2;
+  --color-primary-light: #f5e8e8;
+  --color-background: #faf5f5;
+  --color-background-muted: #f3ecec;
   --color-primary-foreground: #ffffff;
 
   --color-neutral-900: #0f172a;
@@ -35,7 +37,7 @@
   }
 
   body {
-    @apply bg-neutral-50 font-body text-neutral-800 antialiased;
+    @apply bg-background font-body text-neutral-800 antialiased;
   }
 
   h1,

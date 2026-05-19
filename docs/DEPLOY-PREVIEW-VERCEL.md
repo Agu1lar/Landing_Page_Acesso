@@ -50,7 +50,7 @@ NEXT_PUBLIC_SENTRY_DISABLED=true
 
 5. **Deploy** → aguarde build verde.
 6. Copie a URL `https://….vercel.app` e cole em `docs/PREVIEW-VALIDACAO.md` (campo do link).
-7. Envie ao Cezar o arquivo [PREVIEW-VALIDACAO.md](./PREVIEW-VALIDACAO.md).
+7. Valide com o checklist em [PREVIEW-VALIDACAO.md](./PREVIEW-VALIDACAO.md) e registre o sign-off.
 
 ---
 
@@ -94,10 +94,25 @@ No preview, testar manualmente:
 
 | Erro | Solução |
 |------|---------|
-| Build falha em `Env.ts` | Faltam `CLERK_*` ou `DATABASE_URL` no painel Vercel |
+| **Build Error: Invalid environment variables** | No Vercel → **Settings → Environment Variables**, marque **Production** e **Preview** e adicione as 4 obrigatórias abaixo. Redeploy depois. |
+| Build falha em `Env.ts` | Mesmo caso: faltam `CLERK_*` ou `DATABASE_URL` no painel (não basta só no `.env.local`) |
 | `db:migrate` falha no build padrão | Trocar Build Command para `npm run build:next` |
 | Página 404 em rotas | Confirmar `pt-BR` na URL: `/pt-BR` ou redirect do next-intl |
 | Clerk em páginas sign-in | Normal no MVP; marketing não depende de login |
+
+### Checklist obrigatório no Vercel (copiar do `.env.local`)
+
+| Variável | Production | Preview |
+|----------|:------------:|:-------:|
+| `CLERK_SECRET_KEY` | ✓ | ✓ |
+| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | ✓ | ✓ |
+| `DATABASE_URL` | ✓ (Neon) | ✓ |
+| `NEXT_PUBLIC_APP_URL` | URL do domínio ou `https://landing-page-acesso.vercel.app` | URL do preview |
+| `NEXT_PUBLIC_SENTRY_DISABLED` | `true` (opcional) | `true` |
+
+**Resend (e-mail de lead):** só depois do build passar — `RESEND_API_KEY`, `LEADS_NOTIFY_EMAIL`, `RESEND_FROM_EMAIL`.
+
+> `DATABASE_URL` use `sslmode=require` no final (não `sslmode=req`).
 
 ---
 

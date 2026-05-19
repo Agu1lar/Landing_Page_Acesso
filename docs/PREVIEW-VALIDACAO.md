@@ -1,21 +1,19 @@
 # Roteiro de validação — Preview da landing (Sprint 8)
-https://landing-page-acesso.vercel.app/
+
 | Campo | Valor |
 |-------|-------|
-| **Para** | Cezar (negócio) + equipe Acesso |
+| **Para** | Flaviano Queiroz (aprovação) + equipe Acesso |
 | **Preparado por** | Flaviano Queiroz |
-| **Data** | 2026-05-18 |
+| **Data** | 2026-05-19 |
 | **Objetivo** | Aprovar o novo site **antes** de apontar domínio oficial |
 
 ---
 
-## Como usar este documento
+## Link do preview
 
-1. Abra o **link de preview** (Vercel) no celular e no computador.
-2. Percorra cada seção abaixo e marque **OK** ou anote o ajuste desejado.
-3. Ao final, envie o sign-off (WhatsApp ou e-mail) conforme modelo no fim.
+**https://landing-page-acesso.vercel.app/**
 
-> **Link do preview:** _[preencher após deploy — ex.: `https://landpage-acesso-xxx.vercel.app`]_
+Teste no **celular** e no **computador**. Percorra as seções abaixo e marque **OK** ou anote o ajuste.
 
 ---
 
@@ -45,7 +43,8 @@ https://landing-page-acesso.vercel.app/
 
 ## 3. Plataforma elevatória (diferencial)
 
-Abra um item aéreo, por exemplo: **Plataforma elevatória HB 1430**.
+Abra um item aéreo, por exemplo: **Plataforma elevatória HB 1430**  
+URL: `/equipamentos/plataforma-elevatoria-hb-1430`
 
 | # | Verificar | OK | Ajuste |
 |---|-----------|:--:|--------|
@@ -79,11 +78,11 @@ Abra um item aéreo, por exemplo: **Plataforma elevatória HB 1430**.
 | # | Verificar | OK | Ajuste |
 |---|-----------|:--:|--------|
 | 5.1 | Endereço **Praça Chuí, 100** e telefone corretos no rodapé | ☐ | |
-| 5.2 | Formulário em **Orçamento** envia com sucesso (mensagem de confirmação) | ☐ | |
+| 5.2 | Formulário em **Orçamento** envia com sucesso (mensagem **Pedido enviado!**) | ☐ | |
 | 5.3 | Orçamento a partir de um equipamento pré-preenche o nome (`?equipamento=slug`) | ☐ | |
-| 5.2 | Horário **Seg–sex, 7h30–17h15** correto | ☐ | |
-| 5.3 | Depoimentos na home são reais e em português | ☐ | |
-| 5.4 | Seção **“Como funciona”** (3 passos) está clara | ☐ | |
+| 5.4 | Horário **Seg–sex, 7h30–17h15** correto | ☐ | |
+| 5.5 | Depoimentos na home são reais e em português | ☐ | |
+| 5.6 | Seção **“Como funciona”** (3 passos) está clara | ☐ | |
 
 ---
 
@@ -107,21 +106,22 @@ Marque se está de acordo em publicar o preview **assim** e tratar depois:
 | Item | Publicar assim? | Observação |
 |------|-----------------|------------|
 | Fotos reais dos equipamentos (hoje: placeholder) | ☐ Sim ☐ Não | Sprint 9 |
-| Formulário de orçamento salvando no sistema | ☐ Sim ☐ Não | Sprint 5 |
+| E-mail automático ao comercial em cada lead | ☐ Sim ☐ Não | Sprint 5.7 |
 | Domínio `acessoequipamentos.com.br` apontando para o novo site | ☐ Sim ☐ Não | Sprint 10 — após aprovação |
+
+> O formulário de orçamento **já salva** no banco (Sprint 5). A notificação por e-mail vem na Sprint 5.7.
 
 ---
 
 ## 8. Sign-off
 
-**Opção A — Aprovado para seguir para domínio/go-live** (após fotos/formulário se combinado):
+**Opção A — Aprovado para seguir para domínio/go-live** (após fotos/e-mail se combinado):
 
 > Aprovamos a landing no link de preview. Autorizamos preparar domínio e publicação oficial conforme pendências acordadas.
 
 | Nome | Data | Assinatura / confirmação |
 |------|------|--------------------------|
-| Cezar | | |
-| Flaviano Queiroz | | |
+| Flaviano Queiroz (aprovação) | 2026-05-19 | ✅ Aprovado para seguir (Opção A) |
 
 **Opção B — Ajustes necessários antes de aprovar:**
 

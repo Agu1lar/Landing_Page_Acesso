@@ -98,7 +98,7 @@ export default async function TreinamentoPlataformasPage(props: PageProps) {
         </div>
       </section>
 
-      <section className="border-y border-neutral-200 bg-neutral-50">
+      <section className="border-y border-neutral-200 bg-background-muted">
         <div className="mx-auto max-w-4xl px-4 py-14 sm:px-6 lg:px-8">
           <h2 className="font-heading text-2xl font-bold text-neutral-900">Conteúdo programático</h2>
           <p className="mt-3 text-neutral-600">

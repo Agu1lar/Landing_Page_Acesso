@@ -229,7 +229,7 @@ export function SiteHeader({ searchIndex }: SiteHeaderProps) {
               {navLinks.map((link) => (
                 <li key={link.href}>
                   <Link
-                    className="block rounded-lg px-3 py-2 text-neutral-800 hover:bg-neutral-50"
+                    className="block rounded-lg px-3 py-2 text-neutral-800 hover:bg-background-muted"
                     href={link.href}
                     onClick={() => {
                       setMobileOpen(false);

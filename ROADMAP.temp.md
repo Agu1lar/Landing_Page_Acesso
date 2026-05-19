@@ -6,16 +6,17 @@
 >
 > **Stack base:** Next.js 16 (App Router), TypeScript, Tailwind CSS, next-intl, Drizzle ORM, PostgreSQL/PGlite, Zod, React Hook Form.
 >
-> **Última atualização:** 2026-05-18 (Sprint 11 painel admin planejado; Sprint 5 leads ✅)
+> **Última atualização:** 2026-05-19 (Sprint 7.9 Docker planejado; fundo marca; avisos README)
 >
 > ### Status rápido (implementado no código)
 > | Sprint | Status |
 > |--------|--------|
 > | 0–4 | ✅ Catálogo 110 itens, home, sobre, contato, FAQ, busca, CTAs, depoimentos, treinamento |
-> | 5 | ✅ Formulário `/orcamento` + `POST /api/leads` + tabela `leads` (e-mail automático ⏳ 5.7) |
-> | 6 | 🟡 Parcial (sitemap ✅; JSON-LD / legais pendentes) |
+> | 5 | ✅ Formulário + leads + e-mail Resend (5.7 — configurar `RESEND_*` no Vercel) |
+> | 6 | ✅ JSON-LD, Privacidade, OG, robots preview noindex (cookie banner ⏳ se PostHog) |
 > | 7 | 🟡 Parcial (header compacto, polish pendente) |
-> | 8 | 🟡 Preview deploy ✅ · sign-off Cezar ☐ |
+> | **7.9** | 📋 **Planejado** — Docker Compose (app, db, studio por serviço) |
+> | 8 | ✅ Preview · E2E · sign-off **Flaviano** (2026-05-19) — ver `docs/SPRINT-8-STATUS.md` |
 > | 9–10 | ⏳ Fotos reais · domínio após aprovação |
 > | **11** | 📋 **Planejado** — Painel administrativo + analytics (ver seção dedicada) |
 
@@ -27,7 +28,8 @@
 2. [Princípios de arquitetura](#2-princípios-de-arquitetura)
 3. [Fases do produto](#3-fases-do-produto)
 4. [Roadmap por sprint (detalhado)](#4-roadmap-por-sprint-detalhado)
-4.1. [Sprint 11 — Painel administrativo e analytics](#sprint-11--painel-administrativo-e-analytics-fase-2)
+4.1. [Sprint 7.9 — Docker e ambiente local](#sprint-79--docker-e-ambiente-local)
+4.2. [Sprint 11 — Painel administrativo e analytics](#sprint-11--painel-administrativo-e-analytics-fase-2)
 5. [Estrutura de páginas e rotas](#5-estrutura-de-páginas-e-rotas)
 6. [Modelo de dados](#6-modelo-de-dados)
 7. [Design system e UX](#7-design-system-e-ux)
@@ -287,11 +289,11 @@ Escala de catálogo, prova social, otimizações e ferramentas para o time comer
 | 5.4 | `QuoteForm` | ✅ `src/components/forms/QuoteForm.tsx` + `?equipamento=slug` |
 | 5.5 | `ContactForm` | ⏳ Opcional — contato ainda só dados estáticos |
 | 5.6 | Feedback UX | ✅ Sucesso/erro inline + loading |
-| 5.7 | Notificação | ⏳ E-mail/webhook (leads só no DB + log por enquanto) |
+| 5.7 | Notificação | ✅ E-mail via Resend (`RESEND_API_KEY` + `LEADS_NOTIFY_EMAIL`) |
 | 5.8 | Página `/orcamento` | ✅ Formulário funcional |
 | 5.9 | **WhatsApp contextual** | ✅ `buildWhatsAppMessage` + slug + origem por página |
 
-**Critério de saída:** lead salvo no banco + e-mail/notificação recebida em ambiente de teste. **Parcial:** banco ✅ · e-mail ⏳
+**Critério de saída:** lead salvo no banco + e-mail/notificação recebida em ambiente de teste. **Configurar** `RESEND_API_KEY` e `LEADS_NOTIFY_EMAIL` na Vercel para produção.
 
 ---
 
@@ -333,18 +335,57 @@ Escala de catálogo, prova social, otimizações e ferramentas para o time comer
 
 ---
 
+### Sprint 7.9 — Docker e ambiente local
+
+> **Objetivo:** subir cada parte do stack com `docker compose` (sem conflito de portas 3000/5433 no Windows). Pode rodar **em paralelo** ao Sprint 8 — melhora DX da equipe; **não bloqueia** sign-off do cliente.
+>
+> **Motivação:** hoje `bun run dev` sobe PGlite (5433) + Next (3000) + Spotlight (8969) no host; processos órfãos geram `EADDRINUSE`. Docker isola serviços e padroniza Postgres (igual Neon em produção).
+
+| ID | Tarefa | Detalhes |
+|----|--------|----------|
+| 7.9.1 | `Dockerfile` | Multi-stage: `deps` → `dev` (hot reload) → `runner` (produção `next start`) |
+| 7.9.2 | `docker-compose.yml` | Serviços separados + **profiles** para ligar só o que precisar |
+| 7.9.3 | Serviço **`db`** | `postgres:16-alpine`, volume nomeado, porta host `5432`, healthcheck |
+| 7.9.4 | Serviço **`app`** | Next.js dev; `DATABASE_URL` apontando para `db`; mount do código; porta `3000` |
+| 7.9.5 | Serviço **`migrate`** | One-shot: `drizzle-kit migrate` após `db` healthy (`depends_on`) |
+| 7.9.6 | Profile **`tools`** → **`studio`** | Drizzle Studio (`db:studio`) sob demanda, porta `4983` |
+| 7.9.7 | Profile **`prod`** | `app-prod`: `next build` + `next start` (smoke test local de produção) |
+| 7.9.8 | Variáveis | `.env.docker.example` (Clerk, `DATABASE_URL`, Arcjet); documentar cópia para `.env.local` |
+| 7.9.9 | Documentação | `docs/DOCKER.md` — comandos abaixo |
+| 7.9.10 | `.dockerignore` | Excluir `node_modules`, `.next`, `local.db`, `.env*` |
+
+**Serviços previstos no Compose:**
+
+| Serviço | Profile | Comando típico | Porta |
+|---------|---------|----------------|-------|
+| `db` | *(default)* | `docker compose up db -d` | 5432 |
+| `migrate` | *(default)* | `docker compose run --rm migrate` | — |
+| `app` | `dev` | `docker compose --profile dev up app` | 3000 |
+| `studio` | `tools` | `docker compose --profile tools up studio` | 4983 |
+| `app-prod` | `prod` | `docker compose --profile prod up app-prod` | 3000 |
+
+**Notas técnicas:**
+
+- Em Docker, preferir **Postgres** no serviço `db` em vez de PGlite (mesmo driver Drizzle/`pg` que Neon).
+- **Spotlight/Sentry** e **PostHog** permanecem opcionais no host (dev) ou só em produção (Vercel) — não obrigatório no Compose inicial.
+- Produção real continua **Vercel + Neon** (Sprint 10); imagem Docker `prod` serve para teste local e futuro self-host, se necessário.
+
+**Critério de saída:** qualquer dev clona o repo, roda `docker compose up db -d` + `docker compose --profile dev up app` e acessa o site com migrations aplicadas, sem instalar Postgres no Windows.
+
+---
+
 ### Sprint 8 — Aprovação da landing (preview, sem domínio oficial)
 
 > **Objetivo:** cliente valida UX, textos e fluxos antes de qualquer custo de domínio/DNS.
 
 | ID | Tarefa | Detalhes |
 |----|--------|----------|
-| 8.1 | Deploy **preview** | Guia: `docs/DEPLOY-PREVIEW-VERCEL.md` + `vercel.json` (`build:next`) |
-| 8.2 | Roteiro de validação | ✅ `docs/PREVIEW-VALIDACAO.md` (checklist Cezar + sign-off) |
-| 8.3 | Ajustes do feedback | Copy, ordem de seções, fotos placeholder → reais conforme disponível |
-| 8.4 | **Sign-off** | Cezar / Flaviano aprovam versão para go-live |
-| 8.5 | Testes E2E Playwright | Fluxos: home → detalhe → orçamento; envio form mock |
-| 8.6 | CI verde | lint, types, test, build |
+| 8.1 | Deploy **preview** | ✅ `https://landing-page-acesso.vercel.app/` — guia `docs/DEPLOY-PREVIEW-VERCEL.md` |
+| 8.2 | Roteiro de validação | ✅ `docs/PREVIEW-VALIDACAO.md` |
+| 8.3 | Ajustes do feedback | ✅ Sem bloqueantes (2026-05-19) |
+| 8.4 | **Sign-off** | ✅ Flaviano Queiroz — Opção A (2026-05-19) |
+| 8.5 | Testes E2E Playwright | ✅ `tests/e2e/Marketing.conversion.e2e.ts` + `Sanity.check.e2e.ts` (marketing) |
+| 8.6 | CI verde | ⏳ `lint`, `check:types`, `test:e2e` no push/PR |
 
 **Critério de saída:** aprovação formal registrada; lista de ajustes bloqueantes zerada ou aceita como pós-go-live.
 
@@ -377,7 +418,7 @@ Escala de catálogo, prova social, otimizações e ferramentas para o time comer
 | 10.2 | Vercel produção + Neon (Postgres) | `DATABASE_URL` produção |
 | 10.3 | Migrations em produção | `db:migrate` no pipeline |
 | 10.4 | DNS + SSL + redirect `www` | Apontar para Vercel |
-| 10.5 | PostHog / GA4 produção | Eventos: `quote_submit`, `whatsapp_click`, `equipment_view` |
+| 10.5 | PostHog / GA4 produção | **PostHog = volume bruto:** `page_view`, `equipment_view`, sessões, UTM/referrer. GA4 opcional em paralelo |
 | 10.6 | Google Search Console | Sitemap no domínio oficial |
 | 10.7 | Checklist go-live | Seção 14 (itens de produção) |
 | 10.8 | Redirect site legado (se houver) | `acessoequipamentos.com.br` → novo |
@@ -401,7 +442,7 @@ Escala de catálogo, prova social, otimizações e ferramentas para o time comer
 | Analytics | `/admin/analytics` | Gestão / marketing |
 | Configurações | `/admin/configuracoes` | Admin |
 
-**Autenticação:** Clerk (já no projeto) com papel `admin` / `comercial` (comercial = leitura + exportação; admin = CRUD completo).
+**Autenticação:** Clerk (já no projeto). Papéis via `publicMetadata.role` — **sem** tabelas de permissões no Postgres (time enxuto).
 
 ---
 
@@ -410,11 +451,38 @@ Escala de catálogo, prova social, otimizações e ferramentas para o time comer
 | ID | Tarefa | Detalhes |
 |----|--------|----------|
 | 11.1.1 | Layout admin | Sidebar, header, breadcrumbs; tema alinhado à marca; responsivo tablet |
-| 11.1.2 | Proteção de rotas | Middleware `(admin)` — só usuários autorizados (Clerk + allowlist e-mail ou org) |
-| 11.1.3 | Papéis (RBAC) | `admin` \| `comercial` — matriz de permissões por módulo |
+| 11.1.2 | Proteção de rotas | `src/proxy.ts` (middleware): rotas `/admin(.*)` exigem login Clerk; usuário sem `role` válido → 403 |
+| 11.1.3 | Papéis (RBAC) | **`publicMetadata` do Clerk** — ver matriz abaixo; validar no middleware + checagem leve em Server Actions/API |
 | 11.1.4 | Auditoria básica | `created_at` / `updated_at` / `updated_by` em alterações críticas |
 
 **Critério de saída:** login → dashboard vazio acessível apenas para equipe Acesso.
+
+**RBAC simplificado (11.1.3) — implementação recomendada:**
+
+1. No **Clerk Dashboard**, definir em cada usuário: `publicMetadata: { "role": "admin" }` ou `{ "role": "comercial" }`.
+2. Garantir que o **session token** inclua `publicMetadata` (padrão do Clerk ou custom claims mínimos).
+3. No **`src/proxy.ts`**, após `auth.protect()` em rotas `/admin`: ler `role` dos claims; bloquear rotas sensíveis se `role !== 'admin'`.
+4. **Não** criar tabelas `roles`, `permissions`, `user_roles` — o time é pequeno; ajuste de papel é operação manual no Clerk.
+
+| Módulo / ação | `admin` | `comercial` |
+|---------------|---------|-------------|
+| Dashboard `/admin` | ✅ | ✅ |
+| Leads — listar / detalhe | ✅ | ✅ |
+| Leads — exportar CSV | ✅ | ✅ |
+| Analytics — visualizar | ✅ | ✅ |
+| Equipamentos — CRUD / fotos | ✅ | ❌ |
+| Configurações `/admin/configuracoes` | ✅ | ❌ |
+
+```ts
+// Exemplo (proxy.ts / Server Action)
+const role = sessionClaims?.publicMetadata?.role as 'admin' | 'comercial' | undefined;
+if (!role || !['admin', 'comercial'].includes(role)) {
+  return NextResponse.redirect(new URL('/403', req.url));
+}
+if (isAdminOnlyRoute(req) && role !== 'admin') {
+  return NextResponse.redirect(new URL('/403', req.url));
+}
+```
 
 ---
 
@@ -467,17 +535,24 @@ Escala de catálogo, prova social, otimizações e ferramentas para o time comer
 
 #### 11.5 — Instrumentação de analytics (site público)
 
-> Base para gráficos do admin. Combinar **eventos próprios** (DB) + **PostHog ou GA4** (opcional, Sprint 10.5).
+> Base para gráficos do admin. **Arquitetura híbrida** (ver também Sprint **10.5**):
+>
+> | Destino | O quê gravar | Por quê |
+> |---------|----------------|---------|
+> | **PostHog** (principal) | `page_view`, `equipment_view`, `search`, sessões, UTM/referrer, funil de navegação | Alto volume (ex.: Google Ads); não infla o Neon |
+> | **Neon** (`analytics_events` + `leads`) | `whatsapp_click`, `quote_submit` | Conversões de fundo de funil; volume baixo e acionável no painel |
+>
+> **Ponto de atenção:** registrar cada page view no Postgres transacional pode estourar storage/custo no tier serverless do Neon. O banco interno não deve ser o “data lake” de tráfego.
 
-| ID | Evento | Quando disparar | Campos úteis |
-|----|--------|-----------------|--------------|
-| E1 | `page_view` | Cada página marketing | path, locale, session_id |
-| E2 | `whatsapp_click` | Qualquer botão WhatsApp | `origin` (header, float, detalhe, orcamento…), `equipment_slug` |
-| E3 | `quote_submit` | Formulário enviado com sucesso | equipamento, cidade, origem |
-| E4 | `equipment_view` | Abrir detalhe | slug, categoria |
-| E5 | `search` | Busca global (opcional) | query (hash/anônimo) |
+| ID | Evento | Quando disparar | Onde persistir |
+|----|--------|-----------------|----------------|
+| E1 | `page_view` | Cada página marketing | **PostHog** |
+| E2 | `whatsapp_click` | Qualquer botão WhatsApp | **Neon** (`analytics_events`) |
+| E3 | `quote_submit` | Formulário enviado com sucesso | **Neon** (`leads` + opcional `analytics_events`) |
+| E4 | `equipment_view` | Abrir detalhe | **PostHog** |
+| E5 | `search` | Busca global (opcional) | **PostHog** (query hash/anônimo) |
 
-**Atribuição de tráfego (campanhas pagas no domínio futuro):**
+**Atribuição de tráfego (campanhas pagas no domínio futuro):** capturar UTM/referrer/landing no **PostHog** (sessão). Para `whatsapp_click` e `quote_submit` no Neon, copiar UTM da sessão no momento da conversão.
 
 | Campo | Origem |
 |-------|--------|
@@ -488,13 +563,15 @@ Escala de catálogo, prova social, otimizações e ferramentas para o time comer
 | `referrer` | document.referrer (domínio de origem) |
 | `landing_page` | primeira URL da sessão |
 
-Persistir em tabela `analytics_events` (Neon) + agregar por dia em `analytics_daily` (job noturno ou materialized view).
+**Agregação para o admin (11.6):** `analytics_daily` preenchida por job noturno — visitas/sessões via **API PostHog** (ou export); WhatsApp/leads via consulta ao Neon. Evitar `INSERT` por page view em produção.
 
-**Critério de saída:** clique no WhatsApp no site gera evento visível no admin em até 5 min.
+**Critério de saída:** clique no WhatsApp gera registro no Neon visível no admin em até 5 min; visitas do período consultáveis no painel via agregado PostHog (mesmo dia ou D+1).
 
 ---
 
 #### 11.6 — Dashboard: gráficos e métricas
+
+> Métricas de **volume** (visitas, sessões, origem UTM, top páginas) leem de **PostHog** (ou `analytics_daily` sincronizado). Métricas de **conversão** (WhatsApp, leads, funil final) leem do **Neon**.
 
 | ID | Métrica / gráfico | Descrição |
 |----|-------------------|-----------|
@@ -534,8 +611,8 @@ Persistir em tabela `analytics_events` (Neon) + agregar por dia em `analytics_da
 |---------|----------------|
 | Catálogo | Migrar JSON → Postgres; site lê do DB (ISR) |
 | Imagens | Vercel Blob + `next/image` |
-| Auth admin | Clerk Organizations ou metadata `role` |
-| Analytics | Tabela própria + PostHog em paralelo |
+| Auth admin | Clerk `publicMetadata.role` (`admin` \| `comercial`); validação em `src/proxy.ts` — sem RBAC em tabelas |
+| Analytics | **PostHog** = tráfego/volume; **Neon** = conversões (`whatsapp_click`, `quote_submit`); `analytics_daily` = agregados |
 | CSV export | `papaparse` ou gerar no servidor com streaming |
 | Gráficos | Recharts (React) |
 
@@ -668,10 +745,12 @@ Fonte: [docs/CONCORRENTES-REFERENCIAS.md](docs/CONCORRENTES-REFERENCIAS.md)
 
 ### 6.4 Analytics (PostgreSQL — Sprint 11)
 
-| Tabela | Campos principais |
-|--------|-------------------|
-| `analytics_events` | event_type, session_id, path, origin, equipment_slug, utm_*, referrer, landing_page, device, created_at |
-| `analytics_daily` | date, page_views, unique_sessions, whatsapp_clicks, quote_submits, top_sources (JSON agregado) |
+| Tabela | Campos principais | Escopo |
+|--------|-------------------|--------|
+| `analytics_events` | event_type (`whatsapp_click`, `quote_submit`), session_id, origin, equipment_slug, utm_*, referrer, device, created_at | **Só conversões** — não usar para `page_view` em massa |
+| `analytics_daily` | date, page_views, unique_sessions, whatsapp_clicks, quote_submits, top_sources (JSON) | Agregados: visitas via sync PostHog; conversões via Neon |
+
+> Tráfego bruto (`page_view`, `equipment_view`, funil de navegação) fica no **PostHog** (Sprint 10.5). Ver aviso na seção [11.5](#115--instrumentação-de-analytics-site-público).
 
 ---
 
@@ -733,7 +812,7 @@ Fonte: [docs/CONCORRENTES-REFERENCIAS.md](docs/CONCORRENTES-REFERENCIAS.md)
 |------------|------|-----|
 | WhatsApp (`wa.me`) | 1 | Conversão rápida |
 | Resend / SendGrid | 1 | Email de novo lead |
-| PostHog / GA4 | 1 | Analytics |
+| PostHog / GA4 | 1 | Tráfego, sessões, UTM (volume); Neon só conversões |
 | Google Search Console | 1 | SEO |
 | Google Maps embed | 1 | Contato |
 | Sentry | 1 | Erros produção |
@@ -744,12 +823,14 @@ Fonte: [docs/CONCORRENTES-REFERENCIAS.md](docs/CONCORRENTES-REFERENCIAS.md)
 
 ### 9.1 Eventos de analytics (nomenclatura)
 
-- `page_view` (automático)
-- `equipment_view` — `{ slug }`
-- `quote_form_start`
-- `quote_form_submit` — `{ slug, cidade }`
-- `whatsapp_click` — `{ origem, slug? }`
-- `category_filter` — `{ categoria }`
+| Evento | Destino recomendado |
+|--------|---------------------|
+| `page_view` (automático) | PostHog |
+| `equipment_view` — `{ slug }` | PostHog |
+| `quote_form_start` | PostHog (opcional) |
+| `quote_form_submit` — `{ slug, cidade }` | Neon (`leads`) |
+| `whatsapp_click` — `{ origem, slug? }` | Neon (`analytics_events`) |
+| `category_filter` — `{ categoria }` | PostHog |
 
 ---
 
@@ -768,7 +849,8 @@ Fonte: [docs/CONCORRENTES-REFERENCIAS.md](docs/CONCORRENTES-REFERENCIAS.md)
 
 | Ambiente | URL | Banco | Quando |
 |----------|-----|-------|--------|
-| Local | localhost:3000 | PGlite `local.db` | Desenvolvimento |
+| Local (host) | localhost:3000 | PGlite `local.db` :5433 ou Neon via `.env.local` | `bun run dev` |
+| Local (Docker) | localhost:3000 | Postgres container :5432 | **Sprint 7.9** — `docker compose` |
 | Preview | `*.vercel.app` | Neon branch / preview | **Sprint 8 — aprovação cliente** |
 | Produção | domínio oficial | Neon produção | **Sprint 10 — após sign-off** |
 
@@ -812,7 +894,7 @@ Uma tarefa só está **Done** quando:
 
 - [ ] Preview publicado (`*.vercel.app`)
 - [ ] Cliente validou home, catálogo, busca, detalhe aéreo, mobile
-- [ ] Sign-off Cezar/Flaviano
+- [x] Sign-off preview (Flaviano Queiroz — 2026-05-19)
 
 **MVP Go-live (Sprint 10) Done** quando:
 
@@ -839,6 +921,7 @@ Uma tarefa só está **Done** quando:
 
 ### Tecnologia
 
+- [ ] **Ambiente Docker (Compose)** → **Sprint 7.9** (app, db, migrate, studio por serviço)
 - [ ] **Painel admin completo** → **Sprint 11** (CRUD, fotos, CSV, analytics)
 - [ ] CMS headless (Sanity/Payload) — só se não usar admin próprio
 - [ ] Integração ERP (estoque/disponibilidade)
@@ -867,15 +950,13 @@ Uma tarefa só está **Done** quando:
 - [ ] Fotos por equipamento (mín. 1) — Sprint 9
 - [ ] Certificações / NR (texto para `/sobre` e `/faq`)
 - [ ] Depoimentos Google exportáveis
-- [ ] Responsável por aprovar textos (Cezar)
+- [x] Aprovação de textos/preview (Flaviano Queiroz — Sprint 8)
 
-### 14.2 Aprovação da landing (Sprint 8 — antes do domínio)
+### 14.2 Aprovação da landing (Sprint 8 — concluída)
 
-- [ ] Link preview enviado ao cliente
-- [ ] Home, equipamentos, busca, orçamento testados no celular
-- [ ] WhatsApp abre com mensagem correta a partir do detalhe
-- [ ] Textos e tom formal aprovados
-- [ ] Sign-off por escrito (e-mail/WhatsApp)
+- [x] Link preview: https://landing-page-acesso.vercel.app/
+- [x] Fluxos validados (home, equipamentos, busca, orçamento, E2E)
+- [x] Sign-off Flaviano Queiroz — 2026-05-19
 
 ### 14.3 Go-live (Sprint 10 — após aprovação)
 
@@ -893,7 +974,8 @@ Uma tarefa só está **Done** quando:
 |------|------------------|-------------------|
 | Fase 0 — Kickoff | Concluído | Requisitos, inventário, concorrentes, marca |
 | Fase 1 — MVP (Sprints 1–7) | 6–8 semanas | Landing completa em local/preview |
-| **Aprovação (Sprint 8)** | 3–7 dias | Sign-off cliente no `*.vercel.app` |
+| **Docker (Sprint 7.9)** | 2–4 dias | Compose: db + app + migrate (+ studio) — **paralelo** |
+| **Aprovação (Sprint 8)** | Concluída | Sign-off Flaviano (2026-05-19) |
 | Conteúdo (Sprint 9) | 2–4 semanas | Fotos, cases, SEO (opcional antes do go-live) |
 | **Hospedagem (Sprint 10)** | 2–5 dias | Domínio, SSL, produção — **último passo** |
 | **Painel admin (Sprint 11)** | 7–8 semanas | CRUD, fotos, CSV, métricas, campanhas UTM |
@@ -903,10 +985,23 @@ Uma tarefa só está **Done** quando:
 
 ## Próxima ação imediata
 
-1. **Deploy preview:** seguir `docs/DEPLOY-PREVIEW-VERCEL.md` e colar URL em `docs/PREVIEW-VALIDACAO.md`.
-2. Enviar **PREVIEW-VALIDACAO.md** ao Cezar (checklist §14.2).
-3. Ajustes (Sprint 8.3) → sign-off (8.4) → **Sprint 10** domínio/go-live.
-4. **Sprint 11** — painel admin (após go-live e eventos de analytics em produção).
+### Recomendação de prioridade (negócio + técnica)
+
+| Ordem | Sprint | Por quê |
+|-------|--------|---------|
+| **1** | **5.7** + **6** (e-mail lead, JSON-LD, Privacidade) | Próximo após Sprint 8 ✅ — confiança e SEO antes do domínio |
+| **2** | **10** (domínio + PostHog + produção) | Go-live no domínio oficial |
+| **3** | **9** (fotos reais) | Paralelo ao 5.7/6 ou antes do go-live |
+| **4** | **7.9** (Docker) | Opcional — DX local, Postgres no Compose |
+| **5** | **11** (painel admin) | Fase 2 — após tráfego real em produção |
+
+### Checklist imediato
+
+1. ~~Sprint 8~~ — preview aprovado (Flaviano, 2026-05-19).
+2. ~~Sprint 5.7 + 6~~ — e-mail Resend, JSON-LD, `/privacidade`, OG.
+3. **Sprint 10** — domínio oficial e go-live (após `RESEND_*` na Vercel).
+4. **Paralelo:** Sprint **9** (fotos) e/ou **7.9** (Docker).
+5. **Sprint 11** — painel admin (após produção).
 
 ---
 

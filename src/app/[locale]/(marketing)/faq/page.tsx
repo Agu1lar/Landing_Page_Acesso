@@ -42,7 +42,7 @@ export default async function FaqPage(props: FaqPageProps) {
         <FaqAccordion items={FAQ_ITEMS} />
       </div>
 
-      <aside className="mt-12 rounded-[var(--radius-card)] border border-neutral-200 bg-neutral-50 p-6">
+      <aside className="mt-12 rounded-[var(--radius-card)] border border-neutral-200 bg-background-muted p-6">
         <h2 className="font-heading text-lg font-semibold text-neutral-900">{t('cta_title')}</h2>
         <p className="mt-2 text-sm text-neutral-600">{t('cta_text')}</p>
         <ConversionCtas

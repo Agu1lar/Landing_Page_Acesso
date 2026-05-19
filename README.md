@@ -14,6 +14,20 @@
 
 Clone this project and use it to create your own Next.js project. You can check out the live demo at [Next.js Boilerplate](https://demo.nextjs-boilerplate.com), which includes a working authentication system.
 
+## Acesso Equipamentos — landing
+
+Roadmap do projeto: [ROADMAP.temp.md](ROADMAP.temp.md).
+
+> **Atenção:** Certifique-se de que a tarefa **11.2.7 (Sincronização site)** use revalidação sob demanda de forma agressiva (`revalidatePath` ou `revalidateTag`). Se o comercial alterar a altura de trabalho de uma plataforma no painel, o visitante do site público precisa ver essa mudança **imediatamente**, sem depender de um **rebuild completo** de produção.
+>
+> Na prática, ao salvar/publicar no admin: invalidar o slug do equipamento, listagens (`/equipamentos`, home, busca) e qualquer tag de cache usada no `fetch` do catálogo. Evitar depender só de `revalidate` estático com intervalo longo — o critério é **on-demand** após cada mutação no CRUD.
+
+> **Atenção (analytics — tarefa 11.5):** A Sprint 11 prevê eventos como `page_view` e `whatsapp_click`. Gravar **cada** page view em `analytics_events` no Neon (PostgreSQL serverless) pode inflar o banco rapidamente em campanhas de Google Ads e gerar custo desnecessário no tier gratuito/básico.
+>
+> **Sugestão:** Use o **PostHog** (Sprint **10.5**) como armazenamento principal do volume bruto (navegação, sessões, UTM, `equipment_view`). Deixe o banco interno focado em **conversões de fundo de funil**: envio do formulário de orçamento (`quote_submit`, já espelhado em `leads`) e cliques reais no WhatsApp. O dashboard admin (11.6) pode combinar agregados do PostHog (visitas) com dados do Neon (leads + WhatsApp).
+
+> **Atenção (RBAC — tarefa 11.1.3):** O time da locadora é enxuto — **não** construa infraestrutura complexa de permissões em tabelas. Use o `publicMetadata` do Clerk (`role: "admin"` ou `role: "comercial"`) e valide no middleware do projeto ([`src/proxy.ts`](src/proxy.ts), equivalente ao `middleware.ts`). Rotas de escrita (CRUD equipamentos, configurações) exigem `admin`; comercial acessa leads, exportação CSV e analytics em leitura.
+
 ## Sponsors
 
 <table width="100%">

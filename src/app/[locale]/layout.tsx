@@ -4,6 +4,7 @@ import { setRequestLocale } from 'next-intl/server';
 import { Inter, Plus_Jakarta_Sans } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import { routing } from '@/libs/I18nRouting';
+import { withSiteOpenGraph } from '@/lib/site-metadata';
 import { resolveAppLocale } from '@/utils/locale';
 import '@/styles/global.css';
 
@@ -19,14 +20,14 @@ const inter = Inter({
   display: 'swap',
 });
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSiteOpenGraph({
   title: {
     default: 'Acesso Equipamentos — Locação em Belo Horizonte',
     template: '%s | Acesso Equipamentos',
   },
   description:
     'Locação de plataformas elevatórias, andaimes e equipamentos para construção civil na região metropolitana de BH.',
-};
+});
 
 export const viewport: Viewport = {
   width: 'device-width',

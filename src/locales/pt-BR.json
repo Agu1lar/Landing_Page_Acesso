@@ -96,7 +96,44 @@
     "contact": "Contato",
     "address": "Endereço",
     "hours": "Horário",
+    "privacy_link": "Privacidade",
     "rights": "© {year} {name}. Todos os direitos reservados."
+  },
+  "PrivacidadePage": {
+    "meta_title": "Política de privacidade",
+    "meta_description": "Como a Acesso Equipamentos trata dados pessoais no site e no formulário de orçamento (LGPD).",
+    "title": "Política de privacidade",
+    "updated_at": "Última atualização: maio de 2026.",
+    "intro": "Esta política descreve como a Acesso Equipamentos LTDA coleta, usa e protege dados pessoais enviados pelo site, em conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018).",
+    "sections": {
+      "controller": {
+        "title": "Quem é o responsável",
+        "body": "O controlador dos dados é a Acesso Equipamentos LTDA, com sede em Belo Horizonte (MG). O canal de contato para assuntos de privacidade é o e-mail comercial indicado nesta página."
+      },
+      "data": {
+        "title": "Quais dados coletamos",
+        "body": "No formulário de orçamento podemos receber nome, e-mail, telefone, empresa (opcional), cidade da obra, equipamento de interesse, período de locação e mensagem. Dados técnicos de navegação podem ser registrados por ferramentas de analytics quando ativadas."
+      },
+      "purpose": {
+        "title": "Para que usamos os dados",
+        "body": "Os dados são usados para responder solicitações de orçamento, contato comercial, cumprimento de obrigações legais e melhoria do site. Não vendemos dados pessoais a terceiros."
+      },
+      "sharing": {
+        "title": "Compartilhamento",
+        "body": "Podemos compartilhar dados com provedores de hospedagem, e-mail e banco de dados estritamente para operar o site e atender leads. Esses provedores são contratados com obrigações de confidencialidade e segurança."
+      },
+      "rights": {
+        "title": "Seus direitos",
+        "body": "Você pode solicitar confirmação de tratamento, acesso, correção, anonimização, portabilidade ou exclusão dos dados, nos limites da lei. Responderemos em prazo razoável pelo e-mail de contato."
+      },
+      "contact": {
+        "title": "Retenção e segurança",
+        "body": "Mantemos os dados pelo tempo necessário para atendimento comercial e obrigações legais. Aplicamos medidas técnicas e organizacionais para reduzir riscos de acesso não autorizado."
+      }
+    },
+    "contact_line": "Dúvidas sobre privacidade:",
+    "orcamento_link_prefix": "Para orçamentos, use",
+    "orcamento_link": "solicitar orçamento"
   },
   "SignIn": {
     "meta_title": "Entrar",

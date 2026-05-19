@@ -110,7 +110,7 @@ export function GlobalSearch({ index, className = '', id, compact = false }: Glo
         </span>
         <input
           ref={inputRef}
-          className={`w-full rounded-lg border border-neutral-200 bg-neutral-50 text-neutral-900 transition-colors placeholder:text-neutral-400 focus:border-primary focus:bg-surface focus:ring-2 focus:ring-primary/20 focus:outline-none ${
+          className={`w-full rounded-lg border border-neutral-200 bg-background-muted text-neutral-900 transition-colors placeholder:text-neutral-400 focus:border-primary focus:bg-surface focus:ring-2 focus:ring-primary/20 focus:outline-none ${
             compact ? 'py-1.5 pr-10 pl-9 text-sm' : 'py-2 pr-16 pl-10 text-sm'
           }`}
           id={id}
@@ -149,7 +149,7 @@ export function GlobalSearch({ index, className = '', id, compact = false }: Glo
             results.map((item, i) => (
               <li key={item.slug} role="option" aria-selected={i === activeIndex}>
                 <button
-                  className={`flex w-full flex-col gap-0.5 px-4 py-2.5 text-left text-sm transition-colors hover:bg-neutral-50 ${i === activeIndex ? 'bg-primary-light' : ''}`}
+                  className={`flex w-full flex-col gap-0.5 px-4 py-2.5 text-left text-sm transition-colors hover:bg-background-muted ${i === activeIndex ? 'bg-primary-light' : ''}`}
                   onMouseDown={(e) =>{  e.preventDefault(); }}
                   onClick={() =>{  goToItem(item.slug); }}
                   type="button"
@@ -162,7 +162,7 @@ export function GlobalSearch({ index, className = '', id, compact = false }: Glo
           )}
           <li className="border-t border-neutral-100">
             <button
-              className="w-full px-4 py-2.5 text-left text-sm font-medium text-primary hover:bg-neutral-50"
+              className="w-full px-4 py-2.5 text-left text-sm font-medium text-primary hover:bg-background-muted"
               onMouseDown={(e) =>{  e.preventDefault(); }}
               onClick={goToAll}
               type="button"

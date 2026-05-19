@@ -2,6 +2,7 @@ import { fixedWindow } from '@arcjet/next';
 import { NextResponse } from 'next/server';
 import * as z from 'zod';
 import arcjet from '@/libs/Arcjet';
+import { notifyLeadByEmail } from '@/lib/email';
 import { createLead } from '@/lib/leads';
 import { logger } from '@/libs/Logger';
 import { normalizeQuotePayload, QuoteFormSchema } from '@/validations/quote';
@@ -40,6 +41,17 @@ export const POST = async (request: Request) => {
 
     const { website: _honeypot } = parsed.data;
     const lead = await createLead(normalizeQuotePayload(parsed.data));
+
+    if (lead) {
+      try {
+        await notifyLeadByEmail(lead);
+      } catch (emailError) {
+        logger.error('Lead salvo, mas e-mail não enviado', {
+          leadId: lead.id,
+          message: emailError instanceof Error ? emailError.message : String(emailError),
+        });
+      }
+    }
 
     return NextResponse.json({ ok: true, id: lead?.id });
   } catch (error) {
