@@ -6,7 +6,7 @@
 >
 > **Stack base:** Next.js 16 (App Router), TypeScript, Tailwind CSS, next-intl, Drizzle ORM, PostgreSQL/PGlite, Zod, React Hook Form.
 >
-> **Última atualização:** 2026-05-20 (catálogo 148 itens, carrinho, WhatsApp orçamento, fotos ~125, acessórios)
+> **Última atualização:** 2026-05-20 (roadmap estendido Sprints 12–22 — crescimento comercial, SEO, CRM, operação)
 >
 > ### Status rápido (implementado no código)
 > | Sprint | Status |
@@ -17,9 +17,13 @@
 > | 7 | 🟡 Parcial (CTA hierarquia ✅; a11y, skeleton, PageSpeed alvo ⏳) |
 > | **7.9** | 📋 **Planejado** — Docker Compose (app, db, studio por serviço) |
 > | 8 | ✅ Preview · E2E · sign-off **Flaviano** (2026-05-19) — ver `docs/SPRINT-8-STATUS.md` |
-> | 9 | 🟡 **Parcial** — fotos ~125/148; **38 acessórios**; specs plataformas revisadas; cases/logos ⏳ |
+> | 9 | 🟡 **Parcial** — fotos ~125/148; **38 acessórios**; specs plataformas revisadas; cases/logos → **Sprint 15** |
 > | 10 | ⏳ Domínio oficial + go-live (`acessoequipamentos.com.br`) |
-> | **11** | 📋 **Planejado** — Painel administrativo + analytics (ver seção dedicada) |
+> | **11** | 📋 **Planejado** — Admin operacional (CRUD, leads, CSV, tracking básico) |
+> | **12–13** | 📋 **Planejado** — Analytics comercial avançado + dashboard executivo |
+> | **14–15** | 📋 **Planejado** — SEO programático + prova social |
+> | **16–18** | 📋 **Planejado** — CRM leve, inteligência de catálogo, disponibilidade |
+> | **19–22** | 📋 **Backlog** — PWA, IA comercial, área do cliente, conteúdo técnico |
 >
 > ### Entregas incrementais (pós sign-off Sprint 8)
 >
@@ -46,7 +50,18 @@
 3. [Fases do produto](#3-fases-do-produto)
 4. [Roadmap por sprint (detalhado)](#4-roadmap-por-sprint-detalhado)
 4.1. [Sprint 7.9 — Docker e ambiente local](#sprint-79--docker-e-ambiente-local)
-4.2. [Sprint 11 — Painel administrativo e analytics](#sprint-11--painel-administrativo-e-analytics-fase-2)
+4.2. [Sprint 11 — Painel administrativo (operação)](#sprint-11--painel-administrativo-operação-fase-2)
+4.3. [Sprint 12 — Analytics comercial avançado](#sprint-12--analytics-comercial-avançado)
+4.4. [Sprint 13 — Dashboard executivo](#sprint-13--dashboard-executivo)
+4.5. [Sprint 14 — SEO programático pesado](#sprint-14--seo-programático-pesado)
+4.6. [Sprint 15 — Sistema de prova social](#sprint-15--sistema-de-prova-social)
+4.7. [Sprint 16 — CRM leve interno](#sprint-16--crm-leve-interno)
+4.8. [Sprint 17 — Inteligência de catálogo](#sprint-17--inteligência-de-catálogo)
+4.9. [Sprint 18 — Disponibilidade operacional](#sprint-18--disponibilidade-operacional)
+4.10. [Sprint 19 — PWA / app comercial](#sprint-19--pwa--app-comercial)
+4.11. [Sprint 20 — IA comercial](#sprint-20--ia-comercial)
+4.12. [Sprint 21 — Área do cliente](#sprint-21--área-do-cliente)
+4.13. [Sprint 22 — Conteúdo técnico / autoridade](#sprint-22--conteúdo-técnico--autoridade)
 5. [Estrutura de páginas e rotas](#5-estrutura-de-páginas-e-rotas)
 6. [Modelo de dados](#6-modelo-de-dados)
 7. [Design system e UX](#7-design-system-e-ux)
@@ -190,13 +205,20 @@ Escala de catálogo, prova social, otimizações e ferramentas para o time comer
 
 ---
 
-### Fase 3 — Painel administrativo e analytics (Trimestre 2+)
+### Fase 3 — Operação digital e comercial (Trimestre 2–3)
 
-**Sprint 11** — área logada para o time Acesso gerenciar catálogo, leads e métricas de conversão, sem depender de desenvolvedor para cada alteração de equipamento ou exportação manual.
+| Faixa | Sprints | Foco |
+|-------|---------|------|
+| **Operação** | 11 | Admin: catálogo, leads, CSV, instrumentação básica |
+| **Dados & gestão** | 12–13 | Analytics avançado, ROI comercial, dashboard executivo |
+| **Aquisição** | 14–15 | SEO local em escala, prova social e confiança |
+| **Vendas** | 16–17 | CRM leve, recomendações e descoberta no catálogo |
+| **Frota** | 18 | Disponibilidade estimada (diferencial operacional) |
+| **Escala** | 19–22 | PWA, IA, portal cliente, autoridade técnica (blog/NR) |
 
-**Entregáveis principais:** CRUD de equipamentos com fotos, exportação CSV de leads com filtro por período, dashboard de visitas, cliques no WhatsApp, origem de tráfego (UTM/referrer) e funil de conversão.
+**Pré-requisito comum:** Sprint **10** (domínio oficial + PostHog/GA em produção).
 
-**Entregáveis futuros (pós-Sprint 11):** disponibilidade em tempo real, reservas, integração ERP (Omie/similar), portal do cliente.
+**Entregáveis futuros (pós-Fase 3):** integração ERP (Omie), reservas online com calendário, pagamento digital.
 
 ---
 
@@ -451,9 +473,11 @@ Escala de catálogo, prova social, otimizações e ferramentas para o time comer
 
 ---
 
-### Sprint 11 — Painel administrativo e analytics (Fase 2)
+### Sprint 11 — Painel administrativo (operação) (Fase 2)
 
-> **Objetivo:** o time Acesso passa a operar catálogo, leads e indicadores sem editar JSON ou pedir exportação manual. **Pré-requisito:** Sprint 10 (domínio oficial) + instrumentação básica de eventos (11.4) ativa em produção.
+> **Objetivo:** o time Acesso opera catálogo e leads sem editar JSON. **Analytics avançado** (funil completo, heatmaps, abandono de orçamento) fica no **Sprint 12**; visão executiva consolidada no **Sprint 13**.
+>
+> **Pré-requisito:** Sprint 10 (domínio oficial) + PostHog mínimo (10.5).
 
 #### Visão do painel
 
@@ -593,9 +617,11 @@ if (isAdminOnlyRoute(req) && role !== 'admin') {
 
 ---
 
-#### 11.6 — Dashboard: gráficos e métricas
+#### 11.6 — Dashboard operacional (MVP)
 
-> Métricas de **volume** (visitas, sessões, origem UTM, top páginas) leem de **PostHog** (ou `analytics_daily` sincronizado). Métricas de **conversão** (WhatsApp, leads, funil final) leem do **Neon**.
+> Painel **comercial do dia a dia** (últimos 7/30 dias, top equipamentos, leads recentes). Métricas avançadas (heatmaps, scroll depth, abandono de carrinho, CTR por equipamento) → **Sprint 12**. Visão **executiva** (mapa de origem, ranking, comparativos) → **Sprint 13**.
+>
+> Métricas de **volume** leem de **PostHog** (ou `analytics_daily`). **Conversões** (WhatsApp, leads) leem do **Neon**.
 
 | ID | Métrica / gráfico | Descrição |
 |----|-------------------|-----------|
@@ -655,7 +681,306 @@ if (isAdminOnlyRoute(req) && role !== 'admin') {
 
 ---
 
-**Critério de saída global (Sprint 11):** equipe Acesso consegue, sem desenvolvedor: (1) cadastrar equipamento com fotos, (2) exportar leads do mês em CSV, (3) ver visitas e cliques WhatsApp por campanha UTM no período escolhido.
+**Critério de saída global (Sprint 11):** equipe Acesso consegue, sem desenvolvedor: (1) cadastrar equipamento com fotos, (2) exportar leads do mês em CSV, (3) ver KPIs básicos (visitas, WhatsApp, leads) no período escolhido.
+
+---
+
+### Sprint 12 — Analytics comercial avançado
+
+> **Objetivo:** transformar o site em **fonte de dados do comercial** — provar ROI de campanhas e do catálogo.
+>
+> **Pré-requisito:** Sprint 11.5 (eventos básicos) + PostHog em produção (10.5). Cookie banner se usar cookies de terceiros (6.9).
+
+#### Implementações
+
+| ID | Entrega | Detalhes |
+|----|---------|----------|
+| 12.1 | **PostHog completo** | Sessões, gravação opcional, feature flags, cohorts |
+| 12.2 | **Funil de conversão** | Visita → categoria → detalhe → carrinho → orçamento → WhatsApp/lead |
+| 12.3 | **Eventos customizados** | `add_to_quote`, `remove_from_quote`, `quote_abandon`, `category_filter`, etc. |
+| 12.4 | **Tracking clique WhatsApp** | Refinar E2 (origin, equipamento, página, UTM copiada no Neon) |
+| 12.5 | **Origem do lead** | UTM + referrer + landing + device no `leads` / `analytics_events` |
+| 12.6 | **Heatmaps** | PostHog heatmaps / session replay em páginas-chave (home, detalhe, orçamento) |
+| 12.7 | **Scroll depth** | 25 / 50 / 75 / 100% em home, categorias e detalhe |
+| 12.8 | **Busca interna** | Termos mais buscados (agregado, sem PII) |
+| 12.9 | **Equipamentos mais visualizados** | Ranking por período; cruzar com leads |
+| 12.10 | **Taxa de abandono do orçamento** | Carrinho com itens sem `quote_submit` / sem abertura WhatsApp |
+
+#### Métricas-chave (KPIs)
+
+| Métrica | Uso |
+|---------|-----|
+| **CTR WhatsApp** | Cliques WhatsApp ÷ sessões (por origem e página) |
+| **Conversão por equipamento** | Leads ou WhatsApp com slug do equipamento |
+| **Mobile vs desktop** | Sessões e conversão por device |
+| **Cidade de origem** | Campo do formulário + geo IP (opcional, LGPD) |
+| **Páginas com maior saída** | Exit rate (PostHog) — otimizar conteúdo/CTA |
+
+**Valor interno:** base para **provar ROI** de Google Ads, site e catálogo.
+
+**Critério de saída:** gestor comercial responde “qual equipamento e qual campanha geraram mais WhatsApp no mês?” com dados do painel (Sprint 11/12), não só planilha manual.
+
+---
+
+### Sprint 13 — Dashboard executivo
+
+> **Objetivo:** dar **visibilidade para gestão** — visão consolidada, não só operação diária.
+>
+> **Pré-requisito:** Sprint 12 (dados e eventos estáveis).
+
+#### Features
+
+| ID | Feature | Detalhes |
+|----|---------|----------|
+| 13.1 | Leads por período | Gráfico temporal + comparativo período anterior |
+| 13.2 | Equipamentos mais cotados | Top slugs em `items_json` e formulário |
+| 13.3 | Categorias mais acessadas | Tráfego e conversão por `EquipmentCategory` |
+| 13.4 | Conversão diária | Série: visitas × WhatsApp × leads |
+| 13.5 | **Mapa de origem** | Leads/cidades (BH, Contagem, Betim, RMBH…) |
+| 13.6 | **Export CSV** | Relatórios executivos (leads + agregados analytics) |
+| 13.7 | Ranking de vendedores | 📋 Futuro — depende atribuição no CRM (Sprint 16) |
+
+#### Stack sugerida (UI)
+
+| Camada | Escolha |
+|--------|---------|
+| Componentes dashboard | **Tremor** + **shadcn/ui** |
+| Gráficos | **Recharts** |
+| Dados | Server Actions + agregados PostHog API + Neon |
+| Auth | Clerk (`admin` only nesta rota) |
+
+**Rota sugerida:** `/admin/executivo` (separada de `/admin/analytics` operacional do Sprint 11).
+
+**Critério de saída:** diretoria exporta CSV mensal e vê mapa/lista de cidades + top 10 equipamentos cotados sem pedir relatório ao dev.
+
+---
+
+### Sprint 14 — SEO programático pesado
+
+> **Objetivo:** **dominar buscas locais** (long-tail por cidade + equipamento + aplicação).
+>
+> **Relacionado:** Sprint 9.3, 9.7; backlog “landing por cidade”. **Pré-requisito:** domínio oficial (10) + conteúdo base estável.
+
+#### Implementações
+
+| ID | Entrega | Exemplos de URL |
+|----|---------|-----------------|
+| 14.1 | Páginas por **cidade** | `/locacao-equipamentos-contagem`, `/…-betim` |
+| 14.2 | Páginas por **equipamento + cidade** | `/locacao-plataforma-elevatoria-contagem` |
+| 14.3 | Páginas por **aplicação** | `/andaime-para-fachada-belo-horizonte` |
+| 14.4 | Geração automática | Template + dados (CSV/DB) — ISR ou SSG em lote |
+| 14.5 | **FAQ automático por categoria** | Bloco FAQ único por categoria/cidade (schema FAQPage) |
+| 14.6 | **Schema avançado** | `LocalBusiness`, `Product`, `FAQPage`, `BreadcrumbList` |
+| 14.7 | **Páginas pillar** | Hub por linha (ex.: “Plataformas aéreas em BH”) |
+| 14.8 | **Interlinking automático** | Links cidade ↔ equipamento ↔ categoria |
+
+**Exemplos de URLs alvo:**
+
+- `/locacao-plataforma-elevatoria-contagem`
+- `/andaime-tubular-belo-horizonte`
+- `/plataforma-articulada-betim`
+
+**Impacto esperado:** potencial de **multiplicar tráfego orgânico** na RMBH (monitorar GSC após 8–12 semanas).
+
+**Critério de saída:** ≥ 20 páginas locais indexáveis, sem conteúdo duplicado (textos únicos por template + variáveis), sitemap atualizado.
+
+---
+
+### Sprint 15 — Sistema de prova social
+
+> **Objetivo:** aumentar **confiança** — construção civil compra com prova visual.
+>
+> **Absorve:** Sprint 9.2 (cases/logos). **Diferencial:** credibilidade vs concorrentes locais.
+
+#### Features
+
+| ID | Feature | Onde |
+|----|---------|------|
+| 15.1 | Logos de clientes | Home, sobre, rodapé |
+| 15.2 | Depoimentos reais | Expandir `TestimonialsSection` (fonte verificável) |
+| 15.3 | Cases de obra | Página `/cases` ou seção por segmento |
+| 15.4 | Galeria de obras | Fotos em campo (com permissão) |
+| 15.5 | “Equipamento em ação” | Vídeo curto ou foto no detalhe / home |
+| 15.6 | Timeline de projetos | Marcos (opcional B2B) |
+
+**Critério de saída:** home e sobre exibem ≥ 5 logos ou cases aprovados pelo cliente; conteúdo revisado juridicamente (uso de imagem).
+
+---
+
+### Sprint 16 — CRM leve interno
+
+> **Objetivo:** tirar leads do **WhatsApp puro** — pipeline visível no admin.
+>
+> **Estende:** Sprint 11.4 (status de lead). Aqui o site vira **sistema comercial**.
+
+#### Features
+
+| ID | Feature | Detalhes |
+|----|---------|----------|
+| 16.1 | Status do lead | `novo` → `contactado` → `cotado` → `ganho` / `perdido` |
+| 16.2 | **Pipeline** | Kanban ou lista por coluna |
+| 16.3 | Observações | Notas internas por lead (histórico) |
+| 16.4 | Follow-up | Lembrete / data próximo contato |
+| 16.5 | Atribuição de vendedor | Campo `assigned_to` (Clerk user id ou nome) |
+| 16.6 | Tags | Ex.: “urgente”, “obra grande”, “plataforma” |
+| 16.7 | Histórico | Timeline: criação, mudanças de status, notas |
+
+**Pré-requisito:** Sprint 11.4 (lista/detalhe de leads).
+
+**Critério de saída:** comercial move lead no pipeline e registra follow-up sem planilha paralela.
+
+**Habilita:** Sprint 13.7 (ranking de vendedores).
+
+---
+
+### Sprint 17 — Inteligência de catálogo
+
+> **Objetivo:** melhorar **descoberta e conversão** no catálogo — alto valor em **plataformas aéreas**.
+>
+> **Relacionado:** backlog “comparador”, “acessórios relacionados” (parcial hoje: `getRelatedEquipment` mesma categoria).
+
+#### Features
+
+| ID | Feature | Valor |
+|----|---------|-------|
+| 17.1 | Recomendação automática | “Baseado no que você viu” (sessão) |
+| 17.2 | “Quem alugou isso também pediu” | Co-ocorrência em `items_json` / leads |
+| 17.3 | **Acessórios relacionados** | Ex.: plataforma → cinto, extensão; martelo → ponteira |
+| 17.4 | **Comparação de plataformas** | 2–3 tesouras/articulados lado a lado (specs) |
+| 17.5 | **Calculadora altura/capacidade** | “Preciso de ~12 m” → sugere modelos |
+
+**Critério de saída:** detalhe de plataforma aérea sugere acessórios + alternativas comparáveis; calculadora publicada com disclaimer comercial.
+
+---
+
+### Sprint 18 — Disponibilidade operacional
+
+> **Objetivo:** conectar **operação + comercial** — poucas locadoras médias fazem bem.
+>
+> **Relacionado:** backlog `disponivel`; Fase 3+ ERP.
+
+#### Features
+
+| ID | Feature | Detalhes |
+|----|---------|----------|
+| 18.1 | Disponibilidade **estimada** | Não calendário real no MVP — “consulte prazo” ou faixa |
+| 18.2 | Status por unidade | `disponível` \| `reservado` \| `manutenção` |
+| 18.3 | Previsão de retorno | Data estimada na manutenção/reserva |
+| 18.4 | Prioridade de frota | Destaque de unidades preferenciais no admin |
+| 18.5 | Badge no site público | Card/detalhe: “Disponível” / “Sob consulta” / “Em manutenção” |
+
+**Integração futura:** ERP / planilha de frota (Omie, CSV import).
+
+**Critério de saída:** admin atualiza status; site reflete em &lt; 5 min (ISR/revalidate).
+
+**Impacto:** diferencial competitivo forte na região.
+
+---
+
+### Sprint 19 — PWA / app comercial
+
+> **Objetivo:** facilitar **uso interno** (equipe em obra / comercial em campo).
+
+#### Features
+
+| ID | Feature | Detalhes |
+|----|---------|----------|
+| 19.1 | Instalar como app | `manifest.webmanifest` + service worker |
+| 19.2 | Notificações | Push para novo lead (admin/comercial) — opt-in |
+| 19.3 | Acesso rápido ao catálogo | Atalhos / home screen |
+| 19.4 | Compartilhar orçamento | Link ou PDF resumo do carrinho |
+| 19.5 | Offline parcial | Catálogo em cache (somente leitura) |
+
+**Escopo:** priorizar **admin/comercial**, não visitante público no MVP PWA.
+
+**Critério de saída:** comercial instala PWA no Android/iOS e recebe notificação de lead de teste.
+
+---
+
+### Sprint 20 — IA comercial
+
+> **Objetivo:** **automação inteligente** (fase experimental — validar custo e qualidade).
+
+#### Possibilidades
+
+| ID | Uso | Notas |
+|----|-----|-------|
+| 20.1 | Resumo automático de leads | Texto a partir de `items_json` + mensagem |
+| 20.2 | Sugestão de equipamentos | Com base em cidade, tipo de obra (formulário) |
+| 20.3 | Chatbot no catálogo | Treinado em `equipamentos.json` / DB + FAQ |
+| 20.4 | Geração de resposta WhatsApp | Rascunho para comercial revisar (não envio automático) |
+| 20.5 | Recomendação por obra | Extensão da calculadora (Sprint 17.5) |
+
+**Riscos:** alucinação em specs técnicas; exigir revisão humana e disclaimer.
+
+**Critério de saída:** piloto interno com ≥ 10 leads resumidos corretamente; chatbot responde FAQ básico sem inventar preço.
+
+---
+
+### Sprint 21 — Área do cliente
+
+> **Objetivo:** **fidelização** — cliente recorrente reutiliza histórico.
+
+#### Features
+
+| ID | Feature | Detalhes |
+|----|---------|----------|
+| 21.1 | Histórico de orçamentos | Lista de pedidos anteriores (auth) |
+| 21.2 | Reenvio rápido | “Repetir último orçamento” no carrinho |
+| 21.3 | Favoritos | Equipamentos salvos |
+| 21.4 | Segunda via | Documentos / proposta (PDF futuro) |
+| 21.5 | Contratos | Upload/download (integração jurídica) |
+| 21.6 | Documentos | NR, certificados de treinamento (se aplicável) |
+
+**Auth:** Clerk (conta cliente) ou magic link por e-mail.
+
+**Pré-requisito:** leads identificados por e-mail/telefone consistente.
+
+**Critério de saída:** cliente logado vê últimos 3 orçamentos e reenvia um com um clique.
+
+---
+
+### Sprint 22 — Sistema de conteúdo técnico
+
+> **Objetivo:** virar **autoridade no Google** (SEO informacional + NR).
+>
+> **Absorve:** Sprint 9.4 (blog/dicas).
+
+#### Features
+
+| ID | Feature | Exemplo |
+|----|---------|---------|
+| 22.1 | Blog técnico | `/blog` com artigos |
+| 22.2 | Guias NR | Trabalho em altura, plataformas |
+| 22.3 | Calculadoras | Altura, período, volume concreto (links para catálogo) |
+| 22.4 | Comparativos | “Tesoura vs articulada” |
+| 22.5 | Páginas educativas | Pillar + cluster (ligar ao Sprint 14) |
+
+**Exemplo forte de título:** *“Qual plataforma usar para 12 metros?”* → CTA para catálogo filtrado.
+
+**Critério de saída:** ≥ 10 artigos publicados, indexados no sitemap; interlink com equipamentos e categorias.
+
+---
+
+### Visão de dependências (Sprints 11–22)
+
+```mermaid
+flowchart LR
+  S10[Sprint 10 Go-live] --> S11[Sprint 11 Admin]
+  S11 --> S12[Sprint 12 Analytics]
+  S12 --> S13[Sprint 13 Executivo]
+  S10 --> S14[Sprint 14 SEO local]
+  S10 --> S15[Sprint 15 Prova social]
+  S11 --> S16[Sprint 16 CRM]
+  S11 --> S17[Sprint 17 Catálogo IA]
+  S16 --> S13
+  S17 --> S20[Sprint 20 IA]
+  S11 --> S18[Sprint 18 Disponibilidade]
+  S16 --> S19[Sprint 19 PWA]
+  S16 --> S21[Sprint 21 Cliente]
+  S14 --> S22[Sprint 22 Conteúdo]
+  S15 --> S22
+```
 
 ---
 
@@ -700,8 +1025,14 @@ Fonte: [docs/CONCORRENTES-REFERENCIAS.md](docs/CONCORRENTES-REFERENCIAS.md)
 | `/admin` | SSR (auth) | Dashboard — **Sprint 11** |
 | `/admin/equipamentos` | SSR (auth) | CRUD catálogo — **Sprint 11** |
 | `/admin/leads` | SSR (auth) | Leads + export CSV — **Sprint 11** |
-| `/admin/analytics` | SSR (auth) | Métricas e gráficos — **Sprint 11** |
-| `/api/analytics` | API | POST eventos (page_view, whatsapp_click…) — **Sprint 11** |
+| `/admin/analytics` | SSR (auth) | Métricas operacionais — **Sprint 11** |
+| `/admin/executivo` | SSR (auth) | Dashboard gestão — **Sprint 13** |
+| `/admin/crm` | SSR (auth) | Pipeline de leads — **Sprint 16** |
+| `/locacao-[equipamento]-[cidade]` | SSG/ISR | SEO programático — **Sprint 14** |
+| `/blog`, `/blog/[slug]` | SSG/MDX | Conteúdo técnico — **Sprint 22** |
+| `/cases` | SSG | Prova social — **Sprint 15** |
+| `/cliente` | SSR (auth) | Área do cliente — **Sprint 21** |
+| `/api/analytics` | API | POST eventos — **Sprint 11–12** |
 
 ### 5.2 Categorias sugeridas (inicial)
 
@@ -935,31 +1266,40 @@ Uma tarefa só está **Done** quando:
 
 ## 13. Backlog futuro (pós-MVP)
 
+> Itens abaixo estão **mapeados nos Sprints 12–22** quando aplicável. Ver seções detalhadas na [§4](#4-roadmap-por-sprint-detalhado).
+
 ### Produto
 
-- [x] Busca global no header (Ctrl+K) — **diferencial vs concorrentes**
-- [ ] Comparador de equipamentos (2–3 itens)
-- [ ] Calculadora rápida de período (dias × diária estimada)
-- [x] “Equipamentos relacionados” no detalhe — **implementado**
-- [ ] Multi-unidade / filiais por cidade
-- [ ] Disponibilidade (`disponivel: false` com badge “consulte prazo”)
+- [x] Busca global no header (Ctrl+K)
+- [x] Equipamentos relacionados no detalhe
+- [ ] Comparador de plataformas → **Sprint 17.4**
+- [ ] Calculadora altura/capacidade → **Sprint 17.5**
+- [ ] Acessórios relacionados inteligentes → **Sprint 17.3**
+- [ ] Multi-unidade / filiais por cidade → **Sprint 14** (páginas locais)
+- [ ] Disponibilidade operacional → **Sprint 18**
 
 ### Tecnologia
 
-- [ ] **Ambiente Docker (Compose)** → **Sprint 7.9** (app, db, migrate, studio por serviço)
-- [ ] **Painel admin completo** → **Sprint 11** (CRUD, fotos, CSV, analytics)
-- [ ] CMS headless (Sanity/Payload) — só se não usar admin próprio
-- [ ] Integração ERP (estoque/disponibilidade)
-- [ ] Geração de PDF de proposta
-- [ ] PWA para equipe comercial
-- [ ] Internacionalização EN/ES
+- [ ] Docker Compose → **Sprint 7.9**
+- [ ] Painel admin operacional → **Sprint 11**
+- [ ] Analytics avançado + ROI → **Sprint 12**
+- [ ] Dashboard executivo → **Sprint 13**
+- [ ] CRM leve → **Sprint 16**
+- [ ] PWA comercial → **Sprint 19**
+- [ ] IA comercial (piloto) → **Sprint 20**
+- [ ] Portal do cliente → **Sprint 21**
+- [ ] CMS headless — **não prioritário** (admin próprio Sprint 11)
+- [ ] Integração ERP (Omie) — pós-Sprint 18
+- [ ] Geração de PDF de proposta — Sprint 19.4 ou 21.4
+- [ ] Internacionalização EN/ES — backlog aberto
 
-### Marketing
+### Marketing & SEO
 
-- [ ] Landing pages por cidade (`/locacao-betoneira-curitiba`)
-- [ ] Google Ads conversion tracking
-- [ ] Meta Pixel
-- [ ] Programa de indicação
+- [ ] SEO programático (cidade × equipamento) → **Sprint 14**
+- [ ] Prova social (cases, logos, galeria) → **Sprint 15**
+- [ ] Blog / conteúdo técnico → **Sprint 22**
+- [ ] Google Ads / Meta conversion tracking → **Sprint 12** (UTM + PostHog)
+- [ ] Programa de indicação — backlog aberto
 
 ---
 
@@ -995,16 +1335,19 @@ Uma tarefa só está **Done** quando:
 
 ## Cronograma resumido (visão executiva)
 
-| Fase | Duração estimada | Entrega principal |
-|------|------------------|-------------------|
-| Fase 0 — Kickoff | Concluído | Requisitos, inventário, concorrentes, marca |
-| Fase 1 — MVP (Sprints 1–7) | 6–8 semanas | Landing completa em local/preview |
-| **Docker (Sprint 7.9)** | 2–4 dias | Compose: db + app + migrate (+ studio) — **paralelo** |
-| **Aprovação (Sprint 8)** | Concluída | Sign-off Flaviano (2026-05-19) |
-| Conteúdo (Sprint 9) | 2–4 semanas | Fotos, cases, SEO (opcional antes do go-live) |
-| **Hospedagem (Sprint 10)** | 2–5 dias | Domínio, SSL, produção — **último passo** |
-| **Painel admin (Sprint 11)** | 7–8 semanas | CRUD, fotos, CSV, métricas, campanhas UTM |
-| Fase 3+ — ERP / reservas | 3+ meses | Estoque, portal cliente (se necessário) |
+| Fase | Sprints | Duração estimada | Entrega principal |
+|------|---------|------------------|-------------------|
+| Fase 0 — Kickoff | 0 | Concluído | Requisitos, inventário, marca |
+| Fase 1 — MVP | 1–8 | Concluído | Landing + preview aprovado |
+| Conteúdo frota | 9 | 2–4 sem | Fotos (~125/148); cases → Sprint 15 |
+| **Go-live** | **10** | 2–5 dias | Domínio oficial, PostHog produção |
+| **Operação digital** | **11** | 7–8 sem | Admin, CRUD, leads, CSV, KPIs básicos |
+| **Dados comerciais** | **12–13** | 4–6 sem | Analytics avançado + dashboard executivo |
+| **Crescimento orgânico** | **14–15** | 6–10 sem | SEO local em escala + prova social |
+| **Vendas & catálogo** | **16–17** | 6–8 sem | CRM leve + recomendações/comparador |
+| **Frota** | **18** | 4–6 sem | Disponibilidade no site |
+| **Escala** | **19–22** | 3–6+ meses | PWA, IA, portal cliente, blog técnico |
+| ERP / reservas | — | Pós-18 | Omie, calendário real |
 
 ---
 
@@ -1014,19 +1357,23 @@ Uma tarefa só está **Done** quando:
 
 | Ordem | Sprint | Por quê |
 |-------|--------|---------|
-| **1** | **5.7** + **6** (e-mail lead, JSON-LD, Privacidade) | Próximo após Sprint 8 ✅ — confiança e SEO antes do domínio |
-| **2** | **10** (domínio + PostHog + produção) | Go-live no domínio oficial |
-| **3** | **9** (fotos reais) | Paralelo ao 5.7/6 ou antes do go-live |
-| **4** | **7.9** (Docker) | Opcional — DX local, Postgres no Compose |
-| **5** | **11** (painel admin) | Fase 2 — após tráfego real em produção |
+| **1** | **10** | Go-live + PostHog — base para todos os dados |
+| **2** | **9** (restante) + **15** | Fotos faltantes + prova social antes de campanhas pesadas |
+| **3** | **11** | Operação sem depender de dev para catálogo/leads |
+| **4** | **12–13** | Provar ROI; dashboard para gestão |
+| **5** | **14** | Tráfego orgânico local (long-tail RMBH) |
+| **6** | **16–17** | CRM + conversão no catálogo |
+| **7** | **18** | Diferencial operacional (disponibilidade) |
+| **8** | **19–22** | PWA, IA, cliente, conteúdo — conforme demanda |
 
 ### Checklist imediato
 
 1. ~~Sprint 8~~ — preview aprovado (Flaviano, 2026-05-19).
-2. ~~Sprint 5.7 + 6~~ — e-mail Resend, JSON-LD, `/privacidade`, OG.
-3. **Sprint 10** — domínio oficial e go-live (após `RESEND_*` na Vercel).
-4. **Paralelo:** Sprint **9** (fotos) e/ou **7.9** (Docker).
-5. **Sprint 11** — painel admin (após produção).
+2. ~~Sprints 5–6 + incrementais~~ — carrinho, WhatsApp orçamento, acessórios, fotos ~125.
+3. **Sprint 10** — domínio oficial e go-live.
+4. **Sprint 11** — painel admin operacional.
+5. **Sprints 12–13** — analytics e executivo (após tráfego real).
+6. **Sprints 14–15** — SEO programático + prova social (paralelo possível após 10).
 
 ---
 

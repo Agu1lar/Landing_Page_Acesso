@@ -86,9 +86,12 @@ Detalhamento por sprint em [ROADMAP.temp.md](ROADMAP.temp.md).
 | Média | Analytics em produção (PostHog / GA) + banner de cookies |
 | Média | CI completo no GitHub (lint + types + e2e em todo PR) |
 | Média | Polish Sprint 7 (a11y, skeletons, PageSpeed alvo) |
-| Planejado | **Painel admin** (Sprint 11): leads CSV, CRUD catálogo, métricas |
-| Planejado | Docker local opcional (Sprint 7.9) |
-| Futuro | CMS/ERP, reservas online, blog, disponibilidade em tempo real |
+| Planejado | **Sprint 11** — admin: CRUD, leads, CSV |
+| Planejado | **Sprints 12–13** — analytics avançado, dashboard executivo, ROI |
+| Planejado | **Sprints 14–15** — SEO por cidade, prova social (cases/logos) |
+| Planejado | **Sprints 16–18** — CRM, inteligência de catálogo, disponibilidade frota |
+| Backlog | **Sprints 19–22** — PWA, IA comercial, área do cliente, blog técnico |
+| Opcional | Docker local (Sprint 7.9) |
 
 ---
 
