@@ -27,6 +27,7 @@ Site da **Acesso Equipamentos** (locação de equipamentos para construção e p
 
 ### Funcionalidades de conversão
 
+- **Carrinho de orçamento** — adicione vários equipamentos (e depois acessórios) e envie um único formulário; valores informados só pelo comercial após o contato.
 - **Formulário de orçamento** — dados salvos no banco (PostgreSQL na nuvem).
 - **E-mail ao comercial** — quando configurado no servidor (Resend); o lead continua salvo mesmo se o e-mail falhar.
 - **WhatsApp** — botão no site com mensagem contextual (página, equipamento, origem).
@@ -44,6 +45,10 @@ Site da **Acesso Equipamentos** (locação de equipamentos para construção e p
 ### Validação do preview
 
 - Roteiro de testes: [docs/PREVIEW-VALIDACAO.md](docs/PREVIEW-VALIDACAO.md)
+
+### Fotos da frota (Sprint 9)
+
+- Guia rápido: [docs/SPRINT-9-FOTOS.md](docs/SPRINT-9-FOTOS.md) — coloque `public/equipamentos/{slug}.webp` ou use o script `sync-equipment-photos.py`
 
 ---
 

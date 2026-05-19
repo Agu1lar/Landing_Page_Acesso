@@ -18,6 +18,7 @@ export async function createLead(input: CreateLeadInput) {
       rentalPeriod: input.rentalPeriod || null,
       city: input.city,
       message: input.message || null,
+      itemsJson: input.itemsJson || null,
       origin: input.origin || 'site-orcamento',
       status: 'new',
     })

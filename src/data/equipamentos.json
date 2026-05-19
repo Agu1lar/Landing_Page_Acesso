@@ -3,10 +3,25 @@
     "slug": "argamassadeira",
     "name": "Argamassadeira",
     "category": "concretagem",
-    "shortDescription": "Locação de Argamassadeira — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["concretagem"],
+    "shortDescription": "Locação de Argamassadeira.",
+    "longDescription": "Argamassadeira: Equipamento para concretagem e misturas em obra civil. Aplicação em fundações, lajes e serviços de alvenaria. Entrega e retirada combinadas com a locação.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Concretagem, argamassa e misturas"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica (conforme modelo)"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "concretagem"
+    ],
     "featured": false,
     "available": true
   },
@@ -14,10 +29,25 @@
     "slug": "aspirador-de-po",
     "name": "aspirador de po",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de aspirador de po — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["ferramentas"],
+    "shortDescription": "Locação de aspirador de po.",
+    "longDescription": "Aspirador de po: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Obra civil e reforma"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "ferramentas"
+    ],
     "featured": false,
     "available": true
   },
@@ -25,10 +55,25 @@
     "slug": "betoneira",
     "name": "betoneira",
     "category": "concretagem",
-    "shortDescription": "Locação de betoneira — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["concretagem"],
+    "shortDescription": "Locação de betoneira.",
+    "longDescription": "Betoneira: Equipamento para concretagem e misturas em obra civil. Aplicação em fundações, lajes e serviços de alvenaria. Entrega e retirada combinadas com a locação.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Concretagem, argamassa e misturas"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica (conforme modelo)"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "concretagem"
+    ],
     "featured": false,
     "available": true
   },
@@ -36,10 +81,25 @@
     "slug": "bomba-lameira",
     "name": "bomba lameira",
     "category": "concretagem",
-    "shortDescription": "Locação de bomba lameira — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["concretagem"],
+    "shortDescription": "Locação de bomba lameira.",
+    "longDescription": "Bomba lameira: Equipamento para concretagem e misturas em obra civil. Aplicação em fundações, lajes e serviços de alvenaria. Entrega e retirada combinadas com a locação.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Concretagem, argamassa e misturas"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica (conforme modelo)"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "concretagem"
+    ],
     "featured": false,
     "available": true
   },
@@ -47,10 +107,25 @@
     "slug": "bomba-mangote",
     "name": "bomba mangote",
     "category": "concretagem",
-    "shortDescription": "Locação de bomba mangote — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["concretagem"],
+    "shortDescription": "Locação de bomba mangote.",
+    "longDescription": "Bomba mangote: Equipamento para concretagem e misturas em obra civil. Aplicação em fundações, lajes e serviços de alvenaria. Entrega e retirada combinadas com a locação.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Concretagem, argamassa e misturas"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica (conforme modelo)"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "concretagem"
+    ],
     "featured": false,
     "available": true
   },
@@ -58,10 +133,25 @@
     "slug": "bomba-mangote-75",
     "name": "bomba mangote 75\"",
     "category": "concretagem",
-    "shortDescription": "Locação de bomba mangote 75\" — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["concretagem"],
+    "shortDescription": "Locação de bomba mangote 75\".",
+    "longDescription": "Bomba mangote 75\": Equipamento para concretagem e misturas em obra civil. Aplicação em fundações, lajes e serviços de alvenaria. Entrega e retirada combinadas com a locação.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Concretagem, argamassa e misturas"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica (conforme modelo)"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "concretagem"
+    ],
     "featured": false,
     "available": true
   },
@@ -69,10 +159,25 @@
     "slug": "chave-de-impacto",
     "name": "chave de impacto",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de chave de impacto — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["ferramentas"],
+    "shortDescription": "Locação de chave de impacto.",
+    "longDescription": "Chave de impacto: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Obra civil e reforma"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "ferramentas"
+    ],
     "featured": false,
     "available": true
   },
@@ -80,10 +185,25 @@
     "slug": "compactador-eletrico",
     "name": "compactador eletrico",
     "category": "compactacao",
-    "shortDescription": "Locação de compactador eletrico — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["compactacao"],
+    "shortDescription": "Locação de compactador eletrico.",
+    "longDescription": "Compactador eletrico: Equipamento de compactação de solo para preparação de base e acabamento em obra. Uso em calçadas, valas e áreas de assentamento. Operação com EPI e manual do fabricante.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Compactação de solo e base"
+      },
+      {
+        "label": "Alimentação",
+        "value": "Elétrica ou manual (conforme modelo)"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "compactacao"
+    ],
     "featured": false,
     "available": true
   },
@@ -91,10 +211,25 @@
     "slug": "compactador-eletrico-unidade-2",
     "name": "Compactador elétrico (unidade 2)",
     "category": "compactacao",
-    "shortDescription": "Locação de Compactador elétrico (unidade 2) — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["compactacao"],
+    "shortDescription": "Locação de Compactador elétrico (unidade 2).",
+    "longDescription": "Compactador elétrico (unidade 2): Equipamento de compactação de solo para preparação de base e acabamento em obra. Uso em calçadas, valas e áreas de assentamento. Operação com EPI e manual do fabricante.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Compactação de solo e base"
+      },
+      {
+        "label": "Alimentação",
+        "value": "Elétrica ou manual (conforme modelo)"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "compactacao"
+    ],
     "featured": false,
     "available": true
   },
@@ -102,10 +237,25 @@
     "slug": "compressor-220v",
     "name": "compressor 220v",
     "category": "energia",
-    "shortDescription": "Locação de compressor 220v — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["energia"],
+    "shortDescription": "Locação de compressor 220v.",
+    "longDescription": "Compressor 220v: Equipamento de geração ou ar comprimido para canteiro de obras. Dimensionamento conforme demanda do serviço; valores e autonomia sob consulta.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Geração ou ar comprimido em obra"
+      },
+      {
+        "label": "Alimentação",
+        "value": "Conforme modelo (diesel, 220 V, etc.)"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "energia"
+    ],
     "featured": false,
     "available": true
   },
@@ -113,10 +263,25 @@
     "slug": "cortadora",
     "name": "cortadora",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de cortadora — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["ferramentas"],
+    "shortDescription": "Locação de cortadora.",
+    "longDescription": "Cortadora: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Obra civil e reforma"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "ferramentas"
+    ],
     "featured": false,
     "available": true
   },
@@ -124,10 +289,25 @@
     "slug": "cortadora-de-piso-gasolina",
     "name": "cortadora de piso gasolina",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de cortadora de piso gasolina — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["ferramentas"],
+    "shortDescription": "Locação de cortadora de piso gasolina.",
+    "longDescription": "Cortadora de piso gasolina: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Obra civil e reforma"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "ferramentas"
+    ],
     "featured": false,
     "available": true
   },
@@ -135,10 +315,25 @@
     "slug": "escada-fibra-6m-extensiva",
     "name": "escada fibra 6m extensiva",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de escada fibra 6m extensiva — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["ferramentas"],
+    "shortDescription": "Locação de escada fibra 6m extensiva.",
+    "longDescription": "Escada fibra 6m extensiva: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Obra civil e reforma"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "ferramentas"
+    ],
     "featured": false,
     "available": true
   },
@@ -146,10 +341,25 @@
     "slug": "esmerilhadeira-4-5-220v",
     "name": "esmerilhadeira 4,5\" 220v",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de esmerilhadeira 4,5\" 220v — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["ferramentas"],
+    "shortDescription": "Locação de esmerilhadeira 4,5\" 220v.",
+    "longDescription": "Esmerilhadeira 4,5\" 220v: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Obra civil e reforma"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "ferramentas"
+    ],
     "featured": false,
     "available": true
   },
@@ -157,10 +367,25 @@
     "slug": "esmerilhadeira-7-m-220v",
     "name": "esmerilhadeira 7\"m -220v",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de esmerilhadeira 7\"m -220v — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["ferramentas"],
+    "shortDescription": "Locação de esmerilhadeira 7\"m -220v.",
+    "longDescription": "Esmerilhadeira 7\"m -220v: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Obra civil e reforma"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "ferramentas"
+    ],
     "featured": false,
     "available": true
   },
@@ -168,10 +393,25 @@
     "slug": "furadeira-5-8-220v",
     "name": "furadeira 5/8 220v",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de furadeira 5/8 220v — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["ferramentas"],
+    "shortDescription": "Locação de furadeira 5/8 220v.",
+    "longDescription": "Furadeira 5/8 220v: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Obra civil e reforma"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "ferramentas"
+    ],
     "featured": false,
     "available": true
   },
@@ -179,10 +419,25 @@
     "slug": "furadeira-1-2-200v",
     "name": "furadeira 1/2 200v",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de furadeira 1/2 200v — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["ferramentas"],
+    "shortDescription": "Locação de furadeira 1/2 200v.",
+    "longDescription": "Furadeira 1/2 200v: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Obra civil e reforma"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "ferramentas"
+    ],
     "featured": false,
     "available": true
   },
@@ -190,10 +445,25 @@
     "slug": "gerador-a-gasolina",
     "name": "gerador a gasolina",
     "category": "energia",
-    "shortDescription": "Locação de gerador a gasolina — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["energia"],
+    "shortDescription": "Locação de gerador a gasolina.",
+    "longDescription": "Gerador a gasolina: Equipamento de geração ou ar comprimido para canteiro de obras. Dimensionamento conforme demanda do serviço; valores e autonomia sob consulta.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Geração ou ar comprimido em obra"
+      },
+      {
+        "label": "Alimentação",
+        "value": "Conforme modelo (diesel, 220 V, etc.)"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "energia"
+    ],
     "featured": false,
     "available": true
   },
@@ -201,10 +471,25 @@
     "slug": "guincho-de-coluna-200kg",
     "name": "guincho de coluna 200kg",
     "category": "outros",
-    "shortDescription": "Locação de guincho de coluna 200kg — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["outros"],
+    "shortDescription": "Locação de guincho de coluna 200kg.",
+    "longDescription": "Guincho de coluna 200kg: Equipamento para locação em obra civil na região metropolitana de Belo Horizonte. Disponibilidade e condições comerciais conforme período de locação.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Locação para construção civil"
+      },
+      {
+        "label": "Condição",
+        "value": "Unidade conforme disponibilidade de frota"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "outros"
+    ],
     "featured": false,
     "available": true
   },
@@ -212,10 +497,25 @@
     "slug": "guincho-mini-grua",
     "name": "guincho mini grua",
     "category": "outros",
-    "shortDescription": "Locação de guincho mini grua — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["outros"],
+    "shortDescription": "Locação de guincho mini grua.",
+    "longDescription": "Guincho mini grua: Equipamento para locação em obra civil na região metropolitana de Belo Horizonte. Disponibilidade e condições comerciais conforme período de locação.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Locação para construção civil"
+      },
+      {
+        "label": "Condição",
+        "value": "Unidade conforme disponibilidade de frota"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "outros"
+    ],
     "featured": false,
     "available": true
   },
@@ -223,10 +523,25 @@
     "slug": "lavador-de-alta-pressao",
     "name": "lavador de alta pressão",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de lavador de alta pressão — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["ferramentas"],
+    "shortDescription": "Locação de lavador de alta pressão.",
+    "longDescription": "Lavador de alta pressão: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Obra civil e reforma"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "ferramentas"
+    ],
     "featured": false,
     "available": true
   },
@@ -234,10 +549,25 @@
     "slug": "lixadeira-7-220v",
     "name": "lixadeira 7\" 220v",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de lixadeira 7\" 220v — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["ferramentas"],
+    "shortDescription": "Locação de lixadeira 7\" 220v.",
+    "longDescription": "Lixadeira 7\" 220v: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Obra civil e reforma"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "ferramentas"
+    ],
     "featured": false,
     "available": true
   },
@@ -245,10 +575,25 @@
     "slug": "lixadeira",
     "name": "lixadeira",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de lixadeira — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["ferramentas"],
+    "shortDescription": "Locação de lixadeira.",
+    "longDescription": "Lixadeira: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Obra civil e reforma"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "ferramentas"
+    ],
     "featured": false,
     "available": true
   },
@@ -256,10 +601,25 @@
     "slug": "makitao",
     "name": "makitão",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de makitão — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["ferramentas"],
+    "shortDescription": "Locação de makitão.",
+    "longDescription": "Makitão: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Obra civil e reforma"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "ferramentas"
+    ],
     "featured": false,
     "available": true
   },
@@ -267,10 +627,25 @@
     "slug": "mangote-25mm-5m-vibr-port",
     "name": "mangote 25mm 5m vibr. Port.",
     "category": "concretagem",
-    "shortDescription": "Locação de mangote 25mm 5m vibr. Port. — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["concretagem"],
+    "shortDescription": "Locação de mangote 25mm 5m vibr. Port..",
+    "longDescription": "Mangote 25mm 5m vibr. port.: Equipamento para concretagem e misturas em obra civil. Aplicação em fundações, lajes e serviços de alvenaria. Entrega e retirada combinadas com a locação.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Concretagem, argamassa e misturas"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica (conforme modelo)"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "concretagem"
+    ],
     "featured": false,
     "available": true
   },
@@ -278,10 +653,25 @@
     "slug": "mangote-35mm-3m-makita",
     "name": "mangote 35mm 3m makita",
     "category": "concretagem",
-    "shortDescription": "Locação de mangote 35mm 3m makita — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["concretagem"],
+    "shortDescription": "Locação de mangote 35mm 3m makita.",
+    "longDescription": "Mangote 35mm 3m makita: Equipamento para concretagem e misturas em obra civil. Aplicação em fundações, lajes e serviços de alvenaria. Entrega e retirada combinadas com a locação.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Concretagem, argamassa e misturas"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica (conforme modelo)"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "concretagem"
+    ],
     "featured": false,
     "available": true
   },
@@ -289,10 +679,25 @@
     "slug": "mangote-35mm-3m-bosch",
     "name": "mangote 35mm 3m bosch",
     "category": "concretagem",
-    "shortDescription": "Locação de mangote 35mm 3m bosch — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["concretagem"],
+    "shortDescription": "Locação de mangote 35mm 3m bosch.",
+    "longDescription": "Mangote 35mm 3m bosch: Equipamento para concretagem e misturas em obra civil. Aplicação em fundações, lajes e serviços de alvenaria. Entrega e retirada combinadas com a locação.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Concretagem, argamassa e misturas"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica (conforme modelo)"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "concretagem"
+    ],
     "featured": false,
     "available": true
   },
@@ -300,10 +705,25 @@
     "slug": "mangote-vibrador-25mm",
     "name": "mangote vibrador 25mm",
     "category": "concretagem",
-    "shortDescription": "Locação de mangote vibrador 25mm — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["concretagem"],
+    "shortDescription": "Locação de mangote vibrador 25mm.",
+    "longDescription": "Mangote vibrador 25mm: Equipamento para concretagem e misturas em obra civil. Aplicação em fundações, lajes e serviços de alvenaria. Entrega e retirada combinadas com a locação.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Concretagem, argamassa e misturas"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica (conforme modelo)"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "concretagem"
+    ],
     "featured": false,
     "available": true
   },
@@ -311,10 +731,25 @@
     "slug": "mangote-vibrador-35mm",
     "name": "mangote vibrador 35mm",
     "category": "concretagem",
-    "shortDescription": "Locação de mangote vibrador 35mm — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["concretagem"],
+    "shortDescription": "Locação de mangote vibrador 35mm.",
+    "longDescription": "Mangote vibrador 35mm: Equipamento para concretagem e misturas em obra civil. Aplicação em fundações, lajes e serviços de alvenaria. Entrega e retirada combinadas com a locação.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Concretagem, argamassa e misturas"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica (conforme modelo)"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "concretagem"
+    ],
     "featured": false,
     "available": true
   },
@@ -322,10 +757,25 @@
     "slug": "mangote-vibrador-45mm",
     "name": "mangote vibrador 45mm",
     "category": "concretagem",
-    "shortDescription": "Locação de mangote vibrador 45mm — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["concretagem"],
+    "shortDescription": "Locação de mangote vibrador 45mm.",
+    "longDescription": "Mangote vibrador 45mm: Equipamento para concretagem e misturas em obra civil. Aplicação em fundações, lajes e serviços de alvenaria. Entrega e retirada combinadas com a locação.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Concretagem, argamassa e misturas"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica (conforme modelo)"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "concretagem"
+    ],
     "featured": false,
     "available": true
   },
@@ -333,10 +783,25 @@
     "slug": "mangote-vibrador-60mm",
     "name": "mangote vibrador 60mm",
     "category": "concretagem",
-    "shortDescription": "Locação de mangote vibrador 60mm — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["concretagem"],
+    "shortDescription": "Locação de mangote vibrador 60mm.",
+    "longDescription": "Mangote vibrador 60mm: Equipamento para concretagem e misturas em obra civil. Aplicação em fundações, lajes e serviços de alvenaria. Entrega e retirada combinadas com a locação.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Concretagem, argamassa e misturas"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica (conforme modelo)"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "concretagem"
+    ],
     "featured": false,
     "available": true
   },
@@ -344,10 +809,25 @@
     "slug": "maquina-de-solda",
     "name": "maquina de solda",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de maquina de solda — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["ferramentas"],
+    "shortDescription": "Locação de maquina de solda.",
+    "longDescription": "Maquina de solda: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Obra civil e reforma"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "ferramentas"
+    ],
     "featured": false,
     "available": true
   },
@@ -355,10 +835,25 @@
     "slug": "martelo-10-kg",
     "name": "martelo 10 kg",
     "category": "demolicao-perfuracao",
-    "shortDescription": "Locação de martelo 10 kg — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["demolicao"],
+    "shortDescription": "Locação de martelo 10 kg.",
+    "longDescription": "Martelo 10 kg: Equipamento para demolição, perfuração ou corte em obra. Indicado para serviços pontuais com operador treinado e proteção adequada.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Demolição, perfuração ou corte"
+      },
+      {
+        "label": "Segurança",
+        "value": "EPI obrigatório · NR-12 quando aplicável"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "demolicao"
+    ],
     "featured": false,
     "available": true
   },
@@ -366,10 +861,25 @@
     "slug": "martelete-sds-combinado",
     "name": "martelete sds combinado",
     "category": "demolicao-perfuracao",
-    "shortDescription": "Locação de martelete sds combinado — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["demolicao"],
+    "shortDescription": "Locação de martelete sds combinado.",
+    "longDescription": "Martelete sds combinado: Equipamento para demolição, perfuração ou corte em obra. Indicado para serviços pontuais com operador treinado e proteção adequada.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Demolição, perfuração ou corte"
+      },
+      {
+        "label": "Segurança",
+        "value": "EPI obrigatório · NR-12 quando aplicável"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "demolicao"
+    ],
     "featured": false,
     "available": true
   },
@@ -377,10 +887,25 @@
     "slug": "martelo-5kg",
     "name": "martelo 5kg",
     "category": "demolicao-perfuracao",
-    "shortDescription": "Locação de martelo 5kg — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["demolicao"],
+    "shortDescription": "Locação de martelo 5kg.",
+    "longDescription": "Martelo 5kg: Equipamento para demolição, perfuração ou corte em obra. Indicado para serviços pontuais com operador treinado e proteção adequada.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Demolição, perfuração ou corte"
+      },
+      {
+        "label": "Segurança",
+        "value": "EPI obrigatório · NR-12 quando aplicável"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "demolicao"
+    ],
     "featured": false,
     "available": true
   },
@@ -388,10 +913,25 @@
     "slug": "martelo-demolidor-15-kg",
     "name": "martelo demolidor 15 kg",
     "category": "demolicao-perfuracao",
-    "shortDescription": "Locação de martelo demolidor 15 kg — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["demolicao"],
+    "shortDescription": "Locação de martelo demolidor 15 kg.",
+    "longDescription": "Martelo demolidor 15 kg: Equipamento para demolição, perfuração ou corte em obra. Indicado para serviços pontuais com operador treinado e proteção adequada.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Demolição, perfuração ou corte"
+      },
+      {
+        "label": "Segurança",
+        "value": "EPI obrigatório · NR-12 quando aplicável"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "demolicao"
+    ],
     "featured": false,
     "available": true
   },
@@ -399,10 +939,25 @@
     "slug": "martelo-demolidor-18kg",
     "name": "martelo demolidor 18kg",
     "category": "demolicao-perfuracao",
-    "shortDescription": "Locação de martelo demolidor 18kg — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["demolicao"],
+    "shortDescription": "Locação de martelo demolidor 18kg.",
+    "longDescription": "Martelo demolidor 18kg: Equipamento para demolição, perfuração ou corte em obra. Indicado para serviços pontuais com operador treinado e proteção adequada.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Demolição, perfuração ou corte"
+      },
+      {
+        "label": "Segurança",
+        "value": "EPI obrigatório · NR-12 quando aplicável"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "demolicao"
+    ],
     "featured": false,
     "available": true
   },
@@ -410,10 +965,25 @@
     "slug": "martelo-demolidor-30-kg",
     "name": "martelo demolidor 30 kg",
     "category": "demolicao-perfuracao",
-    "shortDescription": "Locação de martelo demolidor 30 kg — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["demolicao"],
+    "shortDescription": "Locação de martelo demolidor 30 kg.",
+    "longDescription": "Martelo demolidor 30 kg: Equipamento para demolição, perfuração ou corte em obra. Indicado para serviços pontuais com operador treinado e proteção adequada.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Demolição, perfuração ou corte"
+      },
+      {
+        "label": "Segurança",
+        "value": "EPI obrigatório · NR-12 quando aplicável"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "demolicao"
+    ],
     "featured": false,
     "available": true
   },
@@ -421,10 +991,25 @@
     "slug": "misturador-argamassa-portatil",
     "name": "misturador argamassa portatil",
     "category": "concretagem",
-    "shortDescription": "Locação de misturador argamassa portatil — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["concretagem"],
+    "shortDescription": "Locação de misturador argamassa portatil.",
+    "longDescription": "Misturador argamassa portatil: Equipamento para concretagem e misturas em obra civil. Aplicação em fundações, lajes e serviços de alvenaria. Entrega e retirada combinadas com a locação.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Concretagem, argamassa e misturas"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica (conforme modelo)"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "concretagem"
+    ],
     "featured": false,
     "available": true
   },
@@ -432,10 +1017,25 @@
     "slug": "motor-weg",
     "name": "motor weg",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de motor weg — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["ferramentas"],
+    "shortDescription": "Locação de motor weg.",
+    "longDescription": "Motor weg: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Obra civil e reforma"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "ferramentas"
+    ],
     "featured": false,
     "available": true
   },
@@ -443,10 +1043,25 @@
     "slug": "motor-vibrador",
     "name": "motor vibrador",
     "category": "concretagem",
-    "shortDescription": "Locação de motor vibrador — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["concretagem"],
+    "shortDescription": "Locação de motor vibrador.",
+    "longDescription": "Motor vibrador: Equipamento para concretagem e misturas em obra civil. Aplicação em fundações, lajes e serviços de alvenaria. Entrega e retirada combinadas com a locação.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Concretagem, argamassa e misturas"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica (conforme modelo)"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "concretagem"
+    ],
     "featured": false,
     "available": true
   },
@@ -454,10 +1069,25 @@
     "slug": "nivel-laser",
     "name": "nivel laser",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de nivel laser — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["ferramentas"],
+    "shortDescription": "Locação de nivel laser.",
+    "longDescription": "Nivel laser: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Obra civil e reforma"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "ferramentas"
+    ],
     "featured": false,
     "available": true
   },
@@ -465,10 +1095,25 @@
     "slug": "painel-de-comando",
     "name": "painel de comando",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de painel de comando — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["ferramentas"],
+    "shortDescription": "Locação de painel de comando.",
+    "longDescription": "Painel de comando: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Obra civil e reforma"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "ferramentas"
+    ],
     "featured": false,
     "available": true
   },
@@ -476,10 +1121,25 @@
     "slug": "parafusadeira",
     "name": "parafusadeira",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de parafusadeira — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["ferramentas"],
+    "shortDescription": "Locação de parafusadeira.",
+    "longDescription": "Parafusadeira: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Obra civil e reforma"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "ferramentas"
+    ],
     "featured": false,
     "available": true
   },
@@ -487,10 +1147,25 @@
     "slug": "carregador",
     "name": "carregador",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de carregador — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["ferramentas"],
+    "shortDescription": "Locação de carregador.",
+    "longDescription": "Carregador: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Obra civil e reforma"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "ferramentas"
+    ],
     "featured": false,
     "available": true
   },
@@ -498,10 +1173,25 @@
     "slug": "bateria",
     "name": "bateria",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de bateria — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["ferramentas"],
+    "shortDescription": "Locação de bateria.",
+    "longDescription": "Bateria: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Obra civil e reforma"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "ferramentas"
+    ],
     "featured": false,
     "available": true
   },
@@ -509,10 +1199,25 @@
     "slug": "placa-vibratoria-gasolina",
     "name": "placa vibratoria gasolina",
     "category": "compactacao",
-    "shortDescription": "Locação de placa vibratoria gasolina — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["compactacao"],
+    "shortDescription": "Locação de placa vibratoria gasolina.",
+    "longDescription": "Placa vibratoria gasolina: Equipamento de compactação de solo para preparação de base e acabamento em obra. Uso em calçadas, valas e áreas de assentamento. Operação com EPI e manual do fabricante.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Compactação de solo e base"
+      },
+      {
+        "label": "Alimentação",
+        "value": "Elétrica ou manual (conforme modelo)"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "compactacao"
+    ],
     "featured": false,
     "available": true
   },
@@ -520,10 +1225,25 @@
     "slug": "plaina-220v",
     "name": "plaina 220v",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de plaina 220v — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["ferramentas"],
+    "shortDescription": "Locação de plaina 220v.",
+    "longDescription": "Plaina 220v: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Obra civil e reforma"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "ferramentas"
+    ],
     "featured": false,
     "available": true
   },
@@ -531,10 +1251,25 @@
     "slug": "retifica-220v",
     "name": "retifica 220v",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de retifica 220v — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["ferramentas"],
+    "shortDescription": "Locação de retifica 220v.",
+    "longDescription": "Retifica 220v: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Obra civil e reforma"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "ferramentas"
+    ],
     "featured": false,
     "available": true
   },
@@ -542,10 +1277,25 @@
     "slug": "rocadeira",
     "name": "roçadeira",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de roçadeira — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["ferramentas"],
+    "shortDescription": "Locação de roçadeira.",
+    "longDescription": "Roçadeira: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Obra civil e reforma"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "ferramentas"
+    ],
     "featured": false,
     "available": true
   },
@@ -553,10 +1303,25 @@
     "slug": "serra-circular-7-220v",
     "name": "serra circular 7 \" 220v",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de serra circular 7 \" 220v — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["ferramentas"],
+    "shortDescription": "Locação de serra circular 7 \" 220v.",
+    "longDescription": "Serra circular 7 \" 220v: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Obra civil e reforma"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "ferramentas"
+    ],
     "featured": false,
     "available": true
   },
@@ -564,10 +1329,25 @@
     "slug": "serra-circular-9-220v",
     "name": "serra circular 9\" 220v",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de serra circular 9\" 220v — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["ferramentas"],
+    "shortDescription": "Locação de serra circular 9\" 220v.",
+    "longDescription": "Serra circular 9\" 220v: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Obra civil e reforma"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "ferramentas"
+    ],
     "featured": false,
     "available": true
   },
@@ -575,10 +1355,25 @@
     "slug": "serra-de-bancada",
     "name": "serra de bancada",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de serra de bancada — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["ferramentas"],
+    "shortDescription": "Locação de serra de bancada.",
+    "longDescription": "Serra de bancada: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Obra civil e reforma"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "ferramentas"
+    ],
     "featured": false,
     "available": true
   },
@@ -586,10 +1381,25 @@
     "slug": "serra-de-marmore-220v",
     "name": "serra de marmore 220v",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de serra de marmore 220v — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["ferramentas"],
+    "shortDescription": "Locação de serra de marmore 220v.",
+    "longDescription": "Serra de marmore 220v: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Obra civil e reforma"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "ferramentas"
+    ],
     "featured": false,
     "available": true
   },
@@ -597,10 +1407,25 @@
     "slug": "serra-policorte-14-220v",
     "name": "serra policorte 14\" 220v",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de serra policorte 14\" 220v — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["ferramentas"],
+    "shortDescription": "Locação de serra policorte 14\" 220v.",
+    "longDescription": "Serra policorte 14\" 220v: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Obra civil e reforma"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "ferramentas"
+    ],
     "featured": false,
     "available": true
   },
@@ -608,10 +1433,25 @@
     "slug": "serra-tico-tico-220v",
     "name": "serra tico tico 220v",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de serra tico tico 220v — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["ferramentas"],
+    "shortDescription": "Locação de serra tico tico 220v.",
+    "longDescription": "Serra tico tico 220v: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Obra civil e reforma"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "ferramentas"
+    ],
     "featured": false,
     "available": true
   },
@@ -619,10 +1459,25 @@
     "slug": "serra-sabre",
     "name": "serra sabre",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de serra sabre — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["ferramentas"],
+    "shortDescription": "Locação de serra sabre.",
+    "longDescription": "Serra sabre: Ferramenta elétrica para locação em obra e reforma. Tensão e acessórios conforme modelo; uso com EPI e instalação elétrica adequada (220 V).",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Obra civil e reforma"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "ferramentas"
+    ],
     "featured": false,
     "available": true
   },
@@ -630,10 +1485,25 @@
     "slug": "talha-1t",
     "name": "talha 1t",
     "category": "outros",
-    "shortDescription": "Locação de talha 1t — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["outros"],
+    "shortDescription": "Locação de talha 1t.",
+    "longDescription": "Talha 1t: Equipamento para locação em obra civil na região metropolitana de Belo Horizonte. Disponibilidade e condições comerciais conforme período de locação.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Locação para construção civil"
+      },
+      {
+        "label": "Condição",
+        "value": "Unidade conforme disponibilidade de frota"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "outros"
+    ],
     "featured": false,
     "available": true
   },
@@ -641,10 +1511,25 @@
     "slug": "tranformador",
     "name": "tranformador",
     "category": "energia",
-    "shortDescription": "Locação de tranformador — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["energia"],
+    "shortDescription": "Locação de tranformador.",
+    "longDescription": "Tranformador: Equipamento de geração ou ar comprimido para canteiro de obras. Dimensionamento conforme demanda do serviço; valores e autonomia sob consulta.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Geração ou ar comprimido em obra"
+      },
+      {
+        "label": "Alimentação",
+        "value": "Conforme modelo (diesel, 220 V, etc.)"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "energia"
+    ],
     "featured": false,
     "available": true
   },
@@ -652,10 +1537,25 @@
     "slug": "vibador-conc-port-makita",
     "name": "vibador conc. Port. Makita",
     "category": "concretagem",
-    "shortDescription": "Locação de vibador conc. Port. Makita — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["concretagem"],
+    "shortDescription": "Locação de vibador conc. Port. Makita.",
+    "longDescription": "Vibador conc. port. makita: Equipamento para concretagem e misturas em obra civil. Aplicação em fundações, lajes e serviços de alvenaria. Entrega e retirada combinadas com a locação.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Concretagem, argamassa e misturas"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica (conforme modelo)"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "concretagem"
+    ],
     "featured": false,
     "available": true
   },
@@ -663,10 +1563,25 @@
     "slug": "vibador-conc-port-bosh",
     "name": "vibador conc. Port. Bosh",
     "category": "concretagem",
-    "shortDescription": "Locação de vibador conc. Port. Bosh — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["concretagem"],
+    "shortDescription": "Locação de vibador conc. Port. Bosh.",
+    "longDescription": "Vibador conc. port. bosh: Equipamento para concretagem e misturas em obra civil. Aplicação em fundações, lajes e serviços de alvenaria. Entrega e retirada combinadas com a locação.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Concretagem, argamassa e misturas"
+      },
+      {
+        "label": "Alimentação",
+        "value": "220 V monofásica (conforme modelo)"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "concretagem"
+    ],
     "featured": false,
     "available": true
   },
@@ -674,10 +1589,25 @@
     "slug": "tubo-galvanizado-de-0-50-m-ate-6-m",
     "name": "TUBO GALVANIZADO DE 0.50 M ATE 6 M",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de TUBO GALVANIZADO DE 0.50 M ATE 6 M — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["andaime"],
+    "shortDescription": "Locação de TUBO GALVANIZADO DE 0.50 M ATE 6 M.",
+    "longDescription": "Tubo galvanizado de 0.50 m ate 6 m: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Acesso e estrutura temporária"
+      },
+      {
+        "label": "Montagem",
+        "value": "Sob consulta técnica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "andaime"
+    ],
     "featured": false,
     "available": true
   },
@@ -685,10 +1615,25 @@
     "slug": "rodizio-c-poliuretano",
     "name": "Rodizio c/ POLIURETANO",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de Rodizio c/ POLIURETANO — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["andaime"],
+    "shortDescription": "Locação de Rodizio c/ POLIURETANO.",
+    "longDescription": "Rodizio c/ poliuretano: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Acesso e estrutura temporária"
+      },
+      {
+        "label": "Montagem",
+        "value": "Sob consulta técnica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "andaime"
+    ],
     "featured": false,
     "available": true
   },
@@ -696,10 +1641,25 @@
     "slug": "rodizio-de-borracha-c-trava",
     "name": "RODIZIO DE BORRACHA C/ TRAVA",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de RODIZIO DE BORRACHA C/ TRAVA — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["andaime"],
+    "shortDescription": "Locação de RODIZIO DE BORRACHA C/ TRAVA.",
+    "longDescription": "Rodizio de borracha c/ trava: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Acesso e estrutura temporária"
+      },
+      {
+        "label": "Montagem",
+        "value": "Sob consulta técnica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "andaime"
+    ],
     "featured": false,
     "available": true
   },
@@ -707,10 +1667,25 @@
     "slug": "sapata-ajustavel",
     "name": "SAPATA AJUSTAVEL",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de SAPATA AJUSTAVEL — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["andaime"],
+    "shortDescription": "Locação de SAPATA AJUSTAVEL.",
+    "longDescription": "Sapata ajustavel: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Acesso e estrutura temporária"
+      },
+      {
+        "label": "Montagem",
+        "value": "Sob consulta técnica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "andaime"
+    ],
     "featured": false,
     "available": true
   },
@@ -718,10 +1693,25 @@
     "slug": "sapata-fixa",
     "name": "SAPATA FIXA",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de SAPATA FIXA — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["andaime"],
+    "shortDescription": "Locação de SAPATA FIXA.",
+    "longDescription": "Sapata fixa: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Acesso e estrutura temporária"
+      },
+      {
+        "label": "Montagem",
+        "value": "Sob consulta técnica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "andaime"
+    ],
     "featured": false,
     "available": true
   },
@@ -729,10 +1719,25 @@
     "slug": "diagonal-1-00",
     "name": "diagonal 1,00",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de diagonal 1,00 — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["andaime"],
+    "shortDescription": "Locação de diagonal 1,00.",
+    "longDescription": "Diagonal 1,00: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Acesso e estrutura temporária"
+      },
+      {
+        "label": "Montagem",
+        "value": "Sob consulta técnica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "andaime"
+    ],
     "featured": false,
     "available": true
   },
@@ -740,10 +1745,25 @@
     "slug": "diagonal-1-50",
     "name": "diagonal 1,50",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de diagonal 1,50 — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["andaime"],
+    "shortDescription": "Locação de diagonal 1,50.",
+    "longDescription": "Diagonal 1,50: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Acesso e estrutura temporária"
+      },
+      {
+        "label": "Montagem",
+        "value": "Sob consulta técnica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "andaime"
+    ],
     "featured": false,
     "available": true
   },
@@ -751,10 +1771,25 @@
     "slug": "diagonal-1-80",
     "name": "diagonal 1,80",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de diagonal 1,80 — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["andaime"],
+    "shortDescription": "Locação de diagonal 1,80.",
+    "longDescription": "Diagonal 1,80: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Acesso e estrutura temporária"
+      },
+      {
+        "label": "Montagem",
+        "value": "Sob consulta técnica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "andaime"
+    ],
     "featured": false,
     "available": true
   },
@@ -762,10 +1797,25 @@
     "slug": "escada-p-andaime-1-00m",
     "name": "escada p/ andaime 1,00m",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de escada p/ andaime 1,00m — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["andaime"],
+    "shortDescription": "Locação de escada p/ andaime 1,00m.",
+    "longDescription": "Escada p/ andaime 1,00m: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Acesso e estrutura temporária"
+      },
+      {
+        "label": "Montagem",
+        "value": "Sob consulta técnica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "andaime"
+    ],
     "featured": false,
     "available": true
   },
@@ -773,10 +1823,25 @@
     "slug": "escada-p-andaime-2-00m",
     "name": "escada p/andaime 2,00m",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de escada p/andaime 2,00m — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["andaime"],
+    "shortDescription": "Locação de escada p/andaime 2,00m.",
+    "longDescription": "Escada p/andaime 2,00m: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Acesso e estrutura temporária"
+      },
+      {
+        "label": "Montagem",
+        "value": "Sob consulta técnica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "andaime"
+    ],
     "featured": false,
     "available": true
   },
@@ -784,10 +1849,25 @@
     "slug": "guarda-corpo-1-00m-c-p",
     "name": "guarda corpo 1,00M C/P",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de guarda corpo 1,00M C/P — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["andaime"],
+    "shortDescription": "Locação de guarda corpo 1,00M C/P.",
+    "longDescription": "Guarda corpo 1,00m c/p: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Acesso e estrutura temporária"
+      },
+      {
+        "label": "Montagem",
+        "value": "Sob consulta técnica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "andaime"
+    ],
     "featured": false,
     "available": true
   },
@@ -795,10 +1875,25 @@
     "slug": "guarda-corpo-1-0m-s-p",
     "name": "guarda corpo 1,0M S/P",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de guarda corpo 1,0M S/P — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["andaime"],
+    "shortDescription": "Locação de guarda corpo 1,0M S/P.",
+    "longDescription": "Guarda corpo 1,0m s/p: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Acesso e estrutura temporária"
+      },
+      {
+        "label": "Montagem",
+        "value": "Sob consulta técnica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "andaime"
+    ],
     "featured": false,
     "available": true
   },
@@ -806,10 +1901,25 @@
     "slug": "guarda-corpo-1-00m-s-p-c-encaixe",
     "name": "guarda corpo 1,00m S/P C/ encaixe",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de guarda corpo 1,00m S/P C/ encaixe — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["andaime"],
+    "shortDescription": "Locação de guarda corpo 1,00m S/P C/ encaixe.",
+    "longDescription": "Guarda corpo 1,00m s/p c/ encaixe: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Acesso e estrutura temporária"
+      },
+      {
+        "label": "Montagem",
+        "value": "Sob consulta técnica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "andaime"
+    ],
     "featured": false,
     "available": true
   },
@@ -817,10 +1927,25 @@
     "slug": "guarda-corpo-1-5-c-porta",
     "name": "guarda corpo 1,5 C/ porta",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de guarda corpo 1,5 C/ porta — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["andaime"],
+    "shortDescription": "Locação de guarda corpo 1,5 C/ porta.",
+    "longDescription": "Guarda corpo 1,5 c/ porta: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Acesso e estrutura temporária"
+      },
+      {
+        "label": "Montagem",
+        "value": "Sob consulta técnica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "andaime"
+    ],
     "featured": false,
     "available": true
   },
@@ -828,10 +1953,25 @@
     "slug": "guarda-corpo-1-5-s-porta-c-encaixe",
     "name": "guarda corpo 1,5 s/porta C/ encaixe",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de guarda corpo 1,5 s/porta C/ encaixe — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["andaime"],
+    "shortDescription": "Locação de guarda corpo 1,5 s/porta C/ encaixe.",
+    "longDescription": "Guarda corpo 1,5 s/porta c/ encaixe: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Acesso e estrutura temporária"
+      },
+      {
+        "label": "Montagem",
+        "value": "Sob consulta técnica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "andaime"
+    ],
     "featured": false,
     "available": true
   },
@@ -839,10 +1979,25 @@
     "slug": "painel-0-50x1-50m",
     "name": "painel 0,50x1,50m",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de painel 0,50x1,50m — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["andaime"],
+    "shortDescription": "Locação de painel 0,50x1,50m.",
+    "longDescription": "Painel 0,50x1,50m: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Acesso e estrutura temporária"
+      },
+      {
+        "label": "Montagem",
+        "value": "Sob consulta técnica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "andaime"
+    ],
     "featured": false,
     "available": true
   },
@@ -850,10 +2005,25 @@
     "slug": "painel-1-00x1-00-mecan",
     "name": "painel 1,00x1,00 mecan",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de painel 1,00x1,00 mecan — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["andaime"],
+    "shortDescription": "Locação de painel 1,00x1,00 mecan.",
+    "longDescription": "Painel 1,00x1,00 mecan: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Acesso e estrutura temporária"
+      },
+      {
+        "label": "Montagem",
+        "value": "Sob consulta técnica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "andaime"
+    ],
     "featured": false,
     "available": true
   },
@@ -861,10 +2031,25 @@
     "slug": "painel-1-00x1-00-prensado",
     "name": "painel 1,00x1,00 prensado",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de painel 1,00x1,00 prensado — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["andaime"],
+    "shortDescription": "Locação de painel 1,00x1,00 prensado.",
+    "longDescription": "Painel 1,00x1,00 prensado: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Acesso e estrutura temporária"
+      },
+      {
+        "label": "Montagem",
+        "value": "Sob consulta técnica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "andaime"
+    ],
     "featured": false,
     "available": true
   },
@@ -872,10 +2057,25 @@
     "slug": "painel-1-00x1-50-prensado-e-transformado",
     "name": "painel 1,00x1,50 prensado e transformado",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de painel 1,00x1,50 prensado e transformado — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["andaime"],
+    "shortDescription": "Locação de painel 1,00x1,50 prensado e transformado.",
+    "longDescription": "Painel 1,00x1,50 prensado e transformado: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Acesso e estrutura temporária"
+      },
+      {
+        "label": "Montagem",
+        "value": "Sob consulta técnica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "andaime"
+    ],
     "featured": false,
     "available": true
   },
@@ -883,10 +2083,25 @@
     "slug": "piso-metalico-1-00x0-33m",
     "name": "piso metalico 1,00x0,33m",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de piso metalico 1,00x0,33m — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["andaime"],
+    "shortDescription": "Locação de piso metalico 1,00x0,33m.",
+    "longDescription": "Piso metalico 1,00x0,33m: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Acesso e estrutura temporária"
+      },
+      {
+        "label": "Montagem",
+        "value": "Sob consulta técnica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "andaime"
+    ],
     "featured": false,
     "available": true
   },
@@ -894,10 +2109,25 @@
     "slug": "piso-metalico-1-50x0-37m-galv",
     "name": "piso metalico 1,50x0,37M galv",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de piso metalico 1,50x0,37M galv — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["andaime"],
+    "shortDescription": "Locação de piso metalico 1,50x0,37M galv.",
+    "longDescription": "Piso metalico 1,50x0,37m galv: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Acesso e estrutura temporária"
+      },
+      {
+        "label": "Montagem",
+        "value": "Sob consulta técnica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "andaime"
+    ],
     "featured": false,
     "available": true
   },
@@ -905,10 +2135,25 @@
     "slug": "arco-p-escada",
     "name": "arco p/ escada",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de arco p/ escada — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["andaime"],
+    "shortDescription": "Locação de arco p/ escada.",
+    "longDescription": "Arco p/ escada: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Acesso e estrutura temporária"
+      },
+      {
+        "label": "Montagem",
+        "value": "Sob consulta técnica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "andaime"
+    ],
     "featured": false,
     "available": true
   },
@@ -916,10 +2161,25 @@
     "slug": "abracadeira-fixa",
     "name": "ABRAÇADEIRA FIXA",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de ABRAÇADEIRA FIXA — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["andaime"],
+    "shortDescription": "Locação de ABRAÇADEIRA FIXA.",
+    "longDescription": "Abraçadeira fixa: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Acesso e estrutura temporária"
+      },
+      {
+        "label": "Montagem",
+        "value": "Sob consulta técnica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "andaime"
+    ],
     "featured": false,
     "available": true
   },
@@ -927,10 +2187,25 @@
     "slug": "abracadeira-fixa-fch",
     "name": "ABRAÇADEIRA FIXA FCH",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de ABRAÇADEIRA FIXA FCH — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["andaime"],
+    "shortDescription": "Locação de ABRAÇADEIRA FIXA FCH.",
+    "longDescription": "Abraçadeira fixa fch: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Acesso e estrutura temporária"
+      },
+      {
+        "label": "Montagem",
+        "value": "Sob consulta técnica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "andaime"
+    ],
     "featured": false,
     "available": true
   },
@@ -938,10 +2213,25 @@
     "slug": "abracadeira-giratoria",
     "name": "ABRAÇADEIRA GIRATORIA",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de ABRAÇADEIRA GIRATORIA — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["andaime"],
+    "shortDescription": "Locação de ABRAÇADEIRA GIRATORIA.",
+    "longDescription": "Abraçadeira giratoria: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Acesso e estrutura temporária"
+      },
+      {
+        "label": "Montagem",
+        "value": "Sob consulta técnica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "andaime"
+    ],
     "featured": false,
     "available": true
   },
@@ -949,10 +2239,25 @@
     "slug": "arco-aberto",
     "name": "ARCO ABERTO",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de ARCO ABERTO — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["andaime"],
+    "shortDescription": "Locação de ARCO ABERTO.",
+    "longDescription": "Arco aberto: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Acesso e estrutura temporária"
+      },
+      {
+        "label": "Montagem",
+        "value": "Sob consulta técnica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "andaime"
+    ],
     "featured": false,
     "available": true
   },
@@ -960,10 +2265,25 @@
     "slug": "arco-fechado",
     "name": "ARCO FECHADO",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de ARCO FECHADO — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["andaime"],
+    "shortDescription": "Locação de ARCO FECHADO.",
+    "longDescription": "Arco fechado: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Acesso e estrutura temporária"
+      },
+      {
+        "label": "Montagem",
+        "value": "Sob consulta técnica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "andaime"
+    ],
     "featured": false,
     "available": true
   },
@@ -971,10 +2291,25 @@
     "slug": "chave-de-catraca-7-8",
     "name": "CHAVE DE CATRACA 7/8\"",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de CHAVE DE CATRACA 7/8\" — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["andaime"],
+    "shortDescription": "Locação de CHAVE DE CATRACA 7/8\".",
+    "longDescription": "Chave de catraca 7/8\": Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Acesso e estrutura temporária"
+      },
+      {
+        "label": "Montagem",
+        "value": "Sob consulta técnica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "andaime"
+    ],
     "featured": false,
     "available": true
   },
@@ -982,10 +2317,25 @@
     "slug": "degrau-de-escada",
     "name": "DEGRAU DE ESCADA",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de DEGRAU DE ESCADA — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["andaime"],
+    "shortDescription": "Locação de DEGRAU DE ESCADA.",
+    "longDescription": "Degrau de escada: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Acesso e estrutura temporária"
+      },
+      {
+        "label": "Montagem",
+        "value": "Sob consulta técnica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "andaime"
+    ],
     "featured": false,
     "available": true
   },
@@ -993,10 +2343,25 @@
     "slug": "luva-de-uniao",
     "name": "LUVA DE UNIÃO",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de LUVA DE UNIÃO — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["andaime"],
+    "shortDescription": "Locação de LUVA DE UNIÃO.",
+    "longDescription": "Luva de união: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Acesso e estrutura temporária"
+      },
+      {
+        "label": "Montagem",
+        "value": "Sob consulta técnica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "andaime"
+    ],
     "featured": false,
     "available": true
   },
@@ -1004,10 +2369,25 @@
     "slug": "parafuso-enxerto",
     "name": "PARAFUSO ENXERTO",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de PARAFUSO ENXERTO — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["andaime"],
+    "shortDescription": "Locação de PARAFUSO ENXERTO.",
+    "longDescription": "Parafuso enxerto: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Acesso e estrutura temporária"
+      },
+      {
+        "label": "Montagem",
+        "value": "Sob consulta técnica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "andaime"
+    ],
     "featured": false,
     "available": true
   },
@@ -1015,10 +2395,25 @@
     "slug": "pranchao-de-1-00-m-ate-3-00-m",
     "name": "PRANCHÃO DE 1,00 M ATE 3,00 M",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de PRANCHÃO DE 1,00 M ATE 3,00 M — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["andaime"],
+    "shortDescription": "Locação de PRANCHÃO DE 1,00 M ATE 3,00 M.",
+    "longDescription": "Pranchão de 1,00 m ate 3,00 m: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Acesso e estrutura temporária"
+      },
+      {
+        "label": "Montagem",
+        "value": "Sob consulta técnica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "andaime"
+    ],
     "featured": false,
     "available": true
   },
@@ -1026,10 +2421,25 @@
     "slug": "rodape-de-0-20-x-3-00-m",
     "name": "RODAPE DE 0,20 X 3,00 M",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de RODAPE DE 0,20 X 3,00 M — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["andaime"],
+    "shortDescription": "Locação de RODAPE DE 0,20 X 3,00 M.",
+    "longDescription": "Rodape de 0,20 x 3,00 m: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Acesso e estrutura temporária"
+      },
+      {
+        "label": "Montagem",
+        "value": "Sob consulta técnica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "andaime"
+    ],
     "featured": false,
     "available": true
   },
@@ -1037,10 +2447,25 @@
     "slug": "rodape-de-0-20-x-2-00-m",
     "name": "RODAPE DE 0,20 X 2,00 M",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de RODAPE DE 0,20 X 2,00 M — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["andaime"],
+    "shortDescription": "Locação de RODAPE DE 0,20 X 2,00 M.",
+    "longDescription": "Rodape de 0,20 x 2,00 m: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Acesso e estrutura temporária"
+      },
+      {
+        "label": "Montagem",
+        "value": "Sob consulta técnica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "andaime"
+    ],
     "featured": false,
     "available": true
   },
@@ -1048,10 +2473,25 @@
     "slug": "rodape-de-0-20-x-1-00-m",
     "name": "RODAPE DE 0,20 X 1,00 M",
     "category": "andaimes-acesso",
-    "shortDescription": "Locação de RODAPE DE 0,20 X 1,00 M — valores sob consulta.",
-    "longDescription": "",
-    "specs": [],
-    "tags": ["andaime"],
+    "shortDescription": "Locação de RODAPE DE 0,20 X 1,00 M.",
+    "longDescription": "Rodape de 0,20 x 1,00 m: Solução de acesso e estrutura temporária para obra. Montagem conforme projeto e normas de segurança; consulte nossa equipe para quantitativos.",
+    "specs": [
+      {
+        "label": "Aplicação",
+        "value": "Acesso e estrutura temporária"
+      },
+      {
+        "label": "Montagem",
+        "value": "Sob consulta técnica"
+      },
+      {
+        "label": "Entrega",
+        "value": "Região metropolitana de BH"
+      }
+    ],
+    "tags": [
+      "andaime"
+    ],
     "featured": false,
     "available": true
   },
@@ -1059,8 +2499,8 @@
     "slug": "plataforma-elevatoria-hb-1430",
     "name": "Plataforma elevatória HB 1430",
     "category": "equipamentos-aereos",
-    "shortDescription": "Locação de plataforma elevatória HB 1430 — sob consulta.",
-    "longDescription": "",
+    "shortDescription": "Locação de plataforma elevatória HB 1430.",
+    "longDescription": "Plataforma elevatória hb 1430: Plataforma elevatória para trabalho em altura com operação segura e estável. Indicada para manutenção, montagem e serviços em fachadas e galpões na região metropolitana de BH. Unidade revisada; classificação e documentação conforme NR-12 e ficha do fabricante.",
     "specs": [
       {
         "label": "Tipo",
@@ -1071,15 +2511,26 @@
         "value": "~14 m"
       },
       {
-        "label": "Capacidade",
+        "label": "Capacidade / peso na plataforma",
         "value": "~230 kg"
+      },
+      {
+        "label": "Peso total operacional",
+        "value": "Sob consulta na proposta"
       },
       {
         "label": "Alimentação",
         "value": "Elétrica"
+      },
+      {
+        "label": "Classificação ABNT (NR-12)",
+        "value": "Tipo 1 · Grupo B (plataforma tesoura — NR-12 / ABNT)"
       }
     ],
-    "tags": ["plataforma", "altura"],
+    "tags": [
+      "plataforma",
+      "altura"
+    ],
     "featured": true,
     "available": true
   },
@@ -1087,8 +2538,8 @@
     "slug": "plataforma-elevatoria-hb-p830",
     "name": "Plataforma elevatória HB P830",
     "category": "equipamentos-aereos",
-    "shortDescription": "Locação de plataforma elevatória HB P830 — sob consulta.",
-    "longDescription": "",
+    "shortDescription": "Locação de plataforma elevatória HB P830.",
+    "longDescription": "Plataforma elevatória hb p830: Plataforma elevatória para trabalho em altura com operação segura e estável. Indicada para manutenção, montagem e serviços em fachadas e galpões na região metropolitana de BH. Unidade revisada; classificação e documentação conforme NR-12 e ficha do fabricante.",
     "specs": [
       {
         "label": "Tipo",
@@ -1099,15 +2550,26 @@
         "value": "~8 m"
       },
       {
-        "label": "Capacidade",
+        "label": "Capacidade / peso na plataforma",
         "value": "~230 kg"
+      },
+      {
+        "label": "Peso total operacional",
+        "value": "Sob consulta na proposta"
       },
       {
         "label": "Alimentação",
         "value": "Elétrica"
+      },
+      {
+        "label": "Classificação ABNT (NR-12)",
+        "value": "Tipo 1 · Grupo B (plataforma tesoura — NR-12 / ABNT)"
       }
     ],
-    "tags": ["plataforma", "altura"],
+    "tags": [
+      "plataforma",
+      "altura"
+    ],
     "featured": true,
     "available": true
   },
@@ -1115,8 +2577,8 @@
     "slug": "plataforma-elevatoria-pep-p590",
     "name": "Plataforma elevatória PEP P590",
     "category": "equipamentos-aereos",
-    "shortDescription": "Locação de plataforma elevatória PEP P590 — sob consulta.",
-    "longDescription": "",
+    "shortDescription": "Locação de plataforma elevatória PEP P590.",
+    "longDescription": "Plataforma elevatória pep p590: Plataforma elevatória para trabalho em altura com operação segura e estável. Indicada para manutenção, montagem e serviços em fachadas e galpões na região metropolitana de BH. Unidade revisada; classificação e documentação conforme NR-12 e ficha do fabricante.",
     "specs": [
       {
         "label": "Tipo",
@@ -1127,15 +2589,26 @@
         "value": "Consulte"
       },
       {
-        "label": "Capacidade",
+        "label": "Capacidade / peso na plataforma",
         "value": "Consulte"
+      },
+      {
+        "label": "Peso total operacional",
+        "value": "Sob consulta na proposta"
       },
       {
         "label": "Alimentação",
         "value": "Elétrica"
+      },
+      {
+        "label": "Classificação ABNT (NR-12)",
+        "value": "Tipo 1 · Grupo B (plataforma tesoura — NR-12 / ABNT)"
       }
     ],
-    "tags": ["plataforma", "altura"],
+    "tags": [
+      "plataforma",
+      "altura"
+    ],
     "featured": true,
     "available": true
   },
@@ -1143,8 +2616,8 @@
     "slug": "plataforma-elevatoria-gs-1930s",
     "name": "Plataforma elevatória GS 1930s",
     "category": "equipamentos-aereos",
-    "shortDescription": "Locação de plataforma elevatória GS 1930s — sob consulta.",
-    "longDescription": "",
+    "shortDescription": "Locação de plataforma elevatória GS 1930s.",
+    "longDescription": "Plataforma elevatória gs 1930s: Plataforma elevatória para trabalho em altura com operação segura e estável. Indicada para manutenção, montagem e serviços em fachadas e galpões na região metropolitana de BH. Unidade revisada; classificação e documentação conforme NR-12 e ficha do fabricante.",
     "specs": [
       {
         "label": "Tipo",
@@ -1155,15 +2628,26 @@
         "value": "~5,8 m"
       },
       {
-        "label": "Capacidade",
+        "label": "Capacidade / peso na plataforma",
         "value": "~227 kg"
+      },
+      {
+        "label": "Peso total operacional",
+        "value": "Sob consulta na proposta"
       },
       {
         "label": "Alimentação",
         "value": "Elétrica"
+      },
+      {
+        "label": "Classificação ABNT (NR-12)",
+        "value": "Tipo 1 · Grupo B (plataforma tesoura — NR-12 / ABNT)"
       }
     ],
-    "tags": ["plataforma", "altura"],
+    "tags": [
+      "plataforma",
+      "altura"
+    ],
     "featured": true,
     "available": true
   },
@@ -1171,8 +2655,8 @@
     "slug": "plataforma-elevatoria-awp-30s",
     "name": "Plataforma elevatória AWP 30S",
     "category": "equipamentos-aereos",
-    "shortDescription": "Locação de plataforma elevatória AWP 30S — sob consulta.",
-    "longDescription": "",
+    "shortDescription": "Locação de plataforma elevatória AWP 30S.",
+    "longDescription": "Plataforma elevatória awp 30s: Plataforma elevatória para trabalho em altura com operação segura e estável. Indicada para manutenção, montagem e serviços em fachadas e galpões na região metropolitana de BH. Unidade revisada; classificação e documentação conforme NR-12 e ficha do fabricante.",
     "specs": [
       {
         "label": "Tipo",
@@ -1183,15 +2667,26 @@
         "value": "Consulte"
       },
       {
-        "label": "Capacidade",
+        "label": "Capacidade / peso na plataforma",
         "value": "Consulte"
+      },
+      {
+        "label": "Peso total operacional",
+        "value": "Sob consulta na proposta"
       },
       {
         "label": "Alimentação",
         "value": "Consulte"
+      },
+      {
+        "label": "Classificação ABNT (NR-12)",
+        "value": "Tipo 1 · Grupo B (plataforma tesoura — NR-12 / ABNT)"
       }
     ],
-    "tags": ["plataforma", "altura"],
+    "tags": [
+      "plataforma",
+      "altura"
+    ],
     "featured": true,
     "available": true
   },
@@ -1199,8 +2694,8 @@
     "slug": "plataforma-elevatoria-sj-iii-4740",
     "name": "Plataforma elevatória SJ III 4740",
     "category": "equipamentos-aereos",
-    "shortDescription": "Locação de plataforma elevatória SJ III 4740 — sob consulta.",
-    "longDescription": "",
+    "shortDescription": "Locação de plataforma elevatória SJ III 4740.",
+    "longDescription": "Plataforma elevatória sj iii 4740: Plataforma elevatória para trabalho em altura com operação segura e estável. Indicada para manutenção, montagem e serviços em fachadas e galpões na região metropolitana de BH. Unidade revisada; classificação e documentação conforme NR-12 e ficha do fabricante.",
     "specs": [
       {
         "label": "Tipo",
@@ -1211,15 +2706,26 @@
         "value": "~14,3 m"
       },
       {
-        "label": "Capacidade",
+        "label": "Capacidade / peso na plataforma",
         "value": "~227 kg"
+      },
+      {
+        "label": "Peso total operacional",
+        "value": "Sob consulta na proposta"
       },
       {
         "label": "Alimentação",
         "value": "Elétrica"
+      },
+      {
+        "label": "Classificação ABNT (NR-12)",
+        "value": "Tipo 1 · Grupo B (plataforma tesoura — NR-12 / ABNT)"
       }
     ],
-    "tags": ["plataforma", "altura"],
+    "tags": [
+      "plataforma",
+      "altura"
+    ],
     "featured": true,
     "available": true
   },
@@ -1227,8 +2733,8 @@
     "slug": "plataforma-elevatoria-20-mvl",
     "name": "Plataforma elevatória 20 MVL",
     "category": "equipamentos-aereos",
-    "shortDescription": "Locação de plataforma elevatória 20 MVL — sob consulta.",
-    "longDescription": "",
+    "shortDescription": "Locação de plataforma elevatória 20 MVL.",
+    "longDescription": "Plataforma elevatória 20 mvl: Plataforma elevatória para trabalho em altura com operação segura e estável. Indicada para manutenção, montagem e serviços em fachadas e galpões na região metropolitana de BH. Unidade revisada; classificação e documentação conforme NR-12 e ficha do fabricante.",
     "specs": [
       {
         "label": "Tipo",
@@ -1239,15 +2745,26 @@
         "value": "Consulte"
       },
       {
-        "label": "Capacidade",
+        "label": "Capacidade / peso na plataforma",
         "value": "Consulte"
+      },
+      {
+        "label": "Peso total operacional",
+        "value": "Sob consulta na proposta"
       },
       {
         "label": "Alimentação",
         "value": "Consulte"
+      },
+      {
+        "label": "Classificação ABNT (NR-12)",
+        "value": "Tipo 1 · Grupo B (plataforma tesoura — NR-12 / ABNT)"
       }
     ],
-    "tags": ["plataforma", "altura"],
+    "tags": [
+      "plataforma",
+      "altura"
+    ],
     "featured": false,
     "available": true
   },
@@ -1255,8 +2772,8 @@
     "slug": "plataforma-elevatoria-am-36",
     "name": "Plataforma elevatória AM – 36",
     "category": "equipamentos-aereos",
-    "shortDescription": "Locação de plataforma elevatória AM — sob consulta.",
-    "longDescription": "",
+    "shortDescription": "Locação de plataforma elevatória AM.",
+    "longDescription": "Plataforma elevatória am – 36: Plataforma elevatória para trabalho em altura com operação segura e estável. Indicada para manutenção, montagem e serviços em fachadas e galpões na região metropolitana de BH. Unidade revisada; classificação e documentação conforme NR-12 e ficha do fabricante.",
     "specs": [
       {
         "label": "Tipo",
@@ -1267,15 +2784,26 @@
         "value": "Consulte"
       },
       {
-        "label": "Capacidade",
+        "label": "Capacidade / peso na plataforma",
         "value": "Consulte"
+      },
+      {
+        "label": "Peso total operacional",
+        "value": "Sob consulta na proposta"
       },
       {
         "label": "Alimentação",
         "value": "Consulte"
+      },
+      {
+        "label": "Classificação ABNT (NR-12)",
+        "value": "Tipo 1 · Grupo B (plataforma tesoura — NR-12 / ABNT)"
       }
     ],
-    "tags": ["plataforma", "altura"],
+    "tags": [
+      "plataforma",
+      "altura"
+    ],
     "featured": false,
     "available": true
   },
@@ -1283,16 +2811,24 @@
     "slug": "plataforma-elevatoria-z45-25j-dc-lanca-articulada",
     "name": "Plataforma elevatória Z45/25j- DC –Lança Articulada",
     "category": "equipamentos-aereos",
-    "shortDescription": "Locação de plataforma elevatória Z45/25j- DC — sob consulta.",
-    "longDescription": "",
+    "shortDescription": "Locação de plataforma elevatória Z45/25j- DC.",
+    "longDescription": "Plataforma elevatória z45/25j- dc –lança articulada: Plataforma elevatória para trabalho em altura com operação segura e estável. Indicada para manutenção, montagem e serviços em fachadas e galpões na região metropolitana de BH. Unidade revisada; classificação e documentação conforme NR-12 e ficha do fabricante.",
     "specs": [
       {
         "label": "Tipo",
         "value": "Lança articulada"
       },
       {
-        "label": "Alcance vertical",
+        "label": "Altura de trabalho",
         "value": "~14 m"
+      },
+      {
+        "label": "Capacidade / peso na plataforma",
+        "value": "Sob consulta"
+      },
+      {
+        "label": "Peso total operacional",
+        "value": "Sob consulta na proposta"
       },
       {
         "label": "Alcance horizontal",
@@ -1301,9 +2837,16 @@
       {
         "label": "Alimentação",
         "value": "Diesel"
+      },
+      {
+        "label": "Classificação ABNT (NR-12)",
+        "value": "Tipo 1 · Grupo B (lança articulada — NR-12 / ABNT)"
       }
     ],
-    "tags": ["plataforma", "altura"],
+    "tags": [
+      "plataforma",
+      "altura"
+    ],
     "featured": false,
     "available": true
   },
@@ -1311,8 +2854,8 @@
     "slug": "plataforma-elevatoria-sj-iii-3219",
     "name": "Plataforma elevatória SJ III 3219",
     "category": "equipamentos-aereos",
-    "shortDescription": "Locação de plataforma elevatória SJ III 3219 — sob consulta.",
-    "longDescription": "",
+    "shortDescription": "Locação de plataforma elevatória SJ III 3219.",
+    "longDescription": "Plataforma elevatória sj iii 3219: Plataforma elevatória para trabalho em altura com operação segura e estável. Indicada para manutenção, montagem e serviços em fachadas e galpões na região metropolitana de BH. Unidade revisada; classificação e documentação conforme NR-12 e ficha do fabricante.",
     "specs": [
       {
         "label": "Tipo",
@@ -1323,15 +2866,26 @@
         "value": "~5,8 m"
       },
       {
-        "label": "Capacidade",
+        "label": "Capacidade / peso na plataforma",
         "value": "~227 kg"
+      },
+      {
+        "label": "Peso total operacional",
+        "value": "Sob consulta na proposta"
       },
       {
         "label": "Alimentação",
         "value": "Elétrica"
+      },
+      {
+        "label": "Classificação ABNT (NR-12)",
+        "value": "Tipo 1 · Grupo B (plataforma tesoura — NR-12 / ABNT)"
       }
     ],
-    "tags": ["plataforma", "altura"],
+    "tags": [
+      "plataforma",
+      "altura"
+    ],
     "featured": false,
     "available": true
   },
@@ -1339,8 +2893,8 @@
     "slug": "plataforma-elevatoria-sj-iii-3226",
     "name": "Plataforma elevatória SJ III 3226",
     "category": "equipamentos-aereos",
-    "shortDescription": "Locação de plataforma elevatória SJ III 3226 — sob consulta.",
-    "longDescription": "",
+    "shortDescription": "Locação de plataforma elevatória SJ III 3226.",
+    "longDescription": "Plataforma elevatória sj iii 3226: Plataforma elevatória para trabalho em altura com operação segura e estável. Indicada para manutenção, montagem e serviços em fachadas e galpões na região metropolitana de BH. Unidade revisada; classificação e documentação conforme NR-12 e ficha do fabricante.",
     "specs": [
       {
         "label": "Tipo",
@@ -1351,15 +2905,26 @@
         "value": "~6,7 m"
       },
       {
-        "label": "Capacidade",
+        "label": "Capacidade / peso na plataforma",
         "value": "~227 kg"
+      },
+      {
+        "label": "Peso total operacional",
+        "value": "Sob consulta na proposta"
       },
       {
         "label": "Alimentação",
         "value": "Elétrica"
+      },
+      {
+        "label": "Classificação ABNT (NR-12)",
+        "value": "Tipo 1 · Grupo B (plataforma tesoura — NR-12 / ABNT)"
       }
     ],
-    "tags": ["plataforma", "altura"],
+    "tags": [
+      "plataforma",
+      "altura"
+    ],
     "featured": false,
     "available": true
   },
@@ -1367,8 +2932,8 @@
     "slug": "plataforma-elevatoria-sj-iii-4632",
     "name": "Plataforma elevatória SJ III 4632",
     "category": "equipamentos-aereos",
-    "shortDescription": "Locação de plataforma elevatória SJ III 4632 — sob consulta.",
-    "longDescription": "",
+    "shortDescription": "Locação de plataforma elevatória SJ III 4632.",
+    "longDescription": "Plataforma elevatória sj iii 4632: Plataforma elevatória para trabalho em altura com operação segura e estável. Indicada para manutenção, montagem e serviços em fachadas e galpões na região metropolitana de BH. Unidade revisada; classificação e documentação conforme NR-12 e ficha do fabricante.",
     "specs": [
       {
         "label": "Tipo",
@@ -1379,15 +2944,26 @@
         "value": "~9,8 m"
       },
       {
-        "label": "Capacidade",
+        "label": "Capacidade / peso na plataforma",
         "value": "~227 kg"
+      },
+      {
+        "label": "Peso total operacional",
+        "value": "Sob consulta na proposta"
       },
       {
         "label": "Alimentação",
         "value": "Elétrica"
+      },
+      {
+        "label": "Classificação ABNT (NR-12)",
+        "value": "Tipo 1 · Grupo B (plataforma tesoura — NR-12 / ABNT)"
       }
     ],
-    "tags": ["plataforma", "altura"],
+    "tags": [
+      "plataforma",
+      "altura"
+    ],
     "featured": false,
     "available": true
   },
@@ -1395,16 +2971,24 @@
     "slug": "plataforma-elevatoria-z60-37-dc-lanca-articulada",
     "name": "Plataforma elevatória Z60/37 DC – Lança Articulada",
     "category": "equipamentos-aereos",
-    "shortDescription": "Locação de plataforma elevatória Z60/37 DC — sob consulta.",
-    "longDescription": "",
+    "shortDescription": "Locação de plataforma elevatória Z60/37 DC.",
+    "longDescription": "Plataforma elevatória z60/37 dc – lança articulada: Plataforma elevatória para trabalho em altura com operação segura e estável. Indicada para manutenção, montagem e serviços em fachadas e galpões na região metropolitana de BH. Unidade revisada; classificação e documentação conforme NR-12 e ficha do fabricante.",
     "specs": [
       {
         "label": "Tipo",
         "value": "Lança articulada"
       },
       {
-        "label": "Alcance vertical",
+        "label": "Altura de trabalho",
         "value": "~18 m"
+      },
+      {
+        "label": "Capacidade / peso na plataforma",
+        "value": "Sob consulta"
+      },
+      {
+        "label": "Peso total operacional",
+        "value": "Sob consulta na proposta"
       },
       {
         "label": "Alcance horizontal",
@@ -1413,9 +2997,16 @@
       {
         "label": "Alimentação",
         "value": "Diesel"
+      },
+      {
+        "label": "Classificação ABNT (NR-12)",
+        "value": "Tipo 1 · Grupo B (lança articulada — NR-12 / ABNT)"
       }
     ],
-    "tags": ["plataforma", "altura"],
+    "tags": [
+      "plataforma",
+      "altura"
+    ],
     "featured": false,
     "available": true
   },
@@ -1423,16 +3014,24 @@
     "slug": "plataforma-elevatoria-160-atj-lanca-articulada",
     "name": "Plataforma elevatória 160 ATJ – Lança Articulada",
     "category": "equipamentos-aereos",
-    "shortDescription": "Locação de plataforma elevatória 160 ATJ — sob consulta.",
-    "longDescription": "",
+    "shortDescription": "Locação de plataforma elevatória 160 ATJ.",
+    "longDescription": "Plataforma elevatória 160 atj – lança articulada: Plataforma elevatória para trabalho em altura com operação segura e estável. Indicada para manutenção, montagem e serviços em fachadas e galpões na região metropolitana de BH. Unidade revisada; classificação e documentação conforme NR-12 e ficha do fabricante.",
     "specs": [
       {
         "label": "Tipo",
         "value": "Lança articulada"
       },
       {
-        "label": "Alcance vertical",
+        "label": "Altura de trabalho",
         "value": "~16 m"
+      },
+      {
+        "label": "Capacidade / peso na plataforma",
+        "value": "Sob consulta"
+      },
+      {
+        "label": "Peso total operacional",
+        "value": "Sob consulta na proposta"
       },
       {
         "label": "Alcance horizontal",
@@ -1441,9 +3040,16 @@
       {
         "label": "Alimentação",
         "value": "Diesel"
+      },
+      {
+        "label": "Classificação ABNT (NR-12)",
+        "value": "Tipo 1 · Grupo B (lança articulada — NR-12 / ABNT)"
       }
     ],
-    "tags": ["plataforma", "altura"],
+    "tags": [
+      "plataforma",
+      "altura"
+    ],
     "featured": false,
     "available": true
   }

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { QuoteForm } from '@/components/forms/QuoteForm';
+import { QuoteCartPanel } from '@/components/quote-cart/QuoteCartPanel';
 import { brand, buildWhatsAppMessage, buildWhatsAppUrl } from '@/lib/brand';
 
 type OrcamentoFormSectionProps = {
@@ -29,7 +30,8 @@ export function OrcamentoFormSection(props: OrcamentoFormSectionProps) {
 
   return (
     <>
-      <div className="mt-8">
+      <div className="mt-8 space-y-8">
+        <QuoteCartPanel showCheckoutHint />
         <QuoteForm
           initialEquipment={props.initialEquipment}
           onSuccess={() => setSubmitted(true)}

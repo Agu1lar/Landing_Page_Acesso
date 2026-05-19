@@ -1,4 +1,5 @@
 import { brand } from '@/lib/brand';
+import { getEquipmentImageSrc } from '@/lib/equipment-images';
 import type { Equipment } from '@/types/equipment';
 import { CATEGORY_LABELS } from '@/types/equipment';
 import { getBaseUrl } from '@/utils/Helpers';
@@ -53,6 +54,8 @@ export function buildProductJsonLd(equipment: Equipment) {
   const baseUrl = getBaseUrl();
   const url = `${baseUrl}/equipamentos/${equipment.slug}`;
 
+  const imagePath = getEquipmentImageSrc(equipment.slug);
+
   return {
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -60,6 +63,7 @@ export function buildProductJsonLd(equipment: Equipment) {
     description: equipment.shortDescription,
     category: CATEGORY_LABELS[equipment.category],
     url,
+    ...(imagePath ? { image: `${baseUrl}${imagePath}` } : {}),
     brand: {
       '@type': 'Brand',
       name: brand.name,

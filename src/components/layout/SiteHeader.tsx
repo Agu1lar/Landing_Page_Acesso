@@ -5,6 +5,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react
 import { BrandLogo } from '@/components/brand/BrandLogo';
 import { GlobalSearch } from '@/components/marketing/GlobalSearch';
 import type { SearchIndexItem } from '@/components/marketing/GlobalSearch';
+import { QuoteCartNavLink } from '@/components/quote-cart/QuoteCartNavLink';
 import { Button } from '@/components/ui/Button';
 import { buildWhatsAppMessage, buildWhatsAppUrl } from '@/lib/brand';
 import { Link } from '@/libs/I18nNavigation';
@@ -202,9 +203,7 @@ export function SiteHeader({ searchIndex }: SiteHeaderProps) {
               <Button href={whatsappHeader} size="sm" variant="whatsapp">
                 {t('whatsapp_link')}
               </Button>
-              <Button href="/orcamento" size="sm" variant="outline">
-                {t('orcamento_link')}
-              </Button>
+              <QuoteCartNavLink label={t('orcamento_link')} />
             </div>
 
             <button
@@ -253,15 +252,10 @@ export function SiteHeader({ searchIndex }: SiteHeaderProps) {
                 </a>
               </li>
               <li>
-                <Link
-                  className="block rounded-lg border border-neutral-200 px-3 py-2 text-center font-semibold text-neutral-800"
-                  href="/orcamento"
-                  onClick={() => {
-                    setMobileOpen(false);
-                  }}
-                >
-                  {t('orcamento_link')}
-                </Link>
+                <QuoteCartNavLink
+                  className="block w-full justify-center rounded-lg border border-neutral-200 px-3 py-2 text-center"
+                  label={t('orcamento_link')}
+                />
               </li>
             </ul>
           </nav>

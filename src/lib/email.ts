@@ -31,6 +31,8 @@ export async function notifyLeadByEmail(lead: LeadRecord) {
     ? (rentalPeriodLabels[lead.rentalPeriod] ?? lead.rentalPeriod)
     : '—';
 
+  const cartLines = formatCartItemsForEmail(lead.itemsJson);
+
   const subject = `Novo orçamento no site — ${lead.name}`;
   const text = [
     `Novo lead #${lead.id} em ${brand.name}`,
@@ -40,8 +42,9 @@ export async function notifyLeadByEmail(lead: LeadRecord) {
     `Telefone: ${lead.phone}`,
     `Empresa: ${lead.company ?? '—'}`,
     `Cidade: ${lead.city}`,
-    `Equipamento: ${lead.equipmentName ?? '—'}`,
-    `Slug: ${lead.equipmentSlug ?? '—'}`,
+    cartLines ? `Itens solicitados:\n${cartLines}` : '',
+    cartLines ? '' : `Equipamento: ${lead.equipmentName ?? '—'}`,
+    cartLines ? '' : `Slug: ${lead.equipmentSlug ?? '—'}`,
     `Período: ${period}`,
     `Origem: ${lead.origin}`,
     '',
@@ -90,4 +93,24 @@ export async function notifyLeadByEmail(lead: LeadRecord) {
   }
 
   logger.info(`E-mail de lead #${lead.id} enviado para ${to}`);
+}
+
+function formatCartItemsForEmail(itemsJson: string | null) {
+  if (!itemsJson) {
+    return '';
+  }
+  try {
+    const items = JSON.parse(itemsJson) as { name?: string; slug?: string; kind?: string }[];
+    if (!Array.isArray(items) || items.length === 0) {
+      return '';
+    }
+    return items
+      .map((item, index) => {
+        const kind = item.kind === 'accessory' ? 'Acessório' : 'Equipamento';
+        return `${index + 1}. ${item.name ?? '—'} (${kind}) — ${item.slug ?? ''}`;
+      })
+      .join('\n');
+  } catch {
+    return '';
+  }
 }

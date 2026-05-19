@@ -3,6 +3,8 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { ConversionCtas } from '@/components/marketing/ConversionCtas';
 import { EquipmentCard } from '@/components/marketing/EquipmentCard';
+import { EquipmentPhoto } from '@/components/marketing/EquipmentPhoto';
+import { AddToQuoteButton } from '@/components/quote-cart/AddToQuoteButton';
 import { SpecTable } from '@/components/marketing/SpecTable';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { buildEquipmentWhatsAppUrl, equipmentSeoTitle } from '@/lib/brand';
@@ -57,7 +59,6 @@ export default async function EquipmentDetailPage(props: EquipmentDetailProps) {
   }
 
   const whatsappHref = buildEquipmentWhatsAppUrl(equipment);
-  const showSpecs = equipment.specs.length > 0 || equipment.category === 'equipamentos-aereos';
   const related = getRelatedEquipment(slug);
 
   return (
@@ -69,9 +70,7 @@ export default async function EquipmentDetailPage(props: EquipmentDetailProps) {
       </Link>
 
       <div className="mt-6 grid gap-10 lg:grid-cols-2">
-        <div className="flex aspect-[4/3] items-center justify-center rounded-[var(--radius-card)] border border-neutral-200 bg-neutral-100 text-neutral-400">
-          <span className="text-sm">Imagem em breve</span>
-        </div>
+        <EquipmentPhoto name={equipment.name} slug={equipment.slug} variant="detail" />
 
         <div>
           <Link
@@ -84,25 +83,38 @@ export default async function EquipmentDetailPage(props: EquipmentDetailProps) {
             {equipment.name}
           </h1>
           <p className="mt-4 text-neutral-600">{equipment.shortDescription}</p>
-          <p className="mt-2 text-sm font-medium text-neutral-500">Valores sob consulta</p>
 
-          {showSpecs && (
-            <div className="mt-8">
-              <SpecTable
-                specs={equipment.specs}
-                title={t('specs_title')}
-                variant={equipment.category === 'equipamentos-aereos' ? 'aerial' : 'default'}
-              />
-            </div>
-          )}
+          {equipment.longDescription ? (
+            <section className="mt-6">
+              <h2 className="font-heading text-lg font-semibold text-neutral-900">
+                {t('technical_description_title')}
+              </h2>
+              <p className="mt-2 text-sm leading-relaxed text-neutral-600">
+                {equipment.longDescription}
+              </p>
+            </section>
+          ) : null}
 
-          <ConversionCtas
-            className="mt-8"
-            quoteHref={`/orcamento?equipamento=${equipment.slug}`}
-            quoteLabel={t('cta_quote')}
-            whatsappHref={whatsappHref}
-            whatsappLabel={t('cta_whatsapp')}
-          />
+          <div className="mt-8">
+            <SpecTable
+              specs={equipment.specs}
+              title={t('specs_title')}
+              variant={equipment.category === 'equipamentos-aereos' ? 'aerial' : 'default'}
+            />
+          </div>
+
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+            <AddToQuoteButton
+              item={{ slug: equipment.slug, name: equipment.name, kind: 'equipment' }}
+              size="md"
+            />
+            <ConversionCtas
+              quoteHref="/orcamento"
+              quoteLabel="Ver orçamento"
+              whatsappHref={whatsappHref}
+              whatsappLabel={t('cta_whatsapp')}
+            />
+          </div>
         </div>
       </div>
 

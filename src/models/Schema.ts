@@ -35,6 +35,7 @@ export const leadsSchema = pgTable('leads', {
   rentalPeriod: varchar('rental_period', { length: 80 }),
   city: varchar('city', { length: 120 }).notNull(),
   message: text('message'),
+  itemsJson: text('items_json'),
   origin: varchar('origin', { length: 80 }).notNull().default('site'),
   status: varchar('status', { length: 40 }).notNull().default('new'),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),

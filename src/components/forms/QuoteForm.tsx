@@ -3,6 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useQuoteCart } from '@/components/quote-cart/QuoteCartProvider';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
@@ -29,6 +30,7 @@ const periodLabels: Record<(typeof rentalPeriodOptions)[number], string> = {
 
 export function QuoteForm(props: QuoteFormProps) {
   const origin = props.origin ?? 'site-orcamento';
+  const cart = useQuoteCart();
   const [submitted, setSubmitted] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
 
@@ -43,8 +45,8 @@ export function QuoteForm(props: QuoteFormProps) {
       email: '',
       phone: '',
       company: '',
-      equipmentSlug: props.initialEquipment?.slug ?? '',
-      equipmentName: props.initialEquipment?.name ?? '',
+      equipmentSlug: '',
+      equipmentName: '',
       rentalPeriod: '',
       city: '',
       message: '',
@@ -56,10 +58,33 @@ export function QuoteForm(props: QuoteFormProps) {
   const onSubmit = async (data: z.infer<typeof QuoteFormSchema>) => {
     setServerError(null);
 
+    const cartItems =
+      cart.items.length > 0
+        ? cart.items
+        : props.initialEquipment
+          ? [
+              {
+                slug: props.initialEquipment.slug,
+                name: props.initialEquipment.name,
+                kind: 'equipment' as const,
+              },
+            ]
+          : undefined;
+
+    if (!cartItems?.length && !data.equipmentName?.trim()) {
+      setServerError('Adicione itens ao orçamento no catálogo ou informe um equipamento.');
+      return;
+    }
+
     const response = await fetch('/api/leads', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
+      body: JSON.stringify({
+        ...data,
+        cartItems,
+        equipmentSlug: cartItems?.[0]?.slug ?? data.equipmentSlug,
+        equipmentName: cartItems?.[0]?.name ?? data.equipmentName,
+      }),
     });
 
     const body = (await response.json()) as { error?: string; ok?: boolean };
@@ -69,6 +94,7 @@ export function QuoteForm(props: QuoteFormProps) {
       return;
     }
 
+    cart.clearCart();
     setSubmitted(true);
     props.onSuccess?.();
   };
@@ -82,7 +108,7 @@ export function QuoteForm(props: QuoteFormProps) {
         <p className="font-heading text-lg font-semibold text-neutral-900">Pedido enviado!</p>
         <p className="mt-2 text-sm text-neutral-600">
           Recebemos sua solicitação. Nossa equipe comercial retorna em horário útil ({brand.hours}
-          ).
+          ) com valores, disponibilidade e prazo.
         </p>
         <p className="mt-4 text-sm text-neutral-600">
           Urgente? Ligue{' '}
@@ -94,6 +120,8 @@ export function QuoteForm(props: QuoteFormProps) {
       </div>
     );
   }
+
+  const showManualEquipment = cart.count === 0 && !props.initialEquipment;
 
   return (
     <form className="space-y-4" noValidate onSubmit={handleSubmit(onSubmit)}>
@@ -133,20 +161,21 @@ export function QuoteForm(props: QuoteFormProps) {
         {...register('city')}
       />
 
-      {props.initialEquipment ? (
+      {props.initialEquipment && cart.count === 0 ? (
         <div className="rounded-lg bg-primary-light px-4 py-3 text-sm text-neutral-800">
-          Equipamento de interesse: <strong>{props.initialEquipment.name}</strong>
-          <input type="hidden" {...register('equipmentSlug')} />
-          <input type="hidden" {...register('equipmentName')} />
+          Equipamento desta página: <strong>{props.initialEquipment.name}</strong> (será incluído se
+          você não montar uma lista no carrinho).
         </div>
-      ) : (
+      ) : null}
+
+      {showManualEquipment ? (
         <Input
           error={errors.equipmentName?.message}
-          label="Equipamento de interesse (opcional)"
+          label="Equipamento de interesse (se não usou o carrinho)"
           placeholder="Ex.: plataforma elevatória, betoneira…"
           {...register('equipmentName')}
         />
-      )}
+      ) : null}
 
       <Select error={errors.rentalPeriod?.message} label="Período de locação" {...register('rentalPeriod')}>
         <option value="">Selecione…</option>
@@ -181,8 +210,8 @@ export function QuoteForm(props: QuoteFormProps) {
       ) : null}
 
       <p className="text-xs text-neutral-500">
-        Ao enviar, você concorda em ser contatado pela {brand.name} sobre esta solicitação. Seus
-        dados são usados apenas para o orçamento (LGPD).
+        Ao enviar, você concorda em ser contatado pela {brand.name} sobre esta solicitação. Valores e
+        condições comerciais serão informados pela equipe (LGPD).
       </p>
 
       <Button className="w-full sm:w-auto" disabled={isSubmitting} type="submit" variant="primary">

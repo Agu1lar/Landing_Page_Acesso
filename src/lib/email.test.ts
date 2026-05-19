@@ -12,6 +12,7 @@ const sampleLead = {
   rentalPeriod: 'semanal',
   city: 'Belo Horizonte',
   message: null,
+  itemsJson: null,
   origin: 'site-orcamento',
   status: 'new',
   createdAt: new Date('2026-05-19'),

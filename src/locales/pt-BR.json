@@ -85,7 +85,8 @@
     "empty": "Nenhum equipamento encontrado para sua busca."
   },
   "EquipamentoDetail": {
-    "specs_title": "Especificações",
+    "technical_description_title": "Descrição técnica",
+    "specs_title": "Especificações técnicas",
     "cta_quote": "Solicitar orçamento",
     "cta_whatsapp": "Falar no WhatsApp",
     "back": "Voltar ao catálogo",
