@@ -49,6 +49,7 @@
 2. [Princípios de arquitetura](#2-princípios-de-arquitetura)
 3. [Fases do produto](#3-fases-do-produto)
 4. [Roadmap por sprint (detalhado)](#4-roadmap-por-sprint-detalhado)
+4.0. [⚠️ Pontos de atenção — próximas sprints](#️-pontos-de-atenção--próximas-sprints)
 4.1. [Sprint 7.9 — Docker e ambiente local](#sprint-79--docker-e-ambiente-local)
 4.2. [Sprint 11 — Painel administrativo (operação)](#sprint-11--painel-administrativo-operação-fase-2)
 4.3. [Sprint 12 — Analytics comercial avançado](#sprint-12--analytics-comercial-avançado)
@@ -388,14 +389,15 @@ Escala de catálogo, prova social, otimizações e ferramentas para o time comer
 |----|--------|----------|
 | 7.9.1 | `Dockerfile` | Multi-stage: `deps` → `dev` (hot reload) → `runner` (produção `next start`) |
 | 7.9.2 | `docker-compose.yml` | Serviços separados + **profiles** para ligar só o que precisar |
-| 7.9.3 | Serviço **`db`** | `postgres:16-alpine`, volume nomeado, porta host `5432`, healthcheck |
+| 7.9.3 | Serviço **`db`** | `postgres:16-alpine`, volume nomeado, porta host `5432`; **healthcheck** `pg_isready -U postgres` |
 | 7.9.4 | Serviço **`app`** | Next.js dev; `DATABASE_URL` apontando para `db`; mount do código; porta `3000` |
-| 7.9.5 | Serviço **`migrate`** | One-shot: `drizzle-kit migrate` após `db` healthy (`depends_on`) |
+| 7.9.5 | Serviço **`migrate`** | One-shot: `drizzle-kit migrate` só após `depends_on: db: condition: service_healthy` |
 | 7.9.6 | Profile **`tools`** → **`studio`** | Drizzle Studio (`db:studio`) sob demanda, porta `4983` |
 | 7.9.7 | Profile **`prod`** | `app-prod`: `next build` + `next start` (smoke test local de produção) |
 | 7.9.8 | Variáveis | `.env.docker.example` (Clerk, `DATABASE_URL`, Arcjet); documentar cópia para `.env.local` |
 | 7.9.9 | Documentação | `docs/DOCKER.md` — comandos abaixo |
 | 7.9.10 | `.dockerignore` | Excluir `node_modules`, `.next`, `local.db`, `.env*` |
+| 7.9.11 | **Dual env PGlite / Postgres** | Ajustar `drizzle.config.ts` + factory DB via `DATABASE_URL`; matriz em `docs/DOCKER.md` (dev PGlite :5433 vs Compose :5432 vs Neon) |
 
 **Serviços previstos no Compose:**
 
@@ -410,6 +412,8 @@ Escala de catálogo, prova social, otimizações e ferramentas para o time comer
 **Notas técnicas:**
 
 - Em Docker, preferir **Postgres** no serviço `db` em vez de PGlite (mesmo driver Drizzle/`pg` que Neon).
+- **PGlite vs Docker:** ajustar `drizzle.config.ts` e a factory de conexão da app para escolher destino via `DATABASE_URL` (host PGlite `:5433` vs container `:5432` vs Neon). Não manter dois caminhos de migrate divergentes sem documentar em `docs/DOCKER.md`.
+- **Healthcheck obrigatório** no serviço `db` antes do `migrate` (ver [§ Pontos de atenção — 7.9](#1-sprint-79--docker-compose-vs-pglite-local)).
 - **Spotlight/Sentry** e **PostHog** permanecem opcionais no host (dev) ou só em produção (Vercel) — não obrigatório no Compose inicial.
 - Produção real continua **Vercel + Neon** (Sprint 10); imagem Docker `prod` serve para teste local e futuro self-host, se necessário.
 
@@ -470,6 +474,55 @@ Escala de catálogo, prova social, otimizações e ferramentas para o time comer
 | 10.8 | Redirect site legado (se houver) | `acessoequipamentos.com.br` → novo |
 
 **Critério de saída:** site no ar em domínio oficial, formulário e WhatsApp funcionando em produção.
+
+---
+
+### ⚠️ Pontos de atenção — próximas sprints
+
+> Riscos técnicos e decisões de implementação que **não podem ser esquecidas** ao executar os Sprints 7.9 e 11+. Detalhes expandidos também nas subseções de cada sprint.
+
+#### 1. Sprint 7.9 — Docker Compose vs. PGlite local
+
+Hoje o `npm run dev` usa **PGlite** (Postgres em WASM / em memória, porta **5433**). No Docker o banco será **postgres:16-alpine** (porta **5432**). A transição exige alinhar **três pontos**:
+
+| O quê | Ação |
+|-------|------|
+| `drizzle.config.ts` | Ler `DATABASE_URL` do ambiente; em Docker apontar para `postgresql://…@db:5432/…`; no host sem Docker manter PGlite ou Neon conforme `.env.local` |
+| Inicialização da app | O loader de DB (`src/lib/DB.ts` ou equivalente) deve usar **um único driver** (`pg`) para Neon, Docker Postgres e PGlite — sem `process.env` espalhado; validar em `Env.ts` |
+| Serviço `migrate` | O container `migrate` só roda `drizzle-kit migrate` **depois** do `db` estar saudável: `depends_on: db: condition: service_healthy` + **healthcheck** no Postgres (`pg_isready`) |
+
+**Dica:** não assumir que `migrate` “sempre funciona” na primeira subida — sem healthcheck é comum falhar com *connection refused* e deixar o dev achando que a migration quebrou.
+
+Ver tarefas **7.9.3**, **7.9.5** e notas técnicas abaixo.
+
+#### 2. Sprint 11.2.7 — Invalidação de cache / ISR (catálogo no banco)
+
+Ao migrar o catálogo de `equipamentos.json` para **PostgreSQL**, as páginas geradas com `generateStaticParams` (SSG) **não atualizam sozinhas** quando o admin edita um item.
+
+| O quê | Ação |
+|-------|------|
+| On-Demand Revalidation | No **Server Action** (ou API) que salva/publica equipamento, chamar `revalidatePath('/equipamentos/[slug]')` para o slug alterado **e** `revalidatePath('/equipamentos')`, `revalidatePath('/categorias/[categoria]')` conforme impacto |
+| Tags (opcional) | Agrupar com `revalidateTag('equipment')` / `revalidateTag(\`equipment:${slug}\`)` se o data fetch usar `fetch(..., { next: { tags: [...] } })` |
+| Listagens | Não esquecer home (destaques) e sitemap se equipamento novo for publicado |
+
+**Objetivo:** visitante vê alteração em **segundos** na Vercel, sem redeploy completo do projeto.
+
+Ver **11.2.7** na tabela do Sprint 11.2.
+
+#### 3. Sprint 11.5 — Coleta de UTMs no Neon (Google Ads / Meta)
+
+PostHog captura sessão e UTM automaticamente para **volume** de tráfego. Para gravar UTM no **Neon** no momento de `whatsapp_click` e `quote_submit`, o servidor **não** vê a query string da landing original na requisição da API.
+
+| O quê | Ação |
+|-------|------|
+| Primeira visita (cliente) | Ao carregar o site, ler `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term` da URL + `document.referrer` + path de entrada |
+| Persistência | Guardar em **`sessionStorage`** (sessão do tab) ou **cookie first-party** (ex.: `acesso_attribution`, TTL 30 dias) — documentar na `/privacidade` se usar cookie |
+| Conversão | No `POST /api/leads` e no payload de `whatsapp_click`, enviar esses campos no body; validar com Zod e persistir em `leads` / `analytics_events` |
+| Consistência | Mesma estrutura usada no Sprint **12.5** (origem do lead) — evitar dois formatos de UTM |
+
+**Objetivo:** campanha paga atribuída corretamente no CSV de leads e no painel, sem depender só do PostHog.
+
+Ver seção **11.5** (tabela de campos + implementação cliente).
 
 ---
 
@@ -546,9 +599,17 @@ if (isAdminOnlyRoute(req) && role !== 'admin') {
 | 11.2.4 | Editar equipamento | Todos os campos + specs (tabela dinâmica, variant aéreo) |
 | 11.2.5 | Excluir / arquivar | Soft delete (`deleted_at`) — não quebrar URLs antigas; redirect 301 opcional |
 | 11.2.6 | Duplicar item | Clonar equipamento como rascunho |
-| 11.2.7 | Sincronização site | Ao salvar: invalidar cache / revalidar páginas SSG do slug e listagens |
+| 11.2.7 | **Sincronização site (On-Demand Revalidation)** | Ver [§ Pontos de atenção — ISR](#2-sprint-1127--invalidação-de-cache--isr-catálogo-no-banco) |
 
-**Critério de saída:** criar, editar e despublicar equipamento reflete no site público em &lt; 2 min.
+**Implementação 11.2.7 (checklist):**
+
+- [ ] Data layer do site público lê do Postgres (não só JSON estático após migração).
+- [ ] Server Action `saveEquipment`: após commit, `revalidatePath(\`/equipamentos/${slug}\`)` + listagens/categorias afetadas.
+- [ ] Opcional: `revalidateTag('equipment')` se usar cache por tag no `fetch`.
+- [ ] Novo slug publicado: revalidar sitemap (`revalidatePath('/sitemap.xml')` ou rota dinâmica equivalente).
+- [ ] Teste manual: editar nome no admin → detalhe público atualizado sem novo deploy na Vercel.
+
+**Critério de saída:** criar, editar e despublicar equipamento reflete no site público em **&lt; 1 min** (revalidação on-demand), não apenas no próximo build.
 
 ---
 
@@ -600,16 +661,29 @@ if (isAdminOnlyRoute(req) && role !== 'admin') {
 | E4 | `equipment_view` | Abrir detalhe | **PostHog** |
 | E5 | `search` | Busca global (opcional) | **PostHog** (query hash/anônimo) |
 
-**Atribuição de tráfego (campanhas pagas no domínio futuro):** capturar UTM/referrer/landing no **PostHog** (sessão). Para `whatsapp_click` e `quote_submit` no Neon, copiar UTM da sessão no momento da conversão.
+**Atribuição de tráfego:** volume e funil no **PostHog** (sessão automática). Para **Neon** (`whatsapp_click`, `quote_submit`, colunas UTM em `leads`), ver [§ Pontos de atenção — UTMs](#3-sprint-115--coleta-de-utms-no-neon-google-ads--meta).
+
+#### Implementação cliente — persistir UTMs antes da conversão
+
+| Passo | Onde | Detalhe |
+|-------|------|---------|
+| 1 | Componente client no layout marketing | Na primeira carga, parse `window.location.search` (UTMs) + `document.referrer` + pathname |
+| 2 | Persistência | `sessionStorage` (ex.: chave `acesso_attribution`) **ou** cookie first-party com TTL (30d) se precisar sobreviver a novo tab |
+| 3 | Não sobrescrever | Só gravar na **primeira** visita da sessão (first-touch) — campanha de entrada |
+| 4 | WhatsApp / formulário | Ao disparar E2/E3, ler storage e enviar no body do `fetch` para `/api/leads` ou `/api/analytics` |
+| 5 | API | Validar com Zod; gravar em `leads.utm_*` / `analytics_events`; opcional: colunas `referrer`, `landing_page` |
 
 | Campo | Origem |
 |-------|--------|
-| `utm_source` | Google Ads, Meta, etc. |
-| `utm_medium` | cpc, social, email |
-| `utm_campaign` | nome da campanha |
-| `utm_content` | variação de anúncio |
-| `referrer` | document.referrer (domínio de origem) |
-| `landing_page` | primeira URL da sessão |
+| `utm_source` | Query na entrada (Google Ads, Meta, etc.) |
+| `utm_medium` | Query na entrada |
+| `utm_campaign` | Query na entrada |
+| `utm_content` | Query na entrada |
+| `utm_term` | Query na entrada (opcional) |
+| `referrer` | `document.referrer` na primeira visita |
+| `landing_page` | Primeira URL completa ou pathname da sessão |
+
+**LGPD:** se usar cookie de atribuição além de `sessionStorage`, atualizar `/privacidade` e cookie banner (Sprint 6.9).
 
 **Agregação para o admin (11.6):** `analytics_daily` preenchida por job noturno — visitas/sessões via **API PostHog** (ou export); WhatsApp/leads via consulta ao Neon. Evitar `INSERT` por page view em produção.
 
