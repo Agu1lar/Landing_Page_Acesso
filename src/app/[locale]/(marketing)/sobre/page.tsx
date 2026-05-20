@@ -11,15 +11,17 @@ import {
 } from '@/data/company';
 import { getAllEquipment } from '@/lib/equipment';
 import { brand, buildWhatsAppMessage, buildWhatsAppUrl, seoTitle } from '@/lib/brand';
+import { buildMarketingMetadata } from '@/lib/seo-metadata';
 import { Link } from '@/libs/I18nNavigation';
 import { resolveAppLocale } from '@/utils/locale';
 
 type PageProps = { params: Promise<{ locale: string }> };
 
-export const metadata: Metadata = {
-  title: seoTitle('Sobre nós'),
+export const metadata: Metadata = buildMarketingMetadata({
+  title: seoTitle('Sobre a empresa'),
   description: `${brand.legalName} — locação de plataformas elevatórias, andaimes e máquinas em Belo Horizonte desde ${brand.foundedYear}. Equipe com mais de 20 anos de experiência.`,
-};
+  path: '/sobre',
+});
 
 const stats = [
   { label: 'Fundação', value: String(brand.foundedYear) },

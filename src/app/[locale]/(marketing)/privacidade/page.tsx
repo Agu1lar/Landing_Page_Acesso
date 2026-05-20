@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { brand } from '@/lib/brand';
-import { withSiteOpenGraph } from '@/lib/site-metadata';
+import { buildMarketingMetadata } from '@/lib/seo-metadata';
 import { Link } from '@/libs/I18nNavigation';
 import { resolveAppLocale } from '@/utils/locale';
 
@@ -16,9 +16,10 @@ export async function generateMetadata(props: PrivacidadePageProps): Promise<Met
     namespace: 'PrivacidadePage',
   });
 
-  return withSiteOpenGraph({
+  return buildMarketingMetadata({
     title: t('meta_title'),
     description: t('meta_description'),
+    path: '/privacidade',
   });
 }
 

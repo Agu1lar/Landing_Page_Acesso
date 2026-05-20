@@ -9,6 +9,7 @@ import { getFeaturedEquipment } from '@/lib/equipment';
 import { Link } from '@/libs/I18nNavigation';
 import { CATEGORY_LABELS } from '@/types/equipment';
 import type { EquipmentCategory } from '@/types/equipment';
+import { buildMarketingMetadata } from '@/lib/seo-metadata';
 import { resolveAppLocale } from '@/utils/locale';
 
 const categories: EquipmentCategory[] = [
@@ -32,10 +33,11 @@ export async function generateMetadata(props: IndexPageProps): Promise<Metadata>
     locale: resolveAppLocale(locale),
     namespace: 'Index',
   });
-  return {
+  return buildMarketingMetadata({
     title: t('meta_title'),
     description: t('meta_description'),
-  };
+    path: '/',
+  });
 }
 
 export default async function HomePage(props: IndexPageProps) {

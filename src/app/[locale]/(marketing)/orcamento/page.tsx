@@ -3,6 +3,7 @@ import { setRequestLocale } from 'next-intl/server';
 import { OrcamentoFormSection } from '@/components/forms/OrcamentoFormSection';
 import { brand, seoTitle } from '@/lib/brand';
 import { getEquipmentBySlug } from '@/lib/equipment';
+import { buildMarketingMetadata } from '@/lib/seo-metadata';
 import { Link } from '@/libs/I18nNavigation';
 import { resolveAppLocale } from '@/utils/locale';
 
@@ -11,10 +12,13 @@ type PageProps = {
   searchParams: Promise<{ equipamento?: string }>;
 };
 
-export const metadata: Metadata = {
-  title: seoTitle('Solicitar orçamento'),
-  description: `Solicite orçamento de locação com a ${brand.name}. Resposta em horário comercial.`,
-};
+const orcamentoDescription = `Solicite orçamento de locação de equipamentos com a ${brand.name} em Belo Horizonte e região metropolitana. Resposta em horário comercial.`;
+
+export const metadata: Metadata = buildMarketingMetadata({
+  title: seoTitle('Solicitar orçamento de locação'),
+  description: orcamentoDescription,
+  path: '/orcamento',
+});
 
 export default async function OrcamentoPage(props: PageProps) {
   const { locale } = await props.params;
@@ -33,7 +37,11 @@ export default async function OrcamentoPage(props: PageProps) {
 
       {equipamento && !equipment && (
         <p className="mt-4 rounded-lg bg-neutral-100 px-4 py-3 text-sm text-neutral-800">
-          Referência do equipamento: <strong>{equipamento}</strong>
+          O equipamento informado na URL não foi encontrado. Você pode escolher itens no{' '}
+          <Link className="font-medium text-primary hover:underline" href="/equipamentos">
+            catálogo
+          </Link>
+          .
         </p>
       )}
 
@@ -42,14 +50,6 @@ export default async function OrcamentoPage(props: PageProps) {
           equipment ? { slug: equipment.slug, name: equipment.name } : undefined
         }
       />
-
-      <p className="mt-8 text-sm text-neutral-600">
-        Dúvidas frequentes? Consulte a{' '}
-        <Link className="font-semibold text-primary hover:underline" href="/faq">
-          página de perguntas frequentes
-        </Link>
-        .
-      </p>
     </div>
   );
 }

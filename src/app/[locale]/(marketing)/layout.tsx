@@ -1,7 +1,7 @@
 import { setRequestLocale } from 'next-intl/server';
 import { MarketingShell } from '@/components/layout/MarketingShell';
 import { JsonLd } from '@/components/seo/JsonLd';
-import { buildLocalBusinessJsonLd } from '@/lib/json-ld';
+import { buildMarketingGraphJsonLd } from '@/lib/json-ld';
 import { resolveAppLocale } from '@/utils/locale';
 
 export default async function Layout(props: {
@@ -13,7 +13,7 @@ export default async function Layout(props: {
 
   return (
     <>
-      <JsonLd data={buildLocalBusinessJsonLd()} />
+      <JsonLd data={buildMarketingGraphJsonLd()} />
       <MarketingShell>{props.children}</MarketingShell>
     </>
   );

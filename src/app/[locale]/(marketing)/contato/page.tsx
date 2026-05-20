@@ -1,15 +1,17 @@
 import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
 import { ConversionCtas } from '@/components/marketing/ConversionCtas';
-import { brand, buildWhatsAppMessage, buildWhatsAppUrl } from '@/lib/brand';
+import { brand, buildWhatsAppMessage, buildWhatsAppUrl, seoTitle } from '@/lib/brand';
+import { buildMarketingMetadata } from '@/lib/seo-metadata';
 import { resolveAppLocale } from '@/utils/locale';
 
 type PageProps = { params: Promise<{ locale: string }> };
 
-export const metadata: Metadata = {
-  title: 'Contato',
-  description: `Fale com a ${brand.name} — telefone, WhatsApp e endereço em Belo Horizonte.`,
-};
+export const metadata: Metadata = buildMarketingMetadata({
+  title: seoTitle('Contato e orçamento'),
+  description: `Telefone, WhatsApp e endereço da ${brand.name} em Belo Horizonte. Atendimento comercial em horário útil para locação de equipamentos.`,
+  path: '/contato',
+});
 
 export default async function ContatoPage(props: PageProps) {
   const { locale } = await props.params;

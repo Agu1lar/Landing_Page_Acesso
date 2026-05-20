@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
+import { JsonLd } from '@/components/seo/JsonLd';
 import { ConversionCtas } from '@/components/marketing/ConversionCtas';
 import { FaqAccordion } from '@/components/marketing/FaqAccordion';
 import {
@@ -9,16 +10,21 @@ import {
   TRAINING_TOPICS,
 } from '@/data/training';
 import { brand, buildWhatsAppMessage, buildWhatsAppUrl, seoTitle } from '@/lib/brand';
+import { buildTrainingCourseJsonLd } from '@/lib/json-ld';
+import { buildMarketingMetadata } from '@/lib/seo-metadata';
 import { Link } from '@/libs/I18nNavigation';
 import { resolveAppLocale } from '@/utils/locale';
 
 type PageProps = { params: Promise<{ locale: string }> };
 
-export const metadata: Metadata = {
+const trainingDescription =
+  'Treinamento para operação segura de plataformas elevatórias em Belo Horizonte. Capacitação alinhada à NR-12 e trabalho em altura. Certificado e orçamento sob consulta.';
+
+export const metadata: Metadata = buildMarketingMetadata({
   title: seoTitle('Treinamento em plataformas elevatórias'),
-  description:
-    'Treinamento para operação segura de plataformas elevatórias em Belo Horizonte. Capacitação alinhada à NR-12 e trabalho em altura. Certificado e orçamento sob consulta — Acesso Equipamentos.',
-};
+  description: trainingDescription,
+  path: '/treinamento-plataformas-aereas',
+});
 
 const whatsappTraining = buildWhatsAppUrl(
   buildWhatsAppMessage({
@@ -33,6 +39,7 @@ export default async function TreinamentoPlataformasPage(props: PageProps) {
 
   return (
     <>
+      <JsonLd data={buildTrainingCourseJsonLd()} />
       <section className="border-b border-neutral-200 bg-surface">
         <div className="mx-auto max-w-4xl px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
           <p className="text-sm font-semibold tracking-wider text-primary uppercase">

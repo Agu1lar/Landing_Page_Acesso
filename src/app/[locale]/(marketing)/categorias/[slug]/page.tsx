@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
+import { JsonLd } from '@/components/seo/JsonLd';
 import { ConversionCtas } from '@/components/marketing/ConversionCtas';
 import { EquipmentCard } from '@/components/marketing/EquipmentCard';
 import { buildWhatsAppMessage, buildWhatsAppUrl } from '@/lib/brand';
@@ -10,6 +11,8 @@ import {
   isEquipmentCategory,
 } from '@/lib/categories-seo';
 import { getEquipmentByCategory } from '@/lib/equipment';
+import { buildCategoryPageJsonLd } from '@/lib/json-ld';
+import { buildMarketingMetadata } from '@/lib/seo-metadata';
 import { Link } from '@/libs/I18nNavigation';
 import { CATEGORY_LABELS } from '@/types/equipment';
 import { resolveAppLocale } from '@/utils/locale';
@@ -28,10 +31,11 @@ export async function generateMetadata(props: CategoryPageProps): Promise<Metada
     return { title: 'Categoria' };
   }
   const seo = getCategorySeo(slug);
-  return {
+  return buildMarketingMetadata({
     title: seo.metaTitle,
     description: seo.metaDescription,
-  };
+    path: `/categorias/${slug}`,
+  });
 }
 
 export default async function CategoryPage(props: CategoryPageProps) {
@@ -57,7 +61,9 @@ export default async function CategoryPage(props: CategoryPageProps) {
   );
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+    <>
+      <JsonLd data={buildCategoryPageJsonLd({ slug, seo, equipment })} />
+      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <nav aria-label="Breadcrumb" className="text-sm text-neutral-600">
         <ol className="flex flex-wrap items-center gap-1">
           <li>
@@ -133,5 +139,6 @@ export default async function CategoryPage(props: CategoryPageProps) {
         </p>
       </section>
     </div>
+    </>
   );
 }

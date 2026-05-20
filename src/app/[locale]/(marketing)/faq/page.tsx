@@ -1,9 +1,12 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { JsonLd } from '@/components/seo/JsonLd';
 import { ConversionCtas } from '@/components/marketing/ConversionCtas';
 import { FaqAccordion } from '@/components/marketing/FaqAccordion';
 import { FAQ_ITEMS } from '@/data/faq';
 import { brand, buildWhatsAppMessage, buildWhatsAppUrl } from '@/lib/brand';
+import { buildFaqPageJsonLd } from '@/lib/json-ld';
+import { buildMarketingMetadata } from '@/lib/seo-metadata';
 import { Link } from '@/libs/I18nNavigation';
 import { resolveAppLocale } from '@/utils/locale';
 
@@ -17,10 +20,11 @@ export async function generateMetadata(props: FaqPageProps): Promise<Metadata> {
     locale: resolveAppLocale(locale),
     namespace: 'Faq',
   });
-  return {
+  return buildMarketingMetadata({
     title: t('meta_title'),
     description: t('meta_description'),
-  };
+    path: '/faq',
+  });
 }
 
 export default async function FaqPage(props: FaqPageProps) {
@@ -34,7 +38,9 @@ export default async function FaqPage(props: FaqPageProps) {
   const whatsappHref = buildWhatsAppUrl(buildWhatsAppMessage({ origin: 'site-faq' }));
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
+    <>
+      <JsonLd data={buildFaqPageJsonLd(FAQ_ITEMS)} />
+      <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
       <h1 className="font-heading text-3xl font-bold text-neutral-900">{t('title')}</h1>
       <p className="mt-4 text-neutral-600">{t('intro')}</p>
 
@@ -63,5 +69,6 @@ export default async function FaqPage(props: FaqPageProps) {
         </Link>
       </p>
     </div>
+    </>
   );
 }
