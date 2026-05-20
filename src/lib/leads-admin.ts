@@ -1,0 +1,276 @@
+import { and, desc, eq, gte, ilike, lte, or, sql } from 'drizzle-orm';
+import type { InferSelectModel } from 'drizzle-orm';
+import * as z from 'zod';
+import { db } from '@/libs/DB';
+import { leadsSchema } from '@/models/Schema';
+import { QuoteCartItemSchema } from '@/validations/quote';
+import type { QuoteCartItemInput } from '@/validations/quote';
+
+export type LeadRecord = InferSelectModel<typeof leadsSchema>;
+
+export type LeadListFilters = {
+  dateFrom?: string;
+  dateTo?: string;
+  status?: string;
+  city?: string;
+  origin?: string;
+  q?: string;
+  page?: number;
+  pageSize?: number;
+};
+
+const DEFAULT_PAGE_SIZE = 25;
+
+type LeadCsvRow = {
+  id: string;
+  createdAt: string;
+  name: string;
+  email: string;
+  phone: string;
+  company: string;
+  city: string;
+  rentalPeriod: string;
+  equipmentName: string;
+  items: string;
+  origin: string;
+  status: string;
+  message: string;
+};
+
+export type CsvColumn = {
+  key: keyof LeadCsvRow;
+  header: string;
+};
+
+const CSV_COLUMNS: CsvColumn[] = [
+  { key: 'id', header: 'ID' },
+  { key: 'createdAt', header: 'Data' },
+  { key: 'name', header: 'Nome' },
+  { key: 'email', header: 'E-mail' },
+  { key: 'phone', header: 'Telefone' },
+  { key: 'company', header: 'Empresa' },
+  { key: 'city', header: 'Cidade' },
+  { key: 'rentalPeriod', header: 'Período' },
+  { key: 'equipmentName', header: 'Equipamento' },
+  { key: 'items', header: 'Itens do carrinho' },
+  { key: 'origin', header: 'Origem' },
+  { key: 'status', header: 'Status' },
+  { key: 'message', header: 'Mensagem' },
+];
+
+/**
+ * Parses cart line items stored on a lead row.
+ *
+ * @param itemsJson - Serialized cart from the quote form.
+ * @returns Validated cart items, or an empty array when invalid.
+ */
+export function parseLeadCartItems(itemsJson: string | null | undefined) {
+  if (!itemsJson?.trim()) {
+    return [] as QuoteCartItemInput[];
+  }
+  try {
+    const raw: unknown = JSON.parse(itemsJson);
+    const parsed = z.array(QuoteCartItemSchema).safeParse(raw);
+    return parsed.success ? parsed.data : [];
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Formats cart items for CSV or table display.
+ *
+ * @param itemsJson - Serialized cart from the quote form.
+ * @returns Human-readable summary for admin views and export.
+ */
+export function formatLeadCartItems(itemsJson: string | null | undefined) {
+  const items = parseLeadCartItems(itemsJson);
+  if (items.length === 0) {
+    return '';
+  }
+  return items
+    .map((item) => {
+      const kind = item.kind === 'accessory' ? 'Acessório' : 'Equipamento';
+      const qty = item.quantity > 1 ? ` ×${item.quantity}` : '';
+      return `${item.name} (${kind})${qty}`;
+    })
+    .join('; ');
+}
+
+function buildWhere(filters: LeadListFilters) {
+  const conditions = [];
+
+  if (filters.status?.trim()) {
+    conditions.push(eq(leadsSchema.status, filters.status.trim()));
+  }
+  if (filters.city?.trim()) {
+    conditions.push(ilike(leadsSchema.city, `%${filters.city.trim()}%`));
+  }
+  if (filters.origin?.trim()) {
+    conditions.push(ilike(leadsSchema.origin, `%${filters.origin.trim()}%`));
+  }
+  if (filters.dateFrom?.trim()) {
+    const from = new Date(`${filters.dateFrom.trim()}T00:00:00.000Z`);
+    if (!Number.isNaN(from.getTime())) {
+      conditions.push(gte(leadsSchema.createdAt, from));
+    }
+  }
+  if (filters.dateTo?.trim()) {
+    const to = new Date(`${filters.dateTo.trim()}T23:59:59.999Z`);
+    if (!Number.isNaN(to.getTime())) {
+      conditions.push(lte(leadsSchema.createdAt, to));
+    }
+  }
+  if (filters.q?.trim()) {
+    const term = `%${filters.q.trim()}%`;
+    conditions.push(
+      or(
+        ilike(leadsSchema.name, term),
+        ilike(leadsSchema.email, term),
+        ilike(leadsSchema.phone, term),
+        ilike(leadsSchema.equipmentName, term),
+        ilike(leadsSchema.company, term),
+      ),
+    );
+  }
+
+  return conditions.length > 0 ? and(...conditions) : undefined;
+}
+
+/**
+ * Lists leads for the admin panel with optional filters and pagination.
+ *
+ * @param filters - Date, status, city, origin, search and page options.
+ * @returns Paginated lead rows and totals.
+ */
+export async function listLeads(filters: LeadListFilters = {}) {
+  const page = Math.max(1, filters.page ?? 1);
+  const pageSize = Math.min(100, Math.max(1, filters.pageSize ?? DEFAULT_PAGE_SIZE));
+  const offset = (page - 1) * pageSize;
+  const where = buildWhere(filters);
+
+  const [rows, countRow] = await Promise.all([
+    db
+      .select()
+      .from(leadsSchema)
+      .where(where)
+      .orderBy(desc(leadsSchema.createdAt))
+      .limit(pageSize)
+      .offset(offset),
+    db
+      .select({ count: sql<number>`cast(count(*) as int)` })
+      .from(leadsSchema)
+      .where(where),
+  ]);
+
+  const total = countRow[0]?.count ?? 0;
+
+  return {
+    leads: rows,
+    total,
+    page,
+    pageSize,
+    totalPages: Math.max(1, Math.ceil(total / pageSize)),
+  };
+}
+
+/**
+ * Fetches a single lead by id.
+ *
+ * @param id - Lead primary key.
+ * @returns The lead row when found.
+ */
+export async function getLeadById(id: number) {
+  const [lead] = await db.select().from(leadsSchema).where(eq(leadsSchema.id, id)).limit(1);
+  return lead;
+}
+
+function escapeCsvCell(value: string) {
+  if (/[",\n\r]/u.test(value)) {
+    return `"${value.replaceAll('"', '""')}"`;
+  }
+  return value;
+}
+
+function leadToCsvRow(lead: LeadRecord): LeadCsvRow {
+  return {
+    id: String(lead.id),
+    createdAt: lead.createdAt.toISOString(),
+    name: lead.name,
+    email: lead.email,
+    phone: lead.phone,
+    company: lead.company ?? '',
+    city: lead.city,
+    rentalPeriod: lead.rentalPeriod ?? '',
+    equipmentName: lead.equipmentName ?? '',
+    items: formatLeadCartItems(lead.itemsJson),
+    origin: lead.origin,
+    status: lead.status,
+    message: lead.message ?? '',
+  };
+}
+
+/**
+ * Builds UTF-8 CSV with BOM for Excel.
+ *
+ * @param leads - Lead rows to serialize.
+ * @returns CSV string with header row.
+ */
+export function buildLeadsCsv(leads: LeadRecord[]) {
+  const header = CSV_COLUMNS.map((col) => escapeCsvCell(col.header)).join(',');
+  const rows = leads.map((lead) => {
+    const row = leadToCsvRow(lead);
+    return CSV_COLUMNS.map((col) => escapeCsvCell(row[col.key] ?? '')).join(',');
+  });
+  return `\uFEFF${[header, ...rows].join('\r\n')}`;
+}
+
+/**
+ * Loads all leads matching filters for export (capped).
+ *
+ * @param filters - Same filters as the list view.
+ * @param maxRows - Maximum rows returned.
+ * @returns Lead rows ordered by newest first.
+ */
+export async function listLeadsForExport(filters: LeadListFilters, maxRows = 5000) {
+  const where = buildWhere(filters);
+  return await db
+    .select()
+    .from(leadsSchema)
+    .where(where)
+    .orderBy(desc(leadsSchema.createdAt))
+    .limit(maxRows);
+}
+
+/**
+ * Builds query string for list filters (export link and pagination).
+ *
+ * @param filters - Active list filters.
+ * @returns Query string including leading `?` when non-empty.
+ */
+export function buildLeadsFilterQuery(filters: LeadListFilters) {
+  const params = new URLSearchParams();
+  if (filters.dateFrom) {
+    params.set('dateFrom', filters.dateFrom);
+  }
+  if (filters.dateTo) {
+    params.set('dateTo', filters.dateTo);
+  }
+  if (filters.status) {
+    params.set('status', filters.status);
+  }
+  if (filters.city) {
+    params.set('city', filters.city);
+  }
+  if (filters.origin) {
+    params.set('origin', filters.origin);
+  }
+  if (filters.q) {
+    params.set('q', filters.q);
+  }
+  if (filters.page && filters.page > 1) {
+    params.set('page', String(filters.page));
+  }
+  const query = params.toString();
+  return query ? `?${query}` : '';
+}

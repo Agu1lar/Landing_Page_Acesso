@@ -3,6 +3,7 @@ import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 import createMiddleware from 'next-intl/middleware';
 import type { NextFetchEvent, NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
+import { resolveDashboardRole } from '@/lib/auth-roles';
 import arcjet from '@/libs/Arcjet';
 import { routing } from './libs/I18nRouting';
 
@@ -10,12 +11,20 @@ const handleI18nRouting = createMiddleware(routing);
 
 const isProtectedRoute = createRouteMatcher(['/dashboard(.*)', '/:locale/dashboard(.*)']);
 
+const isSignUpPage = createRouteMatcher(['/sign-up(.*)', '/:locale/sign-up(.*)']);
+
 const isAuthPage = createRouteMatcher([
   '/sign-in(.*)',
   '/:locale/sign-in(.*)',
   '/sign-up(.*)',
   '/:locale/sign-up(.*)',
+  '/unauthorized(.*)',
+  '/:locale/unauthorized(.*)',
 ]);
+
+function localePrefixFromPath(pathname: string) {
+  return pathname.match(/(\/.*)\/(?:dashboard|sign-in|sign-up|unauthorized)/u)?.at(1) ?? '';
+}
 
 // Improve security with Arcjet
 const aj = arcjet.withRule(
@@ -42,19 +51,35 @@ export default async function proxy(request: NextRequest, event: NextFetchEvent)
     }
   }
 
+  if (isSignUpPage(request)) {
+    const locale = localePrefixFromPath(request.nextUrl.pathname);
+    return NextResponse.redirect(new URL(`${locale}/sign-in`, request.url));
+  }
+
   // Clerk keyless mode doesn't work with i18n, this is why we need to run the middleware conditionally
   if (isAuthPage(request) || isProtectedRoute(request)) {
-    // Match Clerk's documented middleware composition pattern, `return await` is not necessary.
-    // oxlint-disable-next-line typescript/return-await
-    return clerkMiddleware(async (auth, req) => {
+    return await clerkMiddleware(async (auth, req) => {
       if (isProtectedRoute(req)) {
-        const locale = req.nextUrl.pathname.match(/(\/.*)\/dashboard/u)?.at(1) ?? '';
-
+        const locale = localePrefixFromPath(req.nextUrl.pathname);
         const signInUrl = new URL(`${locale}/sign-in`, req.url);
+        const unauthorizedUrl = new URL(`${locale}/unauthorized`, req.url);
 
         await auth.protect({
           unauthenticatedUrl: signInUrl.toString(),
         });
+
+        const { userId, sessionClaims } = await auth();
+        if (!userId) {
+          return NextResponse.redirect(signInUrl);
+        }
+
+        const role = await resolveDashboardRole(
+          userId,
+          sessionClaims as Record<string, unknown> | null,
+        );
+        if (!role) {
+          return NextResponse.redirect(unauthorizedUrl);
+        }
       }
 
       return handleI18nRouting(req);

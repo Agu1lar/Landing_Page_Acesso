@@ -1,6 +1,6 @@
-import { SignUp } from '@clerk/nextjs';
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { redirect } from 'next/navigation';
 import { getI18nPath } from '@/utils/Helpers';
 import { resolveAppLocale } from '@/utils/locale';
 
@@ -21,9 +21,13 @@ export async function generateMetadata(props: SignUpPageProps): Promise<Metadata
   };
 }
 
+/**
+ * Public self-service sign-up is disabled; users are provisioned in Clerk.
+ *
+ * @param props - Page route params.
+ */
 export default async function SignUpPage(props: SignUpPageProps) {
   const { locale } = await props.params;
   setRequestLocale(resolveAppLocale(locale));
-
-  return <SignUp path={getI18nPath('/sign-up', locale)} />;
+  redirect(getI18nPath('/sign-in', locale));
 }
