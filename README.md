@@ -16,8 +16,8 @@ Site da **Acesso Equipamentos** (locação de equipamentos para construção civ
 |---------|------:|
 | Itens no catálogo | **148** (110 equipamentos + **38 acessórios**) |
 | Categorias | 9 (inclui **Acessórios**) |
-| Fotos publicadas | **~125** itens com imagem (`equipment-image-manifest.json`) |
-| Acessórios com foto | **34 / 38** (faltam 4 — ver roadmap) |
+| Fotos publicadas | **~144** itens com imagem (`equipment-image-manifest.json`) |
+| Acessórios com foto | **36 / 38** (faltam maleta e pinça — futuro) |
 
 ---
 
@@ -81,7 +81,7 @@ Detalhamento por sprint em [ROADMAP.temp.md](ROADMAP.temp.md).
 | Prioridade | Item |
 |------------|------|
 | Alta | **Domínio oficial** `acessoequipamentos.com.br` (Sprint 10) |
-| Alta | **4 fotos de acessórios:** punho esmerilhadeira, prato de borracha, maleta, pinça solda |
+| Baixa | **2 fotos de acessórios (futuro):** maleta, pinça solda — demais itens críticos já com foto |
 | Alta | Cases / logos de clientes na home |
 | Média | Analytics em produção (PostHog / GA) + banner de cookies |
 | Média | CI completo no GitHub (lint + types + e2e em todo PR) |

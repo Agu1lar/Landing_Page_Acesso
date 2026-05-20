@@ -39,7 +39,7 @@
 > | Categoria **acessorios** (38 itens) | ✅ | `seed-acessorios.py` — 34 com foto |
 > | Deploy Vercel `main` | ✅ | `landing-page-acesso.vercel.app` — commit `73ad35b`+ |
 >
-> **Ainda sem foto (acessórios):** `punho-para-esmerilhadeira`, `prato-de-borracha`, `maleta`, `pinca-para-maquina-de-solda`.
+> **Fotos:** ~144/148 no manifest (2026-05-20). **Sem foto (futuro):** `maleta`, `pinca-para-maquina-de-solda`, `bateria`, `carregador`, `rodape-de-0-20-x-3-00-m` (+ alias `tranformador` quando houver `transformador.jpg`).
 
 ---
 
