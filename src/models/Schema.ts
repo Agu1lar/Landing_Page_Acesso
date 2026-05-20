@@ -38,5 +38,12 @@ export const leadsSchema = pgTable('leads', {
   itemsJson: text('items_json'),
   origin: varchar('origin', { length: 80 }).notNull().default('site'),
   status: varchar('status', { length: 40 }).notNull().default('new'),
+  utmSource: varchar('utm_source', { length: 120 }),
+  utmMedium: varchar('utm_medium', { length: 120 }),
+  utmCampaign: varchar('utm_campaign', { length: 200 }),
+  utmContent: varchar('utm_content', { length: 200 }),
+  utmTerm: varchar('utm_term', { length: 200 }),
+  referrer: varchar('referrer', { length: 500 }),
+  landingPage: varchar('landing_page', { length: 500 }),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
 });

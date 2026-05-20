@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
+import { LeadStatusForm } from '@/components/admin/LeadStatusForm';
 import { Button } from '@/components/ui/Button';
+import { LEAD_STATUSES, type LeadStatus } from '@/lib/lead-status';
 import { formatLeadCartItems, getLeadById, parseLeadCartItems } from '@/lib/leads-admin';
 import { Link } from '@/libs/I18nNavigation';
 import { resolveAppLocale } from '@/utils/locale';
@@ -48,6 +50,10 @@ export default async function LeadDetailPage(props: LeadDetailPageProps) {
   }
 
   const cartItems = parseLeadCartItems(lead.itemsJson);
+  const statusLabels = Object.fromEntries(
+    LEAD_STATUSES.map((status) => [status, t(`status_${status}` as 'status_new')]),
+  ) as Record<LeadStatus, string>;
+  const displayStatus = statusLabels[lead.status as LeadStatus] ?? lead.status;
   let rentalLabel = lead.rentalPeriod ?? '—';
   if (lead.rentalPeriod === 'diaria') {
     rentalLabel = t('rental_diaria');
@@ -116,9 +122,17 @@ export default async function LeadDetailPage(props: LeadDetailPageProps) {
               <dt className="text-neutral-500">{t('field_origin')}</dt>
               <dd>{lead.origin}</dd>
             </div>
-            <div>
+            <div className="sm:col-span-2">
               <dt className="text-neutral-500">{t('field_status')}</dt>
-              <dd>{t('status_new')}</dd>
+              <dd className="font-medium text-neutral-900">{displayStatus}</dd>
+              <LeadStatusForm
+                currentStatus={lead.status}
+                errorMessage={t('status_update_error')}
+                fieldLabel={t('field_status')}
+                labels={statusLabels}
+                leadId={lead.id}
+                saveLabel={t('status_save')}
+              />
             </div>
             {lead.equipmentName ? (
               <div>
@@ -166,6 +180,60 @@ export default async function LeadDetailPage(props: LeadDetailPageProps) {
           </p>
         </section>
       )}
+
+      {lead.utmSource ||
+      lead.utmMedium ||
+      lead.utmCampaign ||
+      lead.referrer ||
+      lead.landingPage ? (
+        <section className="rounded-lg border border-neutral-200 bg-surface p-4">
+          <h2 className="font-semibold text-neutral-900">{t('section_attribution')}</h2>
+          <dl className="mt-3 grid gap-2 text-sm sm:grid-cols-2">
+            {lead.utmSource ? (
+              <div>
+                <dt className="text-neutral-500">{t('field_utm_source')}</dt>
+                <dd>{lead.utmSource}</dd>
+              </div>
+            ) : null}
+            {lead.utmMedium ? (
+              <div>
+                <dt className="text-neutral-500">{t('field_utm_medium')}</dt>
+                <dd>{lead.utmMedium}</dd>
+              </div>
+            ) : null}
+            {lead.utmCampaign ? (
+              <div>
+                <dt className="text-neutral-500">{t('field_utm_campaign')}</dt>
+                <dd>{lead.utmCampaign}</dd>
+              </div>
+            ) : null}
+            {lead.utmContent ? (
+              <div>
+                <dt className="text-neutral-500">{t('field_utm_content')}</dt>
+                <dd>{lead.utmContent}</dd>
+              </div>
+            ) : null}
+            {lead.utmTerm ? (
+              <div>
+                <dt className="text-neutral-500">{t('field_utm_term')}</dt>
+                <dd>{lead.utmTerm}</dd>
+              </div>
+            ) : null}
+            {lead.landingPage ? (
+              <div className="sm:col-span-2">
+                <dt className="text-neutral-500">{t('field_landing_page')}</dt>
+                <dd className="break-all">{lead.landingPage}</dd>
+              </div>
+            ) : null}
+            {lead.referrer ? (
+              <div className="sm:col-span-2">
+                <dt className="text-neutral-500">{t('field_referrer')}</dt>
+                <dd className="break-all">{lead.referrer}</dd>
+              </div>
+            ) : null}
+          </dl>
+        </section>
+      ) : null}
 
       {lead.message ? (
         <section className="rounded-lg border border-neutral-200 bg-surface p-4">

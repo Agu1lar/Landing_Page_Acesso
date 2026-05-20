@@ -1,3 +1,5 @@
+import { PostHogProvider } from '@/components/analytics/PostHogProvider';
+import { AttributionCapture } from '@/components/marketing/AttributionCapture';
 import { SiteFooter } from '@/components/layout/SiteFooter';
 import { SiteHeader } from '@/components/layout/SiteHeader';
 import { WhatsAppButton } from '@/components/layout/WhatsAppButton';
@@ -12,13 +14,16 @@ export async function MarketingShell(props: MarketingShellProps) {
   const searchIndex = getSearchIndex();
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <QuoteCartProvider>
-        <SiteHeader searchIndex={searchIndex} />
-        <main className="flex-1">{props.children}</main>
-      </QuoteCartProvider>
-      <SiteFooter />
-      <WhatsAppButton />
-    </div>
+    <PostHogProvider>
+      <div className="flex min-h-screen flex-col">
+        <AttributionCapture />
+        <QuoteCartProvider>
+          <SiteHeader searchIndex={searchIndex} />
+          <main className="flex-1">{props.children}</main>
+        </QuoteCartProvider>
+        <SiteFooter />
+        <WhatsAppButton />
+      </div>
+    </PostHogProvider>
   );
 }

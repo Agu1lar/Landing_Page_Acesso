@@ -20,7 +20,7 @@ export async function notifyLeadByEmail(lead: LeadRecord) {
   const apiKey = Env.RESEND_API_KEY;
   const to = Env.LEADS_NOTIFY_EMAIL;
 
-  if (!apiKey || !to) {
+  if (!apiKey?.startsWith('re_') || !to) {
     logger.warn(
       'Notificação de lead por e-mail ignorada: configure RESEND_API_KEY e LEADS_NOTIFY_EMAIL no Vercel (Production e Preview).',
     );
@@ -48,6 +48,7 @@ export async function notifyLeadByEmail(lead: LeadRecord) {
     cartLines ? '' : `Slug: ${lead.equipmentSlug ?? '—'}`,
     `Período: ${period}`,
     `Origem: ${lead.origin}`,
+    ...formatAttributionForEmail(lead),
     '',
     lead.message ? `Mensagem:\n${lead.message}` : '',
   ]
@@ -94,6 +95,35 @@ export async function notifyLeadByEmail(lead: LeadRecord) {
   }
 
   logger.info(`E-mail de lead #${lead.id} enviado para ${to}`);
+}
+
+function formatAttributionForEmail(lead: LeadRecord) {
+  const lines: string[] = [];
+  if (lead.utmSource) {
+    lines.push(`UTM source: ${lead.utmSource}`);
+  }
+  if (lead.utmMedium) {
+    lines.push(`UTM medium: ${lead.utmMedium}`);
+  }
+  if (lead.utmCampaign) {
+    lines.push(`UTM campaign: ${lead.utmCampaign}`);
+  }
+  if (lead.utmContent) {
+    lines.push(`UTM content: ${lead.utmContent}`);
+  }
+  if (lead.utmTerm) {
+    lines.push(`UTM term: ${lead.utmTerm}`);
+  }
+  if (lead.referrer) {
+    lines.push(`Referrer: ${lead.referrer}`);
+  }
+  if (lead.landingPage) {
+    lines.push(`Landing: ${lead.landingPage}`);
+  }
+  if (lines.length === 0) {
+    return [];
+  }
+  return ['', 'Campanha (first-touch):', ...lines];
 }
 
 function formatCartItemsForEmail(itemsJson: string | null) {

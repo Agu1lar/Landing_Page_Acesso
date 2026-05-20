@@ -6,6 +6,7 @@ import { EquipmentCard } from '@/components/marketing/EquipmentCard';
 import { EquipmentPhoto } from '@/components/marketing/EquipmentPhoto';
 import { AddToQuoteButton } from '@/components/quote-cart/AddToQuoteButton';
 import { SpecTable } from '@/components/marketing/SpecTable';
+import { EquipmentViewTracker } from '@/components/analytics/EquipmentViewTracker';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { buildEquipmentWhatsAppUrl, equipmentSeoTitle } from '@/lib/brand';
 import {
@@ -68,6 +69,7 @@ export default async function EquipmentDetailPage(props: EquipmentDetailProps) {
 
   return (
     <>
+      <EquipmentViewTracker name={equipment.name} slug={equipment.slug} />
       <JsonLd data={buildProductJsonLd(equipment)} />
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <Link className="text-sm font-medium text-primary hover:underline" href="/equipamentos">

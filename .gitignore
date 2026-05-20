@@ -78,3 +78,7 @@ build-archive.log
 /test-results/
 /playwright-report/
 /playwright/.cache/
+
+# Tutorial local (nunca commitar — uso pessoal/equipe offline)
+TUTORIAL-SISTEMA.local.md
+*.local.md

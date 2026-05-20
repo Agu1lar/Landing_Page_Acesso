@@ -1,6 +1,7 @@
 import { getTranslations } from 'next-intl/server';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
+import { LEAD_STATUSES } from '@/lib/lead-status';
 import type { LeadListFilters } from '@/lib/leads-admin';
 
 type LeadsFiltersFormProps = {
@@ -41,7 +42,11 @@ export async function LeadsFiltersForm(props: LeadsFiltersFormProps) {
           name="status"
         >
           <option value="">{t('filter_all')}</option>
-          <option value="new">{t('status_new')}</option>
+          {LEAD_STATUSES.map((status) => (
+            <option key={status} value={status}>
+              {t(`status_${status}`)}
+            </option>
+          ))}
         </select>
       </div>
       <Input

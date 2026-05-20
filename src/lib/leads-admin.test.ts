@@ -45,6 +45,13 @@ describe(buildLeadsCsv, () => {
         itemsJson: null,
         origin: 'site-orcamento',
         status: 'new',
+        utmSource: 'google',
+        utmMedium: 'cpc',
+        utmCampaign: null,
+        utmContent: null,
+        utmTerm: null,
+        referrer: null,
+        landingPage: '/orcamento',
         createdAt: new Date('2026-05-20T12:00:00.000Z'),
       },
     ]);

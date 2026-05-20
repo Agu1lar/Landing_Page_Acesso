@@ -161,7 +161,7 @@ No `.env.local` / Vercel:
 
 | Variável | Obrigatória |
 |----------|:-----------:|
-| `CLERK_SECRET_KEY`, `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | Sim |
+| `CLERK_SECRET_KEY`, `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | Sim — preview: `pk_test_`; **domínio oficial: `pk_live_` (Clerk Production)** |
 | `DATABASE_URL` (Neon) | Sim |
 | `NEXT_PUBLIC_APP_URL` | Recomendada |
 | `RESEND_API_KEY`, `RESEND_FROM_EMAIL`, `LEADS_NOTIFY_EMAIL` | Para e-mail de leads |
@@ -187,6 +187,7 @@ Aguarde deploy **Ready** no topo da lista (**Production**, commit mais recente).
 | [docs/PREVIEW-VALIDACAO.md](docs/PREVIEW-VALIDACAO.md) | Checklist de validação |
 | [docs/SPRINT-9-FOTOS.md](docs/SPRINT-9-FOTOS.md) | Fluxo de fotos |
 | [docs/DEPLOY-PREVIEW-VERCEL.md](docs/DEPLOY-PREVIEW-VERCEL.md) | Deploy Vercel |
+| [docs/CLERK-ACESSO-ADMIN.md](docs/CLERK-ACESSO-ADMIN.md) | Painel, papéis e Clerk Production no go-live |
 | [docs/inventario-equipamentos.csv](docs/inventario-equipamentos.csv) | Inventário base (110 itens) |
 | [.env.example](.env.example) | Variáveis de ambiente |
 

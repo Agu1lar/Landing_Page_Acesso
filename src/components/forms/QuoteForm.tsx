@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import { Textarea } from '@/components/ui/Textarea';
+import { readStoredAttribution } from '@/lib/attribution';
 import { brand } from '@/lib/brand';
 import { buildQuoteWhatsAppUrl } from '@/lib/quote-whatsapp';
 import * as z from 'zod';
@@ -90,6 +91,8 @@ export function QuoteForm(props: QuoteFormProps) {
       return;
     }
 
+    const attribution = readStoredAttribution();
+
     const response = await fetch('/api/leads', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -98,6 +101,7 @@ export function QuoteForm(props: QuoteFormProps) {
         cartItems,
         equipmentSlug: cartItems?.[0]?.slug ?? data.equipmentSlug,
         equipmentName: cartItems?.[0]?.name ?? data.equipmentName,
+        attribution: attribution ?? undefined,
       }),
     });
 

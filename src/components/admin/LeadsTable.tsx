@@ -1,4 +1,5 @@
 import { getTranslations } from 'next-intl/server';
+import { LEAD_STATUSES, type LeadStatus } from '@/lib/lead-status';
 import type { LeadRecord } from '@/lib/leads-admin';
 import { formatLeadCartItems } from '@/lib/leads-admin';
 import { Link } from '@/libs/I18nNavigation';
@@ -43,6 +44,9 @@ export async function LeadsTable(props: LeadsTableProps) {
         <tbody className="divide-y divide-neutral-100 bg-surface">
           {leads.map((lead) => {
             const itemsSummary = (formatLeadCartItems(lead.itemsJson) || lead.equipmentName) ?? '—';
+            const statusKey = LEAD_STATUSES.includes(lead.status as LeadStatus)
+              ? (`status_${lead.status}` as 'status_new')
+              : 'status_new';
             return (
               <tr className="hover:bg-background-muted/60" key={lead.id}>
                 <td className="px-3 py-2 whitespace-nowrap">{formatDateTime(lead.createdAt)}</td>
@@ -54,8 +58,13 @@ export async function LeadsTable(props: LeadsTableProps) {
                 <td className="max-w-xs truncate px-3 py-2" title={itemsSummary}>
                   {itemsSummary}
                 </td>
-                <td className="px-3 py-2 text-xs">{lead.origin}</td>
-                <td className="px-3 py-2">{t('status_new')}</td>
+                <td className="px-3 py-2 text-xs">
+                  <p>{lead.origin}</p>
+                  {lead.utmSource ? (
+                    <p className="mt-0.5 text-neutral-500">utm: {lead.utmSource}</p>
+                  ) : null}
+                </td>
+                <td className="px-3 py-2">{t(statusKey)}</td>
                 <td className="px-3 py-2">
                   <Link
                     className="font-medium text-primary hover:underline"

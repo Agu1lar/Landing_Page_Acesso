@@ -3,6 +3,7 @@ import type { InferSelectModel } from 'drizzle-orm';
 import * as z from 'zod';
 import { db } from '@/libs/DB';
 import { leadsSchema } from '@/models/Schema';
+import type { LeadStatus } from '@/lib/lead-status';
 import { QuoteCartItemSchema } from '@/validations/quote';
 import type { QuoteCartItemInput } from '@/validations/quote';
 
@@ -35,6 +36,13 @@ type LeadCsvRow = {
   origin: string;
   status: string;
   message: string;
+  utmSource: string;
+  utmMedium: string;
+  utmCampaign: string;
+  utmContent: string;
+  utmTerm: string;
+  referrer: string;
+  landingPage: string;
 };
 
 export type CsvColumn = {
@@ -56,6 +64,13 @@ const CSV_COLUMNS: CsvColumn[] = [
   { key: 'origin', header: 'Origem' },
   { key: 'status', header: 'Status' },
   { key: 'message', header: 'Mensagem' },
+  { key: 'utmSource', header: 'UTM source' },
+  { key: 'utmMedium', header: 'UTM medium' },
+  { key: 'utmCampaign', header: 'UTM campaign' },
+  { key: 'utmContent', header: 'UTM content' },
+  { key: 'utmTerm', header: 'UTM term' },
+  { key: 'referrer', header: 'Referrer' },
+  { key: 'landingPage', header: 'Landing page' },
 ];
 
 /**
@@ -185,6 +200,23 @@ export async function getLeadById(id: number) {
   return lead;
 }
 
+/**
+ * Updates lead status by id.
+ *
+ * @param id - Lead primary key.
+ * @param status - New status value.
+ * @returns Updated lead row when found.
+ */
+export async function updateLeadStatus(id: number, status: LeadStatus) {
+  const [lead] = await db
+    .update(leadsSchema)
+    .set({ status })
+    .where(eq(leadsSchema.id, id))
+    .returning();
+
+  return lead;
+}
+
 function escapeCsvCell(value: string) {
   if (/[",\n\r]/u.test(value)) {
     return `"${value.replaceAll('"', '""')}"`;
@@ -207,6 +239,13 @@ function leadToCsvRow(lead: LeadRecord): LeadCsvRow {
     origin: lead.origin,
     status: lead.status,
     message: lead.message ?? '',
+    utmSource: lead.utmSource ?? '',
+    utmMedium: lead.utmMedium ?? '',
+    utmCampaign: lead.utmCampaign ?? '',
+    utmContent: lead.utmContent ?? '',
+    utmTerm: lead.utmTerm ?? '',
+    referrer: lead.referrer ?? '',
+    landingPage: lead.landingPage ?? '',
   };
 }
 

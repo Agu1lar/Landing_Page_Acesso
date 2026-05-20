@@ -1,4 +1,5 @@
 import * as z from 'zod';
+import { AttributionSchema } from '@/lib/attribution';
 
 export const rentalPeriodOptions = ['diaria', 'semanal', 'mensal', 'ainda_nao_sei'] as const;
 
@@ -26,6 +27,7 @@ export const QuoteFormSchema = z.object({
   message: z.string().trim().max(2000).optional().or(z.literal('')),
   cartItems: z.array(QuoteCartItemSchema).max(40).optional(),
   origin: z.string().trim().max(80),
+  attribution: AttributionSchema.optional(),
   /** Honeypot — deve permanecer vazio */
   website: z.string().max(0).optional().or(z.literal('')),
 });
@@ -65,5 +67,12 @@ export function normalizeQuotePayload(data: QuoteFormInput) {
     message: data.message?.trim() || undefined,
     itemsJson: cartItems ? JSON.stringify(cartItems) : undefined,
     origin: data.origin?.trim() || 'site-orcamento',
+    utmSource: data.attribution?.utmSource,
+    utmMedium: data.attribution?.utmMedium,
+    utmCampaign: data.attribution?.utmCampaign,
+    utmContent: data.attribution?.utmContent,
+    utmTerm: data.attribution?.utmTerm,
+    referrer: data.attribution?.referrer,
+    landingPage: data.attribution?.landingPage,
   };
 }
