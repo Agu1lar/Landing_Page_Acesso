@@ -112,7 +112,7 @@ Após adicionar fotos, rode (se ainda não rodou após atualizar o catálogo):
 python docs/scripts/enrich-equipment-specs.py
 ```
 
-Isso preenche **descrição técnica** e **especificações** em todos os itens; plataformas aéreas ganham altura de trabalho, peso, alimentação e **classificação ABNT (NR-12) Tipo 1 · Grupo B**.
+Isso preenche **descrição técnica** e **especificações** em todos os itens; plataformas aéreas ganham altura de trabalho, peso, alimentação e **classificação ABNT (NBR 16776)** — tesouras/mastros **3A**, lanças **3B**, empurrar **1A** (`fix-platform-specs.py`).
 
 Para ajustar um item específico, edite `docs/inventario-equipamentos.csv` (colunas `descricao_longa`, `spec_*`) e regenere:
 

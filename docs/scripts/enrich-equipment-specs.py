@@ -91,12 +91,17 @@ def spec_list(pairs: list[tuple[str, str]]) -> list[dict[str, str]]:
 
 
 def abnt_class(tipo: str) -> str:
+    """Classificação NBR 16776 (PEMT) a partir do tipo mecânico."""
     t = tipo.lower()
+    if "empurrar" in t:
+        return "Tipo 1 · Grupo A (tesoura empurrar — só desloca retraída · NBR 16776)"
     if "lança" in t or "lanca" in t:
-        return "Tipo 1 · Grupo B (lança articulada — NR-12 / ABNT)"
+        return "Tipo 3 · Grupo B (lança articulada — comando no cesto · NBR 16776)"
+    if "mastro" in t or "awp" in t:
+        return "Tipo 3 · Grupo A (mastro vertical autopropelido — comando no cesto · NBR 16776)"
     if "tesoura" in t:
-        return "Tipo 1 · Grupo B (plataforma tesoura — NR-12 / ABNT)"
-    return "Tipo 1 · Grupo B (conforme ficha da unidade — NR-12 / ABNT)"
+        return "Tipo 3 · Grupo A (tesoura autopropelida — comando no cesto · NBR 16776)"
+    return "Conforme ficha da unidade (NBR 16776)"
 
 
 def enrich_aerial_specs(specs: list[dict[str, str]]) -> list[dict[str, str]]:
@@ -114,7 +119,7 @@ def enrich_aerial_specs(specs: list[dict[str, str]]) -> list[dict[str, str]]:
         ("Capacidade / peso na plataforma", capacidade),
         ("Peso total operacional", peso_total),
         ("Alimentação", alimentacao),
-        ("Classificação ABNT (NR-12)", abnt_class(tipo)),
+        ("Classificação ABNT (NBR 16776)", abnt_class(tipo)),
     ]
 
     if by_label.get("Alcance horizontal"):

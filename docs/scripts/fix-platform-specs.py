@@ -2,6 +2,12 @@
 Atualiza especificações das plataformas elevatórias em equipamentos.json
 com dados alinhados a fichas de fabricante / modelos da frota.
 
+Classificação ABNT conforme NBR 16776 (PEMT):
+- Grupo A: centro da plataforma permanece dentro das linhas de tombamento (tesoura, mastro vertical).
+- Grupo B: carga pode projetar fora dos apoios (lanças articuladas / telescópicas).
+- Tipo 1: deslocamento somente com PEMT retraída (ex.: tesoura empurrar).
+- Tipo 3: deslocamento elevada com comando no cesto (autopropelidas).
+
 Uso: python docs/scripts/fix-platform-specs.py
 """
 from __future__ import annotations
@@ -11,6 +17,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 JSON_PATH = ROOT / "src" / "data" / "equipamentos.json"
+
+# NBR 16776 — referência NR-18 (PEMT)
+ABNT_1A_PUSH = "Tipo 1 · Grupo A (tesoura empurrar — só desloca retraída · NBR 16776)"
+ABNT_3A_TESOURA = "Tipo 3 · Grupo A (tesoura autopropelida — comando no cesto · NBR 16776)"
+ABNT_3A_MASTRO = "Tipo 3 · Grupo A (mastro vertical autopropelido — comando no cesto · NBR 16776)"
+ABNT_3B_LANCA = "Tipo 3 · Grupo B (lança articulada — comando no cesto · NBR 16776)"
 
 # Alturas = altura de trabalho aproximada; conferir unidade da frota quando houver dúvida.
 PLATFORM_DATA: dict[str, dict] = {
@@ -22,7 +34,7 @@ PLATFORM_DATA: dict[str, dict] = {
         "peso": "~770 kg",
         "alimentacao": "Elétrica (bateria)",
         "alcance_h": None,
-        "abnt": "Tipo 1 · Grupo B (plataforma tesoura — NR-12 / ABNT)",
+        "abnt": ABNT_3A_TESOURA,
         "long": (
             "Tesoura elétrica Hy-Brid HB 1430 para trabalho em altura em ambientes internos "
             "e lajes. Altura de trabalho em torno de 6 m, ideal para manutenção predial e "
@@ -37,7 +49,7 @@ PLATFORM_DATA: dict[str, dict] = {
         "peso": "~360 kg",
         "alimentacao": "Elétrica (bateria)",
         "alcance_h": None,
-        "abnt": "Tipo 1 · Grupo B (plataforma tesoura — NR-12 / ABNT)",
+        "abnt": ABNT_1A_PUSH,
         "long": (
             "Plataforma tipo tesoura compacta HB P830, indicada para corredores estreitos e "
             "manutenção em altura moderada (~4 m de trabalho)."
@@ -51,7 +63,7 @@ PLATFORM_DATA: dict[str, dict] = {
         "peso": "~420 kg",
         "alimentacao": "Elétrica (bateria 12 V)",
         "alcance_h": None,
-        "abnt": "Tipo 1 · Grupo B (plataforma tesoura — NR-12 / ABNT)",
+        "abnt": ABNT_1A_PUSH,
         "long": (
             "Plataforma elevatória Hydrolift PEP 590, fabricação nacional, para trabalhos "
             "em até cerca de 6 m. Indicada para manutenção predial e instalações leves."
@@ -65,7 +77,7 @@ PLATFORM_DATA: dict[str, dict] = {
         "peso": "~1.456 kg",
         "alimentacao": "Elétrica (bateria)",
         "alcance_h": None,
-        "abnt": "Tipo 1 · Grupo B (plataforma tesoura — NR-12 / ABNT)",
+        "abnt": ABNT_3A_TESOURA,
         "long": (
             "Tesoura elétrica Genie GS-1930 para passagens estreitas e pisos delicados. "
             "Altura de trabalho de cerca de 7,9 m em ambiente interno."
@@ -79,7 +91,7 @@ PLATFORM_DATA: dict[str, dict] = {
         "peso": "~390 kg",
         "alimentacao": "Elétrica",
         "alcance_h": None,
-        "abnt": "Tipo 1 · Grupo B (plataforma elevatória — NR-12 / ABNT)",
+        "abnt": ABNT_3A_MASTRO,
         "long": (
             "Plataforma de mastro vertical Genie AWP-30S, leve e manobrável, para "
             "manutenção e instalações em altura média (~11 m de trabalho)."
@@ -93,7 +105,7 @@ PLATFORM_DATA: dict[str, dict] = {
         "peso": "Sob consulta na proposta",
         "alimentacao": "Elétrica (bateria)",
         "alcance_h": None,
-        "abnt": "Tipo 1 · Grupo B (plataforma tesoura — NR-12 / ABNT)",
+        "abnt": ABNT_3A_TESOURA,
         "long": (
             "Tesoura elétrica Skyjack SJ III 4740, uma das maiores tesouras da linha, "
             "com cerca de 13,8 m de altura de trabalho para montagens e manutenção em galpões."
@@ -107,7 +119,7 @@ PLATFORM_DATA: dict[str, dict] = {
         "peso": "Sob consulta na proposta",
         "alimentacao": "Elétrica",
         "alcance_h": None,
-        "abnt": "Tipo 1 · Grupo B (plataforma elevatória — NR-12 / ABNT)",
+        "abnt": ABNT_3A_MASTRO,
         "long": (
             "Mastro vertical JLG 20MVL, dirigível em altura, para corredores estreitos e "
             "manutenção com cerca de 7,6 m de altura de trabalho."
@@ -121,7 +133,7 @@ PLATFORM_DATA: dict[str, dict] = {
         "peso": "Sob consulta na proposta",
         "alimentacao": "Diesel ou elétrica (conforme unidade)",
         "alcance_h": "Sob consulta",
-        "abnt": "Tipo 1 · Grupo B (lança articulada — NR-12 / ABNT)",
+        "abnt": ABNT_3B_LANCA,
         "long": (
             "Plataforma com lança articulada AM-36 para trabalho em altura com alcance "
             "horizontal. Especificações da unidade disponíveis na proposta."
@@ -135,7 +147,7 @@ PLATFORM_DATA: dict[str, dict] = {
         "peso": "Sob consulta na proposta",
         "alimentacao": "Elétrica (DC)",
         "alcance_h": "~7,6 m",
-        "abnt": "Tipo 1 · Grupo B (lança articulada — NR-12 / ABNT)",
+        "abnt": ABNT_3B_LANCA,
         "long": (
             "Lança articulada elétrica Genie Z-45/25J DC, com cerca de 15,9 m de altura "
             "de trabalho e alcance horizontal aproximado de 7,6 m."
@@ -149,7 +161,7 @@ PLATFORM_DATA: dict[str, dict] = {
         "peso": "~1.170 kg",
         "alimentacao": "Elétrica (bateria)",
         "alcance_h": None,
-        "abnt": "Tipo 1 · Grupo B (plataforma tesoura — NR-12 / ABNT)",
+        "abnt": ABNT_3A_TESOURA,
         "long": (
             "Tesoura elétrica compacta Skyjack SJ III 3219 para uso interno, com cerca de "
             "7,6 m de altura de trabalho."
@@ -163,7 +175,7 @@ PLATFORM_DATA: dict[str, dict] = {
         "peso": "Sob consulta na proposta",
         "alimentacao": "Elétrica (bateria)",
         "alcance_h": None,
-        "abnt": "Tipo 1 · Grupo B (plataforma tesoura — NR-12 / ABNT)",
+        "abnt": ABNT_3A_TESOURA,
         "long": (
             "Tesoura elétrica Skyjack SJ III 3226 com cerca de 9,75 m de altura de trabalho, "
             "indicada para galpões e manutenção industrial."
@@ -177,7 +189,7 @@ PLATFORM_DATA: dict[str, dict] = {
         "peso": "Sob consulta na proposta",
         "alimentacao": "Elétrica (bateria)",
         "alcance_h": None,
-        "abnt": "Tipo 1 · Grupo B (plataforma tesoura — NR-12 / ABNT)",
+        "abnt": ABNT_3A_TESOURA,
         "long": (
             "Tesoura elétrica Skyjack SJ III 4632 para grandes alturas em ambiente coberto, "
             "com cerca de 14 m de altura de trabalho."
@@ -191,7 +203,7 @@ PLATFORM_DATA: dict[str, dict] = {
         "peso": "Sob consulta na proposta",
         "alimentacao": "Elétrica (DC)",
         "alcance_h": "~11,2 m",
-        "abnt": "Tipo 1 · Grupo B (lança articulada — NR-12 / ABNT)",
+        "abnt": ABNT_3B_LANCA,
         "long": (
             "Lança articulada Genie Z-60/37 DC para trabalhos em grande altura (~20 m) "
             "com alcance horizontal estendido."
@@ -205,7 +217,7 @@ PLATFORM_DATA: dict[str, dict] = {
         "peso": "Sob consulta na proposta",
         "alimentacao": "Diesel",
         "alcance_h": "~8,3 m",
-        "abnt": "Tipo 1 · Grupo B (lança articulada — NR-12 / ABNT)",
+        "abnt": ABNT_3B_LANCA,
         "long": (
             "Lança articulada Manitou 160 ATJ, tração 4x4, para obra externa e terrenos "
             "irregulares, com cerca de 16 m de altura de trabalho."
@@ -226,7 +238,7 @@ def build_specs(data: dict) -> list[dict[str, str]]:
     pairs.extend(
         [
             ("Alimentação", data["alimentacao"]),
-            ("Classificação ABNT (NR-12)", data["abnt"]),
+            ("Classificação ABNT (NBR 16776)", data["abnt"]),
         ],
     )
     return [{"label": label, "value": value} for label, value in pairs]

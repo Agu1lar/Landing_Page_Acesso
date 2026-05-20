@@ -121,7 +121,7 @@ Detalhamento por sprint em [ROADMAP.temp.md](ROADMAP.temp.md).
 |------------|------|
 | Alta | **Domínio oficial** `acessoequipamentos.com.br` + Clerk **Production** (`pk_live_` / `sk_live_`) |
 | Baixa | **5 fotos** pendentes (lista acima) |
-| Alta | Cases / logos de clientes na home |
+| Alta | **Casos de Sucesso** — logos de construtoras, indústrias e mineradoras (MG) na Home — ver [ROADMAP § Casos de Sucesso](ROADMAP.temp.md#casos-de-sucesso--logos-de-clientes-na-home-prioridade-alta) |
 | Média | CI completo no GitHub (lint + types + e2e em todo PR) |
 | Média | Polish Sprint 7 (a11y, skeletons, PageSpeed alvo) |
 | Planejado | **Sprints 12–13** — analytics avançado, dashboard executivo |

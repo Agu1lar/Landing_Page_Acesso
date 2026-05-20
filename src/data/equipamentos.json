@@ -2523,8 +2523,8 @@
         "value": "Elétrica (bateria)"
       },
       {
-        "label": "Classificação ABNT (NR-12)",
-        "value": "Tipo 1 · Grupo B (plataforma tesoura — NR-12 / ABNT)"
+        "label": "Classificação ABNT (NBR 16776)",
+        "value": "Tipo 3 · Grupo A (tesoura autopropelida — comando no cesto · NBR 16776)"
       }
     ],
     "tags": [
@@ -2562,8 +2562,8 @@
         "value": "Elétrica (bateria)"
       },
       {
-        "label": "Classificação ABNT (NR-12)",
-        "value": "Tipo 1 · Grupo B (plataforma tesoura — NR-12 / ABNT)"
+        "label": "Classificação ABNT (NBR 16776)",
+        "value": "Tipo 1 · Grupo A (tesoura empurrar — só desloca retraída · NBR 16776)"
       }
     ],
     "tags": [
@@ -2601,8 +2601,8 @@
         "value": "Elétrica (bateria 12 V)"
       },
       {
-        "label": "Classificação ABNT (NR-12)",
-        "value": "Tipo 1 · Grupo B (plataforma tesoura — NR-12 / ABNT)"
+        "label": "Classificação ABNT (NBR 16776)",
+        "value": "Tipo 1 · Grupo A (tesoura empurrar — só desloca retraída · NBR 16776)"
       }
     ],
     "tags": [
@@ -2640,8 +2640,8 @@
         "value": "Elétrica (bateria)"
       },
       {
-        "label": "Classificação ABNT (NR-12)",
-        "value": "Tipo 1 · Grupo B (plataforma tesoura — NR-12 / ABNT)"
+        "label": "Classificação ABNT (NBR 16776)",
+        "value": "Tipo 3 · Grupo A (tesoura autopropelida — comando no cesto · NBR 16776)"
       }
     ],
     "tags": [
@@ -2679,8 +2679,8 @@
         "value": "Elétrica"
       },
       {
-        "label": "Classificação ABNT (NR-12)",
-        "value": "Tipo 1 · Grupo B (plataforma elevatória — NR-12 / ABNT)"
+        "label": "Classificação ABNT (NBR 16776)",
+        "value": "Tipo 3 · Grupo A (mastro vertical autopropelido — comando no cesto · NBR 16776)"
       }
     ],
     "tags": [
@@ -2718,8 +2718,8 @@
         "value": "Elétrica (bateria)"
       },
       {
-        "label": "Classificação ABNT (NR-12)",
-        "value": "Tipo 1 · Grupo B (plataforma tesoura — NR-12 / ABNT)"
+        "label": "Classificação ABNT (NBR 16776)",
+        "value": "Tipo 3 · Grupo A (tesoura autopropelida — comando no cesto · NBR 16776)"
       }
     ],
     "tags": [
@@ -2757,8 +2757,8 @@
         "value": "Elétrica"
       },
       {
-        "label": "Classificação ABNT (NR-12)",
-        "value": "Tipo 1 · Grupo B (plataforma elevatória — NR-12 / ABNT)"
+        "label": "Classificação ABNT (NBR 16776)",
+        "value": "Tipo 3 · Grupo A (mastro vertical autopropelido — comando no cesto · NBR 16776)"
       }
     ],
     "tags": [
@@ -2800,8 +2800,8 @@
         "value": "Diesel ou elétrica (conforme unidade)"
       },
       {
-        "label": "Classificação ABNT (NR-12)",
-        "value": "Tipo 1 · Grupo B (lança articulada — NR-12 / ABNT)"
+        "label": "Classificação ABNT (NBR 16776)",
+        "value": "Tipo 3 · Grupo B (lança articulada — comando no cesto · NBR 16776)"
       }
     ],
     "tags": [
@@ -2843,8 +2843,8 @@
         "value": "Elétrica (DC)"
       },
       {
-        "label": "Classificação ABNT (NR-12)",
-        "value": "Tipo 1 · Grupo B (lança articulada — NR-12 / ABNT)"
+        "label": "Classificação ABNT (NBR 16776)",
+        "value": "Tipo 3 · Grupo B (lança articulada — comando no cesto · NBR 16776)"
       }
     ],
     "tags": [
@@ -2882,8 +2882,8 @@
         "value": "Elétrica (bateria)"
       },
       {
-        "label": "Classificação ABNT (NR-12)",
-        "value": "Tipo 1 · Grupo B (plataforma tesoura — NR-12 / ABNT)"
+        "label": "Classificação ABNT (NBR 16776)",
+        "value": "Tipo 3 · Grupo A (tesoura autopropelida — comando no cesto · NBR 16776)"
       }
     ],
     "tags": [
@@ -2921,8 +2921,8 @@
         "value": "Elétrica (bateria)"
       },
       {
-        "label": "Classificação ABNT (NR-12)",
-        "value": "Tipo 1 · Grupo B (plataforma tesoura — NR-12 / ABNT)"
+        "label": "Classificação ABNT (NBR 16776)",
+        "value": "Tipo 3 · Grupo A (tesoura autopropelida — comando no cesto · NBR 16776)"
       }
     ],
     "tags": [
@@ -2960,8 +2960,8 @@
         "value": "Elétrica (bateria)"
       },
       {
-        "label": "Classificação ABNT (NR-12)",
-        "value": "Tipo 1 · Grupo B (plataforma tesoura — NR-12 / ABNT)"
+        "label": "Classificação ABNT (NBR 16776)",
+        "value": "Tipo 3 · Grupo A (tesoura autopropelida — comando no cesto · NBR 16776)"
       }
     ],
     "tags": [
@@ -3003,8 +3003,8 @@
         "value": "Elétrica (DC)"
       },
       {
-        "label": "Classificação ABNT (NR-12)",
-        "value": "Tipo 1 · Grupo B (lança articulada — NR-12 / ABNT)"
+        "label": "Classificação ABNT (NBR 16776)",
+        "value": "Tipo 3 · Grupo B (lança articulada — comando no cesto · NBR 16776)"
       }
     ],
     "tags": [
@@ -3046,8 +3046,8 @@
         "value": "Diesel"
       },
       {
-        "label": "Classificação ABNT (NR-12)",
-        "value": "Tipo 1 · Grupo B (lança articulada — NR-12 / ABNT)"
+        "label": "Classificação ABNT (NBR 16776)",
+        "value": "Tipo 3 · Grupo B (lança articulada — comando no cesto · NBR 16776)"
       }
     ],
     "tags": [

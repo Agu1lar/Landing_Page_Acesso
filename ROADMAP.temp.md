@@ -6,7 +6,7 @@
 >
 > **Stack base:** Next.js 16 (App Router), TypeScript, Tailwind CSS, next-intl, Drizzle ORM, PostgreSQL/PGlite, Zod, React Hook Form.
 >
-> **Última atualização:** 2026-05-20 (roadmap estendido Sprints 12–22 — crescimento comercial, SEO, CRM, operação)
+> **Última atualização:** 2026-05-20 (§4.0 carrinho vs SSR/hydration; Casos de Sucesso na Home; SEO primeiro frame; Clerk pk_live)
 >
 > ### Status rápido (implementado no código)
 > | Sprint | Status |
@@ -29,7 +29,7 @@
 >
 > | Entrega | Status | Referência |
 > |---------|--------|------------|
-> | Carrinho com quantidade por item | ✅ | `QuoteCartProvider`, `QuoteCartQuantityStepper` |
+> | Carrinho com quantidade por item | ✅ | `QuoteCartProvider`, `QuoteCartQuantityStepper` — padrão client + `useEffect` (ver [§ Carrinho vs SSR](#7-carrinho-localstorage-vs-ssr-hydration)) |
 > | Lead com vários itens (`items_json`) | ✅ | `migrations/0002_leads_cart_items.sql` |
 > | Orçamento: WhatsApp (cliente) + e-mail interno | ✅ | `quote-whatsapp.ts`, `QuoteForm.tsx` |
 > | Shell marketing (server/client) | ✅ | `MarketingShell.tsx` (sem `MarketingClientShell`) |
@@ -50,6 +50,8 @@
 3. [Fases do produto](#3-fases-do-produto)
 4. [Roadmap por sprint (detalhado)](#4-roadmap-por-sprint-detalhado)
 4.0. [⚠️ Pontos de atenção — próximas sprints](#️-pontos-de-atenção--próximas-sprints)
+4.0.1. [Casos de Sucesso — logos na Home (prioridade alta)](#casos-de-sucesso--logos-de-clientes-na-home-prioridade-alta)
+4.0.2. [Carrinho `localStorage` vs SSR / hydration](#7-carrinho-localstorage-vs-ssr-hydration)
 4.1. [Sprint 7.9 — Docker e ambiente local](#sprint-79--docker-e-ambiente-local)
 4.2. [Sprint 11 — Painel administrativo (operação)](#sprint-11--painel-administrativo-operação-fase-2)
 4.3. [Sprint 12 — Analytics comercial avançado](#sprint-12--analytics-comercial-avançado)
@@ -294,8 +296,9 @@ Escala de catálogo, prova social, otimizações e ferramentas para o time comer
 | 3.7 | **SpecTable em plataformas aéreas** | ✅ `SpecTable` + variant `aerial` no detalhe |
 | 3.8 | **Texto SEO por categoria** | ✅ `categories-seo.ts` (~300+ palavras × 8 categorias) |
 | 3.9 | **Equipamentos relacionados** | ✅ `getRelatedEquipment` + grid no detalhe |
+| 3.10 | **SSR/SSG + SEO no primeiro frame** | 🟡 `generateStaticParams` + `generateMetadata` + `<h1>` server; validar JSON-LD em categorias — ver §4 abaixo |
 
-**Critério de saída:** navegação completa catálogo → detalhe em mobile e desktop.
+**Critério de saída:** navegação completa catálogo → detalhe em mobile e desktop; páginas de catálogo entregam **HTML estático** (não depender de hidratação para o robô ler título e cidade).
 
 ---
 
@@ -332,7 +335,8 @@ Escala de catálogo, prova social, otimizações e ferramentas para o time comer
 | 5.7 | Notificação | ✅ E-mail via Resend (`RESEND_API_KEY` + `LEADS_NOTIFY_EMAIL`) |
 | 5.8 | Página `/orcamento` | ✅ Formulário funcional |
 | 5.9 | **WhatsApp contextual** | ✅ `buildWhatsAppMessage` + slug + origem por página |
-| 5.10 | **Carrinho multi-item** | ✅ `QuoteCartProvider` — equipamento + acessório, persistência v2 |
+| 5.10 | **Carrinho multi-item** | ✅ `QuoteCartProvider` — equipamento + acessório, persistência v2 (`localStorage`) |
+| 5.10a | **Carrinho vs SSR (hydration)** | ✅ Padrão aplicado — ver [§ Pontos de atenção — carrinho](#7-carrinho-localstorage-vs-ssr-hydration) |
 | 5.11 | **Quantidade por item** | ✅ Stepper no card e detalhe; totais no painel `/orcamento` |
 | 5.12 | **`items_json` no lead** | ✅ Migration `0002_leads_cart_items.sql` + API + e-mail |
 | 5.13 | **Orçamento via WhatsApp** | ✅ POST `/api/leads` → e-mail `[Registro interno]` → `wa.me` com mensagem 1ª pessoa |
@@ -357,8 +361,9 @@ Escala de catálogo, prova social, otimizações e ferramentas para o time comer
 | 6.10 | **Página `/faq`** | ✅ 10 perguntas + accordion + link no orçamento/rodapé |
 | 6.11 | **Títulos SEO padronizados** | ✅ `equipmentSeoTitle` no detalhe; categorias já tinham meta |
 | 6.12 | **Google Meu Negócio** | Alinhar NAP (nome, endereço, telefone) com rodapé e schema LocalBusiness |
+| 6.13 | **HTML estático crawlável (equipamento + categoria)** | 🟡 Parcial — ver [§ Pontos de atenção — SEO primeiro frame](#4-seo-html-estático-no-servidor--primeiro-frame-google) |
 
-**Critério de saída:** compartilhar link de equipamento no WhatsApp com preview correto.
+**Critério de saída:** compartilhar link de equipamento no WhatsApp com preview correto; **View Source** de `/equipamentos/[slug]` e `/categorias/[slug]` mostra nome do equipamento/categoria e âncora geo (BH/RMBH) no HTML inicial, com `metadata` + JSON-LD preenchidos.
 
 ---
 
@@ -366,6 +371,7 @@ Escala de catálogo, prova social, otimizações e ferramentas para o time comer
 
 | ID | Tarefa | Meta |
 |----|--------|------|
+| 7.0 | **Auditoria SEO crawl (View Source)** | Validar §4 em 3 slugs equipamento + 2 categorias antes do domínio oficial |
 | 7.1 | Auditoria a11y | Focus visible, labels, contraste WCAG AA |
 | 7.2 | Otimizar imagens | WebP/AVIF, sizes corretos, lazy below fold |
 | 7.3 | Fontes | `next/font` — evitar layout shift |
@@ -446,7 +452,8 @@ Escala de catálogo, prova social, otimizações e ferramentas para o time comer
 | 9.1a | **Acessórios no catálogo** | Alta | ✅ 38 itens, categoria `acessorios`, 34 fotos |
 | 9.1b | **4 fotos pendentes (acessórios)** | Alta | ⏳ punho esmerilhadeira, prato borracha, maleta, pinça solda |
 | 9.1c | Nomes e specs plataformas | Alta | ✅ `normalize-equipment-names.py`, `fix-platform-specs.py` |
-| 9.2 | Cases de obra / logos clientes | Alta | ⏳ |
+| 9.1d | **Classificação ABNT (NBR 16776)** | Alta | ✅ Corrigido 2026-05-20 — 3A tesouras/mastros, 3B lanças, 1A empurrar (antes: erro “Tipo 1 · Grupo B” em tudo) |
+| 9.2 | **Casos de Sucesso — logos de clientes na Home** | **Alta** | ⏳ — ver [§ Casos de Sucesso na Home](#casos-de-sucesso--logos-de-clientes-na-home-prioridade-alta) |
 | 9.3 | Expandir textos long-tail | Alta | ⏳ |
 | 9.4 | Blog ou `/dicas` (SEO informacional) | Média | ⏳ |
 | 9.5 | Avaliar CMS (Sanity/Payload) | Média | 📋 Substituído por **Sprint 11** |
@@ -455,6 +462,70 @@ Escala de catálogo, prova social, otimizações e ferramentas para o time comer
 | 9.8 | Testes A/B de CTA (PostHog) | Baixa | ⏳ |
 
 **Critério de saída:** conteúdo diferenciado no preview; **fotos críticas** sem placeholder nos destaques; pronto para Sprint 10 (domínio).
+
+---
+
+### Casos de Sucesso — logos de clientes na Home (Prioridade Alta)
+
+> **Tarefa:** 9.2 (antecipada) · **Sprint 15.1** (prova social completa)  
+> **Status:** ⏳ Pendente — conteúdo e aprovação jurídica com o cliente
+
+#### Por que é prioridade alta
+
+A **Acesso Equipamentos** já tem tempo de mercado e autoridade no site legado (`acessoequipamentos.com.br`). Na nova landing, o visitante B2B precisa **reconhecer marcas conhecidas na primeira dobra** — construtoras, indústrias e mineradoras atendidas em **Minas Gerais** — **antes** de montar um carrinho de orçamento com equipamentos de alto valor.
+
+Para o decisor de obra/compras, ver logos de empresas reconhecíveis reduz drasticamente a **barreira de desconfiança** e aumenta a probabilidade de seguir para catálogo, carrinho e WhatsApp.
+
+#### Escopo mínimo (MVP desta entrega)
+
+| Item | Detalhe |
+|------|---------|
+| **Onde** | **Home** (`/`) — seção dedicada acima da dobra ou logo após hero (não só no rodapé) |
+| **Conteúdo** | Logotipos oficiais (SVG/PNG) de clientes reais em MG — segmentos: construção civil, indústria, mineração (conforme carteira aprovada) |
+| **Quantidade** | ≥ **6–10 logos** na primeira versão; expansão em `/sobre` e rodapé no Sprint 15 |
+| **Fonte** | Extrair do site atual + lista validada pelo comercial (nomes, permissão de uso, versão monocromática se necessário) |
+| **i18n** | Título e subtítulo em `pt-BR.json` (ex.: namespace `HomePage` — `clients_title`, `clients_subtitle`) |
+| **Acessibilidade** | `alt` por marca; contraste em fundo claro/escuro; não depender só de cor do logo |
+
+#### Apresentação visual (interface inteligente)
+
+A seção não pode ser uma grade genérica de imagens esticadas. Diretrizes de UX/UI:
+
+| Princípio | Implementação sugerida |
+|-----------|------------------------|
+| **Hierarquia** | Título curto + linha de apoio (“Empresas que confiam na Acesso em Minas Gerais”) + faixa de logos |
+| **Consistência** | Todos os logos na **mesma altura visual** (ex.: `h-8` / `h-10`), largura proporcional, `object-contain`, padding uniforme |
+| **Ritmo** | Desktop: grade 4–5 colunas ou **marquee suave** (CSS, respeitando `prefers-reduced-motion`); mobile: 2 colunas ou carrossel horizontal com snap |
+| **Tom premium** | Fundo neutro (`neutral-50` / faixa full-width), logos em escala de cinza opcional com **cor na hover** (sutil) |
+| **Performance** | `next/image`, formatos WebP/AVIF, `sizes` corretos; lazy load abaixo da dobra se a seção for longe do hero |
+| **Responsivo** | Não quebrar layout com logos muito largos; `max-w` por célula |
+| **Opcional (fase 2)** | Agrupar por segmento (Construção · Indústria · Mineração) com rótulos discretos; link “Ver cases” → `/cases` quando existir |
+
+**Componente sugerido:** `ClientLogosSection` (server) + dados em `src/data/client-logos.ts` (ou JSON versionado) com `{ name, slug, logoSrc, segment?, href? }`.
+
+#### Jurídico e conteúdo (bloqueante)
+
+- [ ] Lista de marcas **autorizadas por escrito** (e-mail ou contrato de uso de imagem)
+- [ ] Versões corretas dos logos (fundo claro vs escuro)
+- [ ] Não exibir concorrente da locação ou marca sem contrato ativo
+
+#### Critério de saída (9.2 / 15.1 Home)
+
+1. Home exibe seção de logos **visível sem scroll** em viewport desktop comum (≥ 1280px) ou imediatamente após hero.
+2. ≥ 6 logos aprovados, sem distorção, com `alt` descritivo.
+3. Lighthouse **CLS** estável (reservar altura da faixa para evitar layout shift).
+4. Sign-off do cliente (Flaviano/comercial) antes de go-live domínio oficial, se possível — **ideal antes de campanhas pagas**.
+
+#### Relação com Sprint 15
+
+| Sprint 15 | Esta entrega |
+|-----------|----------------|
+| 15.1 Logos | **Home primeiro** (esta spec); depois sobre + rodapé |
+| 15.2 Depoimentos | Complementar (já existe `TestimonialsSection` — alinhar tom) |
+| 15.3 Cases `/cases` | Fase 2 — histórias de obra com foto |
+| 15.4 Galeria | Opcional |
+
+**Arquivos prováveis:** `src/app/[locale]/(marketing)/page.tsx`, `src/components/marketing/ClientLogosSection.tsx`, `src/data/client-logos.ts`, `src/locales/pt-BR.json`.
 
 ---
 
@@ -472,8 +543,9 @@ Escala de catálogo, prova social, otimizações e ferramentas para o time comer
 | 10.6 | Google Search Console | Sitemap no domínio oficial |
 | 10.7 | Checklist go-live | Seção 14 (itens de produção) |
 | 10.8 | Redirect site legado (se houver) | `acessoequipamentos.com.br` → novo |
+| 10.9 | **Clerk: Development → Production** | ⚠️ Hoje o painel usa **Development** + chaves `pk_test_` / `sk_test_`. No go-live do domínio oficial, trocar para **Production** no Clerk (`pk_live_` / `sk_live_`) e atualizar variáveis na Vercel — ver [§5](#5-clerk-development-vs-production-no-domínio-oficial) |
 
-**Critério de saída:** site no ar em domínio oficial, formulário e WhatsApp funcionando em produção.
+**Critério de saída:** site no ar em domínio oficial, formulário e WhatsApp funcionando em produção; login do painel (`/dashboard/leads`) em **Clerk Production**, sem avisos de ambiente de teste.
 
 ---
 
@@ -523,6 +595,120 @@ PostHog captura sessão e UTM automaticamente para **volume** de tráfego. Para 
 **Objetivo:** campanha paga atribuída corretamente no CSV de leads e no painel, sem depender só do PostHog.
 
 Ver seção **11.5** (tabela de campos + implementação cliente).
+
+#### 4. SEO — HTML estático no servidor + “primeiro frame” Google
+
+> **Requisito de negócio:** o robô do Google precisa ler o **nome da máquina** e a **cidade/região** logo no **primeiro frame** do HTML — sem depender de JavaScript no client para montar título, descrição ou corpo principal.
+
+Rotas críticas: **`/equipamentos/[slug]`** e **`/categorias/[slug]`**.
+
+| O quê | Situação atual | Ação / critério de pronto |
+|-------|----------------|---------------------------|
+| Geração no servidor | ✅ `generateStaticParams` + Server Components (SSG) em ambas as rotas | Manter páginas como **Server Components**; evitar `use client` no bloco acima da dobra que carrega nome + geo |
+| `generateMetadata` | ✅ Detalhe: `equipmentSeoTitle` + description + OG; categoria: `getCategorySeo` | Título/descrição devem incluir **equipamento/categoria + BH ou Belo Horizonte/RMBH** (padrão `{Nome} para locação em BH \| Acesso`) |
+| `<h1>` visível no HTML inicial | ✅ Detalhe: `equipment.name`; categoria: `seo.h1` com cidade no texto | Confirmar com **View Source** / `curl` que `<h1>` aparece no HTML da resposta, não só após hidratação |
+| Âncora geo no corpo | 🟡 Parcial — JSON/copy em `categories-seo.ts` e `longDescription` no JSON de equipamentos | Primeiro parágrafo visível ou subtítulo com **Belo Horizonte / região metropolitana**; não esconder cidade só em footer ou só em JSON-LD |
+| JSON-LD | ✅ `Product` no detalhe (`buildProductJsonLd`); ⏳ categorias sem `ItemList` / `BreadcrumbList` dedicado | Adicionar schema em `/categorias/[slug]` (ex.: `ItemList` + `BreadcrumbList`); validar em [Rich Results Test](https://search.google.com/test/rich-results) |
+| Conteúdo só no client | ⚠️ Evitar | Busca global, carrinho e CTAs podem ser client; **nome, descrição curta, specs e texto SEO da categoria** devem vir do servidor |
+| Após migração catálogo → DB (11.2) | Risco ISR | Ao editar equipamento no admin, `revalidatePath` nas rotas afetadas (ver §2) para o HTML estático não ficar desatualizado |
+
+**Checklist de validação (antes do go-live domínio — Sprint 10):**
+
+1. Abrir `view-source:https://…/equipamentos/betoneira-400l` (ou slug real) → buscar `<title>`, `<meta name="description">`, `<h1>`, script `application/ld+json` com nome do produto.
+2. Repetir para `/categorias/concretagem` → `<h1>` com categoria + BH; meta preenchida; JSON-LD presente.
+3. Google Search Console → **URL Inspection** → “HTML renderizado” contém os mesmos dados.
+4. Lighthouse SEO ≥ 90 nas duas URLs amostra.
+
+**Arquivos de referência:** `src/app/[locale]/(marketing)/equipamentos/[slug]/page.tsx`, `categorias/[slug]/page.tsx`, `src/lib/json-ld.ts`, `src/lib/categories-seo.ts`, `src/lib/brand.ts` (`equipmentSeoTitle`).
+
+#### 5. Clerk Development vs Production (no domínio oficial)
+
+> **Lembrete:** o projeto está configurado com o ambiente **Development** do Clerk e chaves **`pk_test_`** / **`sk_test_`** (preview Vercel). Isso é adequado para `*.vercel.app` e testes.
+
+Ao apontar o domínio oficial **`acessoequipamentos.com.br`** (Sprint **10**), **não** manter só as chaves de teste em Production na Vercel.
+
+| O quê | Ação |
+|-------|------|
+| Clerk Dashboard | Alternar o app de **Development** para **Production** (seletor no topo) |
+| API Keys | Copiar **`pk_live_…`** e **`sk_live_…`** (não `pk_test_`) |
+| Vercel → Environment Variables → **Production** | Substituir `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` e `CLERK_SECRET_KEY` pelas chaves live |
+| Domínios no Clerk | Em Production, adicionar `acessoequipamentos.com.br` (e `www` se usar) em **Domains** / allowed origins |
+| Usuários admin | Usuários criados só em **Development** **não** existem em Production — recriar ou convidar no ambiente Production e definir `publicMetadata.role` de novo |
+| Sintomas se esquecer | Login do painel falha, sessão inválida ou **banner de “development / test keys”** para administradores no domínio oficial |
+
+**Preview (`*.vercel.app`):** pode continuar com `pk_test_` em Preview na Vercel, se quiser separar ambientes.
+
+Guia: `docs/CLERK-ACESSO-ADMIN.md` (seção go-live).
+
+#### 6. Casos de Sucesso — logos na Home (prioridade alta de negócio)
+
+> **Não adiar para “depois do Sprint 15 inteiro”.** A Home da nova landing ainda não replica a prova social do site legado.
+
+| O quê | Ação |
+|-------|------|
+| Conteúdo | Coletar logos do site atual + validação comercial/jurídica (MG: construtoras, indústrias, mineradoras) |
+| UX | Seção visualmente inteligente — grade consistente ou marquee acessível; ver [spec completa](#casos-de-sucesso--logos-de-clientes-na-home-prioridade-alta) |
+| Impacto B2B | Reduz desconfiança **antes** do carrinho de orçamento de equipamentos caros |
+| Quando | Ideal: **junto ao Sprint 9.2** ou imediatamente após Sprint 10, **antes** de tráfego pago pesado |
+
+#### 7. Carrinho (`localStorage`) vs SSR / hydration
+
+> **Contexto:** o carrinho de orçamento persiste em `localStorage` (`acesso-quote-cart-v2`). No **Next.js App Router**, páginas e layouts são **Server Components** por padrão; `localStorage` só existe no **navegador**.
+
+##### O risco (Hydration Mismatch)
+
+Se o código **ler `localStorage` no render** (corpo do componente, fora de `useEffect`) para montar o badge do header, a lista em `/orcamento` ou o painel `QuoteCartPanel`, o HTML do **servidor** (carrinho vazio) diverge do HTML do **cliente** (itens salvos) → React acusa **Hydration Mismatch** (texto/nós diferentes entre server e client).
+
+**Sintomas:** aviso no console (`Text content does not match`), contador do carrinho “piscando”, ou erro em dev.
+
+##### Padrão correto (já adotado no projeto)
+
+| Regra | Implementação atual |
+|-------|---------------------|
+| Provider só no cliente | `QuoteCartProvider` com `'use client'` em `MarketingShell.tsx` |
+| Estado inicial vazio no SSR | `useState<QuoteCartItem[]>([])` — servidor e primeiro paint do cliente iguais |
+| Hidratar após montagem | `useEffect(() => { setItems(readStoredItems()); }, [])` em `QuoteCartProvider.tsx` |
+| UI que exibe contagem | `QuoteCartNavLink`, `QuoteCartPanel`, `AddToQuoteButton` — todos `'use client'` + `useQuoteCart()` |
+| Página `/orcamento` | Server Component envolve `OrcamentoFormSection` → client `QuoteCartPanel` |
+
+**Alternativas válidas** (se criar novos componentes de carrinho):
+
+- `useEffect` + flag `hydrated` / `isMounted` antes de renderizar contagem ou lista;
+- `next/dynamic(() => import('…'), { ssr: false })` para widgets que **só** fazem sentido com `localStorage`;
+- **Não** passar itens do carrinho como props de Server Component lendo `localStorage`.
+
+##### Anti-padrões (proibido em PR)
+
+```tsx
+// ❌ Erro: localStorage no render
+const items = JSON.parse(localStorage.getItem('acesso-quote-cart-v2') ?? '[]');
+
+// ❌ Erro: contador derivado no Server Component
+export default function Header() {
+  const count = getCartCountFromStorage(); // não existe no servidor
+}
+```
+
+##### Armadilha extra: persistir antes de hidratar
+
+Dois `useEffect` em sequência — um que **lê** e outro que **grava** `items` — podem, na primeira montagem, gravar `[]` no `localStorage` **antes** de concluir a leitura, se o efeito de save rodar com `items` ainda vazio.
+
+| Mitigação | Exemplo |
+|-----------|---------|
+| Flag `hydrated` | Só `setItem` após `readStoredItems()` |
+| Save condicional | `if (!hydrated) return` no efeito de persistência |
+| `useLayoutEffect` para load | Load síncrono antes do paint (usar com parcimônia) |
+
+**Checklist ao alterar carrinho:**
+
+- [ ] Nenhum `window` / `localStorage` fora de `useEffect` ou handler de evento
+- [ ] Badge do header pode começar em `0` e atualizar após mount (aceitável)
+- [ ] Testar hard refresh em `/orcamento` com itens já salvos — sem mismatch no console
+- [ ] E2E: adicionar item → reload → painel ainda lista itens
+
+**Arquivos de referência:** `src/components/quote-cart/QuoteCartProvider.tsx`, `QuoteCartNavLink.tsx`, `QuoteCartPanel.tsx`, `src/components/layout/MarketingShell.tsx`, `src/components/forms/OrcamentoFormSection.tsx`.
+
+**Relacionado:** cookie consent (`AnalyticsConsentProvider`) usa o mesmo padrão `hydrated` antes de exibir banner; PostHog só após consentimento.
 
 ---
 
@@ -864,20 +1050,21 @@ if (isAdminOnlyRoute(req) && role !== 'admin') {
 
 > **Objetivo:** aumentar **confiança** — construção civil compra com prova visual.
 >
-> **Absorve:** Sprint 9.2 (cases/logos). **Diferencial:** credibilidade vs concorrentes locais.
+> **Absorve:** Sprint 9.2 (cases/logos). **Diferencial:** credibilidade vs concorrentes locais.  
+> **Prioridade imediata na Home:** ver [Casos de Sucesso — logos na Home](#casos-de-sucesso--logos-de-clientes-na-home-prioridade-alta).
 
 #### Features
 
 | ID | Feature | Onde |
 |----|---------|------|
-| 15.1 | Logos de clientes | Home, sobre, rodapé |
+| 15.1 | **Logos de clientes (Casos de Sucesso)** | **Home primeiro** (prioridade alta — MG: construtoras, indústrias, mineradoras); depois sobre, rodapé |
 | 15.2 | Depoimentos reais | Expandir `TestimonialsSection` (fonte verificável) |
 | 15.3 | Cases de obra | Página `/cases` ou seção por segmento |
 | 15.4 | Galeria de obras | Fotos em campo (com permissão) |
 | 15.5 | “Equipamento em ação” | Vídeo curto ou foto no detalhe / home |
 | 15.6 | Timeline de projetos | Marcos (opcional B2B) |
 
-**Critério de saída:** home e sobre exibem ≥ 5 logos ou cases aprovados pelo cliente; conteúdo revisado juridicamente (uso de imagem).
+**Critério de saída:** home exibe ≥ 6 logos aprovados na seção dedicada (apresentação visual consistente — ver spec 9.2); sobre/rodapé replicam subset; conteúdo revisado juridicamente (uso de imagem).
 
 ---
 
@@ -1068,8 +1255,9 @@ Fonte: [docs/CONCORRENTES-REFERENCIAS.md](docs/CONCORRENTES-REFERENCIAS.md)
 | Specs em tabela (plataformas aéreas) | Parcial | 3.7 |
 | WhatsApp + mensagem com equipamento | Parcial | 5.9, 6.1 |
 | FAQ (entrega, NR, documentação) | ✅ | 6.10 |
-| Texto SEO por categoria (300+ palavras) | Pendente | 3.8 |
-| Páginas por equipamento (long-tail) | ✅ 110 slugs SSG | Sprint 3 |
+| Texto SEO por categoria (300+ palavras) | ✅ | 3.8 |
+| HTML estático + metadata + JSON-LD (primeiro frame Google) | 🟡 Parcial — equipamento OK; categoria falta JSON-LD | 6.13, §4 |
+| Páginas por equipamento (long-tail) | ✅ 148 slugs SSG | Sprint 3 |
 | Números na home (credibilidade) | Parcial | 4.4 |
 | Depoimentos Google pt-BR | ✅ | 4.9 |
 | Equipamentos relacionados | ✅ | 3.9 / `getRelatedEquipment` |
@@ -1087,8 +1275,8 @@ Fonte: [docs/CONCORRENTES-REFERENCIAS.md](docs/CONCORRENTES-REFERENCIAS.md)
 |------|------|-----------|
 | `/` | SSG | Home |
 | `/equipamentos` | SSG | Catálogo completo |
-| `/equipamentos/[slug]` | SSG | Detalhe |
-| `/categorias/[slug]` | SSG | Listagem filtrada + texto SEO |
+| `/equipamentos/[slug]` | SSG | Detalhe — **metadata + JSON-LD Product + H1 no HTML servidor** (§4) |
+| `/categorias/[slug]` | SSG | Listagem + texto SEO — **metadata + H1 com geo; JSON-LD ItemList ⏳** (§4) |
 | `/orcamento` | SSR/SSG + client form | Formulário principal |
 | `/sobre` | SSG | Institucional |
 | `/contato` | SSG | Contato + mapa |
@@ -1218,6 +1406,19 @@ Fonte: [docs/CONCORRENTES-REFERENCIAS.md](docs/CONCORRENTES-REFERENCIAS.md)
 - Internal linking: home → categorias → equipamentos relacionados
 - Alt text descritivo em todas as imagens
 
+**HTML estático no servidor (Googlebot — primeiro frame):**
+
+Certifique-se de que `/equipamentos/[slug]` e `/categorias/[slug]` geram **HTML completo no servidor** (SSG/SSR via Server Components + `generateStaticParams`), com:
+
+| Elemento | Obrigatório no HTML inicial |
+|----------|----------------------------|
+| `generateMetadata` | `title`, `description`, `canonical`, Open Graph |
+| Corpo acima da dobra | `<h1>` com **nome do equipamento** ou **categoria**; menção explícita a **Belo Horizonte / BH / RMBH** no título SEO, no H1 ou no primeiro bloco de texto |
+| JSON-LD | `Product` (detalhe); `ItemList` + breadcrumbs (categoria) — ver Sprint **6.13** |
+| O que evitar | Título ou nome do produto **somente** após `useEffect` / fetch client; página “em branco” até hidratar |
+
+> Detalhamento técnico e checklist: [§ Pontos de atenção — SEO primeiro frame](#4-seo-html-estático-no-servidor--primeiro-frame-google).
+
 ### 8.2 Performance (metas)
 
 | Métrica | Meta |
@@ -1304,6 +1505,8 @@ Fonte: [docs/CONCORRENTES-REFERENCIAS.md](docs/CONCORRENTES-REFERENCIAS.md)
 | Escopo creep (reservas, pagamento) | Alto | Roadmap em fases; MVP = leads apenas |
 | Clerk/config extra no boilerplate | Baixo | Remover auth do MVP |
 | Preços desatualizados no site | Médio | Usar “a partir de” + “consulte”; revisão mensal |
+| **Hydration mismatch no carrinho** | Médio | `localStorage` só após mount; ver [§4.0 — carrinho vs SSR](#7-carrinho-localstorage-vs-ssr-hydration); não ler storage no render |
+| Carrinho zerado ao recarregar (race save/load) | Baixo | Flag `hydrated` antes de persistir; revisar efeitos em `QuoteCartProvider` |
 
 ---
 
@@ -1318,7 +1521,9 @@ Uma tarefa só está **Done** quando:
 - [ ] Textos em `pt-BR` (sem strings do boilerplate)
 - [ ] Acessibilidade básica (labels, foco, contraste)
 - [ ] SEO: title + description na página
+- [ ] SEO: View Source em `/equipamentos/[slug]` e `/categorias/[slug]` com H1 + cidade + JSON-LD no HTML servidor (§4)
 - [ ] Sem regressão nos fluxos E2E críticos (se aplicável)
+- [ ] Carrinho: sem leitura de `localStorage` no render; hard refresh em `/orcamento` sem hydration warning (§4.0)
 
 **MVP Aprovação (Sprint 8) Done** quando:
 
@@ -1370,7 +1575,8 @@ Uma tarefa só está **Done** quando:
 ### Marketing & SEO
 
 - [ ] SEO programático (cidade × equipamento) → **Sprint 14**
-- [ ] Prova social (cases, logos, galeria) → **Sprint 15**
+- [ ] **Casos de Sucesso — logos na Home** (prioridade alta, MG) → **Sprint 9.2 / 15.1** — [spec](#casos-de-sucesso--logos-de-clientes-na-home-prioridade-alta)
+- [ ] Prova social ampliada (cases `/cases`, galeria, timeline) → **Sprint 15**
 - [ ] Blog / conteúdo técnico → **Sprint 22**
 - [ ] Google Ads / Meta conversion tracking → **Sprint 12** (UTM + PostHog)
 - [ ] Programa de indicação — backlog aberto
@@ -1413,7 +1619,7 @@ Uma tarefa só está **Done** quando:
 |------|---------|------------------|-------------------|
 | Fase 0 — Kickoff | 0 | Concluído | Requisitos, inventário, marca |
 | Fase 1 — MVP | 1–8 | Concluído | Landing + preview aprovado |
-| Conteúdo frota | 9 | 2–4 sem | Fotos (~125/148); cases → Sprint 15 |
+| Conteúdo frota | 9 | 2–4 sem | Fotos (~144/148); **logos clientes na Home** (9.2, alta) |
 | **Go-live** | **10** | 2–5 dias | Domínio oficial, PostHog produção |
 | **Operação digital** | **11** | 7–8 sem | Admin, CRUD, leads, CSV, KPIs básicos |
 | **Dados comerciais** | **12–13** | 4–6 sem | Analytics avançado + dashboard executivo |
@@ -1432,7 +1638,8 @@ Uma tarefa só está **Done** quando:
 | Ordem | Sprint | Por quê |
 |-------|--------|---------|
 | **1** | **10** | Go-live + PostHog — base para todos os dados |
-| **2** | **9** (restante) + **15** | Fotos faltantes + prova social antes de campanhas pesadas |
+| **2** | **9.2** (logos Home) + **9** (fotos) | **Casos de Sucesso na Home** + fotos faltantes — confiança B2B antes do carrinho |
+| **2b** | **15** (restante) | Cases `/cases`, galeria, depoimentos expandidos |
 | **3** | **11** | Operação sem depender de dev para catálogo/leads |
 | **4** | **12–13** | Provar ROI; dashboard para gestão |
 | **5** | **14** | Tráfego orgânico local (long-tail RMBH) |
@@ -1447,7 +1654,8 @@ Uma tarefa só está **Done** quando:
 3. **Sprint 10** — domínio oficial e go-live.
 4. **Sprint 11** — painel admin operacional.
 5. **Sprints 12–13** — analytics e executivo (após tráfego real).
-6. **Sprints 14–15** — SEO programático + prova social (paralelo possível após 10).
+6. **Sprint 9.2** — logos de clientes na Home (prioridade alta; spec em § Casos de Sucesso).
+7. **Sprints 14–15** — SEO programático + prova social ampliada (paralelo possível após 10).
 
 ---
 
