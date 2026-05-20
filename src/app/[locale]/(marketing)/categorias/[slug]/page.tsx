@@ -106,10 +106,13 @@ export default async function CategoryPage(props: CategoryPageProps) {
             </p>
           </div>
           <ConversionCtas
+            equipmentName={CATEGORY_LABELS[slug]}
+            equipmentSlug={slug}
             quoteLabel={t('cta_quote')}
             size="sm"
             whatsappHref={whatsappHref}
             whatsappLabel={t('cta_whatsapp')}
+            whatsappOrigin="site-categoria"
           />
         </div>
 

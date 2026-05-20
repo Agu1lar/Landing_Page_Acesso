@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { TrackedWhatsAppLink } from '@/components/analytics/TrackedWhatsAppLink';
 import { QuoteForm } from '@/components/forms/QuoteForm';
 import { QuoteCartPanel } from '@/components/quote-cart/QuoteCartPanel';
 import { brand, buildWhatsAppMessage, buildWhatsAppUrl } from '@/lib/brand';
@@ -45,9 +46,15 @@ export function OrcamentoFormSection(props: OrcamentoFormSectionProps) {
           <p className="mt-2 text-sm text-neutral-600">
             Preencha o formulário e use <strong>Enviar orçamento pelo WhatsApp</strong> — a mensagem
             sai em seu nome para o comercial. Ou contato direto:{' '}
-            <a className="font-medium text-primary hover:underline" href={whatsappHref}>
+            <TrackedWhatsAppLink
+              className="font-medium text-primary hover:underline"
+              href={whatsappHref}
+              origin="site-orcamento"
+              equipmentSlug={props.initialEquipment?.slug}
+              equipmentName={props.initialEquipment?.name}
+            >
               WhatsApp
-            </a>{' '}
+            </TrackedWhatsAppLink>{' '}
             ·{' '}
             <a className="font-medium text-primary hover:underline" href={`tel:+${brand.phone}`}>
               {brand.phoneDisplay}

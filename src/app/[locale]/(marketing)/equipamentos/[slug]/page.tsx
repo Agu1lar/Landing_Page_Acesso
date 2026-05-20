@@ -120,10 +120,13 @@ export default async function EquipmentDetailPage(props: EquipmentDetailProps) {
               size="md"
             />
             <ConversionCtas
+              equipmentName={equipment.name}
+              equipmentSlug={equipment.slug}
               quoteHref="/orcamento"
               quoteLabel="Ver orçamento"
               whatsappHref={whatsappHref}
               whatsappLabel={t('cta_whatsapp')}
+              whatsappOrigin="site-detalhe"
             />
           </div>
         </div>

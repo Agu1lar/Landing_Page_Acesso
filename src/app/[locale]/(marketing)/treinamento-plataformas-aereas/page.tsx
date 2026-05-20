@@ -56,6 +56,7 @@ export default async function TreinamentoPlataformasPage(props: PageProps) {
             quoteLabel="Solicitar orçamento de treinamento"
             whatsappHref={whatsappTraining}
             whatsappLabel="Falar no WhatsApp"
+            whatsappOrigin="site-treinamento"
           />
         </div>
       </section>
@@ -163,6 +164,7 @@ export default async function TreinamentoPlataformasPage(props: PageProps) {
             quoteLabel="Solicitar orçamento"
             whatsappHref={whatsappTraining}
             whatsappLabel="WhatsApp — treinamento"
+            whatsappOrigin="site-treinamento"
           />
         </div>
       </section>

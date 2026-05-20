@@ -1,15 +1,18 @@
+'use client';
+
 import { buildWhatsAppMessage, buildWhatsAppUrl } from '@/lib/brand';
+import { captureWhatsAppClick } from '@/lib/posthog-events';
 
 type WhatsAppButtonProps = {
   equipmentName?: string;
   equipmentSlug?: string;
 };
 
-export function WhatsAppButton({ equipmentName, equipmentSlug }: WhatsAppButtonProps) {
+export function WhatsAppButton(props: WhatsAppButtonProps) {
   const href = buildWhatsAppUrl(
     buildWhatsAppMessage({
-      equipmentName,
-      equipmentSlug,
+      equipmentName: props.equipmentName,
+      equipmentSlug: props.equipmentSlug,
       origin: 'site-flutuante',
     }),
   );
@@ -19,6 +22,13 @@ export function WhatsAppButton({ equipmentName, equipmentSlug }: WhatsAppButtonP
       aria-label="Falar no WhatsApp"
       className="fixed right-4 bottom-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-cta-whatsapp text-white shadow-lg transition-transform hover:scale-105 hover:bg-cta-whatsapp-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta-whatsapp"
       href={href}
+      onClick={() =>
+        captureWhatsAppClick({
+          origin: 'site-flutuante',
+          equipmentSlug: props.equipmentSlug,
+          equipmentName: props.equipmentName,
+        })
+      }
       rel="noopener noreferrer"
       target="_blank"
     >

@@ -66,6 +66,7 @@ export default async function HomePage(props: IndexPageProps) {
               size="lg"
               whatsappHref={whatsappHome}
               whatsappLabel={t('hero_cta_whatsapp')}
+              whatsappOrigin="site-home"
             />
           </div>
         </div>
@@ -187,6 +188,7 @@ export default async function HomePage(props: IndexPageProps) {
           size="lg"
           whatsappHref={whatsappHome}
           whatsappLabel={t('hero_cta_whatsapp')}
+          whatsappOrigin="site-home"
         />
       </section>
     </>

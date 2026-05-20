@@ -43,6 +43,7 @@ export default async function ContatoPage(props: PageProps) {
         quoteLabel="Solicitar orçamento"
         whatsappHref={buildWhatsAppUrl(buildWhatsAppMessage({ origin: 'site-contato' }))}
         whatsappLabel="Falar no WhatsApp"
+        whatsappOrigin="site-contato"
       />
     </div>
   );

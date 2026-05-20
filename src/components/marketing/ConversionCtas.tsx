@@ -3,6 +3,10 @@ import { Button } from '@/components/ui/Button';
 type ConversionCtasProps = {
   whatsappHref: string;
   whatsappLabel: string;
+  /** PostHog origin id (ex.: site-home, site-detalhe) */
+  whatsappOrigin: string;
+  equipmentSlug?: string;
+  equipmentName?: string;
   quoteHref?: string;
   quoteLabel?: string;
   size?: 'sm' | 'md' | 'lg';
@@ -18,6 +22,9 @@ type ConversionCtasProps = {
 export function ConversionCtas({
   whatsappHref,
   whatsappLabel,
+  whatsappOrigin,
+  equipmentSlug,
+  equipmentName,
   quoteHref = '/orcamento',
   quoteLabel = 'Solicitar orçamento',
   size = 'md',
@@ -31,7 +38,15 @@ export function ConversionCtas({
 
   return (
     <div className={`flex flex-col items-stretch gap-3 sm:flex-row sm:items-center ${className}`}>
-      <Button className="sm:order-1" href={whatsappHref} size={size} variant="whatsapp">
+      <Button
+        className="sm:order-1"
+        equipmentName={equipmentName}
+        equipmentSlug={equipmentSlug}
+        href={whatsappHref}
+        size={size}
+        variant="whatsapp"
+        whatsappOrigin={whatsappOrigin}
+      >
         {whatsappLabel}
       </Button>
       {quoteHref && (

@@ -49,6 +49,11 @@ export async function SiteFooter() {
                 {t('privacy_link')}
               </Link>
             </li>
+            <li>
+              <Link className="hover:text-white" href="/sign-in">
+                {t('admin_area_link')}
+              </Link>
+            </li>
           </ul>
         </div>
         <div>

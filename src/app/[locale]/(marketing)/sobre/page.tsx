@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
+import { TrackedWhatsAppLink } from '@/components/analytics/TrackedWhatsAppLink';
 import { ConversionCtas } from '@/components/marketing/ConversionCtas';
 import { TestimonialsSection } from '@/components/marketing/TestimonialsSection';
 import {
@@ -55,6 +56,7 @@ export default async function SobrePage(props: PageProps) {
             quoteLabel="Solicitar orçamento"
             whatsappHref={whatsappSobre}
             whatsappLabel="Falar no WhatsApp"
+            whatsappOrigin="site-sobre"
           />
         </div>
       </section>
@@ -200,14 +202,15 @@ export default async function SobrePage(props: PageProps) {
             </li>
             <li>
               <strong>WhatsApp:</strong>{' '}
-              <a
+              <TrackedWhatsAppLink
                 className="text-primary hover:underline"
                 href={buildWhatsAppUrl(buildWhatsAppMessage({ origin: 'site-sobre' }))}
+                origin="site-sobre"
                 rel="noopener noreferrer"
                 target="_blank"
               >
                 (31) 99470-0201
-              </a>
+              </TrackedWhatsAppLink>
             </li>
             <li>
               <strong>E-mail:</strong>{' '}
@@ -227,6 +230,7 @@ export default async function SobrePage(props: PageProps) {
             quoteLabel="Solicitar orçamento"
             whatsappHref={whatsappSobre}
             whatsappLabel="Falar no WhatsApp"
+            whatsappOrigin="site-sobre"
           />
           <p className="mt-6 text-sm text-neutral-500">
             <Link className="text-primary hover:underline" href="/contato">

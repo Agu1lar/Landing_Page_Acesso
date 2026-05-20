@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { TrackedWhatsAppLink } from '@/components/analytics/TrackedWhatsAppLink';
 import { BrandLogo } from '@/components/brand/BrandLogo';
 import { GlobalSearch } from '@/components/marketing/GlobalSearch';
 import type { SearchIndexItem } from '@/components/marketing/GlobalSearch';
@@ -200,7 +201,12 @@ export function SiteHeader({ searchIndex }: SiteHeaderProps) {
             </nav>
 
             <div className="hidden items-center gap-2 md:flex">
-              <Button href={whatsappHeader} size="sm" variant="whatsapp">
+              <Button
+                href={whatsappHeader}
+                size="sm"
+                variant="whatsapp"
+                whatsappOrigin="site-header"
+              >
                 {t('whatsapp_link')}
               </Button>
               <QuoteCartNavLink label={t('orcamento_link')} />
@@ -239,17 +245,18 @@ export function SiteHeader({ searchIndex }: SiteHeaderProps) {
                 </li>
               ))}
               <li>
-                <a
+                <TrackedWhatsAppLink
                   className="block rounded-lg bg-cta-whatsapp px-3 py-2 text-center font-semibold text-white"
                   href={whatsappHeader}
                   onClick={() => {
                     setMobileOpen(false);
                   }}
+                  origin="site-header"
                   rel="noopener noreferrer"
                   target="_blank"
                 >
                   {t('whatsapp_link')}
-                </a>
+                </TrackedWhatsAppLink>
               </li>
               <li>
                 <QuoteCartNavLink

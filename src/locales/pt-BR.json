@@ -98,6 +98,7 @@
     "address": "Endereço",
     "hours": "Horário",
     "privacy_link": "Privacidade",
+    "admin_area_link": "Área restrita",
     "rights": "© {year} {name}. Todos os direitos reservados."
   },
   "PrivacidadePage": {

@@ -1,6 +1,7 @@
 'use client';
 
 import { Suspense } from 'react';
+import { PostHogAttributionSync } from '@/components/analytics/PostHogAttributionSync';
 import { PostHogPageView } from '@/components/analytics/PostHogPageView';
 import { initPostHog } from '@/lib/posthog-client';
 
@@ -18,6 +19,7 @@ export function PostHogProvider(props: PostHogProviderProps) {
 
   return (
     <>
+      <PostHogAttributionSync />
       <Suspense fallback={null}>
         <PostHogPageView />
       </Suspense>
