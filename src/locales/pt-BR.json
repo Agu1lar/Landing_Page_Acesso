@@ -188,6 +188,9 @@
     "filter_search_placeholder": "Nome, e-mail, telefone ou equipamento",
     "filter_apply": "Filtrar",
     "filter_clear": "Limpar",
+    "filter_period_label": "Período rápido:",
+    "filter_last_7_days": "Últimos 7 dias",
+    "filter_last_30_days": "Últimos 30 dias",
     "col_date": "Data",
     "col_name": "Cliente",
     "col_city": "Cidade",
@@ -236,7 +239,13 @@
     "rental_diaria": "Diária",
     "rental_semanal": "Semanal",
     "rental_mensal": "Mensal",
-    "rental_unknown": "Ainda não sei"
+    "rental_unknown": "Ainda não sei",
+    "section_internal_notes": "Notas internas",
+    "internal_notes_hint": "Visível só para a equipe no painel. Não é enviado ao cliente.",
+    "field_internal_notes": "Anotações da equipe",
+    "internal_notes_placeholder": "Ex.: ligou em 20/05, aguardando retorno…",
+    "notes_save": "Salvar notas",
+    "notes_update_error": "Não foi possível salvar as notas"
   },
   "LocaleSwitcher": {
     "change_language": "Idioma"

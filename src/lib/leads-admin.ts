@@ -43,6 +43,7 @@ type LeadCsvRow = {
   utmTerm: string;
   referrer: string;
   landingPage: string;
+  internalNotes: string;
 };
 
 export type CsvColumn = {
@@ -71,6 +72,7 @@ const CSV_COLUMNS: CsvColumn[] = [
   { key: 'utmTerm', header: 'UTM term' },
   { key: 'referrer', header: 'Referrer' },
   { key: 'landingPage', header: 'Landing page' },
+  { key: 'internalNotes', header: 'Notas internas' },
 ];
 
 /**
@@ -217,6 +219,23 @@ export async function updateLeadStatus(id: number, status: LeadStatus) {
   return lead;
 }
 
+/**
+ * Updates internal notes for a lead.
+ *
+ * @param id - Lead primary key.
+ * @param internalNotes - Team-only notes (empty string clears).
+ * @returns Updated lead row when found.
+ */
+export async function updateLeadInternalNotes(id: number, internalNotes: string) {
+  const [lead] = await db
+    .update(leadsSchema)
+    .set({ internalNotes: internalNotes.trim() || null })
+    .where(eq(leadsSchema.id, id))
+    .returning();
+
+  return lead;
+}
+
 function escapeCsvCell(value: string) {
   if (/[",\n\r]/u.test(value)) {
     return `"${value.replaceAll('"', '""')}"`;
@@ -246,6 +265,7 @@ function leadToCsvRow(lead: LeadRecord): LeadCsvRow {
     utmTerm: lead.utmTerm ?? '',
     referrer: lead.referrer ?? '',
     landingPage: lead.landingPage ?? '',
+    internalNotes: lead.internalNotes ?? '',
   };
 }
 

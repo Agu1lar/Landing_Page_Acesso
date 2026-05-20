@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
+import { LeadNotesForm } from '@/components/admin/LeadNotesForm';
 import { LeadStatusForm } from '@/components/admin/LeadStatusForm';
 import { Button } from '@/components/ui/Button';
 import { LEAD_STATUSES, type LeadStatus } from '@/lib/lead-status';
@@ -241,6 +242,19 @@ export default async function LeadDetailPage(props: LeadDetailPageProps) {
           <p className="mt-2 text-sm whitespace-pre-wrap text-neutral-700">{lead.message}</p>
         </section>
       ) : null}
+
+      <section className="rounded-lg border border-neutral-200 bg-surface p-4">
+        <h2 className="font-semibold text-neutral-900">{t('section_internal_notes')}</h2>
+        <p className="mt-1 text-xs text-neutral-500">{t('internal_notes_hint')}</p>
+        <LeadNotesForm
+          errorMessage={t('notes_update_error')}
+          fieldLabel={t('field_internal_notes')}
+          initialNotes={lead.internalNotes ?? ''}
+          leadId={lead.id}
+          placeholder={t('internal_notes_placeholder')}
+          saveLabel={t('notes_save')}
+        />
+      </section>
     </div>
   );
 }

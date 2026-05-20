@@ -31,6 +31,7 @@ const sampleLead = {
   utmTerm: null,
   referrer: null,
   landingPage: null,
+  internalNotes: null,
   createdAt: new Date('2026-05-19'),
 };
 

@@ -52,11 +52,13 @@ describe(buildLeadsCsv, () => {
         utmTerm: null,
         referrer: null,
         landingPage: '/orcamento',
+        internalNotes: 'Ligou pela manhã',
         createdAt: new Date('2026-05-20T12:00:00.000Z'),
       },
     ]);
     expect(csv.startsWith('\uFEFF')).toBeTruthy();
     expect(csv).toContain('Maria');
     expect(csv).toContain('m@ex.com');
+    expect(csv).toContain('Ligou pela manhã');
   });
 });

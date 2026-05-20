@@ -103,6 +103,9 @@
     "filter_search_placeholder": "Name, email, phone or equipment",
     "filter_apply": "Apply filters",
     "filter_clear": "Clear",
+    "filter_period_label": "Quick range:",
+    "filter_last_7_days": "Last 7 days",
+    "filter_last_30_days": "Last 30 days",
     "col_date": "Date",
     "col_name": "Customer",
     "col_city": "City",
@@ -151,7 +154,13 @@
     "rental_diaria": "Daily",
     "rental_semanal": "Weekly",
     "rental_mensal": "Monthly",
-    "rental_unknown": "Not sure yet"
+    "rental_unknown": "Not sure yet",
+    "section_internal_notes": "Internal notes",
+    "internal_notes_hint": "Visible to your team in the dashboard only. Not sent to the customer.",
+    "field_internal_notes": "Team notes",
+    "internal_notes_placeholder": "e.g. called on May 20, waiting for reply…",
+    "notes_save": "Save notes",
+    "notes_update_error": "Could not save notes"
   },
   "LocaleSwitcher": {
     "change_language": "Change language"

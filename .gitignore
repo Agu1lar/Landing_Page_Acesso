@@ -82,3 +82,6 @@ build-archive.log
 # Tutorial local (nunca commitar — uso pessoal/equipe offline)
 TUTORIAL-SISTEMA.local.md
 *.local.md
+
+# Fotos brutas antes do sync (ver docs/scripts/sync-equipment-photos.py)
+public/equipamentos/_incoming/

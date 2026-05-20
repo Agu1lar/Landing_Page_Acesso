@@ -1,4 +1,5 @@
 import { getTranslations } from 'next-intl/server';
+import { LeadsDatePresets } from '@/components/admin/LeadsDatePresets';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { LEAD_STATUSES } from '@/lib/lead-status';
@@ -17,6 +18,9 @@ export async function LeadsFiltersForm(props: LeadsFiltersFormProps) {
       className="grid gap-4 rounded-lg border border-neutral-200 bg-surface p-4 sm:grid-cols-2 lg:grid-cols-3"
       method="get"
     >
+      <div className="sm:col-span-2 lg:col-span-3">
+        <LeadsDatePresets filters={filters} />
+      </div>
       <Input
         defaultValue={filters.dateFrom ?? ''}
         id="dateFrom"
