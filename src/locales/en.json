@@ -84,6 +84,14 @@
     "user_profile_link": "Manage your account",
     "sign_out": "Sign out"
   },
+  "CookieConsent": {
+    "title": "Cookies and privacy",
+    "description": "We use essential cookies for the site to work (quotes and session). With your consent, we use PostHog to measure visits and WhatsApp clicks — data processed in the US (US Cloud).",
+    "privacy_link": "Privacy policy",
+    "accept": "Accept analytics",
+    "reject": "Essential only",
+    "manage_link": "Cookie preferences"
+  },
   "LeadsAdminPage": {
     "meta_title": "Quote leads",
     "meta_description": "Quote requests submitted from the website.",

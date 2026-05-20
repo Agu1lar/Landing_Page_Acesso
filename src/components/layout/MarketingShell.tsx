@@ -1,4 +1,4 @@
-import { PostHogProvider } from '@/components/analytics/PostHogProvider';
+import { AnalyticsConsentProvider } from '@/components/analytics/AnalyticsConsentProvider';
 import { AttributionCapture } from '@/components/marketing/AttributionCapture';
 import { SiteFooter } from '@/components/layout/SiteFooter';
 import { SiteHeader } from '@/components/layout/SiteHeader';
@@ -14,7 +14,7 @@ export async function MarketingShell(props: MarketingShellProps) {
   const searchIndex = getSearchIndex();
 
   return (
-    <PostHogProvider>
+    <AnalyticsConsentProvider>
       <div className="flex min-h-screen flex-col">
         <AttributionCapture />
         <QuoteCartProvider>
@@ -24,6 +24,6 @@ export async function MarketingShell(props: MarketingShellProps) {
         <SiteFooter />
         <WhatsAppButton />
       </div>
-    </PostHogProvider>
+    </AnalyticsConsentProvider>
   );
 }

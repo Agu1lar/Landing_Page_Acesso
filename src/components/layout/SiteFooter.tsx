@@ -1,4 +1,5 @@
 import { getTranslations } from 'next-intl/server';
+import { CookiePreferencesLink } from '@/components/analytics/CookiePreferencesLink';
 import { brand } from '@/lib/brand';
 import { Link } from '@/libs/I18nNavigation';
 import { AppConfig } from '@/utils/AppConfig';
@@ -53,6 +54,9 @@ export async function SiteFooter() {
               <Link className="hover:text-white" href="/sign-in">
                 {t('admin_area_link')}
               </Link>
+            </li>
+            <li>
+              <CookiePreferencesLink />
             </li>
           </ul>
         </div>

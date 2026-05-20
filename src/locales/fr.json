@@ -84,6 +84,14 @@
     "user_profile_link": "Gérer votre compte",
     "sign_out": "Se déconnecter"
   },
+  "CookieConsent": {
+    "title": "Cookies et confidentialité",
+    "description": "Nous utilisons des cookies essentiels pour le fonctionnement du site (devis et session). Avec votre accord, PostHog mesure les visites et les clics WhatsApp — données aux États-Unis (US Cloud).",
+    "privacy_link": "Politique de confidentialité",
+    "accept": "Accepter l'analytics",
+    "reject": "Essentiels uniquement",
+    "manage_link": "Préférences cookies"
+  },
   "LeadsAdminPage": {
     "meta_title": "Leads de devis",
     "meta_description": "Demandes de devis envoyées depuis le site.",

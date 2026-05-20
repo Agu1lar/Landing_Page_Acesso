@@ -101,6 +101,14 @@
     "admin_area_link": "Área restrita",
     "rights": "© {year} {name}. Todos os direitos reservados."
   },
+  "CookieConsent": {
+    "title": "Cookies e privacidade",
+    "description": "Usamos cookies essenciais para o site funcionar (orçamento e sessão). Com sua autorização, usamos PostHog para medir visitas e cliques no WhatsApp — dados nos EUA (US Cloud).",
+    "privacy_link": "Política de privacidade",
+    "accept": "Aceitar analytics",
+    "reject": "Somente essenciais",
+    "manage_link": "Preferências de cookies"
+  },
   "PrivacidadePage": {
     "meta_title": "Política de privacidade",
     "meta_description": "Como a Acesso Equipamentos trata dados pessoais no site e no formulário de orçamento (LGPD).",
@@ -114,7 +122,7 @@
       },
       "data": {
         "title": "Quais dados coletamos",
-        "body": "No formulário de orçamento podemos receber nome, e-mail, telefone, empresa (opcional), cidade da obra, equipamento de interesse, período de locação e mensagem. Dados técnicos de navegação podem ser registrados por ferramentas de analytics quando ativadas."
+        "body": "No formulário de orçamento podemos receber nome, e-mail, telefone, empresa (opcional), cidade da obra, equipamento de interesse, período de locação e mensagem. Cookies essenciais guardam preferências de sessão (ex.: carrinho de orçamento e origem da campanha). Analytics (PostHog) só é ativado se você aceitar no banner de cookies; mede páginas vistas e interações no site."
       },
       "purpose": {
         "title": "Para que usamos os dados",
@@ -122,7 +130,7 @@
       },
       "sharing": {
         "title": "Compartilhamento",
-        "body": "Podemos compartilhar dados com provedores de hospedagem, e-mail e banco de dados estritamente para operar o site e atender leads. Esses provedores são contratados com obrigações de confidencialidade e segurança."
+        "body": "Podemos compartilhar dados com provedores de hospedagem (Vercel), banco de dados (Neon), e-mail (Resend) e analytics (PostHog, se aceito) estritamente para operar o site e atender leads. Esses provedores são contratados com obrigações de confidencialidade e segurança."
       },
       "rights": {
         "title": "Seus direitos",
