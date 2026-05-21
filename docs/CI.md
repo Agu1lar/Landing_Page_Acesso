@@ -8,7 +8,7 @@ Pipeline em [`.github/workflows/CI.yml`](../.github/workflows/CI.yml). Objetivo:
 |-----|----------------|
 | **Build with 22.x / 24.x** | `npm run build-local` (Next + PGlite em memória) |
 | **Build with db migrate** | `npm run build` — mesmo caminho da Vercel (`db:migrate` + `next build`) |
-| **Run static checks** | `lint` (oxlint, erros only), `check:types`, `check:deps`, `check:i18n`, commitlint (PR) |
+| **Run static checks** | `lint` (oxlint, erros only), `check:types`, `check:deps`, `check:i18n` (chaves usadas no `src` existem em `pt-BR`), commitlint (PR) |
 | **Run unit tests** | Vitest + coverage (thresholds em `quote-whatsapp`, `leads-admin`) |
 | **Run E2E tests** | Playwright — marketing, **301 legado**, **API leads** |
 
@@ -83,13 +83,17 @@ Abra o run → veja qual **job** falhou (ícone vermelho):
 | Build with db migrate | Falta `DATABASE_URL` / migrate ou env Clerk | `npm run build` com Postgres |
 | Run E2E tests | Playwright (formulário, 301, API leads) | `npm run test:e2e` |
 
+### Vercel Preview vermelho no PR
+
+O check **Vercel** é do deploy na Vercel, não do workflow `CI.yml`. Confira em **Project → Settings → Environment Variables** (Preview e Production): `DATABASE_URL`, `CLERK_SECRET_KEY`, `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`, `NEXT_PUBLIC_APP_URL`. Ver [DEPLOY-PREVIEW-VERCEL.md](./DEPLOY-PREVIEW-VERCEL.md).
+
 ### Commitlint falha em PR do Dependabot
 
 Mensagens como `chore(deps): Bump the npm-deps group...` quebram a regra `subject-case`. O CI ignora commits de dependência e não roda commitlint quando o autor do PR é `dependabot[bot]`.
 
 ### **Crowdin Action** vermelho (não é o CI principal)
 
-Falta configurar `CROWDIN_PROJECT_ID` e `CROWDIN_PERSONAL_TOKEN` em **Secrets**, ou o projeto Crowdin não está ligado. Não bloqueia deploy na Vercel; pode ignorar até usar traduções automáticas.
+Falta configurar `CROWDIN_PROJECT_ID` e `CROWDIN_PERSONAL_TOKEN` em **Secrets**. O job em PR no `CI.yml` **não roda** sem esses secrets; não marque como required check. Sync agendado: `crowdin.yml` em `main`.
 
 ### **Checkly** vermelho (monitoramento pós-deploy)
 
