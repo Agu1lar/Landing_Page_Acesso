@@ -93,8 +93,41 @@ describe('build category page json-ld', () => {
 
     const itemList = graph.find((node) => node['@type'] === 'ItemList') as {
       numberOfItems?: number;
+      itemListElement?: { url?: string; position?: number }[];
     };
     expect(itemList?.numberOfItems).toBe(1);
+    expect(itemList?.itemListElement?.[0]?.url).toContain('/equipamentos/betoneira');
+    expect(itemList?.itemListElement?.[0]?.position).toBe(1);
+  });
+
+  it('links CollectionPage to breadcrumb and item list entities', () => {
+    const seo = getCategorySeo('concretagem');
+    const json = buildCategoryPageJsonLd({
+      slug: 'concretagem',
+      seo,
+      equipment: [equipment],
+    });
+    const graph = json['@graph'] as Record<string, unknown>[];
+
+    const collectionPage = graph.find((node) => node['@type'] === 'CollectionPage') as {
+      breadcrumb?: { '@id'?: string };
+      mainEntity?: { '@id'?: string };
+      name?: string;
+    };
+    const breadcrumb = graph.find((node) => node['@type'] === 'BreadcrumbList') as {
+      '@id'?: string;
+      itemListElement?: { name?: string }[];
+    };
+
+    expect(collectionPage?.name).toBe(seo.h1);
+    expect(collectionPage?.breadcrumb?.['@id']).toContain('#breadcrumb');
+    expect(collectionPage?.mainEntity?.['@id']).toContain('#itemlist');
+    expect(breadcrumb?.['@id']).toContain('#breadcrumb');
+    expect(breadcrumb?.itemListElement?.map((item) => item.name)).toEqual([
+      'Início',
+      'Equipamentos',
+      'Concretagem',
+    ]);
   });
 });
 

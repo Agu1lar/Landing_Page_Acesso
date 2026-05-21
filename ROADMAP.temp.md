@@ -608,7 +608,7 @@ Rotas críticas: **`/equipamentos/[slug]`** e **`/categorias/[slug]`**.
 | `generateMetadata` | ✅ Detalhe: `equipmentSeoTitle` + description + OG; categoria: `getCategorySeo` | Título/descrição devem incluir **equipamento/categoria + BH ou Belo Horizonte/RMBH** (padrão `{Nome} para locação em BH \| Acesso`) |
 | `<h1>` visível no HTML inicial | ✅ Detalhe: `equipment.name`; categoria: `seo.h1` com cidade no texto | Confirmar com **View Source** / `curl` que `<h1>` aparece no HTML da resposta, não só após hidratação |
 | Âncora geo no corpo | 🟡 Parcial — JSON/copy em `categories-seo.ts` e `longDescription` no JSON de equipamentos | Primeiro parágrafo visível ou subtítulo com **Belo Horizonte / região metropolitana**; não esconder cidade só em footer ou só em JSON-LD |
-| JSON-LD | ✅ `Product` no detalhe (`buildProductJsonLd`); ⏳ categorias sem `ItemList` / `BreadcrumbList` dedicado | Adicionar schema em `/categorias/[slug]` (ex.: `ItemList` + `BreadcrumbList`); validar em [Rich Results Test](https://search.google.com/test/rich-results) |
+| JSON-LD | ✅ `Product` no detalhe; ✅ categorias com `CollectionPage` + `ItemList` + `BreadcrumbList` (`buildCategoryPageJsonLd`) | Validar amostra em [Rich Results Test](https://search.google.com/test/rich-results) antes de campanha paga |
 | Conteúdo só no client | ⚠️ Evitar | Busca global, carrinho e CTAs podem ser client; **nome, descrição curta, specs e texto SEO da categoria** devem vir do servidor |
 | Após migração catálogo → DB (11.2) | Risco ISR | Ao editar equipamento no admin, `revalidatePath` nas rotas afetadas (ver §2) para o HTML estático não ficar desatualizado |
 

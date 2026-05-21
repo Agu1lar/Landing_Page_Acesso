@@ -69,7 +69,7 @@ Site da **Acesso Equipamentos** (locação de equipamentos para construção civ
 - **JSON-LD** por tipo de página:
   - Layout: `@graph` com Organization, LocalBusiness, WebSite e **SearchAction** (busca em `/equipamentos?q=…`).
   - Equipamento: **Product** + **BreadcrumbList**.
-  - Categoria: **CollectionPage** + **ItemList** + breadcrumbs.
+  - Categoria: **CollectionPage** + **ItemList** + **BreadcrumbList** (`buildCategoryPageJsonLd`).
   - FAQ: **FAQPage**; treinamento: **Course**.
 - **Sitemap** com prioridades de crawl (home, categorias, catálogo, fichas).
 - Testes unitários em `src/lib/seo-metadata.test.ts` e `src/lib/json-ld.test.ts`.
