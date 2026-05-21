@@ -29,12 +29,13 @@ test.describe('Marketing conversion flows', () => {
 
       const logos = section.locator('img[src*="/clientes/"]');
       const logoCount = await logos.count();
-      if (logoCount > 0) {
-        await expect(logos.first()).toHaveAttribute(
-          'src',
-          /\/clientes\/[a-z]+\/[^/]+\.(webp|png|svg|jpe?g)/iu,
-        );
-      }
+      expect(logoCount).toBeGreaterThan(0);
+      expect(logoCount).toBeLessThanOrEqual(4);
+      await expect(logos.first()).toHaveAttribute(
+        'src',
+        /\/clientes\/[a-z]+\/[^/]+\.(webp|png|svg|jpe?g)/iu,
+      );
+      await expect(logos.first()).not.toHaveClass(/grayscale/u);
     });
 
     test('navigates home to equipment detail via catalog link', async ({ page }) => {

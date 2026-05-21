@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { CLIENT_LOGO_SEGMENTS, type ClientLogoSegment } from '@/data/client-logos';
+import { dedupeClientLogos } from '@/lib/client-logos-dedupe';
 
 const LOGO_EXTENSIONS = new Set(['.webp', '.png', '.svg', '.jpg', '.jpeg']);
 
@@ -53,7 +54,9 @@ export function listSegmentLogoFiles(segment: ClientLogoSegment): SegmentLogoFil
  * @returns Logos discovered on disk at build/request time (no sector grouping).
  */
 export function getAllClientLogos() {
-  return CLIENT_LOGO_SEGMENTS.flatMap((segment) => listSegmentLogoFiles(segment)).sort((a, b) =>
-    a.alt.localeCompare(b.alt, 'pt-BR'),
+  const sorted = CLIENT_LOGO_SEGMENTS.flatMap((segment) => listSegmentLogoFiles(segment)).sort(
+    (a, b) => a.alt.localeCompare(b.alt, 'pt-BR'),
   );
+
+  return dedupeClientLogos(sorted);
 }

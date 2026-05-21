@@ -1,4 +1,4 @@
-import { ClientLogoImage } from '@/components/marketing/ClientLogoImage';
+import { ClientLogosCarousel } from '@/components/marketing/ClientLogosCarousel';
 import { getAllClientLogos } from '@/lib/client-logos-fs';
 
 type ClientLogosSectionProps = {
@@ -35,16 +35,7 @@ export async function ClientLogosSection(props: ClientLogosSectionProps) {
             <code className="text-neutral-700">public/clientes/&lt;setor&gt;/</code>.
           </p>
         ) : (
-          <ul className="mt-10 flex min-h-[3.5rem] flex-wrap items-center justify-center gap-4 sm:gap-6">
-            {logos.map((logo) => (
-              <li
-                className="group flex items-center justify-center rounded-[var(--radius-card)] border border-neutral-200 bg-surface px-4 py-3 shadow-sm transition-colors hover:border-primary/40"
-                key={logo.src}
-              >
-                <ClientLogoImage alt={logo.alt} src={logo.src} />
-              </li>
-            ))}
-          </ul>
+          <ClientLogosCarousel logos={logos} />
         )}
 
         {props.footnote ? (

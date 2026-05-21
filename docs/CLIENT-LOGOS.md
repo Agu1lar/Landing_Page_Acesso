@@ -23,7 +23,8 @@ public/clientes/construcao/empreiteira-xyz.png
 ```
 
 - Nome do arquivo vira texto alternativo (`vale` → alt "vale").
-- A Home exibe **todas** as logos numa única faixa (sem título de setor).
+- A Home exibe **4 logos coloridas** por vez, em rotação a cada 5 s (sem título de setor).
+- Arquivos duplicados (mesmo nome em pastas diferentes) são deduplicados automaticamente.
 - Pastas vazias são ignoradas; basta ter arquivos em qualquer subpasta.
 
 Não é necessário editar `src/data/client-logos.ts` ao adicionar arquivos — a lista é lida do disco no build.
