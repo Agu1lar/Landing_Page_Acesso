@@ -4,7 +4,6 @@ import { getAllClientLogos } from '@/lib/client-logos-fs';
 type ClientLogosSectionProps = {
   title: string;
   subtitle: string;
-  footnote?: string;
 };
 
 /**
@@ -37,12 +36,6 @@ export async function ClientLogosSection(props: ClientLogosSectionProps) {
         ) : (
           <ClientLogosCarousel logos={logos} />
         )}
-
-        {props.footnote ? (
-          <p className="mx-auto mt-8 max-w-2xl text-center text-xs text-neutral-500">
-            {props.footnote}
-          </p>
-        ) : null}
       </div>
     </section>
   );

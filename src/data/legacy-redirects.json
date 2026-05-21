@@ -1,6 +1,6 @@
 {
   "generatedAt": "2026-05-21",
-  "source": "acessoequipamentos.com.br — Yoast sitemaps (post-sitemap.xml, page-sitemap.xml)",
+  "source": "acessoequipamentos.com.br — Yoast index: post, page, web-story, category, post_tag, author (2026-04)",
   "redirects": [
     {
       "source": "/blog",
@@ -143,6 +143,11 @@
       "sourcePrefix": "/wp-json",
       "destination": "/",
       "note": "API REST WP — não expor na landing"
+    },
+    {
+      "sourcePrefix": "/web-stories",
+      "destination": "/dicas",
+      "note": "Web Stories (web-story-sitemap.xml)"
     }
   ]
 }

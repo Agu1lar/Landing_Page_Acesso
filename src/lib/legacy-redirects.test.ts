@@ -40,6 +40,10 @@ describe('resolve legacy redirect', () => {
     expect(resolveLegacyRedirect('/category/plataformas/')).toBe('/equipamentos');
   });
 
+  it('redirects web stories prefix to dicas', () => {
+    expect(resolveLegacyRedirect('/web-stories/exemplo')).toBe('/dicas');
+  });
+
   it('returns null for unknown marketing path', () => {
     expect(resolveLegacyRedirect('/orcamento')).toBeNull();
   });

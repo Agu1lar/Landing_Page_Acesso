@@ -12,9 +12,13 @@ Preservar URLs indexadas no Google (posts de blog, landing pages WP) com **redir
 
 | Fonte | URL |
 |-------|-----|
-| Sitemap índice | `https://acessoequipamentos.com.br/wp-sitemap.xml` |
-| Posts | `post-sitemap.xml` (7 posts + `/blog/`) |
-| Páginas | `page-sitemap.xml` (16 páginas, exceto home duplicada) |
+| Sitemap índice | `https://acessoequipamentos.com.br/wp-sitemap.xml` (6 filhos) |
+| Posts | `post-sitemap.xml` — 7 posts + hub `/blog` |
+| Páginas | `page-sitemap.xml` — 16 páginas |
+| Web Stories | `web-story-sitemap.xml` → prefixo `/web-stories` → `/dicas` |
+| Categorias WP | `category-sitemap.xml` → prefixo `/category` → `/equipamentos` |
+| Tags WP | `post_tag-sitemap.xml` → prefixo `/tag` → `/equipamentos` |
+| Autores | `author-sitemap.xml` → prefixo `/author` → `/sobre` |
 
 Complementar antes do go-live: **Google Search Console** (top URLs por cliques, últimos 90–365 dias) e adicionar entradas faltantes em `src/data/legacy-redirects.json`.
 

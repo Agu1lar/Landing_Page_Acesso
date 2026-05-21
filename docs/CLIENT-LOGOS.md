@@ -31,7 +31,7 @@ Não é necessário editar `src/data/client-logos.ts` ao adicionar arquivos — 
 
 ## i18n
 
-Chaves em `Index`: `clients_title`, `clients_subtitle`, `clients_footnote`.
+Chaves em `Index`: `clients_title`, `clients_subtitle`.
 
 ## Jurídico
 
