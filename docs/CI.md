@@ -79,6 +79,10 @@ Abra o run → veja qual **job** falhou (ícone vermelho):
 | Build with db migrate | Falta `DATABASE_URL` / migrate ou env Clerk | `npm run build` com Postgres |
 | Run E2E tests | Playwright (formulário, 301, API leads) | `npm run test:e2e` |
 
+### Commitlint falha em PR do Dependabot
+
+Mensagens como `chore(deps): Bump the npm-deps group...` quebram a regra `subject-case`. O CI ignora commits de dependência e não roda commitlint quando o autor do PR é `dependabot[bot]`.
+
 ### **Crowdin Action** vermelho (não é o CI principal)
 
 Falta configurar `CROWDIN_PROJECT_ID` e `CROWDIN_PERSONAL_TOKEN` em **Secrets**, ou o projeto Crowdin não está ligado. Não bloqueia deploy na Vercel; pode ignorar até usar traduções automáticas.

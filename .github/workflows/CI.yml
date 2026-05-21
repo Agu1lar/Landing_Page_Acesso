@@ -106,7 +106,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - if: github.event_name == 'pull_request'
+      - if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
         name: Validate all commits from PR
         run: npx commitlint --from $BASE_SHA --to $HEAD_SHA --verbose
         env:
