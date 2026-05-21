@@ -18,6 +18,17 @@ test.describe('Marketing conversion flows', () => {
       await expect(page.getByText('Empresa desde 2013', { exact: true })).toBeVisible();
     });
 
+    test('displays dicas index with article links', async ({ page }) => {
+      await page.goto('/dicas');
+
+      await expect(
+        page.getByRole('heading', { name: 'Dicas para sua obra', level: 1 }),
+      ).toBeVisible();
+      await expect(
+        page.getByRole('link', { name: 'Como escolher plataforma elevatória para sua obra em BH' }),
+      ).toBeVisible();
+    });
+
     test('displays client logos in a single trust strip', async ({ page }) => {
       await page.goto('/');
 

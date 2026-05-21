@@ -36,6 +36,11 @@ export async function SiteFooter() {
               </Link>
             </li>
             <li>
+              <Link className="hover:text-white" href="/dicas">
+                {t('dicas_link')}
+              </Link>
+            </li>
+            <li>
               <Link className="hover:text-white" href="/sobre">
                 Sobre
               </Link>

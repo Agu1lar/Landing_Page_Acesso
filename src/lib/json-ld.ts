@@ -1,3 +1,4 @@
+import type { DicaArticle } from '@/data/dicas-articles';
 import type { FaqItem } from '@/data/faq';
 import { brand } from '@/lib/brand';
 import type { CategorySeoContent } from '@/lib/categories-seo';
@@ -329,6 +330,78 @@ export function buildFaqPageJsonLd(items: FaqItem[]) {
         { name: 'Início', path: '/' },
         { name: 'Perguntas frequentes', path },
       ]),
+    ],
+  };
+}
+
+/**
+ * BlogPosting schema for a /dicas article.
+ */
+export function buildDicaArticleJsonLd(article: DicaArticle) {
+  const baseUrl = getBaseUrl();
+  const path = `/dicas/${article.slug}`;
+  const url = `${baseUrl}${path}`;
+
+  return {
+    '@context': SCHEMA_CONTEXT,
+    '@graph': [
+      {
+        '@type': 'BlogPosting',
+        '@id': `${url}#article`,
+        headline: article.title,
+        description: article.metaDescription,
+        url,
+        datePublished: article.publishedAt,
+        inLanguage: 'pt-BR',
+        author: { '@id': `${baseUrl}/#organization` },
+        publisher: { '@id': `${baseUrl}/#organization` },
+        isPartOf: { '@id': `${baseUrl}/#website` },
+        mainEntityOfPage: url,
+      },
+      buildBreadcrumbListJsonLd([
+        { name: 'Início', path: '/' },
+        { name: 'Dicas', path: '/dicas' },
+        { name: article.title, path },
+      ]),
+    ],
+  };
+}
+
+/**
+ * CollectionPage schema for /dicas index.
+ */
+export function buildDicasIndexJsonLd(articles: DicaArticle[]) {
+  const baseUrl = getBaseUrl();
+  const path = '/dicas';
+  const url = `${baseUrl}${path}`;
+
+  return {
+    '@context': SCHEMA_CONTEXT,
+    '@graph': [
+      {
+        '@type': 'CollectionPage',
+        '@id': `${url}#collection`,
+        name: 'Dicas para locação de equipamentos',
+        description:
+          'Artigos sobre plataformas elevatórias, concretagem, andaimes e segurança em obras em Belo Horizonte.',
+        url,
+        inLanguage: 'pt-BR',
+        isPartOf: { '@id': `${baseUrl}/#website` },
+      },
+      buildBreadcrumbListJsonLd([
+        { name: 'Início', path: '/' },
+        { name: 'Dicas', path },
+      ]),
+      {
+        '@type': 'ItemList',
+        numberOfItems: articles.length,
+        itemListElement: articles.map((article, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          name: article.title,
+          url: `${baseUrl}/dicas/${article.slug}`,
+        })),
+      },
     ],
   };
 }

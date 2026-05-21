@@ -15,6 +15,7 @@ import {
   getEquipmentQuoteCartKind,
   getRelatedEquipment,
 } from '@/lib/equipment';
+import { getEquipmentSeoExtra } from '@/lib/equipment-seo-extra';
 import { buildEquipmentPageJsonLd } from '@/lib/json-ld';
 import { buildMarketingMetadata } from '@/lib/seo-metadata';
 import { Link } from '@/libs/I18nNavigation';
@@ -58,6 +59,7 @@ export default async function EquipmentDetailPage(props: EquipmentDetailProps) {
 
   const whatsappHref = buildEquipmentWhatsAppUrl(equipment);
   const related = getRelatedEquipment(slug);
+  const seoExtra = getEquipmentSeoExtra(equipment);
 
   return (
     <>
@@ -91,6 +93,19 @@ export default async function EquipmentDetailPage(props: EquipmentDetailProps) {
                 <p className="mt-2 text-sm leading-relaxed text-neutral-600">
                   {equipment.longDescription}
                 </p>
+              </section>
+            ) : null}
+
+            {seoExtra ? (
+              <section className="mt-8 max-w-prose">
+                <h2 className="font-heading text-lg font-semibold text-neutral-900">
+                  {seoExtra.title}
+                </h2>
+                <div className="mt-3 space-y-3 text-sm leading-relaxed text-neutral-600">
+                  {seoExtra.paragraphs.map((paragraph, index) => (
+                    <p key={index}>{paragraph}</p>
+                  ))}
+                </div>
               </section>
             ) : null}
 

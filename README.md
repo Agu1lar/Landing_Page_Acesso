@@ -127,7 +127,8 @@ Detalhamento por sprint em [ROADMAP.temp.md](ROADMAP.temp.md).
 | Alta | **301 do blog WordPress** — posts indexados no Google; mapa de URLs antes do DNS — [ROADMAP § 10.10](ROADMAP.temp.md#blog-wordpress--redirecionamentos-301-no-go-live) |
 | Baixa | **5 fotos** pendentes (lista acima) |
 | Alta | **CI completo (gate de produção)** — branch protection, `check:types`, E2E leads/orçamento, build+migrate — **antes** dos Sprints 12–13 — [ROADMAP § 8.7](ROADMAP.temp.md#sprint-87--ci-completo-gate-de-produção-prioridade-alta) |
-| Alta | **Casos de Sucesso** — logos por setor em `public/clientes/{setor}/` (PNG/WebP transparente) — [docs/CLIENT-LOGOS.md](docs/CLIENT-LOGOS.md) |
+| Alta | **Casos de Sucesso** — logos por setor em `public/clientes/{setor}/` — [docs/CLIENT-LOGOS.md](docs/CLIENT-LOGOS.md) |
+| Média | **Dicas / SEO** — `/dicas` (4 artigos) + textos long-tail nas fichas de equipamento |
 | Média | Polish Sprint 7 (a11y, skeletons, PageSpeed alvo) |
 | Planejado | **Sprints 12–13** — analytics avançado, dashboard executivo |
 | Planejado | **Sprints 14–15** — SEO por cidade, prova social ampliada |

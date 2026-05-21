@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { DICAS_ARTICLES } from '@/data/dicas-articles';
 import { FAQ_ITEMS } from '@/data/faq';
 import { brand } from '@/lib/brand';
 import { getCategorySeo } from '@/lib/categories-seo';
@@ -6,6 +7,8 @@ import {
   buildCategoryPageJsonLd,
   buildEquipmentCatalogJsonLd,
   buildEquipmentPageJsonLd,
+  buildDicaArticleJsonLd,
+  buildDicasIndexJsonLd,
   buildFaqPageJsonLd,
   buildLocalBusinessJsonLd,
   buildMarketingGraphJsonLd,
@@ -161,5 +164,22 @@ describe('build training course json-ld', () => {
     const graph = json['@graph'] as Record<string, unknown>[];
 
     expect(graph.some((node) => node['@type'] === 'Course')).toBeTruthy();
+  });
+});
+
+describe('build dicas json-ld', () => {
+  it('includes BlogPosting for article pages', () => {
+    const json = buildDicaArticleJsonLd(DICAS_ARTICLES[0]!);
+    const graph = json['@graph'] as Record<string, unknown>[];
+
+    expect(graph.some((node) => node['@type'] === 'BlogPosting')).toBeTruthy();
+  });
+
+  it('includes CollectionPage and ItemList for index', () => {
+    const json = buildDicasIndexJsonLd(DICAS_ARTICLES);
+    const graph = json['@graph'] as Record<string, unknown>[];
+
+    expect(graph.some((node) => node['@type'] === 'CollectionPage')).toBeTruthy();
+    expect(graph.some((node) => node['@type'] === 'ItemList')).toBeTruthy();
   });
 });

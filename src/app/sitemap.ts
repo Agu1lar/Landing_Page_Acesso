@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next';
+import { getAllDicaSlugs } from '@/data/dicas-articles';
 import { ALL_EQUIPMENT_CATEGORIES } from '@/lib/categories-seo';
 import { getAllSlugs } from '@/lib/equipment';
 import { getBaseUrl } from '@/utils/Helpers';
@@ -45,12 +46,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/contato',
     '/orcamento',
     '/faq',
+    '/dicas',
     '/privacidade',
   ];
 
   const categoryRoutes = ALL_EQUIPMENT_CATEGORIES.map((slug) => `/categorias/${slug}`);
   const equipmentRoutes = getAllSlugs().map((slug) => `/equipamentos/${slug}`);
-  const allRoutes = [...staticRoutes, ...categoryRoutes, ...equipmentRoutes];
+  const dicaRoutes = getAllDicaSlugs().map((slug) => `/dicas/${slug}`);
+  const allRoutes = [...staticRoutes, ...categoryRoutes, ...equipmentRoutes, ...dicaRoutes];
 
   return allRoutes.map((route) => ({
     url: `${baseUrl}${route}`,
