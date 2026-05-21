@@ -65,3 +65,28 @@ Configurar no GitHub (**Settings → Branches → Branch protection**):
 ## Adicionar redirect WordPress
 
 Ver [MIGRACAO-SEO-WP.md](./MIGRACAO-SEO-WP.md) — editar `src/data/legacy-redirects.json` e rodar testes.
+
+## Falhas comuns no GitHub Actions
+
+### Workflow **CI** vermelho
+
+Abra o run → veja qual **job** falhou (ícone vermelho):
+
+| Job | Causa frequente | Como verificar localmente |
+|-----|-----------------|---------------------------|
+| Run unit tests | Teste do boilerplate (`BaseTemplate`) desatualizado | `npm run test` |
+| Run static checks | `npm run lint` (~centenas de regras Ultracite) ou `check:deps` | `npm run lint` e `npm run check:deps` |
+| Build with db migrate | Falta `DATABASE_URL` / migrate ou env Clerk | `npm run build` com Postgres |
+| Run E2E tests | Playwright (formulário, 301, API leads) | `npm run test:e2e` |
+
+### **Crowdin Action** vermelho (não é o CI principal)
+
+Falta configurar `CROWDIN_PROJECT_ID` e `CROWDIN_PERSONAL_TOKEN` em **Secrets**, ou o projeto Crowdin não está ligado. Não bloqueia deploy na Vercel; pode ignorar até usar traduções automáticas.
+
+### **Checkly** vermelho (monitoramento pós-deploy)
+
+Disparado pelo **Vercel** após deploy. Falta `CHECKLY_API_KEY` / `CHECKLY_ACCOUNT_ID`, ou os checks no site de preview falharam. Separado do gate de merge em `main`.
+
+### Lint com muitos erros (dívida técnica)
+
+Se `Run static checks` falhar em **Linter** com centenas de erros, é dívida do boilerplate Ultracite no projeto inteiro — não só do último commit. Corrigir com `npm run lint:fix` e commits dedicados; não use `lint:fix` em massa sem revisar o diff (evita alterar `equipamentos.json` por engano).

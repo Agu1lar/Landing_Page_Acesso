@@ -12,7 +12,11 @@ type LegacyPrefixRedirectEntry = {
   note?: string;
 };
 
-/** Normalizes pathname for legacy lookup (lowercase, no trailing slash). */
+/**
+ * Normalizes pathname for legacy lookup (lowercase, no trailing slash).
+ * @param pathname Request pathname.
+ * @returns Normalized path without trailing slash.
+ */
 export function normalizeLegacyPathname(pathname: string) {
   const lower = pathname.toLowerCase();
   if (lower.length > 1 && lower.endsWith('/')) {
@@ -56,7 +60,10 @@ export function resolveLegacyRedirect(pathname: string) {
   return null;
 }
 
-/** Exposes redirect count for docs and tests. */
+/**
+ * Exposes redirect count for docs and tests.
+ * @returns Counts and metadata from the legacy redirect map.
+ */
 export function legacyRedirectStats() {
   return {
     exact: legacyRedirectsData.redirects.length,
