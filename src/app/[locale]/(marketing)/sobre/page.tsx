@@ -9,8 +9,8 @@ import {
   companySegments,
   companyServices,
 } from '@/data/company';
-import { getAllEquipment } from '@/lib/equipment';
 import { brand, buildWhatsAppMessage, buildWhatsAppUrl, seoTitle } from '@/lib/brand';
+import { getAllEquipment } from '@/lib/equipment';
 import { buildMarketingMetadata } from '@/lib/seo-metadata';
 import { Link } from '@/libs/I18nNavigation';
 import { resolveAppLocale } from '@/utils/locale';
@@ -71,9 +71,7 @@ export default async function SobrePage(props: PageProps) {
               key={stat.label}
             >
               <p className="font-heading text-2xl font-bold text-primary">
-                {stat.label === 'Equipamentos no catálogo'
-                  ? `${equipmentCount}+`
-                  : stat.value}
+                {stat.label === 'Equipamentos no catálogo' ? `${equipmentCount}+` : stat.value}
               </p>
               <p className="mt-1 text-sm text-neutral-600">{stat.label}</p>
             </div>
@@ -107,9 +105,7 @@ export default async function SobrePage(props: PageProps) {
 
       <section className="border-y border-neutral-200 bg-background-muted">
         <div className="mx-auto max-w-4xl px-4 py-14 sm:px-6 lg:px-8">
-          <h2 className="font-heading text-2xl font-bold text-neutral-900">
-            O que oferecemos
-          </h2>
+          <h2 className="font-heading text-2xl font-bold text-neutral-900">O que oferecemos</h2>
           <p className="mt-3 text-neutral-600">
             Catálogo completo com mais de {equipmentCount} itens para locação — consulte também a
             página de{' '}
@@ -171,8 +167,8 @@ export default async function SobrePage(props: PageProps) {
         <h2 className="font-heading text-2xl font-bold text-neutral-900">Onde atuamos</h2>
         <p className="mt-4 leading-relaxed text-neutral-600">
           Base em {brand.address.neighborhood}, {brand.address.city} — {brand.address.state}, com
-          atendimento à {brand.seoRegion} e cidades vizinhas. Realizamos entregas conforme
-          logística e tipo de equipamento acordado no orçamento.
+          atendimento à {brand.seoRegion} e cidades vizinhas. Realizamos entregas conforme logística
+          e tipo de equipamento acordado no orçamento.
         </p>
         <ul className="mt-8 grid gap-2 sm:grid-cols-2">
           {companySegments.map((segment) => (

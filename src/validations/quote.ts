@@ -44,27 +44,30 @@ export function normalizeQuotePayload(data: QuoteFormInput) {
 
   const cartItems = data.cartItems?.length ? data.cartItems : undefined;
   const equipmentSlug =
-    cartItems?.map((item) => item.slug).join(',').slice(0, 120) ||
-    data.equipmentSlug?.trim() ||
+    (cartItems
+      ?.map((item) => item.slug)
+      .join(',')
+      .slice(0, 120) ??
+    data.equipmentSlug?.trim()) ??
     undefined;
   const equipmentName =
-    cartItems
+    (cartItems
       ?.map((item) => (item.quantity > 1 ? `${item.name} (×${item.quantity})` : item.name))
       .join(' · ')
-      .slice(0, 300) ||
-    data.equipmentName?.trim() ||
+      .slice(0, 300) ??
+    data.equipmentName?.trim()) ??
     undefined;
 
   return {
     name: data.name.trim(),
     email: data.email.trim(),
     phone: data.phone.trim(),
-    company: data.company?.trim() || undefined,
+    company: data.company?.trim() ?? undefined,
     equipmentSlug,
     equipmentName,
     rentalPeriod: validPeriod,
     city: data.city.trim(),
-    message: data.message?.trim() || undefined,
+    message: data.message?.trim() ?? undefined,
     itemsJson: cartItems ? JSON.stringify(cartItems) : undefined,
     origin: data.origin?.trim() || 'site-orcamento',
     utmSource: data.attribution?.utmSource,

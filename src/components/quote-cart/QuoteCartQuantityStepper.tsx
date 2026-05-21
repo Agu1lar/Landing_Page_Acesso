@@ -30,7 +30,7 @@ export function QuoteCartQuantityStepper(props: QuoteCartQuantityStepperProps) {
         aria-label="Diminuir quantidade"
         className={`${buttonClass} rounded-l-lg font-medium text-neutral-700 hover:bg-neutral-100 disabled:opacity-40`}
         disabled={props.value <= QUOTE_CART_MIN_QUANTITY}
-        onClick={() => props.onChange(clamp(props.value - 1))}
+        onClick={() =>{  props.onChange(clamp(props.value - 1)); }}
         type="button"
       >
         −
@@ -55,7 +55,7 @@ export function QuoteCartQuantityStepper(props: QuoteCartQuantityStepperProps) {
         aria-label="Aumentar quantidade"
         className={`${buttonClass} rounded-r-lg font-medium text-neutral-700 hover:bg-neutral-100 disabled:opacity-40`}
         disabled={props.value >= QUOTE_CART_MAX_QUANTITY}
-        onClick={() => props.onChange(clamp(props.value + 1))}
+        onClick={() =>{  props.onChange(clamp(props.value + 1)); }}
         type="button"
       >
         +

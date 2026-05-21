@@ -5,7 +5,7 @@ import {
   parseUtmsFromSearch,
 } from '@/lib/attribution';
 
-describe('parseUtmsFromSearch', () => {
+describe('parse UTMs from search', () => {
   it('maps standard utm query keys', () => {
     const result = parseUtmsFromSearch('?utm_source=google&utm_medium=cpc&utm_campaign=obra');
     expect(result.utmSource).toBe('google');
@@ -14,7 +14,7 @@ describe('parseUtmsFromSearch', () => {
   });
 });
 
-describe('buildAttributionFromVisit', () => {
+describe('build attribution from visit', () => {
   it('includes referrer and landing path', () => {
     const result = buildAttributionFromVisit({
       search: '?utm_source=meta',
@@ -27,12 +27,12 @@ describe('buildAttributionFromVisit', () => {
   });
 });
 
-describe('hasAttributionData', () => {
+describe('has attribution data', () => {
   it('returns false for empty object', () => {
-    expect(hasAttributionData({})).toBe(false);
+    expect(hasAttributionData({})).toBeFalsy();
   });
 
   it('returns true when utm source is set', () => {
-    expect(hasAttributionData({ utmSource: 'google' })).toBe(true);
+    expect(hasAttributionData({ utmSource: 'google' })).toBeTruthy();
   });
 });

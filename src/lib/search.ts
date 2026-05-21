@@ -9,19 +9,15 @@ export type SearchableItem = {
 };
 
 export function normalizeSearchText(value: string): string {
-  return value
-    .normalize('NFD')
-    .replace(/\p{M}/gu, '')
-    .toLowerCase()
-    .trim();
+  return value.normalize('NFD').replaceAll(/\p{M}/gu, '').toLowerCase().trim();
 }
 
 export function buildSearchHaystack(item: SearchableItem): string {
   return normalizeSearchText(
     [
       item.name,
-      item.slug.replace(/-/g, ' '),
-      item.category.replace(/-/g, ' '),
+      item.slug.replaceAll('-', ' '),
+      item.category.replaceAll('-', ' '),
       CATEGORY_LABELS[item.category],
       ...item.tags,
     ].join(' '),
@@ -78,7 +74,7 @@ export function filterSearchItems<T extends SearchableItem>(
   return items
     .map((item) => ({ item, score: searchRelevance(item, query) }))
     .filter(({ score }) => score >= 0)
-    .sort((a, b) => b.score - a.score || a.item.name.localeCompare(b.item.name, 'pt-BR'))
+    .toSorted((a, b) => b.score - a.score || a.item.name.localeCompare(b.item.name, 'pt-BR'))
     .slice(0, limit)
     .map(({ item }) => item);
 }

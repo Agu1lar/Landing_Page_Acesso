@@ -46,7 +46,9 @@ export function EquipmentPhoto(props: EquipmentPhotoProps) {
 
   if (props.variant === 'card') {
     return (
-      <div className={`relative h-36 w-full overflow-hidden bg-neutral-100 ${props.className ?? ''}`}>
+      <div
+        className={`relative h-36 w-full overflow-hidden bg-neutral-100 ${props.className ?? ''}`}
+      >
         <Image
           alt={props.name}
           className="object-contain object-center p-1"

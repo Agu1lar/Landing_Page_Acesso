@@ -114,7 +114,7 @@ jobs:
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
 
       - name: Linter
-        run: npx next typegen && npm run lint
+        run: npm run lint
 
       - name: TypeScript check
         run: npm run check:types

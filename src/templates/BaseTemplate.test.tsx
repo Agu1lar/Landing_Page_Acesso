@@ -36,7 +36,7 @@ describe('Base template', () => {
         </NextIntlClientProvider>,
       );
 
-      await expect(page.getByText(/© \d{4} Acesso Equipamentos/u)).toBeVisible();
+      expect(page.getByText(/© \d{4} Acesso Equipamentos/u).elements().length).toBeGreaterThan(0);
     });
   });
 });

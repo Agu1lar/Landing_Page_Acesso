@@ -22,12 +22,12 @@ export function WhatsAppButton(props: WhatsAppButtonProps) {
       aria-label="Falar no WhatsApp"
       className="fixed right-4 bottom-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-cta-whatsapp text-white shadow-lg transition-transform hover:scale-105 hover:bg-cta-whatsapp-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta-whatsapp"
       href={href}
-      onClick={() =>
+      onClick={() =>{ 
         captureWhatsAppClick({
           origin: 'site-flutuante',
           equipmentSlug: props.equipmentSlug,
           equipmentName: props.equipmentName,
-        })
+        }); }
       }
       rel="noopener noreferrer"
       target="_blank"

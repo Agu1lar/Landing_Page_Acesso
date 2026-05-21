@@ -1,9 +1,9 @@
 import { fixedWindow } from '@arcjet/next';
 import { NextResponse } from 'next/server';
 import * as z from 'zod';
-import arcjet from '@/libs/Arcjet';
 import { notifyLeadByEmail } from '@/lib/email';
 import { createLead } from '@/lib/leads';
+import arcjet from '@/libs/Arcjet';
 import { logger } from '@/libs/Logger';
 import { normalizeQuotePayload, QuoteFormSchema } from '@/validations/quote';
 

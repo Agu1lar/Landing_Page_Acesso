@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { buildLeadsCsv, formatLeadCartItems, parseLeadCartItems } from '@/lib/leads-admin';
 
-describe(parseLeadCartItems, () => {
+describe('parse lead cart items', () => {
   it('parses valid cart json', () => {
     const items = parseLeadCartItems(
       JSON.stringify([{ slug: 'betoneira', name: 'Betoneira', kind: 'equipment', quantity: 2 }]),
@@ -15,7 +15,7 @@ describe(parseLeadCartItems, () => {
   });
 });
 
-describe(formatLeadCartItems, () => {
+describe('format lead cart items', () => {
   it('formats multiple lines with quantity', () => {
     const text = formatLeadCartItems(
       JSON.stringify([
@@ -28,7 +28,7 @@ describe(formatLeadCartItems, () => {
   });
 });
 
-describe(buildLeadsCsv, () => {
+describe('build leads csv', () => {
   it('prefixes utf-8 bom for excel', () => {
     const csv = buildLeadsCsv([
       {

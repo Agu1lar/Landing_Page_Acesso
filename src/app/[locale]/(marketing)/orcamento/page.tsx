@@ -46,9 +46,7 @@ export default async function OrcamentoPage(props: PageProps) {
       )}
 
       <OrcamentoFormSection
-        initialEquipment={
-          equipment ? { slug: equipment.slug, name: equipment.name } : undefined
-        }
+        initialEquipment={equipment ? { slug: equipment.slug, name: equipment.name } : undefined}
       />
     </div>
   );

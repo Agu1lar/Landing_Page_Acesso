@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { brand } from '@/lib/brand';
-import { getBaseUrl } from '@/utils/Helpers';
 import { getDefaultOgImages, withSiteOpenGraph } from '@/lib/site-metadata';
+import { getBaseUrl } from '@/utils/Helpers';
 
 export type MarketingMetadataInput = {
   title: string;

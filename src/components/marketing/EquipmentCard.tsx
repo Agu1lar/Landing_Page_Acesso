@@ -10,7 +10,7 @@ type EquipmentCardProps = {
 };
 
 export function EquipmentCard(props: EquipmentCardProps) {
-  const equipment = props.equipment;
+  const {equipment} = props;
 
   return (
     <article className="group flex flex-col overflow-hidden rounded-[var(--radius-card)] border border-neutral-200 bg-surface shadow-sm transition-shadow hover:shadow-md">

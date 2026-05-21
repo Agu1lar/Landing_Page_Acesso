@@ -35,14 +35,16 @@ export function OrcamentoFormSection(props: OrcamentoFormSectionProps) {
         <QuoteCartPanel showCheckoutHint />
         <QuoteForm
           initialEquipment={props.initialEquipment}
-          onSuccess={() => setSubmitted(true)}
+          onSuccess={() =>{  setSubmitted(true); }}
           origin="site-orcamento"
         />
       </div>
 
       {!submitted ? (
         <aside className="mt-10 rounded-[var(--radius-card)] border border-neutral-200 bg-background-muted p-6">
-          <h2 className="font-heading text-lg font-semibold text-neutral-900">Prefere falar agora?</h2>
+          <h2 className="font-heading text-lg font-semibold text-neutral-900">
+            Prefere falar agora?
+          </h2>
           <p className="mt-2 text-sm text-neutral-600">
             Preencha o formulário e use <strong>Enviar orçamento pelo WhatsApp</strong> — a mensagem
             sai em seu nome para o comercial. Ou contato direto:{' '}

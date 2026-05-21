@@ -1,7 +1,7 @@
 'use client';
 
-import { Link } from '@/libs/I18nNavigation';
 import { useQuoteCart } from '@/components/quote-cart/QuoteCartProvider';
+import { Link } from '@/libs/I18nNavigation';
 
 type QuoteCartNavLinkProps = {
   label: string;

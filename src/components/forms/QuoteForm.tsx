@@ -3,6 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import type * as z from 'zod';
 import { useQuoteCart } from '@/components/quote-cart/QuoteCartProvider';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -11,7 +12,6 @@ import { Textarea } from '@/components/ui/Textarea';
 import { readStoredAttribution } from '@/lib/attribution';
 import { brand } from '@/lib/brand';
 import { buildQuoteWhatsAppUrl } from '@/lib/quote-whatsapp';
-import * as z from 'zod';
 import { QuoteFormSchema, rentalPeriodOptions } from '@/validations/quote';
 
 type QuoteFormProps = {
@@ -59,7 +59,7 @@ export function QuoteForm(props: QuoteFormProps) {
     },
   });
 
-  const resolveCartItems = (data: z.infer<typeof QuoteFormSchema>) => {
+  const resolveCartItems = () => {
     if (cart.items.length > 0) {
       return cart.items;
     }
@@ -73,9 +73,6 @@ export function QuoteForm(props: QuoteFormProps) {
         },
       ];
     }
-    if (data.equipmentName?.trim()) {
-      return undefined;
-    }
     return undefined;
   };
 
@@ -83,7 +80,7 @@ export function QuoteForm(props: QuoteFormProps) {
     setServerError(null);
     setIsSubmitting(true);
 
-    const cartItems = resolveCartItems(data);
+    const cartItems = resolveCartItems();
 
     if (!cartItems?.length && !data.equipmentName?.trim()) {
       setServerError('Adicione itens ao orçamento no catálogo ou informe um equipamento.');
@@ -117,10 +114,10 @@ export function QuoteForm(props: QuoteFormProps) {
       name: data.name.trim(),
       email: data.email.trim(),
       phone: data.phone.trim(),
-      company: data.company?.trim() || undefined,
+      company: data.company?.trim() ?? undefined,
       city: data.city.trim(),
-      rentalPeriod: data.rentalPeriod?.trim() || undefined,
-      message: data.message?.trim() || undefined,
+      rentalPeriod: data.rentalPeriod?.trim() ?? undefined,
+      message: data.message?.trim() ?? undefined,
       cartItems,
       equipmentName: cartItems?.[0]?.name ?? data.equipmentName?.trim(),
       origin,
@@ -228,11 +225,15 @@ export function QuoteForm(props: QuoteFormProps) {
         />
       ) : null}
 
-      <Select error={errors.rentalPeriod?.message} label="Período de locação" {...register('rentalPeriod')}>
+      <Select
+        error={errors.rentalPeriod?.message}
+        label="Período de locação"
+        {...register('rentalPeriod')}
+      >
         <option value="">Selecione…</option>
         {rentalPeriodOptions.map((value) => (
           <option key={value} value={value}>
-            {periodLabels[value as keyof typeof periodLabels]}
+            {periodLabels[value]}
           </option>
         ))}
       </Select>

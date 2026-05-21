@@ -10,7 +10,11 @@ function priorityForRoute(route: string) {
   if (route.startsWith('/categorias/')) {
     return 0.9;
   }
-  if (route === '/equipamentos' || route === '/orcamento' || route === '/treinamento-plataformas-aereas') {
+  if (
+    route === '/equipamentos' ||
+    route === '/orcamento' ||
+    route === '/treinamento-plataformas-aereas'
+  ) {
     return 0.85;
   }
   if (route.startsWith('/equipamentos/')) {

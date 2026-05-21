@@ -8,7 +8,7 @@ Pipeline em [`.github/workflows/CI.yml`](../.github/workflows/CI.yml). Objetivo:
 |-----|----------------|
 | **Build with 22.x / 24.x** | `npm run build-local` (Next + PGlite em memória) |
 | **Build with db migrate** | `npm run build` — mesmo caminho da Vercel (`db:migrate` + `next build`) |
-| **Run static checks** | `lint`, `check:types`, `check:deps`, `check:i18n`, commitlint (PR) |
+| **Run static checks** | `lint` (oxlint, erros only), `check:types`, `check:deps`, `check:i18n`, commitlint (PR) |
 | **Run unit tests** | Vitest + coverage (thresholds em `quote-whatsapp`, `leads-admin`) |
 | **Run E2E tests** | Playwright — marketing, **301 legado**, **API leads** |
 
@@ -87,6 +87,18 @@ Falta configurar `CROWDIN_PROJECT_ID` e `CROWDIN_PERSONAL_TOKEN` em **Secrets**,
 
 Disparado pelo **Vercel** após deploy. Falta `CHECKLY_API_KEY` / `CHECKLY_ACCOUNT_ID`, ou os checks no site de preview falharam. Separado do gate de merge em `main`.
 
-### Lint com muitos erros (dívida técnica)
+### Por que o CI ficou vermelho por meses
 
-Se `Run static checks` falhar em **Linter** com centenas de erros, é dívida do boilerplate Ultracite no projeto inteiro — não só do último commit. Corrigir com `npm run lint:fix` e commits dedicados; não use `lint:fix` em massa sem revisar o diff (evita alterar `equipamentos.json` por engano).
+O job **Run static checks → Linter** rodava `ultracite check --type-aware --type-check`, que falha com **centenas de avisos** (JSDoc, regras Vitest, etc.) — não só erros reais. Por isso **CI #3 até #27** aparecem com X vermelho mesmo em commits antigos.
+
+**Correção (2026-05-21):** `npm run lint` passou a usar `oxlint` (falha só em **error**). `check:types` continua no CI em passo separado. Avisos de JSDoc estão como `warn` em `oxlint.config.ts` para ir limpando aos poucos.
+
+### Lint local
+
+```bash
+npm run lint          # oxlint (gate do CI)
+npm run lint:fix      # ultracite fix (formato + auto-fix)
+npm run check:types   # TypeScript
+```
+
+Registro completo de avisos históricos: `docs/CI-lint-report.txt`.

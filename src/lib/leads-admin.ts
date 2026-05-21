@@ -1,9 +1,9 @@
 import { and, desc, eq, gte, ilike, lte, or, sql } from 'drizzle-orm';
 import type { InferSelectModel } from 'drizzle-orm';
 import * as z from 'zod';
+import type { LeadStatus } from '@/lib/lead-status';
 import { db } from '@/libs/DB';
 import { leadsSchema } from '@/models/Schema';
-import type { LeadStatus } from '@/lib/lead-status';
 import { QuoteCartItemSchema } from '@/validations/quote';
 import type { QuoteCartItemInput } from '@/validations/quote';
 

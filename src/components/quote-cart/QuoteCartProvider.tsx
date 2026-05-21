@@ -1,11 +1,8 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
-import {
-  QUOTE_CART_MAX_QUANTITY,
-  QUOTE_CART_MIN_QUANTITY,
-  type QuoteCartItem,
-} from '@/types/quote-cart';
+import { QUOTE_CART_MAX_QUANTITY, QUOTE_CART_MIN_QUANTITY } from '@/types/quote-cart';
+import type { QuoteCartItem } from '@/types/quote-cart';
 
 const STORAGE_KEY = 'acesso-quote-cart-v2';
 

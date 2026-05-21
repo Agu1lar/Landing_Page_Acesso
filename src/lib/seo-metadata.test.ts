@@ -1,14 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import { buildCanonicalUrl, buildMarketingMetadata } from '@/lib/seo-metadata';
 
-describe('buildCanonicalUrl', () => {
+describe('build canonical url', () => {
   it('normalizes path with leading slash', () => {
     const url = buildCanonicalUrl('/equipamentos');
     expect(url).toContain('/equipamentos');
   });
 });
 
-describe('buildMarketingMetadata', () => {
+describe('build marketing metadata', () => {
   it('sets canonical, robots and openGraph url', () => {
     const meta = buildMarketingMetadata({
       title: 'Test title',

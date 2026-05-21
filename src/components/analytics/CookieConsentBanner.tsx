@@ -1,9 +1,9 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { useAnalyticsConsent } from '@/components/analytics/AnalyticsConsentContext';
 import { Button } from '@/components/ui/Button';
 import { Link } from '@/libs/I18nNavigation';
-import { useAnalyticsConsent } from '@/components/analytics/AnalyticsConsentContext';
 
 /**
  * Bottom banner to accept or reject analytics cookies (PostHog).

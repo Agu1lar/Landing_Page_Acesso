@@ -1,7 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { legacyRedirectStats, normalizeLegacyPathname, resolveLegacyRedirect } from './legacy-redirects';
+import {
+  legacyRedirectStats,
+  normalizeLegacyPathname,
+  resolveLegacyRedirect,
+} from './legacy-redirects';
 
-describe('normalizeLegacyPathname', () => {
+describe('normalize legacy pathname', () => {
   it('removes trailing slash from path', () => {
     expect(normalizeLegacyPathname('/blog/')).toBe('/blog');
   });
@@ -11,7 +15,7 @@ describe('normalizeLegacyPathname', () => {
   });
 });
 
-describe('resolveLegacyRedirect', () => {
+describe('resolve legacy redirect', () => {
   it('redirects blog index to faq', () => {
     expect(resolveLegacyRedirect('/blog/')).toBe('/faq');
   });
@@ -41,7 +45,7 @@ describe('resolveLegacyRedirect', () => {
   });
 });
 
-describe('legacyRedirectStats', () => {
+describe('legacy redirect stats', () => {
   it('lists configured redirect counts', () => {
     const stats = legacyRedirectStats();
     expect(stats.exact).toBeGreaterThanOrEqual(20);

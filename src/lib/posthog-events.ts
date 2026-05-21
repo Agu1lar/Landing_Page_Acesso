@@ -19,7 +19,6 @@ export function captureWhatsAppClick(input: WhatsAppClickInput) {
     origin: input.origin,
     equipment_slug: input.equipmentSlug,
     equipment_name: input.equipmentName,
-    pathname:
-      typeof window !== 'undefined' ? window.location.pathname : undefined,
+    pathname: typeof window === 'undefined' ? undefined : window.location.pathname,
   });
 }

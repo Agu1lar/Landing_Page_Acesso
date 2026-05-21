@@ -66,12 +66,12 @@ export function buildAttributionFromVisit(options: {
  */
 export function hasAttributionData(attribution: AttributionInput) {
   return Boolean(
-    attribution.utmSource ||
-      attribution.utmMedium ||
-      attribution.utmCampaign ||
-      attribution.utmContent ||
-      attribution.utmTerm ||
-      attribution.referrer ||
+    attribution.utmSource ??
+      attribution.utmMedium ??
+      attribution.utmCampaign ??
+      attribution.utmContent ??
+      attribution.utmTerm ??
+      attribution.referrer ??
       attribution.landingPage,
   );
 }

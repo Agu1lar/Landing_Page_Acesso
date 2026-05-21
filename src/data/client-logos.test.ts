@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { CLIENT_LOGOS } from '@/data/client-logos';
 
-describe('CLIENT_LOGOS', () => {
+describe('client logos list', () => {
   it('lists at least six trust badges for the home section', () => {
     expect(CLIENT_LOGOS.length).toBeGreaterThanOrEqual(6);
   });

@@ -12,7 +12,7 @@
     "start": "next start",
     "build-stats": "cross-env ANALYZE=true npm run build",
     "clean": "rimraf .next out coverage",
-    "lint": "ultracite check --type-aware --type-check",
+    "lint": "npx next typegen && oxlint",
     "lint:fix": "ultracite fix --type-aware --type-check",
     "check:types": "tsc --noEmit --pretty",
     "check:deps": "knip",

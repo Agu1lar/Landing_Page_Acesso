@@ -7,10 +7,10 @@ import { StepsSection } from '@/components/marketing/StepsSection';
 import { TestimonialsSection } from '@/components/marketing/TestimonialsSection';
 import { buildWhatsAppMessage, buildWhatsAppUrl } from '@/lib/brand';
 import { getFeaturedEquipment } from '@/lib/equipment';
+import { buildMarketingMetadata } from '@/lib/seo-metadata';
 import { Link } from '@/libs/I18nNavigation';
 import { CATEGORY_LABELS } from '@/types/equipment';
 import type { EquipmentCategory } from '@/types/equipment';
-import { buildMarketingMetadata } from '@/lib/seo-metadata';
 import { resolveAppLocale } from '@/utils/locale';
 
 const categories: EquipmentCategory[] = [
@@ -120,7 +120,7 @@ export default async function HomePage(props: IndexPageProps) {
       <section className="border-y border-primary/20 bg-primary-light">
         <div className="mx-auto flex max-w-7xl flex-col items-start gap-6 px-4 py-12 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
           <div className="max-w-2xl">
-            <p className="text-sm font-semibold uppercase tracking-wider text-primary">
+            <p className="text-sm font-semibold tracking-wider text-primary uppercase">
               Capacitação
             </p>
             <h2 className="mt-2 font-heading text-2xl font-bold text-neutral-900">

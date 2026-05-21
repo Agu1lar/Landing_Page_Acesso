@@ -1,5 +1,5 @@
-import type { AttributionInput } from '@/lib/attribution';
 import type { PostHog } from 'posthog-js';
+import type { AttributionInput } from '@/lib/attribution';
 
 /**
  * Maps first-touch attribution to PostHog super properties (snake_case).

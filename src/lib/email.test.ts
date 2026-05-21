@@ -35,13 +35,13 @@ const sampleLead = {
   createdAt: new Date('2026-05-19'),
 };
 
-describe('notifyLeadByEmail', () => {
+describe('notify lead by email', () => {
   afterEach(() => {
     vi.unstubAllGlobals();
   });
 
   it('skips Resend call when API key is missing', async () => {
-    const fetchMock = vi.fn();
+    const fetchMock = vi.fn<() => Promise<Response>>();
     vi.stubGlobal('fetch', fetchMock);
 
     await notifyLeadByEmail(sampleLead);

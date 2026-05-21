@@ -3,7 +3,8 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
-import { LEAD_STATUSES, type LeadStatus } from '@/lib/lead-status';
+import { LEAD_STATUSES } from '@/lib/lead-status';
+import type { LeadStatus } from '@/lib/lead-status';
 
 type LeadStatusFormProps = {
   leadId: number;

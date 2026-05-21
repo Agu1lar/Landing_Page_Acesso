@@ -31,10 +31,7 @@ export function GlobalSearch({ index, className = '', id, compact = false }: Glo
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const results = useMemo(
-    () => filterSearchItems(index, query, 8),
-    [index, query],
-  );
+  const results = useMemo(() => filterSearchItems(index, query, 8), [index, query]);
 
   const goToAll = useCallback(() => {
     const q = query.trim();
@@ -66,7 +63,9 @@ export function GlobalSearch({ index, className = '', id, compact = false }: Glo
       }
     };
     window.addEventListener('keydown', onKeyDown);
-    return () =>{  window.removeEventListener('keydown', onKeyDown); };
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+    };
   }, []);
 
   useEffect(() => {
@@ -76,7 +75,9 @@ export function GlobalSearch({ index, className = '', id, compact = false }: Glo
       }
     };
     document.addEventListener('mousedown', onPointerDown);
-    return () =>{  document.removeEventListener('mousedown', onPointerDown); };
+    return () => {
+      document.removeEventListener('mousedown', onPointerDown);
+    };
   }, []);
 
   const onKeyDown = (e: React.KeyboardEvent) => {
@@ -119,13 +120,14 @@ export function GlobalSearch({ index, className = '', id, compact = false }: Glo
             setOpen(true);
             setActiveIndex(0);
           }}
-          onFocus={() =>{  setOpen(true); }}
+          onFocus={() => {
+            setOpen(true);
+          }}
           onKeyDown={onKeyDown}
           placeholder={t('placeholder')}
           type="search"
           value={query}
           autoComplete="off"
-          
           aria-expanded={open && query.trim().length > 0}
           aria-controls={listId}
           aria-autocomplete="list"
@@ -150,8 +152,12 @@ export function GlobalSearch({ index, className = '', id, compact = false }: Glo
               <li key={item.slug} role="option" aria-selected={i === activeIndex}>
                 <button
                   className={`flex w-full flex-col gap-0.5 px-4 py-2.5 text-left text-sm transition-colors hover:bg-background-muted ${i === activeIndex ? 'bg-primary-light' : ''}`}
-                  onMouseDown={(e) =>{  e.preventDefault(); }}
-                  onClick={() =>{  goToItem(item.slug); }}
+                  onMouseDown={(e) => {
+                    e.preventDefault();
+                  }}
+                  onClick={() => {
+                    goToItem(item.slug);
+                  }}
                   type="button"
                 >
                   <span className="font-medium text-neutral-900">{item.name}</span>
@@ -163,7 +169,9 @@ export function GlobalSearch({ index, className = '', id, compact = false }: Glo
           <li className="border-t border-neutral-100">
             <button
               className="w-full px-4 py-2.5 text-left text-sm font-medium text-primary hover:bg-background-muted"
-              onMouseDown={(e) =>{  e.preventDefault(); }}
+              onMouseDown={(e) => {
+                e.preventDefault();
+              }}
               onClick={goToAll}
               type="button"
             >

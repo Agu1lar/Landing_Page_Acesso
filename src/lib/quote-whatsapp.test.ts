@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { buildQuoteWhatsAppMessage, buildQuoteWhatsAppUrl } from '@/lib/quote-whatsapp';
 
-describe('buildQuoteWhatsAppMessage', () => {
+describe('build quote WhatsApp message', () => {
   it('includes cart items with quantity and contact fields', () => {
     const message = buildQuoteWhatsAppMessage({
       name: 'Maria Silva',
@@ -9,9 +9,7 @@ describe('buildQuoteWhatsAppMessage', () => {
       phone: '(31) 99999-0000',
       city: 'Belo Horizonte',
       rentalPeriod: 'semanal',
-      cartItems: [
-        { slug: 'betoneira', name: 'Betoneira', kind: 'equipment', quantity: 2 },
-      ],
+      cartItems: [{ slug: 'betoneira', name: 'Betoneira', kind: 'equipment', quantity: 2 }],
       origin: 'site-orcamento',
     });
 
@@ -21,7 +19,7 @@ describe('buildQuoteWhatsAppMessage', () => {
   });
 });
 
-describe('buildQuoteWhatsAppUrl', () => {
+describe('build quote WhatsApp url', () => {
   it('encodes message for wa.me link', () => {
     const url = buildQuoteWhatsAppUrl({
       name: 'João',

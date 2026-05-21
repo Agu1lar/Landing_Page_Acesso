@@ -97,7 +97,7 @@ export function SiteHeader({ searchIndex }: SiteHeaderProps) {
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    return () =>{  window.removeEventListener('scroll', onScroll); };
   }, [evaluateScroll]);
 
   useLayoutEffect(() => {
@@ -142,7 +142,7 @@ export function SiteHeader({ searchIndex }: SiteHeaderProps) {
 
       <header
         ref={headerRef}
-        className={`left-0 right-0 z-40 w-full border-b border-neutral-200 bg-surface/95 shadow-[var(--shadow-header)] backdrop-blur-sm [overflow-anchor:none] ${
+        className={`right-0 left-0 z-40 w-full border-b border-neutral-200 bg-surface/95 shadow-[var(--shadow-header)] backdrop-blur-sm [overflow-anchor:none] ${
           compact ? 'fixed top-0' : 'sticky top-0'
         }`}
       >
@@ -167,10 +167,7 @@ export function SiteHeader({ searchIndex }: SiteHeaderProps) {
             </div>
           </Link>
 
-          <div
-            className="flex min-w-0 items-center"
-            style={{ gridArea: 'search' }}
-          >
+          <div className="flex min-w-0 items-center" style={{ gridArea: 'search' }}>
             <GlobalSearch
               className="w-full"
               compact={compact}

@@ -26,7 +26,7 @@ const equipment: Equipment = {
   available: true,
 };
 
-describe('buildMarketingGraphJsonLd', () => {
+describe('build marketing graph json-ld', () => {
   it('includes Organization, LocalBusiness and WebSite with SearchAction', () => {
     const json = buildMarketingGraphJsonLd();
     const graph = json['@graph'] as Record<string, unknown>[];
@@ -42,8 +42,9 @@ describe('buildMarketingGraphJsonLd', () => {
   });
 });
 
-describe('buildLocalBusinessJsonLd', () => {
+describe('build local business json-ld', () => {
   it('includes NAP fields aligned with brand', () => {
+    // Deprecated export kept for backward compatibility in tests
     const json = buildLocalBusinessJsonLd();
 
     expect(json['@type']).toBe('LocalBusiness');
@@ -53,7 +54,7 @@ describe('buildLocalBusinessJsonLd', () => {
   });
 });
 
-describe('buildProductJsonLd', () => {
+describe('build product json-ld', () => {
   it('maps equipment to Product schema with sku and offer', () => {
     const json = buildProductJsonLd(equipment);
 
@@ -67,7 +68,7 @@ describe('buildProductJsonLd', () => {
   });
 });
 
-describe('buildEquipmentPageJsonLd', () => {
+describe('build equipment page json-ld', () => {
   it('combines Product and BreadcrumbList in a graph', () => {
     const json = buildEquipmentPageJsonLd(equipment);
     const graph = json['@graph'] as Record<string, unknown>[];
@@ -77,7 +78,7 @@ describe('buildEquipmentPageJsonLd', () => {
   });
 });
 
-describe('buildCategoryPageJsonLd', () => {
+describe('build category page json-ld', () => {
   it('exposes CollectionPage, BreadcrumbList and ItemList', () => {
     const seo = getCategorySeo('concretagem');
     const json = buildCategoryPageJsonLd({
@@ -97,7 +98,7 @@ describe('buildCategoryPageJsonLd', () => {
   });
 });
 
-describe('buildEquipmentCatalogJsonLd', () => {
+describe('build equipment catalog json-ld', () => {
   it('lists catalog items in ItemList', () => {
     const json = buildEquipmentCatalogJsonLd([equipment]);
     const graph = json['@graph'] as Record<string, unknown>[];
@@ -109,7 +110,7 @@ describe('buildEquipmentCatalogJsonLd', () => {
   });
 });
 
-describe('buildFaqPageJsonLd', () => {
+describe('build faq page json-ld', () => {
   it('maps FAQ items to Question entities', () => {
     const json = buildFaqPageJsonLd(FAQ_ITEMS.slice(0, 2));
     const graph = json['@graph'] as Record<string, unknown>[];
@@ -121,7 +122,7 @@ describe('buildFaqPageJsonLd', () => {
   });
 });
 
-describe('buildTrainingCourseJsonLd', () => {
+describe('build training course json-ld', () => {
   it('includes Course schema with provider', () => {
     const json = buildTrainingCourseJsonLd();
     const graph = json['@graph'] as Record<string, unknown>[];

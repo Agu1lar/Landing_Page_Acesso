@@ -1,16 +1,12 @@
 'use client';
 
 import { Suspense, useEffect, useState } from 'react';
+import { AnalyticsConsentContext } from '@/components/analytics/AnalyticsConsentContext';
+import { CookieConsentBanner } from '@/components/analytics/CookieConsentBanner';
 import { PostHogAttributionSync } from '@/components/analytics/PostHogAttributionSync';
 import { PostHogPageView } from '@/components/analytics/PostHogPageView';
-import { CookieConsentBanner } from '@/components/analytics/CookieConsentBanner';
-import { AnalyticsConsentContext } from '@/components/analytics/AnalyticsConsentContext';
-import {
-  COOKIE_CONSENT_STORAGE_KEY,
-  type CookieConsentStatus,
-  type CookieConsentValue,
-  parseConsentValue,
-} from '@/lib/cookie-consent';
+import { COOKIE_CONSENT_STORAGE_KEY, parseConsentValue } from '@/lib/cookie-consent';
+import type { CookieConsentStatus, CookieConsentValue } from '@/lib/cookie-consent';
 import { initPostHog } from '@/lib/posthog-client';
 
 type AnalyticsConsentProviderProps = {

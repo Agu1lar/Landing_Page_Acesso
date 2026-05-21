@@ -1,8 +1,8 @@
 import { AnalyticsConsentProvider } from '@/components/analytics/AnalyticsConsentProvider';
-import { AttributionCapture } from '@/components/marketing/AttributionCapture';
 import { SiteFooter } from '@/components/layout/SiteFooter';
 import { SiteHeader } from '@/components/layout/SiteHeader';
 import { WhatsAppButton } from '@/components/layout/WhatsAppButton';
+import { AttributionCapture } from '@/components/marketing/AttributionCapture';
 import { QuoteCartProvider } from '@/components/quote-cart/QuoteCartProvider';
 import { getSearchIndex } from '@/lib/equipment';
 
@@ -10,7 +10,7 @@ type MarketingShellProps = {
   children: React.ReactNode;
 };
 
-export async function MarketingShell(props: MarketingShellProps) {
+export function MarketingShell(props: MarketingShellProps) {
   const searchIndex = getSearchIndex();
 
   return (

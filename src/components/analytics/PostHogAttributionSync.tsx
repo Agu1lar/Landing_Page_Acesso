@@ -1,11 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import {
-  hasAttributionData,
-  parseUtmsFromSearch,
-  readStoredAttribution,
-} from '@/lib/attribution';
+import { hasAttributionData, parseUtmsFromSearch, readStoredAttribution } from '@/lib/attribution';
 import { registerPostHogAttribution } from '@/lib/posthog-attribution';
 import { getPostHog, initPostHog } from '@/lib/posthog-client';
 

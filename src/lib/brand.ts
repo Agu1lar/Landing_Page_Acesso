@@ -38,11 +38,12 @@ export function buildWhatsAppMessage(
       ? { equipmentName: equipmentOrOptions, origin: legacyOrigin ?? 'site' }
       : { origin: 'site', ...equipmentOrOptions };
 
-  const item = options.equipmentName
-    ? ` na locação de ${options.equipmentName}`
-    : options.topic
-      ? ` sobre ${options.topic}`
-      : ' em equipamentos para minha obra';
+  let item = ' em equipamentos para minha obra';
+  if (options.equipmentName) {
+    item = ` na locação de ${options.equipmentName}`;
+  } else if (options.topic) {
+    item = ` sobre ${options.topic}`;
+  }
   const ref = options.equipmentSlug ? ` Ref.: ${options.equipmentSlug}.` : '';
   const origin = options.origin ?? 'site';
 

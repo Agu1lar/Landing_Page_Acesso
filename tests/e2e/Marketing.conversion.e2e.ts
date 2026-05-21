@@ -21,7 +21,10 @@ test.describe('Marketing conversion flows', () => {
     test('navigates home to equipment detail via catalog link', async ({ page }) => {
       await page.goto('/equipamentos');
 
-      await page.getByRole('link', { name: /betoneira/i }).first().click();
+      await page
+        .getByRole('link', { name: /betoneira/i })
+        .first()
+        .click();
 
       await expect(page).toHaveURL(/\/equipamentos\/betoneira/u);
       await expect(page.getByRole('heading', { level: 1 })).toContainText(/betoneira/i);

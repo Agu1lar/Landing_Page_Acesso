@@ -4,7 +4,8 @@ import { notFound } from 'next/navigation';
 import { LeadNotesForm } from '@/components/admin/LeadNotesForm';
 import { LeadStatusForm } from '@/components/admin/LeadStatusForm';
 import { Button } from '@/components/ui/Button';
-import { LEAD_STATUSES, type LeadStatus } from '@/lib/lead-status';
+import { LEAD_STATUSES } from '@/lib/lead-status';
+import type { LeadStatus } from '@/lib/lead-status';
 import { formatLeadCartItems, getLeadById, parseLeadCartItems } from '@/lib/leads-admin';
 import { Link } from '@/libs/I18nNavigation';
 import { resolveAppLocale } from '@/utils/locale';
@@ -182,11 +183,7 @@ export default async function LeadDetailPage(props: LeadDetailPageProps) {
         </section>
       )}
 
-      {lead.utmSource ||
-      lead.utmMedium ||
-      lead.utmCampaign ||
-      lead.referrer ||
-      lead.landingPage ? (
+      {lead.utmSource || lead.utmMedium || lead.utmCampaign || lead.referrer || lead.landingPage ? (
         <section className="rounded-lg border border-neutral-200 bg-surface p-4">
           <h2 className="font-semibold text-neutral-900">{t('section_attribution')}</h2>
           <dl className="mt-3 grid gap-2 text-sm sm:grid-cols-2">

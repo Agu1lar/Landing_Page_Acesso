@@ -45,10 +45,11 @@ export function buildQuoteWhatsAppMessage(payload: QuoteWhatsAppPayload) {
   lines.push('', `*Cidade da obra:* ${payload.city.trim()}`);
 
   if (payload.rentalPeriod) {
-    const label =
-      rentalPeriodOptions.includes(payload.rentalPeriod as (typeof rentalPeriodOptions)[number])
-        ? periodLabels[payload.rentalPeriod as keyof typeof periodLabels]
-        : payload.rentalPeriod;
+    const label = rentalPeriodOptions.includes(
+      payload.rentalPeriod as (typeof rentalPeriodOptions)[number],
+    )
+      ? periodLabels[payload.rentalPeriod as keyof typeof periodLabels]
+      : payload.rentalPeriod;
     lines.push(`*Período de locação:* ${label}`);
   }
 

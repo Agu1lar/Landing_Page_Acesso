@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
-import { JsonLd } from '@/components/seo/JsonLd';
 import { ConversionCtas } from '@/components/marketing/ConversionCtas';
 import { FaqAccordion } from '@/components/marketing/FaqAccordion';
+import { JsonLd } from '@/components/seo/JsonLd';
 import {
   TRAINING_AUDIENCE,
   TRAINING_BENEFITS,
@@ -74,17 +74,17 @@ export default async function TreinamentoPlataformasPage(props: PageProps) {
             Por que capacitar sua equipe?
           </h2>
           <p className="mt-4 leading-relaxed text-neutral-600">
-            A operação de plataformas elevatórias exige conhecimento técnico, atenção aos limites
-            do equipamento e respeito às normas de segurança. Acidentes em trabalho em altura podem
-            ser evitados com planejamento, inspeção adequada e{' '}
+            A operação de plataformas elevatórias exige conhecimento técnico, atenção aos limites do
+            equipamento e respeito às normas de segurança. Acidentes em trabalho em altura podem ser
+            evitados com planejamento, inspeção adequada e{' '}
             <strong className="font-semibold text-neutral-800">operadores treinados</strong>. A
             locação do equipamento não substitui a capacitação: o contratante deve garantir que
             apenas profissionais habilitados operem a máquina, conforme a legislação vigente.
           </p>
           <p className="mt-4 leading-relaxed text-neutral-600">
             Nosso treinamento complementa a locação: você pode alugar a plataforma na Acesso e
-            capacitar a equipe com conteúdo alinhado ao modelo utilizado na obra — com orientação
-            de profissionais que conhecem a frota e o mercado de construção civil em Minas Gerais.
+            capacitar a equipe com conteúdo alinhado ao modelo utilizado na obra — com orientação de
+            profissionais que conhecem a frota e o mercado de construção civil em Minas Gerais.
           </p>
         </div>
       </section>
@@ -108,7 +108,9 @@ export default async function TreinamentoPlataformasPage(props: PageProps) {
 
       <section className="border-y border-neutral-200 bg-background-muted">
         <div className="mx-auto max-w-4xl px-4 py-14 sm:px-6 lg:px-8">
-          <h2 className="font-heading text-2xl font-bold text-neutral-900">Conteúdo programático</h2>
+          <h2 className="font-heading text-2xl font-bold text-neutral-900">
+            Conteúdo programático
+          </h2>
           <p className="mt-3 text-neutral-600">
             A carga horária e o detalhamento são definidos conforme o perfil da turma e o tipo de
             plataforma. Em geral, o programa aborda:
@@ -158,8 +160,8 @@ export default async function TreinamentoPlataformasPage(props: PageProps) {
           <h2 className="font-heading text-2xl font-bold">Solicite informações e turmas</h2>
           <p className="mx-auto mt-4 max-w-2xl text-neutral-300">
             Informe quantidade de participantes, cidade e se há interesse em combinar treinamento
-            com locação de equipamento. Nossa equipe comercial retorna em horário útil com valores
-            e datas disponíveis.
+            com locação de equipamento. Nossa equipe comercial retorna em horário útil com valores e
+            datas disponíveis.
           </p>
           <p className="mt-2 text-sm text-neutral-400">
             {brand.hours} · {brand.phoneDisplay} · {brand.email}
@@ -177,9 +179,7 @@ export default async function TreinamentoPlataformasPage(props: PageProps) {
       </section>
 
       <section className="mx-auto max-w-3xl px-4 py-14 sm:px-6 lg:px-8">
-        <h2 className="font-heading text-2xl font-bold text-neutral-900">
-          Perguntas frequentes
-        </h2>
+        <h2 className="font-heading text-2xl font-bold text-neutral-900">Perguntas frequentes</h2>
         <div className="mt-8">
           <FaqAccordion items={[...TRAINING_FAQ]} />
         </div>

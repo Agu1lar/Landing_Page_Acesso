@@ -1,5 +1,6 @@
 import { getTranslations } from 'next-intl/server';
-import { LEAD_STATUSES, type LeadStatus } from '@/lib/lead-status';
+import { LEAD_STATUSES } from '@/lib/lead-status';
+import type { LeadStatus } from '@/lib/lead-status';
 import type { LeadRecord } from '@/lib/leads-admin';
 import { formatLeadCartItems } from '@/lib/leads-admin';
 import { Link } from '@/libs/I18nNavigation';

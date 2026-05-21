@@ -28,7 +28,9 @@ test.describe('Sanity', () => {
       await page.goto('/orcamento');
 
       await expect(page.getByLabel('Nome completo *')).toBeVisible();
-      await expect(page.getByRole('button', { name: 'Enviar solicitação de orçamento' })).toBeVisible();
+      await expect(
+        page.getByRole('button', { name: 'Enviar solicitação de orçamento' }),
+      ).toBeVisible();
     });
   });
 });

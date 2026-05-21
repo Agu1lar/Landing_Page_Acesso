@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { hasAnalyticsConsent, parseConsentValue } from '@/lib/cookie-consent';
 
-describe('parseConsentValue', () => {
+describe('parse consent value', () => {
   it('returns pending for missing or invalid storage', () => {
     expect(parseConsentValue(null)).toBe('pending');
     expect(parseConsentValue('')).toBe('pending');
@@ -14,7 +14,7 @@ describe('parseConsentValue', () => {
   });
 });
 
-describe('hasAnalyticsConsent', () => {
+describe('has analytics consent', () => {
   it('allows PostHog only when analytics was accepted', () => {
     expect(hasAnalyticsConsent('analytics')).toBeTruthy();
     expect(hasAnalyticsConsent('essential')).toBeFalsy();

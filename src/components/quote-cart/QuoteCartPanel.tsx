@@ -1,7 +1,7 @@
 'use client';
 
-import { QuoteCartQuantityStepper } from '@/components/quote-cart/QuoteCartQuantityStepper';
 import { useQuoteCart } from '@/components/quote-cart/QuoteCartProvider';
+import { QuoteCartQuantityStepper } from '@/components/quote-cart/QuoteCartQuantityStepper';
 import { Link } from '@/libs/I18nNavigation';
 
 type QuoteCartPanelProps = {
@@ -17,14 +17,16 @@ export function QuoteCartPanel(props: QuoteCartPanelProps) {
   if (cart.lineCount === 0) {
     return (
       <div className="rounded-[var(--radius-card)] border border-dashed border-neutral-300 bg-background-muted p-6 text-center">
-        <p className="font-heading text-base font-semibold text-neutral-900">Seu orçamento está vazio</p>
+        <p className="font-heading text-base font-semibold text-neutral-900">
+          Seu orçamento está vazio
+        </p>
         <p className="mt-2 text-sm text-neutral-600">
           Navegue pelo{' '}
           <Link className="font-medium text-primary hover:underline" href="/equipamentos">
             catálogo
           </Link>{' '}
-          e use &quot;Adicionar ao orçamento&quot; em cada item. Valores e disponibilidade serão informados
-          pelo comercial após o envio.
+          e use &quot;Adicionar ao orçamento&quot; em cada item. Valores e disponibilidade serão
+          informados pelo comercial após o envio.
         </p>
       </div>
     );
@@ -46,15 +48,15 @@ export function QuoteCartPanel(props: QuoteCartPanelProps) {
         </h2>
         <button
           className="text-sm font-medium text-primary hover:underline"
-          onClick={() => cart.clearCart()}
+          onClick={() =>{  cart.clearCart(); }}
           type="button"
         >
           Limpar lista
         </button>
       </div>
       <p className="mt-2 text-sm text-neutral-600">
-        Ajuste a quantidade de cada item. Envie o formulário abaixo para receber proposta com valores e
-        prazo.
+        Ajuste a quantidade de cada item. Envie o formulário abaixo para receber proposta com
+        valores e prazo.
       </p>
       <ul className="mt-4 divide-y divide-neutral-200 rounded-lg border border-neutral-200">
         {cart.items.map((item) => (
@@ -71,13 +73,13 @@ export function QuoteCartPanel(props: QuoteCartPanelProps) {
             <div className="flex flex-wrap items-center gap-3">
               <QuoteCartQuantityStepper
                 ariaLabel={`Quantidade de ${item.name}`}
-                onChange={(quantity) => cart.setItemQuantity(item.slug, quantity)}
+                onChange={(quantity) =>{  cart.setItemQuantity(item.slug, quantity); }}
                 size="sm"
                 value={item.quantity}
               />
               <button
                 className="text-sm font-medium text-red-600 hover:underline"
-                onClick={() => cart.removeItem(item.slug)}
+                onClick={() =>{  cart.removeItem(item.slug); }}
                 type="button"
               >
                 Remover

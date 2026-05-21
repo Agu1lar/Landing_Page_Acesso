@@ -42,12 +42,13 @@ export function EquipmentCatalog({
   }, [equipment, initialQuery, initialCategory]);
 
   const categories = Object.keys(CATEGORY_LABELS) as EquipmentCategory[];
+  const showAllFilter = initialCategory === undefined;
 
   return (
     <div>
       <div className="flex flex-wrap gap-2">
         <a
-          className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${!initialCategory ? 'bg-primary text-primary-foreground' : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'}`}
+          className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${showAllFilter ? 'bg-primary text-primary-foreground' : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'}`}
           href={
             initialQuery ? `/equipamentos?q=${encodeURIComponent(initialQuery)}` : '/equipamentos'
           }

@@ -4,7 +4,7 @@ import {
   parseDashboardRoleFromSessionClaims,
 } from '@/lib/auth-roles';
 
-describe(parseDashboardRoleFromMetadata, () => {
+describe('parse dashboard role from metadata', () => {
   it('accepts admin role', () => {
     expect(parseDashboardRoleFromMetadata({ role: 'admin' })).toBe('admin');
   });
@@ -19,7 +19,7 @@ describe(parseDashboardRoleFromMetadata, () => {
   });
 });
 
-describe(parseDashboardRoleFromSessionClaims, () => {
+describe('parse dashboard role from session claims', () => {
   it('reads role from publicMetadata on claims', () => {
     expect(
       parseDashboardRoleFromSessionClaims({
