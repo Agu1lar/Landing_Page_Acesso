@@ -12,6 +12,8 @@ Site da **Acesso Equipamentos** (locação de equipamentos para construção civ
 
 **Planejamento técnico:** [ROADMAP.temp.md](ROADMAP.temp.md)
 
+**Fluxo solo (commit direto na `main`):** [docs/FLUXO-SOLO.md](docs/FLUXO-SOLO.md)
+
 ---
 
 ## Números do catálogo (atual)

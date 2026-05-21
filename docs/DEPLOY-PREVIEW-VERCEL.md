@@ -4,6 +4,23 @@ Guia interno para publicar a landing em `*.vercel.app` **sem domínio customizad
 
 ---
 
+## Só Production (sem Preview no PR)
+
+Fluxo usado quando **só você** mexe no projeto e as variáveis ficam **apenas em Production** na Vercel.
+
+| Ambiente | Variáveis | Deploy |
+|----------|-----------|--------|
+| **Production** | Todas (`DATABASE_URL`, `CLERK_*`, `NEXT_PUBLIC_APP_URL`, Resend, etc.) | Site real / domínio |
+| **Preview** | Vazio ou mínimo | PR no GitHub pode mostrar **Vercel vermelho** — normal |
+
+**No GitHub:** não use o check **Vercel** como obrigatório no merge. O gate é o workflow **CI** (Build, static, unit).
+
+**Validar mudanças:** deploy em Production na Vercel ou `npm run dev` local com `.env.local`.
+
+Build Command em **Production:** `npm run build` (migrate + Next). Preview opcional: `npm run build:next` se um dia configurar variáveis em Preview.
+
+---
+
 ## Pré-requisitos
 
 - [ ] Conta em [vercel.com](https://vercel.com)

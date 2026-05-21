@@ -14,12 +14,7 @@ env:
 
 jobs:
   build:
-    strategy:
-      matrix:
-        node-version: [22.x, 24.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
-    name: Build with ${{ matrix.node-version }}
+    name: Build with 24.x
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -29,7 +24,7 @@ jobs:
       - name: Set up Node.js environment
         uses: ./.github/actions/setup-project
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 24.x
 
       - name: Restore or cache Next.js build
         uses: actions/cache@v5
@@ -37,7 +32,7 @@ jobs:
           path: |
             .next/cache
           # Generate a new cache whenever packages or source files change.
-          key: nextjs-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('src/**') }}
+          key: nextjs-24.x-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('src/**') }}
 
       - name: Build Next.js
         run: npm run build-local
@@ -45,19 +40,20 @@ jobs:
           NEXT_PUBLIC_SENTRY_DISABLED: 'true' # Only upload Sentry source maps in deployment
           NEXT_PUBLIC_APP_URL: http://localhost:3008
 
-      - if: matrix.node-version == '24.x' && success()
+      - if: success()
         name: Cache Next.js build output
         uses: actions/cache/save@v5
         with:
           path: |
             .next
             next-env.d.ts
-          key: nextjs-build-${{ matrix.node-version }}-${{ github.sha }}
+          key: nextjs-build-24.x-${{ github.sha }}
 
   build-migrate:
     name: Build with db migrate (production path)
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     services:
       postgres:
@@ -150,18 +146,16 @@ jobs:
           args: npm run test -- --coverage
 
       - name: Upload coverage reports to Codecov
+        continue-on-error: true
         uses: codecov/codecov-action@v6
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   storybook:
-    strategy:
-      matrix:
-        node-version: [24.x]
-
     name: Run Storybook
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
       - uses: actions/checkout@v6
@@ -169,7 +163,7 @@ jobs:
       - name: Set up Node.js environment
         uses: ./.github/actions/setup-project
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 24.x
 
       - name: Run storybook tests
         uses: docker://mcr.microsoft.com/playwright:v1.59.1
@@ -177,14 +171,11 @@ jobs:
           args: npm run storybook:test
 
   e2e:
-    strategy:
-      matrix:
-        node-version: [24.x]
-
     name: Run E2E tests
     runs-on: ubuntu-latest
     timeout-minutes: 10
     needs: [build]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
       - uses: actions/checkout@v6
@@ -194,7 +185,7 @@ jobs:
       - name: Set up Node.js environment
         uses: ./.github/actions/setup-project
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 24.x
           restore-nextjs-cache: true
 
       - name: Run E2E and integration tests

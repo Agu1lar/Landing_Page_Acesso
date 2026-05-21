@@ -2,15 +2,26 @@
 
 Pipeline em [`.github/workflows/CI.yml`](../.github/workflows/CI.yml). Objetivo: impedir merge em `main` com regressões em **orçamento**, **API de leads** e **build com migrate**.
 
+**Desenvolvedor solo:** fluxo enxuto em [FLUXO-SOLO.md](./FLUXO-SOLO.md) (push direto na `main`, 3 checks no GitHub).
+
 ## Jobs obrigatórios (recomendado no branch protection)
 
-| Job | O que valida |
-|-----|----------------|
-| **Build with 22.x / 24.x** | `npm run build-local` (Next + PGlite em memória) |
-| **Build with db migrate** | `npm run build` — mesmo caminho da Vercel (`db:migrate` + `next build`) |
-| **Run static checks** | `lint` (oxlint, erros only), `check:types`, `check:deps`, `check:i18n` (chaves usadas no `src` existem em `pt-BR`), commitlint (PR) |
-| **Run unit tests** | Vitest + coverage (thresholds em `quote-whatsapp`, `leads-admin`) |
-| **Run E2E tests** | Playwright — marketing, **301 legado**, **API leads** |
+| Job | Quando roda | O que valida |
+|-----|-------------|----------------|
+| **Build with 24.x** | PR e `main` | `npm run build-local` (Next + PGlite em memória) |
+| **Run static checks** | PR e `main` | `lint`, `check:types`, `check:deps`, `check:i18n`, commitlint (só PR) |
+| **Run unit tests** | PR e `main` | Vitest + coverage |
+| **Build with db migrate** | só push em `main` | `npm run build` (caminho Vercel produção) |
+| **Run E2E tests** | só push em `main` | Playwright — marketing, **301**, **API leads** |
+| **Run Storybook** | só push em `main` | Storybook tests |
+
+### Branch protection (solo — 3 checks)
+
+| Marcar ✅ | Não marcar |
+|-----------|------------|
+| Build with 24.x | Build with 22.x (removido do CI) |
+| Run static checks | Vercel, Crowdin, Checkly |
+| Run unit tests | E2E / Storybook / migrate (rodam na `main` após o push) |
 
 Chromatic e Crowdin não bloqueiam o gate de produção.
 
