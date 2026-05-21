@@ -18,6 +18,18 @@ test.describe('Marketing conversion flows', () => {
       await expect(page.getByText('Empresa desde 2013', { exact: true })).toBeVisible();
     });
 
+    test('displays client logo images in trust section', async ({ page }) => {
+      await page.goto('/');
+
+      await expect(
+        page.getByRole('heading', { name: 'Empresas que confiam na Acesso em Minas Gerais' }),
+      ).toBeVisible();
+
+      const logos = page.locator('section[aria-labelledby="client-logos-title"] img');
+      await expect(logos).toHaveCount(6);
+      await expect(logos.first()).toHaveAttribute('src', /\/clientes\/[\w-]+\.webp/u);
+    });
+
     test('navigates home to equipment detail via catalog link', async ({ page }) => {
       await page.goto('/equipamentos');
 

@@ -10,4 +10,10 @@ describe('client logos list', () => {
     const slugs = CLIENT_LOGOS.map((entry) => entry.slug);
     expect(new Set(slugs).size).toBe(slugs.length);
   });
+
+  it('points each entry to a logo file under public/clientes', () => {
+    for (const entry of CLIENT_LOGOS) {
+      expect(entry.logoSrc).toMatch(/^\/clientes\/[\w-]+\.webp$/u);
+    }
+  });
 });

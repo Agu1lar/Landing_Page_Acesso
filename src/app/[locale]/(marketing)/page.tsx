@@ -75,7 +75,11 @@ export default async function HomePage(props: IndexPageProps) {
         </div>
       </section>
 
-      <ClientLogosSection subtitle={t('clients_subtitle')} title={t('clients_title')} />
+      <ClientLogosSection
+        footnote={t('clients_footnote')}
+        subtitle={t('clients_subtitle')}
+        title={t('clients_title')}
+      />
 
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <h2 className="font-heading text-2xl font-bold text-neutral-900">

@@ -27,7 +27,7 @@ export function ClientLogosSection(props: ClientLogosSectionProps) {
           <p className="mt-3 text-base leading-relaxed text-neutral-600">{props.subtitle}</p>
         </div>
 
-        <ul className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-6">
+        <ul className="mt-10 grid min-h-[5.5rem] grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-6">
           {CLIENT_LOGOS.map((client) => (
             <ClientLogoCard client={client} key={client.slug} />
           ))}

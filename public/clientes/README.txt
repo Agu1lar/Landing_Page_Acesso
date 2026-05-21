@@ -1,16 +1,12 @@
 Logos de clientes (Casos de Sucesso — Home)
 ============================================
 
-1. Obtenha logotipos com autorização de uso (comercial/jurídico).
-2. Salve como WebP ou PNG: {slug}.webp (ex.: vale.webp)
-3. Em src/data/client-logos.ts, defina logoSrc: "/clientes/vale.webp" no item correspondente.
+Arquivos ativos: {slug}.webp (6 segmentos).
 
-Slugs atuais (wordmarks até haver logo):
-- construtoras-empreiteiras
-- industria-manufatura
-- mineracao-siderurgia
-- shoppings-centros-comerciais
-- galpoes-logisticos
-- infraestrutura-energia
+Regenerar a partir do site legado:
+  python docs/scripts/split-client-logos.py
+  (baixa/recorta de Design-sem-nome-31 — ver script)
 
-Faixa do site legado (referência): Design-sem-nome-28.png em acessoequipamentos.com.br
+Atualizar lista: src/data/client-logos.ts
+
+Não commitar _legacy-strip-source.png (arquivo de trabalho).

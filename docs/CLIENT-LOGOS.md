@@ -20,7 +20,17 @@ Seção: `ClientLogosSection` logo após o hero em `/`.
 
 ## Site legado
 
-O site `acessoequipamentos.com.br` usa faixas de imagem (ex. `Design-sem-nome-28.png`). Baixe com autorização e recorte logos individuais quando possível — evite usar a faixa inteira sem separar marcas.
+Faixa usada: `Design-sem-nome-31.png` em `acessoequipamentos.com.br/wp-content/uploads/2023/06/`.
+
+Recorte automatizado (grade 3×2 → 6 slugs):
+
+```bash
+curl -sL -o public/clientes/_legacy-strip-source.png \
+  https://acessoequipamentos.com.br/wp-content/uploads/2023/06/Design-sem-nome-31.png
+python docs/scripts/split-client-logos.py
+```
+
+Revise visualmente cada `.webp` e confirme autorização comercial antes de campanhas pagas.
 
 ## i18n
 

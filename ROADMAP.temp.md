@@ -453,7 +453,7 @@ Escala de catálogo, prova social, otimizações e ferramentas para o time comer
 | 9.1b | **4 fotos pendentes (acessórios)** | Alta | ⏳ punho esmerilhadeira, prato borracha, maleta, pinça solda |
 | 9.1c | Nomes e specs plataformas | Alta | ✅ `normalize-equipment-names.py`, `fix-platform-specs.py` |
 | 9.1d | **Classificação ABNT (NBR 16776)** | Alta | ✅ Corrigido 2026-05-20 — 3A tesouras/mastros, 3B lanças, 1A empurrar (antes: erro “Tipo 1 · Grupo B” em tudo) |
-| 9.2 | **Casos de Sucesso — logos de clientes na Home** | **Alta** | 🟡 UI + wordmarks por segmento (`ClientLogosSection`); ⏳ logos reais em `public/clientes/` |
+| 9.2 | **Casos de Sucesso — logos de clientes na Home** | **Alta** | ✅ Logos em `public/clientes/*.webp` (faixa legado 3×2); validar recorte/autorização com comercial |
 | 9.3 | Expandir textos long-tail | Alta | ⏳ |
 | 9.4 | Blog ou `/dicas` (SEO informacional) | Média | ⏳ |
 | 9.5 | Avaliar CMS (Sanity/Payload) | Média | 📋 Substituído por **Sprint 11** |
@@ -468,7 +468,7 @@ Escala de catálogo, prova social, otimizações e ferramentas para o time comer
 ### Casos de Sucesso — logos de clientes na Home (Prioridade Alta)
 
 > **Tarefa:** 9.2 (antecipada) · **Sprint 15.1** (prova social completa)  
-> **Status:** ⏳ Pendente — conteúdo e aprovação jurídica com o cliente
+> **Status:** 🟡 Logos no ar (recorte da faixa legado); pendente sign-off comercial/jurídico por marca
 
 #### Por que é prioridade alta
 

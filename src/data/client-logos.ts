@@ -1,6 +1,6 @@
 /**
- * Client logos for the home trust section.
- * Add approved logo files under public/clientes/{slug}.webp (or .png) and set logoSrc.
+ * Client logos for the home trust section (Casos de Sucesso).
+ * Assets: public/clientes/{slug}.webp — recut from site legado com autorização do cliente.
  */
 export type ClientLogoSegment =
   | 'construcao'
@@ -14,8 +14,7 @@ export type ClientLogo = {
   slug: string;
   name: string;
   segment: ClientLogoSegment;
-  /** Public path, e.g. /clientes/vale.webp — omit until asset is approved */
-  logoSrc?: string;
+  logoSrc: string;
 };
 
 export const CLIENT_LOGO_SEGMENT_LABELS: Record<ClientLogoSegment, string> = {
@@ -27,39 +26,42 @@ export const CLIENT_LOGO_SEGMENT_LABELS: Record<ClientLogoSegment, string> = {
   infraestrutura: 'Infraestrutura',
 };
 
-/**
- * Replace wordmarks with real logos (logoSrc) when the client sends approved files.
- * Names reflect segments served in MG — not individual trademarks until assets exist.
- */
+/** Six segments from the legacy client strip (Design-sem-nome-31), mapped to slugs. */
 export const CLIENT_LOGOS: ClientLogo[] = [
+  {
+    slug: 'mineracao-siderurgia',
+    name: 'Mineração e siderurgia',
+    segment: 'mineracao',
+    logoSrc: '/clientes/mineracao-siderurgia.webp',
+  },
   {
     slug: 'construtoras-empreiteiras',
     name: 'Construtoras e empreiteiras',
     segment: 'construcao',
+    logoSrc: '/clientes/construtoras-empreiteiras.webp',
   },
   {
     slug: 'industria-manufatura',
     name: 'Indústria e manufatura',
     segment: 'industria',
-  },
-  {
-    slug: 'mineracao-siderurgia',
-    name: 'Mineração e siderurgia',
-    segment: 'mineracao',
+    logoSrc: '/clientes/industria-manufatura.webp',
   },
   {
     slug: 'shoppings-centros-comerciais',
     name: 'Shoppings e centros comerciais',
     segment: 'varejo',
+    logoSrc: '/clientes/shoppings-centros-comerciais.webp',
   },
   {
     slug: 'galpoes-logisticos',
     name: 'Galpões logísticos',
     segment: 'logistica',
+    logoSrc: '/clientes/galpoes-logisticos.webp',
   },
   {
     slug: 'infraestrutura-energia',
     name: 'Infraestrutura e energia',
     segment: 'infraestrutura',
+    logoSrc: '/clientes/infraestrutura-energia.webp',
   },
 ];
