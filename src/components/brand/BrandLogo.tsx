@@ -1,7 +1,9 @@
 import Image from 'next/image';
 
-/** Logo 3D oficial — arquivo em public/assets/brand/logo-acesso-3d.jpg */
-const BRAND_LOGO_SRC = '/assets/brand/logo-acesso-3d.jpg';
+/** Logo oficial no header — PNG com fundo transparente em public/assets/brand/ */
+const BRAND_LOGO_SRC = '/assets/brand/logo-acesso-header.png';
+const BRAND_LOGO_WIDTH = 691;
+const BRAND_LOGO_HEIGHT = 361;
 
 type BrandLogoProps = {
   className?: string;
@@ -24,7 +26,7 @@ export function BrandLogo({ className = '', compact = false }: BrandLogoProps) {
             ? 'h-auto max-h-9 w-[min(72vw,200px)] object-contain object-left sm:max-h-10 sm:w-[240px] md:max-h-11 md:w-[280px]'
             : 'h-auto max-h-[6.33rem] w-[min(98vw,420px)] object-contain object-left sm:max-h-[8.25rem] sm:w-[500px] md:max-h-[9.9rem] md:w-[600px] lg:max-h-[11rem] lg:w-[680px]'
         }
-        height={180}
+        height={BRAND_LOGO_HEIGHT}
         priority
         sizes={
           compact
@@ -32,7 +34,7 @@ export function BrandLogo({ className = '', compact = false }: BrandLogoProps) {
             : '(max-width: 640px) 420px, (max-width: 1024px) 600px, 680px'
         }
         src={BRAND_LOGO_SRC}
-        width={720}
+        width={BRAND_LOGO_WIDTH}
       />
     </span>
   );

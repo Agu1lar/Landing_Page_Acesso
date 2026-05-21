@@ -4,7 +4,8 @@
 
 | Arquivo | Uso | Dimensões originais |
 |---------|-----|---------------------|
-| `public/assets/brand/logo-acesso-3d.jpg` | **Logo no header** (3D, oficial) | JPG |
+| `public/assets/brand/logo-acesso-header.png` | **Logo no header** (transparente) | 691×361 |
+| `public/assets/brand/logo-acesso-3d.jpg` | Legado 3D (substituído no header) | JPG |
 | `public/assets/brand/logo-acesso.png` | Legado (quadrado com margem) | — |
 | `docs/brand/logo-acesso.png` | Cópia de referência no repositório | — |
 
