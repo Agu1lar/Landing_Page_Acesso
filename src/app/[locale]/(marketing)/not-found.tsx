@@ -1,18 +1,19 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Link } from '@/libs/I18nNavigation';
+import { routing } from '@/libs/I18nRouting';
 import { ALL_EQUIPMENT_CATEGORIES } from '@/lib/categories-seo';
 import { CATEGORY_LABELS } from '@/types/equipment';
 import { resolveAppLocale } from '@/utils/locale';
 
 type NotFoundPageProps = {
-  params: Promise<{ locale: string }>;
+  params?: Promise<{ locale?: string }>;
 };
 
 export default async function MarketingNotFoundPage(props: NotFoundPageProps) {
-  const { locale } = await props.params;
-  setRequestLocale(resolveAppLocale(locale));
+  const locale = resolveAppLocale((await props.params)?.locale ?? routing.defaultLocale);
+  setRequestLocale(locale);
   const t = await getTranslations({
-    locale: resolveAppLocale(locale),
+    locale,
     namespace: 'NotFoundPage',
   });
 

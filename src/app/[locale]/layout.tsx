@@ -42,13 +42,13 @@ export default async function RootLayout(props: {
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await props.params;
+  const locale = resolveAppLocale((await props.params)?.locale ?? routing.defaultLocale);
 
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
 
-  setRequestLocale(resolveAppLocale(locale));
+  setRequestLocale(locale);
 
   return (
     <html className={`${plusJakarta.variable} ${inter.variable}`} lang={locale}>

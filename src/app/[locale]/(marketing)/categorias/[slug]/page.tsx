@@ -14,6 +14,7 @@ import { getEquipmentByCategory } from '@/lib/equipment';
 import { buildCategoryPageJsonLd } from '@/lib/json-ld';
 import { buildMarketingMetadata } from '@/lib/seo-metadata';
 import { Link } from '@/libs/I18nNavigation';
+import { routing } from '@/libs/I18nRouting';
 import { CATEGORY_LABELS } from '@/types/equipment';
 import { resolveAppLocale } from '@/utils/locale';
 
@@ -22,7 +23,9 @@ type CategoryPageProps = {
 };
 
 export function generateStaticParams() {
-  return ALL_EQUIPMENT_CATEGORIES.map((slug) => ({ slug }));
+  return routing.locales.flatMap((locale) =>
+    ALL_EQUIPMENT_CATEGORIES.map((slug) => ({ locale, slug })),
+  );
 }
 
 export async function generateMetadata(props: CategoryPageProps): Promise<Metadata> {

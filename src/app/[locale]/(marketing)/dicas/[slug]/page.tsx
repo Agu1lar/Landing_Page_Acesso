@@ -8,6 +8,7 @@ import { buildWhatsAppMessage, buildWhatsAppUrl } from '@/lib/brand';
 import { buildDicaArticleJsonLd } from '@/lib/json-ld';
 import { buildMarketingMetadata } from '@/lib/seo-metadata';
 import { Link } from '@/libs/I18nNavigation';
+import { routing } from '@/libs/I18nRouting';
 import { resolveAppLocale } from '@/utils/locale';
 
 type DicaArticlePageProps = {
@@ -15,7 +16,9 @@ type DicaArticlePageProps = {
 };
 
 export function generateStaticParams() {
-  return getAllDicaSlugs().map((slug) => ({ slug }));
+  return routing.locales.flatMap((locale) =>
+    getAllDicaSlugs().map((slug) => ({ locale, slug })),
+  );
 }
 
 export async function generateMetadata(props: DicaArticlePageProps): Promise<Metadata> {

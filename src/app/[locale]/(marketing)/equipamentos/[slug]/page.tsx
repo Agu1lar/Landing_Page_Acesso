@@ -19,6 +19,7 @@ import { getEquipmentSeoExtra } from '@/lib/equipment-seo-extra';
 import { buildEquipmentPageJsonLd } from '@/lib/json-ld';
 import { buildMarketingMetadata } from '@/lib/seo-metadata';
 import { Link } from '@/libs/I18nNavigation';
+import { routing } from '@/libs/I18nRouting';
 import { CATEGORY_LABELS } from '@/types/equipment';
 import { resolveAppLocale } from '@/utils/locale';
 
@@ -27,11 +28,16 @@ type EquipmentDetailProps = {
 };
 
 export function generateStaticParams() {
-  return getAllSlugs().map((slug) => ({ slug }));
+  return routing.locales.flatMap((locale) =>
+    getAllSlugs().map((slug) => ({ locale, slug })),
+  );
 }
 
 export async function generateMetadata(props: EquipmentDetailProps): Promise<Metadata> {
-  const { slug } = await props.params;
+  const slug = (await props.params)?.slug;
+  if (!slug) {
+    return { title: 'Equipamento' };
+  }
   const equipment = getEquipmentBySlug(slug);
   if (!equipment) {
     return { title: 'Equipamento' };
@@ -45,12 +51,18 @@ export async function generateMetadata(props: EquipmentDetailProps): Promise<Met
 }
 
 export default async function EquipmentDetailPage(props: EquipmentDetailProps) {
-  const { locale, slug } = await props.params;
-  setRequestLocale(resolveAppLocale(locale));
+  const params = await props.params;
+  const locale = resolveAppLocale(params?.locale ?? routing.defaultLocale);
+  const slug = params?.slug;
+  setRequestLocale(locale);
   const t = await getTranslations({
-    locale: resolveAppLocale(locale),
+    locale,
     namespace: 'EquipamentoDetail',
   });
+
+  if (!slug) {
+    notFound();
+  }
   const equipment = getEquipmentBySlug(slug);
 
   if (!equipment) {
