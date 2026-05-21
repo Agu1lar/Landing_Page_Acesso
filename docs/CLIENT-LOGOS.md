@@ -2,7 +2,7 @@
 
 Seção: `ClientLogosSection` logo após o hero em `/`.
 
-## Pastas por setor
+## Organização em pastas (não aparece na Home)
 
 Coloque logos com **fundo transparente** (PNG ou WebP) em:
 
@@ -23,8 +23,8 @@ public/clientes/construcao/empreiteira-xyz.png
 ```
 
 - Nome do arquivo vira texto alternativo (`vale` → alt "vale").
-- Vários logos por pasta são exibidos na mesma linha do setor.
-- Pasta **vazia** não aparece na Home.
+- A Home exibe **todas** as logos numa única faixa (sem título de setor).
+- Pastas vazias são ignoradas; basta ter arquivos em qualquer subpasta.
 
 Não é necessário editar `src/data/client-logos.ts` ao adicionar arquivos — a lista é lida do disco no build.
 

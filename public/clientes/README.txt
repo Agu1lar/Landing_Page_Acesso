@@ -11,6 +11,6 @@ Coloque arquivos com fundo TRANSPARENTE (PNG ou WebP recomendado) em cada pasta:
   public/clientes/infraestrutura/
 
 Nome do arquivo = slug ou nome da empresa (ex.: vale.webp, cemig.png).
-O site lista automaticamente todos os arquivos da pasta (ordem alfabética).
+O site exibe todas as logos numa faixa unica na Home (ordem alfabetica pelo nome do arquivo).
 
-Pastas vazias não aparecem na Home.
+Pastas vazias sao ignoradas.

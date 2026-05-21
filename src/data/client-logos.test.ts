@@ -7,9 +7,8 @@ describe('client logo segments', () => {
   });
 
   it('uses unique sector ids matching public/clientes subfolders', () => {
-    const ids = CLIENT_LOGO_SEGMENTS.map((segment) => segment.id);
-    expect(new Set(ids).size).toBe(ids.length);
-    expect(ids).toContain('construcao');
-    expect(ids).toContain('mineracao');
+    expect(new Set(CLIENT_LOGO_SEGMENTS).size).toBe(CLIENT_LOGO_SEGMENTS.length);
+    expect(CLIENT_LOGO_SEGMENTS).toContain('construcao');
+    expect(CLIENT_LOGO_SEGMENTS).toContain('mineracao');
   });
 });

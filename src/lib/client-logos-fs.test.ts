@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { listSegmentLogoFiles } from '@/lib/client-logos-fs';
+import { getAllClientLogos, listSegmentLogoFiles } from '@/lib/client-logos-fs';
 
 describe('list segment logo files', () => {
   let tempRoot = '';
@@ -42,5 +42,22 @@ describe('list segment logo files', () => {
     const logos = listSegmentLogoFiles('construcao');
 
     expect(logos.map((logo) => logo.fileName)).toEqual(['alpha.png', 'zebra.png']);
+  });
+
+  it('merges logos from all sector folders into one list', () => {
+    const mineracaoDir = path.join(tempRoot, 'public', 'clientes', 'mineracao');
+    const varejoDir = path.join(tempRoot, 'public', 'clientes', 'varejo');
+    fs.mkdirSync(mineracaoDir, { recursive: true });
+    fs.mkdirSync(varejoDir, { recursive: true });
+    fs.writeFileSync(path.join(mineracaoDir, 'vale.webp'), '');
+    fs.writeFileSync(path.join(varejoDir, 'mart.webp'), '');
+
+    const logos = getAllClientLogos();
+
+    expect(logos).toHaveLength(2);
+    expect(logos.map((logo) => logo.src).sort()).toEqual([
+      '/clientes/mineracao/vale.webp',
+      '/clientes/varejo/mart.webp',
+    ]);
   });
 });

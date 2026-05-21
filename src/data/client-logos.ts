@@ -1,7 +1,6 @@
 /**
- * Setores da seção Casos de Sucesso na Home.
- * Logos: coloque arquivos PNG/WebP/SVG com fundo transparente em
- * public/clientes/{segment}/ (ex.: public/clientes/mineracao/vale.webp).
+ * Pastas em public/clientes/ para organizar logos (exibição única na Home).
+ * Logos: PNG/WebP/SVG com fundo transparente em public/clientes/{segment}/.
  */
 export type ClientLogoSegment =
   | 'construcao'
@@ -11,16 +10,12 @@ export type ClientLogoSegment =
   | 'logistica'
   | 'infraestrutura';
 
-export type ClientLogoSegmentConfig = {
-  id: ClientLogoSegment;
-  label: string;
-};
-
-export const CLIENT_LOGO_SEGMENTS: ClientLogoSegmentConfig[] = [
-  { id: 'construcao', label: 'Construção civil' },
-  { id: 'industria', label: 'Indústria' },
-  { id: 'mineracao', label: 'Mineração' },
-  { id: 'varejo', label: 'Varejo e corporativo' },
-  { id: 'logistica', label: 'Logística' },
-  { id: 'infraestrutura', label: 'Infraestrutura' },
+/** Sector folder names scanned under public/clientes/. */
+export const CLIENT_LOGO_SEGMENTS: readonly ClientLogoSegment[] = [
+  'construcao',
+  'industria',
+  'mineracao',
+  'varejo',
+  'logistica',
+  'infraestrutura',
 ];

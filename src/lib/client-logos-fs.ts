@@ -1,10 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import {
-  CLIENT_LOGO_SEGMENTS,
-  type ClientLogoSegment,
-  type ClientLogoSegmentConfig,
-} from '@/data/client-logos';
+import { CLIENT_LOGO_SEGMENTS, type ClientLogoSegment } from '@/data/client-logos';
 
 const LOGO_EXTENSIONS = new Set(['.webp', '.png', '.svg', '.jpg', '.jpeg']);
 
@@ -12,10 +8,6 @@ export type SegmentLogoFile = {
   fileName: string;
   src: string;
   alt: string;
-};
-
-export type ClientLogoSegmentGroup = ClientLogoSegmentConfig & {
-  logos: SegmentLogoFile[];
 };
 
 /**
@@ -56,13 +48,12 @@ export function listSegmentLogoFiles(segment: ClientLogoSegment): SegmentLogoFil
 }
 
 /**
- * Loads all sector groups that contain at least one logo file.
+ * Loads all client logos from every sector folder into one sorted list.
  *
- * @returns Sector metadata with logos discovered on disk at build/request time.
+ * @returns Logos discovered on disk at build/request time (no sector grouping).
  */
-export function getClientLogoSegmentGroups() {
-  return CLIENT_LOGO_SEGMENTS.map((segment) => ({
-    ...segment,
-    logos: listSegmentLogoFiles(segment.id),
-  })).filter((group) => group.logos.length > 0);
+export function getAllClientLogos() {
+  return CLIENT_LOGO_SEGMENTS.flatMap((segment) => listSegmentLogoFiles(segment)).sort((a, b) =>
+    a.alt.localeCompare(b.alt, 'pt-BR'),
+  );
 }
