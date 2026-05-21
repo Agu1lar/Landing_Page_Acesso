@@ -30,10 +30,11 @@ Complementar antes do go-live: **Google Search Console** (top URLs por cliques, 
 
 | Tipo WP | Destino na landing |
 |---------|-------------------|
-| Posts sobre plataformas / obras | `/categorias/equipamentos-aereos` |
-| Post NR-12 / segurança | `/treinamento-plataformas-aereas` |
-| Post andaimes | `/categorias/andaimes-acesso` |
-| Índice `/blog/` | `/faq` (hub até Sprint 22 — blog novo) |
+| Posts sobre plataformas / obras | `/categorias/equipamentos-aereos` ou artigo em `/dicas/[slug]` |
+| Post NR-12 / segurança | `/dicas/nr-12-trabalho-em-altura-locacao` |
+| Post tesoura (exemplo) | `/dicas/como-escolher-plataforma-elevatoria-bh` |
+| Post andaimes fachada | `/dicas/andaime-ou-plataforma-elevatoria-reforma` |
+| Índice `/blog/` | `/dicas` (Sprint 9.4) |
 | Páginas de produto (compactador, gerador, …) | Categoria correspondente |
 | Guindaste / manipulador (sem categoria dedicada) | `/equipamentos` |
 | Políticas | `/privacidade` ou `/sobre` |

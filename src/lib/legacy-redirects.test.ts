@@ -16,24 +16,24 @@ describe('normalize legacy pathname', () => {
 });
 
 describe('resolve legacy redirect', () => {
-  it('redirects blog index to faq', () => {
-    expect(resolveLegacyRedirect('/blog/')).toBe('/faq');
+  it('redirects blog index to dicas', () => {
+    expect(resolveLegacyRedirect('/blog/')).toBe('/dicas');
   });
 
-  it('redirects plataformas post to aerial category', () => {
+  it('redirects plataformas post to dicas article', () => {
     expect(
       resolveLegacyRedirect(
         '/plataforma-elevatoria-tesoura-a-solucao-ideal-para-trabalhos-em-altura/',
       ),
-    ).toBe('/categorias/equipamentos-aereos');
+    ).toBe('/dicas/como-escolher-plataforma-elevatoria-bh');
   });
 
-  it('redirects nr12 post to training page', () => {
+  it('redirects nr12 post to dicas article', () => {
     expect(
       resolveLegacyRedirect(
         '/equipamentos-em-conformidade-com-a-nr12-seguranca-e-qualidade-para-sua-obra',
       ),
-    ).toBe('/treinamento-plataformas-aereas');
+    ).toBe('/dicas/nr-12-trabalho-em-altura-locacao');
   });
 
   it('redirects wp category prefix to equipamentos', () => {

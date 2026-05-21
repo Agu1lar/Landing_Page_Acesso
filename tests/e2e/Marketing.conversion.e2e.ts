@@ -101,7 +101,7 @@ test.describe('Marketing conversion flows', () => {
 
   test.describe('Institutional pages', () => {
     test('loads key marketing routes', async ({ page }) => {
-      const routes = ['/sobre', '/contato', '/faq', '/treinamento-plataformas-aereas'];
+      const routes = ['/sobre', '/contato', '/faq', '/dicas', '/treinamento-plataformas-aereas'];
 
       for (const route of routes) {
         await page.goto(route);

@@ -2,6 +2,7 @@ import { AnalyticsConsentProvider } from '@/components/analytics/AnalyticsConsen
 import { SiteFooter } from '@/components/layout/SiteFooter';
 import { SiteHeader } from '@/components/layout/SiteHeader';
 import { WhatsAppButton } from '@/components/layout/WhatsAppButton';
+import { SkipToMainLink } from '@/components/ui/SkipToMainLink';
 import { AttributionCapture } from '@/components/marketing/AttributionCapture';
 import { QuoteCartProvider } from '@/components/quote-cart/QuoteCartProvider';
 import { getSearchIndex } from '@/lib/equipment';
@@ -16,10 +17,13 @@ export function MarketingShell(props: MarketingShellProps) {
   return (
     <AnalyticsConsentProvider>
       <div className="flex min-h-screen flex-col">
+        <SkipToMainLink />
         <AttributionCapture />
         <QuoteCartProvider>
           <SiteHeader searchIndex={searchIndex} />
-          <main className="flex-1">{props.children}</main>
+          <main className="flex-1" id="main-content">
+            {props.children}
+          </main>
         </QuoteCartProvider>
         <SiteFooter />
         <WhatsAppButton />

@@ -372,11 +372,11 @@ Escala de catálogo, prova social, otimizações e ferramentas para o time comer
 | ID | Tarefa | Meta |
 |----|--------|------|
 | 7.0 | **Auditoria SEO crawl (View Source)** | Validar §4 em 3 slugs equipamento + 2 categorias antes do domínio oficial |
-| 7.1 | Auditoria a11y | Focus visible, labels, contraste WCAG AA |
+| 7.1 | Auditoria a11y | 🟡 Skip link + `id="main-content"`; auditoria WCAG completa pendente |
 | 7.2 | Otimizar imagens | WebP/AVIF, sizes corretos, lazy below fold |
 | 7.3 | Fontes | `next/font` — evitar layout shift |
-| 7.4 | Skeleton / loading | Lista e detalhe |
-| 7.5 | 404 customizada | Sugestão de categorias populares |
+| 7.4 | Skeleton / loading | ✅ `equipamentos/loading.tsx` + `EquipmentCatalogSkeleton` |
+| 7.5 | 404 customizada | ✅ `(marketing)/not-found.tsx` com categorias |
 | 7.6 | PageSpeed | LCP < 2.5s mobile (alvo) |
 | 7.7 | Revisão copy | Ortografia, termos técnicos corretos (betoneira, plataforma…) |
 | 7.8 | **Hierarquia de CTA** | ✅ `ConversionCtas` + header WhatsApp primeiro |
@@ -438,7 +438,8 @@ Escala de catálogo, prova social, otimizações e ferramentas para o time comer
 | 8.3 | Ajustes do feedback | ✅ Sem bloqueantes (2026-05-19) |
 | 8.4 | **Sign-off** | ✅ Flaviano Queiroz — Opção A (2026-05-19) |
 | 8.5 | Testes E2E Playwright | ✅ `tests/e2e/Marketing.conversion.e2e.ts` + `Sanity.check.e2e.ts` (marketing) |
-| 8.6 | CI verde | ⏳ `lint`, `check:types`, `test:e2e` no push/PR |
+| 8.6 | CI verde | 🟡 Gate documentado em `docs/CI.md` — 3 checks no PR; E2E/migrate na `main` |
+| 8.7 | **CI completo (gate pré-domínio)** | 🟡 E2E orçamento + API leads + 301 WP; ver `docs/GO-LIVE-GATE.md` |
 
 **Critério de saída:** aprovação formal registrada; lista de ajustes bloqueantes zerada ou aceita como pós-go-live.
 

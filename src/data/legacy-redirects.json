@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-05-20",
+  "generatedAt": "2026-05-21",
   "source": "acessoequipamentos.com.br — Yoast sitemaps (post-sitemap.xml, page-sitemap.xml)",
   "redirects": [
     {
       "source": "/blog",
-      "destination": "/faq",
-      "note": "Hub informacional até Sprint 22 (/blog)"
+      "destination": "/dicas",
+      "note": "Hub informacional — seção /dicas (Sprint 9.4)"
     },
     {
       "source": "/utilizacao-de-plataformas-elevatorias-em-empresa-mineradora-regiao-metropolitana-de-belo-horizonte",
@@ -24,18 +24,18 @@
     },
     {
       "source": "/equipamentos-em-conformidade-com-a-nr12-seguranca-e-qualidade-para-sua-obra",
-      "destination": "/treinamento-plataformas-aereas",
-      "note": "Post — NR-12 / segurança"
+      "destination": "/dicas/nr-12-trabalho-em-altura-locacao",
+      "note": "Post — NR-12 → artigo dicas (treinamento linkado no artigo)"
     },
     {
       "source": "/plataforma-elevatoria-tesoura-a-solucao-ideal-para-trabalhos-em-altura",
-      "destination": "/categorias/equipamentos-aereos",
-      "note": "Post — tesoura"
+      "destination": "/dicas/como-escolher-plataforma-elevatoria-bh",
+      "note": "Post — tesoura → artigo dicas"
     },
     {
       "source": "/aluguel-andaimes-multidirecionais-para-manutencao-de-fachada-bh",
-      "destination": "/categorias/andaimes-acesso",
-      "note": "Post — andaimes"
+      "destination": "/dicas/andaime-ou-plataforma-elevatoria-reforma",
+      "note": "Post — andaimes → artigo dicas"
     },
     {
       "source": "/aluguel-plataforma-elevatoria-modelo-elevador-individual-bh",

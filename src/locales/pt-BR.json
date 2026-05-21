@@ -109,6 +109,14 @@
     "back": "Voltar ao catálogo",
     "related_title": "Equipamentos relacionados"
   },
+  "NotFoundPage": {
+    "eyebrow": "Página não encontrada",
+    "title": "Não encontramos esta página",
+    "description": "O endereço pode ter mudado ou o link está desatualizado. Use o catálogo ou as categorias abaixo.",
+    "home_cta": "Ir para o início",
+    "catalog_cta": "Ver equipamentos",
+    "categories_title": "Categorias populares"
+  },
   "Footer": {
     "links": "Links",
     "dicas_link": "Dicas para obra",
