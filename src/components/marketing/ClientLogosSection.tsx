@@ -1,5 +1,5 @@
-import { ClientLogoCard } from '@/components/marketing/ClientLogoCard';
-import { CLIENT_LOGOS } from '@/data/client-logos';
+import { ClientLogoImage } from '@/components/marketing/ClientLogoImage';
+import { getClientLogoSegmentGroups } from '@/lib/client-logos-fs';
 
 type ClientLogosSectionProps = {
   title: string;
@@ -8,9 +8,11 @@ type ClientLogosSectionProps = {
 };
 
 /**
- * Trust strip with client logos or segment wordmarks (B2B proof on the home page).
+ * Trust strip grouped by sector; logos are read from public/clientes/{segment}/.
  */
-export function ClientLogosSection(props: ClientLogosSectionProps) {
+export async function ClientLogosSection(props: ClientLogosSectionProps) {
+  const groups = getClientLogoSegmentGroups();
+
   return (
     <section
       aria-labelledby="client-logos-title"
@@ -27,11 +29,32 @@ export function ClientLogosSection(props: ClientLogosSectionProps) {
           <p className="mt-3 text-base leading-relaxed text-neutral-600">{props.subtitle}</p>
         </div>
 
-        <ul className="mt-10 grid min-h-[5.5rem] grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-6">
-          {CLIENT_LOGOS.map((client) => (
-            <ClientLogoCard client={client} key={client.slug} />
-          ))}
-        </ul>
+        {groups.length === 0 ? (
+          <p className="mx-auto mt-10 max-w-xl text-center text-sm text-neutral-500">
+            Adicione logos com fundo transparente em{' '}
+            <code className="text-neutral-700">public/clientes/&lt;setor&gt;/</code>.
+          </p>
+        ) : (
+          <div className="mt-10 space-y-10">
+            {groups.map((group) => (
+              <div key={group.id}>
+                <p className="text-center text-xs font-semibold tracking-wide text-neutral-500 uppercase">
+                  {group.label}
+                </p>
+                <ul className="mt-4 flex min-h-[3.5rem] flex-wrap items-center justify-center gap-4 sm:gap-6">
+                  {group.logos.map((logo) => (
+                    <li
+                      className="group flex items-center justify-center rounded-[var(--radius-card)] border border-neutral-200 bg-surface px-4 py-3 shadow-sm transition-colors hover:border-primary/40"
+                      key={logo.src}
+                    >
+                      <ClientLogoImage alt={logo.alt} src={logo.src} />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        )}
 
         {props.footnote ? (
           <p className="mx-auto mt-8 max-w-2xl text-center text-xs text-neutral-500">

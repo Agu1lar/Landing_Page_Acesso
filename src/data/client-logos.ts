@@ -1,6 +1,7 @@
 /**
- * Client logos for the home trust section (Casos de Sucesso).
- * Assets: public/clientes/{slug}.webp — recut from site legado com autorização do cliente.
+ * Setores da seção Casos de Sucesso na Home.
+ * Logos: coloque arquivos PNG/WebP/SVG com fundo transparente em
+ * public/clientes/{segment}/ (ex.: public/clientes/mineracao/vale.webp).
  */
 export type ClientLogoSegment =
   | 'construcao'
@@ -10,58 +11,16 @@ export type ClientLogoSegment =
   | 'logistica'
   | 'infraestrutura';
 
-export type ClientLogo = {
-  slug: string;
-  name: string;
-  segment: ClientLogoSegment;
-  logoSrc: string;
+export type ClientLogoSegmentConfig = {
+  id: ClientLogoSegment;
+  label: string;
 };
 
-export const CLIENT_LOGO_SEGMENT_LABELS: Record<ClientLogoSegment, string> = {
-  construcao: 'Construção civil',
-  industria: 'Indústria',
-  mineracao: 'Mineração',
-  varejo: 'Varejo e corporativo',
-  logistica: 'Logística',
-  infraestrutura: 'Infraestrutura',
-};
-
-/** Six segments from the legacy client strip (Design-sem-nome-31), mapped to slugs. */
-export const CLIENT_LOGOS: ClientLogo[] = [
-  {
-    slug: 'mineracao-siderurgia',
-    name: 'Mineração e siderurgia',
-    segment: 'mineracao',
-    logoSrc: '/clientes/mineracao-siderurgia.webp',
-  },
-  {
-    slug: 'construtoras-empreiteiras',
-    name: 'Construtoras e empreiteiras',
-    segment: 'construcao',
-    logoSrc: '/clientes/construtoras-empreiteiras.webp',
-  },
-  {
-    slug: 'industria-manufatura',
-    name: 'Indústria e manufatura',
-    segment: 'industria',
-    logoSrc: '/clientes/industria-manufatura.webp',
-  },
-  {
-    slug: 'shoppings-centros-comerciais',
-    name: 'Shoppings e centros comerciais',
-    segment: 'varejo',
-    logoSrc: '/clientes/shoppings-centros-comerciais.webp',
-  },
-  {
-    slug: 'galpoes-logisticos',
-    name: 'Galpões logísticos',
-    segment: 'logistica',
-    logoSrc: '/clientes/galpoes-logisticos.webp',
-  },
-  {
-    slug: 'infraestrutura-energia',
-    name: 'Infraestrutura e energia',
-    segment: 'infraestrutura',
-    logoSrc: '/clientes/infraestrutura-energia.webp',
-  },
+export const CLIENT_LOGO_SEGMENTS: ClientLogoSegmentConfig[] = [
+  { id: 'construcao', label: 'Construção civil' },
+  { id: 'industria', label: 'Indústria' },
+  { id: 'mineracao', label: 'Mineração' },
+  { id: 'varejo', label: 'Varejo e corporativo' },
+  { id: 'logistica', label: 'Logística' },
+  { id: 'infraestrutura', label: 'Infraestrutura' },
 ];

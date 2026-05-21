@@ -2,36 +2,36 @@
 
 Seção: `ClientLogosSection` logo após o hero em `/`.
 
-## Adicionar logo real
+## Pastas por setor
 
-1. Arquivo em `public/clientes/{slug}.webp` (fundo transparente, ~320px largura).
-2. Atualizar `src/data/client-logos.ts`:
+Coloque logos com **fundo transparente** (PNG ou WebP) em:
 
-```ts
-{
-  slug: 'vale',
-  name: 'Vale',
-  segment: 'mineracao',
-  logoSrc: '/clientes/vale.webp',
-},
+| Pasta | Setor |
+|-------|--------|
+| `public/clientes/construcao/` | Construção civil |
+| `public/clientes/industria/` | Indústria |
+| `public/clientes/mineracao/` | Mineração |
+| `public/clientes/varejo/` | Varejo e corporativo |
+| `public/clientes/logistica/` | Logística |
+| `public/clientes/infraestrutura/` | Infraestrutura |
+
+Exemplo:
+
+```
+public/clientes/mineracao/vale.webp
+public/clientes/construcao/empreiteira-xyz.png
 ```
 
-3. Remover ou manter o wordmark do mesmo segmento conforme aprovado pelo cliente.
+- Nome do arquivo vira texto alternativo (`vale` → alt "vale").
+- Vários logos por pasta são exibidos na mesma linha do setor.
+- Pasta **vazia** não aparece na Home.
 
-## Site legado
-
-Faixa usada: `Design-sem-nome-31.png` em `acessoequipamentos.com.br/wp-content/uploads/2023/06/`.
-
-Recorte automatizado (grade 3×2 → 6 slugs):
-
-```bash
-curl -sL -o public/clientes/_legacy-strip-source.png \
-  https://acessoequipamentos.com.br/wp-content/uploads/2023/06/Design-sem-nome-31.png
-python docs/scripts/split-client-logos.py
-```
-
-Revise visualmente cada `.webp` e confirme autorização comercial antes de campanhas pagas.
+Não é necessário editar `src/data/client-logos.ts` ao adicionar arquivos — a lista é lida do disco no build.
 
 ## i18n
 
 Chaves em `Index`: `clients_title`, `clients_subtitle`, `clients_footnote`.
+
+## Jurídico
+
+Só use marcas com autorização de uso. Remova o arquivo da pasta se o contrato expirar.

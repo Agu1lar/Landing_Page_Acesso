@@ -1,12 +1,16 @@
-Logos de clientes (Casos de Sucesso — Home)
-============================================
+Casos de Sucesso — logos por setor
+==================================
 
-Arquivos ativos: {slug}.webp (6 segmentos).
+Coloque arquivos com fundo TRANSPARENTE (PNG ou WebP recomendado) em cada pasta:
 
-Regenerar a partir do site legado:
-  python docs/scripts/split-client-logos.py
-  (baixa/recorta de Design-sem-nome-31 — ver script)
+  public/clientes/construcao/
+  public/clientes/industria/
+  public/clientes/mineracao/
+  public/clientes/varejo/
+  public/clientes/logistica/
+  public/clientes/infraestrutura/
 
-Atualizar lista: src/data/client-logos.ts
+Nome do arquivo = slug ou nome da empresa (ex.: vale.webp, cemig.png).
+O site lista automaticamente todos os arquivos da pasta (ordem alfabética).
 
-Não commitar _legacy-strip-source.png (arquivo de trabalho).
+Pastas vazias não aparecem na Home.

@@ -453,7 +453,7 @@ Escala de catálogo, prova social, otimizações e ferramentas para o time comer
 | 9.1b | **4 fotos pendentes (acessórios)** | Alta | ⏳ punho esmerilhadeira, prato borracha, maleta, pinça solda |
 | 9.1c | Nomes e specs plataformas | Alta | ✅ `normalize-equipment-names.py`, `fix-platform-specs.py` |
 | 9.1d | **Classificação ABNT (NBR 16776)** | Alta | ✅ Corrigido 2026-05-20 — 3A tesouras/mastros, 3B lanças, 1A empurrar (antes: erro “Tipo 1 · Grupo B” em tudo) |
-| 9.2 | **Casos de Sucesso — logos de clientes na Home** | **Alta** | ✅ Logos em `public/clientes/*.webp` (faixa legado 3×2); validar recorte/autorização com comercial |
+| 9.2 | **Casos de Sucesso — logos de clientes na Home** | **Alta** | ✅ Pastas `public/clientes/{setor}/` — usuário coloca PNG/WebP transparentes; lista automática |
 | 9.3 | Expandir textos long-tail | Alta | ⏳ |
 | 9.4 | Blog ou `/dicas` (SEO informacional) | Média | ⏳ |
 | 9.5 | Avaliar CMS (Sanity/Payload) | Média | 📋 Substituído por **Sprint 11** |

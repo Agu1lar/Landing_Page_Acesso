@@ -1,19 +1,15 @@
 import { describe, expect, it } from 'vitest';
-import { CLIENT_LOGOS } from '@/data/client-logos';
+import { CLIENT_LOGO_SEGMENTS } from '@/data/client-logos';
 
-describe('client logos list', () => {
-  it('lists at least six trust badges for the home section', () => {
-    expect(CLIENT_LOGOS.length).toBeGreaterThanOrEqual(6);
+describe('client logo segments', () => {
+  it('defines six sector folders for the home section', () => {
+    expect(CLIENT_LOGO_SEGMENTS).toHaveLength(6);
   });
 
-  it('uses unique slugs for each entry', () => {
-    const slugs = CLIENT_LOGOS.map((entry) => entry.slug);
-    expect(new Set(slugs).size).toBe(slugs.length);
-  });
-
-  it('points each entry to a logo file under public/clientes', () => {
-    for (const entry of CLIENT_LOGOS) {
-      expect(entry.logoSrc).toMatch(/^\/clientes\/[\w-]+\.webp$/u);
-    }
+  it('uses unique sector ids matching public/clientes subfolders', () => {
+    const ids = CLIENT_LOGO_SEGMENTS.map((segment) => segment.id);
+    expect(new Set(ids).size).toBe(ids.length);
+    expect(ids).toContain('construcao');
+    expect(ids).toContain('mineracao');
   });
 });

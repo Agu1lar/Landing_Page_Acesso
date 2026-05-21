@@ -32,7 +32,7 @@
     "hero_cta_whatsapp": "Falar no WhatsApp",
     "clients_title": "Empresas que confiam na Acesso em Minas Gerais",
     "clients_subtitle": "Construtoras, indústrias e mineradoras da região atendidas com plataformas, andaimes e equipamentos para obra.",
-    "clients_footnote": "Logotipos de clientes e parceiros com autorização de uso. Substitua ou remova itens em src/data/client-logos.ts conforme orientação comercial.",
+    "clients_footnote": "Logotipos de clientes e parceiros com autorização de uso. Arquivos em public/clientes por setor.",
     "categories_title": "Categorias",
     "featured_title": "Equipamentos em destaque",
     "steps_title": "Como funciona a locação",
