@@ -14,6 +14,8 @@ Pipeline em [`.github/workflows/CI.yml`](../.github/workflows/CI.yml). Objetivo:
 
 Chromatic e Crowdin não bloqueiam o gate de produção.
 
+Branch protection em `main` exige os seis jobs acima antes do merge.
+
 ## Secrets no GitHub (Settings → Secrets → Actions)
 
 | Secret | Uso |
