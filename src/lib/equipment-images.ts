@@ -9,9 +9,3 @@ export function getEquipmentImageSrc(slug: string) {
   return slugToSrc[slug];
 }
 
-/**
- * Slugs that have a photo in the manifest.
- */
-export function getEquipmentSlugsWithImages() {
-  return Object.keys(slugToSrc);
-}

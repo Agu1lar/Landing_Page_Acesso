@@ -1,6 +1,6 @@
 import * as z from 'zod';
 
-export const ATTRIBUTION_STORAGE_KEY = 'acesso_attribution';
+const ATTRIBUTION_STORAGE_KEY = 'acesso_attribution';
 
 const UTM_PARAM_MAP = {
   utm_source: 'utmSource',

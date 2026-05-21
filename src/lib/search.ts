@@ -8,7 +8,7 @@ export type SearchableItem = {
   tags: string[];
 };
 
-export function normalizeSearchText(value: string): string {
+function normalizeSearchText(value: string): string {
   return value.normalize('NFD').replaceAll(/\p{M}/gu, '').toLowerCase().trim();
 }
 
@@ -37,7 +37,7 @@ export function matchesSearchQuery(haystack: string, rawQuery: string): boolean 
   return tokens.length > 0 && tokens.every((token) => haystack.includes(token));
 }
 
-export function searchRelevance(item: SearchableItem, rawQuery: string): number {
+function searchRelevance(item: SearchableItem, rawQuery: string): number {
   const query = normalizeSearchText(rawQuery);
   if (!query) {
     return -1;

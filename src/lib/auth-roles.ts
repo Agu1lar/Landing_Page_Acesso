@@ -1,6 +1,6 @@
 import { auth, clerkClient } from '@clerk/nextjs/server';
 
-export const DASHBOARD_ROLES = ['admin', 'comercial'] as const;
+const DASHBOARD_ROLES = ['admin', 'comercial'] as const;
 
 export type DashboardRole = (typeof DASHBOARD_ROLES)[number];
 

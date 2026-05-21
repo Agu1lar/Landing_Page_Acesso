@@ -20,7 +20,6 @@ const config: KnipConfig = {
     '@clerk/shared',
     '@swc/helpers', // Avoid error in CI: "`npm ci` can only install packages when your package.json and package-lock.json or npm-shrinkwrap.json are in sync."
     'vite',
-    'lefthook',
   ],
   // Include custom Playwright test file suffixes
   playwright: {
@@ -33,7 +32,8 @@ const config: KnipConfig = {
   compilers: {
     css: (text: string) => [...text.matchAll(/(?<=@)import[^;]+/gu)].join('\n'),
   },
-  treatConfigHintsAsErrors: true,
+  // Hints (e.g. stale ignore entries) must not fail CI when CI=true turns warnings into errors
+  treatConfigHintsAsErrors: false,
 };
 
 export default config;

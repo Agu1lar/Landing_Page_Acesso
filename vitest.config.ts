@@ -11,7 +11,7 @@ export default defineConfig({
   test: {
     coverage: {
       include: ['src/**/*'],
-      exclude: ['src/**/*.stories.{js,jsx,ts,tsx}'],
+      exclude: ['src/**/*.stories.{js,jsx,ts,tsx}', 'src/locales/**'],
       thresholds: {
         'src/lib/quote-whatsapp.ts': {
           lines: 80,

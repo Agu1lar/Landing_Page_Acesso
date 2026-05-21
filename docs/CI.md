@@ -23,7 +23,9 @@ Chromatic e Crowdin não bloqueiam o gate de produção.
 | `CODECOV_TOKEN` | Upload de cobertura (opcional) |
 | `CHROMATIC_PROJECT_TOKEN` | Regressão visual (opcional) |
 
-Sem `CLERK_*`, o job **Build with db migrate** falha na validação de `Env.ts`.
+Sem `CLERK_*` ou `DATABASE_URL`, jobs que carregam `Env.ts` (build, unit, Storybook) falham na validação.
+
+O workflow define `DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:5433/postgres` (paridade com PGlite do `build-local`).
 
 ## Rodar localmente (paridade com CI)
 

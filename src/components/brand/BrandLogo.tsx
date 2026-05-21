@@ -1,7 +1,7 @@
 import Image from 'next/image';
 
 /** Logo 3D oficial — arquivo em public/assets/brand/logo-acesso-3d.jpg */
-export const BRAND_LOGO_SRC = '/assets/brand/logo-acesso-3d.jpg';
+const BRAND_LOGO_SRC = '/assets/brand/logo-acesso-3d.jpg';
 
 type BrandLogoProps = {
   className?: string;

@@ -9,7 +9,7 @@ export type CategorySeoContent = {
 };
 
 /** Textos originais para SEO local (mín. ~300 palavras por categoria principal) */
-export const CATEGORIES_SEO: Record<EquipmentCategory, CategorySeoContent> = {
+const CATEGORIES_SEO: Record<EquipmentCategory, CategorySeoContent> = {
   'equipamentos-aereos': {
     slug: 'equipamentos-aereos',
     h1: 'Locação de plataformas elevatórias em Belo Horizonte',

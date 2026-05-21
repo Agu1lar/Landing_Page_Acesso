@@ -50,13 +50,6 @@ export function buildWhatsAppMessage(
   return `Olá! Tenho interesse${item} na ${brand.seoRegion}.${ref} Origem: ${origin}. Poderiam enviar um orçamento?`;
 }
 
-/** @deprecated Use buildWhatsAppMessage */
-export function defaultWhatsAppMessage(equipmentName?: string): string {
-  return buildWhatsAppMessage(
-    equipmentName ? { equipmentName, origin: 'site' } : { origin: 'site' },
-  );
-}
-
 export function buildWhatsAppUrl(message: string): string {
   return `https://wa.me/${brand.whatsapp}?text=${encodeURIComponent(message)}`;
 }
@@ -84,7 +77,3 @@ export function equipmentSeoTitle(equipmentName: string): string {
   return `${equipmentName} para locação em BH | ${brand.name}`;
 }
 
-/** Título SEO para categoria (já em categories-seo; helper genérico) */
-export function categorySeoTitle(categoryLabel: string): string {
-  return `Locação de ${categoryLabel.toLowerCase()} em BH | ${brand.name}`;
-}

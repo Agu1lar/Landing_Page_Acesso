@@ -46,7 +46,7 @@ type LeadCsvRow = {
   internalNotes: string;
 };
 
-export type CsvColumn = {
+type CsvColumn = {
   key: keyof LeadCsvRow;
   header: string;
 };

@@ -1,5 +1,4 @@
 import equipmentData from '@/data/equipamentos.json';
-import { buildSearchHaystack, matchesSearchQuery } from '@/lib/search';
 import type { Equipment, EquipmentCategory } from '@/types/equipment';
 import type { QuoteCartItemKind } from '@/types/quote-cart';
 
@@ -26,28 +25,6 @@ export function getFeaturedEquipment(limit = 6): Equipment[] {
 
 export function getEquipmentByCategory(category: EquipmentCategory): Equipment[] {
   return items.filter((e) => e.category === category && e.available);
-}
-
-export function searchEquipment(query: string, limit = 50): Equipment[] {
-  const q = query.trim();
-  if (!q) {
-    return getAllEquipment();
-  }
-  return items
-    .filter(
-      (e) =>
-        e.available &&
-        matchesSearchQuery(
-          buildSearchHaystack({
-            slug: e.slug,
-            name: e.name,
-            category: e.category,
-            tags: e.tags,
-          }),
-          q,
-        ),
-    )
-    .slice(0, limit);
 }
 
 export function getAllSlugs(): string[] {

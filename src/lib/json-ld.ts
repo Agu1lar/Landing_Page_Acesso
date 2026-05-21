@@ -129,7 +129,7 @@ export function buildLocalBusinessJsonLd() {
 /**
  * BreadcrumbList for category, equipment and institutional pages.
  */
-export function buildBreadcrumbListJsonLd(items: BreadcrumbItem[]) {
+function buildBreadcrumbListJsonLd(items: BreadcrumbItem[]) {
   const baseUrl = getBaseUrl();
 
   return {
