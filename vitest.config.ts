@@ -12,6 +12,16 @@ export default defineConfig({
     coverage: {
       include: ['src/**/*'],
       exclude: ['src/**/*.stories.{js,jsx,ts,tsx}'],
+      thresholds: {
+        'src/lib/quote-whatsapp.ts': {
+          lines: 80,
+          functions: 80,
+        },
+        'src/lib/leads-admin.ts': {
+          lines: 70,
+          functions: 70,
+        },
+      },
     },
     projects: [
       {

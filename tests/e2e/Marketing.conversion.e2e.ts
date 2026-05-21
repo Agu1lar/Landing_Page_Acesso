@@ -55,6 +55,14 @@ test.describe('Marketing conversion flows', () => {
 
       await expect(page.getByRole('status')).toContainText('Pedido enviado!');
     });
+
+    test('shows whatsapp quote action on orcamento page', async ({ page }) => {
+      await page.goto('/orcamento');
+
+      await expect(
+        page.getByRole('button', { name: 'Enviar orçamento pelo WhatsApp' }),
+      ).toBeVisible();
+    });
   });
 
   test.describe('Institutional pages', () => {

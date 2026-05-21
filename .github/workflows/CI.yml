@@ -48,6 +48,43 @@ jobs:
             next-env.d.ts
           key: nextjs-build-${{ matrix.node-version }}-${{ github.sha }}
 
+  build-migrate:
+    name: Build with db migrate (production path)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: ci
+          POSTGRES_PASSWORD: ci
+          POSTGRES_DB: acesso_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U ci -d acesso_ci"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Node.js environment
+        uses: ./.github/actions/setup-project
+        with:
+          node-version: 24.x
+
+      - name: Build with migrate
+        run: npm run build
+        env:
+          DATABASE_URL: postgresql://ci:ci@localhost:5432/acesso_ci
+          CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
+          NEXT_PUBLIC_SENTRY_DISABLED: 'true'
+          NEXT_PUBLIC_APP_URL: http://localhost:3008
+
   static:
     strategy:
       matrix:
@@ -76,6 +113,9 @@ jobs:
 
       - name: Linter
         run: npx next typegen && npm run lint
+
+      - name: TypeScript check
+        run: npm run check:types
 
       - name: Check dependencies
         run: npm run check:deps
@@ -153,12 +193,13 @@ jobs:
           node-version: ${{ matrix.node-version }}
           restore-nextjs-cache: true
 
-      - name: Run E2E tests
+      - name: Run E2E and integration tests
         uses: docker://mcr.microsoft.com/playwright:v1.59.1
         with:
           args: sh -c "HOME=/root npm run test:e2e" # Set HOME to /root to avoid Playwright error with Firebox
         env:
           CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
 
       - name: Fix test results permission # Give permissions to test results needed by Chromatic
         run: |

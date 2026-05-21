@@ -1,5 +1,7 @@
 # Acesso Equipamentos — Site institucional e captação de orçamentos
 
+[![CI](https://github.com/Agu1lar/Landing_Page_Acesso/actions/workflows/CI.yml/badge.svg)](https://github.com/Agu1lar/Landing_Page_Acesso/actions/workflows/CI.yml)
+
 Site da **Acesso Equipamentos** (locação de equipamentos para construção civil e plataformas aéreas). O visitante consulta o catálogo, monta um orçamento com vários itens e quantidades, e envia o pedido pelo **WhatsApp** (fluxo principal). O lead é salvo no **PostgreSQL**, o comercial recebe **e-mail interno** (Resend) e a equipe acompanha tudo no **painel administrativo**.
 
 **Produção (sempre a versão mais nova):** [https://landing-page-acesso.vercel.app/](https://landing-page-acesso.vercel.app/)
@@ -120,9 +122,10 @@ Detalhamento por sprint em [ROADMAP.temp.md](ROADMAP.temp.md).
 | Prioridade | Item |
 |------------|------|
 | Alta | **Domínio oficial** `acessoequipamentos.com.br` + Clerk **Production** (`pk_live_` / `sk_live_`) |
+| Alta | **301 do blog WordPress** — posts indexados no Google; mapa de URLs antes do DNS — [ROADMAP § 10.10](ROADMAP.temp.md#blog-wordpress--redirecionamentos-301-no-go-live) |
 | Baixa | **5 fotos** pendentes (lista acima) |
-| Alta | **Casos de Sucesso** — logos de construtoras, indústrias e mineradoras (MG) na Home — ver [ROADMAP § Casos de Sucesso](ROADMAP.temp.md#casos-de-sucesso--logos-de-clientes-na-home-prioridade-alta) |
-| Média | CI completo no GitHub (lint + types + e2e em todo PR) |
+| Alta | **CI completo (gate de produção)** — branch protection, `check:types`, E2E leads/orçamento, build+migrate — **antes** dos Sprints 12–13 — [ROADMAP § 8.7](ROADMAP.temp.md#sprint-87--ci-completo-gate-de-produção-prioridade-alta) |
+| Alta | **Casos de Sucesso** — logos reais em `public/clientes/` (seção na Home 🟡 com wordmarks) — [ROADMAP § 9.2](ROADMAP.temp.md#casos-de-sucesso--logos-de-clientes-na-home-prioridade-alta) |
 | Média | Polish Sprint 7 (a11y, skeletons, PageSpeed alvo) |
 | Planejado | **Sprints 12–13** — analytics avançado, dashboard executivo |
 | Planejado | **Sprints 14–15** — SEO por cidade, prova social ampliada |
@@ -243,6 +246,8 @@ Aguarde deploy **Ready** no topo da lista (**Production**, commit mais recente).
 | [docs/PREVIEW-VALIDACAO.md](docs/PREVIEW-VALIDACAO.md) | Checklist de validação |
 | [docs/SPRINT-9-FOTOS.md](docs/SPRINT-9-FOTOS.md) | Fluxo de fotos |
 | [docs/DEPLOY-PREVIEW-VERCEL.md](docs/DEPLOY-PREVIEW-VERCEL.md) | Deploy Vercel |
+| [docs/CI.md](docs/CI.md) | Pipeline CI e branch protection (Sprint 8.7) |
+| [docs/MIGRACAO-SEO-WP.md](docs/MIGRACAO-SEO-WP.md) | Mapa 301 blog WordPress (Sprint 10.10) |
 | [docs/CLERK-ACESSO-ADMIN.md](docs/CLERK-ACESSO-ADMIN.md) | Painel, papéis e Clerk Production no go-live |
 | [docs/inventario-equipamentos.csv](docs/inventario-equipamentos.csv) | Inventário base (110 itens) |
 | [.env.example](.env.example) | Variáveis de ambiente |

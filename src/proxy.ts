@@ -4,6 +4,7 @@ import createMiddleware from 'next-intl/middleware';
 import type { NextFetchEvent, NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { resolveDashboardRole } from '@/lib/auth-roles';
+import { resolveLegacyRedirect } from '@/lib/legacy-redirects';
 import arcjet from '@/libs/Arcjet';
 import { routing } from './libs/I18nRouting';
 
@@ -49,6 +50,11 @@ export default async function proxy(request: NextRequest, event: NextFetchEvent)
     if (decision.isDenied()) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
+  }
+
+  const legacyDestination = resolveLegacyRedirect(request.nextUrl.pathname);
+  if (legacyDestination) {
+    return NextResponse.redirect(new URL(legacyDestination, request.url), 301);
   }
 
   if (isSignUpPage(request)) {

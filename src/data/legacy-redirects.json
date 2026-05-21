@@ -1,0 +1,148 @@
+{
+  "generatedAt": "2026-05-20",
+  "source": "acessoequipamentos.com.br — Yoast sitemaps (post-sitemap.xml, page-sitemap.xml)",
+  "redirects": [
+    {
+      "source": "/blog",
+      "destination": "/faq",
+      "note": "Hub informacional até Sprint 22 (/blog)"
+    },
+    {
+      "source": "/utilizacao-de-plataformas-elevatorias-em-empresa-mineradora-regiao-metropolitana-de-belo-horizonte",
+      "destination": "/categorias/equipamentos-aereos",
+      "note": "Post — plataformas / mineração"
+    },
+    {
+      "source": "/plataformas-elevatorias-na-industria-siderurgica-em-bh",
+      "destination": "/categorias/equipamentos-aereos",
+      "note": "Post — plataformas / siderurgia"
+    },
+    {
+      "source": "/plataforma-lanca-articulada-para-galpao-logistico-em-bh",
+      "destination": "/categorias/equipamentos-aereos",
+      "note": "Post — lança articulada"
+    },
+    {
+      "source": "/equipamentos-em-conformidade-com-a-nr12-seguranca-e-qualidade-para-sua-obra",
+      "destination": "/treinamento-plataformas-aereas",
+      "note": "Post — NR-12 / segurança"
+    },
+    {
+      "source": "/plataforma-elevatoria-tesoura-a-solucao-ideal-para-trabalhos-em-altura",
+      "destination": "/categorias/equipamentos-aereos",
+      "note": "Post — tesoura"
+    },
+    {
+      "source": "/aluguel-andaimes-multidirecionais-para-manutencao-de-fachada-bh",
+      "destination": "/categorias/andaimes-acesso",
+      "note": "Post — andaimes"
+    },
+    {
+      "source": "/aluguel-plataforma-elevatoria-modelo-elevador-individual-bh",
+      "destination": "/categorias/equipamentos-aereos",
+      "note": "Post — elevador individual"
+    },
+    {
+      "source": "/locacao-e-montagem-de-andaimes",
+      "destination": "/categorias/andaimes-acesso",
+      "note": "Página WP — andaimes"
+    },
+    {
+      "source": "/aluguel-compactador-de-solo-bh",
+      "destination": "/categorias/compactacao",
+      "note": "Página WP — compactação"
+    },
+    {
+      "source": "/aluguel-gerador-de-energia-bh",
+      "destination": "/categorias/energia",
+      "note": "Página WP — geradores"
+    },
+    {
+      "source": "/politica-da-qualidade",
+      "destination": "/sobre",
+      "note": "Página WP — qualidade"
+    },
+    {
+      "source": "/missaovisao-e-politica-da-qualidade",
+      "destination": "/sobre",
+      "note": "Página WP — missão/visão"
+    },
+    {
+      "source": "/linha-ferramentas-a-bateria",
+      "destination": "/categorias/ferramentas-eletricas",
+      "note": "Página WP — ferramentas bateria"
+    },
+    {
+      "source": "/aluguel-de-maquinas-e-ferramentas-eletricas",
+      "destination": "/categorias/ferramentas-eletricas",
+      "note": "Página WP — ferramentas elétricas"
+    },
+    {
+      "source": "/aluguel-de-marteletes-hilti-em-belo-horizonte",
+      "destination": "/categorias/demolicao-perfuracao",
+      "note": "Página WP — marteletes"
+    },
+    {
+      "source": "/locacao-de-guindaste-industrial-munck-e-remocao-em-bh",
+      "destination": "/equipamentos",
+      "note": "Página WP — guindaste (catálogo geral)"
+    },
+    {
+      "source": "/politica-de-privacidade-acesso-equipamentos",
+      "destination": "/privacidade",
+      "note": "Página WP — privacidade"
+    },
+    {
+      "source": "/politica-de-cookies-acesso-equipamentos",
+      "destination": "/privacidade",
+      "note": "Página WP — cookies (unificado em privacidade)"
+    },
+    {
+      "source": "/aluguel-de-guindaste-fr17-franna-bh",
+      "destination": "/equipamentos",
+      "note": "Página WP — guindaste FR17"
+    },
+    {
+      "source": "/aluguel-de-guindaste-fr17-franna",
+      "destination": "/equipamentos",
+      "note": "Página WP — guindaste FR17 (variante URL)"
+    },
+    {
+      "source": "/aluguel-de-manipulador-telescopico-minas-gerais",
+      "destination": "/equipamentos",
+      "note": "Página WP — manipulador telescópico"
+    },
+    {
+      "source": "/locacao-de-plataformas-elevatorias",
+      "destination": "/categorias/equipamentos-aereos",
+      "note": "Página WP — plataformas elevatórias"
+    },
+    {
+      "source": "/feed",
+      "destination": "/",
+      "note": "Feed RSS — redirect para home"
+    }
+  ],
+  "prefixRedirects": [
+    {
+      "sourcePrefix": "/category",
+      "destination": "/equipamentos",
+      "note": "Arquivos de categoria WP"
+    },
+    {
+      "sourcePrefix": "/tag",
+      "destination": "/equipamentos",
+      "note": "Tags WP"
+    },
+    {
+      "sourcePrefix": "/author",
+      "destination": "/sobre",
+      "note": "Autores WP"
+    },
+    {
+      "sourcePrefix": "/wp-json",
+      "destination": "/",
+      "note": "API REST WP — não expor na landing"
+    }
+  ]
+}
