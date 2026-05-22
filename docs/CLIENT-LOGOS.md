@@ -1,6 +1,8 @@
 # Logos de clientes na Home
 
-Seção: `ClientLogosSection` logo após o hero em `/`.
+**Status:** seção **desligada** na Home até autorização de uso das marcas. Código em `ClientLogosSection` permanece no repositório para reativar depois.
+
+Quando reativar: `ClientLogosSection` logo após o hero em `/`.
 
 ## Organização em pastas (não aparece na Home)
 
