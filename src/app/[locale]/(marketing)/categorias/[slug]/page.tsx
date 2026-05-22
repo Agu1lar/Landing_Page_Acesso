@@ -54,7 +54,7 @@ export default async function CategoryPage(props: CategoryPageProps) {
     namespace: 'Categoria',
   });
   const seo = getCategorySeo(slug);
-  const equipment = getEquipmentByCategory(slug);
+  const equipment = await getEquipmentByCategory(slug);
   const whatsappHref = buildWhatsAppUrl(
     buildWhatsAppMessage({
       equipmentName: CATEGORY_LABELS[slug],

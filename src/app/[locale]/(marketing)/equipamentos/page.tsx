@@ -33,7 +33,7 @@ export default async function EquipamentosPage(props: EquipamentosPageProps) {
     locale: resolveAppLocale(locale),
     namespace: 'Equipamentos',
   });
-  const equipment = getAllEquipment();
+  const equipment = await getAllEquipment();
 
   return (
     <>

@@ -1,50 +1,65 @@
+import { cache } from 'react';
 import equipmentData from '@/data/equipamentos.json';
+import { countEquipmentInDb, loadPublishedEquipmentFromDb } from '@/lib/equipment-db';
 import type { Equipment, EquipmentCategory } from '@/types/equipment';
-import type { QuoteCartItemKind } from '@/types/quote-cart';
 
-const items = equipmentData as Equipment[];
+export { getEquipmentQuoteCartKind } from '@/lib/equipment-quote-cart';
 
-/** Maps catalog category to quote-cart item kind. */
-export function getEquipmentQuoteCartKind(
-  equipment: Pick<Equipment, 'category'>,
-): QuoteCartItemKind {
-  return equipment.category === 'acessorios' ? 'accessory' : 'equipment';
+const jsonFallback = equipmentData as Equipment[];
+
+const loadCatalog = cache(async () => {
+  try {
+    const dbCount = await countEquipmentInDb();
+    if (dbCount === 0) {
+      return jsonFallback;
+    }
+    return loadPublishedEquipmentFromDb();
+  } catch {
+    return jsonFallback;
+  }
+});
+
+export async function getAllEquipment() {
+  const items = await loadCatalog();
+  return items.filter((item) => item.available);
 }
 
-export function getAllEquipment(): Equipment[] {
-  return items.filter((e) => e.available);
+export async function getEquipmentBySlug(slug: string) {
+  const items = await loadCatalog();
+  return items.find((item) => item.slug === slug);
 }
 
-export function getEquipmentBySlug(slug: string): Equipment | undefined {
-  return items.find((e) => e.slug === slug);
+export async function getFeaturedEquipment(limit = 6) {
+  const items = await loadCatalog();
+  return items.filter((item) => item.featured && item.available).slice(0, limit);
 }
 
-export function getFeaturedEquipment(limit = 6): Equipment[] {
-  return items.filter((e) => e.featured && e.available).slice(0, limit);
+export async function getEquipmentByCategory(category: EquipmentCategory) {
+  const items = await loadCatalog();
+  return items.filter((item) => item.category === category && item.available);
 }
 
-export function getEquipmentByCategory(category: EquipmentCategory): Equipment[] {
-  return items.filter((e) => e.category === category && e.available);
+export async function getAllSlugs() {
+  const items = await loadCatalog();
+  return items.filter((item) => item.available).map((item) => item.slug);
 }
 
-export function getAllSlugs(): string[] {
-  return items.filter((e) => e.available).map((e) => e.slug);
-}
-
-/** Outros itens da mesma categoria (exclui o atual) */
-export function getRelatedEquipment(slug: string, limit = 4): Equipment[] {
-  const current = getEquipmentBySlug(slug);
+/** Related items in the same category (excludes current slug). */
+export async function getRelatedEquipment(slug: string, limit = 4) {
+  const items = await loadCatalog();
+  const current = items.find((item) => item.slug === slug);
   if (!current) {
     return [];
   }
   return items
-    .filter((e) => e.available && e.slug !== slug && e.category === current.category)
+    .filter((item) => item.available && item.slug !== slug && item.category === current.category)
     .slice(0, limit);
 }
 
-/** Compact index for client-side global search */
-export function getSearchIndex(): Pick<Equipment, 'slug' | 'name' | 'category' | 'tags'>[] {
-  return getAllEquipment().map(({ slug, name, category, tags }) => ({
+/** Compact index for client-side global search. */
+export async function getSearchIndex() {
+  const items = await getAllEquipment();
+  return items.map(({ slug, name, category, tags }) => ({
     slug,
     name,
     category,

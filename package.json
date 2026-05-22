@@ -37,6 +37,7 @@
     "@logtape/logtape": "^2.0.7",
     "@sentry/nextjs": "^10.52.0",
     "@t3-oss/env-nextjs": "^0.13.11",
+    "@vercel/blob": "^2.4.0",
     "drizzle-orm": "^0.45.2",
     "next": "^16.2.6",
     "next-intl": "^4.11.2",

@@ -25,7 +25,7 @@ export default async function OrcamentoPage(props: PageProps) {
   const { equipamento } = await props.searchParams;
   setRequestLocale(resolveAppLocale(locale));
 
-  const equipment = equipamento ? getEquipmentBySlug(equipamento) : undefined;
+  const equipment = equipamento ? await getEquipmentBySlug(equipamento) : undefined;
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6 lg:px-8">

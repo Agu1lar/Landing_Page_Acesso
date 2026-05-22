@@ -1,8 +1,8 @@
-import { SignOutButton } from '@clerk/nextjs';
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { Link } from '@/libs/I18nNavigation';
-import { BaseTemplate } from '@/templates/BaseTemplate';
+import { AdminShell } from '@/components/admin/AdminShell';
+import { requireDashboardAccess } from '@/lib/auth-roles';
+import { redirect } from 'next/navigation';
 import { resolveAppLocale } from '@/utils/locale';
 
 type DashboardLayoutProps = {
@@ -26,56 +26,11 @@ export async function generateMetadata(props: DashboardLayoutProps): Promise<Met
 export default async function DashboardLayout(props: DashboardLayoutProps) {
   const { locale } = await props.params;
   setRequestLocale(resolveAppLocale(locale));
-  const t = await getTranslations({
-    locale: resolveAppLocale(locale),
-    namespace: 'DashboardLayout',
-  });
 
-  return (
-    <BaseTemplate
-      leftNav={
-        <>
-          <li>
-            <Link href="/dashboard/" className="border-none text-gray-700 hover:text-gray-900">
-              {t('dashboard_link')}
-            </Link>
-          </li>
-          <li>
-            <Link href="/dashboard/leads" className="border-none text-gray-700 hover:text-gray-900">
-              {t('leads_link')}
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/dashboard/analytics"
-              className="border-none text-gray-700 hover:text-gray-900"
-            >
-              {t('analytics_link')}
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/dashboard/user-profile/"
-              className="border-none text-gray-700 hover:text-gray-900"
-            >
-              {t('user_profile_link')}
-            </Link>
-          </li>
-        </>
-      }
-      rightNav={
-        <>
-          <li>
-            <SignOutButton>
-              <button className="border-none text-gray-700 hover:text-gray-900" type="button">
-                {t('sign_out')}
-              </button>
-            </SignOutButton>
-          </li>
-        </>
-      }
-    >
-      {props.children}
-    </BaseTemplate>
-  );
+  const access = await requireDashboardAccess();
+  if (!access.ok) {
+    redirect('/sign-in');
+  }
+
+  return <AdminShell role={access.role}>{props.children}</AdminShell>;
 }

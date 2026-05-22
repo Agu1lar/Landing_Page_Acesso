@@ -3,7 +3,12 @@ import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 import createMiddleware from 'next-intl/middleware';
 import type { NextFetchEvent, NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-import { resolveDashboardRole } from '@/lib/auth-roles';
+import {
+  isAdminOnlyDashboardPath,
+  isComercialOnlyDashboardPath,
+  isDeferredDashboardPath,
+  resolveDashboardRole,
+} from '@/lib/auth-roles';
 import { resolveLegacyRedirect } from '@/lib/legacy-redirects';
 import arcjet from '@/libs/Arcjet';
 import { routing } from './libs/I18nRouting';
@@ -85,6 +90,22 @@ export default async function proxy(request: NextRequest, event: NextFetchEvent)
         );
         if (!role) {
           return NextResponse.redirect(unauthorizedUrl);
+        }
+
+        const pathname = req.nextUrl.pathname;
+
+        if (isAdminOnlyDashboardPath(pathname) && role !== 'admin') {
+          return NextResponse.redirect(unauthorizedUrl);
+        }
+
+        if (isComercialOnlyDashboardPath(pathname) && role !== 'comercial') {
+          return NextResponse.redirect(new URL(`${locale}/dashboard/equipamentos`, req.url));
+        }
+
+        if (isDeferredDashboardPath(pathname)) {
+          const target =
+            role === 'admin' ? `${locale}/dashboard/equipamentos` : `${locale}/dashboard/leads`;
+          return NextResponse.redirect(new URL(target, req.url));
         }
       }
 

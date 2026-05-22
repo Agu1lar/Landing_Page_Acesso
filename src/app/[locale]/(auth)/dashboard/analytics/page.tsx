@@ -60,11 +60,20 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
     dateTo: searchParams.dateTo,
   });
 
+  const visitsDelta = percentChange(dashboard.pageViews, dashboard.pageViewsPrevious);
+  const sessionsDelta = percentChange(
+    dashboard.uniqueSessions,
+    dashboard.uniqueSessionsPrevious,
+  );
   const whatsappDelta = percentChange(
     dashboard.whatsappClicks,
     dashboard.whatsappClicksPrevious,
   );
   const leadsDelta = percentChange(dashboard.quoteSubmits, dashboard.quoteSubmitsPrevious);
+  const whatsappRate =
+    dashboard.pageViews > 0
+      ? Math.round((dashboard.whatsappClicks / dashboard.pageViews) * 100)
+      : 0;
 
   return (
     <div className="space-y-6 py-6">
@@ -89,7 +98,19 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
         dateTo={searchParams.dateTo ?? dashboard.period.dateTo}
       />
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <KpiCard
+          delta={visitsDelta}
+          deltaLabel={t('delta_vs_previous')}
+          label={t('kpi_page_views')}
+          value={dashboard.pageViews}
+        />
+        <KpiCard
+          delta={sessionsDelta}
+          deltaLabel={t('delta_vs_previous')}
+          label={t('kpi_sessions')}
+          value={dashboard.uniqueSessions}
+        />
         <KpiCard
           delta={whatsappDelta}
           deltaLabel={t('delta_vs_previous')}
@@ -103,6 +124,12 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
           value={dashboard.quoteSubmits}
         />
       </div>
+
+      {dashboard.pageViews > 0 ? (
+        <p className="text-sm text-neutral-600">
+          {t('kpi_whatsapp_rate', { rate: whatsappRate })}
+        </p>
+      ) : null}
 
       <div className="grid gap-4 lg:grid-cols-2">
         <AnalyticsBarTable

@@ -1,4 +1,5 @@
-import { integer, pgTable, serial, text, timestamp, varchar } from 'drizzle-orm/pg-core';
+import { boolean, date, integer, jsonb, pgTable, serial, text, timestamp, varchar } from 'drizzle-orm/pg-core';
+import type { EquipmentSpec } from '@/types/equipment';
 
 // This file defines the structure of your database tables using the Drizzle ORM.
 
@@ -66,4 +67,58 @@ export const analyticsEventsSchema = pgTable('analytics_events', {
   referrer: varchar('referrer', { length: 500 }),
   landingPage: varchar('landing_page', { length: 500 }),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
+});
+
+/** Catálogo de equipamentos — Sprint 11.2 */
+export const equipmentSchema = pgTable('equipment', {
+  id: serial('id').primaryKey(),
+  slug: varchar('slug', { length: 120 }).notNull().unique(),
+  name: varchar('name', { length: 300 }).notNull(),
+  category: varchar('category', { length: 80 }).notNull(),
+  shortDescription: text('short_description').notNull(),
+  longDescription: text('long_description').notNull().default(''),
+  specs: jsonb('specs').$type<EquipmentSpec[]>().notNull().default([]),
+  tags: jsonb('tags').$type<string[]>().notNull().default([]),
+  featured: boolean('featured').notNull().default(false),
+  available: boolean('available').notNull().default(true),
+  published: boolean('published').notNull().default(true),
+  deletedAt: timestamp('deleted_at', { mode: 'date' }),
+  createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
+  updatedAt: timestamp('updated_at', { mode: 'date' })
+    .defaultNow()
+    .$onUpdate(() => new Date())
+    .notNull(),
+  updatedBy: varchar('updated_by', { length: 120 }),
+});
+
+export const equipmentImagesSchema = pgTable('equipment_images', {
+  id: serial('id').primaryKey(),
+  equipmentId: integer('equipment_id')
+    .notNull()
+    .references(() => equipmentSchema.id, { onDelete: 'cascade' }),
+  url: varchar('url', { length: 500 }).notNull(),
+  alt: varchar('alt', { length: 300 }),
+  sortOrder: integer('sort_order').notNull().default(0),
+  isPrimary: boolean('is_primary').notNull().default(false),
+});
+
+/** Auditoria de alterações no admin — Sprint 11.7 */
+export const adminActivitySchema = pgTable('admin_activity', {
+  id: serial('id').primaryKey(),
+  userId: varchar('user_id', { length: 120 }).notNull(),
+  action: varchar('action', { length: 80 }).notNull(),
+  entityType: varchar('entity_type', { length: 40 }).notNull(),
+  entitySlug: varchar('entity_slug', { length: 120 }),
+  details: text('details'),
+  createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
+});
+
+/** Agregados diários para o painel — Sprint 11.6 */
+export const analyticsDailySchema = pgTable('analytics_daily', {
+  date: date('date').primaryKey(),
+  pageViews: integer('page_views').notNull().default(0),
+  uniqueSessions: integer('unique_sessions').notNull().default(0),
+  whatsappClicks: integer('whatsapp_clicks').notNull().default(0),
+  quoteSubmits: integer('quote_submits').notNull().default(0),
+  topSources: jsonb('top_sources').$type<Record<string, number>>().notNull().default({}),
 });

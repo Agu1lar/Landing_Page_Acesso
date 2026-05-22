@@ -946,6 +946,28 @@ if (isAdminOnlyRoute(req) && role !== 'admin') {
 
 ---
 
+#### Escopo atual do painel admin (prioridade operação — catálogo)
+
+> **Decisão (2026):** no menu do painel, perfil **`admin`** vê apenas **catálogo** (listar, criar, editar, arquivar/excluir equipamentos). Perfil **`comercial`** vê apenas **leads**. O que exige configuração manual ou integração externa fica **fora do menu** até as tarefas abaixo.
+
+| Entregue agora (menu admin) | Adiado — integrações / UI manual (roadmap) |
+|-----------------------------|--------------------------------------------|
+| 11.2 CRUD equipamentos (`/dashboard/equipamentos`, new, edit) | 11.6 Painel de métricas no menu (`/dashboard/analytics`) |
+| Import único JSON → Postgres (botão na listagem, tabela vazia) | 11.6.1 Visitantes/sessões via **API PostHog** + job `analytics_daily` (sem botão “sincronizar”) |
+| `revalidatePath` ao salvar (site público atualiza) | 11.4.5 Página `/dashboard/exportacoes` + export JSON dedicado (CSV continua na lista de leads) |
+| Galeria com arrastar/soltar e escolher arquivos (Vercel Blob ou pasta local em dev) | Melhorias 11.3: recorte, preset OG, remover do storage |
+| Especificações em linhas (nome + valor) | Edição JSON / import CSV em massa (11.7.3) |
+| RBAC: `admin` = catálogo; `comercial` = leads | 11.7.1 UI de log de atividades (`/dashboard/configuracoes`) |
+| | Sincronização manual de agregados (`syncAnalyticsDailyAction`) |
+| | KPIs que dependem de `analytics_daily` preenchido à mão |
+| | Funil completo, comparativos avançados → Sprint 12–13 |
+
+**Tracking automático (sem painel):** `whatsapp_click` e `quote_submit` seguem gravando no Neon e no PostHog (com consentimento); **não** exigem ação no admin.
+
+**Critério de saída reduzido (fase atual):** admin cadastra/edita/exclui equipamento no painel; site público reflete após salvar; comercial continua leads/CSV na rota de leads.
+
+---
+
 ### Sprint 12 — Analytics comercial avançado
 
 > **Objetivo:** transformar o site em **fonte de dados do comercial** — provar ROI de campanhas e do catálogo.

@@ -34,7 +34,7 @@ export default async function SobrePage(props: PageProps) {
   const { locale } = await props.params;
   setRequestLocale(resolveAppLocale(locale));
 
-  const equipmentCount = getAllEquipment().length;
+  const equipmentCount = (await getAllEquipment()).length;
   const whatsappSobre = buildWhatsAppUrl(buildWhatsAppMessage({ origin: 'site-sobre' }));
 
   return (

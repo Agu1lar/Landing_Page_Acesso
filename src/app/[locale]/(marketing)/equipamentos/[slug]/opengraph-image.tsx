@@ -12,7 +12,7 @@ type OgImageProps = {
 
 export default async function EquipmentOpenGraphImage(props: OgImageProps) {
   const { slug } = await props.params;
-  const equipment = getEquipmentBySlug(slug);
+  const equipment = await getEquipmentBySlug(slug);
   const title = equipment?.name ?? 'Equipamento para locação';
   const category = equipment ? CATEGORY_LABELS[equipment.category] : 'Locação';
 

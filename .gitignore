@@ -85,3 +85,7 @@ TUTORIAL-SISTEMA.local.md
 
 # Fotos brutas antes do sync (ver docs/scripts/sync-equipment-photos.py)
 public/equipamentos/_incoming/
+
+# Uploads locais do painel admin (dev sem Vercel Blob)
+public/equipamentos/uploads/*
+!public/equipamentos/uploads/.gitkeep

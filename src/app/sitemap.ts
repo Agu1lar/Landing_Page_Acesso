@@ -34,7 +34,7 @@ function changeFrequencyForRoute(route: string): MetadataRoute.Sitemap[number]['
   return 'weekly';
 }
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = getBaseUrl();
   const now = new Date();
 
@@ -51,7 +51,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   const categoryRoutes = ALL_EQUIPMENT_CATEGORIES.map((slug) => `/categorias/${slug}`);
-  const equipmentRoutes = getAllSlugs().map((slug) => `/equipamentos/${slug}`);
+  const equipmentRoutes = (await getAllSlugs()).map((slug) => `/equipamentos/${slug}`);
   const dicaRoutes = getAllDicaSlugs().map((slug) => `/dicas/${slug}`);
   const allRoutes = [...staticRoutes, ...categoryRoutes, ...equipmentRoutes, ...dicaRoutes];
 

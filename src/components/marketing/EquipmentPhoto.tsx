@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { getEquipmentImageSrc } from '@/lib/equipment-images';
+import { getEquipmentImageSrc } from '@/lib/equipment-images-server';
 
 type EquipmentPhotoProps = {
   slug: string;
@@ -37,8 +37,8 @@ function Placeholder(props: { variant: 'card' | 'detail' }) {
 /**
  * Equipment image from public/equipamentos/{slug}.* or placeholder.
  */
-export function EquipmentPhoto(props: EquipmentPhotoProps) {
-  const src = getEquipmentImageSrc(props.slug);
+export async function EquipmentPhoto(props: EquipmentPhotoProps) {
+  const src = await getEquipmentImageSrc(props.slug);
 
   if (!src) {
     return <Placeholder variant={props.variant} />;

@@ -22,3 +22,29 @@ export function captureWhatsAppClick(input: WhatsAppClickInput) {
     pathname: typeof window === 'undefined' ? undefined : window.location.pathname,
   });
 }
+
+export type SearchEventInput = {
+  query: string;
+  resultsCount: number;
+};
+
+/**
+ * Sends search event to PostHog when the user searches equipment.
+ */
+export function captureSearch(input: SearchEventInput) {
+  const posthog = getPostHog();
+  if (!posthog) {
+    return;
+  }
+
+  const query = input.query.trim();
+  if (query.length < 2) {
+    return;
+  }
+
+  posthog.capture('search', {
+    query,
+    results_count: input.resultsCount,
+    pathname: typeof window === 'undefined' ? undefined : window.location.pathname,
+  });
+}

@@ -2,7 +2,7 @@ import type { DicaArticle } from '@/data/dicas-articles';
 import type { FaqItem } from '@/data/faq';
 import { brand } from '@/lib/brand';
 import type { CategorySeoContent } from '@/lib/categories-seo';
-import { getEquipmentImageSrc } from '@/lib/equipment-images';
+import { getEquipmentImageSrc } from '@/lib/equipment-images-server';
 import type { Equipment, EquipmentCategory } from '@/types/equipment';
 import { CATEGORY_LABELS } from '@/types/equipment';
 import { getBaseUrl } from '@/utils/Helpers';

@@ -1,4 +1,5 @@
 import { and, count, desc, eq, gte, lte, sql } from 'drizzle-orm';
+import { sumAnalyticsDailyForPeriod } from '@/lib/analytics-daily';
 import { previousPeriodRange, resolveAnalyticsPeriod } from '@/lib/analytics-period';
 import { db } from '@/libs/DB';
 import { analyticsEventsSchema, leadsSchema } from '@/models/Schema';
@@ -13,6 +14,10 @@ type CountRow = { label: string; count: number };
 export type OperationalDashboard = {
   period: { dateFrom: string; dateTo: string };
   previousPeriod: { dateFrom: string; dateTo: string };
+  pageViews: number;
+  uniqueSessions: number;
+  pageViewsPrevious: number;
+  uniqueSessionsPrevious: number;
   whatsappClicks: number;
   quoteSubmits: number;
   whatsappClicksPrevious: number;
@@ -272,6 +277,8 @@ export async function getOperationalDashboard(
   const previous = previousPeriodRange(period.dateFrom, period.dateTo);
 
   const [
+    dailyCurrent,
+    dailyPrevious,
     whatsappClicks,
     quoteSubmits,
     whatsappClicksPrevious,
@@ -284,6 +291,8 @@ export async function getOperationalDashboard(
     landingPages,
     deviceSplitRows,
   ] = await Promise.all([
+    sumAnalyticsDailyForPeriod(period.dateFrom, period.dateTo),
+    sumAnalyticsDailyForPeriod(previous.dateFrom, previous.dateTo),
     countEvents('whatsapp_click', period.from, period.to),
     countEvents('quote_submit', period.from, period.to),
     countEvents('whatsapp_click', previous.from, previous.to),
@@ -300,6 +309,10 @@ export async function getOperationalDashboard(
   return {
     period: { dateFrom: period.dateFrom, dateTo: period.dateTo },
     previousPeriod: { dateFrom: previous.dateFrom, dateTo: previous.dateTo },
+    pageViews: dailyCurrent.pageViews,
+    uniqueSessions: dailyCurrent.uniqueSessions,
+    pageViewsPrevious: dailyPrevious.pageViews,
+    uniqueSessionsPrevious: dailyPrevious.uniqueSessions,
     whatsappClicks,
     quoteSubmits,
     whatsappClicksPrevious,

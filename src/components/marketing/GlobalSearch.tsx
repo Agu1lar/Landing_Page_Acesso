@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
+import { captureSearch } from '@/lib/posthog-events';
 import { filterSearchItems } from '@/lib/search';
 import { useRouter } from '@/libs/I18nNavigation';
 import { CATEGORY_LABELS } from '@/types/equipment';
@@ -32,6 +33,19 @@ export function GlobalSearch({ index, className = '', id, compact = false }: Glo
   const [activeIndex, setActiveIndex] = useState(0);
 
   const results = useMemo(() => filterSearchItems(index, query, 8), [index, query]);
+
+  useEffect(() => {
+    const trimmed = query.trim();
+    if (trimmed.length < 2) {
+      return;
+    }
+    const timer = window.setTimeout(() => {
+      captureSearch({ query: trimmed, resultsCount: results.length });
+    }, 600);
+    return () => {
+      window.clearTimeout(timer);
+    };
+  }, [query, results.length]);
 
   const goToAll = useCallback(() => {
     const q = query.trim();

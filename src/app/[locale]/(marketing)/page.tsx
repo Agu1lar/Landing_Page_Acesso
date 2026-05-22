@@ -47,7 +47,7 @@ export default async function HomePage(props: IndexPageProps) {
     locale: resolveAppLocale(locale),
     namespace: 'Index',
   });
-  const featured = getFeaturedEquipment(6);
+  const featured = await getFeaturedEquipment(6);
   const whatsappHome = buildWhatsAppUrl(buildWhatsAppMessage({ origin: 'site-home' }));
 
   return (

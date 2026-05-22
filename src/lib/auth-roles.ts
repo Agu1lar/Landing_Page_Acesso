@@ -86,3 +86,42 @@ export async function requireDashboardAccess(): Promise<DashboardAccessResult> {
 
   return { ok: true, userId, role };
 }
+
+/**
+ * Ensures the user has admin role (equipment CRUD, settings).
+ */
+export async function requireAdminAccess(): Promise<DashboardAccessResult> {
+  const access = await requireDashboardAccess();
+  if (!access.ok) {
+    return access;
+  }
+  if (access.role !== 'admin') {
+    return { ok: false, status: 403 };
+  }
+  return access;
+}
+
+/**
+ * Returns true when pathname is restricted to admin role only.
+ */
+export function isAdminOnlyDashboardPath(pathname: string) {
+  return /\/dashboard\/equipamentos/u.test(pathname);
+}
+
+/**
+ * Returns true when pathname is restricted to comercial role (leads).
+ */
+export function isComercialOnlyDashboardPath(pathname: string) {
+  return /\/dashboard\/leads/u.test(pathname);
+}
+
+/**
+ * Returns true for dashboard modules deferred from the current admin menu.
+ */
+export function isDeferredDashboardPath(pathname: string) {
+  return (
+    /\/dashboard\/analytics/u.test(pathname)
+    || /\/dashboard\/exportacoes/u.test(pathname)
+    || /\/dashboard\/configuracoes/u.test(pathname)
+  );
+}

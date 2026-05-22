@@ -27,10 +27,9 @@ type EquipmentDetailProps = {
   params: Promise<{ locale: string; slug: string }>;
 };
 
-export function generateStaticParams() {
-  return routing.locales.flatMap((locale) =>
-    getAllSlugs().map((slug) => ({ locale, slug })),
-  );
+export async function generateStaticParams() {
+  const slugs = await getAllSlugs();
+  return routing.locales.flatMap((locale) => slugs.map((slug) => ({ locale, slug })));
 }
 
 export async function generateMetadata(props: EquipmentDetailProps): Promise<Metadata> {
@@ -38,7 +37,7 @@ export async function generateMetadata(props: EquipmentDetailProps): Promise<Met
   if (!slug) {
     return { title: 'Equipamento' };
   }
-  const equipment = getEquipmentBySlug(slug);
+  const equipment = await getEquipmentBySlug(slug);
   if (!equipment) {
     return { title: 'Equipamento' };
   }
@@ -63,14 +62,14 @@ export default async function EquipmentDetailPage(props: EquipmentDetailProps) {
   if (!slug) {
     notFound();
   }
-  const equipment = getEquipmentBySlug(slug);
+  const equipment = await getEquipmentBySlug(slug);
 
   if (!equipment) {
     notFound();
   }
 
   const whatsappHref = buildEquipmentWhatsAppUrl(equipment);
-  const related = getRelatedEquipment(slug);
+  const related = await getRelatedEquipment(slug);
   const seoExtra = getEquipmentSeoExtra(equipment);
 
   return (

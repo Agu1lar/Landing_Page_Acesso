@@ -11,8 +11,8 @@ type MarketingShellProps = {
   children: React.ReactNode;
 };
 
-export function MarketingShell(props: MarketingShellProps) {
-  const searchIndex = getSearchIndex();
+export async function MarketingShell(props: MarketingShellProps) {
+  const searchIndex = await getSearchIndex();
 
   return (
     <AnalyticsConsentProvider>

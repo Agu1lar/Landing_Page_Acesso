@@ -10,6 +10,7 @@ export const Env = createEnv({
     RESEND_API_KEY: z.string().startsWith('re_').optional(),
     RESEND_FROM_EMAIL: z.string().min(3).optional(),
     LEADS_NOTIFY_EMAIL: z.email().optional(),
+    BLOB_READ_WRITE_TOKEN: z.string().min(1).optional(),
     VERCEL_ENV: z.enum(['development', 'preview', 'production']).optional(),
   },
   client: {
@@ -34,6 +35,7 @@ export const Env = createEnv({
     RESEND_API_KEY: process.env.RESEND_API_KEY,
     RESEND_FROM_EMAIL: process.env.RESEND_FROM_EMAIL,
     LEADS_NOTIFY_EMAIL: process.env.LEADS_NOTIFY_EMAIL,
+    BLOB_READ_WRITE_TOKEN: process.env.BLOB_READ_WRITE_TOKEN,
     VERCEL_ENV: process.env.VERCEL_ENV,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
     NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
