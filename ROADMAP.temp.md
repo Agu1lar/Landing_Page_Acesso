@@ -948,7 +948,7 @@ if (isAdminOnlyRoute(req) && role !== 'admin') {
 
 #### Escopo atual do painel admin (prioridade operação — catálogo)
 
-> **Decisão (2026):** no menu do painel, perfil **`admin`** vê apenas **catálogo** (listar, criar, editar, arquivar/excluir equipamentos). Perfil **`comercial`** vê apenas **leads**. O que exige configuração manual ou integração externa fica **fora do menu** até as tarefas abaixo.
+> **Decisão (2026):** no menu do painel, **`admin`** vê **leads** (lista + detalhe) e **catálogo** (CRUD equipamentos). **`comercial`** vê **leads**. Métricas/exportações manuais ficam **fora do menu** até as tarefas abaixo.
 
 | Entregue agora (menu admin) | Adiado — integrações / UI manual (roadmap) |
 |-----------------------------|--------------------------------------------|
@@ -957,7 +957,7 @@ if (isAdminOnlyRoute(req) && role !== 'admin') {
 | `revalidatePath` ao salvar (site público atualiza) | 11.4.5 Página `/dashboard/exportacoes` + export JSON dedicado (CSV continua na lista de leads) |
 | Galeria com arrastar/soltar e escolher arquivos (Vercel Blob ou pasta local em dev) | Melhorias 11.3: recorte, preset OG, remover do storage |
 | Especificações em linhas (nome + valor) | Edição JSON / import CSV em massa (11.7.3) |
-| RBAC: `admin` = catálogo; `comercial` = leads | 11.7.1 UI de log de atividades (`/dashboard/configuracoes`) |
+| RBAC: `admin` = leads + catálogo; `comercial` = leads | 11.7.1 UI de log de atividades (`/dashboard/configuracoes`) |
 | | Sincronização manual de agregados (`syncAnalyticsDailyAction`) |
 | | KPIs que dependem de `analytics_daily` preenchido à mão |
 | | Funil completo, comparativos avançados → Sprint 12–13 |

@@ -12,9 +12,5 @@ export default async function DashboardPage(props: { params: Promise<{ locale: s
     redirect('/sign-in');
   }
 
-  if (access.role === 'admin') {
-    redirect('/dashboard/equipamentos');
-  }
-
   redirect('/dashboard/leads');
 }

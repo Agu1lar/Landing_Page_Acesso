@@ -19,13 +19,15 @@ type AdminShellProps = {
 export async function AdminShell(props: AdminShellProps) {
   const t = await getTranslations('DashboardLayout');
 
+  const leadsItem = { href: '/dashboard/leads', label: t('leads_link') };
   const nav: AdminNavItem[] =
     props.role === 'admin'
       ? [
+          leadsItem,
           { href: '/dashboard/equipamentos', label: t('equipment_link') },
           { href: '/dashboard/equipamentos/new', label: t('equipment_new_link') },
         ]
-      : [{ href: '/dashboard/leads', label: t('leads_link') }];
+      : [leadsItem];
 
   return (
     <div className="min-h-screen bg-neutral-50 lg:grid lg:grid-cols-[240px_1fr]">

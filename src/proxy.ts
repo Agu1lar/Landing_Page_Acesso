@@ -5,7 +5,6 @@ import type { NextFetchEvent, NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import {
   isAdminOnlyDashboardPath,
-  isComercialOnlyDashboardPath,
   isDeferredDashboardPath,
   resolveDashboardRole,
 } from '@/lib/auth-roles';
@@ -96,10 +95,6 @@ export default async function proxy(request: NextRequest, event: NextFetchEvent)
 
         if (isAdminOnlyDashboardPath(pathname) && role !== 'admin') {
           return NextResponse.redirect(unauthorizedUrl);
-        }
-
-        if (isComercialOnlyDashboardPath(pathname) && role !== 'comercial') {
-          return NextResponse.redirect(new URL(`${locale}/dashboard/equipamentos`, req.url));
         }
 
         if (isDeferredDashboardPath(pathname)) {

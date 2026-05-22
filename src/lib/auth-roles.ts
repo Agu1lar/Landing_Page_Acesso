@@ -109,13 +109,6 @@ export function isAdminOnlyDashboardPath(pathname: string) {
 }
 
 /**
- * Returns true when pathname is restricted to comercial role (leads).
- */
-export function isComercialOnlyDashboardPath(pathname: string) {
-  return /\/dashboard\/leads/u.test(pathname);
-}
-
-/**
  * Returns true for dashboard modules deferred from the current admin menu.
  */
 export function isDeferredDashboardPath(pathname: string) {
