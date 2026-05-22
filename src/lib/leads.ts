@@ -1,3 +1,4 @@
+import { recordAnalyticsEvent } from '@/lib/analytics-events';
 import { db } from '@/libs/DB';
 import { logger } from '@/libs/Logger';
 import { leadsSchema } from '@/models/Schema';
@@ -34,6 +35,24 @@ export async function createLead(input: CreateLeadInput) {
   logger.info(
     `Novo lead #${lead?.id ?? '?'} origin=${lead?.origin ?? 'site'} equipamento=${lead?.equipmentSlug ?? '—'}`,
   );
+
+  if (lead) {
+    await recordAnalyticsEvent({
+      eventType: 'quote_submit',
+      origin: lead.origin,
+      equipmentSlug: lead.equipmentSlug ?? undefined,
+      equipmentName: lead.equipmentName ?? undefined,
+      attribution: {
+        utmSource: lead.utmSource ?? undefined,
+        utmMedium: lead.utmMedium ?? undefined,
+        utmCampaign: lead.utmCampaign ?? undefined,
+        utmContent: lead.utmContent ?? undefined,
+        utmTerm: lead.utmTerm ?? undefined,
+        referrer: lead.referrer ?? undefined,
+        landingPage: lead.landingPage ?? undefined,
+      },
+    });
+  }
 
   return lead;
 }

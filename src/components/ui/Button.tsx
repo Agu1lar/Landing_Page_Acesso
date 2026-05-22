@@ -1,7 +1,7 @@
 'use client';
 
 import type { ComponentPropsWithoutRef, MouseEvent } from 'react';
-import { captureWhatsAppClick } from '@/lib/posthog-events';
+import { trackWhatsAppClick } from '@/lib/track-whatsapp-click';
 
 type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'whatsapp' | 'ghost';
 type ButtonSize = 'sm' | 'md' | 'lg';
@@ -49,7 +49,7 @@ export function Button({
   if (href) {
     const handleAnchorClick = (_event: MouseEvent<HTMLAnchorElement>) => {
       if (variant === 'whatsapp' && whatsappOrigin) {
-        captureWhatsAppClick({
+        trackWhatsAppClick({
           origin: whatsappOrigin,
           equipmentSlug,
           equipmentName,

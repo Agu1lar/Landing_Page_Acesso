@@ -48,3 +48,22 @@ export const leadsSchema = pgTable('leads', {
   internalNotes: text('internal_notes'),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
 });
+
+/** Conversion events for admin dashboard — Sprint 11.5 */
+export const analyticsEventsSchema = pgTable('analytics_events', {
+  id: serial('id').primaryKey(),
+  eventType: varchar('event_type', { length: 40 }).notNull(),
+  origin: varchar('origin', { length: 80 }),
+  equipmentSlug: varchar('equipment_slug', { length: 120 }),
+  equipmentName: varchar('equipment_name', { length: 300 }),
+  pathname: varchar('pathname', { length: 500 }),
+  device: varchar('device', { length: 20 }),
+  utmSource: varchar('utm_source', { length: 120 }),
+  utmMedium: varchar('utm_medium', { length: 120 }),
+  utmCampaign: varchar('utm_campaign', { length: 200 }),
+  utmContent: varchar('utm_content', { length: 200 }),
+  utmTerm: varchar('utm_term', { length: 200 }),
+  referrer: varchar('referrer', { length: 500 }),
+  landingPage: varchar('landing_page', { length: 500 }),
+  createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
+});

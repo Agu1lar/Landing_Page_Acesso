@@ -47,6 +47,14 @@ export default async function DashboardLayout(props: DashboardLayoutProps) {
           </li>
           <li>
             <Link
+              href="/dashboard/analytics"
+              className="border-none text-gray-700 hover:text-gray-900"
+            >
+              {t('analytics_link')}
+            </Link>
+          </li>
+          <li>
+            <Link
               href="/dashboard/user-profile/"
               className="border-none text-gray-700 hover:text-gray-900"
             >

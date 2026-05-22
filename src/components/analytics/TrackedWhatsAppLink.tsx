@@ -1,7 +1,7 @@
 'use client';
 
 import type { ComponentPropsWithoutRef, MouseEvent } from 'react';
-import { captureWhatsAppClick } from '@/lib/posthog-events';
+import { trackWhatsAppClick } from '@/lib/track-whatsapp-click';
 
 type TrackedWhatsAppLinkProps = ComponentPropsWithoutRef<'a'> & {
   origin: string;
@@ -16,7 +16,7 @@ export function TrackedWhatsAppLink(props: TrackedWhatsAppLinkProps) {
   const { origin, equipmentSlug, equipmentName, onClick, children, ...rest } = props;
 
   const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
-    captureWhatsAppClick({ origin, equipmentSlug, equipmentName });
+    trackWhatsAppClick({ origin, equipmentSlug, equipmentName });
     onClick?.(event);
   };
 
