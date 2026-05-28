@@ -1,11 +1,9 @@
 import type { Metadata, Viewport } from 'next';
-import Script from 'next/script';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { setRequestLocale } from 'next-intl/server';
 import { Inter, Plus_Jakarta_Sans } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import { withSiteOpenGraph } from '@/lib/site-metadata';
-import { Env } from '@/libs/Env';
 import { routing } from '@/libs/I18nRouting';
 import { resolveAppLocale } from '@/utils/locale';
 import '@/styles/global.css';
@@ -52,15 +50,9 @@ export default async function RootLayout(props: {
 
   setRequestLocale(locale);
 
-  const widgetApiUrl = Env.NEXT_PUBLIC_WHATSAPPOS_API_URL?.trim().replace(/\/$/, '');
-  const widgetKey = Env.NEXT_PUBLIC_WHATSAPPOS_WIDGET_KEY?.trim();
-
   return (
     <html className={`${plusJakarta.variable} ${inter.variable}`} lang={locale}>
       <body>
-        {widgetApiUrl && widgetKey ? (
-          <Script async src={`${widgetApiUrl}/widgets/${widgetKey}.js`} strategy="beforeInteractive" />
-        ) : null}
         <NextIntlClientProvider>{props.children}</NextIntlClientProvider>
       </body>
     </html>

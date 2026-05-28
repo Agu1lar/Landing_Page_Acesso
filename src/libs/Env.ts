@@ -12,6 +12,8 @@ export const Env = createEnv({
     LEADS_NOTIFY_EMAIL: z.email().optional(),
     BLOB_READ_WRITE_TOKEN: z.string().min(1).optional(),
     VERCEL_ENV: z.enum(['development', 'preview', 'production']).optional(),
+    WHATSAPPOS_API_URL: z.url().optional(),
+    WHATSAPPOS_WIDGET_KEY: z.string().min(1).optional(),
   },
   client: {
     NEXT_PUBLIC_APP_URL: z.string().optional(),
@@ -23,8 +25,6 @@ export const Env = createEnv({
     NEXT_PUBLIC_BETTER_STACK_INGESTING_HOST: z.string().optional(),
     NEXT_PUBLIC_POSTHOG_KEY: z.string().optional(),
     NEXT_PUBLIC_POSTHOG_HOST: z.string().optional(),
-    NEXT_PUBLIC_WHATSAPPOS_API_URL: z.url().optional(),
-    NEXT_PUBLIC_WHATSAPPOS_WIDGET_KEY: z.string().min(1).optional(),
   },
   shared: {
     NODE_ENV: z.enum(['test', 'development', 'production']).optional(),
@@ -39,6 +39,8 @@ export const Env = createEnv({
     LEADS_NOTIFY_EMAIL: process.env.LEADS_NOTIFY_EMAIL,
     BLOB_READ_WRITE_TOKEN: process.env.BLOB_READ_WRITE_TOKEN,
     VERCEL_ENV: process.env.VERCEL_ENV,
+    WHATSAPPOS_API_URL: process.env.WHATSAPPOS_API_URL,
+    WHATSAPPOS_WIDGET_KEY: process.env.WHATSAPPOS_WIDGET_KEY,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
     NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
     NEXT_PUBLIC_LOGGING_LEVEL: process.env.NEXT_PUBLIC_LOGGING_LEVEL,
@@ -46,8 +48,6 @@ export const Env = createEnv({
     NEXT_PUBLIC_BETTER_STACK_INGESTING_HOST: process.env.NEXT_PUBLIC_BETTER_STACK_INGESTING_HOST,
     NEXT_PUBLIC_POSTHOG_KEY: process.env.NEXT_PUBLIC_POSTHOG_KEY,
     NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
-    NEXT_PUBLIC_WHATSAPPOS_API_URL: process.env.NEXT_PUBLIC_WHATSAPPOS_API_URL,
-    NEXT_PUBLIC_WHATSAPPOS_WIDGET_KEY: process.env.NEXT_PUBLIC_WHATSAPPOS_WIDGET_KEY,
     NODE_ENV: process.env.NODE_ENV,
   },
 });

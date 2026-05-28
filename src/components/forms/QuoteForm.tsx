@@ -11,12 +11,7 @@ import { Select } from '@/components/ui/Select';
 import { Textarea } from '@/components/ui/Textarea';
 import { readStoredAttribution } from '@/lib/attribution';
 import { brand } from '@/lib/brand';
-import { buildQuoteWhatsAppMessage, buildQuoteWhatsAppUrl } from '@/lib/quote-whatsapp';
-import {
-  buildWhatsAppOSCaptureInput,
-  captureQuoteLeadToWhatsAppOS,
-  normalizeBrazilPhoneDigits,
-} from '@/lib/whatsappos';
+import { buildQuoteWhatsAppUrl } from '@/lib/quote-whatsapp';
 import { QuoteFormSchema, rentalPeriodOptions } from '@/validations/quote';
 
 type QuoteFormProps = {
@@ -128,45 +123,10 @@ export function QuoteForm(props: QuoteFormProps) {
       origin,
     };
 
-    const quoteMessage = buildQuoteWhatsAppMessage(quotePayload);
     const whatsappUrl = buildQuoteWhatsAppUrl(quotePayload);
 
-    try {
-      await captureQuoteLeadToWhatsAppOS(
-        buildWhatsAppOSCaptureInput({
-          phone: quotePayload.phone,
-          name: quotePayload.name,
-          email: quotePayload.email,
-          message: quoteMessage,
-          cartItems,
-          attribution,
-          pageUrl: typeof window !== 'undefined' ? window.location.href : undefined,
-        }),
-      );
-    } catch {
-      // CRM indisponível não bloqueia Neon nem abertura do WhatsApp.
-    }
-
     setWhatsappRetryUrl(whatsappUrl);
-
-    const crmOpenOptions = {
-      phone: normalizeBrazilPhoneDigits(quotePayload.phone),
-      name: quotePayload.name,
-      email: quotePayload.email,
-      message: quoteMessage,
-      cartItems,
-      pageUrl: typeof window !== 'undefined' ? window.location.href : undefined,
-      utmSource: attribution?.utmSource,
-      utmMedium: attribution?.utmMedium,
-      utmCampaign: attribution?.utmCampaign,
-      tags: ['acesso', 'orcamento'],
-    };
-
-    if (typeof window !== 'undefined' && window.WhatsAppOS?.openWhatsApp) {
-      window.WhatsAppOS.openWhatsApp(crmOpenOptions);
-    } else {
-      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
-    }
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
 
     cart.clearCart();
     setSubmitted(true);

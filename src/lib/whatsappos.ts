@@ -21,11 +21,11 @@ export type WhatsAppOSCaptureInput = {
 };
 
 /**
- * Returns CRM widget config when both public env vars are set.
+ * Returns CRM config when server env vars are set.
  */
 export function getWhatsAppOSConfig(): WhatsAppOSConfig | null {
-  const apiUrl = Env.NEXT_PUBLIC_WHATSAPPOS_API_URL?.trim();
-  const widgetKey = Env.NEXT_PUBLIC_WHATSAPPOS_WIDGET_KEY?.trim();
+  const apiUrl = Env.WHATSAPPOS_API_URL?.trim();
+  const widgetKey = Env.WHATSAPPOS_WIDGET_KEY?.trim();
 
   if (!apiUrl || !widgetKey) {
     return null;
@@ -62,7 +62,7 @@ export function getWhatsAppOSWidgetScriptUrl(config: WhatsAppOSConfig) {
 }
 
 /**
- * POST lead capture to whatsappOS CRM (browser → CRM API).
+ * POST lead capture to whatsappOS CRM.
  */
 export async function captureQuoteLeadToWhatsAppOS(input: WhatsAppOSCaptureInput) {
   const config = getWhatsAppOSConfig();

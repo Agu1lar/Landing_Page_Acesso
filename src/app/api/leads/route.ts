@@ -3,8 +3,10 @@ import { NextResponse } from 'next/server';
 import * as z from 'zod';
 import { notifyLeadByEmail } from '@/lib/email';
 import { createLead } from '@/lib/leads';
+import { buildQuoteWhatsAppMessage } from '@/lib/quote-whatsapp';
 import arcjet from '@/libs/Arcjet';
 import { logger } from '@/libs/Logger';
+import { Env } from '@/libs/Env';
 import { normalizeQuotePayload, QuoteFormSchema } from '@/validations/quote';
 
 const aj = arcjet.withRule(
@@ -40,7 +42,8 @@ export const POST = async (request: Request) => {
     }
 
     const { website: _honeypot } = parsed.data;
-    const lead = await createLead(normalizeQuotePayload(parsed.data));
+    const normalized = normalizeQuotePayload(parsed.data);
+    const lead = await createLead(normalized);
 
     if (lead) {
       try {
@@ -51,6 +54,53 @@ export const POST = async (request: Request) => {
           message: emailError instanceof Error ? emailError.message : String(emailError),
         });
       }
+    }
+
+    // Integração whatsappOS (server-side): não depende de widget no front.
+    // Se falhar, não bloqueia o lead no Neon nem o fluxo do WhatsApp do cliente.
+    try {
+      const apiUrl = Env.WHATSAPPOS_API_URL?.trim().replace(/\/$/, '');
+      const widgetKey = Env.WHATSAPPOS_WIDGET_KEY?.trim();
+
+      if (apiUrl && widgetKey) {
+        const message = buildQuoteWhatsAppMessage({
+          name: normalized.name,
+          email: normalized.email,
+          phone: normalized.phone,
+          company: normalized.company,
+          city: normalized.city,
+          rentalPeriod: normalized.rentalPeriod,
+          message: normalized.message,
+          cartItems: parsed.data.cartItems,
+          equipmentName: normalized.equipmentName,
+          origin: normalized.origin,
+        });
+
+        const phoneDigits = normalized.phone.replace(/\D/g, '');
+        const phoneWithCountry =
+          phoneDigits.startsWith('55') && phoneDigits.length >= 12 ? phoneDigits : `55${phoneDigits}`;
+
+        await fetch(`${apiUrl}/widgets/${widgetKey}/capture`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            phone: phoneWithCountry,
+            name: normalized.name,
+            email: normalized.email,
+            message,
+            cartItems: parsed.data.cartItems ?? [],
+            pageUrl: normalized.landingPage ? `${Env.NEXT_PUBLIC_APP_URL ?? ''}${normalized.landingPage}` : undefined,
+            utmSource: normalized.utmSource,
+            utmMedium: normalized.utmMedium,
+            utmCampaign: normalized.utmCampaign,
+            tags: ['acesso', 'orcamento'],
+          }),
+        });
+      }
+    } catch (crmError) {
+      logger.warn('whatsappOS capture falhou (ignorado)', {
+        message: crmError instanceof Error ? crmError.message : String(crmError),
+      });
     }
 
     return NextResponse.json({ ok: true, id: lead?.id });
