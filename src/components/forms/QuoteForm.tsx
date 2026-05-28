@@ -11,7 +11,12 @@ import { Select } from '@/components/ui/Select';
 import { Textarea } from '@/components/ui/Textarea';
 import { readStoredAttribution } from '@/lib/attribution';
 import { brand } from '@/lib/brand';
-import { buildQuoteWhatsAppUrl } from '@/lib/quote-whatsapp';
+import { buildQuoteWhatsAppMessage, buildQuoteWhatsAppUrl } from '@/lib/quote-whatsapp';
+import {
+  buildWhatsAppOSCaptureInput,
+  captureQuoteLeadToWhatsAppOS,
+  normalizeBrazilPhoneDigits,
+} from '@/lib/whatsappos';
 import { QuoteFormSchema, rentalPeriodOptions } from '@/validations/quote';
 
 type QuoteFormProps = {
@@ -110,7 +115,7 @@ export function QuoteForm(props: QuoteFormProps) {
       return;
     }
 
-    const whatsappUrl = buildQuoteWhatsAppUrl({
+    const quotePayload = {
       name: data.name.trim(),
       email: data.email.trim(),
       phone: data.phone.trim(),
@@ -121,10 +126,47 @@ export function QuoteForm(props: QuoteFormProps) {
       cartItems,
       equipmentName: cartItems?.[0]?.name ?? data.equipmentName?.trim(),
       origin,
-    });
+    };
+
+    const quoteMessage = buildQuoteWhatsAppMessage(quotePayload);
+    const whatsappUrl = buildQuoteWhatsAppUrl(quotePayload);
+
+    try {
+      await captureQuoteLeadToWhatsAppOS(
+        buildWhatsAppOSCaptureInput({
+          phone: quotePayload.phone,
+          name: quotePayload.name,
+          email: quotePayload.email,
+          message: quoteMessage,
+          cartItems,
+          attribution,
+          pageUrl: typeof window !== 'undefined' ? window.location.href : undefined,
+        }),
+      );
+    } catch {
+      // CRM indisponível não bloqueia Neon nem abertura do WhatsApp.
+    }
 
     setWhatsappRetryUrl(whatsappUrl);
-    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+
+    const crmOpenOptions = {
+      phone: normalizeBrazilPhoneDigits(quotePayload.phone),
+      name: quotePayload.name,
+      email: quotePayload.email,
+      message: quoteMessage,
+      cartItems,
+      pageUrl: typeof window !== 'undefined' ? window.location.href : undefined,
+      utmSource: attribution?.utmSource,
+      utmMedium: attribution?.utmMedium,
+      utmCampaign: attribution?.utmCampaign,
+      tags: ['acesso', 'orcamento'],
+    };
+
+    if (typeof window !== 'undefined' && window.WhatsAppOS?.openWhatsApp) {
+      window.WhatsAppOS.openWhatsApp(crmOpenOptions);
+    } else {
+      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    }
 
     cart.clearCart();
     setSubmitted(true);

@@ -1,4 +1,5 @@
 import { setRequestLocale } from 'next-intl/server';
+import Script from 'next/script';
 import { MarketingShell } from '@/components/layout/MarketingShell';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { buildMarketingGraphJsonLd } from '@/lib/json-ld';
@@ -12,9 +13,19 @@ export default async function Layout(props: {
   const locale = resolveAppLocale((await props.params)?.locale ?? routing.defaultLocale);
   setRequestLocale(locale);
 
+  const widgetApiUrl = process.env.NEXT_PUBLIC_WHATSAPPOS_API_URL?.trim().replace(/\/$/, '');
+  const widgetKey = process.env.NEXT_PUBLIC_WHATSAPPOS_WIDGET_KEY?.trim();
+
   return (
     <>
       <JsonLd data={buildMarketingGraphJsonLd()} />
+      {widgetApiUrl && widgetKey ? (
+        <Script
+          async
+          src={`${widgetApiUrl}/widgets/${widgetKey}.js`}
+          strategy="afterInteractive"
+        />
+      ) : null}
       <MarketingShell>{props.children}</MarketingShell>
     </>
   );

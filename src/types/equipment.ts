@@ -9,6 +9,7 @@ export type EquipmentCategory =
   | 'compactacao'
   | 'demolicao-perfuracao'
   | 'andaimes-acesso'
+  | 'guindastes-remocoes'
   | 'energia'
   | 'ferramentas-eletricas'
   | 'acessorios'
@@ -32,6 +33,7 @@ export const CATEGORY_LABELS: Record<EquipmentCategory, string> = {
   compactacao: 'Compactação',
   'demolicao-perfuracao': 'Demolição e perfuração',
   'andaimes-acesso': 'Andaimes e acesso',
+  'guindastes-remocoes': 'Guindastes e remoções',
   energia: 'Energia',
   'ferramentas-eletricas': 'Ferramentas elétricas',
   acessorios: 'Acessórios',

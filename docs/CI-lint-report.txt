@@ -1,0 +1,4095 @@
+
+> lint
+> ultracite check --type-aware --type-check
+
+Checking formatting...
+
+.github/workflows/CI.yml (653ms)
+knip.config.ts (0ms)
+src/app/[locale]/(auth)/dashboard/leads/[id]/page.tsx (9ms)
+src/app/[locale]/(marketing)/categorias/[slug]/page.tsx (17ms)
+src/app/[locale]/(marketing)/equipamentos/[slug]/opengraph-image.tsx (0ms)
+src/app/[locale]/(marketing)/equipamentos/[slug]/page.tsx (16ms)
+src/app/[locale]/(marketing)/equipamentos/page.tsx (4ms)
+src/app/[locale]/(marketing)/faq/page.tsx (5ms)
+src/app/[locale]/(marketing)/layout.tsx (0ms)
+src/app/[locale]/(marketing)/orcamento/page.tsx (5ms)
+src/app/[locale]/(marketing)/page.tsx (17ms)
+src/app/[locale]/(marketing)/privacidade/page.tsx (8ms)
+src/app/[locale]/(marketing)/sobre/page.tsx (12ms)
+src/app/[locale]/(marketing)/treinamento-plataformas-aereas/page.tsx (346ms)
+src/app/[locale]/layout.tsx (0ms)
+src/app/api/leads/route.ts (0ms)
+src/app/opengraph-image.tsx (0ms)
+src/app/robots.ts (0ms)
+src/app/sitemap.ts (0ms)
+src/components/admin/LeadStatusForm.tsx (372ms)
+src/components/admin/LeadsDatePresets.tsx (462ms)
+src/components/admin/LeadsTable.tsx (486ms)
+src/components/analytics/AnalyticsConsentProvider.tsx (0ms)
+src/components/analytics/CookieConsentBanner.tsx (510ms)
+src/components/analytics/PostHogAttributionSync.tsx (0ms)
+src/components/forms/OrcamentoFormSection.tsx (395ms)
+src/components/forms/QuoteForm.tsx (437ms)
+src/components/layout/MarketingShell.tsx (6ms)
+src/components/layout/SiteFooter.tsx (7ms)
+src/components/layout/SiteHeader.tsx (11ms)
+src/components/layout/WhatsAppButton.tsx (5ms)
+src/components/marketing/EquipmentCard.tsx (12ms)
+src/components/marketing/EquipmentPhoto.tsx (5ms)
+src/components/marketing/GlobalSearch.tsx (12ms)
+src/components/quote-cart/AddToQuoteButton.tsx (2ms)
+src/components/quote-cart/QuoteCartNavLink.tsx (3ms)
+src/components/quote-cart/QuoteCartPanel.tsx (6ms)
+src/components/quote-cart/QuoteCartProvider.tsx (1ms)
+src/components/quote-cart/QuoteCartQuantityStepper.tsx (6ms)
+src/components/seo/JsonLd.tsx (0ms)
+src/components/ui/Button.tsx (0ms)
+src/data/client-logos.test.ts (0ms)
+src/data/equipamentos.json (457ms)
+src/data/equipment-image-manifest.json (165ms)
+src/lib/attribution.test.ts (0ms)
+src/lib/attribution.ts (0ms)
+src/lib/brand.ts (0ms)
+src/lib/cookie-consent.test.ts (0ms)
+src/lib/email.test.ts (0ms)
+src/lib/email.ts (0ms)
+src/lib/json-ld.test.ts (0ms)
+src/lib/json-ld.ts (0ms)
+src/lib/leads-admin.ts (1ms)
+src/lib/leads.ts (0ms)
+src/lib/legacy-redirects.test.ts (0ms)
+src/lib/legacy-redirects.ts (0ms)
+src/lib/posthog-attribution.test.ts (0ms)
+src/lib/posthog-attribution.ts (0ms)
+src/lib/posthog-events.ts (0ms)
+src/lib/quote-whatsapp.test.ts (0ms)
+src/lib/quote-whatsapp.ts (0ms)
+src/lib/search.ts (0ms)
+src/lib/seo-metadata.test.ts (0ms)
+src/lib/seo-metadata.ts (0ms)
+src/lib/site-metadata.ts (0ms)
+src/libs/Env.ts (0ms)
+src/locales/pt-BR.json (148ms)
+src/styles/global.css (146ms)
+src/templates/BaseTemplate.test.tsx (0ms)
+src/utils/deployment.ts (0ms)
+src/validations/quote.ts (1ms)
+tests/e2e/Marketing.conversion.e2e.ts (0ms)
+tests/e2e/Sanity.check.e2e.ts (0ms)
+tests/e2e/Visual.e2e.ts (0ms)
+
+Format issues found in above 74 files. Run without `--check` to fix.
+Finished in 1271ms on 187 files using 16 threads.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/components/analytics/AnalyticsConsentContext.tsx:18:8]
+ 17 |      */
+ 18 | ,-> export function useAnalyticsConsent() {
+ 19 | |     const value = useContext(AnalyticsConsentContext);
+ 20 | |     if (!value) {
+ 21 | |       throw new Error('useAnalyticsConsent must be used within AnalyticsConsentProvider');
+ 22 | |     }
+ 23 | |     return value;
+ 24 | `-> }
+ 25 |     
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/components/analytics/EquipmentViewTracker.tsx:14:38]
+ 13 |  */
+ 14 | export function EquipmentViewTracker(props: EquipmentViewTrackerProps) {
+    :                                      ^^^^^
+ 15 |   useEffect(() => {
+    `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/components/analytics/EquipmentViewTracker.tsx:14:8]
+ 13 |      */
+ 14 | ,-> export function EquipmentViewTracker(props: EquipmentViewTrackerProps) {
+ 15 | |     useEffect(() => {
+ 16 | |       const posthog = getPostHog();
+ 17 | |       if (!posthog) {
+ 18 | |         return;
+ 19 | |       }
+ 20 | |   
+ 21 | |       posthog.capture('equipment_view', {
+ 22 | |         slug: props.slug,
+ 23 | |         name: props.name,
+ 24 | |       });
+ 25 | |     }, [props.slug, props.name]);
+ 26 | |   
+ 27 | |     return null;
+ 28 | `-> }
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/components/analytics/PostHogAttributionSync.tsx:15:8]
+ 14 |      */
+ 15 | ,-> export function PostHogAttributionSync() {
+ 16 | |     useEffect(() => {
+ 17 | |       initPostHog();
+ 18 | |       const posthog = getPostHog();
+ 19 | |       if (!posthog) {
+ 20 | |         return;
+ 21 | |       }
+ 22 | |   
+ 23 | |       const fromUrl = parseUtmsFromSearch(window.location.search);
+ 24 | |       const stored = readStoredAttribution() ?? {};
+ 25 | |       const merged = { ...fromUrl, ...stored };
+ 26 | |   
+ 27 | |       if (hasAttributionData(merged)) {
+ 28 | |         registerPostHogAttribution(posthog, merged);
+ 29 | |       }
+ 30 | |     }, []);
+ 31 | |   
+ 32 | |     return null;
+ 33 | `-> }
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/components/analytics/CookiePreferencesLink.tsx:9:8]
+  8 |      */
+  9 | ,-> export function CookiePreferencesLink() {
+ 10 | |     const t = useTranslations('CookieConsent');
+ 11 | |     const consent = useAnalyticsConsent();
+ 12 | |   
+ 13 | |     return (
+ 14 | |       <button
+ 15 | |         className="hover:text-white"
+ 16 | |         onClick={() => {
+ 17 | |           consent.reopenBanner();
+ 18 | |         }}
+ 19 | |         type="button"
+ 20 | |       >
+ 21 | |         {t('manage_link')}
+ 22 | |       </button>
+ 23 | |     );
+ 24 | `-> }
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  ! jsx-a11y(prefer-tag-over-role): Prefer `address, details, fieldset, hgroup, optgroup` over `role` attribute `group`.
+    ,-[src/components/quote-cart/QuoteCartQuantityStepper.tsx:27:7]
+ 26 |       className="inline-flex items-center rounded-lg border border-neutral-200 bg-surface"
+ 27 |       role="group"
+    :       ^^^^^^^^^^^^
+ 28 |     >
+    `----
+  help: Replace HTML elements with `role` attribute `group` to corresponding semantic HTML tag `address, details, fieldset, hgroup, optgroup`.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/components/quote-cart/QuoteCartQuantityStepper.tsx:15:42]
+ 14 |  */
+ 15 | export function QuoteCartQuantityStepper(props: QuoteCartQuantityStepperProps) {
+    :                                          ^^^^^
+ 16 |   const size = props.size ?? 'md';
+    `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/components/quote-cart/QuoteCartQuantityStepper.tsx:15:8]
+ 14 |      */
+ 15 | ,-> export function QuoteCartQuantityStepper(props: QuoteCartQuantityStepperProps) {
+ 16 | |     const size = props.size ?? 'md';
+ 17 | |     const buttonClass = size === 'sm' ? 'h-8 w-8 text-base' : 'h-9 w-9 text-lg';
+ 18 | |     const inputClass = size === 'sm' ? 'h-8 w-10 text-sm' : 'h-9 w-12 text-sm';
+ 19 | |   
+ 20 | |     const clamp = (next: number) =>
+ 21 | |       Math.min(QUOTE_CART_MAX_QUANTITY, Math.max(QUOTE_CART_MIN_QUANTITY, next));
+ 22 | |   
+ 23 | |     return (
+ 24 | |       <div
+ 25 | |         aria-label={props.ariaLabel ?? 'Quantidade'}
+ 26 | |         className="inline-flex items-center rounded-lg border border-neutral-200 bg-surface"
+ 27 | |         role="group"
+ 28 | |       >
+ 29 | |         <button
+ 30 | |           aria-label="Diminuir quantidade"
+ 31 | |           className={`${buttonClass} rounded-l-lg font-medium text-neutral-700 hover:bg-neutral-100 disabled:opacity-40`}
+ 32 | |           disabled={props.value <= QUOTE_CART_MIN_QUANTITY}
+ 33 | |           onClick={() => props.onChange(clamp(props.value - 1))}
+ 34 | |           type="button"
+ 35 | |         >
+ 36 | |           ÔêÆ
+ 37 | |         </button>
+ 38 | |         <input
+ 39 | |           aria-label="Quantidade"
+ 40 | |           className={`${inputClass} border-x border-neutral-200 text-center font-medium text-neutral-900 tabular-nums`}
+ 41 | |           inputMode="numeric"
+ 42 | |           max={QUOTE_CART_MAX_QUANTITY}
+ 43 | |           min={QUOTE_CART_MIN_QUANTITY}
+ 44 | |           onChange={(event) => {
+ 45 | |             const parsed = Number.parseInt(event.target.value, 10);
+ 46 | |             if (Number.isNaN(parsed)) {
+ 47 | |               return;
+ 48 | |             }
+ 49 | |             props.onChange(clamp(parsed));
+ 50 | |           }}
+ 51 | |           type="number"
+ 52 | |           value={props.value}
+ 53 | |         />
+ 54 | |         <button
+ 55 | |           aria-label="Aumentar quantidade"
+ 56 | |           className={`${buttonClass} rounded-r-lg font-medium text-neutral-700 hover:bg-neutral-100 disabled:opacity-40`}
+ 57 | |           disabled={props.value >= QUOTE_CART_MAX_QUANTITY}
+ 58 | |           onClick={() => props.onChange(clamp(props.value + 1))}
+ 59 | |           type="button"
+ 60 | |         >
+ 61 | |           +
+ 62 | |         </button>
+ 63 | |       </div>
+ 64 | |     );
+ 65 | `-> }
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  ! jsx-a11y(click-events-have-key-events): Enforce a clickable non-interactive element has at least one keyboard event listener.
+    ,-[src/components/analytics/TrackedWhatsAppLink.tsx:24:5]
+ 23 |   return (
+ 24 |     <a {...rest} onClick={handleClick}>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 25 |       {children}
+    `----
+  help: Visible, non-interactive elements with click handlers must have one of `keyup`, `keydown`, or `keypress` listener.
+
+  ! jsx-a11y(no-static-element-interactions): Static HTML elements with event handlers require a role.
+    ,-[src/components/analytics/TrackedWhatsAppLink.tsx:24:6]
+ 23 |   return (
+ 24 |     <a {...rest} onClick={handleClick}>
+    :      ^
+ 25 |       {children}
+    `----
+  help: Add a role attribute to this element, or use a semantic HTML element instead.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/components/analytics/TrackedWhatsAppLink.tsx:15:37]
+ 14 |  */
+ 15 | export function TrackedWhatsAppLink(props: TrackedWhatsAppLinkProps) {
+    :                                     ^^^^^
+ 16 |   const { origin, equipmentSlug, equipmentName, onClick, children, ...rest } = props;
+    `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/components/analytics/TrackedWhatsAppLink.tsx:15:8]
+ 14 |      */
+ 15 | ,-> export function TrackedWhatsAppLink(props: TrackedWhatsAppLinkProps) {
+ 16 | |     const { origin, equipmentSlug, equipmentName, onClick, children, ...rest } = props;
+ 17 | |   
+ 18 | |     const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
+ 19 | |       captureWhatsAppClick({ origin, equipmentSlug, equipmentName });
+ 20 | |       onClick?.(event);
+ 21 | |     };
+ 22 | |   
+ 23 | |     return (
+ 24 | |       <a {...rest} onClick={handleClick}>
+ 25 | |         {children}
+ 26 | |       </a>
+ 27 | |     );
+ 28 | `-> }
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x import(consistent-type-specifier-style): Prefer using a top-level type-only import instead of inline type specifiers.
+    ,-[src/components/analytics/AnalyticsConsentProvider.tsx:10:3]
+  9 |   COOKIE_CONSENT_STORAGE_KEY,
+ 10 |   type CookieConsentStatus,
+    :   ^^^^^^^^^^^^^^^^^^^^^^^^
+ 11 |   type CookieConsentValue,
+    `----
+  help: Replace inline type specifiers with a topÔÇÉlevel import type statement.
+
+  x import(consistent-type-specifier-style): Prefer using a top-level type-only import instead of inline type specifiers.
+    ,-[src/components/analytics/AnalyticsConsentProvider.tsx:11:3]
+ 10 |   type CookieConsentStatus,
+ 11 |   type CookieConsentValue,
+    :   ^^^^^^^^^^^^^^^^^^^^^^^
+ 12 |   parseConsentValue,
+    `----
+  help: Replace inline type specifiers with a topÔÇÉlevel import type statement.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/components/analytics/AnalyticsConsentProvider.tsx:34:42]
+ 33 |  */
+ 34 | export function AnalyticsConsentProvider(props: AnalyticsConsentProviderProps) {
+    :                                          ^^^^^
+ 35 |   const [status, setStatus] = useState<CookieConsentStatus>('pending');
+    `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/components/analytics/AnalyticsConsentProvider.tsx:34:8]
+ 33 |      */
+ 34 | ,-> export function AnalyticsConsentProvider(props: AnalyticsConsentProviderProps) {
+ 35 | |     const [status, setStatus] = useState<CookieConsentStatus>('pending');
+ 36 | |     const [hydrated, setHydrated] = useState(false);
+ 37 | |   
+ 38 | |     useEffect(() => {
+ 39 | |       setStatus(readStoredConsent());
+ 40 | |       setHydrated(true);
+ 41 | |     }, []);
+ 42 | |   
+ 43 | |     useEffect(() => {
+ 44 | |       if (status === 'analytics') {
+ 45 | |         initPostHog();
+ 46 | |       }
+ 47 | |     }, [status]);
+ 48 | |   
+ 49 | |     const acceptAnalytics = () => {
+ 50 | |       persistConsent('analytics');
+ 51 | |       setStatus('analytics');
+ 52 | |       initPostHog();
+ 53 | |     };
+ 54 | |   
+ 55 | |     const rejectAnalytics = () => {
+ 56 | |       persistConsent('essential');
+ 57 | |       setStatus('essential');
+ 58 | |     };
+ 59 | |   
+ 60 | |     const reopenBanner = () => {
+ 61 | |       window.localStorage.removeItem(COOKIE_CONSENT_STORAGE_KEY);
+ 62 | |       setStatus('pending');
+ 63 | |     };
+ 64 | |   
+ 65 | |     const showBanner = hydrated && status === 'pending';
+ 66 | |     const analyticsOn = status === 'analytics';
+ 67 | |   
+ 68 | |     return (
+ 69 | |       <AnalyticsConsentContext
+ 70 | |         value={{
+ 71 | |           status,
+ 72 | |           acceptAnalytics,
+ 73 | |           rejectAnalytics,
+ 74 | |           reopenBanner,
+ 75 | |         }}
+ 76 | |       >
+ 77 | |         {props.children}
+ 78 | |         {showBanner ? <CookieConsentBanner /> : null}
+ 79 | |         {analyticsOn ? (
+ 80 | |           <>
+ 81 | |             <PostHogAttributionSync />
+ 82 | |             <Suspense fallback={null}>
+ 83 | |               <PostHogPageView />
+ 84 | |             </Suspense>
+ 85 | |           </>
+ 86 | |         ) : null}
+ 87 | |       </AnalyticsConsentContext>
+ 88 | |     );
+ 89 | `-> }
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/components/quote-cart/QuoteCartNavLink.tsx:14:34]
+ 13 |  */
+ 14 | export function QuoteCartNavLink(props: QuoteCartNavLinkProps) {
+    :                                  ^^^^^
+ 15 |   const cart = useQuoteCart();
+    `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/components/quote-cart/QuoteCartNavLink.tsx:14:8]
+ 13 |      */
+ 14 | ,-> export function QuoteCartNavLink(props: QuoteCartNavLinkProps) {
+ 15 | |     const cart = useQuoteCart();
+ 16 | |   
+ 17 | |     return (
+ 18 | |       <Link
+ 19 | |         className={`relative inline-flex items-center gap-1.5 rounded-lg border border-neutral-200 px-3 py-1.5 text-sm font-semibold text-neutral-800 hover:border-primary hover:text-primary ${props.className ?? ''}`}
+ 20 | |         href="/orcamento"
+ 21 | |       >
+ 22 | |         {props.label}
+ 23 | |         {cart.count > 0 ? (
+ 24 | |           <span className="inline-flex min-w-5 items-center justify-center rounded-full bg-primary px-1.5 py-0.5 text-xs font-bold text-white">
+ 25 | |             {cart.count}
+ 26 | |           </span>
+ 27 | |         ) : null}
+ 28 | |       </Link>
+ 29 | |     );
+ 30 | `-> }
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/components/marketing/ClientLogosSection.tsx:13:36]
+ 12 |  */
+ 13 | export function ClientLogosSection(props: ClientLogosSectionProps) {
+    :                                    ^^^^^
+ 14 |   return (
+    `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/components/marketing/ClientLogosSection.tsx:13:8]
+ 12 |      */
+ 13 | ,-> export function ClientLogosSection(props: ClientLogosSectionProps) {
+ 14 | |     return (
+ 15 | |       <section
+ 16 | |         aria-labelledby="client-logos-title"
+ 17 | |         className="border-y border-neutral-200 bg-neutral-50"
+ 18 | |       >
+ 19 | |         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-14 lg:px-8">
+ 20 | |           <div className="mx-auto max-w-3xl text-center">
+ 21 | |             <h2
+ 22 | |               className="font-heading text-2xl font-bold text-neutral-900 sm:text-3xl"
+ 23 | |               id="client-logos-title"
+ 24 | |             >
+ 25 | |               {props.title}
+ 26 | |             </h2>
+ 27 | |             <p className="mt-3 text-base leading-relaxed text-neutral-600">{props.subtitle}</p>
+ 28 | |           </div>
+ 29 | |   
+ 30 | |           <ul className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-6">
+ 31 | |             {CLIENT_LOGOS.map((client) => (
+ 32 | |               <ClientLogoCard client={client} key={client.slug} />
+ 33 | |             ))}
+ 34 | |           </ul>
+ 35 | |   
+ 36 | |           {props.footnote ? (
+ 37 | |             <p className="mx-auto mt-8 max-w-2xl text-center text-xs text-neutral-500">
+ 38 | |               {props.footnote}
+ 39 | |             </p>
+ 40 | |           ) : null}
+ 41 | |         </div>
+ 42 | |       </section>
+ 43 | |     );
+ 44 | `-> }
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/components/analytics/PostHogPageView.tsx:10:8]
+  9 |      */
+ 10 | ,-> export function PostHogPageView() {
+ 11 | |     const pathname = usePathname();
+ 12 | |     const searchParams = useSearchParams();
+ 13 | |   
+ 14 | |     useEffect(() => {
+ 15 | |       const posthog = getPostHog();
+ 16 | |       if (!posthog || !pathname) {
+ 17 | |         return;
+ 18 | |       }
+ 19 | |   
+ 20 | |       const query = searchParams.toString();
+ 21 | |       const url = query ? `${pathname}?${query}` : pathname;
+ 22 | |       posthog.capture('$pageview', { $current_url: url });
+ 23 | |     }, [pathname, searchParams]);
+ 24 | |   
+ 25 | |     return null;
+ 26 | `-> }
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  ! jsx-a11y(prefer-tag-over-role): Prefer `img` over `role` attribute `img`.
+    ,-[src/components/marketing/TestimonialsSection.tsx:11:74]
+ 10 |   return (
+ 11 |     <div aria-label={`${rating} de 5 estrelas`} className="flex gap-0.5" role="img">
+    :                                                                          ^^^^^^^^^^
+ 12 |       {Array.from({ length: 5 }, (_, i) => (
+    `----
+  help: Replace HTML elements with `role` attribute `img` to corresponding semantic HTML tag `img`.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+   ,-[src/lib/lead-status.ts:8:30]
+ 7 |  */
+ 8 | export function isLeadStatus(value: string): value is LeadStatus {
+   :                              ^^^^^
+ 9 |   return LEAD_STATUSES.includes(value as LeadStatus);
+   `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/lib/lead-status.ts:8:8]
+  7 |      */
+  8 | ,-> export function isLeadStatus(value: string): value is LeadStatus {
+  9 | |     return LEAD_STATUSES.includes(value as LeadStatus);
+ 10 | `-> }
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x import(consistent-type-specifier-style): Prefer using a top-level type-only import instead of inline type specifiers.
+   ,-[src/components/quote-cart/QuoteCartProvider.tsx:7:3]
+ 6 |   QUOTE_CART_MIN_QUANTITY,
+ 7 |   type QuoteCartItem,
+   :   ^^^^^^^^^^^^^^^^^^
+ 8 | } from '@/types/quote-cart';
+   `----
+  help: Replace inline type specifiers with a topÔÇÉlevel import type statement.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/components/quote-cart/QuoteCartProvider.tsx:88:35]
+ 87 |  */
+ 88 | export function QuoteCartProvider(props: { children: React.ReactNode }) {
+    :                                   ^^^^^
+ 89 |   const [items, setItems] = useState<QuoteCartItem[]>([]);
+    `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+     ,-[src/components/quote-cart/QuoteCartProvider.tsx:145:8]
+ 144 |      */
+ 145 | ,-> export function useQuoteCart() {
+ 146 | |     const context = useContext(QuoteCartContext);
+ 147 | |     if (!context) {
+ 148 | |       throw new Error('useQuoteCart must be used within QuoteCartProvider');
+ 149 | |     }
+ 150 | |     return context;
+ 151 | `-> }
+     `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+     ,-[src/components/quote-cart/QuoteCartProvider.tsx:88:8]
+  87 |      */
+  88 | ,-> export function QuoteCartProvider(props: { children: React.ReactNode }) {
+  89 | |     const [items, setItems] = useState<QuoteCartItem[]>([]);
+  90 | |   
+  91 | |     useEffect(() => {
+  92 | |       setItems(readStoredItems());
+  93 | |     }, []);
+  94 | |   
+  95 | |     useEffect(() => {
+  96 | |       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+  97 | |     }, [items]);
+  98 | |   
+  99 | |     const value: QuoteCartContextValue = {
+ 100 | |       items,
+ 101 | |       count: totalUnits(items),
+ 102 | |       lineCount: items.length,
+ 103 | |       addItem: (item) => {
+ 104 | |         const quantity = clampQuantity(item.quantity ?? QUOTE_CART_MIN_QUANTITY);
+ 105 | |         setItems((current) => {
+ 106 | |           const existing = current.find((entry) => entry.slug === item.slug);
+ 107 | |           if (existing) {
+ 108 | |             return current.map((entry) =>
+ 109 | |               entry.slug === item.slug
+ 110 | |                 ? {
+ 111 | |                     ...entry,
+ 112 | |                     quantity: clampQuantity(entry.quantity + quantity),
+ 113 | |                   }
+ 114 | |                 : entry,
+ 115 | |             );
+ 116 | |           }
+ 117 | |           return [...current, { ...item, quantity }];
+ 118 | |         });
+ 119 | |       },
+ 120 | |       setItemQuantity: (slug, quantity) => {
+ 121 | |         const next = clampQuantity(quantity);
+ 122 | |         setItems((current) => {
+ 123 | |           if (next < QUOTE_CART_MIN_QUANTITY) {
+ 124 | |             return current.filter((entry) => entry.slug !== slug);
+ 125 | |           }
+ 126 | |           return current.map((entry) => (entry.slug === slug ? { ...entry, quantity: next } : entry));
+ 127 | |         });
+ 128 | |       },
+ 129 | |       removeItem: (slug) => {
+ 130 | |         setItems((current) => current.filter((entry) => entry.slug !== slug));
+ 131 | |       },
+ 132 | |       clearCart: () => {
+ 133 | |         setItems([]);
+ 134 | |       },
+ 135 | |       hasItem: (slug) => items.some((entry) => entry.slug === slug),
+ 136 | |       getItemQuantity: (slug) => items.find((entry) => entry.slug === slug)?.quantity ?? 0,
+ 137 | |     };
+ 138 | |   
+ 139 | |     return <QuoteCartContext.Provider value={value}>{props.children}</QuoteCartContext.Provider>;
+ 140 | `-> }
+ 141 |     
+     `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/components/marketing/ConversionCtas.tsx:23:3]
+ 22 | export function ConversionCtas({
+ 23 |   whatsappHref,
+    :   ^^^^^^^^^^^^
+ 24 |   whatsappLabel,
+    :   ^^^^^^^^^^^^^
+ 25 |   whatsappOrigin,
+    :   ^^^^^^^^^^^^^^
+ 26 |   equipmentSlug,
+    :   ^^^^^^^^^^^^^
+ 27 |   equipmentName,
+    :   ^^^^^^^^^^^^^
+ 28 |   quoteHref = '/orcamento',
+    :   ^^^^^^^^^
+ 29 |   quoteLabel = 'Solicitar or├ºamento',
+    :   ^^^^^^^^^^
+ 30 |   size = 'md',
+    :   ^^^^
+ 31 |   className = '',
+    :   ^^^^^^^^^
+ 32 |   onDark = false,
+    :   ^^^^^^
+ 33 | }: ConversionCtasProps) {
+    `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/components/marketing/ConversionCtas.tsx:22:8]
+ 21 |      */
+ 22 | ,-> export function ConversionCtas({
+ 23 | |     whatsappHref,
+ 24 | |     whatsappLabel,
+ 25 | |     whatsappOrigin,
+ 26 | |     equipmentSlug,
+ 27 | |     equipmentName,
+ 28 | |     quoteHref = '/orcamento',
+ 29 | |     quoteLabel = 'Solicitar or├ºamento',
+ 30 | |     size = 'md',
+ 31 | |     className = '',
+ 32 | |     onDark = false,
+ 33 | |   }: ConversionCtasProps) {
+ 34 | |     const quoteVariant = 'outline' as const;
+ 35 | |     const quoteExtra = onDark
+ 36 | |       ? '!border-white/40 !bg-transparent !text-white hover:!border-white hover:!bg-white/10'
+ 37 | |       : '';
+ 38 | |   
+ 39 | |     return (
+ 40 | |       <div className={`flex flex-col items-stretch gap-3 sm:flex-row sm:items-center ${className}`}>
+ 41 | |         <Button
+ 42 | |           className="sm:order-1"
+ 43 | |           equipmentName={equipmentName}
+ 44 | |           equipmentSlug={equipmentSlug}
+ 45 | |           href={whatsappHref}
+ 46 | |           size={size}
+ 47 | |           variant="whatsapp"
+ 48 | |           whatsappOrigin={whatsappOrigin}
+ 49 | |         >
+ 50 | |           {whatsappLabel}
+ 51 | |         </Button>
+ 52 | |         {quoteHref && (
+ 53 | |           <Button
+ 54 | |             className={`sm:order-2 ${quoteExtra}`}
+ 55 | |             href={quoteHref}
+ 56 | |             size={size}
+ 57 | |             variant={quoteVariant}
+ 58 | |           >
+ 59 | |             {quoteLabel}
+ 60 | |           </Button>
+ 61 | |         )}
+ 62 | |       </div>
+ 63 | |     );
+ 64 | `-> }
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/components/marketing/ClientLogoCard.tsx:12:32]
+ 11 |  */
+ 12 | export function ClientLogoCard(props: ClientLogoCardProps) {
+    :                                ^^^^^
+ 13 |   const segmentLabel = CLIENT_LOGO_SEGMENT_LABELS[props.client.segment];
+    `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/components/marketing/ClientLogoCard.tsx:12:8]
+ 11 |      */
+ 12 | ,-> export function ClientLogoCard(props: ClientLogoCardProps) {
+ 13 | |     const segmentLabel = CLIENT_LOGO_SEGMENT_LABELS[props.client.segment];
+ 14 | |   
+ 15 | |     return (
+ 16 | |       <li className="group flex min-h-[5.5rem] flex-col items-center justify-center rounded-[var(--radius-card)] border border-neutral-200 bg-surface px-4 py-5 shadow-sm transition-colors hover:border-primary/40">
+ 17 | |         {props.client.logoSrc ? (
+ 18 | |           <Image
+ 19 | |             alt={`Logo ${props.client.name}`}
+ 20 | |             className="h-10 w-full max-w-[9rem] object-contain grayscale transition-[filter] duration-300 group-hover:grayscale-0"
+ 21 | |             height={40}
+ 22 | |             src={props.client.logoSrc}
+ 23 | |             width={160}
+ 24 | |           />
+ 25 | |         ) : (
+ 26 | |           <span className="text-center font-heading text-sm font-semibold tracking-tight text-neutral-800">
+ 27 | |             {props.client.name}
+ 28 | |           </span>
+ 29 | |         )}
+ 30 | |         <span className="mt-2 text-center text-[0.65rem] font-medium tracking-wide text-neutral-500 uppercase">
+ 31 | |           {segmentLabel}
+ 32 | |         </span>
+ 33 | |       </li>
+ 34 | |     );
+ 35 | `-> }
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/components/quote-cart/QuoteCartPanel.tsx:14:32]
+ 13 |  */
+ 14 | export function QuoteCartPanel(props: QuoteCartPanelProps) {
+    :                                ^^^^^
+ 15 |   const cart = useQuoteCart();
+    `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/components/quote-cart/QuoteCartPanel.tsx:14:8]
+ 13 |      */
+ 14 | ,-> export function QuoteCartPanel(props: QuoteCartPanelProps) {
+ 15 | |     const cart = useQuoteCart();
+ 16 | |   
+ 17 | |     if (cart.lineCount === 0) {
+ 18 | |       return (
+ 19 | |         <div className="rounded-[var(--radius-card)] border border-dashed border-neutral-300 bg-background-muted p-6 text-center">
+ 20 | |           <p className="font-heading text-base font-semibold text-neutral-900">Seu or├ºamento est├í vazio</p>
+ 21 | |           <p className="mt-2 text-sm text-neutral-600">
+ 22 | |             Navegue pelo{' '}
+ 23 | |             <Link className="font-medium text-primary hover:underline" href="/equipamentos">
+ 24 | |               cat├ílogo
+ 25 | |             </Link>{' '}
+ 26 | |             e use &quot;Adicionar ao or├ºamento&quot; em cada item. Valores e disponibilidade ser├úo informados
+ 27 | |             pelo comercial ap├│s o envio.
+ 28 | |           </p>
+ 29 | |         </div>
+ 30 | |       );
+ 31 | |     }
+ 32 | |   
+ 33 | |     const countLabel =
+ 34 | |       cart.count === cart.lineCount
+ 35 | |         ? `${cart.count} ${cart.count === 1 ? 'item' : 'itens'}`
+ 36 | |         : `${cart.lineCount} itens ┬À ${cart.count} unidades`;
+ 37 | |   
+ 38 | |     return (
+ 39 | |       <section
+ 40 | |         aria-labelledby="quote-cart-title"
+ 41 | |         className="rounded-[var(--radius-card)] border border-neutral-200 bg-surface p-5 shadow-sm"
+ 42 | |       >
+ 43 | |         <div className="flex flex-wrap items-center justify-between gap-2">
+ 44 | |           <h2 className="font-heading text-lg font-semibold text-neutral-900" id="quote-cart-title">
+ 45 | |             Itens no or├ºamento ({countLabel})
+ 46 | |           </h2>
+ 47 | |           <button
+ 48 | |             className="text-sm font-medium text-primary hover:underline"
+ 49 | |             onClick={() => cart.clearCart()}
+ 50 | |             type="button"
+ 51 | |           >
+ 52 | |             Limpar lista
+ 53 | |           </button>
+ 54 | |         </div>
+ 55 | |         <p className="mt-2 text-sm text-neutral-600">
+ 56 | |           Ajuste a quantidade de cada item. Envie o formul├írio abaixo para receber proposta com valores e
+ 57 | |           prazo.
+ 58 | |         </p>
+ 59 | |         <ul className="mt-4 divide-y divide-neutral-200 rounded-lg border border-neutral-200">
+ 60 | |           {cart.items.map((item) => (
+ 61 | |             <li
+ 62 | |               className="flex flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
+ 63 | |               key={item.slug}
+ 64 | |             >
+ 65 | |               <div className="min-w-0 flex-1">
+ 66 | |                 <p className="font-medium text-neutral-900">{item.name}</p>
+ 67 | |                 <p className="text-xs text-neutral-500 capitalize">
+ 68 | |                   {item.kind === 'accessory' ? 'Acess├│rio' : 'Equipamento'}
+ 69 | |                 </p>
+ 70 | |               </div>
+ 71 | |               <div className="flex flex-wrap items-center gap-3">
+ 72 | |                 <QuoteCartQuantityStepper
+ 73 | |                   ariaLabel={`Quantidade de ${item.name}`}
+ 74 | |                   onChange={(quantity) => cart.setItemQuantity(item.slug, quantity)}
+ 75 | |                   size="sm"
+ 76 | |                   value={item.quantity}
+ 77 | |                 />
+ 78 | |                 <button
+ 79 | |                   className="text-sm font-medium text-red-600 hover:underline"
+ 80 | |                   onClick={() => cart.removeItem(item.slug)}
+ 81 | |                   type="button"
+ 82 | |                 >
+ 83 | |                   Remover
+ 84 | |                 </button>
+ 85 | |               </div>
+ 86 | |             </li>
+ 87 | |           ))}
+ 88 | |         </ul>
+ 89 | |         {props.showCheckoutHint ? (
+ 90 | |           <p className="mt-4 text-xs text-neutral-500">
+ 91 | |             Os valores ser├úo enviados pelo comercial ap├│s an├ílise do pedido.
+ 92 | |           </p>
+ 93 | |         ) : null}
+ 94 | |       </section>
+ 95 | |     );
+ 96 | `-> }
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/components/marketing/EquipmentPhoto.tsx:40:32]
+ 39 |  */
+ 40 | export function EquipmentPhoto(props: EquipmentPhotoProps) {
+    :                                ^^^^^
+ 41 |   const src = getEquipmentImageSrc(props.slug);
+    `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/components/marketing/EquipmentPhoto.tsx:40:8]
+ 39 |      */
+ 40 | ,-> export function EquipmentPhoto(props: EquipmentPhotoProps) {
+ 41 | |     const src = getEquipmentImageSrc(props.slug);
+ 42 | |   
+ 43 | |     if (!src) {
+ 44 | |       return <Placeholder variant={props.variant} />;
+ 45 | |     }
+ 46 | |   
+ 47 | |     if (props.variant === 'card') {
+ 48 | |       return (
+ 49 | |         <div className={`relative h-36 w-full overflow-hidden bg-neutral-100 ${props.className ?? ''}`}>
+ 50 | |           <Image
+ 51 | |             alt={props.name}
+ 52 | |             className="object-contain object-center p-1"
+ 53 | |             fill
+ 54 | |             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+ 55 | |             src={src}
+ 56 | |           />
+ 57 | |         </div>
+ 58 | |       );
+ 59 | |     }
+ 60 | |   
+ 61 | |     return (
+ 62 | |       <div
+ 63 | |         className={`relative aspect-[4/3] overflow-hidden rounded-[var(--radius-card)] border border-neutral-200 bg-neutral-100 ${props.className ?? ''}`}
+ 64 | |       >
+ 65 | |         <Image
+ 66 | |           alt={props.name}
+ 67 | |           className="object-contain object-center p-2"
+ 68 | |           fill
+ 69 | |           priority
+ 70 | |           sizes="(max-width: 1024px) 100vw, 50vw"
+ 71 | |           src={src}
+ 72 | |         />
+ 73 | |       </div>
+ 74 | |     );
+ 75 | `-> }
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x eslint(no-negated-condition): Unexpected negated condition.
+    ,-[src/components/forms/OrcamentoFormSection.tsx:43:8]
+ 42 | 
+ 43 |       {!submitted ? (
+    :        ^^^^^^^^^^
+ 44 |         <aside className="mt-10 rounded-[var(--radius-card)] border border-neutral-200 bg-background-muted p-6">
+    `----
+  help: Remove the negation operator and switch the consequent and alternate branches.
+
+  x unicorn(no-negated-condition): Unexpected negated condition.
+    ,-[src/components/forms/OrcamentoFormSection.tsx:43:8]
+ 42 | 
+ 43 |       {!submitted ? (
+    :        ^^^^^^^^^^
+ 44 |         <aside className="mt-10 rounded-[var(--radius-card)] border border-neutral-200 bg-background-muted p-6">
+    `----
+  help: Remove the negation operator and switch the consequent and alternate branches.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/components/forms/OrcamentoFormSection.tsx:19:38]
+ 18 |  */
+ 19 | export function OrcamentoFormSection(props: OrcamentoFormSectionProps) {
+    :                                      ^^^^^
+ 20 |   const [submitted, setSubmitted] = useState(false);
+    `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/components/forms/OrcamentoFormSection.tsx:19:8]
+ 18 |      */
+ 19 | ,-> export function OrcamentoFormSection(props: OrcamentoFormSectionProps) {
+ 20 | |     const [submitted, setSubmitted] = useState(false);
+ 21 | |   
+ 22 | |     const whatsappHref = props.initialEquipment
+ 23 | |       ? buildWhatsAppUrl(
+ 24 | |           buildWhatsAppMessage({
+ 25 | |             equipmentName: props.initialEquipment.name,
+ 26 | |             equipmentSlug: props.initialEquipment.slug,
+ 27 | |             origin: 'site-orcamento',
+ 28 | |           }),
+ 29 | |         )
+ 30 | |       : buildWhatsAppUrl(buildWhatsAppMessage({ origin: 'site-orcamento' }));
+ 31 | |   
+ 32 | |     return (
+ 33 | |       <>
+ 34 | |         <div className="mt-8 space-y-8">
+ 35 | |           <QuoteCartPanel showCheckoutHint />
+ 36 | |           <QuoteForm
+ 37 | |             initialEquipment={props.initialEquipment}
+ 38 | |             onSuccess={() => setSubmitted(true)}
+ 39 | |             origin="site-orcamento"
+ 40 | |           />
+ 41 | |         </div>
+ 42 | |   
+ 43 | |         {!submitted ? (
+ 44 | |           <aside className="mt-10 rounded-[var(--radius-card)] border border-neutral-200 bg-background-muted p-6">
+ 45 | |             <h2 className="font-heading text-lg font-semibold text-neutral-900">Prefere falar agora?</h2>
+ 46 | |             <p className="mt-2 text-sm text-neutral-600">
+ 47 | |               Preencha o formul├írio e use <strong>Enviar or├ºamento pelo WhatsApp</strong> ÔÇö a mensagem
+ 48 | |               sai em seu nome para o comercial. Ou contato direto:{' '}
+ 49 | |               <TrackedWhatsAppLink
+ 50 | |                 className="font-medium text-primary hover:underline"
+ 51 | |                 href={whatsappHref}
+ 52 | |                 origin="site-orcamento"
+ 53 | |                 equipmentSlug={props.initialEquipment?.slug}
+ 54 | |                 equipmentName={props.initialEquipment?.name}
+ 55 | |               >
+ 56 | |                 WhatsApp
+ 57 | |               </TrackedWhatsAppLink>{' '}
+ 58 | |               ┬À{' '}
+ 59 | |               <a className="font-medium text-primary hover:underline" href={`tel:+${brand.phone}`}>
+ 60 | |                 {brand.phoneDisplay}
+ 61 | |               </a>{' '}
+ 62 | |               ┬À {brand.hours}
+ 63 | |             </p>
+ 64 | |           </aside>
+ 65 | |         ) : null}
+ 66 | |       </>
+ 67 | |     );
+ 68 | `-> }
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x import(consistent-type-specifier-style): Prefer using a top-level type-only import instead of inline type specifiers.
+   ,-[src/components/admin/LeadsTable.tsx:2:25]
+ 1 | import { getTranslations } from 'next-intl/server';
+ 2 | import { LEAD_STATUSES, type LeadStatus } from '@/lib/lead-status';
+   :                         ^^^^^^^^^^^^^^^
+ 3 | import type { LeadRecord } from '@/lib/leads-admin';
+   `----
+  help: Replace inline type specifiers with a topÔÇÉlevel import type statement.
+
+  x import(consistent-type-specifier-style): Prefer using a top-level type-only import instead of inline type specifiers.
+   ,-[src/app/[locale]/(auth)/dashboard/leads/[id]/page.tsx:7:25]
+ 6 | import { Button } from '@/components/ui/Button';
+ 7 | import { LEAD_STATUSES, type LeadStatus } from '@/lib/lead-status';
+   :                         ^^^^^^^^^^^^^^^
+ 8 | import { formatLeadCartItems, getLeadById, parseLeadCartItems } from '@/lib/leads-admin';
+   `----
+  help: Replace inline type specifiers with a topÔÇÉlevel import type statement.
+
+  x eslint(complexity): async function `LeadDetailPage` has a complexity of 28. Maximum allowed is 20.
+     ,-[src/app/[locale]/(auth)/dashboard/leads/[id]/page.tsx:35:16]
+  34 |     
+  35 | ,-> export default async function LeadDetailPage(props: LeadDetailPageProps) {
+  36 | |     const { locale, id } = await props.params;
+  37 | |     setRequestLocale(resolveAppLocale(locale));
+  38 | |     const t = await getTranslations({
+  39 | |       locale: resolveAppLocale(locale),
+  40 | |       namespace: 'LeadsAdminPage',
+  41 | |     });
+  42 | |   
+  43 | |     const leadId = Number.parseInt(id, 10);
+  44 | |     if (Number.isNaN(leadId)) {
+  45 | |       notFound();
+  46 | |     }
+  47 | |   
+  48 | |     const lead = await getLeadById(leadId);
+  49 | |     if (!lead) {
+  50 | |       notFound();
+  51 | |     }
+  52 | |   
+  53 | |     const cartItems = parseLeadCartItems(lead.itemsJson);
+  54 | |     const statusLabels = Object.fromEntries(
+  55 | |       LEAD_STATUSES.map((status) => [status, t(`status_${status}` as 'status_new')]),
+  56 | |     ) as Record<LeadStatus, string>;
+  57 | |     const displayStatus = statusLabels[lead.status as LeadStatus] ?? lead.status;
+  58 | |     let rentalLabel = lead.rentalPeriod ?? 'ÔÇö';
+  59 | |     if (lead.rentalPeriod === 'diaria') {
+  60 | |       rentalLabel = t('rental_diaria');
+  61 | |     } else if (lead.rentalPeriod === 'semanal') {
+  62 | |       rentalLabel = t('rental_semanal');
+  63 | |     } else if (lead.rentalPeriod === 'mensal') {
+  64 | |       rentalLabel = t('rental_mensal');
+  65 | |     } else if (lead.rentalPeriod === 'ainda_nao_sei') {
+  66 | |       rentalLabel = t('rental_unknown');
+  67 | |     }
+  68 | |   
+  69 | |     return (
+  70 | |       <div className="space-y-6 py-6">
+  71 | |         <div className="flex flex-wrap items-center gap-3">
+  72 | |           <Button href="/dashboard/leads" size="sm" variant="outline">
+  73 | |             {t('back_to_list')}
+  74 | |           </Button>
+  75 | |           <p className="text-sm text-neutral-500">
+  76 | |             {t('detail_id', { id: lead.id })} ┬À {formatDateTime(lead.createdAt)}
+  77 | |           </p>
+  78 | |         </div>
+  79 | |   
+  80 | |         <h1 className="font-heading text-2xl font-bold text-neutral-900">{lead.name}</h1>
+  81 | |   
+  82 | |         <div className="grid gap-6 lg:grid-cols-2">
+  83 | |           <section className="rounded-lg border border-neutral-200 bg-surface p-4">
+  84 | |             <h2 className="font-semibold text-neutral-900">{t('section_contact')}</h2>
+  85 | |             <dl className="mt-3 space-y-2 text-sm">
+  86 | |               <div>
+  87 | |                 <dt className="text-neutral-500">{t('field_email')}</dt>
+  88 | |                 <dd>
+  89 | |                   <a className="text-primary hover:underline" href={`mailto:${lead.email}`}>
+  90 | |                     {lead.email}
+  91 | |                   </a>
+  92 | |                 </dd>
+  93 | |               </div>
+  94 | |               <div>
+  95 | |                 <dt className="text-neutral-500">{t('field_phone')}</dt>
+  96 | |                 <dd>
+  97 | |                   <a className="text-primary hover:underline" href={`tel:${lead.phone}`}>
+  98 | |                     {lead.phone}
+  99 | |                   </a>
+ 100 | |                 </dd>
+ 101 | |               </div>
+ 102 | |               {lead.company ? (
+ 103 | |                 <div>
+ 104 | |                   <dt className="text-neutral-500">{t('field_company')}</dt>
+ 105 | |                   <dd>{lead.company}</dd>
+ 106 | |                 </div>
+ 107 | |               ) : null}
+ 108 | |               <div>
+ 109 | |                 <dt className="text-neutral-500">{t('field_city')}</dt>
+ 110 | |                 <dd>{lead.city}</dd>
+ 111 | |               </div>
+ 112 | |             </dl>
+ 113 | |           </section>
+ 114 | |   
+ 115 | |           <section className="rounded-lg border border-neutral-200 bg-surface p-4">
+ 116 | |             <h2 className="font-semibold text-neutral-900">{t('section_request')}</h2>
+ 117 | |             <dl className="mt-3 space-y-2 text-sm">
+ 118 | |               <div>
+ 119 | |                 <dt className="text-neutral-500">{t('field_rental_period')}</dt>
+ 120 | |                 <dd>{rentalLabel}</dd>
+ 121 | |               </div>
+ 122 | |               <div>
+ 123 | |                 <dt className="text-neutral-500">{t('field_origin')}</dt>
+ 124 | |                 <dd>{lead.origin}</dd>
+ 125 | |               </div>
+ 126 | |               <div className="sm:col-span-2">
+ 127 | |                 <dt className="text-neutral-500">{t('field_status')}</dt>
+ 128 | |                 <dd className="font-medium text-neutral-900">{displayStatus}</dd>
+ 129 | |                 <LeadStatusForm
+ 130 | |                   currentStatus={lead.status}
+ 131 | |                   errorMessage={t('status_update_error')}
+ 132 | |                   fieldLabel={t('field_status')}
+ 133 | |                   labels={statusLabels}
+ 134 | |                   leadId={lead.id}
+ 135 | |                   saveLabel={t('status_save')}
+ 136 | |                 />
+ 137 | |               </div>
+ 138 | |               {lead.equipmentName ? (
+ 139 | |                 <div>
+ 140 | |                   <dt className="text-neutral-500">{t('field_equipment_summary')}</dt>
+ 141 | |                   <dd>{lead.equipmentName}</dd>
+ 142 | |                 </div>
+ 143 | |               ) : null}
+ 144 | |             </dl>
+ 145 | |           </section>
+ 146 | |         </div>
+ 147 | |   
+ 148 | |         {cartItems.length > 0 ? (
+ 149 | |           <section className="rounded-lg border border-neutral-200 bg-surface p-4">
+ 150 | |             <h2 className="font-semibold text-neutral-900">{t('section_cart')}</h2>
+ 151 | |             <ul className="mt-3 divide-y divide-neutral-100 text-sm">
+ 152 | |               {cartItems.map((item) => (
+ 153 | |                 <li
+ 154 | |                   className="flex flex-wrap items-center justify-between gap-2 py-2"
+ 155 | |                   key={item.slug}
+ 156 | |                 >
+ 157 | |                   <div>
+ 158 | |                     <Link
+ 159 | |                       className="font-medium text-primary hover:underline"
+ 160 | |                       href={`/equipamentos/${item.slug}`}
+ 161 | |                     >
+ 162 | |                       {item.name}
+ 163 | |                     </Link>
+ 164 | |                     <p className="text-xs text-neutral-500">
+ 165 | |                       {item.kind === 'accessory' ? t('kind_accessory') : t('kind_equipment')} ┬À{' '}
+ 166 | |                       {item.slug}
+ 167 | |                     </p>
+ 168 | |                   </div>
+ 169 | |                   <span className="font-medium text-neutral-800">
+ 170 | |                     {t('quantity_label', { count: item.quantity })}
+ 171 | |                   </span>
+ 172 | |                 </li>
+ 173 | |               ))}
+ 174 | |             </ul>
+ 175 | |           </section>
+ 176 | |         ) : (
+ 177 | |           <section className="rounded-lg border border-neutral-200 bg-surface p-4 text-sm text-neutral-600">
+ 178 | |             <h2 className="font-semibold text-neutral-900">{t('section_cart')}</h2>
+ 179 | |             <p className="mt-2">
+ 180 | |               {(formatLeadCartItems(lead.itemsJson) || lead.equipmentName) ?? t('cart_empty')}
+ 181 | |             </p>
+ 182 | |           </section>
+ 183 | |         )}
+ 184 | |   
+ 185 | |         {lead.utmSource ||
+ 186 | |         lead.utmMedium ||
+ 187 | |         lead.utmCampaign ||
+ 188 | |         lead.referrer ||
+ 189 | |         lead.landingPage ? (
+ 190 | |           <section className="rounded-lg border border-neutral-200 bg-surface p-4">
+ 191 | |             <h2 className="font-semibold text-neutral-900">{t('section_attribution')}</h2>
+ 192 | |             <dl className="mt-3 grid gap-2 text-sm sm:grid-cols-2">
+ 193 | |               {lead.utmSource ? (
+ 194 | |                 <div>
+ 195 | |                   <dt className="text-neutral-500">{t('field_utm_source')}</dt>
+ 196 | |                   <dd>{lead.utmSource}</dd>
+ 197 | |                 </div>
+ 198 | |               ) : null}
+ 199 | |               {lead.utmMedium ? (
+ 200 | |                 <div>
+ 201 | |                   <dt className="text-neutral-500">{t('field_utm_medium')}</dt>
+ 202 | |                   <dd>{lead.utmMedium}</dd>
+ 203 | |                 </div>
+ 204 | |               ) : null}
+ 205 | |               {lead.utmCampaign ? (
+ 206 | |                 <div>
+ 207 | |                   <dt className="text-neutral-500">{t('field_utm_campaign')}</dt>
+ 208 | |                   <dd>{lead.utmCampaign}</dd>
+ 209 | |                 </div>
+ 210 | |               ) : null}
+ 211 | |               {lead.utmContent ? (
+ 212 | |                 <div>
+ 213 | |                   <dt className="text-neutral-500">{t('field_utm_content')}</dt>
+ 214 | |                   <dd>{lead.utmContent}</dd>
+ 215 | |                 </div>
+ 216 | |               ) : null}
+ 217 | |               {lead.utmTerm ? (
+ 218 | |                 <div>
+ 219 | |                   <dt className="text-neutral-500">{t('field_utm_term')}</dt>
+ 220 | |                   <dd>{lead.utmTerm}</dd>
+ 221 | |                 </div>
+ 222 | |               ) : null}
+ 223 | |               {lead.landingPage ? (
+ 224 | |                 <div className="sm:col-span-2">
+ 225 | |                   <dt className="text-neutral-500">{t('field_landing_page')}</dt>
+ 226 | |                   <dd className="break-all">{lead.landingPage}</dd>
+ 227 | |                 </div>
+ 228 | |               ) : null}
+ 229 | |               {lead.referrer ? (
+ 230 | |                 <div className="sm:col-span-2">
+ 231 | |                   <dt className="text-neutral-500">{t('field_referrer')}</dt>
+ 232 | |                   <dd className="break-all">{lead.referrer}</dd>
+ 233 | |                 </div>
+ 234 | |               ) : null}
+ 235 | |             </dl>
+ 236 | |           </section>
+ 237 | |         ) : null}
+ 238 | |   
+ 239 | |         {lead.message ? (
+ 240 | |           <section className="rounded-lg border border-neutral-200 bg-surface p-4">
+ 241 | |             <h2 className="font-semibold text-neutral-900">{t('section_message')}</h2>
+ 242 | |             <p className="mt-2 text-sm whitespace-pre-wrap text-neutral-700">{lead.message}</p>
+ 243 | |           </section>
+ 244 | |         ) : null}
+ 245 | |   
+ 246 | |         <section className="rounded-lg border border-neutral-200 bg-surface p-4">
+ 247 | |           <h2 className="font-semibold text-neutral-900">{t('section_internal_notes')}</h2>
+ 248 | |           <p className="mt-1 text-xs text-neutral-500">{t('internal_notes_hint')}</p>
+ 249 | |           <LeadNotesForm
+ 250 | |             errorMessage={t('notes_update_error')}
+ 251 | |             fieldLabel={t('field_internal_notes')}
+ 252 | |             initialNotes={lead.internalNotes ?? ''}
+ 253 | |             leadId={lead.id}
+ 254 | |             placeholder={t('internal_notes_placeholder')}
+ 255 | |             saveLabel={t('notes_save')}
+ 256 | |           />
+ 257 | |         </section>
+ 258 | |       </div>
+ 259 | |     );
+ 260 | `-> }
+     `----
+
+  x eslint(prefer-destructuring): Use Object destructuring.
+    ,-[src/components/marketing/EquipmentCard.tsx:13:21]
+ 12 | export function EquipmentCard(props: EquipmentCardProps) {
+ 13 |   const equipment = props.equipment;
+    :                     ^^^^^^^^^^^^^^^
+ 14 | 
+    `----
+  help: Use object destructuring rather than direct member access.
+
+  x import(consistent-type-specifier-style): Prefer using a top-level type-only import instead of inline type specifiers.
+   ,-[src/components/admin/LeadsDatePresets.tsx:3:33]
+ 2 | import { lastDaysRange } from '@/lib/leads-date-presets';
+ 3 | import { buildLeadsFilterQuery, type LeadListFilters } from '@/lib/leads-admin';
+   :                                 ^^^^^^^^^^^^^^^^^^^^
+ 4 | import { Link } from '@/libs/I18nNavigation';
+   `----
+  help: Replace inline type specifiers with a topÔÇÉlevel import type statement.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/components/admin/LeadsDatePresets.tsx:13:40]
+ 12 |  */
+ 13 | export async function LeadsDatePresets(props: LeadsDatePresetsProps) {
+    :                                        ^^^^^
+ 14 |   const t = await getTranslations('LeadsAdminPage');
+    `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/components/admin/LeadsDatePresets.tsx:13:8]
+ 12 |      */
+ 13 | ,-> export async function LeadsDatePresets(props: LeadsDatePresetsProps) {
+ 14 | |     const t = await getTranslations('LeadsAdminPage');
+ 15 | |     const range7 = lastDaysRange(7);
+ 16 | |     const range30 = lastDaysRange(30);
+ 17 | |   
+ 18 | |     const base = {
+ 19 | |       status: props.filters.status,
+ 20 | |       city: props.filters.city,
+ 21 | |       origin: props.filters.origin,
+ 22 | |       q: props.filters.q,
+ 23 | |     };
+ 24 | |   
+ 25 | |     const href7 = `/dashboard/leads${buildLeadsFilterQuery({
+ 26 | |       ...base,
+ 27 | |       ...range7,
+ 28 | |       page: 1,
+ 29 | |     })}`;
+ 30 | |     const href30 = `/dashboard/leads${buildLeadsFilterQuery({
+ 31 | |       ...base,
+ 32 | |       ...range30,
+ 33 | |       page: 1,
+ 34 | |     })}`;
+ 35 | |   
+ 36 | |     return (
+ 37 | |       <div className="flex flex-wrap gap-2">
+ 38 | |         <span className="text-sm text-neutral-600">{t('filter_period_label')}</span>
+ 39 | |         <Link
+ 40 | |           className="rounded-full border border-neutral-200 px-3 py-1 text-sm hover:bg-background-muted"
+ 41 | |           href={href7}
+ 42 | |         >
+ 43 | |           {t('filter_last_7_days')}
+ 44 | |         </Link>
+ 45 | |         <Link
+ 46 | |           className="rounded-full border border-neutral-200 px-3 py-1 text-sm hover:bg-background-muted"
+ 47 | |           href={href30}
+ 48 | |         >
+ 49 | |           {t('filter_last_30_days')}
+ 50 | |         </Link>
+ 51 | |       </div>
+ 52 | |     );
+ 53 | `-> }
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x import(consistent-type-specifier-style): Prefer using a top-level type-only import instead of inline type specifiers.
+   ,-[src/components/admin/LeadStatusForm.tsx:6:25]
+ 5 | import { Button } from '@/components/ui/Button';
+ 6 | import { LEAD_STATUSES, type LeadStatus } from '@/lib/lead-status';
+   :                         ^^^^^^^^^^^^^^^
+ 7 | 
+   `----
+  help: Replace inline type specifiers with a topÔÇÉlevel import type statement.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/lib/cookie-consent.ts:10:35]
+  9 |  */
+ 10 | export function parseConsentValue(raw: string | null): CookieConsentStatus {
+    :                                   ^^^
+ 11 |   if (raw === 'analytics' || raw === 'essential') {
+    `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/lib/cookie-consent.ts:20:37]
+ 19 |  */
+ 20 | export function hasAnalyticsConsent(status: CookieConsentStatus) {
+    :                                     ^^^^^^
+ 21 |   return status === 'analytics';
+    `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/lib/cookie-consent.ts:20:8]
+ 19 |      */
+ 20 | ,-> export function hasAnalyticsConsent(status: CookieConsentStatus) {
+ 21 | |     return status === 'analytics';
+ 22 | `-> }
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/lib/cookie-consent.ts:10:8]
+  9 |      */
+ 10 | ,-> export function parseConsentValue(raw: string | null): CookieConsentStatus {
+ 11 | |     if (raw === 'analytics' || raw === 'essential') {
+ 12 | |       return raw;
+ 13 | |     }
+ 14 | |     return 'pending';
+ 15 | `-> }
+ 16 |     
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x eslint(no-negated-condition): Unexpected negated condition.
+    ,-[src/lib/posthog-events.ts:23:7]
+ 22 |     pathname:
+ 23 |       typeof window !== 'undefined' ? window.location.pathname : undefined,
+    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 24 |   });
+    `----
+  help: Remove the negation operator and switch the consequent and alternate branches.
+
+  x unicorn(no-negated-condition): Unexpected negated condition.
+    ,-[src/lib/posthog-events.ts:23:7]
+ 22 |     pathname:
+ 23 |       typeof window !== 'undefined' ? window.location.pathname : undefined,
+    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 24 |   });
+    `----
+  help: Remove the negation operator and switch the consequent and alternate branches.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/lib/posthog-events.ts:12:38]
+ 11 |  */
+ 12 | export function captureWhatsAppClick(input: WhatsAppClickInput) {
+    :                                      ^^^^^
+ 13 |   const posthog = getPostHog();
+    `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/components/admin/LeadNotesForm.tsx:20:31]
+ 19 |  */
+ 20 | export function LeadNotesForm(props: LeadNotesFormProps) {
+    :                               ^^^^^
+ 21 |   const router = useRouter();
+    `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/components/admin/LeadNotesForm.tsx:20:8]
+ 19 |      */
+ 20 | ,-> export function LeadNotesForm(props: LeadNotesFormProps) {
+ 21 | |     const router = useRouter();
+ 22 | |     const [notes, setNotes] = useState(props.initialNotes);
+ 23 | |     const [isSaving, setIsSaving] = useState(false);
+ 24 | |     const [error, setError] = useState<string | null>(null);
+ 25 | |   
+ 26 | |     return (
+ 27 | |       <form
+ 28 | |         className="mt-3 space-y-3"
+ 29 | |         onSubmit={async (event) => {
+ 30 | |           event.preventDefault();
+ 31 | |           setError(null);
+ 32 | |           setIsSaving(true);
+ 33 | |   
+ 34 | |           const response = await fetch(`/api/admin/leads/${props.leadId}/notes`, {
+ 35 | |             method: 'PATCH',
+ 36 | |             headers: { 'Content-Type': 'application/json' },
+ 37 | |             body: JSON.stringify({ internalNotes: notes }),
+ 38 | |           });
+ 39 | |   
+ 40 | |           const body = (await response.json()) as { error?: string };
+ 41 | |   
+ 42 | |           if (!response.ok) {
+ 43 | |             setError(body.error ?? props.errorMessage);
+ 44 | |             setIsSaving(false);
+ 45 | |             return;
+ 46 | |           }
+ 47 | |   
+ 48 | |           router.refresh();
+ 49 | |           setIsSaving(false);
+ 50 | |         }}
+ 51 | |       >
+ 52 | |         <Textarea
+ 53 | |           disabled={isSaving}
+ 54 | |           id="leadInternalNotes"
+ 55 | |           label={props.fieldLabel}
+ 56 | |           onChange={(event) => {
+ 57 | |             setNotes(event.target.value);
+ 58 | |           }}
+ 59 | |           placeholder={props.placeholder}
+ 60 | |           rows={4}
+ 61 | |           value={notes}
+ 62 | |         />
+ 63 | |         <Button disabled={isSaving} size="sm" type="submit">
+ 64 | |           {props.saveLabel}
+ 65 | |         </Button>
+ 66 | |         {error ? <p className="text-sm text-red-600">{error}</p> : null}
+ 67 | |       </form>
+ 68 | |     );
+ 69 | `-> }
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x eslint(no-use-before-define): 'SearchIcon' was used before it was defined.
+     ,-[src/components/marketing/GlobalSearch.tsx:109:12]
+ 108 |         <span className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-neutral-400">
+ 109 |           <SearchIcon />
+     :            ^^^^^|^^^^
+     :                 `-- used here
+ 110 |         </span>
+ 111 |         <input
+ 112 |           ref={inputRef}
+ 113 |           className={`w-full rounded-lg border border-neutral-200 bg-background-muted text-neutral-900 transition-colors placeholder:text-neutral-400 focus:border-primary focus:bg-surface focus:ring-2 focus:ring-primary/20 focus:outline-none ${
+ 114 |             compact ? 'py-1.5 pr-10 pl-9 text-sm' : 'py-2 pr-16 pl-10 text-sm'
+ 115 |           }`}
+ 116 |           id={id}
+ 117 |           onChange={(e) => {
+ 118 |             setQuery(e.target.value);
+ 119 |             setOpen(true);
+ 120 |             setActiveIndex(0);
+ 121 |           }}
+ 122 |           onFocus={() =>{  setOpen(true); }}
+ 123 |           onKeyDown={onKeyDown}
+ 124 |           placeholder={t('placeholder')}
+ 125 |           type="search"
+ 126 |           value={query}
+ 127 |           autoComplete="off"
+ 128 |           
+ 129 |           aria-expanded={open && query.trim().length > 0}
+ 130 |           aria-controls={listId}
+ 131 |           aria-autocomplete="list"
+ 132 |         />
+ 133 |         {!compact && (
+ 134 |           <kbd className="pointer-events-none absolute top-1/2 right-3 hidden -translate-y-1/2 rounded border border-neutral-200 bg-surface px-1.5 py-0.5 font-mono text-[10px] text-neutral-400 sm:inline">
+ 135 |             ÔîÿK
+ 136 |           </kbd>
+ 137 |         )}
+ 138 |       </div>
+ 139 | 
+ 140 |       {open && query.trim() ? (
+ 141 |         <ul
+ 142 |           className="absolute z-[100] mt-1 max-h-80 w-full overflow-auto rounded-lg border border-neutral-200 bg-surface py-1 shadow-lg"
+ 143 |           id={listId}
+ 144 |           role="listbox"
+ 145 |         >
+ 146 |           {results.length === 0 ? (
+ 147 |             <li className="px-4 py-3 text-sm text-neutral-600">{t('no_results')}</li>
+ 148 |           ) : (
+ 149 |             results.map((item, i) => (
+ 150 |               <li key={item.slug} role="option" aria-selected={i === activeIndex}>
+ 151 |                 <button
+ 152 |                   className={`flex w-full flex-col gap-0.5 px-4 py-2.5 text-left text-sm transition-colors hover:bg-background-muted ${i === activeIndex ? 'bg-primary-light' : ''}`}
+ 153 |                   onMouseDown={(e) =>{  e.preventDefault(); }}
+ 154 |                   onClick={() =>{  goToItem(item.slug); }}
+ 155 |                   type="button"
+ 156 |                 >
+ 157 |                   <span className="font-medium text-neutral-900">{item.name}</span>
+ 158 |                   <span className="text-xs text-neutral-500">{CATEGORY_LABELS[item.category]}</span>
+ 159 |                 </button>
+ 160 |               </li>
+ 161 |             ))
+ 162 |           )}
+ 163 |           <li className="border-t border-neutral-100">
+ 164 |             <button
+ 165 |               className="w-full px-4 py-2.5 text-left text-sm font-medium text-primary hover:bg-background-muted"
+ 166 |               onMouseDown={(e) =>{  e.preventDefault(); }}
+ 167 |               onClick={goToAll}
+ 168 |               type="button"
+ 169 |             >
+ 170 |               {t('view_all')} ÔåÆ
+ 171 |             </button>
+ 172 |           </li>
+ 173 |         </ul>
+ 174 |       ) : null}
+ 175 |     </div>
+ 176 |   );
+ 177 | }
+ 178 | 
+ 179 | function SearchIcon() {
+     :          ^^^^^|^^^^
+     :               `-- defined here
+ 180 |   return (
+     `----
+  help: Move the declaration before any references to it, or remove the reference if it is not needed.
+
+  ! jsx-a11y(no-noninteractive-element-to-interactive-role): Non-interactive elements should not be assigned interactive roles.
+     ,-[src/components/marketing/GlobalSearch.tsx:144:11]
+ 143 |           id={listId}
+ 144 |           role="listbox"
+     :           ^^^^^^^^^^^^^^
+ 145 |         >
+     `----
+  help: Remove the interactive role or use an appropriate interactive element instead.
+
+  ! jsx-a11y(no-noninteractive-element-to-interactive-role): Non-interactive elements should not be assigned interactive roles.
+     ,-[src/components/marketing/GlobalSearch.tsx:150:35]
+ 149 |             results.map((item, i) => (
+ 150 |               <li key={item.slug} role="option" aria-selected={i === activeIndex}>
+     :                                   ^^^^^^^^^^^^^
+ 151 |                 <button
+     `----
+  help: Remove the interactive role or use an appropriate interactive element instead.
+
+  ! jsx-a11y(prefer-tag-over-role): Prefer `datalist, select` over `role` attribute `listbox`.
+     ,-[src/components/marketing/GlobalSearch.tsx:144:11]
+ 143 |           id={listId}
+ 144 |           role="listbox"
+     :           ^^^^^^^^^^^^^^
+ 145 |         >
+     `----
+  help: Replace HTML elements with `role` attribute `listbox` to corresponding semantic HTML tag `datalist, select`.
+
+  ! jsx-a11y(prefer-tag-over-role): Prefer `option` over `role` attribute `option`.
+     ,-[src/components/marketing/GlobalSearch.tsx:150:35]
+ 149 |             results.map((item, i) => (
+ 150 |               <li key={item.slug} role="option" aria-selected={i === activeIndex}>
+     :                                   ^^^^^^^^^^^^^
+ 151 |                 <button
+     `----
+  help: Replace HTML elements with `role` attribute `option` to corresponding semantic HTML tag `option`.
+
+  ! jsx-a11y(role-supports-aria-props): The attribute `aria-expanded` is not supported by the role `textbox`. This role is implicit on the element `input`.
+     ,-[src/components/marketing/GlobalSearch.tsx:129:11]
+ 128 |           
+ 129 |           aria-expanded={open && query.trim().length > 0}
+     :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 130 |           aria-controls={listId}
+     `----
+  help: Try to remove invalid attribute `aria-expanded`.
+
+  x eslint(no-negated-condition): Unexpected negated condition.
+    ,-[src/components/marketing/EquipmentCatalog.tsx:50:88]
+ 49 |         <a
+ 50 |           className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${!initialCategory ? 'bg-primary text-primary-foreground' : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'}`}
+    :                                                                                        ^^^^^^^^^^^^^^^^
+ 51 |           href={
+    `----
+  help: Remove the negation operator and switch the consequent and alternate branches.
+
+  x unicorn(no-negated-condition): Unexpected negated condition.
+    ,-[src/components/marketing/EquipmentCatalog.tsx:50:88]
+ 49 |         <a
+ 50 |           className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${!initialCategory ? 'bg-primary text-primary-foreground' : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'}`}
+    :                                                                                        ^^^^^^^^^^^^^^^^
+ 51 |           href={
+    `----
+  help: Remove the negation operator and switch the consequent and alternate branches.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/lib/attribution.ts:28:37]
+ 27 |  */
+ 28 | export function parseUtmsFromSearch(search: string) {
+    :                                     ^^^^^^
+ 29 |   const params = new URLSearchParams(search.startsWith('?') ? search : `?${search}`);
+    `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/lib/attribution.ts:45:43]
+ 44 |  */
+ 45 | export function buildAttributionFromVisit(options: {
+    :                                           ^^^^^^^
+ 46 |   search: string;
+    `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/lib/attribution.ts:67:36]
+ 66 |  */
+ 67 | export function hasAttributionData(attribution: AttributionInput) {
+    :                                    ^^^^^^^^^^^
+ 68 |   return Boolean(
+    `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/lib/attribution.ts:28:8]
+ 27 |      */
+ 28 | ,-> export function parseUtmsFromSearch(search: string) {
+ 29 | |     const params = new URLSearchParams(search.startsWith('?') ? search : `?${search}`);
+ 30 | |     const partial: Partial<AttributionInput> = {};
+ 31 | |   
+ 32 | |     for (const [queryKey, fieldKey] of Object.entries(UTM_PARAM_MAP)) {
+ 33 | |       const value = params.get(queryKey)?.trim();
+ 34 | |       if (value) {
+ 35 | |         partial[fieldKey] = value;
+ 36 | |       }
+ 37 | |     }
+ 38 | |   
+ 39 | |     return partial;
+ 40 | `-> }
+ 41 |     
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/lib/attribution.ts:45:8]
+ 44 |      */
+ 45 | ,-> export function buildAttributionFromVisit(options: {
+ 46 | |     search: string;
+ 47 | |     referrer: string;
+ 48 | |     landingPath: string;
+ 49 | |   }) {
+ 50 | |     const fromQuery = parseUtmsFromSearch(options.search);
+ 51 | |     const referrer = options.referrer.trim().slice(0, 500) || undefined;
+ 52 | |     const landingPage = options.landingPath.trim().slice(0, 500) || undefined;
+ 53 | |   
+ 54 | |     const payload = {
+ 55 | |       ...fromQuery,
+ 56 | |       referrer,
+ 57 | |       landingPage,
+ 58 | |     };
+ 59 | |   
+ 60 | |     const parsed = AttributionSchema.safeParse(payload);
+ 61 | |     return parsed.success ? parsed.data : {};
+ 62 | `-> }
+ 63 |     
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/lib/attribution.ts:82:8]
+ 81 |      */
+ 82 | ,-> export function readStoredAttribution(): AttributionInput | null {
+ 83 | |     if (typeof window === 'undefined') {
+ 84 | |       return null;
+ 85 | |     }
+ 86 | |   
+ 87 | |     const raw = window.sessionStorage.getItem(ATTRIBUTION_STORAGE_KEY);
+ 88 | |     if (!raw) {
+ 89 | |       return null;
+ 90 | |     }
+ 91 | |   
+ 92 | |     try {
+ 93 | |       const parsed = AttributionSchema.safeParse(JSON.parse(raw));
+ 94 | |       return parsed.success ? parsed.data : null;
+ 95 | |     } catch {
+ 96 | |       return null;
+ 97 | |     }
+ 98 | `-> }
+ 99 |     
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/lib/attribution.ts:67:8]
+ 66 |      */
+ 67 | ,-> export function hasAttributionData(attribution: AttributionInput) {
+ 68 | |     return Boolean(
+ 69 | |       attribution.utmSource ||
+ 70 | |         attribution.utmMedium ||
+ 71 | |         attribution.utmCampaign ||
+ 72 | |         attribution.utmContent ||
+ 73 | |         attribution.utmTerm ||
+ 74 | |         attribution.referrer ||
+ 75 | |         attribution.landingPage,
+ 76 | |     );
+ 77 | `-> }
+ 78 |     
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x eslint(require-unicode-regexp): Use the 'u' flag.
+    ,-[tests/e2e/Marketing.conversion.e2e.ts:24:44]
+ 23 | 
+ 24 |       await page.getByRole('link', { name: /betoneira/i }).first().click();
+    :                                            ^^^^^^^^^^^^
+ 25 | 
+    `----
+  help: Add the 'u' flag.
+  note: The 'u' and 'v' flags enable Unicode-aware regular expression behavior and stricter pattern parsing.
+
+  x eslint(require-unicode-regexp): Use the 'u' flag.
+    ,-[tests/e2e/Marketing.conversion.e2e.ts:27:75]
+ 26 |       await expect(page).toHaveURL(/\/equipamentos\/betoneira/u);
+ 27 |       await expect(page.getByRole('heading', { level: 1 })).toContainText(/betoneira/i);
+    :                                                                           ^^^^^^^^^^^^
+ 28 |     });
+    `----
+  help: Add the 'u' flag.
+  note: The 'u' and 'v' flags enable Unicode-aware regular expression behavior and stricter pattern parsing.
+
+  x eslint(require-unicode-regexp): Use the 'u' flag.
+    ,-[tests/e2e/Marketing.conversion.e2e.ts:34:35]
+ 33 |       await expect(page.getByRole('heading', { level: 1, name: aerialName })).toBeVisible();
+ 34 |       await expect(page.getByText(/sob consulta/i).first()).toBeVisible();
+    :                                   ^^^^^^^^^^^^^^^
+ 35 |     });
+    `----
+  help: Add the 'u' flag.
+  note: The 'u' and 'v' flags enable Unicode-aware regular expression behavior and stricter pattern parsing.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/lib/posthog-client.ts:31:8]
+ 30 |      */
+ 31 | ,-> export function getPostHog() {
+ 32 | |     if (!initialized) {
+ 33 | |       return null;
+ 34 | |     }
+ 35 | |     return posthog;
+ 36 | `-> }
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+   ,-[src/lib/posthog-attribution.ts:7:48]
+ 6 |  */
+ 7 | export function attributionToPostHogProperties(attribution: AttributionInput) {
+   :                                                ^^^^^^^^^^^
+ 8 |   const props: Record<string, string> = {};
+   `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/lib/posthog-attribution.ts:38:44]
+ 37 |  */
+ 38 | export function registerPostHogAttribution(posthog: PostHog, attribution: AttributionInput) {
+    :                                            ^^^^^^^           ^^^^^^^^^^^
+ 39 |   const props = attributionToPostHogProperties(attribution);
+    `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/lib/posthog-attribution.ts:7:8]
+  6 |      */
+  7 | ,-> export function attributionToPostHogProperties(attribution: AttributionInput) {
+  8 | |     const props: Record<string, string> = {};
+  9 | |   
+ 10 | |     if (attribution.utmSource) {
+ 11 | |       props.utm_source = attribution.utmSource;
+ 12 | |     }
+ 13 | |     if (attribution.utmMedium) {
+ 14 | |       props.utm_medium = attribution.utmMedium;
+ 15 | |     }
+ 16 | |     if (attribution.utmCampaign) {
+ 17 | |       props.utm_campaign = attribution.utmCampaign;
+ 18 | |     }
+ 19 | |     if (attribution.utmContent) {
+ 20 | |       props.utm_content = attribution.utmContent;
+ 21 | |     }
+ 22 | |     if (attribution.utmTerm) {
+ 23 | |       props.utm_term = attribution.utmTerm;
+ 24 | |     }
+ 25 | |     if (attribution.referrer) {
+ 26 | |       props.initial_referrer = attribution.referrer;
+ 27 | |     }
+ 28 | |     if (attribution.landingPage) {
+ 29 | |       props.initial_landing_page = attribution.landingPage;
+ 30 | |     }
+ 31 | |   
+ 32 | |     return props;
+ 33 | `-> }
+ 34 |     
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x eslint(no-unused-vars): Identifier 'fileURLToPath' is imported but never used.
+   ,-[docs/scripts/generate-comparison-pdf.mjs:2:10]
+ 1 | import path from 'node:path';
+ 2 | import { fileURLToPath } from 'node:url';
+   :          ^^^^^^|^^^^^^
+   :                `-- 'fileURLToPath' is imported here
+ 3 | import { chromium } from '@playwright/test';
+   `----
+  help: Consider removing this import.
+
+  x eslint(require-unicode-regexp): Use the 'u' flag.
+    ,-[docs/scripts/generate-comparison-pdf.mjs:11:48]
+ 10 | const page = await browser.newPage();
+ 11 | await page.goto(`file:///${htmlPath.replaceAll(/\\/g, '/')}`, { waitUntil: 'networkidle' });
+    :                                                ^^^^^
+ 12 | await page.pdf({
+    `----
+  help: Add the 'u' flag.
+  note: The 'u' and 'v' flags enable Unicode-aware regular expression behavior and stricter pattern parsing.
+
+  x unicorn(prefer-string-replace-all): This pattern can be replaced with `\`.
+    ,-[docs/scripts/generate-comparison-pdf.mjs:11:48]
+ 10 | const page = await browser.newPage();
+ 11 | await page.goto(`file:///${htmlPath.replaceAll(/\\/g, '/')}`, { waitUntil: 'networkidle' });
+    :                                                ^^^^^
+ 12 | await page.pdf({
+    `----
+  help: Replace `/\\/g` with `'\\'`.
+
+  x eslint(require-await): Async function has no `await` expression.
+    ,-[src/components/layout/MarketingShell.tsx:13:23]
+ 12 | 
+ 13 | export async function MarketingShell(props: MarketingShellProps) {
+    :                       ^^^^^^^^^^^^^^
+ 14 |   const searchIndex = getSearchIndex();
+    `----
+  help: Consider removing the `async` keyword.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+   ,-[src/components/seo/JsonLd.tsx:8:24]
+ 7 |  */
+ 8 | export function JsonLd(props: JsonLdProps) {
+   :                        ^^^^^
+ 9 |   const payload = Array.isArray(props.data)
+   `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/components/seo/JsonLd.tsx:8:8]
+  7 |      */
+  8 | ,-> export function JsonLd(props: JsonLdProps) {
+  9 | |     const payload = Array.isArray(props.data)
+ 10 | |       ? { '@context': 'https://schema.org', '@graph': props.data }
+ 11 | |       : props.data;
+ 12 | |   
+ 13 | |     return (
+ 14 | |       <script
+ 15 | |         // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD requires inline script
+ 16 | |         dangerouslySetInnerHTML={{ __html: JSON.stringify(payload) }}
+ 17 | |         type="application/ld+json"
+ 18 | |       />
+ 19 | |     );
+ 20 | `-> }
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+   ,-[src/lib/equipment-images.ts:8:38]
+ 7 |  */
+ 8 | export function getEquipmentImageSrc(slug: string) {
+   :                                      ^^^^
+ 9 |   return slugToSrc[slug];
+   `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/lib/equipment-images.ts:8:8]
+  7 |      */
+  8 | ,-> export function getEquipmentImageSrc(slug: string) {
+  9 | |     return slugToSrc[slug];
+ 10 | `-> }
+ 11 |     
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/lib/equipment-images.ts:15:8]
+ 14 |      */
+ 15 | ,-> export function getEquipmentSlugsWithImages() {
+ 16 | |     return Object.keys(slugToSrc);
+ 17 | `-> }
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/lib/equipment.ts:10:3]
+  9 | export function getEquipmentQuoteCartKind(
+ 10 |   equipment: Pick<Equipment, 'category'>,
+    :   ^^^^^^^^^
+ 11 | ): QuoteCartItemKind {
+    `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/lib/equipment.ts:58:37]
+ 57 | /** Outros itens da mesma categoria (exclui o atual) */
+ 58 | export function getRelatedEquipment(slug: string, limit = 4): Equipment[] {
+    :                                     ^^^^          ^^^^^
+ 59 |   const current = getEquipmentBySlug(slug);
+    `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/lib/equipment.ts:9:8]
+  8 |     /** Maps catalog category to quote-cart item kind. */
+  9 | ,-> export function getEquipmentQuoteCartKind(
+ 10 | |     equipment: Pick<Equipment, 'category'>,
+ 11 | |   ): QuoteCartItemKind {
+ 12 | |     return equipment.category === 'acessorios' ? 'accessory' : 'equipment';
+ 13 | `-> }
+ 14 |     
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/lib/equipment.ts:69:8]
+ 68 |     /** Compact index for client-side global search */
+ 69 | ,-> export function getSearchIndex(): Pick<Equipment, 'slug' | 'name' | 'category' | 'tags'>[] {
+ 70 | |     return getAllEquipment().map(({ slug, name, category, tags }) => ({
+ 71 | |       slug,
+ 72 | |       name,
+ 73 | |       category,
+ 74 | |       tags,
+ 75 | |     }));
+ 76 | `-> }
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/lib/equipment.ts:58:8]
+ 57 |     /** Outros itens da mesma categoria (exclui o atual) */
+ 58 | ,-> export function getRelatedEquipment(slug: string, limit = 4): Equipment[] {
+ 59 | |     const current = getEquipmentBySlug(slug);
+ 60 | |     if (!current) {
+ 61 | |       return [];
+ 62 | |     }
+ 63 | |     return items
+ 64 | |       .filter((e) => e.available && e.slug !== slug && e.category === current.category)
+ 65 | |       .slice(0, limit);
+ 66 | `-> }
+ 67 |     
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/components/quote-cart/AddToQuoteButton.tsx:23:34]
+ 22 |  */
+ 23 | export function AddToQuoteButton(props: AddToQuoteButtonProps) {
+    :                                  ^^^^^
+ 24 |   const cart = useQuoteCart();
+    `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/components/quote-cart/AddToQuoteButton.tsx:23:8]
+ 22 |      */
+ 23 | ,-> export function AddToQuoteButton(props: AddToQuoteButtonProps) {
+ 24 | |     const cart = useQuoteCart();
+ 25 | |     const inCart = cart.hasItem(props.item.slug);
+ 26 | |     const [draftQuantity, setDraftQuantity] = useState(QUOTE_CART_MIN_QUANTITY);
+ 27 | |     const stepperValue = inCart ? cart.getItemQuantity(props.item.slug) : draftQuantity;
+ 28 | |     const Wrapper = 'div' as const;
+ 29 | |   
+ 30 | |     return (
+ 31 | |       <Wrapper className={`flex flex-col gap-2 ${props.className ?? ''}`}>
+ 32 | |         <Wrapper className="flex flex-wrap items-center justify-between gap-2">
+ 33 | |           <span className="text-xs font-medium text-neutral-600">Quantidade</span>
+ 34 | |           <QuoteCartQuantityStepper
+ 35 | |             ariaLabel={`Quantidade de ${props.item.name}`}
+ 36 | |             onChange={(quantity) => {
+ 37 | |               if (inCart) {
+ 38 | |                 cart.setItemQuantity(props.item.slug, quantity);
+ 39 | |               } else {
+ 40 | |                 setDraftQuantity(quantity);
+ 41 | |               }
+ 42 | |             }}
+ 43 | |             size={props.size ?? 'sm'}
+ 44 | |             value={stepperValue}
+ 45 | |           />
+ 46 | |         </Wrapper>
+ 47 | |         <Button
+ 48 | |           onClick={() => {
+ 49 | |             cart.addItem({ ...props.item, quantity: stepperValue });
+ 50 | |           }}
+ 51 | |           size={props.size ?? 'sm'}
+ 52 | |           type="button"
+ 53 | |           variant={inCart ? 'outline' : 'primary'}
+ 54 | |         >
+ 55 | |           {inCart ? `No or├ºamento (${stepperValue})` : 'Adicionar ao or├ºamento'}
+ 56 | |         </Button>
+ 57 | |       </Wrapper>
+ 58 | |     );
+ 59 | `-> }
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/lib/seo-metadata.ts:16:35]
+ 15 |  */
+ 16 | export function buildCanonicalUrl(path: string) {
+    :                                   ^^^^
+ 17 |   const baseUrl = getBaseUrl();
+    `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/lib/seo-metadata.ts:25:40]
+ 24 |  */
+ 25 | export function buildMarketingMetadata(input: MarketingMetadataInput): Metadata {
+    :                                        ^^^^^
+ 26 |   const canonical = buildCanonicalUrl(input.path);
+    `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/lib/seo-metadata.ts:16:8]
+ 15 |      */
+ 16 | ,-> export function buildCanonicalUrl(path: string) {
+ 17 | |     const baseUrl = getBaseUrl();
+ 18 | |     const normalized = path.startsWith('/') ? path : `/${path}`;
+ 19 | |     return `${baseUrl}${normalized}`;
+ 20 | `-> }
+ 21 |     
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/lib/seo-metadata.ts:25:8]
+ 24 |      */
+ 25 | ,-> export function buildMarketingMetadata(input: MarketingMetadataInput): Metadata {
+ 26 | |     const canonical = buildCanonicalUrl(input.path);
+ 27 | |     const ogPath = input.ogPath ?? '/opengraph-image';
+ 28 | |   
+ 29 | |     return withSiteOpenGraph(
+ 30 | |       {
+ 31 | |         title: input.title,
+ 32 | |         description: input.description,
+ 33 | |         alternates: { canonical },
+ 34 | |         openGraph: {
+ 35 | |           title: input.title,
+ 36 | |           description: input.description,
+ 37 | |           url: canonical,
+ 38 | |           images: getDefaultOgImages(ogPath),
+ 39 | |         },
+ 40 | |         twitter: {
+ 41 | |           title: input.title,
+ 42 | |           description: input.description,
+ 43 | |         },
+ 44 | |         robots: {
+ 45 | |           index: true,
+ 46 | |           follow: true,
+ 47 | |           googleBot: {
+ 48 | |             index: true,
+ 49 | |             follow: true,
+ 50 | |             'max-image-preview': 'large',
+ 51 | |             'max-snippet': -1,
+ 52 | |             'max-video-preview': -1,
+ 53 | |           },
+ 54 | |         },
+ 55 | |         category: 'construction equipment rental',
+ 56 | |         authors: [{ name: brand.name, url: getBaseUrl() }],
+ 57 | |       },
+ 58 | |       ogPath,
+ 59 | |     );
+ 60 | `-> }
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  ! jsx-a11y(prefer-tag-over-role): Prefer `dialog` over `role` attribute `dialog`.
+    ,-[src/components/analytics/CookieConsentBanner.tsx:19:7]
+ 18 |       className="fixed right-0 bottom-0 left-0 z-40 border-t border-neutral-700 bg-neutral-900 px-4 py-4 text-neutral-200 shadow-lg sm:px-6"
+ 19 |       role="dialog"
+    :       ^^^^^^^^^^^^^
+ 20 |     >
+    `----
+  help: Replace HTML elements with `role` attribute `dialog` to corresponding semantic HTML tag `dialog`.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/components/analytics/CookieConsentBanner.tsx:11:8]
+ 10 |      */
+ 11 | ,-> export function CookieConsentBanner() {
+ 12 | |     const t = useTranslations('CookieConsent');
+ 13 | |     const consent = useAnalyticsConsent();
+ 14 | |   
+ 15 | |     return (
+ 16 | |       <div
+ 17 | |         aria-labelledby="cookie-consent-title"
+ 18 | |         className="fixed right-0 bottom-0 left-0 z-40 border-t border-neutral-700 bg-neutral-900 px-4 py-4 text-neutral-200 shadow-lg sm:px-6"
+ 19 | |         role="dialog"
+ 20 | |       >
+ 21 | |         <div className="mx-auto flex max-w-7xl flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+ 22 | |           <div className="max-w-3xl text-sm leading-relaxed">
+ 23 | |             <p className="font-semibold text-white" id="cookie-consent-title">
+ 24 | |               {t('title')}
+ 25 | |             </p>
+ 26 | |             <p className="mt-1">{t('description')}</p>
+ 27 | |             <p className="mt-2 text-xs text-neutral-400">
+ 28 | |               <Link className="underline hover:text-white" href="/privacidade">
+ 29 | |                 {t('privacy_link')}
+ 30 | |               </Link>
+ 31 | |             </p>
+ 32 | |           </div>
+ 33 | |           <div className="flex shrink-0 flex-wrap gap-2">
+ 34 | |             <Button
+ 35 | |               className="!bg-neutral-700 !text-white hover:!bg-neutral-600"
+ 36 | |               onClick={() => {
+ 37 | |                 consent.rejectAnalytics();
+ 38 | |               }}
+ 39 | |               size="sm"
+ 40 | |               type="button"
+ 41 | |               variant="secondary"
+ 42 | |             >
+ 43 | |               {t('reject')}
+ 44 | |             </Button>
+ 45 | |             <Button
+ 46 | |               onClick={() => {
+ 47 | |                 consent.acceptAnalytics();
+ 48 | |               }}
+ 49 | |               size="sm"
+ 50 | |               type="button"
+ 51 | |               variant="primary"
+ 52 | |             >
+ 53 | |               {t('accept')}
+ 54 | |             </Button>
+ 55 | |           </div>
+ 56 | |         </div>
+ 57 | |       </div>
+ 58 | |     );
+ 59 | `-> }
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+   ,-[src/lib/leads-date-presets.ts:4:32]
+ 3 |  */
+ 4 | export function toIsoDateInput(date: Date) {
+   :                                ^^^^
+ 5 |   return date.toISOString().slice(0, 10);
+   `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/lib/leads-date-presets.ts:11:31]
+ 10 |  */
+ 11 | export function lastDaysRange(days: number) {
+    :                               ^^^^
+ 12 |   const to = new Date();
+    `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+   ,-[src/lib/leads-date-presets.ts:4:8]
+ 3 |      */
+ 4 | ,-> export function toIsoDateInput(date: Date) {
+ 5 | |     return date.toISOString().slice(0, 10);
+ 6 | `-> }
+ 7 |     
+   `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/lib/leads-date-presets.ts:11:8]
+ 10 |      */
+ 11 | ,-> export function lastDaysRange(days: number) {
+ 12 | |     const to = new Date();
+ 13 | |     const from = new Date();
+ 14 | |     from.setUTCDate(from.getUTCDate() - days);
+ 15 | |     return {
+ 16 | |       dateFrom: toIsoDateInput(from),
+ 17 | |       dateTo: toIsoDateInput(to),
+ 18 | |     };
+ 19 | `-> }
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x eslint(require-unicode-regexp): Use the 'u' flag.
+    ,-[src/lib/search.ts:23:25]
+ 22 |       item.name,
+ 23 |       item.slug.replace(/-/g, ' '),
+    :                         ^^^^
+ 24 |       item.category.replace(/-/g, ' '),
+    `----
+  help: Add the 'u' flag.
+  note: The 'u' and 'v' flags enable Unicode-aware regular expression behavior and stricter pattern parsing.
+
+  x eslint(require-unicode-regexp): Use the 'u' flag.
+    ,-[src/lib/search.ts:24:29]
+ 23 |       item.slug.replace(/-/g, ' '),
+ 24 |       item.category.replace(/-/g, ' '),
+    :                             ^^^^
+ 25 |       CATEGORY_LABELS[item.category],
+    `----
+  help: Add the 'u' flag.
+  note: The 'u' and 'v' flags enable Unicode-aware regular expression behavior and stricter pattern parsing.
+
+  x eslint(require-unicode-regexp): Use the 'u' flag.
+    ,-[src/lib/search.ts:40:30]
+ 39 |   }
+ 40 |   const tokens = query.split(/\s+/).filter(Boolean);
+    :                              ^^^^^
+ 41 |   return tokens.length > 0 && tokens.every((token) => haystack.includes(token));
+    `----
+  help: Add the 'u' flag.
+  note: The 'u' and 'v' flags enable Unicode-aware regular expression behavior and stricter pattern parsing.
+
+  x unicorn(no-array-sort): Use `Array#toSorted()` instead of `Array#sort()`.
+    ,-[src/lib/search.ts:81:6]
+ 80 |     .filter(({ score }) => score >= 0)
+ 81 |     .sort((a, b) => b.score - a.score || a.item.name.localeCompare(b.item.name, 'pt-BR'))
+    :      ^^^^
+ 82 |     .slice(0, limit)
+    `----
+  help: `Array#sort()` mutates the original array. Use `Array#toSorted()` to return a new sorted array without modifying the original.
+
+  x unicorn(prefer-string-replace-all): Prefer `String#replaceAll()` over `String#replace()` when using a regex with the global flag.
+    ,-[src/lib/search.ts:14:6]
+ 13 |     .normalize('NFD')
+ 14 |     .replace(/\p{M}/gu, '')
+    :      ^^^^^^^
+ 15 |     .toLowerCase()
+    `----
+  help: Replace `replace` with `replaceAll`.
+
+  x unicorn(prefer-string-replace-all): Prefer `String#replaceAll()` over `String#replace()` when using a regex with the global flag.
+    ,-[src/lib/search.ts:23:17]
+ 22 |       item.name,
+ 23 |       item.slug.replace(/-/g, ' '),
+    :                 ^^^^^^^
+ 24 |       item.category.replace(/-/g, ' '),
+    `----
+  help: Replace `replace` with `replaceAll`.
+
+  x unicorn(prefer-string-replace-all): Prefer `String#replaceAll()` over `String#replace()` when using a regex with the global flag.
+    ,-[src/lib/search.ts:24:21]
+ 23 |       item.slug.replace(/-/g, ' '),
+ 24 |       item.category.replace(/-/g, ' '),
+    :                     ^^^^^^^
+ 25 |       CATEGORY_LABELS[item.category],
+    `----
+  help: Replace `replace` with `replaceAll`.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/lib/search.ts:32:36]
+ 31 | /** Aceita texto incompleto, ignora acentos e combina v├írias palavras. */
+ 32 | export function matchesSearchQuery(haystack: string, rawQuery: string): boolean {
+    :                                    ^^^^^^^^          ^^^^^^^^
+ 33 |   const query = normalizeSearchText(rawQuery);
+    `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/lib/search.ts:32:8]
+ 31 |     /** Aceita texto incompleto, ignora acentos e combina v├írias palavras. */
+ 32 | ,-> export function matchesSearchQuery(haystack: string, rawQuery: string): boolean {
+ 33 | |     const query = normalizeSearchText(rawQuery);
+ 34 | |     if (!query) {
+ 35 | |       return false;
+ 36 | |     }
+ 37 | |     if (haystack.includes(query)) {
+ 38 | |       return true;
+ 39 | |     }
+ 40 | |     const tokens = query.split(/\s+/).filter(Boolean);
+ 41 | |     return tokens.length > 0 && tokens.every((token) => haystack.includes(token));
+ 42 | `-> }
+ 43 |     
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+   ,-[src/lib/site-metadata.ts:8:36]
+ 7 |  */
+ 8 | export function getDefaultOgImages(path = '/opengraph-image') {
+   :                                    ^^^^
+ 9 |   const baseUrl = getBaseUrl();
+   `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/lib/site-metadata.ts:23:35]
+ 22 |  */
+ 23 | export function withSiteOpenGraph(metadata: Metadata, ogPath = '/opengraph-image'): Metadata {
+    :                                   ^^^^^^^^            ^^^^^^
+ 24 |   const images = metadata.openGraph?.images ?? getDefaultOgImages(ogPath);
+    `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/lib/site-metadata.ts:8:8]
+  7 |      */
+  8 | ,-> export function getDefaultOgImages(path = '/opengraph-image') {
+  9 | |     const baseUrl = getBaseUrl();
+ 10 | |     return [
+ 11 | |       {
+ 12 | |         url: `${baseUrl}${path}`,
+ 13 | |         width: 1200,
+ 14 | |         height: 630,
+ 15 | |         alt: `${brand.name} ÔÇö loca├º├úo de equipamentos em BH`,
+ 16 | |       },
+ 17 | |     ];
+ 18 | `-> }
+ 19 |     
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/lib/site-metadata.ts:23:8]
+ 22 |      */
+ 23 | ,-> export function withSiteOpenGraph(metadata: Metadata, ogPath = '/opengraph-image'): Metadata {
+ 24 | |     const images = metadata.openGraph?.images ?? getDefaultOgImages(ogPath);
+ 25 | |   
+ 26 | |     return {
+ 27 | |       ...metadata,
+ 28 | |       openGraph: {
+ 29 | |         type: 'website',
+ 30 | |         locale: 'pt_BR',
+ 31 | |         siteName: brand.name,
+ 32 | |         ...metadata.openGraph,
+ 33 | |         images,
+ 34 | |       },
+ 35 | |       twitter: {
+ 36 | |         card: 'summary_large_image',
+ 37 | |         ...metadata.twitter,
+ 38 | |       },
+ 39 | |     };
+ 40 | `-> }
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+     ,-[src/lib/json-ld.ts:132:43]
+ 131 |  */
+ 132 | export function buildBreadcrumbListJsonLd(items: BreadcrumbItem[]) {
+     :                                           ^^^^^
+ 133 |   const baseUrl = getBaseUrl();
+     `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+     ,-[src/lib/json-ld.ts:150:36]
+ 149 |  */
+ 150 | export function buildProductJsonLd(equipment: Equipment) {
+     :                                    ^^^^^^^^^
+ 151 |   const baseUrl = getBaseUrl();
+     `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+     ,-[src/lib/json-ld.ts:187:42]
+ 186 |  */
+ 187 | export function buildEquipmentPageJsonLd(equipment: Equipment) {
+     :                                          ^^^^^^^^^
+ 188 |   const categoryLabel = CATEGORY_LABELS[equipment.category];
+     `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+     ,-[src/lib/json-ld.ts:207:41]
+ 206 |  */
+ 207 | export function buildCategoryPageJsonLd(options: {
+     :                                         ^^^^^^^
+ 208 |   slug: EquipmentCategory;
+     `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+     ,-[src/lib/json-ld.ts:264:45]
+ 263 |  */
+ 264 | export function buildEquipmentCatalogJsonLd(equipment: Equipment[]) {
+     :                                             ^^^^^^^^^
+ 265 |   const baseUrl = getBaseUrl();
+     `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+     ,-[src/lib/json-ld.ts:306:36]
+ 305 |  */
+ 306 | export function buildFaqPageJsonLd(items: FaqItem[]) {
+     :                                    ^^^^^
+ 307 |   const baseUrl = getBaseUrl();
+     `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+     ,-[src/lib/json-ld.ts:264:8]
+ 263 |      */
+ 264 | ,-> export function buildEquipmentCatalogJsonLd(equipment: Equipment[]) {
+ 265 | |     const baseUrl = getBaseUrl();
+ 266 | |     const path = '/equipamentos';
+ 267 | |     const pageUrl = `${baseUrl}${path}`;
+ 268 | |     const listId = `${pageUrl}#itemlist`;
+ 269 | |   
+ 270 | |     return {
+ 271 | |       '@context': SCHEMA_CONTEXT,
+ 272 | |       '@graph': [
+ 273 | |         {
+ 274 | |           '@type': 'CollectionPage',
+ 275 | |           '@id': `${pageUrl}#webpage`,
+ 276 | |           url: pageUrl,
+ 277 | |           name: 'Cat├ílogo de equipamentos para loca├º├úo',
+ 278 | |           description:
+ 279 | |             'Frota completa de equipamentos para constru├º├úo civil em Belo Horizonte e regi├úo metropolitana.',
+ 280 | |           inLanguage: 'pt-BR',
+ 281 | |           isPartOf: { '@id': `${baseUrl}/#website` },
+ 282 | |           mainEntity: { '@id': listId },
+ 283 | |         },
+ 284 | |         buildBreadcrumbListJsonLd([
+ 285 | |           { name: 'In├¡cio', path: '/' },
+ 286 | |           { name: 'Equipamentos', path },
+ 287 | |         ]),
+ 288 | |         {
+ 289 | |           '@type': 'ItemList',
+ 290 | |           '@id': listId,
+ 291 | |           numberOfItems: equipment.length,
+ 292 | |           itemListElement: equipment.map((item, index) => ({
+ 293 | |             '@type': 'ListItem',
+ 294 | |             position: index + 1,
+ 295 | |             name: item.name,
+ 296 | |             url: `${baseUrl}/equipamentos/${item.slug}`,
+ 297 | |           })),
+ 298 | |         },
+ 299 | |       ],
+ 300 | |     };
+ 301 | `-> }
+ 302 |     
+     `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+     ,-[src/lib/json-ld.ts:132:8]
+ 131 |      */
+ 132 | ,-> export function buildBreadcrumbListJsonLd(items: BreadcrumbItem[]) {
+ 133 | |     const baseUrl = getBaseUrl();
+ 134 | |   
+ 135 | |     return {
+ 136 | |       '@context': SCHEMA_CONTEXT,
+ 137 | |       '@type': 'BreadcrumbList',
+ 138 | |       itemListElement: items.map((item, index) => ({
+ 139 | |         '@type': 'ListItem',
+ 140 | |         position: index + 1,
+ 141 | |         name: item.name,
+ 142 | |         item: `${baseUrl}${item.path}`,
+ 143 | |       })),
+ 144 | |     };
+ 145 | `-> }
+ 146 |     
+     `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+     ,-[src/lib/json-ld.ts:150:8]
+ 149 |      */
+ 150 | ,-> export function buildProductJsonLd(equipment: Equipment) {
+ 151 | |     const baseUrl = getBaseUrl();
+ 152 | |     const path = `/equipamentos/${equipment.slug}`;
+ 153 | |     const url = `${baseUrl}${path}`;
+ 154 | |     const imagePath = getEquipmentImageSrc(equipment.slug);
+ 155 | |   
+ 156 | |     return {
+ 157 | |       '@context': SCHEMA_CONTEXT,
+ 158 | |       '@type': 'Product',
+ 159 | |       '@id': entityId(path, '#product'),
+ 160 | |       name: equipment.name,
+ 161 | |       description: equipment.shortDescription,
+ 162 | |       category: CATEGORY_LABELS[equipment.category],
+ 163 | |       url,
+ 164 | |       sku: equipment.slug,
+ 165 | |       ...(imagePath ? { image: [`${baseUrl}${imagePath}`] } : {}),
+ 166 | |       brand: {
+ 167 | |         '@type': 'Brand',
+ 168 | |         name: brand.name,
+ 169 | |       },
+ 170 | |       offers: {
+ 171 | |         '@type': 'Offer',
+ 172 | |         '@id': entityId(path, '#offer'),
+ 173 | |         url,
+ 174 | |         priceCurrency: 'BRL',
+ 175 | |         availability: equipment.available
+ 176 | |           ? 'https://schema.org/InStock'
+ 177 | |           : 'https://schema.org/PreOrder',
+ 178 | |         description: 'Valor de loca├º├úo sob consulta com a equipe comercial.',
+ 179 | |         seller: { '@id': `${baseUrl}/#organization` },
+ 180 | |       },
+ 181 | |     };
+ 182 | `-> }
+ 183 |     
+     `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+     ,-[src/lib/json-ld.ts:108:8]
+ 107 |      */
+ 108 | ,-> export function buildMarketingGraphJsonLd() {
+ 109 | |     const baseUrl = getBaseUrl();
+ 110 | |   
+ 111 | |     return {
+ 112 | |       '@context': SCHEMA_CONTEXT,
+ 113 | |       '@graph': [organizationNode(baseUrl), localBusinessNode(baseUrl), webSiteNode(baseUrl)],
+ 114 | |     };
+ 115 | `-> }
+ 116 |     
+     `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+     ,-[src/lib/json-ld.ts:120:8]
+ 119 |      */
+ 120 | ,-> export function buildLocalBusinessJsonLd() {
+ 121 | |     const baseUrl = getBaseUrl();
+ 122 | |     const node = localBusinessNode(baseUrl);
+ 123 | |     return {
+ 124 | |       '@context': SCHEMA_CONTEXT,
+ 125 | |       ...node,
+ 126 | |     };
+ 127 | `-> }
+ 128 |     
+     `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+     ,-[src/lib/json-ld.ts:207:8]
+ 206 |      */
+ 207 | ,-> export function buildCategoryPageJsonLd(options: {
+ 208 | |     slug: EquipmentCategory;
+ 209 | |     seo: CategorySeoContent;
+ 210 | |     equipment: Equipment[];
+ 211 | |   }) {
+ 212 | |     const baseUrl = getBaseUrl();
+ 213 | |     const path = `/categorias/${options.slug}`;
+ 214 | |     const pageUrl = `${baseUrl}${path}`;
+ 215 | |     const listId = `${pageUrl}#itemlist`;
+ 216 | |   
+ 217 | |     const itemList = {
+ 218 | |       '@type': 'ItemList',
+ 219 | |       '@id': listId,
+ 220 | |       name: `Cat├ílogo ÔÇö ${CATEGORY_LABELS[options.slug]}`,
+ 221 | |       numberOfItems: options.equipment.length,
+ 222 | |       itemListElement: options.equipment.map((item, index) => ({
+ 223 | |         '@type': 'ListItem',
+ 224 | |         position: index + 1,
+ 225 | |         name: item.name,
+ 226 | |         url: `${baseUrl}/equipamentos/${item.slug}`,
+ 227 | |       })),
+ 228 | |     };
+ 229 | |   
+ 230 | |     const collectionPage = {
+ 231 | |       '@type': 'CollectionPage',
+ 232 | |       '@id': `${pageUrl}#webpage`,
+ 233 | |       url: pageUrl,
+ 234 | |       name: options.seo.h1,
+ 235 | |       description: options.seo.metaDescription,
+ 236 | |       inLanguage: 'pt-BR',
+ 237 | |       isPartOf: { '@id': `${baseUrl}/#website` },
+ 238 | |       about: {
+ 239 | |         '@type': 'Thing',
+ 240 | |         name: CATEGORY_LABELS[options.slug],
+ 241 | |       },
+ 242 | |       breadcrumb: { '@id': `${pageUrl}#breadcrumb` },
+ 243 | |       mainEntity: { '@id': listId },
+ 244 | |     };
+ 245 | |   
+ 246 | |     const breadcrumb = {
+ 247 | |       ...buildBreadcrumbListJsonLd([
+ 248 | |         { name: 'In├¡cio', path: '/' },
+ 249 | |         { name: 'Equipamentos', path: '/equipamentos' },
+ 250 | |         { name: CATEGORY_LABELS[options.slug], path },
+ 251 | |       ]),
+ 252 | |       '@id': `${pageUrl}#breadcrumb`,
+ 253 | |     };
+ 254 | |   
+ 255 | |     return {
+ 256 | |       '@context': SCHEMA_CONTEXT,
+ 257 | |       '@graph': [collectionPage, breadcrumb, itemList],
+ 258 | |     };
+ 259 | `-> }
+ 260 |     
+     `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+     ,-[src/lib/json-ld.ts:339:8]
+ 338 |      */
+ 339 | ,-> export function buildTrainingCourseJsonLd() {
+ 340 | |     const baseUrl = getBaseUrl();
+ 341 | |     const path = '/treinamento-plataformas-aereas';
+ 342 | |     const url = `${baseUrl}${path}`;
+ 343 | |   
+ 344 | |     return {
+ 345 | |       '@context': SCHEMA_CONTEXT,
+ 346 | |       '@graph': [
+ 347 | |         {
+ 348 | |           '@type': 'Course',
+ 349 | |           '@id': `${url}#course`,
+ 350 | |           name: 'Treinamento em plataformas elevat├│rias',
+ 351 | |           description:
+ 352 | |             'Capacita├º├úo para opera├º├úo segura de plataformas elevat├│rias, alinhada ├á NR-12 e trabalho em altura.',
+ 353 | |           url,
+ 354 | |           inLanguage: 'pt-BR',
+ 355 | |           provider: { '@id': `${baseUrl}/#organization` },
+ 356 | |           areaServed: {
+ 357 | |             '@type': 'City',
+ 358 | |             name: 'Belo Horizonte',
+ 359 | |           },
+ 360 | |           offers: {
+ 361 | |             '@type': 'Offer',
+ 362 | |             url: `${baseUrl}/orcamento`,
+ 363 | |             priceCurrency: 'BRL',
+ 364 | |             availability: 'https://schema.org/InStock',
+ 365 | |             description: 'Or├ºamento e turmas sob consulta.',
+ 366 | |             seller: { '@id': `${baseUrl}/#organization` },
+ 367 | |           },
+ 368 | |         },
+ 369 | |         buildBreadcrumbListJsonLd([
+ 370 | |           { name: 'In├¡cio', path: '/' },
+ 371 | |           { name: 'Treinamento em plataformas a├®reas', path },
+ 372 | |         ]),
+ 373 | |       ],
+ 374 | |     };
+ 375 | `-> }
+     `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+     ,-[src/lib/json-ld.ts:306:8]
+ 305 |      */
+ 306 | ,-> export function buildFaqPageJsonLd(items: FaqItem[]) {
+ 307 | |     const baseUrl = getBaseUrl();
+ 308 | |     const path = '/faq';
+ 309 | |   
+ 310 | |     return {
+ 311 | |       '@context': SCHEMA_CONTEXT,
+ 312 | |       '@graph': [
+ 313 | |         {
+ 314 | |           '@type': 'FAQPage',
+ 315 | |           '@id': `${baseUrl}${path}#faq`,
+ 316 | |           url: `${baseUrl}${path}`,
+ 317 | |           inLanguage: 'pt-BR',
+ 318 | |           isPartOf: { '@id': `${baseUrl}/#website` },
+ 319 | |           mainEntity: items.map((item) => ({
+ 320 | |             '@type': 'Question',
+ 321 | |             name: item.question,
+ 322 | |             acceptedAnswer: {
+ 323 | |               '@type': 'Answer',
+ 324 | |               text: item.answer,
+ 325 | |             },
+ 326 | |           })),
+ 327 | |         },
+ 328 | |         buildBreadcrumbListJsonLd([
+ 329 | |           { name: 'In├¡cio', path: '/' },
+ 330 | |           { name: 'Perguntas frequentes', path },
+ 331 | |         ]),
+ 332 | |       ],
+ 333 | |     };
+ 334 | `-> }
+ 335 |     
+     `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+     ,-[src/lib/json-ld.ts:187:8]
+ 186 |      */
+ 187 | ,-> export function buildEquipmentPageJsonLd(equipment: Equipment) {
+ 188 | |     const categoryLabel = CATEGORY_LABELS[equipment.category];
+ 189 | |   
+ 190 | |     return {
+ 191 | |       '@context': SCHEMA_CONTEXT,
+ 192 | |       '@graph': [
+ 193 | |         buildProductJsonLd(equipment),
+ 194 | |         buildBreadcrumbListJsonLd([
+ 195 | |           { name: 'In├¡cio', path: '/' },
+ 196 | |           { name: 'Equipamentos', path: '/equipamentos' },
+ 197 | |           { name: categoryLabel, path: `/categorias/${equipment.category}` },
+ 198 | |           { name: equipment.name, path: `/equipamentos/${equipment.slug}` },
+ 199 | |         ]),
+ 200 | |       ],
+ 201 | |     };
+ 202 | `-> }
+ 203 |     
+     `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/lib/quote-whatsapp.ts:28:43]
+ 27 |  */
+ 28 | export function buildQuoteWhatsAppMessage(payload: QuoteWhatsAppPayload) {
+    :                                           ^^^^^^^
+ 29 |   const lines: string[] = [
+    `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/lib/quote-whatsapp.ts:75:39]
+ 74 |  */
+ 75 | export function buildQuoteWhatsAppUrl(payload: QuoteWhatsAppPayload) {
+    :                                       ^^^^^^^
+ 76 |   return buildWhatsAppUrl(buildQuoteWhatsAppMessage(payload));
+    `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/lib/quote-whatsapp.ts:75:8]
+ 74 |      */
+ 75 | ,-> export function buildQuoteWhatsAppUrl(payload: QuoteWhatsAppPayload) {
+ 76 | |     return buildWhatsAppUrl(buildQuoteWhatsAppMessage(payload));
+ 77 | `-> }
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/lib/quote-whatsapp.ts:28:8]
+ 27 |      */
+ 28 | ,-> export function buildQuoteWhatsAppMessage(payload: QuoteWhatsAppPayload) {
+ 29 | |     const lines: string[] = [
+ 30 | |       `Ol├í! Meu nome ├® ${payload.name.trim()}.`,
+ 31 | |       'Gostaria de solicitar um *or├ºamento de loca├º├úo* com a Acesso Equipamentos:',
+ 32 | |       '',
+ 33 | |     ];
+ 34 | |   
+ 35 | |     if (payload.cartItems?.length) {
+ 36 | |       lines.push('*Equipamentos / itens:*');
+ 37 | |       for (const item of payload.cartItems) {
+ 38 | |         const qty = item.quantity > 1 ? ` ÔÇö quantidade: ${item.quantity}` : '';
+ 39 | |         lines.push(`ÔÇó ${item.name}${qty}`);
+ 40 | |       }
+ 41 | |     } else if (payload.equipmentName?.trim()) {
+ 42 | |       lines.push(`*Equipamento:* ${payload.equipmentName.trim()}`);
+ 43 | |     }
+ 44 | |   
+ 45 | |     lines.push('', `*Cidade da obra:* ${payload.city.trim()}`);
+ 46 | |   
+ 47 | |     if (payload.rentalPeriod) {
+ 48 | |       const label =
+ 49 | |         rentalPeriodOptions.includes(payload.rentalPeriod as (typeof rentalPeriodOptions)[number])
+ 50 | |           ? periodLabels[payload.rentalPeriod as keyof typeof periodLabels]
+ 51 | |           : payload.rentalPeriod;
+ 52 | |       lines.push(`*Per├¡odo de loca├º├úo:* ${label}`);
+ 53 | |     }
+ 54 | |   
+ 55 | |     if (payload.company?.trim()) {
+ 56 | |       lines.push(`*Empresa:* ${payload.company.trim()}`);
+ 57 | |     }
+ 58 | |   
+ 59 | |     lines.push('', '*Meu contato:*');
+ 60 | |     lines.push(`Telefone / WhatsApp: ${payload.phone.trim()}`);
+ 61 | |     lines.push(`E-mail: ${payload.email.trim()}`);
+ 62 | |   
+ 63 | |     if (payload.message?.trim()) {
+ 64 | |       lines.push('', `*Observa├º├Áes:* ${payload.message.trim()}`);
+ 65 | |     }
+ 66 | |   
+ 67 | |     lines.push('', 'Aguardo retorno com valores, disponibilidade e prazo. Obrigado(a)!');
+ 68 | |   
+ 69 | |     return lines.join('\n');
+ 70 | `-> }
+ 71 |     
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x eslint(complexity): async function has a complexity of 25. Maximum allowed is 20.
+     ,-[src/components/forms/QuoteForm.tsx:82:22]
+  81 |     
+  82 | ,->   const submitLead = async (data: z.infer<typeof QuoteFormSchema>) => {
+  83 | |       setServerError(null);
+  84 | |       setIsSubmitting(true);
+  85 | |   
+  86 | |       const cartItems = resolveCartItems(data);
+  87 | |   
+  88 | |       if (!cartItems?.length && !data.equipmentName?.trim()) {
+  89 | |         setServerError('Adicione itens ao or├ºamento no cat├ílogo ou informe um equipamento.');
+  90 | |         setIsSubmitting(false);
+  91 | |         return;
+  92 | |       }
+  93 | |   
+  94 | |       const attribution = readStoredAttribution();
+  95 | |   
+  96 | |       const response = await fetch('/api/leads', {
+  97 | |         method: 'POST',
+  98 | |         headers: { 'Content-Type': 'application/json' },
+  99 | |         body: JSON.stringify({
+ 100 | |           ...data,
+ 101 | |           cartItems,
+ 102 | |           equipmentSlug: cartItems?.[0]?.slug ?? data.equipmentSlug,
+ 103 | |           equipmentName: cartItems?.[0]?.name ?? data.equipmentName,
+ 104 | |           attribution: attribution ?? undefined,
+ 105 | |         }),
+ 106 | |       });
+ 107 | |   
+ 108 | |       const body = (await response.json()) as { error?: string; ok?: boolean };
+ 109 | |   
+ 110 | |       if (!response.ok) {
+ 111 | |         setServerError(body.error ?? 'N├úo foi poss├¡vel registrar. Tente novamente.');
+ 112 | |         setIsSubmitting(false);
+ 113 | |         return;
+ 114 | |       }
+ 115 | |   
+ 116 | |       const whatsappUrl = buildQuoteWhatsAppUrl({
+ 117 | |         name: data.name.trim(),
+ 118 | |         email: data.email.trim(),
+ 119 | |         phone: data.phone.trim(),
+ 120 | |         company: data.company?.trim() || undefined,
+ 121 | |         city: data.city.trim(),
+ 122 | |         rentalPeriod: data.rentalPeriod?.trim() || undefined,
+ 123 | |         message: data.message?.trim() || undefined,
+ 124 | |         cartItems,
+ 125 | |         equipmentName: cartItems?.[0]?.name ?? data.equipmentName?.trim(),
+ 126 | |         origin,
+ 127 | |       });
+ 128 | |   
+ 129 | |       setWhatsappRetryUrl(whatsappUrl);
+ 130 | |       window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+ 131 | |   
+ 132 | |       cart.clearCart();
+ 133 | |       setSubmitted(true);
+ 134 | |       setIsSubmitting(false);
+ 135 | |       props.onSuccess?.();
+ 136 | `->   };
+ 137 |     
+     `----
+
+  x typescript(consistent-type-imports): All imports in the declaration are only used as types. Use `import type`.
+    ,-[src/components/forms/QuoteForm.tsx:14:1]
+ 13 | import { buildQuoteWhatsAppUrl } from '@/lib/quote-whatsapp';
+ 14 | import * as z from 'zod';
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 15 | import { QuoteFormSchema, rentalPeriodOptions } from '@/validations/quote';
+    `----
+  help: Replace the `import` declaration with `import type`. For example, change `import { Type } from 'module'` would become `import type { Type } from 'module'`.
+  note: Using `import type` for type-only imports helps with tree-shaking, makes it clear that these imports don't affect runtime code, and can improve build performance by allowing bundlers to eliminate unused type imports.
+
+  x unicorn(no-useless-undefined): Do not use useless `undefined`.
+    ,-[src/components/forms/QuoteForm.tsx:77:14]
+ 76 |     if (data.equipmentName?.trim()) {
+ 77 |       return undefined;
+    :              ^^^^^^^^^
+ 78 |     }
+    `----
+  help: Consider removing `undefined` or using `null` instead.
+
+  x unicorn(no-useless-undefined): Do not use useless `undefined`.
+    ,-[src/components/forms/QuoteForm.tsx:79:12]
+ 78 |     }
+ 79 |     return undefined;
+    :            ^^^^^^^^^
+ 80 |   };
+    `----
+  help: Consider removing `undefined` or using `null` instead.
+
+  ! jsx-a11y(prefer-tag-over-role): Prefer `output` over `role` attribute `status`.
+     ,-[src/components/forms/QuoteForm.tsx:142:9]
+ 141 |         className="rounded-[var(--radius-card)] border border-green-200 bg-green-50 p-6"
+ 142 |         role="status"
+     :         ^^^^^^^^^^^^^
+ 143 |       >
+     `----
+  help: Replace HTML elements with `role` attribute `status` to corresponding semantic HTML tag `output`.
+
+  x eslint(no-nested-ternary): Do not nest ternary expressions.
+    ,-[src/lib/brand.ts:41:16]
+ 40 |     
+ 41 | ,->   const item = options.equipmentName
+ 42 | |       ? ` na loca├º├úo de ${options.equipmentName}`
+ 43 | |       : options.topic
+ 44 | |         ? ` sobre ${options.topic}`
+ 45 | `->       : ' em equipamentos para minha obra';
+ 46 |       const ref = options.equipmentSlug ? ` Ref.: ${options.equipmentSlug}.` : '';
+    `----
+  help: Refactor nested ternary expressions into if-else statements for better readability.
+
+  x unicorn(no-nested-ternary): Unexpected nested ternary expression without parentheses.
+    ,-[src/lib/brand.ts:43:7]
+ 42 |         ? ` na loca├º├úo de ${options.equipmentName}`
+ 43 | ,->     : options.topic
+ 44 | |         ? ` sobre ${options.topic}`
+ 45 | `->       : ' em equipamentos para minha obra';
+ 46 |       const ref = options.equipmentSlug ? ` Ref.: ${options.equipmentSlug}.` : '';
+    `----
+  help: Add parentheses around the nested ternary expression.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/lib/brand.ts:53:40]
+ 52 | /** @deprecated Use buildWhatsAppMessage */
+ 53 | export function defaultWhatsAppMessage(equipmentName?: string): string {
+    :                                        ^^^^^^^^^^^^^
+ 54 |   return buildWhatsAppMessage(
+    `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/lib/brand.ts:77:26]
+ 76 | /** T├¡tulo SEO: equipamento ou p├ígina institucional */
+ 77 | export function seoTitle(page: string, suffix = brand.name): string {
+    :                          ^^^^          ^^^^^^
+ 78 |   return `${page} | ${suffix}`;
+    `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/lib/brand.ts:82:35]
+ 81 | /** T├¡tulo SEO para equipamento */
+ 82 | export function equipmentSeoTitle(equipmentName: string): string {
+    :                                   ^^^^^^^^^^^^^
+ 83 |   return `${equipmentName} para loca├º├úo em BH | ${brand.name}`;
+    `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/lib/brand.ts:87:34]
+ 86 | /** T├¡tulo SEO para categoria (j├í em categories-seo; helper gen├®rico) */
+ 87 | export function categorySeoTitle(categoryLabel: string): string {
+    :                                  ^^^^^^^^^^^^^
+ 88 |   return `Loca├º├úo de ${categoryLabel.toLowerCase()} em BH | ${brand.name}`;
+    `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/lib/brand.ts:77:8]
+ 76 |     /** T├¡tulo SEO: equipamento ou p├ígina institucional */
+ 77 | ,-> export function seoTitle(page: string, suffix = brand.name): string {
+ 78 | |     return `${page} | ${suffix}`;
+ 79 | `-> }
+ 80 |     
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/lib/brand.ts:53:8]
+ 52 |     /** @deprecated Use buildWhatsAppMessage */
+ 53 | ,-> export function defaultWhatsAppMessage(equipmentName?: string): string {
+ 54 | |     return buildWhatsAppMessage(
+ 55 | |       equipmentName ? { equipmentName, origin: 'site' } : { origin: 'site' },
+ 56 | |     );
+ 57 | `-> }
+ 58 |     
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/lib/brand.ts:82:8]
+ 81 |     /** T├¡tulo SEO para equipamento */
+ 82 | ,-> export function equipmentSeoTitle(equipmentName: string): string {
+ 83 | |     return `${equipmentName} para loca├º├úo em BH | ${brand.name}`;
+ 84 | `-> }
+ 85 |     
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/lib/brand.ts:87:8]
+ 86 |     /** T├¡tulo SEO para categoria (j├í em categories-seo; helper gen├®rico) */
+ 87 | ,-> export function categorySeoTitle(categoryLabel: string): string {
+ 88 | |     return `Loca├º├úo de ${categoryLabel.toLowerCase()} em BH | ${brand.name}`;
+ 89 | `-> }
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x eslint(complexity): function `normalizeQuotePayload` has a complexity of 28. Maximum allowed is 20.
+    ,-[src/validations/quote.ts:38:8]
+ 37 |     
+ 38 | ,-> export function normalizeQuotePayload(data: QuoteFormInput) {
+ 39 | |     const period = data.rentalPeriod?.trim();
+ 40 | |     const validPeriod =
+ 41 | |       period && rentalPeriodOptions.includes(period as (typeof rentalPeriodOptions)[number])
+ 42 | |         ? period
+ 43 | |         : undefined;
+ 44 | |   
+ 45 | |     const cartItems = data.cartItems?.length ? data.cartItems : undefined;
+ 46 | |     const equipmentSlug =
+ 47 | |       cartItems?.map((item) => item.slug).join(',').slice(0, 120) ||
+ 48 | |       data.equipmentSlug?.trim() ||
+ 49 | |       undefined;
+ 50 | |     const equipmentName =
+ 51 | |       cartItems
+ 52 | |         ?.map((item) => (item.quantity > 1 ? `${item.name} (├ù${item.quantity})` : item.name))
+ 53 | |         .join(' ┬À ')
+ 54 | |         .slice(0, 300) ||
+ 55 | |       data.equipmentName?.trim() ||
+ 56 | |       undefined;
+ 57 | |   
+ 58 | |     return {
+ 59 | |       name: data.name.trim(),
+ 60 | |       email: data.email.trim(),
+ 61 | |       phone: data.phone.trim(),
+ 62 | |       company: data.company?.trim() || undefined,
+ 63 | |       equipmentSlug,
+ 64 | |       equipmentName,
+ 65 | |       rentalPeriod: validPeriod,
+ 66 | |       city: data.city.trim(),
+ 67 | |       message: data.message?.trim() || undefined,
+ 68 | |       itemsJson: cartItems ? JSON.stringify(cartItems) : undefined,
+ 69 | |       origin: data.origin?.trim() || 'site-orcamento',
+ 70 | |       utmSource: data.attribution?.utmSource,
+ 71 | |       utmMedium: data.attribution?.utmMedium,
+ 72 | |       utmCampaign: data.attribution?.utmCampaign,
+ 73 | |       utmContent: data.attribution?.utmContent,
+ 74 | |       utmTerm: data.attribution?.utmTerm,
+ 75 | |       referrer: data.attribution?.referrer,
+ 76 | |       landingPage: data.attribution?.landingPage,
+ 77 | |     };
+ 78 | `-> }
+    `----
+
+  x eslint(require-unicode-regexp): Use the 'u' flag.
+    ,-[src/validations/quote.ts:21:12]
+ 20 |     .max(40)
+ 21 |     .regex(/^[\d\s()+-]+$/, 'Telefone inv├ílido'),
+    :            ^^^^^^^^^^^^^^^
+ 22 |   company: z.string().trim().max(200).optional().or(z.literal('')),
+    `----
+  help: Add the 'u' flag.
+  note: The 'u' and 'v' flags enable Unicode-aware regular expression behavior and stricter pattern parsing.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/components/marketing/AttributionCapture.tsx:8:8]
+  7 |      */
+  8 | ,-> export function AttributionCapture() {
+  9 | |     if (typeof window !== 'undefined') {
+ 10 | |       captureAttributionFirstTouch();
+ 11 | |     }
+ 12 | |   
+ 13 | |     return null;
+ 14 | `-> }
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x eslint(no-use-before-define): 'MenuIcon' was used before it was defined.
+     ,-[src/components/layout/SiteHeader.tsx:226:16]
+ 225 |             >
+ 226 |               <MenuIcon open={mobileOpen} />
+     :                ^^^^|^^^
+     :                    `-- used here
+ 227 |             </button>
+ 228 |           </div>
+ 229 |         </div>
+ 230 | 
+ 231 |         {mobileOpen && (
+ 232 |           <nav className="border-t border-neutral-100 px-4 py-3 xl:hidden">
+ 233 |             <ul className="flex flex-col gap-2">
+ 234 |               {navLinks.map((link) => (
+ 235 |                 <li key={link.href}>
+ 236 |                   <Link
+ 237 |                     className="block rounded-lg px-3 py-2 text-neutral-800 hover:bg-background-muted"
+ 238 |                     href={link.href}
+ 239 |                     onClick={() => {
+ 240 |                       setMobileOpen(false);
+ 241 |                     }}
+ 242 |                   >
+ 243 |                     {t(link.key)}
+ 244 |                   </Link>
+ 245 |                 </li>
+ 246 |               ))}
+ 247 |               <li>
+ 248 |                 <TrackedWhatsAppLink
+ 249 |                   className="block rounded-lg bg-cta-whatsapp px-3 py-2 text-center font-semibold text-white"
+ 250 |                   href={whatsappHeader}
+ 251 |                   onClick={() => {
+ 252 |                     setMobileOpen(false);
+ 253 |                   }}
+ 254 |                   origin="site-header"
+ 255 |                   rel="noopener noreferrer"
+ 256 |                   target="_blank"
+ 257 |                 >
+ 258 |                   {t('whatsapp_link')}
+ 259 |                 </TrackedWhatsAppLink>
+ 260 |               </li>
+ 261 |               <li>
+ 262 |                 <QuoteCartNavLink
+ 263 |                   className="block w-full justify-center rounded-lg border border-neutral-200 px-3 py-2 text-center"
+ 264 |                   label={t('orcamento_link')}
+ 265 |                 />
+ 266 |               </li>
+ 267 |             </ul>
+ 268 |           </nav>
+ 269 |         )}
+ 270 |       </header>
+ 271 |     </>
+ 272 |   );
+ 273 | }
+ 274 | 
+ 275 | function MenuIcon({ open }: { open: boolean }) {
+     :          ^^^^|^^^
+     :              `-- defined here
+ 276 |   return (
+     `----
+  help: Move the declaration before any references to it, or remove the reference if it is not needed.
+
+  ! jsx-a11y(prefer-tag-over-role): Prefer `img` over `role` attribute `img`.
+    ,-[src/components/brand/LogoAcesso.tsx:20:7]
+ 19 |       fill="none"
+ 20 |       role="img"
+    :       ^^^^^^^^^^
+ 21 |       viewBox={viewBox}
+    `----
+  help: Replace HTML elements with `role` attribute `img` to corresponding semantic HTML tag `img`.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/components/brand/LogoAcesso.tsx:12:30]
+ 11 |  */
+ 12 | export function LogoAcesso({ variant = 'header', className = '' }: LogoAcessoProps) {
+    :                              ^^^^^^^             ^^^^^^^^^
+ 13 |   const viewBox = variant === 'full' ? '0 0 340 96' : '0 0 340 72';
+    `----
+  help: Add `@param` tag with name.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/components/brand/LogoAcesso.tsx:12:8]
+ 11 |      */
+ 12 | ,-> export function LogoAcesso({ variant = 'header', className = '' }: LogoAcessoProps) {
+ 13 | |     const viewBox = variant === 'full' ? '0 0 340 96' : '0 0 340 72';
+ 14 | |   
+ 15 | |     return (
+ 16 | |       <svg
+ 17 | |         aria-hidden={false}
+ 18 | |         className={className}
+ 19 | |         fill="none"
+ 20 | |         role="img"
+ 21 | |         viewBox={viewBox}
+ 22 | |         xmlns="http://www.w3.org/2000/svg"
+ 23 | |       >
+ 24 | |         <title>Acesso Equipamentos</title>
+ 25 | |         {/* ├ìcone: c├¡rculo + tri├óngulo */}
+ 26 | |         <circle cx="36" cy="36" fill={BRAND_RED} r="34" />
+ 27 | |         <path
+ 28 | |           d="M36 14 L56 54 H16 Z"
+ 29 | |           fill="white"
+ 30 | |           stroke="white"
+ 31 | |           strokeLinejoin="round"
+ 32 | |           strokeWidth="2"
+ 33 | |         />
+ 34 | |         <path d="M28 54 H44" stroke={BRAND_RED} strokeLinecap="round" strokeWidth="3" />
+ 35 | |   
+ 36 | |         {/* ACESSO */}
+ 37 | |         <text
+ 38 | |           fill="#0F172A"
+ 39 | |           fontFamily="var(--font-heading), 'Plus Jakarta Sans', Arial Black, sans-serif"
+ 40 | |           fontSize="32"
+ 41 | |           fontWeight="700"
+ 42 | |           letterSpacing="-0.02em"
+ 43 | |           x="82"
+ 44 | |           y="42"
+ 45 | |         >
+ 46 | |           ACESSO
+ 47 | |         </text>
+ 48 | |   
+ 49 | |         {/* Faixa equipamentos */}
+ 50 | |         <rect fill={BRAND_RED} height="26" rx="2" width="168" x="82" y="48" />
+ 51 | |         <text
+ 52 | |           fill="white"
+ 53 | |           fontFamily="var(--font-body), Inter, Arial, sans-serif"
+ 54 | |           fontSize="15"
+ 55 | |           fontWeight="500"
+ 56 | |           letterSpacing="0.02em"
+ 57 | |           x="92"
+ 58 | |           y="66"
+ 59 | |         >
+ 60 | |           equipamentos
+ 61 | |         </text>
+ 62 | |   
+ 63 | |         {variant === 'full' && (
+ 64 | |           <text
+ 65 | |             fill="#475569"
+ 66 | |             fontFamily="var(--font-body), Inter, Arial, sans-serif"
+ 67 | |             fontSize="9.5"
+ 68 | |             fontWeight="600"
+ 69 | |             letterSpacing="0.12em"
+ 70 | |             x="82"
+ 71 | |             y="88"
+ 72 | |           >
+ 73 | |             PLATAFORMAS A├ëREAS ÔÇó ANDAIMES ÔÇó M├üQUINAS
+ 74 | |           </text>
+ 75 | |         )}
+ 76 | |       </svg>
+ 77 | |     );
+ 78 | `-> }
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x jsdoc(require-returns): Missing JSDoc `@returns` declaration for function.
+    ,-[src/utils/deployment.ts:6:8]
+  5 |      */
+  6 | ,-> export function isPreviewDeployment() {
+  7 | |     if (Env.VERCEL_ENV === 'preview') {
+  8 | |       return true;
+  9 | |     }
+ 10 | |   
+ 11 | |     const appUrl = Env.NEXT_PUBLIC_APP_URL ?? '';
+ 12 | |     return appUrl.includes('.vercel.app');
+ 13 | `-> }
+    `----
+  help: Add a `@returns` tag to the JSDoc comment.
+
+  x vitest(prefer-describe-function-title): Title description can not have the same content as a imported function name.
+   ,-[src/lib/cookie-consent.test.ts:4:10]
+ 3 | 
+ 4 | describe('parseConsentValue', () => {
+   :          ^^^^^^^^^^^^^^^^^^^
+ 5 |   it('returns pending for missing or invalid storage', () => {
+   `----
+  help: Pass the function as a description title argument or modify the description title to not match any imported function name.
+
+  x vitest(prefer-describe-function-title): Title description can not have the same content as a imported function name.
+    ,-[src/lib/cookie-consent.test.ts:17:10]
+ 16 | 
+ 17 | describe('hasAnalyticsConsent', () => {
+    :          ^^^^^^^^^^^^^^^^^^^^^
+ 18 |   it('allows PostHog only when analytics was accepted', () => {
+    `----
+  help: Pass the function as a description title argument or modify the description title to not match any imported function name.
+
+  x eslint(require-unicode-regexp): Use the 'u' flag.
+    ,-[src/lib/leads-date-presets.test.ts:11:36]
+ 10 |     const range = lastDaysRange(7);
+ 11 |     expect(range.dateFrom).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    :                                    ^^^^^^^^^^^^^^^^^^^^^
+ 12 |     expect(range.dateTo).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    `----
+  help: Add the 'u' flag.
+  note: The 'u' and 'v' flags enable Unicode-aware regular expression behavior and stricter pattern parsing.
+
+  x eslint(require-unicode-regexp): Use the 'u' flag.
+    ,-[src/lib/leads-date-presets.test.ts:12:34]
+ 11 |     expect(range.dateFrom).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+ 12 |     expect(range.dateTo).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    :                                  ^^^^^^^^^^^^^^^^^^^^^
+ 13 |     expect(range.dateFrom <= range.dateTo).toBeTruthy();
+    `----
+  help: Add the 'u' flag.
+  note: The 'u' and 'v' flags enable Unicode-aware regular expression behavior and stricter pattern parsing.
+
+  x vitest(prefer-describe-function-title): Title description can not have the same content as a imported function name.
+   ,-[src/lib/legacy-redirects.test.ts:4:10]
+ 3 | 
+ 4 | describe('normalizeLegacyPathname', () => {
+   :          ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 5 |   it('removes trailing slash from path', () => {
+   `----
+  help: Pass the function as a description title argument or modify the description title to not match any imported function name.
+
+  x vitest(prefer-describe-function-title): Title description can not have the same content as a imported function name.
+    ,-[src/lib/legacy-redirects.test.ts:14:10]
+ 13 | 
+ 14 | describe('resolveLegacyRedirect', () => {
+    :          ^^^^^^^^^^^^^^^^^^^^^^^
+ 15 |   it('redirects blog index to faq', () => {
+    `----
+  help: Pass the function as a description title argument or modify the description title to not match any imported function name.
+
+  x vitest(prefer-describe-function-title): Title description can not have the same content as a imported function name.
+    ,-[src/lib/legacy-redirects.test.ts:44:10]
+ 43 | 
+ 44 | describe('legacyRedirectStats', () => {
+    :          ^^^^^^^^^^^^^^^^^^^^^
+ 45 |   it('lists configured redirect counts', () => {
+    `----
+  help: Pass the function as a description title argument or modify the description title to not match any imported function name.
+
+  x vitest(prefer-describe-function-title): Title description can not have the same content as a imported function name.
+   ,-[src/lib/attribution.test.ts:8:10]
+ 7 | 
+ 8 | describe('parseUtmsFromSearch', () => {
+   :          ^^^^^^^^^^^^^^^^^^^^^
+ 9 |   it('maps standard utm query keys', () => {
+   `----
+  help: Pass the function as a description title argument or modify the description title to not match any imported function name.
+
+  x vitest(prefer-describe-function-title): Title description can not have the same content as a imported function name.
+    ,-[src/lib/attribution.test.ts:17:10]
+ 16 | 
+ 17 | describe('buildAttributionFromVisit', () => {
+    :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 18 |   it('includes referrer and landing path', () => {
+    `----
+  help: Pass the function as a description title argument or modify the description title to not match any imported function name.
+
+  x vitest(prefer-describe-function-title): Title description can not have the same content as a imported function name.
+    ,-[src/lib/attribution.test.ts:30:10]
+ 29 | 
+ 30 | describe('hasAttributionData', () => {
+    :          ^^^^^^^^^^^^^^^^^^^^
+ 31 |   it('returns false for empty object', () => {
+    `----
+  help: Pass the function as a description title argument or modify the description title to not match any imported function name.
+
+  x vitest(prefer-to-be-truthy): Use `toBeTruthy` instead.
+    ,-[src/lib/attribution.test.ts:36:57]
+ 35 |   it('returns true when utm source is set', () => {
+ 36 |     expect(hasAttributionData({ utmSource: 'google' })).toBe(true);
+    :                                                         ^^^^^^^^^^
+ 37 |   });
+    `----
+  help: Replace `toBe(true)` with `toBeTruthy()`.
+
+  x vitest(prefer-to-be-falsy): Use `toBeFalsy` instead.
+    ,-[src/lib/attribution.test.ts:32:36]
+ 31 |   it('returns false for empty object', () => {
+ 32 |     expect(hasAttributionData({})).toBe(false);
+    :                                    ^^^^^^^^^^^
+ 33 |   });
+    `----
+  help: Replace `toBe(false)` with `toBeFalsy()`.
+
+  x vitest(prefer-import-in-mock): Mocked modules must be dynamic imported.
+    ,-[src/lib/email.test.ts:3:9]
+  2 |     
+  3 | ,-> vi.mock('@/libs/Env', () => ({
+  4 | |     Env: {
+  5 | |       RESEND_API_KEY: undefined,
+  6 | |       LEADS_NOTIFY_EMAIL: 'comercial@example.com',
+  7 | |       RESEND_FROM_EMAIL: 'Acesso <onboarding@resend.dev>',
+  8 | |     },
+  9 | `-> }));
+ 10 |     
+    `----
+  help: Dynamic import improves the type information and IntelliSense. Substitute `@/libs/Env` with `import('@/libs/Env')`
+
+  x vitest(prefer-describe-function-title): Title description can not have the same content as a imported function name.
+    ,-[src/lib/email.test.ts:38:10]
+ 37 | 
+ 38 | describe('notifyLeadByEmail', () => {
+    :          ^^^^^^^^^^^^^^^^^^^
+ 39 |   afterEach(() => {
+    `----
+  help: Pass the function as a description title argument or modify the description title to not match any imported function name.
+
+  x import(first): Import statements must come first
+    ,-[src/lib/email.test.ts:11:1]
+ 10 | 
+ 11 | import { notifyLeadByEmail } from '@/lib/email';
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 12 | 
+    `----
+  help: Move import statement to the top of the file
+
+  x vitest(require-mock-type-parameters): Missing type parameters on mock function call
+    ,-[src/lib/email.test.ts:44:26]
+ 43 |   it('skips Resend call when API key is missing', async () => {
+ 44 |     const fetchMock = vi.fn();
+    :                          ^^
+ 45 |     vi.stubGlobal('fetch', fetchMock);
+    `----
+  help: Add a type parameter to the mock function, e.g. `vi.fn<() => void>()`.
+
+  x eslint(complexity): async function `createLead` has a complexity of 21. Maximum allowed is 20.
+    ,-[src/lib/leads.ts:8:8]
+  7 |     
+  8 | ,-> export async function createLead(input: CreateLeadInput) {
+  9 | |     const [lead] = await db
+ 10 | |       .insert(leadsSchema)
+ 11 | |       .values({
+ 12 | |         name: input.name,
+ 13 | |         email: input.email,
+ 14 | |         phone: input.phone,
+ 15 | |         company: input.company || null,
+ 16 | |         equipmentSlug: input.equipmentSlug || null,
+ 17 | |         equipmentName: input.equipmentName || null,
+ 18 | |         rentalPeriod: input.rentalPeriod || null,
+ 19 | |         city: input.city,
+ 20 | |         message: input.message || null,
+ 21 | |         itemsJson: input.itemsJson || null,
+ 22 | |         origin: input.origin || 'site-orcamento',
+ 23 | |         status: 'new',
+ 24 | |         utmSource: input.utmSource ?? null,
+ 25 | |         utmMedium: input.utmMedium ?? null,
+ 26 | |         utmCampaign: input.utmCampaign ?? null,
+ 27 | |         utmContent: input.utmContent ?? null,
+ 28 | |         utmTerm: input.utmTerm ?? null,
+ 29 | |         referrer: input.referrer ?? null,
+ 30 | |         landingPage: input.landingPage ?? null,
+ 31 | |       })
+ 32 | |       .returning();
+ 33 | |   
+ 34 | |     logger.info(
+ 35 | |       `Novo lead #${lead?.id ?? '?'} origin=${lead?.origin ?? 'site'} equipamento=${lead?.equipmentSlug ?? 'ÔÇö'}`,
+ 36 | |     );
+ 37 | |   
+ 38 | |     return lead;
+ 39 | `-> }
+    `----
+
+  x vitest(prefer-describe-function-title): Title description can not have the same content as a imported function name.
+   ,-[src/lib/posthog-attribution.test.ts:4:10]
+ 3 | 
+ 4 | describe('attributionToPostHogProperties', () => {
+   :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 5 |   it('maps camelCase attribution to snake_case PostHog keys', () => {
+   `----
+  help: Pass the function as a description title argument or modify the description title to not match any imported function name.
+
+  x vitest(prefer-strict-equal): Suggest using `toStrictEqual()`.
+    ,-[src/lib/posthog-attribution.test.ts:13:19]
+ 12 | 
+ 13 |     expect(props).toEqual({
+    :                   ^^^^^^^
+ 14 |       utm_source: 'instagram',
+    `----
+  help: Use `toStrictEqual()` instead
+
+  x vitest(prefer-describe-function-title): Title description can not have the same content as a imported function name.
+   ,-[src/lib/seo-metadata.test.ts:4:10]
+ 3 | 
+ 4 | describe('buildCanonicalUrl', () => {
+   :          ^^^^^^^^^^^^^^^^^^^
+ 5 |   it('normalizes path with leading slash', () => {
+   `----
+  help: Pass the function as a description title argument or modify the description title to not match any imported function name.
+
+  x vitest(prefer-describe-function-title): Title description can not have the same content as a imported function name.
+    ,-[src/lib/seo-metadata.test.ts:11:10]
+ 10 | 
+ 11 | describe('buildMarketingMetadata', () => {
+    :          ^^^^^^^^^^^^^^^^^^^^^^^^
+ 12 |   it('sets canonical, robots and openGraph url', () => {
+    `----
+  help: Pass the function as a description title argument or modify the description title to not match any imported function name.
+
+  x eslint(no-use-before-define): 'formatCartItemsForEmail' was used before it was defined.
+    ,-[src/lib/email.ts:34:21]
+ 33 | 
+ 34 |   const cartLines = formatCartItemsForEmail(lead.itemsJson);
+    :                     ^^^^^^^^^^^|^^^^^^^^^^^
+    :                                `-- used here
+ 35 | 
+    `----
+     ,-[src/lib/email.ts:129:10]
+ 128 | 
+ 129 | function formatCartItemsForEmail(itemsJson: string | null) {
+     :          ^^^^^^^^^^^|^^^^^^^^^^^
+     :                     `-- defined here
+ 130 |   if (!itemsJson) {
+     `----
+  help: Move the declaration before any references to it, or remove the reference if it is not needed.
+
+  x eslint(no-use-before-define): 'formatAttributionForEmail' was used before it was defined.
+     ,-[src/lib/email.ts:51:8]
+  50 |     `Origem: ${lead.origin}`,
+  51 |     ...formatAttributionForEmail(lead),
+     :        ^^^^^^^^^^^^|^^^^^^^^^^^^
+     :                    `-- used here
+  52 |     '',
+  53 |     lead.message ? `Mensagem:\n${lead.message}` : '',
+  54 |   ]
+  55 |     .filter(Boolean)
+  56 |     .join('\n');
+  57 | 
+  58 |   const from = Env.RESEND_FROM_EMAIL ?? `${brand.name} <onboarding@resend.dev>`;
+  59 |   const html = text.replace(/\n/g, '<br>');
+  60 | 
+  61 |   const response = await fetch('https://api.resend.com/emails', {
+  62 |     method: 'POST',
+  63 |     headers: {
+  64 |       Authorization: `Bearer ${apiKey}`,
+  65 |       'Content-Type': 'application/json',
+  66 |     },
+  67 |     body: JSON.stringify({
+  68 |       from,
+  69 |       to: [to],
+  70 |       reply_to: [lead.email],
+  71 |       subject,
+  72 |       text,
+  73 |       html,
+  74 |     }),
+  75 |   });
+  76 | 
+  77 |   if (!response.ok) {
+  78 |     const body = await response.text();
+  79 |     let detail = body;
+  80 |     try {
+  81 |       const parsed = JSON.parse(body) as { message?: string };
+  82 |       if (parsed.message) {
+  83 |         detail = parsed.message;
+  84 |       }
+  85 |     } catch {
+  86 |       // keep raw body
+  87 |     }
+  88 |     logger.error('Falha ao enviar e-mail de lead', {
+  89 |       status: response.status,
+  90 |       detail,
+  91 |       to,
+  92 |       from,
+  93 |     });
+  94 |     throw new Error(`Resend: ${detail}`);
+  95 |   }
+  96 | 
+  97 |   logger.info(`E-mail de lead #${lead.id} enviado para ${to}`);
+  98 | }
+  99 | 
+ 100 | function formatAttributionForEmail(lead: LeadRecord) {
+     :          ^^^^^^^^^^^^|^^^^^^^^^^^^
+     :                      `-- defined here
+ 101 |   const lines: string[] = [];
+     `----
+  help: Move the declaration before any references to it, or remove the reference if it is not needed.
+
+  x eslint(require-unicode-regexp): Use the 'u' flag.
+    ,-[src/lib/email.ts:59:29]
+ 58 |   const from = Env.RESEND_FROM_EMAIL ?? `${brand.name} <onboarding@resend.dev>`;
+ 59 |   const html = text.replace(/\n/g, '<br>');
+    :                             ^^^^^
+ 60 | 
+    `----
+  help: Add the 'u' flag.
+  note: The 'u' and 'v' flags enable Unicode-aware regular expression behavior and stricter pattern parsing.
+
+  x unicorn(prefer-string-replace-all): Prefer `String#replaceAll()` over `String#replace()` when using a regex with the global flag.
+    ,-[src/lib/email.ts:59:21]
+ 58 |   const from = Env.RESEND_FROM_EMAIL ?? `${brand.name} <onboarding@resend.dev>`;
+ 59 |   const html = text.replace(/\n/g, '<br>');
+    :                     ^^^^^^^
+ 60 | 
+    `----
+  help: Replace `replace` with `replaceAll`.
+
+  x jsdoc(require-param): Missing JSDoc `@param` declaration for function parameters.
+    ,-[src/lib/email.ts:19:41]
+ 18 |  */
+ 19 | export async function notifyLeadByEmail(lead: LeadRecord) {
+    :                                         ^^^^
+ 20 |   const apiKey = Env.RESEND_API_KEY;
+    `----
+  help: Add `@param` tag with name.
+
+  x vitest(prefer-describe-function-title): Title description can not have the same content as a imported function name.
+   ,-[src/data/client-logos.test.ts:4:10]
+ 3 | 
+ 4 | describe('CLIENT_LOGOS', () => {
+   :          ^^^^^^^^^^^^^^
+ 5 |   it('lists at least six trust badges for the home section', () => {
+   `----
+  help: Pass the function as a description title argument or modify the description title to not match any imported function name.
+
+  x vitest(prefer-describe-function-title): Title description can not have the same content as a imported function name.
+   ,-[src/lib/quote-whatsapp.test.ts:4:10]
+ 3 | 
+ 4 | describe('buildQuoteWhatsAppMessage', () => {
+   :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 5 |   it('includes cart items with quantity and contact fields', () => {
+   `----
+  help: Pass the function as a description title argument or modify the description title to not match any imported function name.
+
+  x vitest(prefer-describe-function-title): Title description can not have the same content as a imported function name.
+    ,-[src/lib/quote-whatsapp.test.ts:24:10]
+ 23 | 
+ 24 | describe('buildQuoteWhatsAppUrl', () => {
+    :          ^^^^^^^^^^^^^^^^^^^^^^^
+ 25 |   it('encodes message for wa.me link', () => {
+    `----
+  help: Pass the function as a description title argument or modify the description title to not match any imported function name.
+
+  x vitest(prefer-describe-function-title): Title description can not have the same content as a imported function name.
+    ,-[src/lib/json-ld.test.ts:29:10]
+ 28 | 
+ 29 | describe('buildMarketingGraphJsonLd', () => {
+    :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 30 |   it('includes Organization, LocalBusiness and WebSite with SearchAction', () => {
+    `----
+  help: Pass the function as a description title argument or modify the description title to not match any imported function name.
+
+  x vitest(prefer-describe-function-title): Title description can not have the same content as a imported function name.
+    ,-[src/lib/json-ld.test.ts:45:10]
+ 44 | 
+ 45 | describe('buildLocalBusinessJsonLd', () => {
+    :          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 46 |   it('includes NAP fields aligned with brand', () => {
+    `----
+  help: Pass the function as a description title argument or modify the description title to not match any imported function name.
+
+  x vitest(prefer-describe-function-title): Title description can not have the same content as a imported function name.
+    ,-[src/lib/json-ld.test.ts:56:10]
+ 55 | 
+ 56 | describe('buildProductJsonLd', () => {
+    :          ^^^^^^^^^^^^^^^^^^^^
+ 57 |   it('maps equipment to Product schema with sku and offer', () => {
+    `----
+  help: Pass the function as a description title argument or modify the description title to not match any imported function name.
+
+  x vitest(prefer-describe-function-title): Title description can not have the same content as a imported function name.
+    ,-[src/lib/json-ld.test.ts:70:10]
+ 69 | 
+ 70 | describe('buildEquipmentPageJsonLd', () => {
+    :          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 71 |   it('combines Product and BreadcrumbList in a graph', () => {
+    `----
+  help: Pass the function as a description title argument or modify the description title to not match any imported function name.
+
+  x vitest(prefer-describe-function-title): Title description can not have the same content as a imported function name.
+    ,-[src/lib/json-ld.test.ts:80:10]
+ 79 | 
+ 80 | describe('buildCategoryPageJsonLd', () => {
+    :          ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 81 |   it('exposes CollectionPage, BreadcrumbList and ItemList', () => {
+    `----
+  help: Pass the function as a description title argument or modify the description title to not match any imported function name.
+
+  x vitest(prefer-describe-function-title): Title description can not have the same content as a imported function name.
+     ,-[src/lib/json-ld.test.ts:100:10]
+  99 | 
+ 100 | describe('buildEquipmentCatalogJsonLd', () => {
+     :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 101 |   it('lists catalog items in ItemList', () => {
+     `----
+  help: Pass the function as a description title argument or modify the description title to not match any imported function name.
+
+  x vitest(prefer-describe-function-title): Title description can not have the same content as a imported function name.
+     ,-[src/lib/json-ld.test.ts:112:10]
+ 111 | 
+ 112 | describe('buildFaqPageJsonLd', () => {
+     :          ^^^^^^^^^^^^^^^^^^^^
+ 113 |   it('maps FAQ items to Question entities', () => {
+     `----
+  help: Pass the function as a description title argument or modify the description title to not match any imported function name.
+
+  x vitest(prefer-describe-function-title): Title description can not have the same content as a imported function name.
+     ,-[src/lib/json-ld.test.ts:124:10]
+ 123 | 
+ 124 | describe('buildTrainingCourseJsonLd', () => {
+     :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 125 |   it('includes Course schema with provider', () => {
+     `----
+  help: Pass the function as a description title argument or modify the description title to not match any imported function name.
+
+  x typescript(no-unsafe-type-assertion): Unsafe type assertion: type 'EquipmentCategory[]' is more narrow than the original type.
+     ,-[src/lib/categories-seo.ts:149:41]
+ 148 | 
+ 149 | export const ALL_EQUIPMENT_CATEGORIES = Object.keys(CATEGORIES_SEO) as EquipmentCategory[];
+     :                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x typescript(no-unsafe-type-assertion): Unsafe type assertion: type '"contacted" | "lost" | "new" | "quoted" | "won"' is more narrow than the original type.
+    ,-[src/lib/lead-status.ts:9:33]
+  8 | export function isLeadStatus(value: string): value is LeadStatus {
+  9 |   return LEAD_STATUSES.includes(value as LeadStatus);
+    :                                 ^^^^^^^^^^^^^^^^^^^
+ 10 | }
+    `----
+
+  x typescript(prefer-nullish-coalescing): Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator.
+    ,-[src/lib/attribution.ts:74:28]
+ 73 |       attribution.utmTerm ||
+ 74 |       attribution.referrer ||
+    :                            ^^
+ 75 |       attribution.landingPage,
+    `----
+
+  x typescript(prefer-nullish-coalescing): Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator.
+    ,-[src/lib/attribution.ts:73:27]
+ 72 |       attribution.utmContent ||
+ 73 |       attribution.utmTerm ||
+    :                           ^^
+ 74 |       attribution.referrer ||
+    `----
+
+  x typescript(prefer-nullish-coalescing): Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator.
+    ,-[src/lib/attribution.ts:72:30]
+ 71 |       attribution.utmCampaign ||
+ 72 |       attribution.utmContent ||
+    :                              ^^
+ 73 |       attribution.utmTerm ||
+    `----
+
+  x typescript(prefer-nullish-coalescing): Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator.
+    ,-[src/lib/attribution.ts:71:31]
+ 70 |       attribution.utmMedium ||
+ 71 |       attribution.utmCampaign ||
+    :                               ^^
+ 72 |       attribution.utmContent ||
+    `----
+
+  x typescript(prefer-nullish-coalescing): Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator.
+    ,-[src/lib/attribution.ts:70:29]
+ 69 |     attribution.utmSource ||
+ 70 |       attribution.utmMedium ||
+    :                             ^^
+ 71 |       attribution.utmCampaign ||
+    `----
+
+  x typescript(prefer-nullish-coalescing): Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator.
+    ,-[src/lib/attribution.ts:69:27]
+ 68 |   return Boolean(
+ 69 |     attribution.utmSource ||
+    :                           ^^
+ 70 |       attribution.utmMedium ||
+    `----
+
+  x typescript(no-unsafe-type-assertion): Unsafe type assertion: type 'Equipment[]' is more narrow than the original type.
+   ,-[src/lib/equipment.ts:6:15]
+ 5 | 
+ 6 | const items = equipmentData as Equipment[];
+   :               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 7 | 
+   `----
+
+  x typescript(no-unsafe-type-assertion): Unsafe type assertion: type '"ainda_nao_sei" | "diaria" | "mensal" | "semanal"' is more narrow than the original type.
+    ,-[src/validations/quote.ts:41:44]
+ 40 |   const validPeriod =
+ 41 |     period && rentalPeriodOptions.includes(period as (typeof rentalPeriodOptions)[number])
+    :                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 42 |       ? period
+    `----
+
+  x typescript(prefer-nullish-coalescing): Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator.
+    ,-[src/validations/quote.ts:48:32]
+ 47 |     cartItems?.map((item) => item.slug).join(',').slice(0, 120) ||
+ 48 |     data.equipmentSlug?.trim() ||
+    :                                ^^
+ 49 |     undefined;
+    `----
+
+  x typescript(prefer-nullish-coalescing): Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator.
+    ,-[src/validations/quote.ts:47:65]
+ 46 |   const equipmentSlug =
+ 47 |     cartItems?.map((item) => item.slug).join(',').slice(0, 120) ||
+    :                                                                 ^^
+ 48 |     data.equipmentSlug?.trim() ||
+    `----
+
+  x typescript(prefer-nullish-coalescing): Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator.
+    ,-[src/validations/quote.ts:55:32]
+ 54 |       .slice(0, 300) ||
+ 55 |     data.equipmentName?.trim() ||
+    :                                ^^
+ 56 |     undefined;
+    `----
+
+  x typescript(prefer-nullish-coalescing): Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator.
+    ,-[src/validations/quote.ts:54:22]
+ 53 |       .join(' ┬À ')
+ 54 |       .slice(0, 300) ||
+    :                      ^^
+ 55 |     data.equipmentName?.trim() ||
+    `----
+
+  x typescript(prefer-nullish-coalescing): Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator.
+    ,-[src/validations/quote.ts:62:35]
+ 61 |     phone: data.phone.trim(),
+ 62 |     company: data.company?.trim() || undefined,
+    :                                   ^^
+ 63 |     equipmentSlug,
+    `----
+
+  x typescript(prefer-nullish-coalescing): Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator.
+    ,-[src/validations/quote.ts:67:35]
+ 66 |     city: data.city.trim(),
+ 67 |     message: data.message?.trim() || undefined,
+    :                                   ^^
+ 68 |     itemsJson: cartItems ? JSON.stringify(cartItems) : undefined,
+    `----
+
+  x typescript(prefer-nullish-coalescing): Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator.
+    ,-[src/lib/leads.ts:15:30]
+ 14 |       phone: input.phone,
+ 15 |       company: input.company || null,
+    :                              ^^
+ 16 |       equipmentSlug: input.equipmentSlug || null,
+    `----
+
+  x typescript(prefer-nullish-coalescing): Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator.
+    ,-[src/lib/leads.ts:16:42]
+ 15 |       company: input.company || null,
+ 16 |       equipmentSlug: input.equipmentSlug || null,
+    :                                          ^^
+ 17 |       equipmentName: input.equipmentName || null,
+    `----
+
+  x typescript(prefer-nullish-coalescing): Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator.
+    ,-[src/lib/leads.ts:17:42]
+ 16 |       equipmentSlug: input.equipmentSlug || null,
+ 17 |       equipmentName: input.equipmentName || null,
+    :                                          ^^
+ 18 |       rentalPeriod: input.rentalPeriod || null,
+    `----
+
+  x typescript(prefer-nullish-coalescing): Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator.
+    ,-[src/lib/leads.ts:18:40]
+ 17 |       equipmentName: input.equipmentName || null,
+ 18 |       rentalPeriod: input.rentalPeriod || null,
+    :                                        ^^
+ 19 |       city: input.city,
+    `----
+
+  x typescript(prefer-nullish-coalescing): Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator.
+    ,-[src/lib/leads.ts:20:30]
+ 19 |       city: input.city,
+ 20 |       message: input.message || null,
+    :                              ^^
+ 21 |       itemsJson: input.itemsJson || null,
+    `----
+
+  x typescript(prefer-nullish-coalescing): Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator.
+    ,-[src/lib/leads.ts:21:34]
+ 20 |       message: input.message || null,
+ 21 |       itemsJson: input.itemsJson || null,
+    :                                  ^^
+ 22 |       origin: input.origin || 'site-orcamento',
+    `----
+
+  x typescript(no-unsafe-type-assertion): Unsafe assertion from `any` detected: consider using type guards or a safer assertion.
+    ,-[src/lib/email.ts:81:22]
+ 80 |     try {
+ 81 |       const parsed = JSON.parse(body) as { message?: string };
+    :                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 82 |       if (parsed.message) {
+    `----
+
+  x typescript(no-unsafe-type-assertion): Unsafe assertion from `any` detected: consider using type guards or a safer assertion.
+     ,-[src/lib/email.ts:134:19]
+ 133 |       try {
+ 134 | ,->     const items = JSON.parse(itemsJson) as {
+ 135 | |         name?: string;
+ 136 | |         slug?: string;
+ 137 | |         kind?: string;
+ 138 | |         quantity?: number;
+ 139 | `->     }[];
+ 140 |         if (!Array.isArray(items) || items.length === 0) {
+     `----
+
+  x typescript(no-unsafe-type-assertion): Unsafe type assertion: type '{ potentialAction?: { '@type'?: string | undefined; } | undefined; }' is more narrow than the original type.
+    ,-[src/lib/json-ld.test.ts:38:21]
+ 37 |     
+ 38 | ,->     const webSite = graph.find((node) => node['@type'] === 'WebSite') as {
+ 39 | |         potentialAction?: { '@type'?: string };
+ 40 | `->     };
+ 41 |         expect(webSite?.potentialAction?.['@type']).toBe('SearchAction');
+    `----
+
+  x typescript(no-deprecated): `buildLocalBusinessJsonLd` is deprecated. Prefer buildMarketingGraphJsonLd. Kept for tests and backward compatibility.
+    ,-[src/lib/json-ld.test.ts:47:18]
+ 46 |   it('includes NAP fields aligned with brand', () => {
+ 47 |     const json = buildLocalBusinessJsonLd();
+    :                  ^^^^^^^^^^^^^^^^^^^^^^^^
+ 48 | 
+    `----
+
+  x typescript(no-unsafe-type-assertion): Unsafe type assertion: type '{ numberOfItems?: number | undefined; }' is more narrow than the original type.
+    ,-[src/lib/json-ld.test.ts:93:22]
+ 92 |     
+ 93 | ,->     const itemList = graph.find((node) => node['@type'] === 'ItemList') as {
+ 94 | |         numberOfItems?: number;
+ 95 | `->     };
+ 96 |         expect(itemList?.numberOfItems).toBe(1);
+    `----
+
+  x typescript(no-unsafe-type-assertion): Unsafe type assertion: type '"ainda_nao_sei" | "diaria" | "mensal" | "semanal"' is more narrow than the original type.
+    ,-[src/lib/quote-whatsapp.ts:49:36]
+ 48 |     const label =
+ 49 |       rentalPeriodOptions.includes(payload.rentalPeriod as (typeof rentalPeriodOptions)[number])
+    :                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 50 |         ? periodLabels[payload.rentalPeriod as keyof typeof periodLabels]
+    `----
+
+  x typescript(no-unsafe-type-assertion): Unsafe type assertion: type '"ainda_nao_sei" | "diaria" | "mensal" | "semanal"' is more narrow than the original type.
+    ,-[src/lib/quote-whatsapp.ts:50:24]
+ 49 |       rentalPeriodOptions.includes(payload.rentalPeriod as (typeof rentalPeriodOptions)[number])
+ 50 |         ? periodLabels[payload.rentalPeriod as keyof typeof periodLabels]
+    :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 51 |         : payload.rentalPeriod;
+    `----
+
+  x typescript(no-unsafe-type-assertion): Unsafe type assertion: type '{ itemListElement?: unknown[] | undefined; }' is more narrow than the original type.
+     ,-[src/lib/json-ld.test.ts:104:22]
+ 103 |         const graph = json['@graph'] as Record<string, unknown>[];
+ 104 | ,->     const itemList = graph.find((node) => node['@type'] === 'ItemList') as {
+ 105 | |         itemListElement?: unknown[];
+ 106 | `->     };
+ 107 |     
+     `----
+
+  x typescript(no-unsafe-type-assertion): Unsafe type assertion: type '{ mainEntity?: unknown[] | undefined; }' is more narrow than the original type.
+     ,-[src/lib/json-ld.test.ts:116:17]
+ 115 |         const graph = json['@graph'] as Record<string, unknown>[];
+ 116 | ,->     const faq = graph.find((node) => node['@type'] === 'FAQPage') as {
+ 117 | |         mainEntity?: unknown[];
+ 118 | `->     };
+ 119 |     
+     `----
+
+  x typescript(no-unsafe-type-assertion): Unsafe type assertion: type '"contacted" | "lost" | "new" | "quoted" | "won"' is more narrow than the original type.
+    ,-[src/components/admin/LeadsTable.tsx:47:54]
+ 46 |             const itemsSummary = (formatLeadCartItems(lead.itemsJson) || lead.equipmentName) ?? 'ÔÇö';
+ 47 |             const statusKey = LEAD_STATUSES.includes(lead.status as LeadStatus)
+    :                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 48 |               ? (`status_${lead.status}` as 'status_new')
+    `----
+
+  x typescript(no-unsafe-type-assertion): Unsafe type assertion: type '"status_new"' is more narrow than the original type.
+    ,-[src/components/admin/LeadsTable.tsx:48:18]
+ 47 |             const statusKey = LEAD_STATUSES.includes(lead.status as LeadStatus)
+ 48 |               ? (`status_${lead.status}` as 'status_new')
+    :                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 49 |               : 'status_new';
+    `----
+
+  x typescript(no-unsafe-type-assertion): Unsafe assertion from `any` detected: consider using type guards or a safer assertion.
+    ,-[src/components/admin/LeadNotesForm.tsx:40:22]
+ 39 | 
+ 40 |         const body = (await response.json()) as { error?: string };
+    :                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 41 | 
+    `----
+
+  x typescript(no-unsafe-type-assertion): Unsafe type assertion: type '"contacted" | "lost" | "new" | "quoted" | "won"' is more narrow than the original type.
+    ,-[src/components/admin/LeadStatusForm.tsx:20:28]
+ 19 |   const [status, setStatus] = useState(
+ 20 |     LEAD_STATUSES.includes(props.currentStatus as LeadStatus)
+    :                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 21 |       ? (props.currentStatus as LeadStatus)
+    `----
+
+  x typescript(no-unsafe-type-assertion): Unsafe type assertion: type '"contacted" | "lost" | "new" | "quoted" | "won"' is more narrow than the original type.
+    ,-[src/components/admin/LeadStatusForm.tsx:21:10]
+ 20 |     LEAD_STATUSES.includes(props.currentStatus as LeadStatus)
+ 21 |       ? (props.currentStatus as LeadStatus)
+    :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 22 |       : 'new',
+    `----
+
+  x typescript(no-unsafe-type-assertion): Unsafe assertion from `any` detected: consider using type guards or a safer assertion.
+    ,-[src/components/admin/LeadStatusForm.tsx:41:22]
+ 40 | 
+ 41 |         const body = (await response.json()) as { error?: string };
+    :                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 42 | 
+    `----
+
+  x typescript(no-unsafe-type-assertion): Unsafe type assertion: type '"contacted" | "lost" | "new" | "quoted" | "won"' is more narrow than the original type.
+    ,-[src/components/admin/LeadStatusForm.tsx:62:23]
+ 61 |           onChange={(event) => {
+ 62 |             setStatus(event.target.value as LeadStatus);
+    :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 63 |           }}
+    `----
+
+  x typescript(no-unsafe-type-assertion): Unsafe type assertion: type 'Record<"contacted" | "lost" | "new" | "quoted" | "won", string>' is more narrow than the original type.
+    ,-[src/app/[locale]/(auth)/dashboard/leads/[id]/page.tsx:54:24]
+ 53 |       const cartItems = parseLeadCartItems(lead.itemsJson);
+ 54 | ,->   const statusLabels = Object.fromEntries(
+ 55 | |       LEAD_STATUSES.map((status) => [status, t(`status_${status}` as 'status_new')]),
+ 56 | `->   ) as Record<LeadStatus, string>;
+ 57 |       const displayStatus = statusLabels[lead.status as LeadStatus] ?? lead.status;
+    `----
+
+  x typescript(no-unsafe-type-assertion): Unsafe type assertion: type '"status_new"' is more narrow than the original type.
+    ,-[src/app/[locale]/(auth)/dashboard/leads/[id]/page.tsx:55:46]
+ 54 |   const statusLabels = Object.fromEntries(
+ 55 |     LEAD_STATUSES.map((status) => [status, t(`status_${status}` as 'status_new')]),
+    :                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 56 |   ) as Record<LeadStatus, string>;
+    `----
+
+  x typescript(no-unsafe-type-assertion): Unsafe type assertion: type '"contacted" | "lost" | "new" | "quoted" | "won"' is more narrow than the original type.
+    ,-[src/app/[locale]/(auth)/dashboard/leads/[id]/page.tsx:57:38]
+ 56 |   ) as Record<LeadStatus, string>;
+ 57 |   const displayStatus = statusLabels[lead.status as LeadStatus] ?? lead.status;
+    :                                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 58 |   let rentalLabel = lead.rentalPeriod ?? 'ÔÇö';
+    `----
+
+  x typescript(no-unsafe-type-assertion): Unsafe assertion from `any` detected: consider using type guards or a safer assertion.
+    ,-[src/components/quote-cart/QuoteCartProvider.tsx:49:22]
+ 48 |       }
+ 49 |       const parsed = JSON.parse(legacy) as QuoteCartItem[];
+    :                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 50 |       if (!Array.isArray(parsed)) {
+    `----
+
+  x typescript(no-unsafe-type-assertion): Unsafe assertion from `any` detected: consider using type guards or a safer assertion.
+    ,-[src/components/quote-cart/QuoteCartProvider.tsx:63:20]
+ 62 |     }
+ 63 |     const parsed = JSON.parse(raw) as QuoteCartItem[];
+    :                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 64 |     if (!Array.isArray(parsed)) {
+    `----
+
+  x typescript(no-unsafe-type-assertion): Unsafe type assertion: type 'Node' is more narrow than the original type.
+    ,-[src/components/marketing/GlobalSearch.tsx:74:56]
+ 73 |     const onPointerDown = (e: MouseEvent) => {
+ 74 |       if (rootRef.current && !rootRef.current.contains(e.target as Node)) {
+    :                                                        ^^^^^^^^^^^^^^^^
+ 75 |         setOpen(false);
+    `----
+
+  x typescript(no-confusing-void-expression): Returning a void expression from an arrow function shorthand is forbidden.
+     ,-[src/components/layout/SiteHeader.tsx:100:18]
+  99 |     window.addEventListener('scroll', onScroll, { passive: true });
+ 100 |     return () => window.removeEventListener('scroll', onScroll);
+     :                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 101 |   }, [evaluateScroll]);
+     `----
+  help: Add braces to the arrow function.
+
+  x typescript(no-confusing-void-expression): Returning a void expression from an arrow function shorthand is forbidden.
+    ,-[src/components/layout/WhatsAppButton.tsx:26:9]
+ 25 |           onClick={() =>
+ 26 | ,->         captureWhatsAppClick({
+ 27 | |             origin: 'site-flutuante',
+ 28 | |             equipmentSlug: props.equipmentSlug,
+ 29 | |             equipmentName: props.equipmentName,
+ 30 | `->         })
+ 31 |           }
+    `----
+  help: Add braces to the arrow function.
+
+  x typescript(no-confusing-void-expression): Returning a void expression from an arrow function shorthand is forbidden.
+    ,-[src/components/quote-cart/QuoteCartQuantityStepper.tsx:33:24]
+ 32 |         disabled={props.value <= QUOTE_CART_MIN_QUANTITY}
+ 33 |         onClick={() => props.onChange(clamp(props.value - 1))}
+    :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 34 |         type="button"
+    `----
+  help: Add braces to the arrow function.
+
+  x typescript(no-confusing-void-expression): Returning a void expression from an arrow function shorthand is forbidden.
+    ,-[src/components/quote-cart/QuoteCartQuantityStepper.tsx:58:24]
+ 57 |         disabled={props.value >= QUOTE_CART_MAX_QUANTITY}
+ 58 |         onClick={() => props.onChange(clamp(props.value + 1))}
+    :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 59 |         type="button"
+    `----
+  help: Add braces to the arrow function.
+
+  x typescript(no-unsafe-type-assertion): Unsafe type assertion: type 'EquipmentCategory[]' is more narrow than the original type.
+    ,-[src/components/marketing/EquipmentCatalog.tsx:44:22]
+ 43 | 
+ 44 |   const categories = Object.keys(CATEGORY_LABELS) as EquipmentCategory[];
+    :                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 45 | 
+    `----
+
+  x typescript(no-confusing-void-expression): Returning a void expression from an arrow function shorthand is forbidden.
+    ,-[src/components/quote-cart/QuoteCartPanel.tsx:49:26]
+ 48 |           className="text-sm font-medium text-primary hover:underline"
+ 49 |           onClick={() => cart.clearCart()}
+    :                          ^^^^^^^^^^^^^^^^
+ 50 |           type="button"
+    `----
+  help: Add braces to the arrow function.
+
+  x typescript(no-confusing-void-expression): Returning a void expression from an arrow function shorthand is forbidden.
+    ,-[src/components/forms/OrcamentoFormSection.tsx:38:28]
+ 37 |           initialEquipment={props.initialEquipment}
+ 38 |           onSuccess={() => setSubmitted(true)}
+    :                            ^^^^^^^^^^^^^^^^^^
+ 39 |           origin="site-orcamento"
+    `----
+  help: Add braces to the arrow function.
+
+  x typescript(no-confusing-void-expression): Returning a void expression from an arrow function shorthand is forbidden.
+    ,-[src/components/quote-cart/QuoteCartPanel.tsx:74:41]
+ 73 |                 ariaLabel={`Quantidade de ${item.name}`}
+ 74 |                 onChange={(quantity) => cart.setItemQuantity(item.slug, quantity)}
+    :                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 75 |                 size="sm"
+    `----
+  help: Add braces to the arrow function.
+
+  x typescript(no-confusing-void-expression): Returning a void expression from an arrow function shorthand is forbidden.
+    ,-[src/components/quote-cart/QuoteCartPanel.tsx:80:32]
+ 79 |                 className="text-sm font-medium text-red-600 hover:underline"
+ 80 |                 onClick={() => cart.removeItem(item.slug)}
+    :                                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 81 |                 type="button"
+    `----
+  help: Add braces to the arrow function.
+
+  x typescript(no-unsafe-type-assertion): Unsafe assertion from `any` detected: consider using type guards or a safer assertion.
+     ,-[src/components/forms/QuoteForm.tsx:108:18]
+ 107 | 
+ 108 |     const body = (await response.json()) as { error?: string; ok?: boolean };
+     :                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 109 | 
+     `----
+
+  x typescript(prefer-nullish-coalescing): Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator.
+     ,-[src/components/forms/QuoteForm.tsx:120:37]
+ 119 |       phone: data.phone.trim(),
+ 120 |       company: data.company?.trim() || undefined,
+     :                                     ^^
+ 121 |       city: data.city.trim(),
+     `----
+
+  x typescript(prefer-nullish-coalescing): Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator.
+     ,-[src/components/forms/QuoteForm.tsx:122:47]
+ 121 |       city: data.city.trim(),
+ 122 |       rentalPeriod: data.rentalPeriod?.trim() || undefined,
+     :                                               ^^
+ 123 |       message: data.message?.trim() || undefined,
+     `----
+
+  x typescript(prefer-nullish-coalescing): Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator.
+     ,-[src/components/forms/QuoteForm.tsx:123:37]
+ 122 |       rentalPeriod: data.rentalPeriod?.trim() || undefined,
+ 123 |       message: data.message?.trim() || undefined,
+     :                                     ^^
+ 124 |       cartItems,
+     `----
+
+  x typescript(await-thenable): Unexpected `await` of a non-Promise (non-"Thenable") value.
+    ,-[src/templates/BaseTemplate.test.tsx:39:7]
+ 38 | 
+ 39 |       await expect(page.getByText(/┬® \d{4} Acesso Equipamentos/u)).toBeVisible();
+    :       ^^^^^ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :         |                                     `-- This expression is not Promise-like
+ 40 |     });
+    `----
+  help: Remove `await` if the value is synchronous, or change the expression to return a Promise or Thenable before awaiting it.
+
+  x typescript(no-unnecessary-type-assertion): This assertion is unnecessary since it does not change the type of the expression.
+     ,-[src/components/forms/QuoteForm.tsx:235:33]
+ 234 |           <option key={value} value={value}>
+ 235 |             {periodLabels[value as keyof typeof periodLabels]}
+     :                           ^^|^^ ^^^^^^^^^^^^^^|^^^^^^^^^^^^^^
+     :                             |                 `-- Casting it to '"ainda_nao_sei" | "diaria" | "mensal" | "semanal"' is unnecessary
+     :                             `-- This expression already has the type '"ainda_nao_sei" | "diaria" | "mensal" | "semanal"'
+ 236 |           </option>
+     `----
+
+Found 12 warnings and 244 errors.
+Finished in 1.5s on 160 files with 506 rules using 16 threads.

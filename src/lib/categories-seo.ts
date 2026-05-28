@@ -24,6 +24,19 @@ const CATEGORIES_SEO: Record<EquipmentCategory, CategorySeoContent> = {
       'Ao escolher a Acesso para a locação de plataforma elevatória em BH, você centraliza o relacionamento com uma locadora que também disponibiliza andaimes, equipamentos de concretagem, compactação e ferramentas elétricas — reduzindo a necessidade de múltiplos fornecedores na mesma obra. Oferecemos ainda treinamento em operação segura de plataformas elevatórias, para empresas que desejam capacitar operadores com conteúdo alinhado à NR-12 e ao trabalho em altura. Consulte o catálogo abaixo, a página de treinamento, solicite orçamento pelo formulário ou fale diretamente com nossa equipe.',
     ],
   },
+  'guindastes-remocoes': {
+    slug: 'guindastes-remocoes',
+    h1: 'Locação de guindaste industrial, Munck e remoção em BH',
+    metaTitle: 'Locação de guindaste industrial e Munck em BH | Acesso Equipamentos',
+    metaDescription:
+      'Aluguel de guindaste industrial, caminhão Munck e remoção técnica de cargas pesadas em Belo Horizonte e região metropolitana.',
+    paragraphs: [
+      'A locação de guindaste industrial, caminhão Munck e equipamentos para remoção técnica atende operações que exigem movimentação segura de cargas pesadas, máquinas industriais, estruturas metálicas, geradores, transformadores e materiais de grande porte. Em Belo Horizonte e região metropolitana, a Acesso Equipamentos apoia empresas que precisam de içamento, carga, descarga e transporte com equipe especializada.',
+      'O dimensionamento do serviço considera peso da carga, raio de operação, acesso ao local, interferências no entorno e necessidade de programação logística. Esses dados ajudam a definir o equipamento mais adequado e reduzem riscos em remoções industriais, manutenções, montagens de estruturas, obras civis e movimentações emergenciais.',
+      'Locar guindaste ou Munck evita investimento em equipamento próprio e permite contratar a solução conforme a demanda de cada projeto. A operação deve ser planejada com responsáveis técnicos, isolamento de área, acessórios compatíveis e profissionais habilitados para garantir produtividade e segurança.',
+      'Solicite orçamento informando cidade, endereço de atendimento, peso aproximado da carga, dimensões, fotos do local e prazo desejado. Nossa equipe comercial retorna com disponibilidade, condições e orientações para programar o serviço.',
+    ],
+  },
   concretagem: {
     slug: 'concretagem',
     h1: 'Locação de equipamentos para concretagem em Belo Horizonte',

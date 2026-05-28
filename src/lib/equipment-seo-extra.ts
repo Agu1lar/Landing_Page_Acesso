@@ -42,6 +42,13 @@ const CATEGORY_EXTRA: Partial<Record<Equipment['category'], EquipmentSeoExtra>> 
       `Sistemas de andaime e acesso temporário para obras em ${BH_REGION}. Envie quantitativos ou descrição da frente de serviço para apoio na indicação de peças disponíveis; montagem deve seguir projeto e normas, com equipe habilitada no canteiro.`,
     ],
   },
+  'guindastes-remocoes': {
+    title: 'Guindaste industrial, Munck e remoção técnica em BH',
+    paragraphs: [
+      `Serviços de içamento e remoção técnica para máquinas, estruturas, geradores, transformadores e cargas pesadas em ${BH_REGION}. A indicação depende de peso, dimensões, acesso ao local e raio de operação.`,
+      'Informe fotos do ponto de carga e descarga, endereço, prazo desejado e características da carga para que a equipe comercial confirme disponibilidade e monte a proposta.',
+    ],
+  },
   compactacao: {
     title: 'Locação de equipamentos de compactação em BH',
     paragraphs: [

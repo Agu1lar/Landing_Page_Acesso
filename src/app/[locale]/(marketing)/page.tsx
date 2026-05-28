@@ -14,6 +14,7 @@ import { resolveAppLocale } from '@/utils/locale';
 
 const categories: EquipmentCategory[] = [
   'equipamentos-aereos',
+  'guindastes-remocoes',
   'concretagem',
   'andaimes-acesso',
   'ferramentas-eletricas',

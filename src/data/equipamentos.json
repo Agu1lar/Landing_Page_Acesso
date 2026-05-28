@@ -2304,6 +2304,44 @@
     "available": true
   },
   {
+    "slug": "guindaste-industrial-munck-remocao-bh",
+    "name": "Guindaste industrial, Munck e remoção técnica",
+    "category": "guindastes-remocoes",
+    "shortDescription": "Locação de guindaste industrial, caminhão Munck e remoção técnica em BH.",
+    "longDescription": "Solução para içamento, movimentação e transporte de cargas pesadas em Belo Horizonte e região metropolitana. Atende remoção industrial, carga e descarga de materiais, montagem de estruturas, movimentação de máquinas e apoio técnico em operações que exigem planejamento, segurança e equipe especializada.",
+    "specs": [
+      {
+        "label": "Aplicações",
+        "value": "Remoção industrial, içamento, carga e descarga"
+      },
+      {
+        "label": "Cargas atendidas",
+        "value": "Máquinas, estruturas metálicas, geradores e transformadores"
+      },
+      {
+        "label": "Equipamentos",
+        "value": "Guindaste industrial e caminhão Munck conforme disponibilidade"
+      },
+      {
+        "label": "Atendimento",
+        "value": "Belo Horizonte e região metropolitana"
+      },
+      {
+        "label": "Orçamento",
+        "value": "Sob consulta com avaliação da operação"
+      }
+    ],
+    "tags": [
+      "guindaste",
+      "munck",
+      "içamento",
+      "remoção técnica",
+      "carga pesada"
+    ],
+    "featured": true,
+    "available": true
+  },
+  {
     "slug": "plataforma-elevatoria-hb-1430",
     "name": "Plataforma elevatória HB 1430",
     "category": "equipamentos-aereos",
