@@ -29,9 +29,9 @@ type IndexPageProps = {
 };
 
 export async function generateMetadata(props: IndexPageProps): Promise<Metadata> {
-  const { locale } = await props.params;
+  const locale = resolveAppLocale((await props.params)?.locale);
   const t = await getTranslations({
-    locale: resolveAppLocale(locale),
+    locale,
     namespace: 'Index',
   });
   return buildMarketingMetadata({
@@ -42,10 +42,10 @@ export async function generateMetadata(props: IndexPageProps): Promise<Metadata>
 }
 
 export default async function HomePage(props: IndexPageProps) {
-  const { locale } = await props.params;
-  setRequestLocale(resolveAppLocale(locale));
+  const locale = resolveAppLocale((await props.params)?.locale);
+  setRequestLocale(locale);
   const t = await getTranslations({
-    locale: resolveAppLocale(locale),
+    locale,
     namespace: 'Index',
   });
   const featured = await getFeaturedEquipment(6);

@@ -15,9 +15,9 @@ type FaqPageProps = {
 };
 
 export async function generateMetadata(props: FaqPageProps): Promise<Metadata> {
-  const { locale } = await props.params;
+  const locale = resolveAppLocale((await props.params)?.locale);
   const t = await getTranslations({
-    locale: resolveAppLocale(locale),
+    locale,
     namespace: 'Faq',
   });
   return buildMarketingMetadata({
@@ -28,10 +28,10 @@ export async function generateMetadata(props: FaqPageProps): Promise<Metadata> {
 }
 
 export default async function FaqPage(props: FaqPageProps) {
-  const { locale } = await props.params;
-  setRequestLocale(resolveAppLocale(locale));
+  const locale = resolveAppLocale((await props.params)?.locale);
+  setRequestLocale(locale);
   const t = await getTranslations({
-    locale: resolveAppLocale(locale),
+    locale,
     namespace: 'Faq',
   });
 

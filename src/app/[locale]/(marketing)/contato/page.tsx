@@ -14,8 +14,8 @@ export const metadata: Metadata = buildMarketingMetadata({
 });
 
 export default async function ContatoPage(props: PageProps) {
-  const { locale } = await props.params;
-  setRequestLocale(resolveAppLocale(locale));
+  const locale = resolveAppLocale((await props.params)?.locale);
+  setRequestLocale(locale);
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">

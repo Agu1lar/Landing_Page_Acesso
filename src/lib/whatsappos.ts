@@ -17,7 +17,7 @@ export type WhatsAppOSCaptureInput = {
   utmSource?: string;
   utmMedium?: string;
   utmCampaign?: string;
-  tags?: readonly string[];
+  tags?: ReadonlyArray<string>;
 };
 
 /**

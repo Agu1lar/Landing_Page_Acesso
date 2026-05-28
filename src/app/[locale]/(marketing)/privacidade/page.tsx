@@ -10,9 +10,9 @@ type PrivacidadePageProps = {
 };
 
 export async function generateMetadata(props: PrivacidadePageProps): Promise<Metadata> {
-  const { locale } = await props.params;
+  const locale = resolveAppLocale((await props.params)?.locale);
   const t = await getTranslations({
-    locale: resolveAppLocale(locale),
+    locale,
     namespace: 'PrivacidadePage',
   });
 
@@ -24,10 +24,10 @@ export async function generateMetadata(props: PrivacidadePageProps): Promise<Met
 }
 
 export default async function PrivacidadePage(props: PrivacidadePageProps) {
-  const { locale } = await props.params;
-  setRequestLocale(resolveAppLocale(locale));
+  const locale = resolveAppLocale((await props.params)?.locale);
+  setRequestLocale(locale);
   const t = await getTranslations({
-    locale: resolveAppLocale(locale),
+    locale,
     namespace: 'PrivacidadePage',
   });
 

@@ -34,8 +34,8 @@ const whatsappTraining = buildWhatsAppUrl(
 );
 
 export default async function TreinamentoPlataformasPage(props: PageProps) {
-  const { locale } = await props.params;
-  setRequestLocale(resolveAppLocale(locale));
+  const locale = resolveAppLocale((await props.params)?.locale);
+  setRequestLocale(locale);
 
   return (
     <>

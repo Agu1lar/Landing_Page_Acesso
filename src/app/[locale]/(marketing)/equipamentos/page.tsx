@@ -13,9 +13,9 @@ type EquipamentosPageProps = {
 };
 
 export async function generateMetadata(props: EquipamentosPageProps): Promise<Metadata> {
-  const { locale } = await props.params;
+  const locale = resolveAppLocale((await props.params)?.locale);
   const t = await getTranslations({
-    locale: resolveAppLocale(locale),
+    locale,
     namespace: 'Equipamentos',
   });
   return buildMarketingMetadata({
@@ -26,11 +26,11 @@ export async function generateMetadata(props: EquipamentosPageProps): Promise<Me
 }
 
 export default async function EquipamentosPage(props: EquipamentosPageProps) {
-  const { locale } = await props.params;
+  const locale = resolveAppLocale((await props.params)?.locale);
   const { q, categoria } = await props.searchParams;
-  setRequestLocale(resolveAppLocale(locale));
+  setRequestLocale(locale);
   const t = await getTranslations({
-    locale: resolveAppLocale(locale),
+    locale,
     namespace: 'Equipamentos',
   });
   const equipment = await getAllEquipment();

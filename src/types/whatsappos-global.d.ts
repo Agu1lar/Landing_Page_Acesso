@@ -8,7 +8,7 @@ export type WhatsAppOSOpenOptions = {
   utmSource?: string;
   utmMedium?: string;
   utmCampaign?: string;
-  tags?: string[];
+  tags?: ReadonlyArray<string>;
 };
 
 declare global {

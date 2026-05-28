@@ -21,9 +21,9 @@ export const metadata: Metadata = buildMarketingMetadata({
 });
 
 export default async function OrcamentoPage(props: PageProps) {
-  const { locale } = await props.params;
+  const locale = resolveAppLocale((await props.params)?.locale);
   const { equipamento } = await props.searchParams;
-  setRequestLocale(resolveAppLocale(locale));
+  setRequestLocale(locale);
 
   const equipment = equipamento ? await getEquipmentBySlug(equipamento) : undefined;
 
