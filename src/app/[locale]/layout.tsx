@@ -59,7 +59,7 @@ export default async function RootLayout(props: {
     <html className={`${plusJakarta.variable} ${inter.variable}`} lang={locale}>
       <body>
         {widgetApiUrl && widgetKey ? (
-          <Script async src={`${widgetApiUrl}/widgets/${widgetKey}.js`} strategy="afterInteractive" />
+          <Script async src={`${widgetApiUrl}/widgets/${widgetKey}.js`} strategy="beforeInteractive" />
         ) : null}
         <NextIntlClientProvider>{props.children}</NextIntlClientProvider>
       </body>

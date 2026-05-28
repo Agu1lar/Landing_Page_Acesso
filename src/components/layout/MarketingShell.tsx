@@ -1,5 +1,4 @@
 import { AnalyticsConsentProvider } from '@/components/analytics/AnalyticsConsentProvider';
-import { WhatsAppOSWidget } from '@/components/analytics/WhatsAppOSWidget';
 import { SiteFooter } from '@/components/layout/SiteFooter';
 import { SiteHeader } from '@/components/layout/SiteHeader';
 import { WhatsAppButton } from '@/components/layout/WhatsAppButton';
@@ -28,7 +27,6 @@ export async function MarketingShell(props: MarketingShellProps) {
         </QuoteCartProvider>
         <SiteFooter />
         <WhatsAppButton />
-        <WhatsAppOSWidget />
       </div>
     </AnalyticsConsentProvider>
   );
