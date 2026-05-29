@@ -2,7 +2,7 @@
 
 **Status:** seção **desligada** na Home até autorização de uso das marcas. Código em `ClientLogosSection` permanece no repositório para reativar depois.
 
-Quando reativar: `ClientLogosSection` logo após o hero em `/`.
+Quando reativar: importar `ClientLogosSection` logo após o hero em `src/app/[locale]/(marketing)/page.tsx`.
 
 ## Organização em pastas (não aparece na Home)
 

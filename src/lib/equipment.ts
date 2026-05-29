@@ -34,6 +34,12 @@ export async function getFeaturedEquipment(limit = 6) {
   return items.filter((item) => item.featured && item.available).slice(0, limit);
 }
 
+/** Counts available items in one category (home highlights). */
+export async function countEquipmentInCategory(category: EquipmentCategory) {
+  const items = await loadCatalog();
+  return items.filter((item) => item.category === category && item.available).length;
+}
+
 export async function getEquipmentByCategory(category: EquipmentCategory) {
   const items = await loadCatalog();
   return items.filter((item) => item.category === category && item.available);

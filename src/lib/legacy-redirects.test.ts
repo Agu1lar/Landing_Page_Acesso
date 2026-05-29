@@ -44,6 +44,12 @@ describe('resolve legacy redirect', () => {
     expect(resolveLegacyRedirect('/web-stories/exemplo')).toBe('/dicas');
   });
 
+  it('redirects guindaste wp page to equipment detail', () => {
+    expect(
+      resolveLegacyRedirect('/locacao-de-guindaste-industrial-munck-e-remocao-em-bh'),
+    ).toBe('/equipamentos/guindaste-industrial-munck-remocao-bh');
+  });
+
   it('returns null for unknown marketing path', () => {
     expect(resolveLegacyRedirect('/orcamento')).toBeNull();
   });

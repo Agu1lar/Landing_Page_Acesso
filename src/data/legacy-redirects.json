@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21",
+  "generatedAt": "2026-05-29",
   "source": "acessoequipamentos.com.br — Yoast index: post, page, web-story, category, post_tag, author (2026-04)",
   "redirects": [
     {
@@ -99,17 +99,17 @@
     },
     {
       "source": "/aluguel-de-guindaste-fr17-franna-bh",
-      "destination": "/equipamentos",
+      "destination": "/equipamentos/guindaste-industrial-munck-remocao-bh",
       "note": "Página WP — guindaste FR17"
     },
     {
       "source": "/aluguel-de-guindaste-fr17-franna",
-      "destination": "/equipamentos",
+      "destination": "/equipamentos/guindaste-industrial-munck-remocao-bh",
       "note": "Página WP — guindaste FR17 (variante URL)"
     },
     {
       "source": "/aluguel-de-manipulador-telescopico-minas-gerais",
-      "destination": "/equipamentos",
+      "destination": "/equipamentos/guindaste-industrial-munck-remocao-bh",
       "note": "Página WP — manipulador telescópico"
     },
     {

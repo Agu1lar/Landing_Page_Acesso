@@ -119,7 +119,7 @@ Guia completo: [docs/CLERK-ACESSO-ADMIN.md](docs/CLERK-ACESSO-ADMIN.md)
 
 ## O que ainda falta (resumo)
 
-Detalhamento por sprint em [ROADMAP.temp.md](ROADMAP.temp.md).
+Detalhamento por sprint em [ROADMAP.temp.md](ROADMAP.temp.md). **Passos manuais (Vercel, domínio, CRM, logos):** [docs/PASSOS-MANUAIS.md](docs/PASSOS-MANUAIS.md).
 
 | Prioridade | Item |
 |------------|------|

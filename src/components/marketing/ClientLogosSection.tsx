@@ -12,6 +12,10 @@ type ClientLogosSectionProps = {
 export async function ClientLogosSection(props: ClientLogosSectionProps) {
   const logos = getAllClientLogos();
 
+  if (logos.length === 0) {
+    return null;
+  }
+
   return (
     <section
       aria-labelledby="client-logos-title"
@@ -28,14 +32,7 @@ export async function ClientLogosSection(props: ClientLogosSectionProps) {
           <p className="mt-3 text-base leading-relaxed text-neutral-600">{props.subtitle}</p>
         </div>
 
-        {logos.length === 0 ? (
-          <p className="mx-auto mt-10 max-w-xl text-center text-sm text-neutral-500">
-            Adicione logos com fundo transparente em{' '}
-            <code className="text-neutral-700">public/clientes/&lt;setor&gt;/</code>.
-          </p>
-        ) : (
-          <ClientLogosCarousel logos={logos} />
-        )}
+        <ClientLogosCarousel logos={logos} />
       </div>
     </section>
   );
