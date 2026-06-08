@@ -36,7 +36,7 @@ Site da **Acesso Equipamentos** (locação de equipamentos para construção civ
 | Início | `/` | Apresentação, categorias, depoimentos, como funciona |
 | Equipamentos | `/equipamentos` | Catálogo com busca e filtro por categoria |
 | Detalhe | `/equipamentos/[slug]` | Ficha, specs (plataformas aéreas), foto, relacionados, carrinho |
-| Categorias | `/categorias/[slug]` | SEO por linha + listagem (ex.: `/categorias/acessorios`) |
+| Categorias | `/categorias/[slug]` | SEO por linha, galeria (ex.: guindaste/Munck), listagem do catálogo |
 | Orçamento | `/orcamento` | Formulário + painel do carrinho |
 | Treinamento NR | `/treinamento-plataformas-aereas` | Plataformas aéreas / NR |
 | Sobre, Contato, FAQ, Privacidade | `/sobre`, `/contato`, `/faq`, `/privacidade` | Institucional e LGPD |
@@ -54,7 +54,16 @@ Site da **Acesso Equipamentos** (locação de equipamentos para construção civ
 2. O site grava o lead no **PostgreSQL** (`items_json` com itens e quantidades).
 3. **UTMs** da sessão (`utm_source`, `utm_medium`, etc.) são capturadas e salvas no lead.
 4. Dispara **e-mail interno** ao comercial (Resend), assunto `[Registro interno]`.
-5. Abre o **WhatsApp** com mensagem em primeira pessoa para o cliente enviar ao comercial.
+5. A API enriquece itens com **specs técnicas** (altura de trabalho, capacidade de carga) a partir do catálogo.
+6. Abre o **WhatsApp** com mensagem em primeira pessoa — URL gerada no servidor (`whatsappUrl` na resposta de `/api/leads`).
+7. Integração opcional **whatsappOS** no servidor (`WHATSAPPOS_*`).
+
+### Catálogo público (não é estoque)
+
+- O site **não controla disponibilidade de frota** — só exibe itens marcados como **Exibir no site** no admin (`available: true`).
+- Itens ocultos no painel **não aparecem** em catálogo, categorias, busca nem ficha pública (404).
+- Postgres + JSON: itens só no JSON entram no site até existirem no admin; slug no Postgres **não** é sobrescrito pelo JSON.
+- **Guindaste / Munck:** migration `0007`, sync em `src/lib/equipment-sync.ts`, botão **Sincronizar guindaste / Munck** em `/dashboard/equipamentos`.
 
 ### Catálogo e conteúdo
 
@@ -62,6 +71,19 @@ Site da **Acesso Equipamentos** (locação de equipamentos para construção civ
 - **Especificações das 14 plataformas aéreas** revisadas no JSON.
 - **Nomes padronizados** (`docs/scripts/normalize-equipment-names.py`).
 - **Fotos da frota:** `public/equipamentos/{slug}.ext` + `docs/scripts/sync-equipment-photos.py` + aliases em `equipment-photo-aliases.json`.
+- **Guindastes e remoções:** galeria em `public/categorias/guindastes-remocoes/` + ficha `guindaste-industrial-munck-remocao-bh`.
+
+### Migração WordPress → Next.js (301)
+
+- Mapa versionado: `src/data/legacy-redirects.json` (posts, páginas WP, prefixos `/category`, `/tag`, `/web-stories`, `/wp-content`, etc.).
+- **301 no primeiro request** via `src/proxy.ts` (antes do roteamento i18n).
+- Baseline **jun/2026:** sitemap Yoast (46 URLs) e URLs de **Google Ads Pesquisa** auditadas — cobertura **100%** no mapa atual.
+- Scripts de auditoria:
+  - `node docs/scripts/audit-legacy-redirects.mjs` — sitemap WP + `src/data/gsc-top-urls.json`
+  - `node docs/scripts/import-gsc-urls.mjs caminho/export-gsc.csv` — Search Console
+  - `node docs/scripts/import-google-ads-urls.mjs caminho/relatorio-ads.csv` — Google Ads (UTF-16)
+- Relatórios versionados: `src/data/gsc-top-urls.json`, `src/data/google-ads-landing-urls.json`.
+- Guia: [docs/MIGRACAO-SEO-WP.md](docs/MIGRACAO-SEO-WP.md) · passos manuais: [docs/PASSOS-MANUAIS.md](docs/PASSOS-MANUAIS.md) §10–11.
 
 ### SEO (metadata + dados estruturados)
 
@@ -78,7 +100,7 @@ Site da **Acesso Equipamentos** (locação de equipamentos para construção civ
 
 - **PostHog** (opcional via env): `page_view`, `equipment_view`, `whatsapp_click`.
 - **UTMs** como super properties no PostHog quando o visitante aceita analytics.
-- **Banner de cookies**: PostHog só inicia após consentimento (`AnalyticsConsentProvider`).
+- **Banner de cookies**: PostHog só inicia após consentimento (`AnalyticsConsentProvider`); botão aceitar em verde (não usa vermelho de marca).
 - Política de privacidade atualizada (menção a analytics).
 
 ### Painel administrativo (Clerk)
@@ -111,9 +133,28 @@ Guia completo: [docs/CLERK-ACESSO-ADMIN.md](docs/CLERK-ACESSO-ADMIN.md)
 - Deploy automático na **Vercel** a cada push em `main`.
 - **Build:** `npm run build` (roda `db:migrate` antes do `next build` — ver `vercel.json`).
 - Banco **Neon** (produção) + **PGlite** local (porta 5433 no `npm run dev`).
-- Migrações Drizzle: `leads` com `items_json`, status, UTMs, `internal_notes`.
-- Rate limit no `POST /api/leads` (Arcjet).
+- Migrações Drizzle: leads, equipamentos admin, **`0007_sync_guindaste_catalog`** (guindaste/Munck).
+- Rate limit no `POST /api/leads` (Arcjet: 8 req / 15 min por IP).
+- Pool Postgres limitado por instância serverless (`max: 5`); Resend em 429 não bloqueia lead no Neon.
+- **`GET /api/health`** — Clerk live vs test, DB, contagem de redirects, flags Resend/Arcjet.
+- Alerta no startup se Production Vercel usar Clerk `pk_test_` (`src/lib/clerk-env.ts`).
 - Testes: unitários (Vitest) e E2E Playwright.
+
+---
+
+## Go-live — domínio oficial
+
+**Domínio:** `acessoequipamentos.com.br` · **Registro:** [Registro.br](https://registro.br) (titular/contato) · **DNS atual:** Task (`ns2.task.com.br`, `ns3`, `ns4`) — alterações de A/CNAME/TXT no **painel Task**, não só no Registro.br.
+
+| Etapa | O quê |
+|-------|--------|
+| Antes do DNS | Clerk **Production** (`pk_live_` / `sk_live_`), Neon **pooler**, `NEXT_PUBLIC_APP_URL` oficial, redeploy Vercel |
+| DNS | Apontar domínio na Task para registros da Vercel |
+| Search Console | TXT `google-site-verification=...` na zona DNS da Task; enviar `/sitemap.xml` |
+| Google Ads | Manter **Pesquisa**; pausar **Display**; URLs oficiais já cobertas por 301 ou home |
+| Após propagar | `curl -I` top URLs · `GET /api/health` · teste orçamento + `/dashboard/leads` |
+
+Checklists: [docs/GO-LIVE-GATE.md](docs/GO-LIVE-GATE.md) · [docs/PASSOS-MANUAIS.md](docs/PASSOS-MANUAIS.md)
 
 ---
 
@@ -123,18 +164,15 @@ Detalhamento por sprint em [ROADMAP.temp.md](ROADMAP.temp.md). **Passos manuais 
 
 | Prioridade | Item |
 |------------|------|
-| Alta | **Domínio oficial** `acessoequipamentos.com.br` + Clerk **Production** (`pk_live_` / `sk_live_`) |
-| Alta | **301 do blog WordPress** — posts indexados no Google; mapa de URLs antes do DNS — [ROADMAP § 10.10](ROADMAP.temp.md#blog-wordpress--redirecionamentos-301-no-go-live) |
+| Alta | **DNS Task** → Vercel + Clerk **Production** + `DATABASE_URL` Neon pooler |
+| Alta | **Acesso painel Task** (ou técnico na call) para TXT Search Console e corte DNS |
+| Média | Export **GSC** (90 dias) e revalidar com `import-gsc-urls.mjs` se surgirem URLs fora do sitemap |
 | Baixa | **5 fotos** pendentes (lista acima) |
-| Alta | **Gate pré-domínio** — CI, 301 WP, 404, E2E orçamento — [docs/GO-LIVE-GATE.md](docs/GO-LIVE-GATE.md) |
-| Alta | **Casos de Sucesso** — logos por setor em `public/clientes/{setor}/` — [docs/CLIENT-LOGOS.md](docs/CLIENT-LOGOS.md) |
-| Média | **Dicas / SEO** — `/dicas` (4 artigos) + textos long-tail nas fichas de equipamento |
-| Média | Polish Sprint 7 (a11y, skeletons, PageSpeed alvo) |
-| Planejado | **Sprints 12–13** — analytics avançado, dashboard executivo |
-| Planejado | **Sprints 14–15** — SEO por cidade, prova social ampliada |
-| Planejado | **Sprints 16–18** — CRM, inteligência de catálogo, disponibilidade frota |
-| Backlog | **Sprints 19–22** — PWA, IA comercial, área do cliente, blog técnico |
-| Opcional | Docker local (Sprint 7.9) |
+| Média | **Casos de Sucesso** — logos em `public/clientes/{setor}/` — [docs/CLIENT-LOGOS.md](docs/CLIENT-LOGOS.md) |
+| Média | Polish Sprint 7 (a11y, PageSpeed mobile) |
+| Planejado | Sprints 12–22 (analytics, SEO programático, CRM, disponibilidade frota) |
+
+**Já no código (go-live):** mapa 301 WP, scripts auditoria GSC/Ads, guindaste no Postgres, health check, specs no WhatsApp, catálogo sem “estoque”.
 
 ---
 
@@ -223,8 +261,9 @@ No `.env.local` / Vercel:
 | `NEXT_PUBLIC_POSTHOG_KEY`, `NEXT_PUBLIC_POSTHOG_HOST` | Opcional | Analytics após consentimento |
 | `NEXT_PUBLIC_SENTRY_DISABLED=true` | Preview | Sem Sentry no preview |
 | `ARCJET_KEY` | Opcional | Rate limit em `/api/leads` |
+| `WHATSAPPOS_API_URL`, `WHATSAPPOS_WIDGET_KEY` | Opcional | CRM whatsappOS (capture server-side) |
 
-Guia: [docs/DEPLOY-PREVIEW-VERCEL.md](docs/DEPLOY-PREVIEW-VERCEL.md)
+Guia: [docs/DEPLOY-PREVIEW-VERCEL.md](docs/DEPLOY-PREVIEW-VERCEL.md) · go-live: [docs/PASSOS-MANUAIS.md](docs/PASSOS-MANUAIS.md)
 
 ### Atualizar produção
 
@@ -234,10 +273,15 @@ git push origin main
 
 Aguarde deploy **Ready** no topo da lista (**Production**, commit mais recente). Não use **Redeploy** em deploys antigos da lista.
 
-### Validar SEO após deploy
+### Validar SEO e go-live após deploy
+
+```shell
+node docs/scripts/audit-legacy-redirects.mjs
+curl -s https://landing-page-acesso.vercel.app/api/health
+```
 
 - [Google Rich Results Test](https://search.google.com/test/rich-results) — equipamento, categoria, FAQ
-- Search Console — reenviar `/sitemap.xml`
+- Search Console — TXT na Task + reenviar `/sitemap.xml` após DNS oficial
 
 ---
 
@@ -250,8 +294,14 @@ Aguarde deploy **Ready** no topo da lista (**Production**, commit mais recente).
 | [docs/SPRINT-9-FOTOS.md](docs/SPRINT-9-FOTOS.md) | Fluxo de fotos |
 | [docs/DEPLOY-PREVIEW-VERCEL.md](docs/DEPLOY-PREVIEW-VERCEL.md) | Deploy Vercel |
 | [docs/CI.md](docs/CI.md) | Pipeline CI e branch protection (Sprint 8.7) |
-| [docs/MIGRACAO-SEO-WP.md](docs/MIGRACAO-SEO-WP.md) | Mapa 301 blog WordPress (Sprint 10.10) |
+| [docs/MIGRACAO-SEO-WP.md](docs/MIGRACAO-SEO-WP.md) | Mapa 301 WordPress + auditoria GSC/Ads |
+| [docs/PASSOS-MANUAIS.md](docs/PASSOS-MANUAIS.md) | Go-live, DNS Task, Clerk, Neon, Resend, reunião domínio |
+| [docs/GO-LIVE-GATE.md](docs/GO-LIVE-GATE.md) | Gate pré-domínio (CI, 301, health) |
 | [docs/CLERK-ACESSO-ADMIN.md](docs/CLERK-ACESSO-ADMIN.md) | Painel, papéis e Clerk Production no go-live |
+| `docs/scripts/audit-legacy-redirects.mjs` | Valida cobertura 301 (sitemap + GSC) |
+| `docs/scripts/import-google-ads-urls.mjs` | Audita URLs finais dos anúncios |
+| `src/data/legacy-redirects.json` | Mapa 301 versionado |
+| `src/data/google-ads-landing-urls.json` | Última auditoria Google Ads |
 | [docs/inventario-equipamentos.csv](docs/inventario-equipamentos.csv) | Inventário base (110 itens) |
 | [.env.example](.env.example) | Variáveis de ambiente |
 
