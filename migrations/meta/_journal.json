@@ -50,6 +50,13 @@
       "when": 1779600000000,
       "tag": "0006_equipment_catalog",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1779700000000,
+      "tag": "0007_sync_guindaste_catalog",
+      "breakpoints": true
     }
   ]
 }

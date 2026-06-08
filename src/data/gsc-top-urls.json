@@ -1,0 +1,282 @@
+{
+  "updatedAt": "2026-06-08",
+  "source": "Baseline Yoast sitemap. Cole abaixo URLs do GSC (Performance > Pages, 90 dias) e rode docs/scripts/import-gsc-urls.mjs",
+  "urls": [
+    {
+      "path": "/",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/aluguel-andaimes-multidirecionais-para-manutencao-de-fachada-bh",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/aluguel-compactador-de-solo-bh",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/aluguel-de-guindaste-fr17-franna",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/aluguel-de-guindaste-fr17-franna-bh",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/aluguel-de-manipulador-telescopico-minas-gerais",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/aluguel-de-maquinas-e-ferramentas-eletricas",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/aluguel-de-marteletes-hilti-em-belo-horizonte",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/aluguel-gerador-de-energia-bh",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/aluguel-plataforma-elevatoria-modelo-elevador-individual-bh",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/author/eduardomarketingf5gmail-com",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/blog",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/category/andaime-multidirecional",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/category/equipamentos-nr12",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/category/locacao-de-plataformas-bh",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/category/plataforma-lanca-articulada-para-galpao-logistico-em-bh",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/category/servicos",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/category/uncategorized",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/equipamentos-em-conformidade-com-a-nr12-seguranca-e-qualidade-para-sua-obra",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/linha-ferramentas-a-bateria",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/locacao-de-guindaste-industrial-munck-e-remocao-em-bh",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/locacao-de-plataformas-elevatorias",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/locacao-e-montagem-de-andaimes",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/missaovisao-e-politica-da-qualidade",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/plataforma-elevatoria-tesoura-a-solucao-ideal-para-trabalhos-em-altura",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/plataforma-lanca-articulada-para-galpao-logistico-em-bh",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/plataformas-elevatorias-na-industria-siderurgica-em-bh",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/politica-da-qualidade",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/politica-de-cookies-acesso-equipamentos",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/politica-de-privacidade-acesso-equipamentos",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/tag/alugar",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/tag/alvenaria",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/tag/belo-horizonte",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/tag/bh",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/tag/locacao-de-plataforma",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/tag/mineradora",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/tag/plataforma",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/tag/plataformas-elevatorias",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/utilizacao-de-plataformas-elevatorias-em-empresa-mineradora-regiao-metropolitana-de-belo-horizonte",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/web-stories",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/web-stories/aluguel-de-equipamentos-para-construcao",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/web-stories/coworking-vila-pampulha-bh",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/web-stories/descubra-as-vantagens-das-ferramentas-a-bateria",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/web-stories/maquinas-poderosas-para-revolucionar-seu-trabalho",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/web-stories/plataformas-elevatorias",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    },
+    {
+      "path": "/web-stories/webstory-coworking",
+      "clicks": null,
+      "source": "wp-sitemap",
+      "coveredByRedirect": true
+    }
+  ]
+}

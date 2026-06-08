@@ -50,6 +50,10 @@ describe('resolve legacy redirect', () => {
     ).toBe('/equipamentos/guindaste-industrial-munck-remocao-bh');
   });
 
+  it('redirects wp content prefix to home', () => {
+    expect(resolveLegacyRedirect('/wp-content/uploads/2023/foo.jpg')).toBe('/');
+  });
+
   it('returns null for unknown marketing path', () => {
     expect(resolveLegacyRedirect('/orcamento')).toBeNull();
   });

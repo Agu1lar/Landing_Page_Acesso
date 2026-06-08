@@ -1,0 +1,66 @@
+{
+  "updatedAt": "2026-06-08",
+  "source": "Relatório de anúncios (1).csv",
+  "periodNote": "1 de junho de 2026 - 7 de junho de 2026",
+  "summary": {
+    "uniqueLandingUrls": 5,
+    "officialDomainUrls": 4,
+    "officialCovered": 4,
+    "missingRedirects": 0,
+    "externalDomainAds": 1
+  },
+  "actionRequired": [
+    {
+      "url": "https://fornecedoresdaindustria.com.br/aluguel-plataforma-elevatoria-bh/utilizacao-de-plataformas-elevatorias/",
+      "impressions": 11282,
+      "fix": "Atualizar URL final no Google Ads para https://acessoequipamentos.com.br/categorias/equipamentos-aereos (ou página equivalente no site novo)"
+    }
+  ],
+  "urls": [
+    {
+      "url": "https://fornecedoresdaindustria.com.br/aluguel-plataforma-elevatoria-bh/utilizacao-de-plataformas-elevatorias/",
+      "host": "fornecedoresdaindustria.com.br",
+      "path": "/aluguel-plataforma-elevatoria-bh/utilizacao-de-plataformas-elevatorias",
+      "status": "external_domain",
+      "suggestedDestination": null,
+      "impressions": 11282,
+      "interactions": 8
+    },
+    {
+      "url": "https://acessoequipamentos.com.br/",
+      "host": "acessoequipamentos.com.br",
+      "path": "/",
+      "status": "live_home",
+      "suggestedDestination": null,
+      "impressions": 2153,
+      "interactions": 171
+    },
+    {
+      "url": "https://acessoequipamentos.com.br/aluguel-de-guindaste-fr17-franna-bh/",
+      "host": "acessoequipamentos.com.br",
+      "path": "/aluguel-de-guindaste-fr17-franna-bh",
+      "status": "redirect_mapped",
+      "suggestedDestination": null,
+      "impressions": 916,
+      "interactions": 23
+    },
+    {
+      "url": "https://acessoequipamentos.com.br/aluguel-de-manipulador-telescopico-minas-gerais/",
+      "host": "acessoequipamentos.com.br",
+      "path": "/aluguel-de-manipulador-telescopico-minas-gerais",
+      "status": "redirect_mapped",
+      "suggestedDestination": null,
+      "impressions": 235,
+      "interactions": 20
+    },
+    {
+      "url": "https://acessoequipamentos.com.br/aluguel-de-marteletes-hilti-em-belo-horizonte/",
+      "host": "acessoequipamentos.com.br",
+      "path": "/aluguel-de-marteletes-hilti-em-belo-horizonte",
+      "status": "redirect_mapped",
+      "suggestedDestination": null,
+      "impressions": 46,
+      "interactions": 8
+    }
+  ]
+}

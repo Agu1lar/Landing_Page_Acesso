@@ -10,6 +10,7 @@ import {
   saveEquipmentWithImages,
   seedEquipmentFromJson,
 } from '@/lib/equipment-db';
+import { syncPriorityEquipmentFromJson } from '@/lib/equipment-sync';
 import { slugifyEquipmentName } from '@/lib/equipment-slug';
 import { ALL_EQUIPMENT_CATEGORIES } from '@/lib/categories-seo';
 import {
@@ -44,15 +45,44 @@ export async function importEquipmentCatalogAction() {
   }
 
   const result = await seedEquipmentFromJson(access.userId);
+  const sync = await syncPriorityEquipmentFromJson(access.userId);
   await logAdminActivity({
     userId: access.userId,
     action: 'import_catalog',
     entityType: 'equipment',
-    details: `inserted=${result.inserted}`,
+    details: `inserted=${result.inserted}; priority=${sync.map((row) => `${row.slug}:${row.action}`).join(',')}`,
   });
 
   revalidatePath('/dashboard/equipamentos');
   revalidatePath('/equipamentos');
+  revalidatePath('/categorias/guindastes-remocoes');
+  redirect('/dashboard/equipamentos');
+}
+
+/**
+ * Upserts priority catalog items (guindaste/Munck) from equipamentos.json.
+ */
+export async function syncPriorityCatalogAction() {
+  const access = await requireAdminAccess();
+  if (!access.ok) {
+    redirect('/unauthorized');
+  }
+
+  const sync = await syncPriorityEquipmentFromJson(access.userId);
+  await logAdminActivity({
+    userId: access.userId,
+    action: 'sync_priority_catalog',
+    entityType: 'equipment',
+    details: sync.map((row) => `${row.slug}:${row.action}`).join(','),
+  });
+
+  for (const row of sync) {
+    if (row.action !== 'skipped') {
+      revalidateEquipmentPaths(row.slug, 'guindastes-remocoes');
+    }
+  }
+
+  revalidatePath('/dashboard/equipamentos');
   redirect('/dashboard/equipamentos');
 }
 

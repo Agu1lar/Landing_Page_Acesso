@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { mergeCategoryEquipment } from '@/lib/equipment';
+import { isPublicCatalogItem, mergeCatalogWithJsonFallback } from '@/lib/equipment';
 import type { Equipment } from '@/types/equipment';
 
 const guindasteJson: Equipment = {
@@ -14,23 +14,29 @@ const guindasteJson: Equipment = {
   available: true,
 };
 
-describe('merge category equipment', () => {
-  it('includes JSON guindaste when category catalog is empty', () => {
-    const items = mergeCategoryEquipment([], 'guindastes-remocoes');
+describe('public catalog item', () => {
+  it('excludes unavailable equipment', () => {
+    expect(isPublicCatalogItem({ ...guindasteJson, available: false })).toBe(false);
+  });
+});
 
-    expect(items).toHaveLength(1);
-    expect(items[0]?.slug).toBe('guindaste-industrial-munck-remocao-bh');
+describe('merge catalog with JSON fallback', () => {
+  it('adds JSON item when slug is not managed in Postgres', () => {
+    const items = mergeCatalogWithJsonFallback([], new Set());
+
+    expect(items.some((item) => item.slug === 'guindaste-industrial-munck-remocao-bh')).toBe(true);
   });
 
-  it('prefers JSON entry when slug exists in catalog with another category', () => {
-    const wrongCategory: Equipment = {
-      ...guindasteJson,
-      category: 'outros',
-    };
+  it('skips JSON item when slug exists in Postgres (even if hidden from catalog)', () => {
+    const items = mergeCatalogWithJsonFallback([], new Set(['guindaste-industrial-munck-remocao-bh']));
 
-    const items = mergeCategoryEquipment([wrongCategory], 'guindastes-remocoes');
+    expect(items.some((item) => item.slug === 'guindaste-industrial-munck-remocao-bh')).toBe(false);
+  });
 
-    expect(items).toHaveLength(1);
-    expect(items[0]?.category).toBe('guindastes-remocoes');
+  it('never merges unavailable JSON items', () => {
+    const hidden: Equipment = { ...guindasteJson, available: false };
+    const items = mergeCatalogWithJsonFallback([hidden], new Set());
+
+    expect(items.some((item) => item.slug === guindasteJson.slug)).toBe(false);
   });
 });

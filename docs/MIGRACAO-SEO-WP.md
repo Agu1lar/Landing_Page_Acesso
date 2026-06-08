@@ -22,6 +22,10 @@ Preservar URLs indexadas no Google (posts de blog, landing pages WP) com **redir
 
 Complementar antes do go-live: **Google Search Console** (top URLs por cliques, últimos 90–365 dias) e adicionar entradas faltantes em `src/data/legacy-redirects.json`.
 
+**Baseline 2026-06-08:** sitemap Yoast (46 URLs) com **100% cobertura** no JSON atual. Rode `node docs/scripts/audit-legacy-redirects.mjs` para validar e `node docs/scripts/import-gsc-urls.mjs seu-export.csv` após exportar o GSC.
+
+**Google Ads (jun/2026):** export analisado — 4/4 URLs em `acessoequipamentos.com.br` cobertas (301 ou home). **Ação manual:** campanha Display aponta para `fornecedoresdaindustria.com.br` — atualizar URL final no Ads. Ver `src/data/google-ads-landing-urls.json` e `node docs/scripts/import-google-ads-urls.mjs`.
+
 ## Implementação no código
 
 | Artefato | Função |

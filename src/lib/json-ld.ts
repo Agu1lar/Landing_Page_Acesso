@@ -173,9 +173,7 @@ export function buildProductJsonLd(equipment: Equipment) {
       '@id': entityId(path, '#offer'),
       url,
       priceCurrency: 'BRL',
-      availability: equipment.available
-        ? 'https://schema.org/InStock'
-        : 'https://schema.org/PreOrder',
+      availability: 'https://schema.org/InStock',
       description: 'Valor de locação sob consulta com a equipe comercial.',
       seller: { '@id': `${baseUrl}/#organization` },
     },

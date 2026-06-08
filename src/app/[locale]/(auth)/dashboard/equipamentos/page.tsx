@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import Link from 'next/link';
-import { importEquipmentCatalogAction } from '@/app/actions/equipment-admin';
+import { importEquipmentCatalogAction, syncPriorityCatalogAction } from '@/app/actions/equipment-admin';
 import { requireAdminAccess } from '@/lib/auth-roles';
 import { countEquipmentInDb, listEquipmentForAdmin } from '@/lib/equipment-db';
 import { CATEGORY_LABELS } from '@/types/equipment';
@@ -66,7 +66,16 @@ export default async function EquipmentAdminListPage(props: EquipmentAdminListPr
                 </button>
               </form>
             </details>
-          ) : null}
+          ) : (
+            <form action={syncPriorityCatalogAction}>
+              <button
+                className="rounded-lg border border-neutral-200 px-3 py-2 text-sm font-medium hover:bg-neutral-100"
+                type="submit"
+              >
+                {t('sync_priority_catalog')}
+              </button>
+            </form>
+          )}
           <Link
             className="rounded-lg bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary-hover"
             href="/dashboard/equipamentos/new"

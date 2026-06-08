@@ -73,6 +73,18 @@ export async function loadPublishedEquipmentFromDb() {
 }
 
 /**
+ * Returns all non-deleted equipment slugs in Postgres (any status).
+ */
+export async function loadDbEquipmentSlugs() {
+  const rows = await db
+    .select({ slug: equipmentSchema.slug })
+    .from(equipmentSchema)
+    .where(isNull(equipmentSchema.deletedAt));
+
+  return new Set(rows.map((row) => row.slug));
+}
+
+/**
  * Returns count of equipment rows in Postgres (any status).
  */
 export async function countEquipmentInDb() {

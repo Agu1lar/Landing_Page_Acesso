@@ -1,20 +1,33 @@
 import { cache } from 'react';
 import equipmentData from '@/data/equipamentos.json';
-import { countEquipmentInDb, loadPublishedEquipmentFromDb } from '@/lib/equipment-db';
+import {
+  countEquipmentInDb,
+  loadDbEquipmentSlugs,
+  loadPublishedEquipmentFromDb,
+} from '@/lib/equipment-db';
 import type { Equipment, EquipmentCategory } from '@/types/equipment';
 
 export { getEquipmentQuoteCartKind } from '@/lib/equipment-quote-cart';
 
 const jsonFallback = equipmentData as Equipment[];
 
+/** Public site only lists items open for quote — not live stock. */
+export function isPublicCatalogItem(item: Equipment) {
+  return item.available;
+}
+
+function filterPublicCatalog(items: Equipment[]) {
+  return items.filter(isPublicCatalogItem);
+}
+
 /**
- * Merges DB catalog with JSON entries missing from Postgres (e.g. guindaste before admin seed).
+ * Merges DB catalog with JSON entries not yet managed in Postgres.
  */
-export function mergeCatalogWithJsonFallback(fromDb: Equipment[]) {
+export function mergeCatalogWithJsonFallback(fromDb: Equipment[], dbSlugs: Set<string>) {
   const bySlug = new Map(fromDb.map((item) => [item.slug, item]));
 
   for (const jsonItem of jsonFallback) {
-    if (!jsonItem.available) {
+    if (!isPublicCatalogItem(jsonItem) || dbSlugs.has(jsonItem.slug)) {
       continue;
     }
     if (!bySlug.has(jsonItem.slug)) {
@@ -22,41 +35,29 @@ export function mergeCatalogWithJsonFallback(fromDb: Equipment[]) {
     }
   }
 
-  return Array.from(bySlug.values());
-}
-
-/**
- * Lists equipment for a category, always including JSON catalog entries for that category.
- */
-export function mergeCategoryEquipment(fromCatalog: Equipment[], category: EquipmentCategory) {
-  const jsonForCategory = jsonFallback.filter(
-    (item) => item.category === category && item.available,
-  );
-  const bySlug = new Map(fromCatalog.map((item) => [item.slug, item]));
-
-  for (const jsonItem of jsonForCategory) {
-    bySlug.set(jsonItem.slug, jsonItem);
-  }
-
-  return Array.from(bySlug.values()).sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
+  return filterPublicCatalog(Array.from(bySlug.values()));
 }
 
 const loadCatalog = cache(async () => {
   try {
     const dbCount = await countEquipmentInDb();
     if (dbCount === 0) {
-      return jsonFallback;
+      return filterPublicCatalog(jsonFallback);
     }
-    const fromDb = await loadPublishedEquipmentFromDb();
-    return mergeCatalogWithJsonFallback(fromDb);
+
+    const [fromDb, dbSlugs] = await Promise.all([
+      loadPublishedEquipmentFromDb(),
+      loadDbEquipmentSlugs(),
+    ]);
+
+    return mergeCatalogWithJsonFallback(fromDb, dbSlugs);
   } catch {
-    return jsonFallback;
+    return filterPublicCatalog(jsonFallback);
   }
 });
 
 export async function getAllEquipment() {
-  const items = await loadCatalog();
-  return items.filter((item) => item.available);
+  return loadCatalog();
 }
 
 export async function getEquipmentBySlug(slug: string) {
@@ -66,24 +67,25 @@ export async function getEquipmentBySlug(slug: string) {
 
 export async function getFeaturedEquipment(limit = 6) {
   const items = await loadCatalog();
-  return items.filter((item) => item.featured && item.available).slice(0, limit);
+  return items.filter((item) => item.featured).slice(0, limit);
 }
 
-/** Counts available items in one category (home highlights). */
+/** Counts public catalog items in one category (home highlights). */
 export async function countEquipmentInCategory(category: EquipmentCategory) {
   const items = await loadCatalog();
-  return items.filter((item) => item.category === category && item.available).length;
+  return items.filter((item) => item.category === category).length;
 }
 
 export async function getEquipmentByCategory(category: EquipmentCategory) {
   const items = await loadCatalog();
-  const fromCatalog = items.filter((item) => item.category === category && item.available);
-  return mergeCategoryEquipment(fromCatalog, category);
+  return items
+    .filter((item) => item.category === category)
+    .sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
 }
 
 export async function getAllSlugs() {
   const items = await loadCatalog();
-  return items.filter((item) => item.available).map((item) => item.slug);
+  return items.map((item) => item.slug);
 }
 
 /** Related items in the same category (excludes current slug). */
@@ -94,7 +96,7 @@ export async function getRelatedEquipment(slug: string, limit = 4) {
     return [];
   }
   return items
-    .filter((item) => item.available && item.slug !== slug && item.category === current.category)
+    .filter((item) => item.slug !== slug && item.category === current.category)
     .slice(0, limit);
 }
 

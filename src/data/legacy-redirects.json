@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-29",
-  "source": "acessoequipamentos.com.br — Yoast index: post, page, web-story, category, post_tag, author (2026-04)",
+  "generatedAt": "2026-06-08",
+  "source": "acessoequipamentos.com.br — Yoast sitemap (46 URLs, 100% cobertura 2026-06-08) + prefixos WP; complementar com export GSC via docs/scripts/import-gsc-urls.mjs",
   "redirects": [
     {
       "source": "/blog",
@@ -148,6 +148,21 @@
       "sourcePrefix": "/web-stories",
       "destination": "/dicas",
       "note": "Web Stories (web-story-sitemap.xml)"
+    },
+    {
+      "sourcePrefix": "/wp-content",
+      "destination": "/",
+      "note": "Uploads legados WP — evita 404 em URLs antigas de mídia"
+    },
+    {
+      "sourcePrefix": "/wp-admin",
+      "destination": "/",
+      "note": "Painel WordPress legado"
+    },
+    {
+      "sourcePrefix": "/wp-includes",
+      "destination": "/",
+      "note": "Assets WordPress legado"
     }
   ]
 }
