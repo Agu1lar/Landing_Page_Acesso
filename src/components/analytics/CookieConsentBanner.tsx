@@ -43,12 +43,13 @@ export function CookieConsentBanner() {
             {t('reject')}
           </Button>
           <Button
+            className="!bg-emerald-600 !text-white hover:!bg-emerald-500"
             onClick={() => {
               consent.acceptAnalytics();
             }}
             size="sm"
             type="button"
-            variant="primary"
+            variant="secondary"
           >
             {t('accept')}
           </Button>

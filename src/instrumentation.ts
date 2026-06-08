@@ -23,6 +23,12 @@ const sentryOptions: Sentry.NodeOptions | Sentry.EdgeOptions = {
 };
 
 export function register() {
+  if (process.env.NEXT_RUNTIME === 'nodejs') {
+    void import('@/lib/clerk-env').then(({ logClerkEnvironmentWarnings }) => {
+      logClerkEnvironmentWarnings();
+    });
+  }
+
   if (!process.env.NEXT_PUBLIC_SENTRY_DISABLED) {
     if (process.env.NEXT_RUNTIME === 'nodejs') {
       // Node.js Sentry configuration

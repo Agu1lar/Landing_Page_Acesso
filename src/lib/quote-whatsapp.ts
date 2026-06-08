@@ -1,4 +1,5 @@
 import { buildWhatsAppUrl } from '@/lib/brand';
+import type { QuoteCartItemWithSpecs } from '@/lib/quote-equipment-specs';
 import { rentalPeriodOptions } from '@/validations/quote';
 import type { QuoteCartItemInput } from '@/validations/quote';
 
@@ -17,8 +18,9 @@ export type QuoteWhatsAppPayload = {
   city: string;
   rentalPeriod?: string;
   message?: string;
-  cartItems?: QuoteCartItemInput[];
+  cartItems?: QuoteCartItemInput[] | QuoteCartItemWithSpecs[];
   equipmentName?: string;
+  equipmentSpecsSummary?: string;
   origin?: string;
 };
 
@@ -37,9 +39,19 @@ export function buildQuoteWhatsAppMessage(payload: QuoteWhatsAppPayload) {
     for (const item of payload.cartItems) {
       const qty = item.quantity > 1 ? ` — quantidade: ${item.quantity}` : '';
       lines.push(`• ${item.name}${qty}`);
+      const specsSummary =
+        'specsSummary' in item && item.specsSummary?.trim()
+          ? item.specsSummary.trim()
+          : undefined;
+      if (specsSummary) {
+        lines.push(`  _Especificações:_ ${specsSummary}`);
+      }
     }
   } else if (payload.equipmentName?.trim()) {
     lines.push(`*Equipamento:* ${payload.equipmentName.trim()}`);
+    if (payload.equipmentSpecsSummary?.trim()) {
+      lines.push(`_Especificações:_ ${payload.equipmentSpecsSummary.trim()}`);
+    }
   }
 
   lines.push('', `*Cidade da obra:* ${payload.city.trim()}`);

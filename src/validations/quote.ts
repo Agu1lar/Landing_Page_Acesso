@@ -8,6 +8,8 @@ export const QuoteCartItemSchema = z.object({
   name: z.string().trim().min(1).max(300),
   kind: z.enum(['equipment', 'accessory']),
   quantity: z.number().int().min(1).max(99),
+  /** Compact technical specs for WhatsApp (altura, carga). Filled server-side when absent. */
+  specsSummary: z.string().trim().max(240).optional(),
 });
 
 export const QuoteFormSchema = z.object({

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { ConversionCtas } from '@/components/marketing/ConversionCtas';
+import { CategoryGallery } from '@/components/marketing/CategoryGallery';
 import { EquipmentCard } from '@/components/marketing/EquipmentCard';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { buildWhatsAppMessage, buildWhatsAppUrl } from '@/lib/brand';
@@ -10,6 +11,7 @@ import {
   getCategorySeo,
   isEquipmentCategory,
 } from '@/lib/categories-seo';
+import { getCategoryGallery } from '@/lib/category-gallery';
 import { getEquipmentByCategory } from '@/lib/equipment';
 import { buildCategoryPageJsonLd } from '@/lib/json-ld';
 import { buildMarketingMetadata } from '@/lib/seo-metadata';
@@ -21,6 +23,8 @@ import { resolveAppLocale } from '@/utils/locale';
 type CategoryPageProps = {
   params: Promise<{ locale: string; slug: string }>;
 };
+
+export const revalidate = 300;
 
 export function generateStaticParams() {
   return routing.locales.flatMap((locale) =>
@@ -55,6 +59,7 @@ export default async function CategoryPage(props: CategoryPageProps) {
   });
   const seo = getCategorySeo(slug);
   const equipment = await getEquipmentByCategory(slug);
+  const gallery = getCategoryGallery(slug);
   const whatsappHref = buildWhatsAppUrl(
     buildWhatsAppMessage({
       equipmentName: CATEGORY_LABELS[slug],
@@ -91,6 +96,8 @@ export default async function CategoryPage(props: CategoryPageProps) {
           </h1>
           <p className="mt-4 text-lg text-neutral-600">{seo.metaDescription}</p>
         </header>
+
+        <CategoryGallery images={gallery} title={CATEGORY_LABELS[slug]} />
 
         <article className="prose-category mt-10 max-w-3xl space-y-4 text-base leading-relaxed text-neutral-700">
           {seo.paragraphs.map((paragraph, index) => (

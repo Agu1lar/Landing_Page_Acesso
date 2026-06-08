@@ -52,6 +52,7 @@ function formatCartItemsForEmail(itemsJson: string | null) {
       slug?: string;
       kind?: string;
       quantity?: number;
+      specsSummary?: string;
     }[];
     if (!Array.isArray(items) || items.length === 0) {
       return '';
@@ -60,7 +61,8 @@ function formatCartItemsForEmail(itemsJson: string | null) {
       .map((item, index) => {
         const kind = item.kind === 'accessory' ? 'Acessório' : 'Equipamento';
         const qty = item.quantity && item.quantity > 1 ? ` · qtd. ${item.quantity}` : ' · qtd. 1';
-        return `${index + 1}. ${item.name ?? '—'} (${kind})${qty} — ${item.slug ?? ''}`;
+        const specs = item.specsSummary ? ` · ${item.specsSummary}` : '';
+        return `${index + 1}. ${item.name ?? '—'} (${kind})${qty}${specs} — ${item.slug ?? ''}`;
       })
       .join('\n');
   } catch {
@@ -139,6 +141,14 @@ export async function notifyLeadByEmail(lead: LeadRecord) {
       }
     } catch {
       // keep raw body
+    }
+    if (response.status === 429) {
+      logger.warn('Resend rate limit atingido — lead salvo no Neon, e-mail interno não enviado agora', {
+        status: response.status,
+        detail,
+        to,
+      });
+      return;
     }
     logger.error('Falha ao enviar e-mail de lead', {
       status: response.status,

@@ -49,9 +49,11 @@ npm run test:e2e -- tests/e2e/Legacy.redirects.e2e.ts
 ## Go-live (Sprint 10)
 
 - Domínio + DNS Vercel
-- Clerk **Production** (`pk_live_` / `sk_live_`)
-- `DATABASE_URL` Neon produção
+- Clerk **Production** (`pk_live_` / `sk_live_`) — alerta automático se Production usar `pk_test_`
+- `DATABASE_URL` Neon produção (**pooler** recomendado)
 - Google Search Console no domínio oficial
-- Redirect site legado (se host antigo permanecer ativo)
+- Redirect site legado (301 via `src/proxy.ts` — ativo no primeiro request)
+- Health check: `GET /api/health`
+- WhatsApp orçamento inclui altura de trabalho e capacidade de carga das plataformas
 
 Ver [ROADMAP.temp.md](../ROADMAP.temp.md) Sprint 10 e [MIGRACAO-SEO-WP.md](./MIGRACAO-SEO-WP.md).

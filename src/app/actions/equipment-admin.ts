@@ -11,6 +11,7 @@ import {
   seedEquipmentFromJson,
 } from '@/lib/equipment-db';
 import { slugifyEquipmentName } from '@/lib/equipment-slug';
+import { ALL_EQUIPMENT_CATEGORIES } from '@/lib/categories-seo';
 import {
   EquipmentAdminFormSchema,
   parseImagesJson,
@@ -18,11 +19,19 @@ import {
 } from '@/validations/equipment-admin';
 import * as z from 'zod';
 
-function revalidateEquipmentPaths(slug: string) {
+function revalidateEquipmentPaths(slug: string, category?: string) {
   revalidatePath('/');
   revalidatePath('/equipamentos');
   revalidatePath(`/equipamentos/${slug}`);
   revalidatePath('/sitemap.xml');
+
+  if (category) {
+    revalidatePath(`/categorias/${category}`);
+  } else {
+    for (const categorySlug of ALL_EQUIPMENT_CATEGORIES) {
+      revalidatePath(`/categorias/${categorySlug}`);
+    }
+  }
 }
 
 /**
@@ -126,7 +135,7 @@ export async function saveEquipmentAction(formData: FormData) {
     entitySlug: data.slug,
   });
 
-  revalidateEquipmentPaths(data.slug);
+  revalidateEquipmentPaths(data.slug, data.category);
   redirect(`/dashboard/equipamentos/${data.slug}/edit`);
 }
 

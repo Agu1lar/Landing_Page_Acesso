@@ -3,7 +3,11 @@ import { NextResponse } from 'next/server';
 import * as z from 'zod';
 import { notifyLeadByEmail } from '@/lib/email';
 import { createLead } from '@/lib/leads';
-import { buildQuoteWhatsAppMessage } from '@/lib/quote-whatsapp';
+import {
+  enrichQuoteCartItemsWithSpecs,
+  resolveEquipmentSpecsSummary,
+} from '@/lib/quote-equipment-specs';
+import { buildQuoteWhatsAppMessage, buildQuoteWhatsAppUrl } from '@/lib/quote-whatsapp';
 import arcjet from '@/libs/Arcjet';
 import { logger } from '@/libs/Logger';
 import { Env } from '@/libs/Env';
@@ -42,8 +46,34 @@ export const POST = async (request: Request) => {
     }
 
     const { website: _honeypot } = parsed.data;
-    const normalized = normalizeQuotePayload(parsed.data);
+    const cartItems = parsed.data.cartItems?.length
+      ? await enrichQuoteCartItemsWithSpecs(parsed.data.cartItems)
+      : undefined;
+    const normalized = normalizeQuotePayload({
+      ...parsed.data,
+      cartItems,
+    });
     const lead = await createLead(normalized);
+
+    const equipmentSpecsSummary =
+      !cartItems?.length && normalized.equipmentSlug
+        ? await resolveEquipmentSpecsSummary(normalized.equipmentSlug.split(',')[0])
+        : undefined;
+
+    const whatsappPayload = {
+      name: normalized.name,
+      email: normalized.email,
+      phone: normalized.phone,
+      company: normalized.company,
+      city: normalized.city,
+      rentalPeriod: normalized.rentalPeriod,
+      message: normalized.message,
+      cartItems,
+      equipmentName: normalized.equipmentName,
+      equipmentSpecsSummary,
+      origin: normalized.origin,
+    };
+    const whatsappUrl = buildQuoteWhatsAppUrl(whatsappPayload);
 
     if (lead) {
       try {
@@ -63,18 +93,7 @@ export const POST = async (request: Request) => {
       const widgetKey = Env.WHATSAPPOS_WIDGET_KEY?.trim();
 
       if (apiUrl && widgetKey) {
-        const message = buildQuoteWhatsAppMessage({
-          name: normalized.name,
-          email: normalized.email,
-          phone: normalized.phone,
-          company: normalized.company,
-          city: normalized.city,
-          rentalPeriod: normalized.rentalPeriod,
-          message: normalized.message,
-          cartItems: parsed.data.cartItems,
-          equipmentName: normalized.equipmentName,
-          origin: normalized.origin,
-        });
+        const message = buildQuoteWhatsAppMessage(whatsappPayload);
 
         const phoneDigits = normalized.phone.replace(/\D/g, '');
         const phoneWithCountry =
@@ -88,7 +107,7 @@ export const POST = async (request: Request) => {
             name: normalized.name,
             email: normalized.email,
             message,
-            cartItems: parsed.data.cartItems ?? [],
+            cartItems: cartItems ?? [],
             pageUrl: normalized.landingPage ? `${Env.NEXT_PUBLIC_APP_URL ?? ''}${normalized.landingPage}` : undefined,
             utmSource: normalized.utmSource,
             utmMedium: normalized.utmMedium,
@@ -103,7 +122,7 @@ export const POST = async (request: Request) => {
       });
     }
 
-    return NextResponse.json({ ok: true, id: lead?.id });
+    return NextResponse.json({ ok: true, id: lead?.id, whatsappUrl });
   } catch (error) {
     logger.error('Falha ao salvar lead', {
       message: error instanceof Error ? error.message : String(error),

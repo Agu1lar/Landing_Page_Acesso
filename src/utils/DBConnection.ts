@@ -9,6 +9,10 @@ import * as schema from '@/models/Schema';
 export const createDbConnection = () => {
   const pool = new Pool({
     connectionString: Env.DATABASE_URL,
+    // Neon serverless: keep pool small per lambda to avoid connection exhaustion on traffic spikes.
+    max: Env.VERCEL_ENV ? 5 : 10,
+    idleTimeoutMillis: 10_000,
+    connectionTimeoutMillis: 5_000,
   });
 
   pool.on('error', (error) => {

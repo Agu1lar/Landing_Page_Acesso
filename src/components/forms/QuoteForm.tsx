@@ -102,7 +102,11 @@ export function QuoteForm(props: QuoteFormProps) {
       }),
     });
 
-    const body = (await response.json()) as { error?: string; ok?: boolean };
+    const body = (await response.json()) as {
+      error?: string;
+      ok?: boolean;
+      whatsappUrl?: string;
+    };
 
     if (!response.ok) {
       setServerError(body.error ?? 'Não foi possível registrar. Tente novamente.');
@@ -110,20 +114,20 @@ export function QuoteForm(props: QuoteFormProps) {
       return;
     }
 
-    const quotePayload = {
-      name: data.name.trim(),
-      email: data.email.trim(),
-      phone: data.phone.trim(),
-      company: data.company?.trim() ?? undefined,
-      city: data.city.trim(),
-      rentalPeriod: data.rentalPeriod?.trim() ?? undefined,
-      message: data.message?.trim() ?? undefined,
-      cartItems,
-      equipmentName: cartItems?.[0]?.name ?? data.equipmentName?.trim(),
-      origin,
-    };
-
-    const whatsappUrl = buildQuoteWhatsAppUrl(quotePayload);
+    const whatsappUrl =
+      body.whatsappUrl ??
+      buildQuoteWhatsAppUrl({
+        name: data.name.trim(),
+        email: data.email.trim(),
+        phone: data.phone.trim(),
+        company: data.company?.trim() ?? undefined,
+        city: data.city.trim(),
+        rentalPeriod: data.rentalPeriod?.trim() ?? undefined,
+        message: data.message?.trim() ?? undefined,
+        cartItems,
+        equipmentName: cartItems?.[0]?.name ?? data.equipmentName?.trim(),
+        origin,
+      });
 
     setWhatsappRetryUrl(whatsappUrl);
     window.open(whatsappUrl, '_blank', 'noopener,noreferrer');

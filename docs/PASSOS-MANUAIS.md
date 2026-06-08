@@ -155,8 +155,8 @@ Quando o DNS apontar para a Vercel:
 
 ## 9. Checklist rápido antes de anunciar o site novo
 
-- [ ] `DATABASE_URL` na Vercel Production
-- [ ] Clerk `pk_live_` / `sk_live_`
+- [ ] `DATABASE_URL` na Vercel Production (preferir connection string **pooler** do Neon — hostname com `-pooler`)
+- [ ] Clerk `pk_live_` / `sk_live_` em Production (Preview pode manter `pk_test_`)
 - [ ] Domínio oficial validado na Vercel
 - [ ] `NEXT_PUBLIC_APP_URL` com domínio oficial
 - [ ] CRM whatsappOS testado (Neon + Inbox)
@@ -164,5 +164,63 @@ Quando o DNS apontar para a Vercel:
 - [ ] Orçamento E2E passando no CI
 - [ ] Top 20 URLs do GSC retornam 301 ou 200
 - [ ] Logos (se aplicável) com autorização jurídica
+- [ ] `GET /api/health` retorna `"ok": true` e `"clerk": { "mode": "live" }` em Production
 
 Referência técnica: [GO-LIVE-GATE.md](./GO-LIVE-GATE.md)
+
+---
+
+## 10. Reunião de go-live (domínio amanhã)
+
+Ordem sugerida — **não inverta Clerk e DNS**:
+
+1. **Antes do DNS:** Clerk Dashboard → **Production** → copiar `pk_live_` / `sk_live_` → Vercel **Production** → redeploy.
+2. **Clerk Production → Domains:** adicionar `acessoequipamentos.com.br`.
+3. **Clerk Production → Users:** convidar equipe com `{ "role": "admin" }` ou `"comercial"`.
+4. **Neon:** usar `DATABASE_URL` do branch **Production** com **pooler** (`-pooler` no host).
+5. **Apontar DNS** para a Vercel (A/CNAME conforme painel).
+6. **Imediatamente após propagar:** validar redirects WordPress:
+   ```bash
+   curl -I https://acessoequipamentos.com.br/blog/
+   curl -I https://acessoequipamentos.com.br/plataforma-elevatoria-tesoura-a-solucao-ideal-para-trabalhos-em-altura/
+   ```
+   Esperado: `HTTP/2 301` com `Location` correto.
+7. **Health check:** `curl https://acessoequipamentos.com.br/api/health` — `"ok": true`, `"clerk.productionMismatch": false`.
+8. **Teste comercial:** `/sign-in` → `/dashboard/leads` + orçamento com plataforma (WhatsApp deve listar altura e carga).
+
+Se algo falhar no passo 6, **prioridade máxima** — Google Ads reprova destino quebrado.
+
+---
+
+## 11. Monitoramento Neon + Resend (pós-go-live)
+
+O código já limita pool Postgres (`max: 5` por instância) e rate limit de leads (8 req / 15 min por IP via Arcjet). E-mail Resend em 429 não bloqueia o lead no Neon.
+
+### Neon (Postgres)
+
+| O quê | Onde | Ação |
+|-------|------|------|
+| Conexões ativas | [Neon Console](https://console.neon.tech) → projeto → **Monitoring** | Alerta se > 80% do plano |
+| Compute | Neon → **Usage** | Upgrade se CPU/memória estourar em pico |
+| Connection string | Vercel `DATABASE_URL` | Usar URL **pooler** (`…-pooler…neon.tech`) |
+
+### Resend (e-mail interno de leads)
+
+| O quê | Onde | Ação |
+|-------|------|------|
+| Envios/dia | [Resend Dashboard](https://resend.com/emails) | Plano free: 100/dia — suficiente para ~1k cliques/mês se só 1 e-mail/lead |
+| Rate limit 429 | Logs Vercel / Sentry | Lead continua salvo; reenvio manual pelo dashboard `/dashboard/leads` |
+| Domínio verificado | Resend → **Domains** | Obrigatório para `RESEND_FROM_EMAIL` no domínio oficial |
+
+### Arcjet (formulário)
+
+- Configure `ARCJET_KEY` na Vercel Production.
+- Em pico de tráfego pago, bots podem consumir cota — monitore 429 no `/api/leads`.
+
+### Rotina semanal (5 min)
+
+1. Neon → Usage (conexões + compute).
+2. Resend → Emails (volume e bounces).
+3. GSC → Páginas com 404 (URLs WP faltando no JSON).
+4. `GET /api/health` em produção.
+
