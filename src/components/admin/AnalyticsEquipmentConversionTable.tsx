@@ -4,6 +4,7 @@ import type { EquipmentConversionRow } from '@/lib/equipment-conversion-analytic
 type AnalyticsEquipmentConversionTableProps = {
   title: string;
   hint: string;
+  helpLabel?: string;
   emptyLabel: string;
   colEquipment: string;
   colViews: string;
@@ -19,7 +20,7 @@ type AnalyticsEquipmentConversionTableProps = {
  */
 export function AnalyticsEquipmentConversionTable(props: AnalyticsEquipmentConversionTableProps) {
   return (
-    <AdminCard description={props.hint} title={props.title}>
+    <AdminCard helpLabel={props.helpLabel} helpText={props.hint} title={props.title}>
       {props.rows.length === 0 ? (
         <p className="text-sm text-neutral-500">{props.emptyLabel}</p>
       ) : (

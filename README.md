@@ -16,6 +16,56 @@ Site da **Acesso Equipamentos** (locação de equipamentos para construção civ
 
 ---
 
+## Changelog — 15 jun 2026
+
+Resumo do que foi projetado e entregue nesta sessão (commits `c2d7f1b` … `main`).
+
+### Google Analytics 4 e conversões Google Ads
+
+- Integração **GA4** com consentimento de cookies (só dispara após aceitar analytics).
+- Eventos de conversão: `whatsapp_click`, `phone_click`, `generate_lead` (orçamento).
+- Captura de **gclid / gbraid / wbraid** na sessão e gravação no lead (`migrations/0010_google_click_ids.sql`).
+- Guia de configuração manual (Vercel + importação no Google Ads): [docs/GOOGLE-ADS-GA4.md](docs/GOOGLE-ADS-GA4.md).
+- **Env necessária:** `NEXT_PUBLIC_GA_MEASUREMENT_ID` na Vercel (Production).
+
+### Painel comercial (leads)
+
+- **Fila do comercial:** leads com status *Novo*, ordenados por prioridade.
+- **Score de intenção** (quente / morno / frio) com base em telefone, cidade, itens no carrinho, período, mensagem e campanha.
+- **Alerta de leads parados** (+24 h sem mudança de status).
+- Export CSV, filtros, notas internas e atribuição UTM/gclid na ficha do lead.
+- Correção de crash ao abrir o painel (ícones server → client na navegação).
+
+### Métricas operacionais (`/dashboard/analytics`)
+
+- Dashboard com KPIs: visualizações, tempo ativo, cliques WhatsApp, leads no período.
+- Tabelas: páginas mais acessadas, equipamento × conversão, origem do WhatsApp, tráfego UTM, campanhas, dispositivo, landing pages.
+- Filtro por período (7 / 30 dias ou intervalo customizado).
+- **Ajuda contextual:** botão **?** em cada card + guia flutuante no canto da tela (`AdminHelpLauncher`).
+- **Rótulos em português claro** — códigos internos (`site-header`, `direto`, `/`) viram textos legíveis (`Topo do site (menu principal)`, `Acesso direto`, `Página inicial`).
+- Biblioteca: `src/lib/analytics-display-labels.ts`.
+
+### Catálogo e performance
+
+- Categoria **equipamentos-aéreos** exibida como **Plataformas elevatórias** (slug da URL mantido).
+- **Cache de 5 min** no catálogo e no mapa de imagens (`unstable_cache` + tags em `equipment-cache-tags.ts`).
+- Cards do catálogo **síncronos no client** com `imageSrc` pré-resolvido no servidor (sem round-trip de DB por card).
+- Resolução de fotos: manifest local + Blob Vercel + DB, com prioridade correta (`equipment-image-resolve.ts`).
+- Página de detalhe usa `EquipmentDetailImage` (sem `pg` no bundle do browser — fix build Vercel).
+
+### Mobile e conversão
+
+- **Barra fixa inferior** no celular (WhatsApp, orçamento, ligar) com origens rastreadas por página.
+- CTAs de conversão unificados com tracking PostHog + GA4.
+
+### Infra e build
+
+- `server-only` em módulos de DB; `serverExternalPackages: ['pg']` no Next.js.
+- Migração `0010` registrada no journal Drizzle (corrige 500 ao listar leads em produção).
+- Rota `/dashboard/analytics` liberada no middleware para papel `comercial` e `admin`.
+
+---
+
 ## Números do catálogo (atual)
 
 | Métrica | Valor |
@@ -98,9 +148,10 @@ Site da **Acesso Equipamentos** (locação de equipamentos para construção civ
 
 ### Analytics e LGPD
 
-- **PostHog** (opcional via env): `page_view`, `equipment_view`, `whatsapp_click`.
-- **UTMs** como super properties no PostHog quando o visitante aceita analytics.
-- **Banner de cookies**: PostHog só inicia após consentimento (`AnalyticsConsentProvider`); botão aceitar em verde (não usa vermelho de marca).
+- **PostHog** (opcional via env): `page_view`, `equipment_view`, `whatsapp_click`, UTMs como super properties.
+- **Google Analytics 4** (opcional): page views e eventos de conversão após consentimento — ver [docs/GOOGLE-ADS-GA4.md](docs/GOOGLE-ADS-GA4.md).
+- **Tempo ativo por página** (`page_engagement_events`) — só conta aba visível com interação recente.
+- **Banner de cookies**: PostHog e GA4 só iniciam após consentimento (`AnalyticsConsentProvider`).
 - Política de privacidade atualizada (menção a analytics).
 
 ### Painel administrativo (Clerk)
@@ -112,18 +163,23 @@ Rotas protegidas por **Clerk** + papel em `publicMetadata.role` (`admin` ou `com
 | Login | `/sign-in` (cadastro público desativado → redireciona) |
 | Lista de leads | `/dashboard/leads` |
 | Detalhe do lead | `/dashboard/leads/[id]` |
+| **Métricas operacionais** | `/dashboard/analytics` |
+| Fila comercial + prioridade | `/dashboard/leads` (status *Novo*, score quente/morno/frio) |
 | Filtros | Data, status, cidade, origem, busca textual |
 | Atalhos de data | Últimos 7 / 30 dias |
 | Status do lead | `PATCH /api/admin/leads/[id]/status` |
 | Notas internas | `PATCH /api/admin/leads/[id]/notes` |
 | Export CSV | `GET /api/admin/leads/export` |
+| Equipamentos (admin) | `/dashboard/equipamentos` |
+| Ajuda contextual | Botão **?** flutuante + **?** em cada métrica |
 
 Guia completo: [docs/CLERK-ACESSO-ADMIN.md](docs/CLERK-ACESSO-ADMIN.md)
 
 ### UX e conversão
 
 - Busca global no header + **Ctrl+K**.
-- WhatsApp contextual com rastreamento (`TrackedWhatsAppLink`).
+- WhatsApp contextual com rastreamento (`TrackedWhatsAppLink`) — origens legíveis no painel de métricas.
+- **Barra fixa mobile** (WhatsApp, orçamento, ligar) com origem por página.
 - Layout marketing estável (server components + `next-intl`).
 - Mobile-first; CTAs com WhatsApp em destaque.
 - Link **Área restrita** no footer → `/sign-in`.
@@ -170,9 +226,10 @@ Detalhamento por sprint em [ROADMAP.temp.md](ROADMAP.temp.md). **Passos manuais 
 | Baixa | **5 fotos** pendentes (lista acima) |
 | Média | **Casos de Sucesso** — logos em `public/clientes/{setor}/` — [docs/CLIENT-LOGOS.md](docs/CLIENT-LOGOS.md) |
 | Média | Polish Sprint 7 (a11y, PageSpeed mobile) |
-| Planejado | Sprints 12–22 (analytics, SEO programático, CRM, disponibilidade frota) |
+| Manual | Configurar **GA4** na Vercel (`NEXT_PUBLIC_GA_MEASUREMENT_ID`) e importar conversões no Google Ads — [docs/GOOGLE-ADS-GA4.md](docs/GOOGLE-ADS-GA4.md) |
+| Planejado | Sprints 12–22 (CRM, disponibilidade frota, SEO programático) |
 
-**Já no código (go-live):** mapa 301 WP, scripts auditoria GSC/Ads, guindaste no Postgres, health check, specs no WhatsApp, catálogo sem “estoque”.
+**Já no código (go-live):** mapa 301 WP, scripts auditoria GSC/Ads, guindaste no Postgres, health check, specs no WhatsApp, catálogo sem “estoque”, painel comercial com fila e métricas, GA4 + gclid nos leads.
 
 ---
 
@@ -259,6 +316,7 @@ No `.env.local` / Vercel:
 | `NEXT_PUBLIC_APP_URL` | Recomendada | Canonical e OG |
 | `RESEND_API_KEY`, `RESEND_FROM_EMAIL`, `LEADS_NOTIFY_EMAIL` | Para e-mail de leads | |
 | `NEXT_PUBLIC_POSTHOG_KEY`, `NEXT_PUBLIC_POSTHOG_HOST` | Opcional | Analytics após consentimento |
+| `NEXT_PUBLIC_GA_MEASUREMENT_ID` | Opcional | GA4 + conversões Google Ads — [docs/GOOGLE-ADS-GA4.md](docs/GOOGLE-ADS-GA4.md) |
 | `NEXT_PUBLIC_SENTRY_DISABLED=true` | Preview | Sem Sentry no preview |
 | `ARCJET_KEY` | Opcional | Rate limit em `/api/leads` |
 | `WHATSAPPOS_API_URL`, `WHATSAPPOS_WIDGET_KEY` | Opcional | CRM whatsappOS (capture server-side) |
@@ -298,6 +356,7 @@ curl -s https://landing-page-acesso.vercel.app/api/health
 | [docs/PASSOS-MANUAIS.md](docs/PASSOS-MANUAIS.md) | Go-live, DNS Task, Clerk, Neon, Resend, reunião domínio |
 | [docs/GO-LIVE-GATE.md](docs/GO-LIVE-GATE.md) | Gate pré-domínio (CI, 301, health) |
 | [docs/CLERK-ACESSO-ADMIN.md](docs/CLERK-ACESSO-ADMIN.md) | Painel, papéis e Clerk Production no go-live |
+| [docs/GOOGLE-ADS-GA4.md](docs/GOOGLE-ADS-GA4.md) | GA4, eventos de conversão e gclid no Google Ads |
 | `docs/scripts/audit-legacy-redirects.mjs` | Valida cobertura 301 (sitemap + GSC) |
 | `docs/scripts/import-google-ads-urls.mjs` | Audita URLs finais dos anúncios |
 | `src/data/legacy-redirects.json` | Mapa 301 versionado |
@@ -309,7 +368,7 @@ curl -s https://landing-page-acesso.vercel.app/api/health
 
 ## Base técnica
 
-**Next.js 16** (App Router), **TypeScript**, **Tailwind v4**, **next-intl** (pt-BR), **Drizzle** + **PostgreSQL** (Neon / PGlite), **Zod**, **React Hook Form**, **Resend**, **Arcjet**, **Clerk** (auth do painel), **PostHog** (analytics com consentimento), hospedagem **Vercel**.
+**Next.js 16** (App Router), **TypeScript**, **Tailwind v4**, **next-intl** (pt-BR), **Drizzle** + **PostgreSQL** (Neon / PGlite), **Zod**, **React Hook Form**, **Resend**, **Arcjet**, **Clerk** (auth do painel), **PostHog** + **GA4** (analytics com consentimento), hospedagem **Vercel**.
 
 ---
 

@@ -1,5 +1,13 @@
 import { and, count, desc, eq, gte, lte, sql } from 'drizzle-orm';
 import { sumAnalyticsDailyForPeriod } from '@/lib/analytics-daily';
+import {
+  formatCampaignName,
+  formatDevice,
+  formatEquipmentAnalyticsLabel,
+  formatSitePath,
+  formatTrafficSource,
+  formatWhatsAppOrigin,
+} from '@/lib/analytics-display-labels';
 import { previousPeriodRange, resolveAnalyticsPeriod } from '@/lib/analytics-period';
 import {
   mergeEquipmentConversionRows,
@@ -17,6 +25,8 @@ type CountRow = { label: string; count: number };
 
 export type PageEngagementRow = {
   pathname: string;
+  /** Original URL when the display label differs (tooltip). */
+  pathnameDetail?: string;
   views: number;
   totalActiveSeconds: number;
   avgActiveSeconds: number;
@@ -54,6 +64,13 @@ function percentChange(current: number, previous: number) {
   }
 
   return Math.round(((current - previous) / previous) * 100);
+}
+
+function humanizeCountRows(
+  rows: CountRow[],
+  formatLabel: (label: string) => string,
+): CountRow[] {
+  return rows.map((row) => ({ ...row, label: formatLabel(row.label) }));
 }
 
 async function countEvents(
@@ -494,15 +511,29 @@ export async function getOperationalDashboard(
     cookieConsentLeads,
     whatsappClicksPrevious,
     quoteSubmitsPrevious,
-    whatsappByOrigin: whatsappByOriginRows,
-    trafficBySource,
-    campaigns,
-    topEquipmentWhatsapp,
-    topEquipmentLeads: topEquipmentLeadsRows,
-    topPages: topPagesRows,
+    whatsappByOrigin: humanizeCountRows(whatsappByOriginRows, formatWhatsAppOrigin),
+    trafficBySource: humanizeCountRows(trafficBySource, formatTrafficSource),
+    campaigns: campaigns.map((row) => ({
+      ...row,
+      campaign: formatCampaignName(row.campaign),
+    })),
+    topEquipmentWhatsapp: humanizeCountRows(topEquipmentWhatsapp, (label) =>
+      formatEquipmentAnalyticsLabel(label, 'whatsapp'),
+    ),
+    topEquipmentLeads: humanizeCountRows(topEquipmentLeadsRows, (label) =>
+      formatEquipmentAnalyticsLabel(label, 'lead'),
+    ),
+    topPages: topPagesRows.map((row) => {
+      const formatted = formatSitePath(row.pathname);
+      return {
+        ...row,
+        pathname: formatted,
+        pathnameDetail: formatted !== row.pathname ? row.pathname : undefined,
+      };
+    }),
     equipmentConversion: equipmentConversionRows,
-    landingPages,
-    deviceSplit: deviceSplitRows,
+    landingPages: humanizeCountRows(landingPages, formatSitePath),
+    deviceSplit: humanizeCountRows(deviceSplitRows, formatDevice),
     posthogHint: Boolean(process.env.NEXT_PUBLIC_POSTHOG_KEY),
   };
 }

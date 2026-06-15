@@ -2,6 +2,8 @@ import { AdminCard } from '@/components/admin/AdminCard';
 
 type AnalyticsBarTableProps = {
   title: string;
+  hint?: string;
+  helpLabel?: string;
   rows: { label: string; count: number }[];
   emptyLabel: string;
 };
@@ -13,7 +15,7 @@ export function AnalyticsBarTable(props: AnalyticsBarTableProps) {
   const max = Math.max(1, ...props.rows.map((row) => row.count));
 
   return (
-    <AdminCard title={props.title}>
+    <AdminCard helpLabel={props.helpLabel} helpText={props.hint} title={props.title}>
       {props.rows.length === 0 ? (
         <p className="text-sm text-neutral-500">{props.emptyLabel}</p>
       ) : (

@@ -1,9 +1,13 @@
+import { AdminMetricHelp } from '@/components/admin/AdminMetricHelp';
+
 type AdminKpiCardProps = {
   label: string;
   value: number | string;
   delta?: number;
   deltaLabel?: string;
   accent?: 'default' | 'primary' | 'whatsapp' | 'neutral';
+  helpText?: string;
+  helpLabel?: string;
 };
 
 const accentBar: Record<NonNullable<AdminKpiCardProps['accent']>, string> = {
@@ -24,7 +28,12 @@ export function AdminKpiCard(props: AdminKpiCardProps) {
   return (
     <div className="relative overflow-hidden rounded-xl border border-neutral-200/80 bg-white p-5 shadow-sm">
       <div className={`absolute top-0 left-0 h-1 w-full ${accentBar[accent]}`} />
-      <p className="text-sm font-medium text-neutral-500">{props.label}</p>
+      <div className="flex items-start justify-between gap-2">
+        <p className="text-sm font-medium text-neutral-500">{props.label}</p>
+        {props.helpText ? (
+          <AdminMetricHelp label={props.helpLabel ?? 'Ajuda'} text={props.helpText} />
+        ) : null}
+      </div>
       <p className="mt-2 font-heading text-3xl font-bold tracking-tight text-neutral-900 tabular-nums">
         {props.value}
       </p>

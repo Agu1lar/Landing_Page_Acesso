@@ -56,6 +56,7 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
     dashboard.pageViews > 0
       ? Math.round((dashboard.whatsappClicks / dashboard.pageViews) * 100)
       : 0;
+  const helpLabel = t('help_button_label');
 
   return (
     <div className="space-y-8">
@@ -81,6 +82,8 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
         <AdminKpiCard
           delta={visitsDelta}
           deltaLabel={t('delta_vs_previous')}
+          helpLabel={helpLabel}
+          helpText={t('hint_kpi_page_views')}
           label={t('kpi_page_views')}
           value={dashboard.pageViews}
         />
@@ -88,6 +91,8 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
           accent="neutral"
           delta={activeTimeDelta}
           deltaLabel={t('delta_vs_previous')}
+          helpLabel={helpLabel}
+          helpText={t('hint_kpi_active_time')}
           label={t('kpi_active_time')}
           value={dashboard.totalActiveSeconds}
         />
@@ -95,6 +100,8 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
           accent="whatsapp"
           delta={whatsappDelta}
           deltaLabel={t('delta_vs_previous')}
+          helpLabel={helpLabel}
+          helpText={t('hint_kpi_whatsapp')}
           label={t('kpi_whatsapp')}
           value={dashboard.whatsappClicks}
         />
@@ -102,6 +109,8 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
           accent="primary"
           delta={leadsDelta}
           deltaLabel={t('delta_vs_previous')}
+          helpLabel={helpLabel}
+          helpText={t('hint_kpi_leads')}
           label={t('kpi_leads')}
           value={dashboard.quoteSubmits}
         />
@@ -123,6 +132,8 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
         colPage={t('col_page')}
         colViews={t('col_views')}
         emptyLabel={t('empty_data')}
+        helpLabel={helpLabel}
+        hint={t('hint_chart_top_pages')}
         rows={dashboard.topPages}
         title={t('chart_top_pages')}
       />
@@ -135,6 +146,7 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
         colViews={t('col_views')}
         colWhatsapp={t('col_whatsapp')}
         emptyLabel={t('empty_data')}
+        helpLabel={helpLabel}
         hint={t('chart_equipment_conversion_hint')}
         rows={dashboard.equipmentConversion}
         title={t('chart_equipment_conversion')}
@@ -143,37 +155,49 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
       <div className="grid gap-4 lg:grid-cols-2">
         <AnalyticsBarTable
           emptyLabel={t('empty_data')}
+          helpLabel={helpLabel}
+          hint={t('hint_chart_whatsapp_origin')}
           rows={dashboard.whatsappByOrigin}
           title={t('chart_whatsapp_origin')}
         />
         <AnalyticsBarTable
           emptyLabel={t('empty_data')}
+          helpLabel={helpLabel}
+          hint={t('hint_chart_traffic_source')}
           rows={dashboard.trafficBySource}
           title={t('chart_traffic_source')}
         />
         <AnalyticsBarTable
           emptyLabel={t('empty_data')}
+          helpLabel={helpLabel}
+          hint={t('hint_chart_top_equipment_whatsapp')}
           rows={dashboard.topEquipmentWhatsapp}
           title={t('chart_top_equipment_whatsapp')}
         />
         <AnalyticsBarTable
           emptyLabel={t('empty_data')}
+          helpLabel={helpLabel}
+          hint={t('hint_chart_top_equipment_leads')}
           rows={dashboard.topEquipmentLeads}
           title={t('chart_top_equipment_leads')}
         />
         <AnalyticsBarTable
           emptyLabel={t('empty_data')}
+          helpLabel={helpLabel}
+          hint={t('hint_chart_landing_pages')}
           rows={dashboard.landingPages}
           title={t('chart_landing_pages')}
         />
         <AnalyticsBarTable
           emptyLabel={t('empty_data')}
+          helpLabel={helpLabel}
+          hint={t('hint_chart_device')}
           rows={dashboard.deviceSplit}
           title={t('chart_device')}
         />
       </div>
 
-      <AdminCard title={t('chart_campaigns')}>
+      <AdminCard helpLabel={helpLabel} helpText={t('hint_chart_campaigns')} title={t('chart_campaigns')}>
         {dashboard.campaigns.length === 0 ? (
           <p className="text-sm text-neutral-500">{t('empty_data')}</p>
         ) : (

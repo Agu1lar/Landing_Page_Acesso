@@ -2,12 +2,15 @@ import { AdminCard } from '@/components/admin/AdminCard';
 
 type AnalyticsTopPagesTableProps = {
   title: string;
+  hint?: string;
+  helpLabel?: string;
   emptyLabel: string;
   colPage: string;
   colViews: string;
   colAvgTime: string;
   rows: {
     pathname: string;
+    pathnameDetail?: string;
     views: number;
     avgActiveSeconds: number;
   }[];
@@ -28,7 +31,7 @@ function formatDuration(seconds: number) {
  */
 export function AnalyticsTopPagesTable(props: AnalyticsTopPagesTableProps) {
   return (
-    <AdminCard title={props.title}>
+    <AdminCard helpLabel={props.helpLabel} helpText={props.hint} title={props.title}>
       {props.rows.length === 0 ? (
         <p className="text-sm text-neutral-500">{props.emptyLabel}</p>
       ) : (
@@ -46,7 +49,7 @@ export function AnalyticsTopPagesTable(props: AnalyticsTopPagesTableProps) {
                 <tr className="border-b border-neutral-100 last:border-0" key={row.pathname}>
                   <td
                     className="max-w-md truncate py-2.5 pr-4 font-medium text-neutral-900"
-                    title={row.pathname}
+                    title={row.pathnameDetail ?? row.pathname}
                   >
                     {row.pathname}
                   </td>
