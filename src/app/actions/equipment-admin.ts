@@ -4,8 +4,7 @@ import { revalidatePath, updateTag } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { logAdminActivity } from '@/lib/admin-activity';
 import { requireAdminAccess } from '@/lib/auth-roles';
-import { EQUIPMENT_CATALOG_TAG } from '@/lib/equipment';
-import { EQUIPMENT_IMAGE_MAP_TAG } from '@/lib/equipment-images-server';
+import { EQUIPMENT_CATALOG_TAG, EQUIPMENT_IMAGE_MAP_TAG } from '@/lib/equipment-cache-tags';
 import {
   archiveEquipmentBySlug,
   duplicateEquipmentAsDraft,

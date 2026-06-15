@@ -7,11 +7,11 @@ import {
   loadPublishedEquipmentFromDb,
   loadPublishedEquipmentSitemapEntries,
 } from '@/lib/equipment-db';
+import { EQUIPMENT_CATALOG_TAG } from '@/lib/equipment-cache-tags';
 import type { Equipment, EquipmentCategory } from '@/types/equipment';
 
 export { getEquipmentQuoteCartKind } from '@/lib/equipment-quote-cart';
-
-export const EQUIPMENT_CATALOG_TAG = 'equipment-catalog';
+export { EQUIPMENT_CATALOG_TAG } from '@/lib/equipment-cache-tags';
 
 const jsonFallback = equipmentData as Equipment[];
 

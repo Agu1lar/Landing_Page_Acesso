@@ -5,9 +5,10 @@ import { cache } from 'react';
 import manifest from '@/data/equipment-image-manifest.json';
 import { getManifestImageSrc } from '@/lib/equipment-images-manifest';
 import { resolveEquipmentImageSrc } from '@/lib/equipment-image-resolve';
+import { EQUIPMENT_IMAGE_MAP_TAG } from '@/lib/equipment-cache-tags';
 import { loadPrimaryImageMap } from '@/lib/equipment-db';
 
-export const EQUIPMENT_IMAGE_MAP_TAG = 'equipment-image-map';
+export { EQUIPMENT_IMAGE_MAP_TAG } from '@/lib/equipment-cache-tags';
 
 const manifestMap = manifest as Record<string, string>;
 
