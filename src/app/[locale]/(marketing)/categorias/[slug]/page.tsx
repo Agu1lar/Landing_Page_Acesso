@@ -15,6 +15,7 @@ import {
 } from '@/lib/categories-seo';
 import { getCategoryGallery } from '@/lib/category-gallery';
 import { getEquipmentByCategory } from '@/lib/equipment';
+import { getResolvedEquipmentImageMap } from '@/lib/equipment-images-server';
 import { buildCategoryPageJsonLd } from '@/lib/json-ld';
 import { buildMarketingMetadata } from '@/lib/seo-metadata';
 import { Link } from '@/libs/I18nNavigation';
@@ -60,7 +61,10 @@ export default async function CategoryPage(props: CategoryPageProps) {
     namespace: 'Categoria',
   });
   const seo = getCategorySeo(slug);
-  const equipment = await getEquipmentByCategory(slug);
+  const [equipment, imageBySlug] = await Promise.all([
+    getEquipmentByCategory(slug),
+    getResolvedEquipmentImageMap(),
+  ]);
   const gallery = getCategoryGallery(slug);
   const categoryLabel = CATEGORY_LABELS[slug];
   const whatsappHref = buildWhatsAppUrl(
@@ -134,7 +138,12 @@ export default async function CategoryPage(props: CategoryPageProps) {
           ) : (
             <div className="mt-6 grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
               {equipment.map((item, index) => (
-                <EquipmentCard equipment={item} imagePriority={index < 4} key={item.slug} />
+                <EquipmentCard
+                  equipment={item}
+                  imagePriority={index < 4}
+                  imageSrc={imageBySlug[item.slug]}
+                  key={item.slug}
+                />
               ))}
             </div>
           )}

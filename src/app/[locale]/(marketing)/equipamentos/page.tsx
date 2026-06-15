@@ -5,6 +5,7 @@ import { SetMobileDockConfig } from '@/components/marketing/mobile-dock-config';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { buildWhatsAppMessage, buildWhatsAppUrl } from '@/lib/brand';
 import { getAllEquipment } from '@/lib/equipment';
+import { getResolvedEquipmentImageMap } from '@/lib/equipment-images-server';
 import { buildEquipmentCatalogJsonLd } from '@/lib/json-ld';
 import { buildMarketingMetadata } from '@/lib/seo-metadata';
 import { resolveAppLocale } from '@/utils/locale';
@@ -13,6 +14,8 @@ type EquipamentosPageProps = {
   params: Promise<{ locale: string }>;
   searchParams: Promise<{ q?: string; categoria?: string }>;
 };
+
+export const revalidate = 300;
 
 export async function generateMetadata(props: EquipamentosPageProps): Promise<Metadata> {
   const locale = resolveAppLocale((await props.params)?.locale);
@@ -39,7 +42,10 @@ export default async function EquipamentosPage(props: EquipamentosPageProps) {
     locale,
     namespace: 'RootLayout',
   });
-  const equipment = await getAllEquipment();
+  const [equipment, imageBySlug] = await Promise.all([
+    getAllEquipment(),
+    getResolvedEquipmentImageMap(),
+  ]);
   const whatsappHref = buildWhatsAppUrl(buildWhatsAppMessage({ origin: 'site-catalogo' }));
 
   return (
@@ -50,6 +56,7 @@ export default async function EquipamentosPage(props: EquipamentosPageProps) {
         <div aria-hidden className="h-0" id="page-hero-sentinel" />
         <EquipmentCatalog
           equipment={equipment}
+          imageBySlug={imageBySlug}
           initialCategory={categoria ?? ''}
           initialQuery={q ?? ''}
         />

@@ -9,12 +9,14 @@ import type { Equipment, EquipmentCategory } from '@/types/equipment';
 
 type EquipmentCatalogProps = {
   equipment: Equipment[];
+  imageBySlug?: Record<string, string>;
   initialQuery?: string;
   initialCategory?: string;
 };
 
 export function EquipmentCatalog({
   equipment,
+  imageBySlug,
   initialQuery = '',
   initialCategory = '',
 }: EquipmentCatalogProps) {
@@ -78,7 +80,12 @@ export function EquipmentCatalog({
       ) : (
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {filtered.map((item, index) => (
-            <EquipmentCard equipment={item} imagePriority={index < 4} key={item.slug} />
+            <EquipmentCard
+              equipment={item}
+              imagePriority={index < 4}
+              imageSrc={imageBySlug?.[item.slug]}
+              key={item.slug}
+            />
           ))}
         </div>
       )}

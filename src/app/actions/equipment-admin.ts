@@ -1,9 +1,11 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, updateTag } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { logAdminActivity } from '@/lib/admin-activity';
 import { requireAdminAccess } from '@/lib/auth-roles';
+import { EQUIPMENT_CATALOG_TAG } from '@/lib/equipment';
+import { EQUIPMENT_IMAGE_MAP_TAG } from '@/lib/equipment-images-server';
 import {
   archiveEquipmentBySlug,
   duplicateEquipmentAsDraft,
@@ -21,6 +23,8 @@ import {
 import * as z from 'zod';
 
 function revalidateEquipmentPaths(slug: string, category?: string) {
+  updateTag(EQUIPMENT_CATALOG_TAG);
+  updateTag(EQUIPMENT_IMAGE_MAP_TAG);
   revalidatePath('/');
   revalidatePath('/equipamentos');
   revalidatePath(`/equipamentos/${slug}`);

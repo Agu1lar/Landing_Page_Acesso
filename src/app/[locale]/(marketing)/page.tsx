@@ -9,6 +9,7 @@ import { TestimonialsSection } from '@/components/marketing/TestimonialsSection'
 import { buildWhatsAppMessage, buildWhatsAppUrl } from '@/lib/brand';
 import { getManifestImageSrc } from '@/lib/equipment-images-manifest';
 import { countEquipmentInCategory, getEquipmentBySlug, getFeaturedEquipment } from '@/lib/equipment';
+import { getResolvedEquipmentImageMap } from '@/lib/equipment-images-server';
 import { buildMarketingMetadata } from '@/lib/seo-metadata';
 import { Link } from '@/libs/I18nNavigation';
 import { CATEGORY_LABELS } from '@/types/equipment';
@@ -56,6 +57,7 @@ export default async function HomePage(props: IndexPageProps) {
     namespace: 'RootLayout',
   });
   const featured = await getFeaturedEquipment(6);
+  const imageBySlug = await getResolvedEquipmentImageMap();
   const aerialCount = await countEquipmentInCategory('equipamentos-aereos');
   const guindaste = await getEquipmentBySlug('guindaste-industrial-munck-remocao-bh');
   const whatsappHome = buildWhatsAppUrl(buildWhatsAppMessage({ origin: 'site-home' }));
@@ -153,6 +155,7 @@ export default async function HomePage(props: IndexPageProps) {
               <EquipmentCard
                 equipment={equipment}
                 imagePriority={index < 2}
+                imageSrc={imageBySlug[equipment.slug]}
                 key={equipment.slug}
               />
             ))}

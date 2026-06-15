@@ -17,7 +17,7 @@ import {
   getEquipmentQuoteCartKind,
   getRelatedEquipment,
 } from '@/lib/equipment';
-import { getEquipmentImageSrc } from '@/lib/equipment-images-server';
+import { getEquipmentImageSrc, getResolvedEquipmentImageMap } from '@/lib/equipment-images-server';
 import { getEquipmentSeoExtra } from '@/lib/equipment-seo-extra';
 import {
   buildEquipmentMetaDescription,
@@ -77,7 +77,10 @@ export default async function EquipmentDetailPage(props: EquipmentDetailProps) {
   }
 
   const whatsappHref = buildEquipmentWhatsAppUrl(equipment);
-  const related = await getRelatedEquipment(slug);
+  const [related, imageBySlug] = await Promise.all([
+    getRelatedEquipment(slug),
+    getResolvedEquipmentImageMap(),
+  ]);
   const seoExtra = getEquipmentSeoExtra(equipment);
   const imagePath = await getEquipmentImageSrc(equipment.slug);
   const pageBodyDescription = getEquipmentPageBodyDescription(equipment);
@@ -203,7 +206,11 @@ export default async function EquipmentDetailPage(props: EquipmentDetailProps) {
             </h2>
             <div className="mt-6 grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
               {related.map((item) => (
-                <EquipmentCard equipment={item} key={item.slug} />
+                <EquipmentCard
+                  equipment={item}
+                  imageSrc={imageBySlug[item.slug]}
+                  key={item.slug}
+                />
               ))}
             </div>
           </section>

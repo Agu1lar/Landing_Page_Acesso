@@ -1,4 +1,5 @@
 import { cache } from 'react';
+import { unstable_cache } from 'next/cache';
 import equipmentData from '@/data/equipamentos.json';
 import {
   countEquipmentInDb,
@@ -9,6 +10,8 @@ import {
 import type { Equipment, EquipmentCategory } from '@/types/equipment';
 
 export { getEquipmentQuoteCartKind } from '@/lib/equipment-quote-cart';
+
+export const EQUIPMENT_CATALOG_TAG = 'equipment-catalog';
 
 const jsonFallback = equipmentData as Equipment[];
 
@@ -39,23 +42,29 @@ export function mergeCatalogWithJsonFallback(fromDb: Equipment[], dbSlugs: Set<s
   return filterPublicCatalog(Array.from(bySlug.values()));
 }
 
-const loadCatalog = cache(async () => {
+async function fetchCatalog() {
   try {
-    const dbCount = await countEquipmentInDb();
-    if (dbCount === 0) {
-      return filterPublicCatalog(jsonFallback);
-    }
-
     const [fromDb, dbSlugs] = await Promise.all([
       loadPublishedEquipmentFromDb(),
       loadDbEquipmentSlugs(),
     ]);
 
+    if (fromDb.length === 0 && dbSlugs.size === 0) {
+      return filterPublicCatalog(jsonFallback);
+    }
+
     return mergeCatalogWithJsonFallback(fromDb, dbSlugs);
   } catch {
     return filterPublicCatalog(jsonFallback);
   }
+}
+
+const getCachedCatalog = unstable_cache(fetchCatalog, ['equipment-catalog'], {
+  revalidate: 300,
+  tags: [EQUIPMENT_CATALOG_TAG],
 });
+
+const loadCatalog = cache(async () => getCachedCatalog());
 
 export async function getAllEquipment() {
   return loadCatalog();

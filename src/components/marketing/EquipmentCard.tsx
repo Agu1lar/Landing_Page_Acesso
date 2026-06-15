@@ -1,6 +1,9 @@
+'use client';
+
+import Image from 'next/image';
 import { AddToQuoteButton } from '@/components/quote-cart/AddToQuoteButton';
-import { EquipmentPhoto } from '@/components/marketing/EquipmentPhoto';
 import { getEquipmentQuoteCartKind } from '@/lib/equipment-quote-cart';
+import { getManifestImageSrc } from '@/lib/equipment-images-manifest';
 import { Link } from '@/libs/I18nNavigation';
 import { CATEGORY_LABELS } from '@/types/equipment';
 import type { Equipment } from '@/types/equipment';
@@ -8,19 +11,40 @@ import type { Equipment } from '@/types/equipment';
 type EquipmentCardProps = {
   equipment: Equipment;
   imagePriority?: boolean;
+  /** Pre-resolved URL from server cache; falls back to manifest. */
+  imageSrc?: string;
 };
 
-export async function EquipmentCard(props: EquipmentCardProps) {
+/**
+ * Catalog card — sync render (no per-card server/DB round-trips).
+ */
+export function EquipmentCard(props: EquipmentCardProps) {
   const { equipment } = props;
+  const src = props.imageSrc ?? getManifestImageSrc(equipment.slug);
 
   return (
     <article className="group flex flex-col overflow-hidden rounded-[var(--radius-card)] border border-neutral-200 bg-surface shadow-sm transition-shadow hover:shadow-md">
-      <EquipmentPhoto
-        imagePriority={props.imagePriority}
-        name={equipment.name}
-        slug={equipment.slug}
-        variant="card"
-      />
+      <div className="relative h-36 w-full overflow-hidden bg-neutral-100">
+        {src ? (
+          <Image
+            alt={equipment.name}
+            className="object-contain object-center p-1"
+            fetchPriority={props.imagePriority ? 'high' : 'low'}
+            fill
+            loading={props.imagePriority ? undefined : 'lazy'}
+            priority={props.imagePriority}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+            src={src}
+          />
+        ) : (
+          <div
+            aria-hidden
+            className="flex h-full items-center justify-center text-neutral-400"
+          >
+            <span className="text-xs">Sem foto</span>
+          </div>
+        )}
+      </div>
       <div className="flex flex-1 flex-col p-4">
         <p className="text-xs font-medium tracking-wide text-primary uppercase">
           {CATEGORY_LABELS[equipment.category]}
