@@ -1,4 +1,5 @@
 import { readStoredAttribution } from '@/lib/attribution';
+import { GA_CONVERSION_EVENTS, captureGaEvent } from '@/lib/google-analytics';
 import { captureWhatsAppClick, type WhatsAppClickInput } from '@/lib/posthog-events';
 
 /**
@@ -17,6 +18,12 @@ function detectDevice() {
  */
 export function trackWhatsAppClick(input: WhatsAppClickInput) {
   captureWhatsAppClick(input);
+
+  captureGaEvent(GA_CONVERSION_EVENTS.whatsappClick, {
+    origin: input.origin,
+    equipment_slug: input.equipmentSlug,
+    equipment_name: input.equipmentName,
+  });
 
   if (typeof window === 'undefined') {
     return;

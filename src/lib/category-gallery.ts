@@ -9,12 +9,12 @@ export type CategoryGalleryImage = {
 const CATEGORY_GALLERY: Partial<Record<EquipmentCategory, CategoryGalleryImage[]>> = {
   'guindastes-remocoes': [
     {
-      src: '/categorias/guindastes-remocoes/guindaste-industrial-operacao.png',
+      src: '/categorias/guindastes-remocoes/guindaste-industrial-operacao.webp',
       alt: 'Guindaste industrial em operação de içamento em obra',
       caption: 'Guindaste industrial para remoção técnica e montagem de equipamentos pesados.',
     },
     {
-      src: '/categorias/guindastes-remocoes/munck-icamento-carga.png',
+      src: '/categorias/guindastes-remocoes/munck-icamento-carga.webp',
       alt: 'Caminhão Munck realizando içamento de carga pesada',
       caption: 'Caminhão Munck para carga, descarga e transporte de materiais de grande porte.',
     },

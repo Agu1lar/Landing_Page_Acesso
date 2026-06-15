@@ -72,6 +72,32 @@ export async function loadPublishedEquipmentFromDb() {
   return rows.map(rowToEquipment);
 }
 
+export type EquipmentSitemapEntry = {
+  slug: string;
+  category: string;
+  updatedAt: Date;
+};
+
+/**
+ * Returns slug, category and updatedAt for published catalog rows (sitemap lastmod).
+ */
+export async function loadPublishedEquipmentSitemapEntries() {
+  return db
+    .select({
+      slug: equipmentSchema.slug,
+      category: equipmentSchema.category,
+      updatedAt: equipmentSchema.updatedAt,
+    })
+    .from(equipmentSchema)
+    .where(
+      and(
+        isNull(equipmentSchema.deletedAt),
+        eq(equipmentSchema.published, true),
+        eq(equipmentSchema.available, true),
+      ),
+    );
+}
+
 /**
  * Returns all non-deleted equipment slugs in Postgres (any status).
  */

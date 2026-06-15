@@ -2,10 +2,14 @@ import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { LeadNotesForm } from '@/components/admin/LeadNotesForm';
+import { LeadPriorityBadge } from '@/components/admin/LeadPriorityBadge';
 import { LeadStatusForm } from '@/components/admin/LeadStatusForm';
+import { AdminCard } from '@/components/admin/AdminCard';
+import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
 import { Button } from '@/components/ui/Button';
 import { LEAD_STATUSES } from '@/lib/lead-status';
 import type { LeadStatus } from '@/lib/lead-status';
+import { scoreLeadIntent } from '@/lib/lead-intent-score';
 import { formatLeadCartItems, getLeadById, parseLeadCartItems } from '@/lib/leads-admin';
 import { Link } from '@/libs/I18nNavigation';
 import { resolveAppLocale } from '@/utils/locale';
@@ -56,6 +60,9 @@ export default async function LeadDetailPage(props: LeadDetailPageProps) {
     LEAD_STATUSES.map((status) => [status, t(`status_${status}` as 'status_new')]),
   ) as Record<LeadStatus, string>;
   const displayStatus = statusLabels[lead.status as LeadStatus] ?? lead.status;
+  const intent = scoreLeadIntent(lead);
+  const priorityKey =
+    intent.tier === 'hot' ? 'priority_hot' : intent.tier === 'warm' ? 'priority_warm' : 'priority_cold';
   let rentalLabel = lead.rentalPeriod ?? '—';
   if (lead.rentalPeriod === 'diaria') {
     rentalLabel = t('rental_diaria');
@@ -68,7 +75,7 @@ export default async function LeadDetailPage(props: LeadDetailPageProps) {
   }
 
   return (
-    <div className="space-y-6 py-6">
+    <div className="space-y-8">
       <div className="flex flex-wrap items-center gap-3">
         <Button href="/dashboard/leads" size="sm" variant="outline">
           {t('back_to_list')}
@@ -78,12 +85,18 @@ export default async function LeadDetailPage(props: LeadDetailPageProps) {
         </p>
       </div>
 
-      <h1 className="font-heading text-2xl font-bold text-neutral-900">{lead.name}</h1>
+      <AdminPageHeader
+        title={
+          <span className="flex flex-wrap items-center gap-3">
+            {lead.name}
+            <LeadPriorityBadge label={t(priorityKey)} score={intent.score} tier={intent.tier} />
+          </span>
+        }
+      />
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <section className="rounded-lg border border-neutral-200 bg-surface p-4">
-          <h2 className="font-semibold text-neutral-900">{t('section_contact')}</h2>
-          <dl className="mt-3 space-y-2 text-sm">
+        <AdminCard title={t('section_contact')}>
+          <dl className="space-y-3 text-sm">
             <div>
               <dt className="text-neutral-500">{t('field_email')}</dt>
               <dd>
@@ -95,9 +108,13 @@ export default async function LeadDetailPage(props: LeadDetailPageProps) {
             <div>
               <dt className="text-neutral-500">{t('field_phone')}</dt>
               <dd>
-                <a className="text-primary hover:underline" href={`tel:${lead.phone}`}>
-                  {lead.phone}
-                </a>
+                {lead.phone ? (
+                  <a className="text-primary hover:underline" href={`tel:${lead.phone}`}>
+                    {lead.phone}
+                  </a>
+                ) : (
+                  '—'
+                )}
               </dd>
             </div>
             {lead.company ? (
@@ -108,14 +125,13 @@ export default async function LeadDetailPage(props: LeadDetailPageProps) {
             ) : null}
             <div>
               <dt className="text-neutral-500">{t('field_city')}</dt>
-              <dd>{lead.city}</dd>
+              <dd>{lead.city ?? '—'}</dd>
             </div>
           </dl>
-        </section>
+        </AdminCard>
 
-        <section className="rounded-lg border border-neutral-200 bg-surface p-4">
-          <h2 className="font-semibold text-neutral-900">{t('section_request')}</h2>
-          <dl className="mt-3 space-y-2 text-sm">
+        <AdminCard title={t('section_request')}>
+          <dl className="space-y-3 text-sm">
             <div>
               <dt className="text-neutral-500">{t('field_rental_period')}</dt>
               <dd>{rentalLabel}</dd>
@@ -123,6 +139,14 @@ export default async function LeadDetailPage(props: LeadDetailPageProps) {
             <div>
               <dt className="text-neutral-500">{t('field_origin')}</dt>
               <dd>{lead.origin}</dd>
+            </div>
+            <div>
+              <dt className="text-neutral-500">{t('col_kind')}</dt>
+              <dd>
+                {lead.leadKind === 'cookie_consent'
+                  ? t('lead_kind_cookie_consent')
+                  : t('lead_kind_quote')}
+              </dd>
             </div>
             <div className="sm:col-span-2">
               <dt className="text-neutral-500">{t('field_status')}</dt>
@@ -143,13 +167,12 @@ export default async function LeadDetailPage(props: LeadDetailPageProps) {
               </div>
             ) : null}
           </dl>
-        </section>
+        </AdminCard>
       </div>
 
       {cartItems.length > 0 ? (
-        <section className="rounded-lg border border-neutral-200 bg-surface p-4">
-          <h2 className="font-semibold text-neutral-900">{t('section_cart')}</h2>
-          <ul className="mt-3 divide-y divide-neutral-100 text-sm">
+        <AdminCard title={t('section_cart')}>
+          <ul className="divide-y divide-neutral-100 text-sm">
             {cartItems.map((item) => (
               <li
                 className="flex flex-wrap items-center justify-between gap-2 py-2"
@@ -173,20 +196,23 @@ export default async function LeadDetailPage(props: LeadDetailPageProps) {
               </li>
             ))}
           </ul>
-        </section>
+        </AdminCard>
       ) : (
-        <section className="rounded-lg border border-neutral-200 bg-surface p-4 text-sm text-neutral-600">
-          <h2 className="font-semibold text-neutral-900">{t('section_cart')}</h2>
-          <p className="mt-2">
+        <AdminCard title={t('section_cart')}>
+          <p className="text-sm text-neutral-600">
             {(formatLeadCartItems(lead.itemsJson) || lead.equipmentName) ?? t('cart_empty')}
           </p>
-        </section>
+        </AdminCard>
       )}
 
-      {lead.utmSource || lead.utmMedium || lead.utmCampaign || lead.referrer || lead.landingPage ? (
-        <section className="rounded-lg border border-neutral-200 bg-surface p-4">
-          <h2 className="font-semibold text-neutral-900">{t('section_attribution')}</h2>
-          <dl className="mt-3 grid gap-2 text-sm sm:grid-cols-2">
+      {lead.utmSource ||
+      lead.utmMedium ||
+      lead.utmCampaign ||
+      lead.gclid ||
+      lead.referrer ||
+      lead.landingPage ? (
+        <AdminCard title={t('section_attribution')}>
+          <dl className="grid gap-3 text-sm sm:grid-cols-2">
             {lead.utmSource ? (
               <div>
                 <dt className="text-neutral-500">{t('field_utm_source')}</dt>
@@ -217,6 +243,12 @@ export default async function LeadDetailPage(props: LeadDetailPageProps) {
                 <dd>{lead.utmTerm}</dd>
               </div>
             ) : null}
+            {lead.gclid ? (
+              <div className="sm:col-span-2">
+                <dt className="text-neutral-500">{t('field_gclid')}</dt>
+                <dd className="break-all font-mono text-xs">{lead.gclid}</dd>
+              </div>
+            ) : null}
             {lead.landingPage ? (
               <div className="sm:col-span-2">
                 <dt className="text-neutral-500">{t('field_landing_page')}</dt>
@@ -230,19 +262,19 @@ export default async function LeadDetailPage(props: LeadDetailPageProps) {
               </div>
             ) : null}
           </dl>
-        </section>
+        </AdminCard>
       ) : null}
 
       {lead.message ? (
-        <section className="rounded-lg border border-neutral-200 bg-surface p-4">
-          <h2 className="font-semibold text-neutral-900">{t('section_message')}</h2>
-          <p className="mt-2 text-sm whitespace-pre-wrap text-neutral-700">{lead.message}</p>
-        </section>
+        <AdminCard title={t('section_message')}>
+          <p className="text-sm whitespace-pre-wrap text-neutral-700">{lead.message}</p>
+        </AdminCard>
       ) : null}
 
-      <section className="rounded-lg border border-neutral-200 bg-surface p-4">
-        <h2 className="font-semibold text-neutral-900">{t('section_internal_notes')}</h2>
-        <p className="mt-1 text-xs text-neutral-500">{t('internal_notes_hint')}</p>
+      <AdminCard
+        description={t('internal_notes_hint')}
+        title={t('section_internal_notes')}
+      >
         <LeadNotesForm
           errorMessage={t('notes_update_error')}
           fieldLabel={t('field_internal_notes')}
@@ -251,7 +283,7 @@ export default async function LeadDetailPage(props: LeadDetailPageProps) {
           placeholder={t('internal_notes_placeholder')}
           saveLabel={t('notes_save')}
         />
-      </section>
+      </AdminCard>
     </div>
   );
 }

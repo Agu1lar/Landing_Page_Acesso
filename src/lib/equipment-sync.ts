@@ -4,6 +4,7 @@ import {
   getEquipmentRowBySlug,
   listEquipmentImages,
 } from '@/lib/equipment-db';
+import { getManifestImageSrc } from '@/lib/equipment-images-manifest';
 import { db } from '@/libs/DB';
 import { equipmentImagesSchema, equipmentSchema } from '@/models/Schema';
 import type { Equipment } from '@/types/equipment';
@@ -19,7 +20,7 @@ export type PrioritySyncResult = {
 };
 
 function primaryImageUrl(slug: string) {
-  return `/equipamentos/${slug}.png`;
+  return getManifestImageSrc(slug) ?? `/equipamentos/${slug}.webp`;
 }
 
 async function ensurePrimaryImage(equipmentId: number, slug: string, name: string) {

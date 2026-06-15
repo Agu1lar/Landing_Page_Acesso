@@ -1,12 +1,12 @@
 import type { Equipment } from '@/types/equipment';
+import { formatBrandServiceArea } from '@/lib/brand';
 
 export type EquipmentSeoExtra = {
   title: string;
   paragraphs: string[];
 };
 
-const BH_REGION =
-  'Belo Horizonte, Contagem, Betim, Nova Lima e demais municípios da região metropolitana';
+const BH_REGION = formatBrandServiceArea();
 
 /**
  * Builds long-tail SEO copy for aerial platform rental pages.

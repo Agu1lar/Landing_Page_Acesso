@@ -77,6 +77,9 @@ export function normalizeQuotePayload(data: QuoteFormInput) {
     utmCampaign: data.attribution?.utmCampaign,
     utmContent: data.attribution?.utmContent,
     utmTerm: data.attribution?.utmTerm,
+    gclid: data.attribution?.gclid,
+    gbraid: data.attribution?.gbraid,
+    wbraid: data.attribution?.wbraid,
     referrer: data.attribution?.referrer,
     landingPage: data.attribution?.landingPage,
   };

@@ -2,6 +2,7 @@ import { and, desc, eq, gte, ilike, lte, or, sql } from 'drizzle-orm';
 import type { InferSelectModel } from 'drizzle-orm';
 import * as z from 'zod';
 import type { LeadStatus } from '@/lib/lead-status';
+import { scoreLeadIntent } from '@/lib/lead-intent-score';
 import { db } from '@/libs/DB';
 import { leadsSchema } from '@/models/Schema';
 import { QuoteCartItemSchema } from '@/validations/quote';
@@ -34,6 +35,7 @@ type LeadCsvRow = {
   equipmentName: string;
   items: string;
   origin: string;
+  leadKind: string;
   status: string;
   message: string;
   utmSource: string;
@@ -63,6 +65,7 @@ const CSV_COLUMNS: CsvColumn[] = [
   { key: 'equipmentName', header: 'Equipamento' },
   { key: 'items', header: 'Itens do carrinho' },
   { key: 'origin', header: 'Origem' },
+  { key: 'leadKind', header: 'Tipo' },
   { key: 'status', header: 'Status' },
   { key: 'message', header: 'Mensagem' },
   { key: 'utmSource', header: 'UTM source' },
@@ -152,6 +155,28 @@ function buildWhere(filters: LeadListFilters) {
   }
 
   return conditions.length > 0 ? and(...conditions) : undefined;
+}
+
+export type LeadWithIntent = LeadRecord & ReturnType<typeof scoreLeadIntent>;
+
+/**
+ * Returns open leads sorted by commercial intent (highest first).
+ */
+export async function listCommercialQueue(limit = 8) {
+  const rows = await db
+    .select()
+    .from(leadsSchema)
+    .where(eq(leadsSchema.status, 'new'))
+    .orderBy(desc(leadsSchema.createdAt))
+    .limit(40);
+
+  return rows
+    .map((lead) => ({
+      ...lead,
+      ...scoreLeadIntent(lead),
+    }))
+    .sort((a, b) => b.score - a.score || b.createdAt.getTime() - a.createdAt.getTime())
+    .slice(0, limit);
 }
 
 /**
@@ -249,13 +274,14 @@ function leadToCsvRow(lead: LeadRecord): LeadCsvRow {
     createdAt: lead.createdAt.toISOString(),
     name: lead.name,
     email: lead.email,
-    phone: lead.phone,
+    phone: lead.phone ?? '',
     company: lead.company ?? '',
-    city: lead.city,
+    city: lead.city ?? '',
     rentalPeriod: lead.rentalPeriod ?? '',
     equipmentName: lead.equipmentName ?? '',
     items: formatLeadCartItems(lead.itemsJson),
     origin: lead.origin,
+    leadKind: lead.leadKind,
     status: lead.status,
     message: lead.message ?? '',
     utmSource: lead.utmSource ?? '',

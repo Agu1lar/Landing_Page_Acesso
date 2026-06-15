@@ -2,7 +2,7 @@ import type { DicaArticle } from '@/data/dicas-articles';
 import type { FaqItem } from '@/data/faq';
 import { brand } from '@/lib/brand';
 import type { CategorySeoContent } from '@/lib/categories-seo';
-import { getEquipmentImageSrc } from '@/lib/equipment-images-server';
+import { getEquipmentSchemaDescription } from '@/lib/equipment-meta-description';
 import type { Equipment, EquipmentCategory } from '@/types/equipment';
 import { CATEGORY_LABELS } from '@/types/equipment';
 import { getBaseUrl } from '@/utils/Helpers';
@@ -18,6 +18,17 @@ function entityId(path: string, fragment: string) {
   return `${getBaseUrl()}${path}${fragment}`;
 }
 
+/**
+ * Resolves equipment image to an absolute URL for schema.org.
+ */
+function equipmentImageUrl(imagePath: string) {
+  if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+    return imagePath;
+  }
+  const normalized = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
+  return `${getBaseUrl()}${normalized}`;
+}
+
 function postalAddress() {
   return {
     '@type': 'PostalAddress',
@@ -27,6 +38,27 @@ function postalAddress() {
     postalCode: brand.address.zip,
     addressCountry: 'BR',
   };
+}
+
+function buildAreaServedNodes() {
+  return [
+    ...brand.serviceAreaCities.map((name) => ({
+      '@type': 'City' as const,
+      name,
+      containedInPlace: {
+        '@type': 'State' as const,
+        name: 'Minas Gerais',
+      },
+    })),
+    {
+      '@type': 'AdministrativeArea' as const,
+      name: 'Região Metropolitana de Belo Horizonte',
+      containedInPlace: {
+        '@type': 'State' as const,
+        name: 'Minas Gerais',
+      },
+    },
+  ];
 }
 
 function organizationNode(baseUrl: string) {
@@ -65,16 +97,7 @@ function localBusinessNode(baseUrl: string) {
         closes: '17:15',
       },
     ],
-    areaServed: [
-      {
-        '@type': 'City',
-        name: 'Belo Horizonte',
-      },
-      {
-        '@type': 'AdministrativeArea',
-        name: 'Região Metropolitana de Belo Horizonte',
-      },
-    ],
+    areaServed: buildAreaServedNodes(),
     geo: {
       '@type': 'GeoCoordinates',
       latitude: -19.9167,
@@ -148,22 +171,21 @@ function buildBreadcrumbListJsonLd(items: BreadcrumbItem[]) {
 /**
  * Product schema for equipment rental (price on request — no numeric price).
  */
-export function buildProductJsonLd(equipment: Equipment) {
+export function buildProductJsonLd(equipment: Equipment, imagePath?: string | null) {
   const baseUrl = getBaseUrl();
   const path = `/equipamentos/${equipment.slug}`;
   const url = `${baseUrl}${path}`;
-  const imagePath = getEquipmentImageSrc(equipment.slug);
 
   return {
     '@context': SCHEMA_CONTEXT,
     '@type': 'Product',
     '@id': entityId(path, '#product'),
     name: equipment.name,
-    description: equipment.shortDescription,
+    description: getEquipmentSchemaDescription(equipment),
     category: CATEGORY_LABELS[equipment.category],
     url,
     sku: equipment.slug,
-    ...(imagePath ? { image: [`${baseUrl}${imagePath}`] } : {}),
+    ...(imagePath ? { image: [equipmentImageUrl(imagePath)] } : {}),
     brand: {
       '@type': 'Brand',
       name: brand.name,
@@ -183,13 +205,13 @@ export function buildProductJsonLd(equipment: Equipment) {
 /**
  * Equipment detail @graph: Product + BreadcrumbList.
  */
-export function buildEquipmentPageJsonLd(equipment: Equipment) {
+export function buildEquipmentPageJsonLd(equipment: Equipment, imagePath?: string | null) {
   const categoryLabel = CATEGORY_LABELS[equipment.category];
 
   return {
     '@context': SCHEMA_CONTEXT,
     '@graph': [
-      buildProductJsonLd(equipment),
+      buildProductJsonLd(equipment, imagePath),
       buildBreadcrumbListJsonLd([
         { name: 'Início', path: '/' },
         { name: 'Equipamentos', path: '/equipamentos' },
@@ -424,10 +446,7 @@ export function buildTrainingCourseJsonLd() {
         url,
         inLanguage: 'pt-BR',
         provider: { '@id': `${baseUrl}/#organization` },
-        areaServed: {
-          '@type': 'City',
-          name: 'Belo Horizonte',
-        },
+        areaServed: buildAreaServedNodes(),
         offers: {
           '@type': 'Offer',
           url: `${baseUrl}/orcamento`,

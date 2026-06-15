@@ -1,7 +1,13 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { AnalyticsBarTable } from '@/components/admin/AnalyticsBarTable';
+import { AnalyticsEquipmentConversionTable } from '@/components/admin/AnalyticsEquipmentConversionTable';
 import { AnalyticsPeriodFilters } from '@/components/admin/AnalyticsPeriodFilters';
+import { AnalyticsTopPagesTable } from '@/components/admin/AnalyticsTopPagesTable';
+import { AdminCallout } from '@/components/admin/AdminCallout';
+import { AdminCard } from '@/components/admin/AdminCard';
+import { AdminKpiCard } from '@/components/admin/AdminKpiCard';
+import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
 import { getOperationalDashboard, percentChange } from '@/lib/analytics-admin';
 import { resolveAppLocale } from '@/utils/locale';
 
@@ -22,30 +28,6 @@ export async function generateMetadata(props: AnalyticsPageProps): Promise<Metad
   };
 }
 
-type KpiCardProps = {
-  label: string;
-  value: number;
-  delta: number;
-  deltaLabel: string;
-};
-
-function KpiCard(props: KpiCardProps) {
-  const deltaPositive = props.delta >= 0;
-
-  return (
-    <div className="rounded-lg border border-neutral-200 bg-surface p-4">
-      <p className="text-sm text-neutral-600">{props.label}</p>
-      <p className="mt-1 font-heading text-3xl font-bold tabular-nums text-neutral-900">
-        {props.value}
-      </p>
-      <p className={`mt-1 text-sm ${deltaPositive ? 'text-emerald-700' : 'text-red-700'}`}>
-        {deltaPositive ? '+' : ''}
-        {props.delta}% {props.deltaLabel}
-      </p>
-    </div>
-  );
-}
-
 export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
   const { locale } = await props.params;
   const searchParams = await props.searchParams;
@@ -61,63 +43,63 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
   });
 
   const visitsDelta = percentChange(dashboard.pageViews, dashboard.pageViewsPrevious);
-  const sessionsDelta = percentChange(
-    dashboard.uniqueSessions,
-    dashboard.uniqueSessionsPrevious,
-  );
   const whatsappDelta = percentChange(
     dashboard.whatsappClicks,
     dashboard.whatsappClicksPrevious,
   );
   const leadsDelta = percentChange(dashboard.quoteSubmits, dashboard.quoteSubmitsPrevious);
+  const activeTimeDelta = percentChange(
+    dashboard.totalActiveSeconds,
+    dashboard.totalActiveSecondsPrevious,
+  );
   const whatsappRate =
     dashboard.pageViews > 0
       ? Math.round((dashboard.whatsappClicks / dashboard.pageViews) * 100)
       : 0;
 
   return (
-    <div className="space-y-6 py-6">
-      <div>
-        <h1 className="font-heading text-2xl font-bold text-neutral-900">{t('title')}</h1>
-        <p className="mt-1 text-sm text-neutral-600">
-          {t('period_summary', {
-            from: dashboard.period.dateFrom,
-            to: dashboard.period.dateTo,
-          })}
-        </p>
-      </div>
+    <div className="space-y-8">
+      <AdminPageHeader
+        description={t('period_summary', {
+          from: dashboard.period.dateFrom,
+          to: dashboard.period.dateTo,
+        })}
+        title={t('title')}
+      />
 
-      {dashboard.posthogHint ? (
-        <p className="rounded-lg border border-neutral-200 bg-neutral-50 px-4 py-3 text-sm text-neutral-700">
-          {t('posthog_visits_hint')}
-        </p>
-      ) : null}
+      <div className="space-y-3">
+        {dashboard.posthogHint ? <AdminCallout>{t('posthog_visits_hint')}</AdminCallout> : null}
+        <AdminCallout variant="tip">{t('page_time_hint')}</AdminCallout>
+      </div>
 
       <AnalyticsPeriodFilters
         dateFrom={searchParams.dateFrom ?? dashboard.period.dateFrom}
         dateTo={searchParams.dateTo ?? dashboard.period.dateTo}
       />
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <KpiCard
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <AdminKpiCard
           delta={visitsDelta}
           deltaLabel={t('delta_vs_previous')}
           label={t('kpi_page_views')}
           value={dashboard.pageViews}
         />
-        <KpiCard
-          delta={sessionsDelta}
+        <AdminKpiCard
+          accent="neutral"
+          delta={activeTimeDelta}
           deltaLabel={t('delta_vs_previous')}
-          label={t('kpi_sessions')}
-          value={dashboard.uniqueSessions}
+          label={t('kpi_active_time')}
+          value={dashboard.totalActiveSeconds}
         />
-        <KpiCard
+        <AdminKpiCard
+          accent="whatsapp"
           delta={whatsappDelta}
           deltaLabel={t('delta_vs_previous')}
           label={t('kpi_whatsapp')}
           value={dashboard.whatsappClicks}
         />
-        <KpiCard
+        <AdminKpiCard
+          accent="primary"
           delta={leadsDelta}
           deltaLabel={t('delta_vs_previous')}
           label={t('kpi_leads')}
@@ -125,11 +107,38 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
         />
       </div>
 
-      {dashboard.pageViews > 0 ? (
-        <p className="text-sm text-neutral-600">
-          {t('kpi_whatsapp_rate', { rate: whatsappRate })}
-        </p>
-      ) : null}
+      {(dashboard.cookieConsentLeads > 0 || dashboard.pageViews > 0) && (
+        <div className="flex flex-wrap gap-4 text-sm text-neutral-600">
+          {dashboard.cookieConsentLeads > 0 ? (
+            <span>{t('kpi_cookie_consent_leads', { count: dashboard.cookieConsentLeads })}</span>
+          ) : null}
+          {dashboard.pageViews > 0 ? (
+            <span>{t('kpi_whatsapp_rate', { rate: whatsappRate })}</span>
+          ) : null}
+        </div>
+      )}
+
+      <AnalyticsTopPagesTable
+        colAvgTime={t('col_avg_active_time')}
+        colPage={t('col_page')}
+        colViews={t('col_views')}
+        emptyLabel={t('empty_data')}
+        rows={dashboard.topPages}
+        title={t('chart_top_pages')}
+      />
+
+      <AnalyticsEquipmentConversionTable
+        colEngagementRate={t('col_engagement_rate')}
+        colEquipment={t('col_equipment')}
+        colLeadRate={t('col_lead_rate')}
+        colLeads={t('col_leads')}
+        colViews={t('col_views')}
+        colWhatsapp={t('col_whatsapp')}
+        emptyLabel={t('empty_data')}
+        hint={t('chart_equipment_conversion_hint')}
+        rows={dashboard.equipmentConversion}
+        title={t('chart_equipment_conversion')}
+      />
 
       <div className="grid gap-4 lg:grid-cols-2">
         <AnalyticsBarTable
@@ -164,35 +173,32 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
         />
       </div>
 
-      <section className="rounded-lg border border-neutral-200 bg-surface p-4">
-        <h2 className="font-heading text-lg font-semibold text-neutral-900">
-          {t('chart_campaigns')}
-        </h2>
+      <AdminCard title={t('chart_campaigns')}>
         {dashboard.campaigns.length === 0 ? (
-          <p className="mt-4 text-sm text-neutral-500">{t('empty_data')}</p>
+          <p className="text-sm text-neutral-500">{t('empty_data')}</p>
         ) : (
-          <div className="mt-4 overflow-x-auto">
+          <div className="overflow-x-auto">
             <table className="min-w-full text-left text-sm">
               <thead>
-                <tr className="border-b border-neutral-200 text-neutral-600">
-                  <th className="py-2 pr-4 font-medium">{t('col_campaign')}</th>
-                  <th className="py-2 pr-4 font-medium">{t('col_whatsapp')}</th>
-                  <th className="py-2 font-medium">{t('col_leads')}</th>
+                <tr className="border-b border-neutral-200 text-neutral-500">
+                  <th className="py-2.5 pr-4 font-medium">{t('col_campaign')}</th>
+                  <th className="py-2.5 pr-4 font-medium">{t('col_whatsapp')}</th>
+                  <th className="py-2.5 font-medium">{t('col_leads')}</th>
                 </tr>
               </thead>
               <tbody>
                 {dashboard.campaigns.map((row) => (
-                  <tr className="border-b border-neutral-100" key={row.campaign}>
-                    <td className="py-2 pr-4 font-medium text-neutral-900">{row.campaign}</td>
-                    <td className="py-2 pr-4 tabular-nums">{row.whatsapp}</td>
-                    <td className="py-2 tabular-nums">{row.leads}</td>
+                  <tr className="border-b border-neutral-100 last:border-0" key={row.campaign}>
+                    <td className="py-2.5 pr-4 font-medium text-neutral-900">{row.campaign}</td>
+                    <td className="py-2.5 pr-4 tabular-nums text-neutral-700">{row.whatsapp}</td>
+                    <td className="py-2.5 tabular-nums text-neutral-700">{row.leads}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
         )}
-      </section>
+      </AdminCard>
     </div>
   );
 }

@@ -77,8 +77,8 @@ export function EquipmentCatalog({
         <p className="mt-12 text-center text-neutral-600">{t('empty')}</p>
       ) : (
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {filtered.map((item) => (
-            <EquipmentCard equipment={item} key={item.slug} />
+          {filtered.map((item, index) => (
+            <EquipmentCard equipment={item} imagePriority={index < 4} key={item.slug} />
           ))}
         </div>
       )}

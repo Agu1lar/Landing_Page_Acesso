@@ -1,7 +1,9 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import { buildWhatsAppMessage, buildWhatsAppUrl } from '@/lib/brand';
-import { captureWhatsAppClick } from '@/lib/posthog-events';
+import { usesMobileConversionDock } from '@/lib/mobile-conversion-dock';
+import { trackWhatsAppClick } from '@/lib/track-whatsapp-click';
 
 type WhatsAppButtonProps = {
   equipmentName?: string;
@@ -9,6 +11,9 @@ type WhatsAppButtonProps = {
 };
 
 export function WhatsAppButton(props: WhatsAppButtonProps) {
+  const pathname = usePathname();
+  const hideOnMobileDock = usesMobileConversionDock(pathname);
+
   const href = buildWhatsAppUrl(
     buildWhatsAppMessage({
       equipmentName: props.equipmentName,
@@ -20,15 +25,17 @@ export function WhatsAppButton(props: WhatsAppButtonProps) {
   return (
     <a
       aria-label="Falar no WhatsApp"
-      className="fixed right-4 bottom-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-cta-whatsapp text-white shadow-lg transition-transform hover:scale-105 hover:bg-cta-whatsapp-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta-whatsapp"
+      className={`fixed right-4 bottom-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-cta-whatsapp text-white shadow-lg transition-transform hover:scale-105 hover:bg-cta-whatsapp-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta-whatsapp ${
+        hideOnMobileDock ? 'hidden md:flex' : ''
+      }`}
       href={href}
-      onClick={() =>{ 
-        captureWhatsAppClick({
+      onClick={() => {
+        trackWhatsAppClick({
           origin: 'site-flutuante',
           equipmentSlug: props.equipmentSlug,
           equipmentName: props.equipmentName,
-        }); }
-      }
+        });
+      }}
       rel="noopener noreferrer"
       target="_blank"
     >

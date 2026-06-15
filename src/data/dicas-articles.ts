@@ -140,6 +140,15 @@ export function getAllDicaSlugs() {
   return DICAS_ARTICLES.map((article) => article.slug);
 }
 
+/**
+ * Maps dica slug to publishedAt for sitemap lastModified.
+ */
+export function getDicaLastModifiedBySlug() {
+  return new Map(
+    DICAS_ARTICLES.map((article) => [article.slug, new Date(article.publishedAt)] as const),
+  );
+}
+
 export function getDicaBySlug(slug: string) {
   return DICAS_ARTICLES.find((article) => article.slug === slug);
 }

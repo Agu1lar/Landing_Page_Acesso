@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   buildAttributionFromVisit,
   hasAttributionData,
+  parseClickIdsFromSearch,
   parseUtmsFromSearch,
 } from '@/lib/attribution';
 
@@ -11,6 +12,13 @@ describe('parse UTMs from search', () => {
     expect(result.utmSource).toBe('google');
     expect(result.utmMedium).toBe('cpc');
     expect(result.utmCampaign).toBe('obra');
+  });
+});
+
+describe('parse click ids from search', () => {
+  it('maps gclid from Google Ads auto-tagging', () => {
+    const result = parseClickIdsFromSearch('?gclid=CjwKCAiAexample');
+    expect(result.gclid).toBe('CjwKCAiAexample');
   });
 });
 
@@ -34,5 +42,9 @@ describe('has attribution data', () => {
 
   it('returns true when utm source is set', () => {
     expect(hasAttributionData({ utmSource: 'google' })).toBeTruthy();
+  });
+
+  it('returns true when gclid is set', () => {
+    expect(hasAttributionData({ gclid: 'abc123' })).toBeTruthy();
   });
 });

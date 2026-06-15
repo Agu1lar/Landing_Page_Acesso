@@ -28,26 +28,27 @@ export function CookieConsentBanner() {
             <Link className="underline hover:text-white" href="/privacidade">
               {t('privacy_link')}
             </Link>
+            <span aria-hidden className="mx-1.5 text-neutral-600">
+              ·
+            </span>
+            <button
+              className="text-neutral-500 transition-colors hover:text-neutral-400"
+              onClick={() => {
+                consent.rejectAnalytics();
+              }}
+              type="button"
+            >
+              {t('reject')}
+            </button>
           </p>
         </div>
-        <div className="flex shrink-0 flex-wrap gap-2">
-          <Button
-            className="!bg-neutral-700 !text-white hover:!bg-neutral-600"
-            onClick={() => {
-              consent.rejectAnalytics();
-            }}
-            size="sm"
-            type="button"
-            variant="secondary"
-          >
-            {t('reject')}
-          </Button>
+        <div className="flex shrink-0">
           <Button
             className="!bg-emerald-600 !text-white hover:!bg-emerald-500"
             onClick={() => {
               consent.acceptAnalytics();
             }}
-            size="sm"
+            size="md"
             type="button"
             variant="secondary"
           >

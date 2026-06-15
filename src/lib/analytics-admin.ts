@@ -1,8 +1,12 @@
 import { and, count, desc, eq, gte, lte, sql } from 'drizzle-orm';
 import { sumAnalyticsDailyForPeriod } from '@/lib/analytics-daily';
 import { previousPeriodRange, resolveAnalyticsPeriod } from '@/lib/analytics-period';
+import {
+  mergeEquipmentConversionRows,
+  type EquipmentConversionRow,
+} from '@/lib/equipment-conversion-analytics';
 import { db } from '@/libs/DB';
-import { analyticsEventsSchema, leadsSchema } from '@/models/Schema';
+import { analyticsEventsSchema, leadsSchema, pageEngagementEventsSchema } from '@/models/Schema';
 
 export type AnalyticsDashboardFilters = {
   dateFrom?: string;
@@ -11,6 +15,13 @@ export type AnalyticsDashboardFilters = {
 
 type CountRow = { label: string; count: number };
 
+export type PageEngagementRow = {
+  pathname: string;
+  views: number;
+  totalActiveSeconds: number;
+  avgActiveSeconds: number;
+};
+
 export type OperationalDashboard = {
   period: { dateFrom: string; dateTo: string };
   previousPeriod: { dateFrom: string; dateTo: string };
@@ -18,8 +29,11 @@ export type OperationalDashboard = {
   uniqueSessions: number;
   pageViewsPrevious: number;
   uniqueSessionsPrevious: number;
+  totalActiveSeconds: number;
+  totalActiveSecondsPrevious: number;
   whatsappClicks: number;
   quoteSubmits: number;
+  cookieConsentLeads: number;
   whatsappClicksPrevious: number;
   quoteSubmitsPrevious: number;
   whatsappByOrigin: CountRow[];
@@ -27,6 +41,8 @@ export type OperationalDashboard = {
   campaigns: { campaign: string; whatsapp: number; leads: number }[];
   topEquipmentWhatsapp: CountRow[];
   topEquipmentLeads: CountRow[];
+  topPages: PageEngagementRow[];
+  equipmentConversion: EquipmentConversionRow[];
   landingPages: CountRow[];
   deviceSplit: CountRow[];
   posthogHint: boolean;
@@ -267,6 +283,148 @@ async function deviceSplit(from: Date, to: Date) {
   return rows.map((row) => ({ label: row.label, count: row.count }));
 }
 
+async function pageEngagementSummary(from: Date, to: Date) {
+  const [row] = await db
+    .select({
+      views: count(),
+      totalActiveSeconds: sql<number>`coalesce(sum(${pageEngagementEventsSchema.activeSeconds}), 0)`,
+      uniqueSessions: sql<number>`count(distinct ${pageEngagementEventsSchema.sessionId})`,
+    })
+    .from(pageEngagementEventsSchema)
+    .where(
+      and(
+        gte(pageEngagementEventsSchema.createdAt, from),
+        lte(pageEngagementEventsSchema.createdAt, to),
+      ),
+    );
+
+  return {
+    views: row?.views ?? 0,
+    totalActiveSeconds: Number(row?.totalActiveSeconds ?? 0),
+    uniqueSessions: Number(row?.uniqueSessions ?? 0),
+  };
+}
+
+async function topPagesByEngagement(from: Date, to: Date) {
+  const rows = await db
+    .select({
+      pathname: pageEngagementEventsSchema.pathname,
+      views: count(),
+      totalActiveSeconds: sql<number>`coalesce(sum(${pageEngagementEventsSchema.activeSeconds}), 0)`,
+    })
+    .from(pageEngagementEventsSchema)
+    .where(
+      and(
+        gte(pageEngagementEventsSchema.createdAt, from),
+        lte(pageEngagementEventsSchema.createdAt, to),
+      ),
+    )
+    .groupBy(pageEngagementEventsSchema.pathname)
+    .orderBy(desc(count()))
+    .limit(12);
+
+  return rows.map((row) => {
+    const views = row.views;
+    const totalActiveSeconds = Number(row.totalActiveSeconds);
+    return {
+      pathname: row.pathname,
+      views,
+      totalActiveSeconds,
+      avgActiveSeconds: views > 0 ? Math.round(totalActiveSeconds / views) : 0,
+    };
+  });
+}
+
+async function countCookieConsentLeads(from: Date, to: Date) {
+  const [row] = await db
+    .select({ count: count() })
+    .from(leadsSchema)
+    .where(
+      and(
+        eq(leadsSchema.leadKind, 'cookie_consent'),
+        gte(leadsSchema.createdAt, from),
+        lte(leadsSchema.createdAt, to),
+      ),
+    );
+
+  return row?.count ?? 0;
+}
+
+const equipmentSlugFromPath = sql<string>`substring(${pageEngagementEventsSchema.pathname} from '/equipamentos/([^/?]+)')`;
+
+async function equipmentConversionTable(from: Date, to: Date) {
+  const pageViewRows = await db
+    .select({
+      slug: equipmentSlugFromPath,
+      views: count(),
+    })
+    .from(pageEngagementEventsSchema)
+    .where(
+      and(
+        gte(pageEngagementEventsSchema.createdAt, from),
+        lte(pageEngagementEventsSchema.createdAt, to),
+        sql`${pageEngagementEventsSchema.pathname} like '%/equipamentos/%'`,
+        sql`${equipmentSlugFromPath} is not null`,
+      ),
+    )
+    .groupBy(equipmentSlugFromPath)
+    .orderBy(desc(count()));
+
+  const whatsappRows = await db
+    .select({
+      slug: analyticsEventsSchema.equipmentSlug,
+      name: sql<string>`max(${analyticsEventsSchema.equipmentName})`,
+      count: count(),
+    })
+    .from(analyticsEventsSchema)
+    .where(
+      and(
+        eq(analyticsEventsSchema.eventType, 'whatsapp_click'),
+        gte(analyticsEventsSchema.createdAt, from),
+        lte(analyticsEventsSchema.createdAt, to),
+        sql`${analyticsEventsSchema.equipmentSlug} is not null`,
+      ),
+    )
+    .groupBy(analyticsEventsSchema.equipmentSlug);
+
+  const leadRows = await db
+    .select({
+      slug: sql<string>`nullif(trim(split_part(${leadsSchema.equipmentSlug}, ',', 1)), '')`,
+      name: sql<string>`max(${leadsSchema.equipmentName})`,
+      count: count(),
+    })
+    .from(leadsSchema)
+    .where(
+      and(
+        gte(leadsSchema.createdAt, from),
+        lte(leadsSchema.createdAt, to),
+        sql`nullif(trim(split_part(${leadsSchema.equipmentSlug}, ',', 1)), '') is not null`,
+      ),
+    )
+    .groupBy(sql`nullif(trim(split_part(${leadsSchema.equipmentSlug}, ',', 1)), '')`);
+
+  return mergeEquipmentConversionRows({
+    pageViews: pageViewRows
+      .filter((row) => row.slug)
+      .map((row) => ({ slug: row.slug!, name: row.slug!, count: row.views })),
+    whatsapp: whatsappRows
+      .filter((row) => row.slug)
+      .map((row) => ({
+        slug: row.slug!,
+        name: row.name ?? row.slug!,
+        count: row.count,
+      })),
+    leads: leadRows
+      .filter((row) => row.slug)
+      .map((row) => ({
+        slug: row.slug!,
+        name: row.name ?? row.slug!,
+        count: row.count,
+      })),
+    limit: 15,
+  });
+}
+
 /**
  * Loads operational dashboard metrics from Neon conversion tables.
  */
@@ -279,8 +437,11 @@ export async function getOperationalDashboard(
   const [
     dailyCurrent,
     dailyPrevious,
+    engagementCurrent,
+    engagementPrevious,
     whatsappClicks,
     quoteSubmits,
+    cookieConsentLeads,
     whatsappClicksPrevious,
     quoteSubmitsPrevious,
     whatsappByOriginRows,
@@ -288,13 +449,18 @@ export async function getOperationalDashboard(
     campaigns,
     topEquipmentWhatsapp,
     topEquipmentLeadsRows,
+    topPagesRows,
+    equipmentConversionRows,
     landingPages,
     deviceSplitRows,
   ] = await Promise.all([
     sumAnalyticsDailyForPeriod(period.dateFrom, period.dateTo),
     sumAnalyticsDailyForPeriod(previous.dateFrom, previous.dateTo),
+    pageEngagementSummary(period.from, period.to),
+    pageEngagementSummary(previous.from, previous.to),
     countEvents('whatsapp_click', period.from, period.to),
     countEvents('quote_submit', period.from, period.to),
+    countCookieConsentLeads(period.from, period.to),
     countEvents('whatsapp_click', previous.from, previous.to),
     countEvents('quote_submit', previous.from, previous.to),
     whatsappByOrigin(period.from, period.to),
@@ -302,19 +468,30 @@ export async function getOperationalDashboard(
     campaignTable(period.from, period.to),
     topEquipment('whatsapp_click', period.from, period.to),
     topEquipmentLeads(period.from, period.to),
+    topPagesByEngagement(period.from, period.to),
+    equipmentConversionTable(period.from, period.to),
     landingPagesSimple(period.from, period.to),
     deviceSplit(period.from, period.to),
   ]);
 
+  const pageViews = engagementCurrent.views || dailyCurrent.pageViews;
+  const pageViewsPrevious = engagementPrevious.views || dailyPrevious.pageViews;
+  const uniqueSessions = engagementCurrent.uniqueSessions || dailyCurrent.uniqueSessions;
+  const uniqueSessionsPrevious =
+    engagementPrevious.uniqueSessions || dailyPrevious.uniqueSessions;
+
   return {
     period: { dateFrom: period.dateFrom, dateTo: period.dateTo },
     previousPeriod: { dateFrom: previous.dateFrom, dateTo: previous.dateTo },
-    pageViews: dailyCurrent.pageViews,
-    uniqueSessions: dailyCurrent.uniqueSessions,
-    pageViewsPrevious: dailyPrevious.pageViews,
-    uniqueSessionsPrevious: dailyPrevious.uniqueSessions,
+    pageViews,
+    uniqueSessions,
+    pageViewsPrevious,
+    uniqueSessionsPrevious,
+    totalActiveSeconds: engagementCurrent.totalActiveSeconds,
+    totalActiveSecondsPrevious: engagementPrevious.totalActiveSeconds,
     whatsappClicks,
     quoteSubmits,
+    cookieConsentLeads,
     whatsappClicksPrevious,
     quoteSubmitsPrevious,
     whatsappByOrigin: whatsappByOriginRows,
@@ -322,6 +499,8 @@ export async function getOperationalDashboard(
     campaigns,
     topEquipmentWhatsapp,
     topEquipmentLeads: topEquipmentLeadsRows,
+    topPages: topPagesRows,
+    equipmentConversion: equipmentConversionRows,
     landingPages,
     deviceSplit: deviceSplitRows,
     posthogHint: Boolean(process.env.NEXT_PUBLIC_POSTHOG_KEY),

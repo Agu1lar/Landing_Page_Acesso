@@ -32,6 +32,9 @@ export async function recordAnalyticsEvent(input: RecordAnalyticsEventInput) {
       utmCampaign: attribution?.utmCampaign ?? null,
       utmContent: attribution?.utmContent ?? null,
       utmTerm: attribution?.utmTerm ?? null,
+      gclid: attribution?.gclid ?? null,
+      gbraid: attribution?.gbraid ?? null,
+      wbraid: attribution?.wbraid ?? null,
       referrer: attribution?.referrer ?? null,
       landingPage: attribution?.landingPage ?? null,
     })

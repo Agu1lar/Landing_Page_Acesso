@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import { ConversionCtas } from '@/components/marketing/ConversionCtas';
 import { CategoryGallery } from '@/components/marketing/CategoryGallery';
+import { CategorySeoSection } from '@/components/marketing/CategorySeoSection';
+import { ConversionCtas } from '@/components/marketing/ConversionCtas';
+import { SetMobileDockConfig } from '@/components/marketing/mobile-dock-config';
 import { EquipmentCard } from '@/components/marketing/EquipmentCard';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { buildWhatsAppMessage, buildWhatsAppUrl } from '@/lib/brand';
@@ -60,9 +62,10 @@ export default async function CategoryPage(props: CategoryPageProps) {
   const seo = getCategorySeo(slug);
   const equipment = await getEquipmentByCategory(slug);
   const gallery = getCategoryGallery(slug);
+  const categoryLabel = CATEGORY_LABELS[slug];
   const whatsappHref = buildWhatsAppUrl(
     buildWhatsAppMessage({
-      equipmentName: CATEGORY_LABELS[slug],
+      equipmentName: categoryLabel,
       equipmentSlug: slug,
       origin: 'site-categoria',
     }),
@@ -71,8 +74,8 @@ export default async function CategoryPage(props: CategoryPageProps) {
   return (
     <>
       <JsonLd data={buildCategoryPageJsonLd({ slug, seo, equipment })} />
-      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-        <nav aria-label="Breadcrumb" className="text-sm text-neutral-600">
+      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+        <nav aria-label="Breadcrumb" className="text-xs text-neutral-600 sm:text-sm">
           <ol className="flex flex-wrap items-center gap-1">
             <li>
               <Link className="hover:text-primary" href="/">
@@ -86,69 +89,107 @@ export default async function CategoryPage(props: CategoryPageProps) {
               </Link>
             </li>
             <li aria-hidden>/</li>
-            <li className="font-medium text-neutral-900">{CATEGORY_LABELS[slug]}</li>
+            <li className="font-medium text-neutral-900">{categoryLabel}</li>
           </ol>
         </nav>
 
-        <header className="mt-6 max-w-3xl">
-          <h1 className="font-heading text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl">
+        <header className="mt-4 max-w-3xl sm:mt-6">
+          <p className="text-xs font-semibold tracking-wide text-primary uppercase">
+            {t('hero_tagline')}
+          </p>
+          <h1 className="mt-2 font-heading text-2xl font-bold tracking-tight text-neutral-900 sm:mt-3 sm:text-3xl lg:text-4xl">
             {seo.h1}
           </h1>
-          <p className="mt-4 text-lg text-neutral-600">{seo.metaDescription}</p>
+          <p className="mt-2 line-clamp-2 text-base leading-snug text-neutral-600 sm:mt-3 sm:line-clamp-none sm:text-lg sm:leading-relaxed">
+            {seo.metaDescription}
+          </p>
+          <ConversionCtas
+            className="mt-4 sm:mt-6"
+            equipmentName={categoryLabel}
+            equipmentSlug={slug}
+            quoteLabel={t('cta_quote')}
+            size="md"
+            whatsappHref={whatsappHref}
+            whatsappLabel={t('cta_whatsapp')}
+            whatsappOrigin="site-categoria"
+          />
+          <div aria-hidden className="h-0" id="category-hero-sentinel" />
         </header>
 
-        <CategoryGallery images={gallery} title={CATEGORY_LABELS[slug]} />
+        <section aria-labelledby="category-catalog-title" className="mt-8 sm:mt-10">
+          <div>
+            <h2
+              className="font-heading text-xl font-bold text-neutral-900 sm:text-2xl"
+              id="category-catalog-title"
+            >
+              {t('catalog_title', { category: categoryLabel })}
+            </h2>
+            <p className="mt-1 text-sm text-neutral-600">
+              {t('results_count', { count: equipment.length })}
+            </p>
+          </div>
 
-        <article className="prose-category mt-10 max-w-3xl space-y-4 text-base leading-relaxed text-neutral-700">
-          {seo.paragraphs.map((paragraph, index) => (
-            <p key={index}>{paragraph}</p>
-          ))}
-        </article>
-
-        <section
-          aria-labelledby="category-catalog-title"
-          className="mt-14 border-t border-neutral-200 pt-12"
-        >
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <h2
-                className="font-heading text-2xl font-bold text-neutral-900"
-                id="category-catalog-title"
-              >
-                {t('catalog_title', { category: CATEGORY_LABELS[slug] })}
-              </h2>
-              <p className="mt-1 text-sm text-neutral-600">
-                {t('results_count', { count: equipment.length })}
-              </p>
+          {equipment.length === 0 ? (
+            <p className="mt-8 text-center text-neutral-600">{t('empty')}</p>
+          ) : (
+            <div className="mt-6 grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
+              {equipment.map((item, index) => (
+                <EquipmentCard equipment={item} imagePriority={index < 4} key={item.slug} />
+              ))}
             </div>
+          )}
+
+          <section
+            aria-labelledby="category-catalog-cta-title"
+            className="mt-8 rounded-[var(--radius-card)] border border-primary/15 bg-primary/[0.04] p-5 sm:mt-10 sm:p-6"
+          >
+            <h3
+              className="text-center font-heading text-lg font-bold text-neutral-900"
+              id="category-catalog-cta-title"
+            >
+              {t('catalog_cta_title', { category: categoryLabel })}
+            </h3>
+            <p className="mt-1 text-center text-sm text-neutral-600">{t('catalog_cta_subtitle')}</p>
             <ConversionCtas
-              equipmentName={CATEGORY_LABELS[slug]}
+              className="mt-4 justify-center"
+              equipmentName={categoryLabel}
               equipmentSlug={slug}
               quoteLabel={t('cta_quote')}
               size="sm"
               whatsappHref={whatsappHref}
               whatsappLabel={t('cta_whatsapp')}
-              whatsappOrigin="site-categoria"
+              whatsappOrigin="site-categoria-catalogo"
             />
-          </div>
+          </section>
 
-          {equipment.length === 0 ? (
-            <p className="mt-10 text-center text-neutral-600">{t('empty')}</p>
-          ) : (
-            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {equipment.map((item) => (
-                <EquipmentCard equipment={item} key={item.slug} />
-              ))}
-            </div>
-          )}
-
-          <p className="mt-10 text-center text-sm text-neutral-600">
+          <p className="mt-8 text-center text-sm text-neutral-600">
             <Link className="font-semibold text-primary hover:underline" href="/equipamentos">
               {t('view_all_catalog')}
             </Link>
           </p>
         </section>
+
+        <CategorySeoSection
+          paragraphs={seo.paragraphs}
+          readMoreLabel={t('seo_read_more', { category: categoryLabel })}
+        />
+
+        <CategoryGallery
+          className="mt-10 border-t border-neutral-200 pt-8 sm:mt-12 sm:pt-10"
+          images={gallery}
+          title={categoryLabel}
+        />
       </div>
+
+      <SetMobileDockConfig
+        equipmentName={categoryLabel}
+        equipmentSlug={slug}
+        quoteLabel={t('cta_quote')}
+        sentinelId="category-hero-sentinel"
+        whatsappHref={whatsappHref}
+        whatsappLabel={t('cta_whatsapp')}
+        whatsappOrigin="site-categoria-sticky"
+      />
     </>
   );
 }

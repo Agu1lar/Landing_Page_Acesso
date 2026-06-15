@@ -22,6 +22,15 @@ export function attributionToPostHogProperties(attribution: AttributionInput) {
   if (attribution.utmTerm) {
     props.utm_term = attribution.utmTerm;
   }
+  if (attribution.gclid) {
+    props.gclid = attribution.gclid;
+  }
+  if (attribution.gbraid) {
+    props.gbraid = attribution.gbraid;
+  }
+  if (attribution.wbraid) {
+    props.wbraid = attribution.wbraid;
+  }
   if (attribution.referrer) {
     props.initial_referrer = attribution.referrer;
   }

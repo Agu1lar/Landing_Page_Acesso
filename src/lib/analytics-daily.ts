@@ -1,6 +1,6 @@
 import { and, eq, gte, lte, sql } from 'drizzle-orm';
 import { db } from '@/libs/DB';
-import { analyticsDailySchema, analyticsEventsSchema } from '@/models/Schema';
+import { analyticsDailySchema, analyticsEventsSchema, pageEngagementEventsSchema } from '@/models/Schema';
 
 function formatDateKey(date: Date) {
   return date.toISOString().slice(0, 10);
@@ -38,6 +38,28 @@ export async function aggregateAnalyticsDailyForDate(day: Date) {
       ),
     );
 
+  const [pageViewsRow] = await db
+    .select({ count: sql<number>`cast(count(*) as int)` })
+    .from(pageEngagementEventsSchema)
+    .where(
+      and(
+        gte(pageEngagementEventsSchema.createdAt, dayStart),
+        lte(pageEngagementEventsSchema.createdAt, dayEnd),
+      ),
+    );
+
+  const [sessionsRow] = await db
+    .select({
+      count: sql<number>`cast(count(distinct ${pageEngagementEventsSchema.sessionId}) as int)`,
+    })
+    .from(pageEngagementEventsSchema)
+    .where(
+      and(
+        gte(pageEngagementEventsSchema.createdAt, dayStart),
+        lte(pageEngagementEventsSchema.createdAt, dayEnd),
+      ),
+    );
+
   const sourceRows = await db
     .select({
       source: sql<string>`coalesce(${analyticsEventsSchema.utmSource}, 'direto')`,
@@ -59,14 +81,15 @@ export async function aggregateAnalyticsDailyForDate(day: Date) {
 
   const whatsappClicks = whatsappRow?.count ?? 0;
   const quoteSubmits = quoteRow?.count ?? 0;
-  const engagement = whatsappClicks + quoteSubmits;
+  const pageViews = pageViewsRow?.count ?? 0;
+  const uniqueSessions = sessionsRow?.count ?? 0;
 
   await db
     .insert(analyticsDailySchema)
     .values({
       date: dateKey,
-      pageViews: engagement,
-      uniqueSessions: engagement > 0 ? Math.max(1, Math.ceil(engagement / 2)) : 0,
+      pageViews,
+      uniqueSessions: uniqueSessions > 0 ? uniqueSessions : pageViews > 0 ? 1 : 0,
       whatsappClicks,
       quoteSubmits,
       topSources,
@@ -74,15 +97,15 @@ export async function aggregateAnalyticsDailyForDate(day: Date) {
     .onConflictDoUpdate({
       target: analyticsDailySchema.date,
       set: {
-        pageViews: engagement,
-        uniqueSessions: engagement > 0 ? Math.max(1, Math.ceil(engagement / 2)) : 0,
+        pageViews,
+        uniqueSessions: uniqueSessions > 0 ? uniqueSessions : pageViews > 0 ? 1 : 0,
         whatsappClicks,
         quoteSubmits,
         topSources,
       },
     });
 
-  return { date: dateKey, whatsappClicks, quoteSubmits };
+  return { date: dateKey, whatsappClicks, quoteSubmits, pageViews };
 }
 
 /**

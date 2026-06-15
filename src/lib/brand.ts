@@ -18,7 +18,36 @@ export const brand = {
   },
   hours: 'Segunda a sexta, 7h30 às 17h15',
   seoRegion: 'região metropolitana de Belo Horizonte',
+  /** Municípios atendidos — LocalBusiness areaServed e copy SEO local. */
+  serviceAreaCities: [
+    'Belo Horizonte',
+    'Contagem',
+    'Betim',
+    'Nova Lima',
+    'Ribeirão das Neves',
+    'Santa Luzia',
+    'Vespasiano',
+    'Sabará',
+    'Ibirité',
+    'Lagoa Santa',
+    'Raposos',
+    'Matozinhos',
+    'Sarzedo',
+    'Brumadinho',
+    'Confins',
+    'Pedro Leopoldo',
+  ],
 } as const;
+
+/** Comma-separated service area for SEO copy and schema. */
+export function formatBrandServiceArea() {
+  const cities = brand.serviceAreaCities;
+  if (cities.length <= 4) {
+    return cities.join(', ');
+  }
+  const head = cities.slice(0, 4).join(', ');
+  return `${head} e demais municípios da região metropolitana`;
+}
 
 export type WhatsAppMessageOptions = {
   equipmentName?: string;

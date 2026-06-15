@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import Link from 'next/link';
 import { importEquipmentCatalogAction, syncPriorityCatalogAction } from '@/app/actions/equipment-admin';
+import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
 import { requireAdminAccess } from '@/lib/auth-roles';
 import { countEquipmentInDb, listEquipmentForAdmin } from '@/lib/equipment-db';
 import { CATEGORY_LABELS } from '@/types/equipment';
@@ -44,48 +45,51 @@ export default async function EquipmentAdminListPage(props: EquipmentAdminListPr
   });
 
   return (
-    <div className="space-y-6 py-6">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="font-heading text-2xl font-bold text-neutral-900">{t('title')}</h1>
-          <p className="mt-1 text-sm text-neutral-600">{t('summary', { count: rows.length })}</p>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          {dbCount === 0 ? (
-            <details className="text-sm">
-              <summary className="cursor-pointer font-medium text-neutral-600 hover:text-neutral-900">
-                {t('import_advanced_label')}
-              </summary>
-              <form action={importEquipmentCatalogAction} className="mt-2">
-                <p className="mb-2 text-xs text-neutral-500">{t('import_json_hint')}</p>
+    <div className="space-y-8">
+      <AdminPageHeader
+        actions={
+          <div className="flex flex-wrap gap-2">
+            {dbCount === 0 ? (
+              <details className="text-sm">
+                <summary className="cursor-pointer font-medium text-neutral-600 hover:text-neutral-900">
+                  {t('import_advanced_label')}
+                </summary>
+                <form action={importEquipmentCatalogAction} className="mt-2">
+                  <p className="mb-2 text-xs text-neutral-500">{t('import_json_hint')}</p>
+                  <button
+                    className="rounded-lg border border-neutral-200 bg-white px-3 py-2 text-sm font-medium shadow-sm hover:bg-neutral-50"
+                    type="submit"
+                  >
+                    {t('import_json')}
+                  </button>
+                </form>
+              </details>
+            ) : (
+              <form action={syncPriorityCatalogAction}>
                 <button
-                  className="rounded-lg border border-neutral-200 px-3 py-2 text-sm font-medium hover:bg-neutral-100"
+                  className="rounded-lg border border-neutral-200 bg-white px-3 py-2 text-sm font-medium shadow-sm hover:bg-neutral-50"
                   type="submit"
                 >
-                  {t('import_json')}
+                  {t('sync_priority_catalog')}
                 </button>
               </form>
-            </details>
-          ) : (
-            <form action={syncPriorityCatalogAction}>
-              <button
-                className="rounded-lg border border-neutral-200 px-3 py-2 text-sm font-medium hover:bg-neutral-100"
-                type="submit"
-              >
-                {t('sync_priority_catalog')}
-              </button>
-            </form>
-          )}
-          <Link
-            className="rounded-lg bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary-hover"
-            href="/dashboard/equipamentos/new"
-          >
-            {t('new_equipment')}
-          </Link>
-        </div>
-      </div>
+            )}
+            <Link
+              className="rounded-lg bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary-hover"
+              href="/dashboard/equipamentos/new"
+            >
+              {t('new_equipment')}
+            </Link>
+          </div>
+        }
+        description={t('summary', { count: rows.length })}
+        title={t('title')}
+      />
 
-      <form className="grid gap-3 rounded-lg border border-neutral-200 bg-surface p-4 sm:grid-cols-4" method="get">
+      <form
+        className="grid gap-3 rounded-xl border border-neutral-200/80 bg-white p-5 shadow-sm sm:grid-cols-4"
+        method="get"
+      >
         <input
           className="rounded-lg border border-neutral-200 px-3 py-2 text-sm sm:col-span-2"
           defaultValue={searchParams.q ?? ''}

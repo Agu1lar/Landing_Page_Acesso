@@ -1,8 +1,22 @@
 import type { MetadataRoute } from 'next';
-import { getAllDicaSlugs } from '@/data/dicas-articles';
+import { getAllDicaSlugs, getDicaLastModifiedBySlug } from '@/data/dicas-articles';
 import { ALL_EQUIPMENT_CATEGORIES } from '@/lib/categories-seo';
-import { getAllSlugs } from '@/lib/equipment';
+import { getAllEquipment, getEquipmentSitemapLastModifiedBySlug } from '@/lib/equipment';
+import type { EquipmentCategory } from '@/types/equipment';
 import { getBaseUrl } from '@/utils/Helpers';
+
+/** Stable lastmod for institutional pages (update when content changes). */
+const STATIC_ROUTE_LAST_MODIFIED: Record<string, Date> = {
+  '': new Date('2026-06-08'),
+  '/equipamentos': new Date('2026-06-08'),
+  '/treinamento-plataformas-aereas': new Date('2026-05-21'),
+  '/sobre': new Date('2026-05-21'),
+  '/contato': new Date('2026-05-21'),
+  '/orcamento': new Date('2026-05-21'),
+  '/faq': new Date('2026-05-21'),
+  '/dicas': new Date('2026-05-21'),
+  '/privacidade': new Date('2026-05-21'),
+};
 
 function priorityForRoute(route: string) {
   if (route === '') {
@@ -34,9 +48,26 @@ function changeFrequencyForRoute(route: string): MetadataRoute.Sitemap[number]['
   return 'weekly';
 }
 
+function maxDate(dates: Date[]) {
+  if (dates.length === 0) {
+    return undefined;
+  }
+  return new Date(Math.max(...dates.map((date) => date.getTime())));
+}
+
+function categoryLastModified(
+  equipmentLastModified: Map<string, Date>,
+  slugsInCategory: string[],
+) {
+  const dates = slugsInCategory
+    .map((slug) => equipmentLastModified.get(slug))
+    .filter((date): date is Date => date instanceof Date);
+
+  return maxDate(dates) ?? STATIC_ROUTE_LAST_MODIFIED['/equipamentos'];
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = getBaseUrl();
-  const now = new Date();
 
   const staticRoutes = [
     '',
@@ -50,15 +81,58 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/privacidade',
   ];
 
+  const [catalog, equipmentLastModified, dicaLastModified] = await Promise.all([
+    getAllEquipment(),
+    getEquipmentSitemapLastModifiedBySlug(),
+    Promise.resolve(getDicaLastModifiedBySlug()),
+  ]);
+
+  const slugsByCategory = new Map<EquipmentCategory, string[]>();
+  for (const category of ALL_EQUIPMENT_CATEGORIES) {
+    slugsByCategory.set(category, []);
+  }
+  for (const item of catalog) {
+    slugsByCategory.get(item.category)?.push(item.slug);
+  }
+
+  const equipmentCatalogLastModified =
+    maxDate(Array.from(equipmentLastModified.values())) ??
+    STATIC_ROUTE_LAST_MODIFIED['/equipamentos'];
+
+  const dicasIndexLastModified =
+    maxDate(Array.from(dicaLastModified.values())) ?? STATIC_ROUTE_LAST_MODIFIED['/dicas'];
+
   const categoryRoutes = ALL_EQUIPMENT_CATEGORIES.map((slug) => `/categorias/${slug}`);
-  const equipmentRoutes = (await getAllSlugs()).map((slug) => `/equipamentos/${slug}`);
+  const equipmentRoutes = catalog.map((item) => `/equipamentos/${item.slug}`);
   const dicaRoutes = getAllDicaSlugs().map((slug) => `/dicas/${slug}`);
   const allRoutes = [...staticRoutes, ...categoryRoutes, ...equipmentRoutes, ...dicaRoutes];
 
-  return allRoutes.map((route) => ({
-    url: `${baseUrl}${route}`,
-    lastModified: now,
-    changeFrequency: changeFrequencyForRoute(route),
-    priority: priorityForRoute(route),
-  }));
+  return allRoutes.map((route) => {
+    let lastModified = STATIC_ROUTE_LAST_MODIFIED[route];
+
+    if (route === '/equipamentos') {
+      lastModified = equipmentCatalogLastModified;
+    } else if (route === '/dicas') {
+      lastModified = dicasIndexLastModified;
+    } else if (route.startsWith('/equipamentos/')) {
+      const slug = route.slice('/equipamentos/'.length);
+      lastModified = equipmentLastModified.get(slug) ?? STATIC_ROUTE_LAST_MODIFIED['/equipamentos'];
+    } else if (route.startsWith('/dicas/')) {
+      const slug = route.slice('/dicas/'.length);
+      lastModified = dicaLastModified.get(slug) ?? STATIC_ROUTE_LAST_MODIFIED['/dicas'];
+    } else if (route.startsWith('/categorias/')) {
+      const category = route.slice('/categorias/'.length) as EquipmentCategory;
+      lastModified = categoryLastModified(
+        equipmentLastModified,
+        slugsByCategory.get(category) ?? [],
+      );
+    }
+
+    return {
+      url: `${baseUrl}${route}`,
+      lastModified,
+      changeFrequency: changeFrequencyForRoute(route),
+      priority: priorityForRoute(route),
+    };
+  });
 }

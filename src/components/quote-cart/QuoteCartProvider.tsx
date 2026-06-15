@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
+import { captureAddToQuote, captureRemoveFromQuote } from '@/lib/posthog-events';
 import { QUOTE_CART_MAX_QUANTITY, QUOTE_CART_MIN_QUANTITY } from '@/types/quote-cart';
 import type { QuoteCartItem } from '@/types/quote-cart';
 
@@ -101,8 +102,9 @@ export function QuoteCartProvider(props: { children: React.ReactNode }) {
       const quantity = clampQuantity(item.quantity ?? QUOTE_CART_MIN_QUANTITY);
       setItems((current) => {
         const existing = current.find((entry) => entry.slug === item.slug);
+        let next: QuoteCartItem[];
         if (existing) {
-          return current.map((entry) =>
+          next = current.map((entry) =>
             entry.slug === item.slug
               ? {
                   ...entry,
@@ -110,21 +112,54 @@ export function QuoteCartProvider(props: { children: React.ReactNode }) {
                 }
               : entry,
           );
+        } else {
+          next = [...current, { ...item, quantity }];
         }
-        return [...current, { ...item, quantity }];
+
+        const line = next.find((entry) => entry.slug === item.slug);
+        if (line) {
+          captureAddToQuote({
+            slug: line.slug,
+            name: line.name,
+            kind: line.kind,
+            quantity: line.quantity,
+            cartLineCount: next.length,
+            cartTotalUnits: totalUnits(next),
+          });
+        }
+
+        return next;
       });
     },
     setItemQuantity: (slug, quantity) => {
       const next = clampQuantity(quantity);
       setItems((current) => {
         if (next < QUOTE_CART_MIN_QUANTITY) {
+          const removed = current.find((entry) => entry.slug === slug);
+          if (removed) {
+            captureRemoveFromQuote({
+              slug: removed.slug,
+              name: removed.name,
+              kind: removed.kind,
+            });
+          }
           return current.filter((entry) => entry.slug !== slug);
         }
         return current.map((entry) => (entry.slug === slug ? { ...entry, quantity: next } : entry));
       });
     },
     removeItem: (slug) => {
-      setItems((current) => current.filter((entry) => entry.slug !== slug));
+      setItems((current) => {
+        const removed = current.find((entry) => entry.slug === slug);
+        if (removed) {
+          captureRemoveFromQuote({
+            slug: removed.slug,
+            name: removed.name,
+            kind: removed.kind,
+          });
+        }
+        return current.filter((entry) => entry.slug !== slug);
+      });
     },
     clearCart: () => {
       setItems([]);

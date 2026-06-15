@@ -4,6 +4,7 @@ import {
   countEquipmentInDb,
   loadDbEquipmentSlugs,
   loadPublishedEquipmentFromDb,
+  loadPublishedEquipmentSitemapEntries,
 } from '@/lib/equipment-db';
 import type { Equipment, EquipmentCategory } from '@/types/equipment';
 
@@ -86,6 +87,48 @@ export async function getEquipmentByCategory(category: EquipmentCategory) {
 export async function getAllSlugs() {
   const items = await loadCatalog();
   return items.map((item) => item.slug);
+}
+
+/** Stable lastmod for JSON-only catalog items (no Postgres row). */
+const JSON_ONLY_SITEMAP_LAST_MODIFIED = new Date('2026-05-21');
+
+/**
+ * Maps equipment slug to last content update for sitemap lastModified.
+ */
+export async function getEquipmentSitemapLastModifiedBySlug() {
+  const map = new Map<string, Date>();
+
+  try {
+    const dbCount = await countEquipmentInDb();
+
+    if (dbCount === 0) {
+      for (const item of jsonFallback.filter(isPublicCatalogItem)) {
+        map.set(item.slug, JSON_ONLY_SITEMAP_LAST_MODIFIED);
+      }
+      return map;
+    }
+
+    const [entries, dbSlugs] = await Promise.all([
+      loadPublishedEquipmentSitemapEntries(),
+      loadDbEquipmentSlugs(),
+    ]);
+
+    for (const entry of entries) {
+      map.set(entry.slug, entry.updatedAt);
+    }
+
+    for (const item of jsonFallback) {
+      if (isPublicCatalogItem(item) && !dbSlugs.has(item.slug) && !map.has(item.slug)) {
+        map.set(item.slug, JSON_ONLY_SITEMAP_LAST_MODIFIED);
+      }
+    }
+  } catch {
+    for (const item of jsonFallback.filter(isPublicCatalogItem)) {
+      map.set(item.slug, JSON_ONLY_SITEMAP_LAST_MODIFIED);
+    }
+  }
+
+  return map;
 }
 
 /** Related items in the same category (excludes current slug). */

@@ -2,6 +2,8 @@ import { AnalyticsConsentProvider } from '@/components/analytics/AnalyticsConsen
 import { SiteFooter } from '@/components/layout/SiteFooter';
 import { SiteHeader } from '@/components/layout/SiteHeader';
 import { WhatsAppButton } from '@/components/layout/WhatsAppButton';
+import { MarketingMobileBottomBar } from '@/components/marketing/MarketingMobileBottomBar';
+import { MobileDockConfigProvider } from '@/components/marketing/mobile-dock-config';
 import { SkipToMainLink } from '@/components/ui/SkipToMainLink';
 import { AttributionCapture } from '@/components/marketing/AttributionCapture';
 import { QuoteCartProvider } from '@/components/quote-cart/QuoteCartProvider';
@@ -19,14 +21,17 @@ export async function MarketingShell(props: MarketingShellProps) {
       <div className="flex min-h-screen flex-col">
         <SkipToMainLink />
         <AttributionCapture />
-        <QuoteCartProvider>
-          <SiteHeader searchIndex={searchIndex} />
-          <main className="flex-1" id="main-content">
-            {props.children}
-          </main>
-        </QuoteCartProvider>
-        <SiteFooter />
-        <WhatsAppButton />
+        <MobileDockConfigProvider>
+          <QuoteCartProvider>
+            <SiteHeader searchIndex={searchIndex} />
+            <main className="flex-1 pb-28 md:pb-0" id="main-content">
+              {props.children}
+            </main>
+            <SiteFooter />
+            <WhatsAppButton />
+            <MarketingMobileBottomBar />
+          </QuoteCartProvider>
+        </MobileDockConfigProvider>
       </div>
     </AnalyticsConsentProvider>
   );

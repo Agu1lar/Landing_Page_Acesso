@@ -10,12 +10,21 @@ const UTM_PARAM_MAP = {
   utm_term: 'utmTerm',
 } as const;
 
+const CLICK_ID_PARAM_MAP = {
+  gclid: 'gclid',
+  gbraid: 'gbraid',
+  wbraid: 'wbraid',
+} as const;
+
 export const AttributionSchema = z.object({
   utmSource: z.string().max(120).optional(),
   utmMedium: z.string().max(120).optional(),
   utmCampaign: z.string().max(200).optional(),
   utmContent: z.string().max(200).optional(),
   utmTerm: z.string().max(200).optional(),
+  gclid: z.string().max(255).optional(),
+  gbraid: z.string().max(255).optional(),
+  wbraid: z.string().max(255).optional(),
   referrer: z.string().max(500).optional(),
   landingPage: z.string().max(500).optional(),
 });
@@ -40,6 +49,23 @@ export function parseUtmsFromSearch(search: string) {
 }
 
 /**
+ * Parses Google Ads click ids from URL (auto-tagging).
+ */
+export function parseClickIdsFromSearch(search: string) {
+  const params = new URLSearchParams(search.startsWith('?') ? search : `?${search}`);
+  const partial: Partial<AttributionInput> = {};
+
+  for (const [queryKey, fieldKey] of Object.entries(CLICK_ID_PARAM_MAP)) {
+    const value = params.get(queryKey)?.trim();
+    if (value) {
+      partial[fieldKey] = value;
+    }
+  }
+
+  return partial;
+}
+
+/**
  * Builds attribution payload from URL search, referrer and landing path (first-touch).
  */
 export function buildAttributionFromVisit(options: {
@@ -47,7 +73,10 @@ export function buildAttributionFromVisit(options: {
   referrer: string;
   landingPath: string;
 }) {
-  const fromQuery = parseUtmsFromSearch(options.search);
+  const fromQuery = {
+    ...parseUtmsFromSearch(options.search),
+    ...parseClickIdsFromSearch(options.search),
+  };
   const referrer = options.referrer.trim().slice(0, 500) || undefined;
   const landingPage = options.landingPath.trim().slice(0, 500) || undefined;
 
@@ -71,6 +100,9 @@ export function hasAttributionData(attribution: AttributionInput) {
       attribution.utmCampaign ??
       attribution.utmContent ??
       attribution.utmTerm ??
+      attribution.gclid ??
+      attribution.gbraid ??
+      attribution.wbraid ??
       attribution.referrer ??
       attribution.landingPage,
   );

@@ -8,6 +8,7 @@ import type { Equipment } from '@/types/equipment';
 
 type EquipmentCardProps = {
   equipment: Equipment;
+  imagePriority?: boolean;
 };
 
 export function EquipmentCard(props: EquipmentCardProps) {
@@ -21,7 +22,10 @@ export function EquipmentCard(props: EquipmentCardProps) {
           <Image
             alt={equipment.name}
             className="object-contain object-center p-1"
+            fetchPriority={props.imagePriority ? 'high' : 'low'}
             fill
+            loading={props.imagePriority ? undefined : 'lazy'}
+            priority={props.imagePriority}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
             src={imageSrc}
           />

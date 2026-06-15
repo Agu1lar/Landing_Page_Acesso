@@ -3,10 +3,19 @@
 import { Suspense, useEffect, useState } from 'react';
 import { AnalyticsConsentContext } from '@/components/analytics/AnalyticsConsentContext';
 import { CookieConsentBanner } from '@/components/analytics/CookieConsentBanner';
+import { CookieConsentGoogleLead } from '@/components/analytics/CookieConsentGoogleLead';
+import { GaPageView } from '@/components/analytics/GaPageView';
+import { GoogleAnalyticsScripts } from '@/components/analytics/GoogleAnalyticsScripts';
 import { PostHogAttributionSync } from '@/components/analytics/PostHogAttributionSync';
+import { PageEngagementTracker } from '@/components/analytics/PageEngagementTracker';
 import { PostHogPageView } from '@/components/analytics/PostHogPageView';
 import { COOKIE_CONSENT_STORAGE_KEY, parseConsentValue } from '@/lib/cookie-consent';
 import type { CookieConsentStatus, CookieConsentValue } from '@/lib/cookie-consent';
+import {
+  denyGoogleAnalyticsConsent,
+  grantGoogleAnalyticsConsent,
+  isGoogleAnalyticsConfigured,
+} from '@/lib/google-analytics';
 import { initPostHog } from '@/lib/posthog-client';
 
 type AnalyticsConsentProviderProps = {
@@ -34,11 +43,15 @@ export function AnalyticsConsentProvider(props: AnalyticsConsentProviderProps) {
   useEffect(() => {
     setStatus(readStoredConsent());
     setHydrated(true);
+    if (readStoredConsent() === 'analytics' && isGoogleAnalyticsConfigured()) {
+      grantGoogleAnalyticsConsent();
+    }
   }, []);
 
   useEffect(() => {
     if (status === 'analytics') {
       initPostHog();
+      grantGoogleAnalyticsConsent();
     }
   }, [status]);
 
@@ -46,11 +59,13 @@ export function AnalyticsConsentProvider(props: AnalyticsConsentProviderProps) {
     persistConsent('analytics');
     setStatus('analytics');
     initPostHog();
+    grantGoogleAnalyticsConsent();
   };
 
   const rejectAnalytics = () => {
     persistConsent('essential');
     setStatus('essential');
+    denyGoogleAnalyticsConsent();
   };
 
   const reopenBanner = () => {
@@ -70,12 +85,16 @@ export function AnalyticsConsentProvider(props: AnalyticsConsentProviderProps) {
         reopenBanner,
       }}
     >
+      <GoogleAnalyticsScripts />
       {props.children}
       {showBanner ? <CookieConsentBanner /> : null}
       {analyticsOn ? (
         <>
+          <CookieConsentGoogleLead />
           <PostHogAttributionSync />
           <Suspense fallback={null}>
+            <GaPageView />
+            <PageEngagementTracker />
             <PostHogPageView />
           </Suspense>
         </>

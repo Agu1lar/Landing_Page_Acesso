@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { ConversionCtas } from '@/components/marketing/ConversionCtas';
 import { EquipmentCard } from '@/components/marketing/EquipmentCard';
+import { SetMobileDockConfig } from '@/components/marketing/mobile-dock-config';
 import { PrimaryLinesSection } from '@/components/marketing/PrimaryLinesSection';
 import { StepsSection } from '@/components/marketing/StepsSection';
 import { TestimonialsSection } from '@/components/marketing/TestimonialsSection';
@@ -50,6 +51,10 @@ export default async function HomePage(props: IndexPageProps) {
     locale,
     namespace: 'Index',
   });
+  const tLayout = await getTranslations({
+    locale,
+    namespace: 'RootLayout',
+  });
   const featured = await getFeaturedEquipment(6);
   const aerialCount = await countEquipmentInCategory('equipamentos-aereos');
   const guindaste = await getEquipmentBySlug('guindaste-industrial-munck-remocao-bh');
@@ -81,23 +86,26 @@ export default async function HomePage(props: IndexPageProps) {
   return (
     <>
       <section className="border-b border-neutral-200 bg-surface">
-        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
           <div className="mx-auto max-w-3xl text-center">
             <p className="text-sm font-semibold tracking-wider text-primary uppercase">
               Desde 2013 · Região metropolitana de BH
             </p>
-            <h1 className="mt-4 font-heading text-4xl font-bold tracking-tight text-neutral-900 sm:text-5xl">
+            <h1 className="mt-4 font-heading text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl lg:text-5xl">
               {t('hero_title')}
             </h1>
-            <p className="mt-6 text-lg leading-relaxed text-neutral-600">{t('hero_subtitle')}</p>
+            <p className="mt-4 text-base leading-relaxed text-neutral-600 sm:mt-6 sm:text-lg">
+              {t('hero_subtitle')}
+            </p>
             <ConversionCtas
-              className="mt-8 justify-center"
+              className="mt-6 justify-center sm:mt-8"
               quoteLabel={t('hero_cta_quote')}
               size="lg"
               whatsappHref={whatsappHome}
               whatsappLabel={t('hero_cta_whatsapp')}
               whatsappOrigin="site-home"
             />
+            <div aria-hidden className="h-0" id="page-hero-sentinel" />
           </div>
         </div>
       </section>
@@ -108,7 +116,7 @@ export default async function HomePage(props: IndexPageProps) {
         title={t('primary_lines_title')}
       />
 
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <section className="cv-auto mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <h2 className="font-heading text-2xl font-bold text-neutral-900">
           {t('categories_title')}
         </h2>
@@ -127,7 +135,7 @@ export default async function HomePage(props: IndexPageProps) {
         </div>
       </section>
 
-      <section className="bg-neutral-100">
+      <section className="cv-auto bg-neutral-100">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between gap-4">
             <h2 className="font-heading text-2xl font-bold text-neutral-900">
@@ -141,8 +149,12 @@ export default async function HomePage(props: IndexPageProps) {
             </Link>
           </div>
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {featured.map((equipment) => (
-              <EquipmentCard equipment={equipment} key={equipment.slug} />
+            {featured.map((equipment, index) => (
+              <EquipmentCard
+                equipment={equipment}
+                imagePriority={index < 2}
+                key={equipment.slug}
+              />
             ))}
           </div>
         </div>
@@ -196,7 +208,7 @@ export default async function HomePage(props: IndexPageProps) {
         viewAllLabel={t('testimonials_view_all')}
       />
 
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <section className="cv-auto mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <h2 className="text-center font-heading text-2xl font-bold text-neutral-900">
           {t('trust_title')}
         </h2>
@@ -227,6 +239,14 @@ export default async function HomePage(props: IndexPageProps) {
           whatsappOrigin="site-home"
         />
       </section>
+
+      <SetMobileDockConfig
+        quoteLabel={t('hero_cta_quote')}
+        sentinelId="page-hero-sentinel"
+        whatsappHref={whatsappHome}
+        whatsappLabel={tLayout('whatsapp_link')}
+        whatsappOrigin="site-home-sticky"
+      />
     </>
   );
 }

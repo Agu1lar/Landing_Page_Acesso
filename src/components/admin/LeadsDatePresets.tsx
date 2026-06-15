@@ -38,13 +38,13 @@ export async function LeadsDatePresets(props: LeadsDatePresetsProps) {
     <div className="flex flex-wrap gap-2">
       <span className="text-sm text-neutral-600">{t('filter_period_label')}</span>
       <Link
-        className="rounded-full border border-neutral-200 px-3 py-1 text-sm hover:bg-background-muted"
+        className="rounded-full border border-neutral-200 bg-white px-3 py-1.5 text-sm font-medium text-neutral-700 shadow-sm transition-colors hover:border-primary/30 hover:text-primary"
         href={href7}
       >
         {t('filter_last_7_days')}
       </Link>
       <Link
-        className="rounded-full border border-neutral-200 px-3 py-1 text-sm hover:bg-background-muted"
+        className="rounded-full border border-neutral-200 bg-white px-3 py-1.5 text-sm font-medium text-neutral-700 shadow-sm transition-colors hover:border-primary/30 hover:text-primary"
         href={href30}
       >
         {t('filter_last_30_days')}

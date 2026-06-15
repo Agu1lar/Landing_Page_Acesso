@@ -32,7 +32,7 @@ export function PrimaryLinesSection(props: PrimaryLinesSectionProps) {
         </div>
 
         <div className="mt-10 grid gap-6 lg:grid-cols-2">
-          {props.cards.map((card) => (
+          {props.cards.map((card, index) => (
             <article
               className="group flex flex-col overflow-hidden rounded-[var(--radius-card)] border border-neutral-200 bg-surface shadow-sm transition-shadow hover:shadow-md lg:flex-row"
               key={card.href}
@@ -42,7 +42,9 @@ export function PrimaryLinesSection(props: PrimaryLinesSectionProps) {
                   <Image
                     alt={card.imageAlt}
                     className="object-contain object-center p-2"
+                    fetchPriority={index === 0 ? 'high' : 'low'}
                     fill
+                    priority={index === 0}
                     sizes="(max-width: 1024px) 100vw, 18rem"
                     src={card.imageSrc}
                   />

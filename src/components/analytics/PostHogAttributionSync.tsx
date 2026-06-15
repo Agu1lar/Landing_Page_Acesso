@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { hasAttributionData, parseUtmsFromSearch, readStoredAttribution } from '@/lib/attribution';
+import { hasAttributionData, parseClickIdsFromSearch, parseUtmsFromSearch, readStoredAttribution } from '@/lib/attribution';
 import { registerPostHogAttribution } from '@/lib/posthog-attribution';
 import { getPostHog, initPostHog } from '@/lib/posthog-client';
 
@@ -16,7 +16,10 @@ export function PostHogAttributionSync() {
       return;
     }
 
-    const fromUrl = parseUtmsFromSearch(window.location.search);
+    const fromUrl = {
+      ...parseUtmsFromSearch(window.location.search),
+      ...parseClickIdsFromSearch(window.location.search),
+    };
     const stored = readStoredAttribution() ?? {};
     const merged = { ...fromUrl, ...stored };
 

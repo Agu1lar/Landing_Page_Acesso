@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import type * as z from 'zod';
+import { QuoteFormOptionalSection } from '@/components/forms/QuoteFormOptionalSection';
 import { useQuoteCart } from '@/components/quote-cart/QuoteCartProvider';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -11,6 +12,7 @@ import { Select } from '@/components/ui/Select';
 import { Textarea } from '@/components/ui/Textarea';
 import { readStoredAttribution } from '@/lib/attribution';
 import { brand } from '@/lib/brand';
+import { captureQuoteSubmit } from '@/lib/posthog-events';
 import { buildQuoteWhatsAppUrl } from '@/lib/quote-whatsapp';
 import { QuoteFormSchema, rentalPeriodOptions } from '@/validations/quote';
 
@@ -105,6 +107,7 @@ export function QuoteForm(props: QuoteFormProps) {
     const body = (await response.json()) as {
       error?: string;
       ok?: boolean;
+      id?: number;
       whatsappUrl?: string;
     };
 
@@ -113,6 +116,14 @@ export function QuoteForm(props: QuoteFormProps) {
       setIsSubmitting(false);
       return;
     }
+
+    captureQuoteSubmit({
+      origin,
+      leadId: body.id,
+      cartLineCount: cartItems?.length ?? 0,
+      equipmentSlug: cartItems?.[0]?.slug ?? data.equipmentSlug,
+      equipmentName: cartItems?.[0]?.name ?? data.equipmentName,
+    });
 
     const whatsappUrl =
       body.whatsappUrl ??
@@ -185,34 +196,27 @@ export function QuoteForm(props: QuoteFormProps) {
         label="Nome completo *"
         {...register('name')}
       />
-      <div className="grid gap-4 sm:grid-cols-2">
-        <Input
-          autoComplete="email"
-          error={errors.email?.message}
-          label="E-mail *"
-          type="email"
-          {...register('email')}
-        />
-        <Input
-          autoComplete="tel"
-          error={errors.phone?.message}
-          label="Telefone / WhatsApp *"
-          placeholder="(31) 99999-9999"
-          type="tel"
-          {...register('phone')}
-        />
-      </div>
       <Input
-        autoComplete="organization"
-        error={errors.company?.message}
-        label="Empresa (opcional)"
-        {...register('company')}
+        autoComplete="tel"
+        error={errors.phone?.message}
+        inputMode="tel"
+        label="Telefone / WhatsApp *"
+        placeholder="(31) 99999-9999"
+        type="tel"
+        {...register('phone')}
       />
       <Input
         error={errors.city?.message}
         label="Cidade da obra *"
         placeholder="Ex.: Belo Horizonte, Contagem…"
         {...register('city')}
+      />
+      <Input
+        autoComplete="email"
+        error={errors.email?.message}
+        label="E-mail *"
+        type="email"
+        {...register('email')}
       />
 
       {props.initialEquipment && cart.lineCount === 0 ? (
@@ -222,34 +226,43 @@ export function QuoteForm(props: QuoteFormProps) {
         </div>
       ) : null}
 
-      {showManualEquipment ? (
+      <QuoteFormOptionalSection summary="Empresa, período e observações (opcional)">
         <Input
-          error={errors.equipmentName?.message}
-          label="Equipamento de interesse (se não usou o carrinho)"
-          placeholder="Ex.: plataforma elevatória, betoneira…"
-          {...register('equipmentName')}
+          autoComplete="organization"
+          error={errors.company?.message}
+          label="Empresa (opcional)"
+          {...register('company')}
         />
-      ) : null}
 
-      <Select
-        error={errors.rentalPeriod?.message}
-        label="Período de locação"
-        {...register('rentalPeriod')}
-      >
-        <option value="">Selecione…</option>
-        {rentalPeriodOptions.map((value) => (
-          <option key={value} value={value}>
-            {periodLabels[value]}
-          </option>
-        ))}
-      </Select>
+        {showManualEquipment ? (
+          <Input
+            error={errors.equipmentName?.message}
+            label="Equipamento de interesse (se não usou o carrinho)"
+            placeholder="Ex.: plataforma elevatória, betoneira…"
+            {...register('equipmentName')}
+          />
+        ) : null}
 
-      <Textarea
-        error={errors.message?.message}
-        label="Mensagem (opcional)"
-        placeholder="Detalhes da obra, altura necessária, prazo…"
-        {...register('message')}
-      />
+        <Select
+          error={errors.rentalPeriod?.message}
+          label="Período de locação"
+          {...register('rentalPeriod')}
+        >
+          <option value="">Selecione…</option>
+          {rentalPeriodOptions.map((value) => (
+            <option key={value} value={value}>
+              {periodLabels[value]}
+            </option>
+          ))}
+        </Select>
+
+        <Textarea
+          error={errors.message?.message}
+          label="Mensagem (opcional)"
+          placeholder="Detalhes da obra, altura necessária, prazo…"
+          {...register('message')}
+        />
+      </QuoteFormOptionalSection>
 
       <input
         aria-hidden

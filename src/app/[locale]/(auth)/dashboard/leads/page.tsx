@@ -1,9 +1,13 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { CommercialQueueSection } from '@/components/admin/CommercialQueueSection';
 import { LeadsFiltersForm } from '@/components/admin/LeadsFiltersForm';
 import { LeadsTable } from '@/components/admin/LeadsTable';
+import { StaleLeadsAlert } from '@/components/admin/StaleLeadsAlert';
+import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
 import { Button } from '@/components/ui/Button';
-import { buildLeadsFilterQuery, listLeads } from '@/lib/leads-admin';
+import { buildLeadsFilterQuery, listCommercialQueue, listLeads } from '@/lib/leads-admin';
+import { listStaleNewLeads } from '@/lib/leads-stale-alert';
 import type { LeadListFilters } from '@/lib/leads-admin';
 import { Link } from '@/libs/I18nNavigation';
 import { resolveAppLocale } from '@/utils/locale';
@@ -66,7 +70,11 @@ export default async function LeadsAdminPage(props: LeadsPageProps) {
   });
 
   const filters = parseFilters(searchParams);
-  const { leads, total, page, totalPages } = await listLeads(filters);
+  const [{ leads, total, page, totalPages }, queueLeads, staleLeads] = await Promise.all([
+    listLeads(filters),
+    listCommercialQueue(),
+    listStaleNewLeads(),
+  ]);
   const query = buildLeadsFilterQuery(filters);
   const exportHref = `/api/admin/leads/export${query}`;
 
@@ -74,16 +82,20 @@ export default async function LeadsAdminPage(props: LeadsPageProps) {
   const nextPage = page < totalPages ? buildLeadsFilterQuery({ ...filters, page: page + 1 }) : null;
 
   return (
-    <div className="space-y-6 py-6">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="font-heading text-2xl font-bold text-neutral-900">{t('title')}</h1>
-          <p className="mt-1 text-sm text-neutral-600">{t('summary', { count: total })}</p>
-        </div>
-        <Button href={exportHref} size="sm" variant="outline">
-          {t('export_csv')}
-        </Button>
-      </div>
+    <div className="space-y-8">
+      <AdminPageHeader
+        actions={
+          <Button href={exportHref} size="sm" variant="outline">
+            {t('export_csv')}
+          </Button>
+        }
+        description={t('summary', { count: total })}
+        title={t('title')}
+      />
+
+      <StaleLeadsAlert summary={staleLeads} />
+
+      <CommercialQueueSection leads={queueLeads} />
 
       <LeadsFiltersForm filters={filters} />
       <LeadsTable leads={leads} />
