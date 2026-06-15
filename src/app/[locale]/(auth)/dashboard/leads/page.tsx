@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { CommercialQueueSection } from '@/components/admin/CommercialQueueSection';
+import { GoogleCookieLeadCallout } from '@/components/admin/GoogleCookieLeadCallout';
 import { LeadsFiltersForm } from '@/components/admin/LeadsFiltersForm';
 import { LeadsTable } from '@/components/admin/LeadsTable';
 import { StaleLeadsAlert } from '@/components/admin/StaleLeadsAlert';
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
 import { Button } from '@/components/ui/Button';
-import { buildLeadsFilterQuery, listCommercialQueue, listLeads } from '@/lib/leads-admin';
+import { buildLeadsFilterQuery, buildContactOrderCounts, listCommercialQueue, listLeads } from '@/lib/leads-admin';
 import { listStaleNewLeads } from '@/lib/leads-stale-alert';
 import type { LeadListFilters } from '@/lib/leads-admin';
 import { Link } from '@/libs/I18nNavigation';
@@ -70,11 +71,14 @@ export default async function LeadsAdminPage(props: LeadsPageProps) {
   });
 
   const filters = parseFilters(searchParams);
-  const [{ leads, total, page, totalPages }, queueLeads, staleLeads] = await Promise.all([
+  const [listResult, queueLeads, staleLeads] = await Promise.all([
     listLeads(filters),
     listCommercialQueue(),
     listStaleNewLeads(),
   ]);
+  const { leads, total, page, totalPages } = listResult;
+  const contactOrderCounts = await buildContactOrderCounts(leads);
+  const googleClientIdConfigured = Boolean(process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID?.trim());
   const query = buildLeadsFilterQuery(filters);
   const exportHref = `/api/admin/leads/export${query}`;
 
@@ -95,10 +99,12 @@ export default async function LeadsAdminPage(props: LeadsPageProps) {
 
       <StaleLeadsAlert summary={staleLeads} />
 
+      <GoogleCookieLeadCallout googleClientIdConfigured={googleClientIdConfigured} />
+
       <CommercialQueueSection leads={queueLeads} />
 
       <LeadsFiltersForm filters={filters} />
-      <LeadsTable leads={leads} />
+      <LeadsTable contactOrderCounts={contactOrderCounts} leads={leads} />
 
       {totalPages > 1 ? (
         <nav

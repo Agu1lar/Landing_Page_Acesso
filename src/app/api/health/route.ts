@@ -25,6 +25,9 @@ export async function GET() {
 
   const resendConfigured = Boolean(Env.RESEND_API_KEY?.startsWith('re_') && Env.LEADS_NOTIFY_EMAIL);
   const arcjetConfigured = Boolean(Env.ARCJET_KEY?.startsWith('ajkey_'));
+  const googleClientIdConfigured = Boolean(process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID?.trim());
+  const ga4Configured = Boolean(process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim());
+  const posthogConfigured = Boolean(process.env.NEXT_PUBLIC_POSTHOG_KEY?.trim());
   const databaseUsesPooler = Env.DATABASE_URL.includes('-pooler');
 
   const redirectStats = legacyRedirectStats();
@@ -45,6 +48,14 @@ export async function GET() {
     databaseUsesPooler,
     resendConfigured,
     arcjetConfigured,
+    googleClientIdConfigured,
+    ga4Configured,
+    posthogConfigured,
+    leadTracking: {
+      cookieConsentLeadRequiresGoogleOneTap: true,
+      clerkDashboardLoginDoesNotCreateLead: true,
+      analyticsAcceptRecordsEvent: 'POST /api/analytics/consent',
+    },
     leadsRateLimit: '8 requests / 15 min per IP (Arcjet)',
   });
 }

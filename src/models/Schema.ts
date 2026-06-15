@@ -52,6 +52,7 @@ export const leadsSchema = pgTable('leads', {
   referrer: varchar('referrer', { length: 500 }),
   landingPage: varchar('landing_page', { length: 500 }),
   internalNotes: text('internal_notes'),
+  lastActivityAt: timestamp('last_activity_at', { mode: 'date' }),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
 });
 

@@ -1,6 +1,7 @@
-import { and, desc, eq, gte, ilike, lte, or, sql } from 'drizzle-orm';
+import { and, desc, eq, gte, ilike, inArray, lte, or, sql } from 'drizzle-orm';
 import type { InferSelectModel } from 'drizzle-orm';
 import * as z from 'zod';
+import { countContactOrders, normalizeLeadEmail, normalizeLeadPhone, sortRelatedLeads } from '@/lib/lead-contact';
 import type { LeadStatus } from '@/lib/lead-status';
 import { scoreLeadIntent } from '@/lib/lead-intent-score';
 import { db } from '@/libs/DB';
@@ -9,6 +10,8 @@ import { QuoteCartItemSchema } from '@/validations/quote';
 import type { QuoteCartItemInput } from '@/validations/quote';
 
 export type LeadRecord = InferSelectModel<typeof leadsSchema>;
+
+const leadActivityOrder = sql`coalesce(${leadsSchema.lastActivityAt}, ${leadsSchema.createdAt})`;
 
 export type LeadListFilters = {
   dateFrom?: string;
@@ -167,7 +170,7 @@ export async function listCommercialQueue(limit = 8) {
     .select()
     .from(leadsSchema)
     .where(eq(leadsSchema.status, 'new'))
-    .orderBy(desc(leadsSchema.createdAt))
+    .orderBy(desc(leadActivityOrder))
     .limit(40);
 
   return rows
@@ -175,7 +178,11 @@ export async function listCommercialQueue(limit = 8) {
       ...lead,
       ...scoreLeadIntent(lead),
     }))
-    .sort((a, b) => b.score - a.score || b.createdAt.getTime() - a.createdAt.getTime())
+    .sort(
+      (a, b) =>
+        b.score - a.score ||
+        (b.lastActivityAt ?? b.createdAt).getTime() - (a.lastActivityAt ?? a.createdAt).getTime(),
+    )
     .slice(0, limit);
 }
 
@@ -196,7 +203,7 @@ export async function listLeads(filters: LeadListFilters = {}) {
       .select()
       .from(leadsSchema)
       .where(where)
-      .orderBy(desc(leadsSchema.createdAt))
+      .orderBy(desc(leadActivityOrder))
       .limit(pageSize)
       .offset(offset),
     db
@@ -225,6 +232,65 @@ export async function listLeads(filters: LeadListFilters = {}) {
 export async function getLeadById(id: number) {
   const [lead] = await db.select().from(leadsSchema).where(eq(leadsSchema.id, id)).limit(1);
   return lead;
+}
+
+/**
+ * Lists other leads that share email or phone with the reference row.
+ */
+export async function listRelatedLeads(reference: LeadRecord) {
+  const email = normalizeLeadEmail(reference.email);
+  const phoneDigits = normalizeLeadPhone(reference.phone);
+  const matchConditions = [eq(leadsSchema.email, email)];
+
+  if (phoneDigits) {
+    matchConditions.push(sql`regexp_replace(${leadsSchema.phone}, '\\D', '', 'g') = ${phoneDigits}`);
+  }
+
+  const rows = await db
+    .select()
+    .from(leadsSchema)
+    .where(or(...matchConditions))
+    .orderBy(desc(leadActivityOrder));
+
+  return sortRelatedLeads(rows);
+}
+
+/**
+ * Maps lead id → count of rows for the same contact (email or phone).
+ */
+export async function buildContactOrderCounts(leads: LeadRecord[]) {
+  const counts = new Map<number, number>();
+  if (leads.length === 0) {
+    return counts;
+  }
+
+  const emails = [...new Set(leads.map((row) => normalizeLeadEmail(row.email)))];
+  const phones = [
+    ...new Set(
+      leads.map((row) => normalizeLeadPhone(row.phone)).filter((value): value is string => Boolean(value)),
+    ),
+  ];
+
+  const matchConditions = [inArray(leadsSchema.email, emails)];
+  if (phones.length > 0) {
+    matchConditions.push(
+      sql`regexp_replace(${leadsSchema.phone}, '\\D', '', 'g') in (${sql.join(
+        phones.map((phone) => sql`${phone}`),
+        sql`, `,
+      )})`,
+    );
+  }
+
+  const pool = await db
+    .select()
+    .from(leadsSchema)
+    .where(or(...matchConditions));
+
+  for (const lead of leads) {
+    counts.set(lead.id, countContactOrders(lead, pool));
+  }
+
+  return counts;
 }
 
 /**

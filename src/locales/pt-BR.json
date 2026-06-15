@@ -405,7 +405,15 @@
     "field_internal_notes": "Anotações da equipe",
     "internal_notes_placeholder": "Ex.: ligou em 20/05, aguardando retorno…",
     "notes_save": "Salvar notas",
-    "notes_update_error": "Não foi possível salvar as notas"
+    "notes_update_error": "Não foi possível salvar as notas",
+    "recurring_badge": "Recorrente ({count})",
+    "last_activity_label": "última atividade",
+    "section_contact_history": "Histórico do contato",
+    "contact_history_hint": "Pedidos anteriores com o mesmo e-mail ou telefone — identificação por contato, não por nome.",
+    "contact_history_current": "Este lead",
+    "contact_history_entry": "Lead #{id}",
+    "cookie_lead_callout_title": "Leads “Google (cookies)” não estão ativos",
+    "cookie_lead_callout_body": "Aceitar cookies de analytics liga PostHog e GA4, mas não cria lead sozinho. Para registrar visitantes via Google One Tap, configure NEXT_PUBLIC_GOOGLE_CLIENT_ID na Vercel (OAuth Web). Login no painel (/dashboard) usa Clerk e é independente. Verifique também GET /api/health → googleClientIdConfigured."
   },
   "AnalyticsAdminPage": {
     "meta_title": "Métricas do site",

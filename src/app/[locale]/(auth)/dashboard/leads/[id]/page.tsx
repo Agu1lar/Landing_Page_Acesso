@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
+import { LeadContactHistory } from '@/components/admin/LeadContactHistory';
 import { LeadNotesForm } from '@/components/admin/LeadNotesForm';
 import { LeadPriorityBadge } from '@/components/admin/LeadPriorityBadge';
+import { LeadRecurringBadge } from '@/components/admin/LeadRecurringBadge';
 import { LeadStatusForm } from '@/components/admin/LeadStatusForm';
 import { AdminCard } from '@/components/admin/AdminCard';
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
@@ -10,7 +12,7 @@ import { Button } from '@/components/ui/Button';
 import { LEAD_STATUSES } from '@/lib/lead-status';
 import type { LeadStatus } from '@/lib/lead-status';
 import { scoreLeadIntent } from '@/lib/lead-intent-score';
-import { formatLeadCartItems, getLeadById, parseLeadCartItems } from '@/lib/leads-admin';
+import { formatLeadCartItems, getLeadById, listRelatedLeads, parseLeadCartItems } from '@/lib/leads-admin';
 import { Link } from '@/libs/I18nNavigation';
 import { resolveAppLocale } from '@/utils/locale';
 
@@ -55,7 +57,10 @@ export default async function LeadDetailPage(props: LeadDetailPageProps) {
     notFound();
   }
 
+  const relatedLeads = await listRelatedLeads(lead);
+  const contactCount = relatedLeads.length;
   const cartItems = parseLeadCartItems(lead.itemsJson);
+  const activityAt = lead.lastActivityAt ?? lead.createdAt;
   const statusLabels = Object.fromEntries(
     LEAD_STATUSES.map((status) => [status, t(`status_${status}` as 'status_new')]),
   ) as Record<LeadStatus, string>;
@@ -81,7 +86,8 @@ export default async function LeadDetailPage(props: LeadDetailPageProps) {
           {t('back_to_list')}
         </Button>
         <p className="text-sm text-neutral-500">
-          {t('detail_id', { id: lead.id })} · {formatDateTime(lead.createdAt)}
+          {t('detail_id', { id: lead.id })} · {formatDateTime(activityAt)}
+          {lead.lastActivityAt ? ` (${t('last_activity_label')})` : null}
         </p>
       </div>
 
@@ -89,6 +95,10 @@ export default async function LeadDetailPage(props: LeadDetailPageProps) {
         title={
           <span className="flex flex-wrap items-center gap-3">
             {lead.name}
+            <LeadRecurringBadge
+              count={contactCount}
+              label={t('recurring_badge', { count: contactCount })}
+            />
             <LeadPriorityBadge label={t(priorityKey)} score={intent.score} tier={intent.tier} />
           </span>
         }
@@ -264,6 +274,8 @@ export default async function LeadDetailPage(props: LeadDetailPageProps) {
           </dl>
         </AdminCard>
       ) : null}
+
+      <LeadContactHistory currentLeadId={lead.id} relatedLeads={relatedLeads} />
 
       {lead.message ? (
         <AdminCard title={t('section_message')}>

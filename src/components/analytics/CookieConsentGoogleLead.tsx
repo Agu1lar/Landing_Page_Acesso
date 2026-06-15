@@ -7,6 +7,14 @@ const GIS_SCRIPT_ID = 'google-gsi-client';
 const GIS_SCRIPT_SRC = 'https://accounts.google.com/gsi/client';
 const REGISTERED_STORAGE_KEY = 'acesso_cookie_lead_registered';
 
+function shouldSkipOneTapThisSession() {
+  return window.sessionStorage.getItem(REGISTERED_STORAGE_KEY) === '1';
+}
+
+function markOneTapHandledThisSession() {
+  window.sessionStorage.setItem(REGISTERED_STORAGE_KEY, '1');
+}
+
 function loadGoogleScript() {
   return new Promise<void>((resolve, reject) => {
     if (window.google?.accounts?.id) {
@@ -44,7 +52,7 @@ export function CookieConsentGoogleLead() {
       return;
     }
 
-    if (window.sessionStorage.getItem(REGISTERED_STORAGE_KEY) === '1') {
+    if (shouldSkipOneTapThisSession()) {
       return;
     }
 
@@ -66,9 +74,15 @@ export function CookieConsentGoogleLead() {
         return;
       }
 
-      const body = (await response.json()) as { ok?: boolean; created?: boolean; id?: number };
-      if (body.ok) {
-        window.sessionStorage.setItem(REGISTERED_STORAGE_KEY, '1');
+      const body = (await response.json()) as {
+        ok?: boolean;
+        created?: boolean;
+        updated?: boolean;
+        skipped?: string;
+        id?: number;
+      };
+      if (body.ok && (body.created || body.updated)) {
+        markOneTapHandledThisSession();
       }
     };
 

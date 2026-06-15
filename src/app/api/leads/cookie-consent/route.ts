@@ -60,6 +60,7 @@ export const POST = async (request: Request) => {
       ok: true,
       id: result.lead?.id,
       created: result.reason === 'created',
+      updated: result.reason === 'updated',
     });
   } catch (error) {
     logger.error('Failed to create cookie-consent lead', {

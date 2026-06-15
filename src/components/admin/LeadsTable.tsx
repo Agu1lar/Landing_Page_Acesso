@@ -4,12 +4,15 @@ import type { LeadStatus } from '@/lib/lead-status';
 import { scoreLeadIntent } from '@/lib/lead-intent-score';
 import type { LeadRecord } from '@/lib/leads-admin';
 import { formatLeadCartItems } from '@/lib/leads-admin';
+import { leadActivityTimestamp } from '@/lib/lead-contact';
 import { AdminCard } from '@/components/admin/AdminCard';
 import { LeadPriorityBadge } from '@/components/admin/LeadPriorityBadge';
+import { LeadRecurringBadge } from '@/components/admin/LeadRecurringBadge';
 import { Link } from '@/libs/I18nNavigation';
 
 type LeadsTableProps = {
   leads: LeadRecord[];
+  contactOrderCounts: Map<number, number>;
 };
 
 function formatDateTime(date: Date) {
@@ -20,7 +23,7 @@ function formatDateTime(date: Date) {
 }
 
 export async function LeadsTable(props: LeadsTableProps) {
-  const { leads } = props;
+  const { leads, contactOrderCounts } = props;
   const t = await getTranslations('LeadsAdminPage');
 
   if (leads.length === 0) {
@@ -65,13 +68,21 @@ export async function LeadsTable(props: LeadsTableProps) {
                   : intent.tier === 'warm'
                     ? 'priority_warm'
                     : 'priority_cold';
+              const contactCount = contactOrderCounts.get(lead.id) ?? 1;
+              const activityAt = new Date(leadActivityTimestamp(lead));
               return (
                 <tr className="transition-colors hover:bg-neutral-50/80" key={lead.id}>
                   <td className="px-4 py-3 whitespace-nowrap text-neutral-600">
-                    {formatDateTime(lead.createdAt)}
+                    {formatDateTime(activityAt)}
                   </td>
                   <td className="px-4 py-3">
-                    <p className="font-medium text-neutral-900">{lead.name}</p>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <p className="font-medium text-neutral-900">{lead.name}</p>
+                      <LeadRecurringBadge
+                        count={contactCount}
+                        label={t('recurring_badge', { count: contactCount })}
+                      />
+                    </div>
                     <p className="text-xs text-neutral-500">{lead.phone ?? lead.email}</p>
                   </td>
                   <td className="px-4 py-3">

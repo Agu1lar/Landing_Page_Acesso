@@ -13,6 +13,91 @@ function normalizeEmail(email: string) {
   return email.trim().toLowerCase();
 }
 
+function mergeAttribution(existing: AttributionInput | undefined, incoming?: AttributionInput) {
+  if (!incoming) {
+    return existing;
+  }
+
+  return {
+    utmSource: incoming.utmSource ?? existing?.utmSource,
+    utmMedium: incoming.utmMedium ?? existing?.utmMedium,
+    utmCampaign: incoming.utmCampaign ?? existing?.utmCampaign,
+    utmContent: incoming.utmContent ?? existing?.utmContent,
+    utmTerm: incoming.utmTerm ?? existing?.utmTerm,
+    gclid: incoming.gclid ?? existing?.gclid,
+    gbraid: incoming.gbraid ?? existing?.gbraid,
+    wbraid: incoming.wbraid ?? existing?.wbraid,
+    referrer: incoming.referrer ?? existing?.referrer,
+    landingPage: incoming.landingPage ?? existing?.landingPage,
+  };
+}
+
+function attributionFromLead(lead: {
+  utmSource: string | null;
+  utmMedium: string | null;
+  utmCampaign: string | null;
+  utmContent: string | null;
+  utmTerm: string | null;
+  gclid?: string | null;
+  gbraid?: string | null;
+  wbraid?: string | null;
+  referrer: string | null;
+  landingPage: string | null;
+}): AttributionInput {
+  return {
+    utmSource: lead.utmSource ?? undefined,
+    utmMedium: lead.utmMedium ?? undefined,
+    utmCampaign: lead.utmCampaign ?? undefined,
+    utmContent: lead.utmContent ?? undefined,
+    utmTerm: lead.utmTerm ?? undefined,
+    gclid: lead.gclid ?? undefined,
+    gbraid: lead.gbraid ?? undefined,
+    wbraid: lead.wbraid ?? undefined,
+    referrer: lead.referrer ?? undefined,
+    landingPage: lead.landingPage ?? undefined,
+  };
+}
+
+async function touchCookieConsentLead(
+  leadId: number,
+  attribution?: AttributionInput,
+  existing?: {
+    utmSource: string | null;
+    utmMedium: string | null;
+    utmCampaign: string | null;
+    utmContent: string | null;
+    utmTerm: string | null;
+    gclid?: string | null;
+    gbraid?: string | null;
+    wbraid?: string | null;
+    referrer: string | null;
+    landingPage: string | null;
+  },
+) {
+  const merged = mergeAttribution(existing ? attributionFromLead(existing) : undefined, attribution);
+  const now = new Date();
+
+  const [updated] = await db
+    .update(leadsSchema)
+    .set({
+      lastActivityAt: now,
+      utmSource: merged?.utmSource ?? null,
+      utmMedium: merged?.utmMedium ?? null,
+      utmCampaign: merged?.utmCampaign ?? null,
+      utmContent: merged?.utmContent ?? null,
+      utmTerm: merged?.utmTerm ?? null,
+      gclid: merged?.gclid ?? null,
+      gbraid: merged?.gbraid ?? null,
+      wbraid: merged?.wbraid ?? null,
+      referrer: merged?.referrer ?? null,
+      landingPage: merged?.landingPage ?? null,
+    })
+    .where(eq(leadsSchema.id, leadId))
+    .returning();
+
+  return updated ?? null;
+}
+
 /**
  * Removes a lightweight cookie-consent lead when the same visitor submits a quote.
  */
@@ -53,6 +138,7 @@ export async function createLead(input: CreateLeadInput) {
       wbraid: input.wbraid ?? null,
       referrer: input.referrer ?? null,
       landingPage: input.landingPage ?? null,
+      lastActivityAt: new Date(),
     })
     .returning();
 
@@ -121,7 +207,13 @@ export async function createCookieConsentLead(input: CreateCookieConsentLeadInpu
     .limit(1);
 
   if (existingCookieLead) {
-    return { lead: existingCookieLead, reason: 'existing' as const };
+    const updated = await touchCookieConsentLead(
+      existingCookieLead.id,
+      input.attribution,
+      existingCookieLead,
+    );
+    logger.info(`Lead cookie-consent #${existingCookieLead.id} revisit email=${email}`);
+    return { lead: updated ?? existingCookieLead, reason: 'updated' as const };
   }
 
   const attribution = input.attribution;
@@ -145,6 +237,7 @@ export async function createCookieConsentLead(input: CreateCookieConsentLeadInpu
       utmTerm: attribution?.utmTerm ?? null,
       referrer: attribution?.referrer ?? null,
       landingPage: attribution?.landingPage ?? null,
+      lastActivityAt: new Date(),
     })
     .returning();
 

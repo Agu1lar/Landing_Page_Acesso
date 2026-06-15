@@ -17,6 +17,7 @@ import {
   isGoogleAnalyticsConfigured,
 } from '@/lib/google-analytics';
 import { initPostHog } from '@/lib/posthog-client';
+import { recordAnalyticsConsent } from '@/lib/record-analytics-consent';
 
 type AnalyticsConsentProviderProps = {
   children: React.ReactNode;
@@ -60,12 +61,14 @@ export function AnalyticsConsentProvider(props: AnalyticsConsentProviderProps) {
     setStatus('analytics');
     initPostHog();
     grantGoogleAnalyticsConsent();
+    void recordAnalyticsConsent('accept');
   };
 
   const rejectAnalytics = () => {
     persistConsent('essential');
     setStatus('essential');
     denyGoogleAnalyticsConsent();
+    void recordAnalyticsConsent('reject');
   };
 
   const reopenBanner = () => {
