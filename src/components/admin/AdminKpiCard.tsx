@@ -26,7 +26,7 @@ export function AdminKpiCard(props: AdminKpiCardProps) {
   const deltaPositive = delta !== undefined && delta >= 0;
 
   return (
-    <div className="relative overflow-hidden rounded-xl border border-neutral-200/80 bg-white p-5 shadow-sm">
+    <div className="relative rounded-xl border border-neutral-200/80 bg-white p-5 shadow-sm">
       <div className={`absolute top-0 left-0 h-1 w-full ${accentBar[accent]}`} />
       <div className="flex items-start justify-between gap-2">
         <p className="text-sm font-medium text-neutral-500">{props.label}</p>

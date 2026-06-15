@@ -20,7 +20,7 @@ export function AdminCard(props: AdminCardProps) {
 
   return (
     <section
-      className={`overflow-hidden rounded-xl border border-neutral-200/80 bg-white shadow-sm ${props.className ?? ''}`}
+      className={`rounded-xl border border-neutral-200/80 bg-white shadow-sm ${props.className ?? ''}`}
     >
       {props.title || props.description ? (
         <div className="flex items-start justify-between gap-3 border-b border-neutral-100 bg-neutral-50/50 px-5 py-4">
