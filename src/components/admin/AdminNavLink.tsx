@@ -1,14 +1,28 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import type { ReactNode } from 'react';
+import {
+  IconAnalytics,
+  IconEquipment,
+  IconLeads,
+  IconPlus,
+} from '@/components/admin/admin-icons';
 import { isAdminNavActive } from '@/lib/admin-nav';
 import { Link } from '@/libs/I18nNavigation';
+
+export type AdminNavIcon = 'leads' | 'analytics' | 'equipment' | 'plus';
+
+const navIcons = {
+  leads: IconLeads,
+  analytics: IconAnalytics,
+  equipment: IconEquipment,
+  plus: IconPlus,
+} as const;
 
 type AdminNavLinkProps = {
   href: string;
   label: string;
-  icon?: ReactNode;
+  icon?: AdminNavIcon;
 };
 
 /**
@@ -17,6 +31,7 @@ type AdminNavLinkProps = {
 export function AdminNavLink(props: AdminNavLinkProps) {
   const pathname = usePathname();
   const active = isAdminNavActive(pathname, props.href);
+  const Icon = props.icon ? navIcons[props.icon] : null;
 
   return (
     <Link
@@ -27,7 +42,11 @@ export function AdminNavLink(props: AdminNavLinkProps) {
       }`}
       href={props.href}
     >
-      {props.icon ? <span className="shrink-0 opacity-90">{props.icon}</span> : null}
+      {Icon ? (
+        <span className="shrink-0 opacity-90">
+          <Icon />
+        </span>
+      ) : null}
       <span>{props.label}</span>
     </Link>
   );

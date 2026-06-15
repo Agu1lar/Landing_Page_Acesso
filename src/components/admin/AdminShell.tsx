@@ -1,7 +1,6 @@
 import { SignOutButton } from '@clerk/nextjs';
 import { getTranslations } from 'next-intl/server';
 import { AdminNavLink } from '@/components/admin/AdminNavLink';
-import { IconAnalytics, IconEquipment, IconLeads, IconPlus } from '@/components/admin/admin-icons';
 
 type AdminShellProps = {
   children: React.ReactNode;
@@ -42,12 +41,12 @@ export async function AdminShell(props: AdminShellProps) {
           </p>
           <ul className="space-y-1">
             <li>
-              <AdminNavLink href="/dashboard/leads" icon={<IconLeads />} label={t('leads_link')} />
+              <AdminNavLink href="/dashboard/leads" icon="leads" label={t('leads_link')} />
             </li>
             <li>
               <AdminNavLink
                 href="/dashboard/analytics"
-                icon={<IconAnalytics />}
+                icon="analytics"
                 label={t('analytics_link')}
               />
             </li>
@@ -62,14 +61,14 @@ export async function AdminShell(props: AdminShellProps) {
                 <li>
                   <AdminNavLink
                     href="/dashboard/equipamentos"
-                    icon={<IconEquipment />}
+                    icon="equipment"
                     label={t('equipment_link')}
                   />
                 </li>
                 <li>
                   <AdminNavLink
                     href="/dashboard/equipamentos/new"
-                    icon={<IconPlus />}
+                    icon="plus"
                     label={t('equipment_new_link')}
                   />
                 </li>
