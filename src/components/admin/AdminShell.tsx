@@ -1,5 +1,6 @@
 import { SignOutButton } from '@clerk/nextjs';
 import { getTranslations } from 'next-intl/server';
+import { AdminHelpLauncher } from '@/components/admin/AdminHelpLauncher';
 import { AdminNavLink } from '@/components/admin/AdminNavLink';
 
 type AdminShellProps = {
@@ -91,6 +92,7 @@ export async function AdminShell(props: AdminShellProps) {
 
       <div className="min-w-0 flex-1 lg:pl-64">
         <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">{props.children}</main>
+        <AdminHelpLauncher role={props.role} />
       </div>
     </div>
   );
