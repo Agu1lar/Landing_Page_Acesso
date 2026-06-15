@@ -109,12 +109,11 @@ export function isAdminOnlyDashboardPath(pathname: string) {
 }
 
 /**
- * Returns true for dashboard modules deferred from the current admin menu.
+ * Returns true for dashboard modules not yet shipped (blocked in middleware).
  */
 export function isDeferredDashboardPath(pathname: string) {
   return (
-    /\/dashboard\/analytics/u.test(pathname)
-    || /\/dashboard\/exportacoes/u.test(pathname)
+    /\/dashboard\/exportacoes/u.test(pathname)
     || /\/dashboard\/configuracoes/u.test(pathname)
   );
 }

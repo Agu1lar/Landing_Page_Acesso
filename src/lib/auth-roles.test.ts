@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
+  isAdminOnlyDashboardPath,
+  isDeferredDashboardPath,
   parseDashboardRoleFromMetadata,
   parseDashboardRoleFromSessionClaims,
 } from '@/lib/auth-roles';
@@ -26,5 +28,17 @@ describe('parse dashboard role from session claims', () => {
         publicMetadata: { role: 'comercial' },
       }),
     ).toBe('comercial');
+  });
+});
+
+describe('isDeferredDashboardPath', () => {
+  it('allows analytics dashboard', () => {
+    expect(isDeferredDashboardPath('/dashboard/analytics')).toBe(false);
+    expect(isDeferredDashboardPath('/pt-BR/dashboard/analytics')).toBe(false);
+  });
+
+  it('blocks unshipped export and settings routes', () => {
+    expect(isDeferredDashboardPath('/dashboard/exportacoes')).toBe(true);
+    expect(isDeferredDashboardPath('/dashboard/configuracoes')).toBe(true);
   });
 });
