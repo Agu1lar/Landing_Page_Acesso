@@ -1,15 +1,14 @@
 import { asc, count, eq } from 'drizzle-orm';
 import type { InferSelectModel } from 'drizzle-orm';
 import type { DashboardRole } from '@/lib/auth-roles';
+import { normalizeAllowlistEmail } from '@/lib/dashboard-allowlist-email';
 import { db } from '@/libs/DB';
 import { dashboardAllowlistSchema } from '@/models/Schema';
 
-export type AllowlistEntry = InferSelectModel<typeof dashboardAllowlistSchema>;
+export type { AllowlistEntry } from '@/lib/dashboard-allowlist-email';
+export { isAllowedDashboardEmail, normalizeAllowlistEmail } from '@/lib/dashboard-allowlist-email';
 
-/** Normalizes e-mail for allowlist matching. */
-export function normalizeAllowlistEmail(email: string) {
-  return email.trim().toLowerCase();
-}
+export type AllowlistRecord = InferSelectModel<typeof dashboardAllowlistSchema>;
 
 function parseAllowlistRole(role: string | null | undefined): DashboardRole | undefined {
   if (role === 'admin' || role === 'comercial') {

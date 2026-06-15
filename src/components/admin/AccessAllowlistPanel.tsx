@@ -2,7 +2,8 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import type { AllowlistEntry } from '@/lib/dashboard-allowlist';
+import type { AllowlistEntry } from '@/lib/dashboard-allowlist-email';
+import { normalizeAllowlistEmail } from '@/lib/dashboard-allowlist-email';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
@@ -32,7 +33,10 @@ type AccessAllowlistPanelProps = {
     errorDuplicate: string;
     errorLastAdmin: string;
     errorGeneric: string;
+    errorNetwork: string;
     legacyModeHint: string;
+    addingLabel: string;
+    successAdded: string;
   };
 };
 
@@ -50,6 +54,15 @@ export function AccessAllowlistPanel(props: AccessAllowlistPanelProps) {
   const [isAdding, setIsAdding] = useState(false);
   const [removingId, setRemovingId] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
+
+  async function parseJsonBody(response: Response) {
+    try {
+      return (await response.json()) as { error?: string };
+    } catch {
+      return {};
+    }
+  }
 
   return (
     <div className="space-y-8">
@@ -67,32 +80,40 @@ export function AccessAllowlistPanel(props: AccessAllowlistPanelProps) {
           onSubmit={async (event) => {
             event.preventDefault();
             setError(null);
+            setSuccess(null);
             setIsAdding(true);
 
-            const response = await fetch('/api/admin/access', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ email, role }),
-            });
+            const normalizedEmail = normalizeAllowlistEmail(email);
 
-            const body = (await response.json()) as { error?: string };
+            try {
+              const response = await fetch('/api/admin/access', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: normalizedEmail, role }),
+              });
 
-            if (!response.ok) {
-              if (response.status === 409) {
-                setError(props.labels.errorDuplicate);
-              } else if (response.status === 422) {
-                setError(props.labels.errorInvalid);
-              } else {
-                setError(body.error ?? props.labels.errorGeneric);
+              const body = await parseJsonBody(response);
+
+              if (!response.ok) {
+                if (response.status === 409) {
+                  setError(props.labels.errorDuplicate);
+                } else if (response.status === 422) {
+                  setError(body.error ?? props.labels.errorInvalid);
+                } else {
+                  setError(body.error ?? props.labels.errorGeneric);
+                }
+                return;
               }
-              setIsAdding(false);
-              return;
-            }
 
-            setEmail('');
-            setRole('comercial');
-            router.refresh();
-            setIsAdding(false);
+              setEmail('');
+              setRole('comercial');
+              setSuccess(props.labels.successAdded.replace('{email}', normalizedEmail));
+              router.refresh();
+            } catch {
+              setError(props.labels.errorNetwork);
+            } finally {
+              setIsAdding(false);
+            }
           }}
         >
           <Input
@@ -104,7 +125,10 @@ export function AccessAllowlistPanel(props: AccessAllowlistPanelProps) {
             }}
             placeholder={props.labels.emailPlaceholder}
             required
-            type="email"
+            type="text"
+            inputMode="email"
+            autoComplete="email"
+            spellCheck={false}
             value={email}
           />
           <Select
@@ -121,10 +145,11 @@ export function AccessAllowlistPanel(props: AccessAllowlistPanelProps) {
           </Select>
           <div className="flex items-end">
             <Button disabled={isAdding} type="submit">
-              {props.labels.addButton}
+              {isAdding ? props.labels.addingLabel : props.labels.addButton}
             </Button>
           </div>
         </form>
+        {success ? <p className="mt-3 text-sm text-green-700">{success}</p> : null}
         {error ? <p className="mt-3 text-sm text-red-600">{error}</p> : null}
       </section>
 
@@ -170,26 +195,31 @@ export function AccessAllowlistPanel(props: AccessAllowlistPanelProps) {
                           disabled={removingId === entry.id}
                           onClick={async () => {
                             setError(null);
+                            setSuccess(null);
                             setRemovingId(entry.id);
 
-                            const response = await fetch(`/api/admin/access/${entry.id}`, {
-                              method: 'DELETE',
-                            });
+                            try {
+                              const response = await fetch(`/api/admin/access/${entry.id}`, {
+                                method: 'DELETE',
+                              });
 
-                            const body = (await response.json()) as { error?: string };
+                              const body = await parseJsonBody(response);
 
-                            if (!response.ok) {
-                              if (response.status === 409) {
-                                setError(body.error ?? props.labels.errorLastAdmin);
-                              } else {
-                                setError(body.error ?? props.labels.errorGeneric);
+                              if (!response.ok) {
+                                if (response.status === 409) {
+                                  setError(body.error ?? props.labels.errorLastAdmin);
+                                } else {
+                                  setError(body.error ?? props.labels.errorGeneric);
+                                }
+                                return;
                               }
-                              setRemovingId(null);
-                              return;
-                            }
 
-                            router.refresh();
-                            setRemovingId(null);
+                              router.refresh();
+                            } catch {
+                              setError(props.labels.errorNetwork);
+                            } finally {
+                              setRemovingId(null);
+                            }
                           }}
                           size="sm"
                           type="button"

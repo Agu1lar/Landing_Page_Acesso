@@ -279,7 +279,10 @@
     "error_duplicate": "Este e-mail já está autorizado.",
     "error_last_admin": "Não é possível remover o último administrador.",
     "error_generic": "Não foi possível concluir a operação.",
-    "legacy_mode_hint": "Modo legado: a lista está vazia, então quem tem papel admin ou comercial no Clerk ainda entra. Ao adicionar o primeiro e-mail aqui, só os endereços listados poderão acessar o painel."
+    "error_network": "Falha de conexão. Tente novamente em alguns segundos.",
+    "adding_label": "Salvando…",
+    "success_added": "E-mail {email} autorizado com sucesso.",
+    "legacy_mode_hint": "Modo legado: a lista está vazia, então quem tem papel admin ou comercial no Clerk ainda entra. Ao adicionar o primeiro e-mail aqui, só os endereços listados (e admins do Clerk) poderão acessar o painel."
   },
   "AdminHelp": {
     "trigger_label": "Ajuda do painel",

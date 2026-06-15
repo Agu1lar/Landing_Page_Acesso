@@ -2,8 +2,8 @@ import { auth, clerkClient } from '@clerk/nextjs/server';
 import {
   countAllowlistEntries,
   getAllowlistRoleByEmail,
-  normalizeAllowlistEmail,
 } from '@/lib/dashboard-allowlist';
+import { normalizeAllowlistEmail } from '@/lib/dashboard-allowlist-email';
 
 const DASHBOARD_ROLES = ['admin', 'comercial'] as const;
 
@@ -62,7 +62,8 @@ export async function getClerkUserEmail(userId: string) {
 /**
  * Resolves role from session claims, falling back to Clerk user public metadata.
  *
- * When the allowlist table has entries, only e-mails listed there may access the dashboard.
+ * When the allowlist table has entries, only listed e-mails may access the dashboard.
+ * Clerk admins (publicMetadata.role = admin) keep access to manage the allowlist.
  *
  * @param userId - Clerk user id.
  * @param sessionClaims - Clerk session JWT claims.
@@ -72,24 +73,33 @@ export async function resolveDashboardRole(
   userId: string,
   sessionClaims: Record<string, unknown> | null | undefined,
 ) {
-  const allowlistActive = (await countAllowlistEntries()) > 0;
-  const email = await getClerkUserEmail(userId);
-
-  if (allowlistActive) {
-    if (!email) {
-      return undefined;
-    }
-    return getAllowlistRoleByEmail(email);
-  }
-
   const fromClaims = parseDashboardRoleFromSessionClaims(sessionClaims);
-  if (fromClaims) {
-    return fromClaims;
-  }
-
   const client = await clerkClient();
   const user = await client.users.getUser(userId);
-  return parseDashboardRoleFromMetadata(user.publicMetadata as PublicMetadata);
+  const clerkRole =
+    fromClaims ?? parseDashboardRoleFromMetadata(user.publicMetadata as PublicMetadata);
+  const rawEmail =
+    user.primaryEmailAddress?.emailAddress ?? user.emailAddresses[0]?.emailAddress ?? undefined;
+  const email = rawEmail ? normalizeAllowlistEmail(rawEmail) : undefined;
+
+  const allowlistActive = (await countAllowlistEntries()) > 0;
+
+  if (allowlistActive) {
+    if (email) {
+      const fromAllowlist = await getAllowlistRoleByEmail(email);
+      if (fromAllowlist) {
+        return fromAllowlist;
+      }
+    }
+
+    if (clerkRole === 'admin') {
+      return 'admin';
+    }
+
+    return undefined;
+  }
+
+  return clerkRole;
 }
 
 type DashboardAccessResult =

@@ -42,6 +42,7 @@ export function Button({
   equipmentName,
   children,
   onClick,
+  type = 'button',
   ...props
 }: ButtonProps) {
   const classes = `inline-flex items-center justify-center gap-2 rounded-lg font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:pointer-events-none disabled:opacity-50 ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;
@@ -71,7 +72,7 @@ export function Button({
   }
 
   return (
-    <button className={classes} type="button" onClick={onClick} {...props}>
+    <button className={classes} type={type} onClick={onClick} {...props}>
       {children}
     </button>
   );

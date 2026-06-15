@@ -71,7 +71,10 @@ export default async function AccessAdminPage(props: AccessAdminPageProps) {
           errorDuplicate: t('error_duplicate'),
           errorLastAdmin: t('error_last_admin'),
           errorGeneric: t('error_generic'),
+          errorNetwork: t('error_network'),
           legacyModeHint: t('legacy_mode_hint'),
+          addingLabel: t('adding_label'),
+          successAdded: t('success_added'),
         }}
       />
     </div>
