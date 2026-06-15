@@ -2,6 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import {
+  IconAccess,
   IconAnalytics,
   IconEquipment,
   IconLeads,
@@ -10,13 +11,14 @@ import {
 import { isAdminNavActive } from '@/lib/admin-nav';
 import { Link } from '@/libs/I18nNavigation';
 
-export type AdminNavIcon = 'leads' | 'analytics' | 'equipment' | 'plus';
+export type AdminNavIcon = 'leads' | 'analytics' | 'equipment' | 'plus' | 'access';
 
 const navIcons = {
   leads: IconLeads,
   analytics: IconAnalytics,
   equipment: IconEquipment,
   plus: IconPlus,
+  access: IconAccess,
 } as const;
 
 type AdminNavLinkProps = {

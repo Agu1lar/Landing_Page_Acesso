@@ -13,4 +13,8 @@ describe('admin nav', () => {
   it('marks analytics path as active', () => {
     expect(isAdminNavActive('/dashboard/analytics', '/dashboard/analytics')).toBe(true);
   });
+
+  it('marks access page as active', () => {
+    expect(isAdminNavActive('/dashboard/acesso', '/dashboard/acesso')).toBe(true);
+  });
 });

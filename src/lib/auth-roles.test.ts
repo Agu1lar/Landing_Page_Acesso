@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  isAdminOnlyDashboardPath,
   isDeferredDashboardPath,
   parseDashboardRoleFromMetadata,
   parseDashboardRoleFromSessionClaims,
@@ -36,8 +37,20 @@ describe('isDeferredDashboardPath', () => {
     expect(isDeferredDashboardPath('/pt-BR/dashboard/analytics')).toBe(false);
   });
 
+  it('allows access management dashboard', () => {
+    expect(isDeferredDashboardPath('/dashboard/acesso')).toBe(false);
+  });
+
   it('blocks unshipped export and settings routes', () => {
     expect(isDeferredDashboardPath('/dashboard/exportacoes')).toBe(true);
     expect(isDeferredDashboardPath('/dashboard/configuracoes')).toBe(true);
+  });
+});
+
+describe('isAdminOnlyDashboardPath', () => {
+  it('restricts equipment and access routes', () => {
+    expect(isAdminOnlyDashboardPath('/dashboard/equipamentos')).toBe(true);
+    expect(isAdminOnlyDashboardPath('/dashboard/acesso')).toBe(true);
+    expect(isAdminOnlyDashboardPath('/dashboard/leads')).toBe(false);
   });
 });

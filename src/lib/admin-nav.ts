@@ -15,5 +15,9 @@ export function isAdminNavActive(pathname: string, href: string) {
     return path === '/dashboard/leads' || path.startsWith('/dashboard/leads/');
   }
 
+  if (href === '/dashboard/acesso') {
+    return path === '/dashboard/acesso';
+  }
+
   return path === href || path.startsWith(`${href}/`);
 }

@@ -74,6 +74,19 @@ export async function AdminShell(props: AdminShellProps) {
                   />
                 </li>
               </ul>
+
+              <p className="mt-6 px-3 pb-2 text-[11px] font-semibold tracking-wider text-slate-500 uppercase">
+                {t('nav_group_settings')}
+              </p>
+              <ul className="space-y-1">
+                <li>
+                  <AdminNavLink
+                    href="/dashboard/acesso"
+                    icon="access"
+                    label={t('access_link')}
+                  />
+                </li>
+              </ul>
             </>
           ) : null}
         </nav>

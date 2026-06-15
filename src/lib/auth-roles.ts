@@ -1,4 +1,9 @@
 import { auth, clerkClient } from '@clerk/nextjs/server';
+import {
+  countAllowlistEntries,
+  getAllowlistRoleByEmail,
+  normalizeAllowlistEmail,
+} from '@/lib/dashboard-allowlist';
 
 const DASHBOARD_ROLES = ['admin', 'comercial'] as const;
 
@@ -44,7 +49,20 @@ export function parseDashboardRoleFromSessionClaims(
 }
 
 /**
+ * Reads the primary e-mail from a Clerk user record.
+ */
+export async function getClerkUserEmail(userId: string) {
+  const client = await clerkClient();
+  const user = await client.users.getUser(userId);
+  const email =
+    user.primaryEmailAddress?.emailAddress ?? user.emailAddresses[0]?.emailAddress ?? undefined;
+  return email ? normalizeAllowlistEmail(email) : undefined;
+}
+
+/**
  * Resolves role from session claims, falling back to Clerk user public metadata.
+ *
+ * When the allowlist table has entries, only e-mails listed there may access the dashboard.
  *
  * @param userId - Clerk user id.
  * @param sessionClaims - Clerk session JWT claims.
@@ -54,6 +72,16 @@ export async function resolveDashboardRole(
   userId: string,
   sessionClaims: Record<string, unknown> | null | undefined,
 ) {
+  const allowlistActive = (await countAllowlistEntries()) > 0;
+  const email = await getClerkUserEmail(userId);
+
+  if (allowlistActive) {
+    if (!email) {
+      return undefined;
+    }
+    return getAllowlistRoleByEmail(email);
+  }
+
   const fromClaims = parseDashboardRoleFromSessionClaims(sessionClaims);
   if (fromClaims) {
     return fromClaims;
@@ -105,7 +133,10 @@ export async function requireAdminAccess(): Promise<DashboardAccessResult> {
  * Returns true when pathname is restricted to admin role only.
  */
 export function isAdminOnlyDashboardPath(pathname: string) {
-  return /\/dashboard\/equipamentos/u.test(pathname);
+  return (
+    /\/dashboard\/equipamentos/u.test(pathname)
+    || /\/dashboard\/acesso/u.test(pathname)
+  );
 }
 
 /**
