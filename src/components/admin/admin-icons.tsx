@@ -63,3 +63,16 @@ export function IconAccess({ className = 'h-5 w-5' }: IconProps) {
     </svg>
   );
 }
+
+export function IconSearch({ className = 'h-5 w-5' }: IconProps) {
+  return (
+    <svg aria-hidden className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path
+        d="M21 21l-4.35-4.35M11 18a7 7 0 100-14 7 7 0 000 14z"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.75"
+      />
+    </svg>
+  );
+}

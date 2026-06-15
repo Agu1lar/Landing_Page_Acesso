@@ -6,6 +6,7 @@ import { Link } from '@/libs/I18nNavigation';
 
 type LeadsDatePresetsProps = {
   filters: LeadListFilters;
+  basePath?: string;
 };
 
 /**
@@ -13,6 +14,7 @@ type LeadsDatePresetsProps = {
  */
 export async function LeadsDatePresets(props: LeadsDatePresetsProps) {
   const t = await getTranslations('LeadsAdminPage');
+  const basePath = props.basePath ?? '/dashboard/leads/consulta';
   const range7 = lastDaysRange(7);
   const range30 = lastDaysRange(30);
 
@@ -23,12 +25,12 @@ export async function LeadsDatePresets(props: LeadsDatePresetsProps) {
     q: props.filters.q,
   };
 
-  const href7 = `/dashboard/leads${buildLeadsFilterQuery({
+  const href7 = `${basePath}${buildLeadsFilterQuery({
     ...base,
     ...range7,
     page: 1,
   })}`;
-  const href30 = `/dashboard/leads${buildLeadsFilterQuery({
+  const href30 = `${basePath}${buildLeadsFilterQuery({
     ...base,
     ...range30,
     page: 1,

@@ -2,28 +2,23 @@ import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { CommercialQueueSection } from '@/components/admin/CommercialQueueSection';
 import { GoogleCookieLeadCallout } from '@/components/admin/GoogleCookieLeadCallout';
-import { LeadsFiltersForm } from '@/components/admin/LeadsFiltersForm';
 import { LeadsTable } from '@/components/admin/LeadsTable';
 import { StaleLeadsAlert } from '@/components/admin/StaleLeadsAlert';
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
 import { Button } from '@/components/ui/Button';
-import { buildLeadsFilterQuery, buildContactOrderCounts, listCommercialQueue, listLeads } from '@/lib/leads-admin';
+import {
+  buildContactOrderCounts,
+  listCommercialQueue,
+  listWeekOperationalLeads,
+  WEEK_LEADS_DISPLAY_MAX,
+} from '@/lib/leads-admin';
+import { formatWeekRangeLabel } from '@/lib/leads-date-presets';
 import { listStaleNewLeads } from '@/lib/leads-stale-alert';
-import type { LeadListFilters } from '@/lib/leads-admin';
 import { Link } from '@/libs/I18nNavigation';
 import { resolveAppLocale } from '@/utils/locale';
 
 type LeadsPageProps = {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{
-    dateFrom?: string;
-    dateTo?: string;
-    status?: string;
-    city?: string;
-    origin?: string;
-    q?: string;
-    page?: string;
-  }>;
 };
 
 export async function generateMetadata(props: LeadsPageProps): Promise<Metadata> {
@@ -33,113 +28,78 @@ export async function generateMetadata(props: LeadsPageProps): Promise<Metadata>
     namespace: 'LeadsAdminPage',
   });
   return {
-    title: t('meta_title'),
-    description: t('meta_description'),
-  };
-}
-
-type LeadsSearchParams = {
-  dateFrom?: string;
-  dateTo?: string;
-  status?: string;
-  city?: string;
-  origin?: string;
-  q?: string;
-  page?: string;
-};
-
-function parseFilters(searchParams: LeadsSearchParams): LeadListFilters {
-  const page = searchParams.page ? Number.parseInt(searchParams.page, 10) : 1;
-  return {
-    dateFrom: searchParams.dateFrom,
-    dateTo: searchParams.dateTo,
-    status: searchParams.status,
-    city: searchParams.city,
-    origin: searchParams.origin,
-    q: searchParams.q,
-    page: Number.isNaN(page) ? 1 : page,
+    title: t('meta_title_week'),
+    description: t('meta_description_week'),
   };
 }
 
 export default async function LeadsAdminPage(props: LeadsPageProps) {
   const { locale } = await props.params;
-  const searchParams = await props.searchParams;
   setRequestLocale(resolveAppLocale(locale));
   const t = await getTranslations({
     locale: resolveAppLocale(locale),
     namespace: 'LeadsAdminPage',
   });
 
-  const filters = parseFilters(searchParams);
-  const [listResult, queueLeads, staleLeads] = await Promise.all([
-    listLeads(filters),
+  const [queueResult, weekResult, staleLeads] = await Promise.all([
     listCommercialQueue(),
+    listWeekOperationalLeads(),
     listStaleNewLeads(),
   ]);
-  const { leads, total, page, totalPages } = listResult;
-  const contactOrderCounts = await buildContactOrderCounts(leads);
+  const contactOrderCounts = await buildContactOrderCounts(weekResult.leads);
   const googleClientIdConfigured = Boolean(process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID?.trim());
-  const query = buildLeadsFilterQuery(filters);
-  const exportHref = `/api/admin/leads/export${query}`;
-
-  const prevPage = page > 1 ? buildLeadsFilterQuery({ ...filters, page: page - 1 }) : null;
-  const nextPage = page < totalPages ? buildLeadsFilterQuery({ ...filters, page: page + 1 }) : null;
+  const weekLabel = formatWeekRangeLabel(weekResult.weekRange);
+  const weekOverflow = Math.max(0, weekResult.total - weekResult.leads.length);
 
   return (
     <div className="space-y-8">
       <AdminPageHeader
         actions={
-          <Button href={exportHref} size="sm" variant="outline">
-            {t('export_csv')}
+          <Button href="/dashboard/leads/consulta" size="sm" variant="outline">
+            {t('open_consulta_button')}
           </Button>
         }
-        description={t('summary', { count: total })}
-        title={t('title')}
+        description={t('week_summary', {
+          count: weekResult.total,
+          week: weekLabel,
+        })}
+        title={t('title_week')}
       />
 
       <StaleLeadsAlert summary={staleLeads} />
 
       <GoogleCookieLeadCallout googleClientIdConfigured={googleClientIdConfigured} />
 
-      <CommercialQueueSection leads={queueLeads} />
+      <CommercialQueueSection
+        leads={queueResult.leads}
+        total={queueResult.total}
+        weekRange={queueResult.weekRange}
+      />
 
-      <LeadsFiltersForm filters={filters} />
-      <LeadsTable contactOrderCounts={contactOrderCounts} leads={leads} />
-
-      {totalPages > 1 ? (
-        <nav
-          aria-label={t('pagination_label')}
-          className="flex items-center justify-between gap-4 text-sm"
-        >
-          <p className="text-neutral-600">{t('pagination_info', { page, totalPages })}</p>
-          <div className="flex gap-2">
-            {prevPage ? (
-              <Link
-                className="rounded-lg border border-neutral-200 px-3 py-1.5 hover:bg-background-muted"
-                href={`/dashboard/leads${prevPage}`}
-              >
-                {t('pagination_prev')}
-              </Link>
-            ) : (
-              <span className="rounded-lg border border-neutral-100 px-3 py-1.5 text-neutral-400">
-                {t('pagination_prev')}
-              </span>
-            )}
-            {nextPage ? (
-              <Link
-                className="rounded-lg border border-neutral-200 px-3 py-1.5 hover:bg-background-muted"
-                href={`/dashboard/leads${nextPage}`}
-              >
-                {t('pagination_next')}
-              </Link>
-            ) : (
-              <span className="rounded-lg border border-neutral-100 px-3 py-1.5 text-neutral-400">
-                {t('pagination_next')}
-              </span>
-            )}
+      <section className="space-y-4">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <h2 className="font-heading text-lg font-bold text-neutral-900">{t('week_table_title')}</h2>
+            <p className="mt-1 text-sm text-neutral-600">
+              {t('week_table_hint', { max: WEEK_LEADS_DISPLAY_MAX, week: weekLabel })}
+            </p>
           </div>
-        </nav>
-      ) : null}
+        </div>
+
+        <LeadsTable contactOrderCounts={contactOrderCounts} leads={weekResult.leads} />
+
+        {weekOverflow > 0 ? (
+          <p className="rounded-lg border border-neutral-200 bg-neutral-50 px-4 py-3 text-sm text-neutral-700">
+            {t('week_table_overflow', {
+              shown: weekResult.leads.length,
+              total: weekResult.total,
+            })}{' '}
+            <Link className="font-medium text-primary hover:underline" href="/dashboard/leads/consulta">
+              {t('open_consulta_link')}
+            </Link>
+          </p>
+        ) : null}
+      </section>
     </div>
   );
 }

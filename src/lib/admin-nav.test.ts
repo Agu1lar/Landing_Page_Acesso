@@ -14,6 +14,14 @@ describe('admin nav', () => {
     expect(isAdminNavActive('/dashboard/analytics', '/dashboard/analytics')).toBe(true);
   });
 
+  it('does not mark consulta as leads nav active', () => {
+    expect(isAdminNavActive('/dashboard/leads/consulta', '/dashboard/leads')).toBe(false);
+  });
+
+  it('marks consulta page as active', () => {
+    expect(isAdminNavActive('/dashboard/leads/consulta', '/dashboard/leads/consulta')).toBe(true);
+  });
+
   it('marks access page as active', () => {
     expect(isAdminNavActive('/dashboard/acesso', '/dashboard/acesso')).toBe(true);
   });

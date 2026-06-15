@@ -1,9 +1,10 @@
-import { and, desc, eq, gte, ilike, inArray, lte, or, sql } from 'drizzle-orm';
+import { and, count, desc, eq, gte, ilike, inArray, lte, or, sql } from 'drizzle-orm';
 import type { InferSelectModel } from 'drizzle-orm';
 import * as z from 'zod';
 import { countContactOrders, normalizeLeadEmail, normalizeLeadPhone, sortRelatedLeads } from '@/lib/lead-contact';
 import type { LeadStatus } from '@/lib/lead-status';
 import { scoreLeadIntent } from '@/lib/lead-intent-score';
+import { currentWeekRange } from '@/lib/leads-date-presets';
 import { db } from '@/libs/DB';
 import { leadsSchema } from '@/models/Schema';
 import { QuoteCartItemSchema } from '@/validations/quote';
@@ -12,6 +13,12 @@ import type { QuoteCartItemInput } from '@/validations/quote';
 export type LeadRecord = InferSelectModel<typeof leadsSchema>;
 
 const leadActivityOrder = sql`coalesce(${leadsSchema.lastActivityAt}, ${leadsSchema.createdAt})`;
+
+/** Max rows shown in the commercial queue card (scrollable). */
+export const COMMERCIAL_QUEUE_MAX = 12;
+
+/** Max rows on the weekly operational table before linking to consulta. */
+export const WEEK_LEADS_DISPLAY_MAX = 20;
 
 export type LeadListFilters = {
   dateFrom?: string;
@@ -160,20 +167,49 @@ function buildWhere(filters: LeadListFilters) {
   return conditions.length > 0 ? and(...conditions) : undefined;
 }
 
+function buildActivityDateWhere(dateFrom: string, dateTo: string) {
+  const from = new Date(`${dateFrom.trim()}T00:00:00.000Z`);
+  const to = new Date(`${dateTo.trim()}T23:59:59.999Z`);
+  if (Number.isNaN(from.getTime()) || Number.isNaN(to.getTime())) {
+    return undefined;
+  }
+
+  return and(gte(leadActivityOrder, from), lte(leadActivityOrder, to));
+}
+
+export type CommercialQueueResult = {
+  leads: LeadWithIntent[];
+  total: number;
+  weekRange: ReturnType<typeof currentWeekRange>;
+};
+
+export type WeekOperationalLeadsResult = {
+  leads: LeadRecord[];
+  total: number;
+  weekRange: ReturnType<typeof currentWeekRange>;
+};
+
 export type LeadWithIntent = LeadRecord & ReturnType<typeof scoreLeadIntent>;
 
 /**
- * Returns open leads sorted by commercial intent (highest first).
+ * Returns new leads from the current week, sorted by commercial intent.
  */
-export async function listCommercialQueue(limit = 8) {
-  const rows = await db
-    .select()
-    .from(leadsSchema)
-    .where(eq(leadsSchema.status, 'new'))
-    .orderBy(desc(leadActivityOrder))
-    .limit(40);
+export async function listCommercialQueue(limit = COMMERCIAL_QUEUE_MAX): Promise<CommercialQueueResult> {
+  const weekRange = currentWeekRange();
+  const activityWhere = buildActivityDateWhere(weekRange.dateFrom, weekRange.dateTo);
+  const where = and(eq(leadsSchema.status, 'new'), activityWhere);
 
-  return rows
+  const [rows, countRow] = await Promise.all([
+    db
+      .select()
+      .from(leadsSchema)
+      .where(where)
+      .orderBy(desc(leadActivityOrder))
+      .limit(Math.max(limit * 3, 40)),
+    db.select({ count: count() }).from(leadsSchema).where(where),
+  ]);
+
+  const leads = rows
     .map((lead) => ({
       ...lead,
       ...scoreLeadIntent(lead),
@@ -184,6 +220,38 @@ export async function listCommercialQueue(limit = 8) {
         (b.lastActivityAt ?? b.createdAt).getTime() - (a.lastActivityAt ?? a.createdAt).getTime(),
     )
     .slice(0, limit);
+
+  return {
+    leads,
+    total: countRow[0]?.count ?? 0,
+    weekRange,
+  };
+}
+
+/**
+ * Lists all leads with activity in the current week for the operational view.
+ */
+export async function listWeekOperationalLeads(
+  limit = WEEK_LEADS_DISPLAY_MAX,
+): Promise<WeekOperationalLeadsResult> {
+  const weekRange = currentWeekRange();
+  const where = buildActivityDateWhere(weekRange.dateFrom, weekRange.dateTo);
+
+  const [rows, countRow] = await Promise.all([
+    db
+      .select()
+      .from(leadsSchema)
+      .where(where)
+      .orderBy(desc(leadActivityOrder))
+      .limit(limit),
+    db.select({ count: count() }).from(leadsSchema).where(where),
+  ]);
+
+  return {
+    leads: rows,
+    total: countRow[0]?.count ?? 0,
+    weekRange,
+  };
 }
 
 /**

@@ -12,7 +12,14 @@ export function isAdminNavActive(pathname: string, href: string) {
   const path = stripLocaleFromPath(pathname);
 
   if (href === '/dashboard/leads') {
-    return path === '/dashboard/leads' || path.startsWith('/dashboard/leads/');
+    return (
+      path === '/dashboard/leads'
+      || (path.startsWith('/dashboard/leads/') && !path.startsWith('/dashboard/leads/consulta'))
+    );
+  }
+
+  if (href === '/dashboard/leads/consulta') {
+    return path === '/dashboard/leads/consulta' || path.startsWith('/dashboard/leads/consulta?');
   }
 
   if (href === '/dashboard/acesso') {

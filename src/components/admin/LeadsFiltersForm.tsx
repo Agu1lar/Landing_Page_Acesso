@@ -8,17 +8,18 @@ import type { LeadListFilters } from '@/lib/leads-admin';
 
 type LeadsFiltersFormProps = {
   filters: LeadListFilters;
+  basePath?: string;
 };
 
 export async function LeadsFiltersForm(props: LeadsFiltersFormProps) {
-  const { filters } = props;
+  const { filters, basePath = '/dashboard/leads/consulta' } = props;
   const t = await getTranslations('LeadsAdminPage');
 
   return (
     <AdminFilterPanel title={t('filter_panel_title')}>
       <form className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" method="get">
         <div className="sm:col-span-2 lg:col-span-3">
-          <LeadsDatePresets filters={filters} />
+          <LeadsDatePresets basePath={basePath} filters={filters} />
         </div>
         <Input
           defaultValue={filters.dateFrom ?? ''}
@@ -79,7 +80,7 @@ export async function LeadsFiltersForm(props: LeadsFiltersFormProps) {
           <Button size="sm" type="submit">
             {t('filter_apply')}
           </Button>
-          <Button href="/dashboard/leads" size="sm" variant="outline">
+          <Button href={basePath} size="sm" variant="outline">
             {t('filter_clear')}
           </Button>
         </div>

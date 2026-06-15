@@ -7,11 +7,12 @@ import {
   IconEquipment,
   IconLeads,
   IconPlus,
+  IconSearch,
 } from '@/components/admin/admin-icons';
 import { isAdminNavActive } from '@/lib/admin-nav';
 import { Link } from '@/libs/I18nNavigation';
 
-export type AdminNavIcon = 'leads' | 'analytics' | 'equipment' | 'plus' | 'access';
+export type AdminNavIcon = 'leads' | 'analytics' | 'equipment' | 'plus' | 'access' | 'search';
 
 const navIcons = {
   leads: IconLeads,
@@ -19,6 +20,7 @@ const navIcons = {
   equipment: IconEquipment,
   plus: IconPlus,
   access: IconAccess,
+  search: IconSearch,
 } as const;
 
 type AdminNavLinkProps = {
