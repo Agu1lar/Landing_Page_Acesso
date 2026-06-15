@@ -3,7 +3,7 @@ import { analyticsEventsSchema } from '@/models/Schema';
 import type { AttributionInput } from '@/lib/attribution';
 
 export type RecordAnalyticsEventInput = {
-  eventType: 'whatsapp_click' | 'quote_submit' | 'analytics_consent';
+  eventType: 'whatsapp_click' | 'quote_submit' | 'analytics_consent' | 'one_tap_prompt';
   origin?: string;
   equipmentSlug?: string;
   equipmentName?: string;

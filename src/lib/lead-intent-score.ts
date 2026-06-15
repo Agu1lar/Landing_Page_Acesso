@@ -25,6 +25,9 @@ export type LeadIntentScore = {
  */
 export function scoreLeadIntent(lead: LeadIntentInput): LeadIntentScore {
   if (lead.leadKind === 'cookie_consent') {
+    if (lead.phone?.trim()) {
+      return { score: 1, tier: 'cold' };
+    }
     return { score: 0, tier: 'cold' };
   }
 

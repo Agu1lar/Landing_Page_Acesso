@@ -1,0 +1,75 @@
+import { describe, expect, it } from 'vitest';
+import {
+  ONE_TAP_MAX_PROMPTS_PER_SESSION,
+  ONE_TAP_PROMPT_ATTEMPTS_SESSION_KEY,
+  ONE_TAP_REGISTERED_SESSION_KEY,
+  canAttemptOneTapPrompt,
+  getOneTapPromptAttempts,
+  incrementOneTapPromptAttempts,
+  markOneTapLeadRegistered,
+  markOptionalPhonePromptDismissed,
+  markOptionalPhonePromptSaved,
+  shouldRetryOneTapAfterSkip,
+  shouldShowOneTapFallback,
+  shouldShowOptionalPhonePrompt,
+  shouldSkipOneTapAfterLeadRegistered,
+} from '@/lib/google-one-tap-client';
+
+function memoryStorage(initial: Record<string, string> = {}) {
+  const store = { ...initial };
+  return {
+    getItem(key: string) {
+      return store[key] ?? null;
+    },
+    setItem(key: string, value: string) {
+      store[key] = value;
+    },
+  };
+}
+
+describe('google-one-tap-client', () => {
+  it('blocks further prompts after a lead is registered in the session', () => {
+    const storage = memoryStorage();
+    expect(shouldSkipOneTapAfterLeadRegistered(storage)).toBe(false);
+    markOneTapLeadRegistered(storage);
+    expect(shouldSkipOneTapAfterLeadRegistered(storage)).toBe(true);
+    expect(storage.getItem(ONE_TAP_REGISTERED_SESSION_KEY)).toBe('1');
+  });
+
+  it('limits prompt attempts per session', () => {
+    const storage = memoryStorage();
+    expect(canAttemptOneTapPrompt(storage)).toBe(true);
+
+    for (let i = 0; i < ONE_TAP_MAX_PROMPTS_PER_SESSION; i += 1) {
+      incrementOneTapPromptAttempts(storage);
+    }
+
+    expect(getOneTapPromptAttempts(storage)).toBe(ONE_TAP_MAX_PROMPTS_PER_SESSION);
+    expect(canAttemptOneTapPrompt(storage)).toBe(false);
+    expect(storage.getItem(ONE_TAP_PROMPT_ATTEMPTS_SESSION_KEY)).toBe(String(ONE_TAP_MAX_PROMPTS_PER_SESSION));
+  });
+
+  it('retries only for transient skip reasons', () => {
+    expect(shouldRetryOneTapAfterSkip('issuing_failed')).toBe(true);
+    expect(shouldRetryOneTapAfterSkip('auto_cancel')).toBe(true);
+    expect(shouldRetryOneTapAfterSkip('user_cancel')).toBe(false);
+  });
+
+  it('shows fallback for recoverable prompt failures', () => {
+    expect(shouldShowOneTapFallback('not_displayed', 'unregistered_origin')).toBe(true);
+    expect(shouldShowOneTapFallback('not_displayed', 'opt_out_or_no_session')).toBe(false);
+    expect(shouldShowOneTapFallback('dismissed', 'credential_returned')).toBe(false);
+    expect(shouldShowOneTapFallback('skipped', 'user_cancel')).toBe(true);
+  });
+
+  it('shows optional phone prompt once per session unless saved or dismissed', () => {
+    const storage = memoryStorage();
+    expect(shouldShowOptionalPhonePrompt(storage)).toBe(true);
+    markOptionalPhonePromptDismissed(storage);
+    expect(shouldShowOptionalPhonePrompt(storage)).toBe(false);
+
+    const savedStorage = memoryStorage();
+    markOptionalPhonePromptSaved(savedStorage);
+    expect(shouldShowOptionalPhonePrompt(savedStorage)).toBe(false);
+  });
+});

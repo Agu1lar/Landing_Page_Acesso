@@ -169,6 +169,18 @@
     "reject": "Somente essenciais",
     "manage_link": "Preferências de cookies"
   },
+  "GoogleOneTap": {
+    "fallback_title": "Salve seu contato",
+    "fallback_description": "Continue com Google para recebermos seu nome e e-mail e agilizar um orçamento.",
+    "phone_title": "WhatsApp para contato?",
+    "phone_description": "Opcional — ajuda a equipe a retornar mais rápido.",
+    "phone_placeholder": "(31) 99999-9999",
+    "phone_save": "Salvar",
+    "phone_saving": "Salvando…",
+    "phone_skip": "Agora não",
+    "phone_invalid": "Informe um telefone com DDD",
+    "phone_save_error": "Não foi possível salvar. Tente de novo."
+  },
   "PrivacidadePage": {
     "meta_title": "Política de privacidade",
     "meta_description": "Como a Acesso Equipamentos trata dados pessoais no site e no formulário de orçamento (LGPD).",
@@ -470,7 +482,12 @@
     "contact_history_current": "Este lead",
     "contact_history_entry": "Lead #{id}",
     "cookie_lead_callout_title": "Leads “Google (cookies)” não estão ativos",
-    "cookie_lead_callout_body": "Aceitar cookies de analytics liga PostHog e GA4, mas não cria lead sozinho. Para registrar visitantes via Google One Tap, configure NEXT_PUBLIC_GOOGLE_CLIENT_ID na Vercel (OAuth Web). Login no painel (/dashboard) usa Clerk e é independente. Verifique também GET /api/health → googleClientIdConfigured."
+    "cookie_lead_callout_body": "Aceitar cookies de analytics liga PostHog e GA4, mas não cria lead sozinho. Para registrar visitantes via Google One Tap, configure NEXT_PUBLIC_GOOGLE_CLIENT_ID na Vercel (OAuth Web), autorize as origens JavaScript no Google Cloud e faça redeploy. Login no painel (/dashboard) usa Clerk e é independente. Checklist completo: docs/GOOGLE-ONE-TAP.md · GET /api/health → googleOneTap",
+    "one_tap_active_title": "Google One Tap — checklist operacional",
+    "one_tap_active_item_test": "Teste em aba anônima logado no Google: aceitar analytics → confirmar One Tap → lead “Google (cookies)” nesta fila.",
+    "one_tap_active_item_origins": "No Google Cloud, inclua todas as origens (domínio oficial, *.vercel.app e localhost:3000).",
+    "one_tap_active_item_telemetry": "Eventos one_tap_prompt em analytics_events mostram por que o prompt não apareceu (origin no banco).",
+    "one_tap_active_item_doc": "Guia completo: docs/GOOGLE-ONE-TAP.md"
   },
   "AnalyticsAdminPage": {
     "meta_title": "Métricas do site",

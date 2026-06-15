@@ -10,6 +10,15 @@ describe('scoreLeadIntent', () => {
     ).toEqual({ score: 0, tier: 'cold' });
   });
 
+  it('bumps cookie-consent score slightly when phone is present', () => {
+    expect(
+      scoreLeadIntent({
+        leadKind: 'cookie_consent',
+        phone: '31999990000',
+      }),
+    ).toEqual({ score: 1, tier: 'cold' });
+  });
+
   it('scores a rich quote lead as hot', () => {
     const result = scoreLeadIntent({
       leadKind: 'quote',

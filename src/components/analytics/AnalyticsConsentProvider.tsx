@@ -3,7 +3,7 @@
 import { Suspense, useEffect, useState } from 'react';
 import { AnalyticsConsentContext } from '@/components/analytics/AnalyticsConsentContext';
 import { CookieConsentBanner } from '@/components/analytics/CookieConsentBanner';
-import { CookieConsentGoogleLead } from '@/components/analytics/CookieConsentGoogleLead';
+import { GoogleOneTapManager } from '@/components/analytics/GoogleOneTapManager';
 import { GaPageView } from '@/components/analytics/GaPageView';
 import { GoogleAnalyticsScripts } from '@/components/analytics/GoogleAnalyticsScripts';
 import { PostHogAttributionSync } from '@/components/analytics/PostHogAttributionSync';
@@ -93,7 +93,7 @@ export function AnalyticsConsentProvider(props: AnalyticsConsentProviderProps) {
       {showBanner ? <CookieConsentBanner /> : null}
       {analyticsOn ? (
         <>
-          <CookieConsentGoogleLead />
+          <GoogleOneTapManager />
           <PostHogAttributionSync />
           <Suspense fallback={null}>
             <GaPageView />

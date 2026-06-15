@@ -247,3 +247,48 @@ export async function createCookieConsentLead(input: CreateCookieConsentLeadInpu
 
   return { lead: lead ?? null, reason: 'created' as const };
 }
+
+/**
+ * Adds an optional phone to an existing cookie-consent lead after Google sign-in.
+ */
+export async function updateCookieConsentLeadPhone(input: {
+  profile: GoogleIdTokenPayload;
+  phone: string;
+}) {
+  const email = normalizeEmail(input.profile.email);
+
+  const [existing] = await db
+    .select()
+    .from(leadsSchema)
+    .where(
+      and(
+        eq(leadsSchema.leadKind, 'cookie_consent'),
+        sql`(${leadsSchema.email} = ${email} OR ${leadsSchema.googleSub} = ${input.profile.sub})`,
+      ),
+    )
+    .limit(1);
+
+  if (!existing) {
+    return { lead: null, reason: 'not_found' as const };
+  }
+
+  if (existing.phone?.trim()) {
+    return { lead: existing, reason: 'already_has_phone' as const };
+  }
+
+  const now = new Date();
+  const [updated] = await db
+    .update(leadsSchema)
+    .set({
+      phone: input.phone,
+      lastActivityAt: now,
+    })
+    .where(eq(leadsSchema.id, existing.id))
+    .returning();
+
+  if (updated) {
+    logger.info(`Lead cookie-consent #${updated.id} phone added email=${email}`);
+  }
+
+  return { lead: updated ?? existing, reason: 'updated' as const };
+}

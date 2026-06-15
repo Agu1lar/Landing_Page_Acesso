@@ -16,11 +16,23 @@ export async function GET() {
   });
 
   let database: 'ok' | 'error' = 'error';
+  let dashboardAllowlistTable: 'ok' | 'missing' | 'error' = 'error';
   try {
     await db.execute(sql`select 1`);
     database = 'ok';
   } catch {
     database = 'error';
+  }
+
+  if (database === 'ok') {
+    try {
+      await db.execute(sql`select 1 from dashboard_allowlist limit 1`);
+      dashboardAllowlistTable = 'ok';
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      dashboardAllowlistTable =
+        /does not exist|relation/u.test(message) || /42P01/u.test(message) ? 'missing' : 'error';
+    }
   }
 
   const resendConfigured = Boolean(Env.RESEND_API_KEY?.startsWith('re_') && Env.LEADS_NOTIFY_EMAIL);
@@ -46,9 +58,21 @@ export async function GET() {
     },
     database,
     databaseUsesPooler,
+    dashboardAllowlistTable,
     resendConfigured,
     arcjetConfigured,
     googleClientIdConfigured,
+    googleOneTap: {
+      clientIdConfigured: googleClientIdConfigured,
+      requiresAnalyticsConsentBeforePrompt: true,
+      leadEndpoint: 'POST /api/leads/cookie-consent',
+      promptTelemetryEndpoint: 'POST /api/analytics/one-tap',
+      checklistDoc: 'docs/GOOGLE-ONE-TAP.md',
+      authorizedOriginsHint: [
+        Env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, ''),
+        'http://localhost:3000',
+      ].filter(Boolean),
+    },
     ga4Configured,
     posthogConfigured,
     leadTracking: {

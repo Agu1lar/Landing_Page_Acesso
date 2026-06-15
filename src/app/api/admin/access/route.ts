@@ -43,20 +43,34 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'E-mail já autorizado' }, { status: 409 });
     }
 
-    await logAdminActivity({
-      userId: access.userId,
-      action: 'allowlist_add',
-      entityType: 'dashboard_allowlist',
-      details: `${result.entry?.email} (${result.entry?.role})`,
-    });
+    try {
+      await logAdminActivity({
+        userId: access.userId,
+        action: 'allowlist_add',
+        entityType: 'dashboard_allowlist',
+        details: `${result.entry?.email} (${result.entry?.role})`,
+      });
+    } catch (auditError) {
+      logger.warn('Allowlist entry saved but audit log failed', {
+        message: auditError instanceof Error ? auditError.message : String(auditError),
+      });
+    }
 
     return NextResponse.json({ ok: true, entry: result.entry });
   } catch (error) {
-    logger.error('Failed to add dashboard allowlist entry', {
-      message: error instanceof Error ? error.message : String(error),
-    });
+    const message = error instanceof Error ? error.message : String(error);
+    logger.error('Failed to add dashboard allowlist entry', { message });
+
+    const missingTable =
+      /dashboard_allowlist/u.test(message) &&
+      (/does not exist|relation/u.test(message) || /42P01/u.test(message));
+
     return NextResponse.json(
-      { error: 'Erro ao salvar e-mail. Verifique se a migração 0012 foi aplicada no banco.' },
+      {
+        error: missingTable
+          ? 'Erro ao salvar e-mail. Verifique se a migração 0012 foi aplicada no banco.'
+          : 'Erro ao salvar e-mail. Tente de novo em instantes.',
+      },
       { status: 500 },
     );
   }

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { CommercialQueueSection } from '@/components/admin/CommercialQueueSection';
 import { GoogleCookieLeadCallout } from '@/components/admin/GoogleCookieLeadCallout';
+import { GoogleOneTapActiveCallout } from '@/components/admin/GoogleOneTapActiveCallout';
 import { LeadsTable } from '@/components/admin/LeadsTable';
 import { StaleLeadsAlert } from '@/components/admin/StaleLeadsAlert';
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
@@ -69,6 +70,7 @@ export default async function LeadsAdminPage(props: LeadsPageProps) {
       <StaleLeadsAlert summary={staleLeads} />
 
       <GoogleCookieLeadCallout googleClientIdConfigured={googleClientIdConfigured} />
+      <GoogleOneTapActiveCallout googleClientIdConfigured={googleClientIdConfigured} />
 
       <CommercialQueueSection
         leads={queueResult.leads}
