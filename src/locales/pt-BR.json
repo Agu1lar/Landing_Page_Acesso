@@ -23,6 +23,13 @@
     "open_now": "Aberto agora",
     "closed": "Fechado"
   },
+  "ServiceArea": {
+    "eyebrow": "Área de atendimento",
+    "title": "Atendemos Belo Horizonte e a região metropolitana",
+    "subtitle": "Entrega e retirada de equipamentos no canteiro de obras nas cidades abaixo — plataformas elevatórias, guindastes, andaimes, concretagem e ferramentas.",
+    "note": "Sua cidade não está na lista? Fale com o comercial: avaliamos outras localidades próximas conforme a disponibilidade da frota.",
+    "primary_label": "Sede"
+  },
   "Search": {
     "placeholder": "Buscar equipamentos…",
     "shortcut": "Ctrl+K",
@@ -32,7 +39,7 @@
   },
   "Index": {
     "meta_title": "Locação de equipamentos para obra em BH | Acesso Equipamentos",
-    "meta_description": "Aluguel de plataformas elevatórias, guindaste industrial, Munck, andaimes e ferramentas em Belo Horizonte e RMBH. Frota revisada e orçamento rápido.",
+    "meta_description": "Aluguel de plataformas elevatórias, guindaste industrial, Munck, andaimes e ferramentas em Belo Horizonte, Contagem, Betim, Nova Lima e região metropolitana. Frota revisada e orçamento rápido.",
     "hero_title": "Equipamentos para sua obra, com segurança e agilidade",
     "hero_subtitle": "Plataformas elevatórias, guindaste industrial, Munck, andaimes, concretagem e ferramentas. Treinamento em plataformas aéreas. Fundada em 2013.",
     "training_title": "Treinamento em plataformas elevatórias",

@@ -64,6 +64,12 @@ Resumo do que foi projetado e entregue nesta sessão (commits `c2d7f1b` … `mai
 - Migração `0010` registrada no journal Drizzle (corrige 500 ao listar leads em produção).
 - Rota `/dashboard/analytics` liberada no middleware para papel `comercial` e `admin`.
 
+### SEO local — área de atendimento
+
+- Bloco visual **`ServiceAreaSection`** com as 16 cidades da RMBH (lista única em `brand.serviceAreaCities`, alinhada ao JSON-LD).
+- Exibido na **home** (abaixo do hero), **contato** e **sobre**.
+- Belo Horizonte destacada como **Sede**; meta description da home cita Contagem, Betim e Nova Lima.
+
 ---
 
 ## Números do catálogo (atual)
@@ -83,7 +89,7 @@ Resumo do que foi projetado e entregue nesta sessão (commits `c2d7f1b` … `mai
 
 | Página | Rota | Conteúdo |
 |--------|------|----------|
-| Início | `/` | Apresentação, categorias, depoimentos, como funciona |
+| Início | `/` | Apresentação, área de atendimento (RMBH), categorias, depoimentos, como funciona |
 | Equipamentos | `/equipamentos` | Catálogo com busca e filtro por categoria |
 | Detalhe | `/equipamentos/[slug]` | Ficha, specs (plataformas aéreas), foto, relacionados, carrinho |
 | Categorias | `/categorias/[slug]` | SEO por linha, galeria (ex.: guindaste/Munck), listagem do catálogo |

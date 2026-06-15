@@ -4,6 +4,7 @@ import { ConversionCtas } from '@/components/marketing/ConversionCtas';
 import { EquipmentCard } from '@/components/marketing/EquipmentCard';
 import { SetMobileDockConfig } from '@/components/marketing/mobile-dock-config';
 import { PrimaryLinesSection } from '@/components/marketing/PrimaryLinesSection';
+import { ServiceAreaSection } from '@/components/marketing/ServiceAreaSection';
 import { StepsSection } from '@/components/marketing/StepsSection';
 import { TestimonialsSection } from '@/components/marketing/TestimonialsSection';
 import { buildWhatsAppMessage, buildWhatsAppUrl } from '@/lib/brand';
@@ -55,6 +56,10 @@ export default async function HomePage(props: IndexPageProps) {
   const tLayout = await getTranslations({
     locale,
     namespace: 'RootLayout',
+  });
+  const tServiceArea = await getTranslations({
+    locale,
+    namespace: 'ServiceArea',
   });
   const featured = await getFeaturedEquipment(6);
   const imageBySlug = await getResolvedEquipmentImageMap();
@@ -111,6 +116,14 @@ export default async function HomePage(props: IndexPageProps) {
           </div>
         </div>
       </section>
+
+      <ServiceAreaSection
+        eyebrow={tServiceArea('eyebrow')}
+        note={tServiceArea('note')}
+        primaryLabel={tServiceArea('primary_label')}
+        subtitle={tServiceArea('subtitle')}
+        title={tServiceArea('title')}
+      />
 
       <PrimaryLinesSection
         cards={primaryLineCards}

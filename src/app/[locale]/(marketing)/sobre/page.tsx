@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
-import { setRequestLocale } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { TrackedWhatsAppLink } from '@/components/analytics/TrackedWhatsAppLink';
 import { ConversionCtas } from '@/components/marketing/ConversionCtas';
+import { ServiceAreaSection } from '@/components/marketing/ServiceAreaSection';
 import { TestimonialsSection } from '@/components/marketing/TestimonialsSection';
 import {
   companyCompliance,
@@ -33,6 +34,10 @@ const stats = [
 export default async function SobrePage(props: PageProps) {
   const locale = resolveAppLocale((await props.params)?.locale);
   setRequestLocale(locale);
+  const tServiceArea = await getTranslations({
+    locale,
+    namespace: 'ServiceArea',
+  });
 
   const equipmentCount = (await getAllEquipment()).length;
   const whatsappSobre = buildWhatsAppUrl(buildWhatsAppMessage({ origin: 'site-sobre' }));
@@ -78,6 +83,14 @@ export default async function SobrePage(props: PageProps) {
           ))}
         </div>
       </section>
+
+      <ServiceAreaSection
+        eyebrow={tServiceArea('eyebrow')}
+        note={tServiceArea('note')}
+        primaryLabel={tServiceArea('primary_label')}
+        subtitle={tServiceArea('subtitle')}
+        title={tServiceArea('title')}
+      />
 
       <section className="mx-auto max-w-4xl px-4 py-14 sm:px-6 lg:px-8">
         <h2 className="font-heading text-2xl font-bold text-neutral-900">Nossa história</h2>
