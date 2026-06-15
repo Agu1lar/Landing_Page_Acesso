@@ -71,6 +71,13 @@
       "when": 1779900000000,
       "tag": "0009_page_engagement_and_lead_kinds",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1780000000000,
+      "tag": "0010_google_click_ids",
+      "breakpoints": true
     }
   ]
 }
