@@ -1,6 +1,5 @@
-import Image from 'next/image';
-import { getManifestImageSrc } from '@/lib/equipment-images-manifest';
 import { AddToQuoteButton } from '@/components/quote-cart/AddToQuoteButton';
+import { EquipmentPhoto } from '@/components/marketing/EquipmentPhoto';
 import { getEquipmentQuoteCartKind } from '@/lib/equipment-quote-cart';
 import { Link } from '@/libs/I18nNavigation';
 import { CATEGORY_LABELS } from '@/types/equipment';
@@ -11,33 +10,17 @@ type EquipmentCardProps = {
   imagePriority?: boolean;
 };
 
-export function EquipmentCard(props: EquipmentCardProps) {
+export async function EquipmentCard(props: EquipmentCardProps) {
   const { equipment } = props;
-  const imageSrc = getManifestImageSrc(equipment.slug);
 
   return (
     <article className="group flex flex-col overflow-hidden rounded-[var(--radius-card)] border border-neutral-200 bg-surface shadow-sm transition-shadow hover:shadow-md">
-      <div className="relative h-36 w-full overflow-hidden bg-neutral-100">
-        {imageSrc ? (
-          <Image
-            alt={equipment.name}
-            className="object-contain object-center p-1"
-            fetchPriority={props.imagePriority ? 'high' : 'low'}
-            fill
-            loading={props.imagePriority ? undefined : 'lazy'}
-            priority={props.imagePriority}
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-            src={imageSrc}
-          />
-        ) : (
-          <div
-            aria-hidden
-            className="flex h-full items-center justify-center text-neutral-400"
-          >
-            <span className="text-xs">Sem foto</span>
-          </div>
-        )}
-      </div>
+      <EquipmentPhoto
+        imagePriority={props.imagePriority}
+        name={equipment.name}
+        slug={equipment.slug}
+        variant="card"
+      />
       <div className="flex flex-1 flex-col p-4">
         <p className="text-xs font-medium tracking-wide text-primary uppercase">
           {CATEGORY_LABELS[equipment.category]}

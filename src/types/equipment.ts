@@ -28,7 +28,7 @@ export type Equipment = {
 };
 
 export const CATEGORY_LABELS: Record<EquipmentCategory, string> = {
-  'equipamentos-aereos': 'Equipamentos aéreos',
+  'equipamentos-aereos': 'Plataformas elevatórias',
   concretagem: 'Concretagem',
   compactacao: 'Compactação',
   'demolicao-perfuracao': 'Demolição e perfuração',

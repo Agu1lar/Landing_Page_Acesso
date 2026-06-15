@@ -1,25 +1,22 @@
 import 'server-only';
 
 import { cache } from 'react';
-import manifest from '@/data/equipment-image-manifest.json';
 import { getManifestImageSrc } from '@/lib/equipment-images-manifest';
+import { resolveEquipmentImageSrc } from '@/lib/equipment-image-resolve';
 import { loadPrimaryImageMap } from '@/lib/equipment-db';
 
-const manifestMap = manifest as Record<string, string>;
-
-const loadImageMap = cache(async () => {
-  try {
-    const dbMap = await loadPrimaryImageMap();
-    return { ...manifestMap, ...dbMap };
-  } catch {
-    return manifestMap;
-  }
-});
+const loadPrimaryImageMapCached = cache(loadPrimaryImageMap);
 
 /**
- * Returns equipment photo URL (DB primary overrides manifest).
+ * Returns equipment photo URL (manifest + optional DB primary, with Blob override).
  */
 export async function getEquipmentImageSrc(slug: string) {
-  const map = await loadImageMap();
-  return map[slug] ?? getManifestImageSrc(slug);
+  const manifestSrc = getManifestImageSrc(slug);
+
+  try {
+    const dbMap = await loadPrimaryImageMapCached();
+    return resolveEquipmentImageSrc(manifestSrc, dbMap[slug]);
+  } catch {
+    return manifestSrc;
+  }
 }

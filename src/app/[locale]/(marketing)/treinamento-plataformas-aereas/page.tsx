@@ -49,7 +49,7 @@ export default async function TreinamentoPlataformasPage(props: PageProps) {
             Treinamento em plataformas elevatórias
           </h1>
           <p className="mt-6 text-lg leading-relaxed text-neutral-600">
-            Além da locação de equipamentos aéreos, a {brand.name} oferece{' '}
+            Além da locação de plataformas elevatórias, a {brand.name} oferece{' '}
             <strong className="font-semibold text-neutral-800">
               treinamento para operação segura
             </strong>{' '}

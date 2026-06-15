@@ -6,6 +6,7 @@ type EquipmentPhotoProps = {
   name: string;
   variant: 'card' | 'detail';
   className?: string;
+  imagePriority?: boolean;
 };
 
 function Placeholder(props: { variant: 'card' | 'detail' }) {
@@ -52,7 +53,10 @@ export async function EquipmentPhoto(props: EquipmentPhotoProps) {
         <Image
           alt={props.name}
           className="object-contain object-center p-1"
+          fetchPriority={props.imagePriority ? 'high' : 'low'}
           fill
+          loading={props.imagePriority ? undefined : 'lazy'}
+          priority={props.imagePriority}
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           src={src}
         />
