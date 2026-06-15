@@ -31,6 +31,7 @@ export default defineConfig({
           include: ['src/**/*.test.{js,ts}'],
           exclude: ['src/hooks/**/*.test.ts'],
           environment: 'node',
+          setupFiles: ['src/test/server-only-mock.ts'],
         },
       },
       {

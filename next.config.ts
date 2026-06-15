@@ -6,6 +6,7 @@ import createNextIntlPlugin from 'next-intl/plugin';
 
 // Define the base Next.js configuration
 const baseConfig: NextConfig = {
+  serverExternalPackages: ['pg'],
   devIndicators: {
     position: 'bottom-right',
   },

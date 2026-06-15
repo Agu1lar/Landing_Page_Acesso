@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { EquipmentViewTracker } from '@/components/analytics/EquipmentViewTracker';
 import { ConversionCtas } from '@/components/marketing/ConversionCtas';
 import { EquipmentCard } from '@/components/marketing/EquipmentCard';
-import { EquipmentPhoto } from '@/components/marketing/EquipmentPhoto';
+import { EquipmentDetailImage } from '@/components/marketing/EquipmentDetailImage';
 import { ExpandableParagraphs } from '@/components/marketing/ExpandableParagraphs';
 import { SetMobileDockConfig } from '@/components/marketing/mobile-dock-config';
 import { SpecTable } from '@/components/marketing/SpecTable';
@@ -96,7 +96,7 @@ export default async function EquipmentDetailPage(props: EquipmentDetailProps) {
         </Link>
 
         <div className="mt-4 grid gap-6 lg:mt-6 lg:grid-cols-2 lg:gap-10">
-          <EquipmentPhoto name={equipment.name} slug={equipment.slug} variant="detail" />
+          <EquipmentDetailImage name={equipment.name} src={imagePath} />
 
           <div>
             <Link

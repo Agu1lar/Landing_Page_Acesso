@@ -1,3 +1,5 @@
+import 'server-only';
+
 import { and, asc, desc, eq, ilike, isNull, or, sql } from 'drizzle-orm';
 import type { InferSelectModel } from 'drizzle-orm';
 import equipmentJson from '@/data/equipamentos.json';
