@@ -3099,24 +3099,36 @@
     "slug": "franna-fr17",
     "name": "FRANNA FR17",
     "category": "guindaste-industrial",
-    "shortDescription": "Locação de guindaste Franna FR17 para içamento e movimentação de cargas.",
-    "longDescription": "O FRANNA FR17 é guindaste tipo pick and carry indicado para içamento, carga e descarga em obras e indústria, com operação planejada e equipe especializada. Locação com entrega e retirada em Belo Horizonte, Contagem, Betim, Nova Lima e demais municípios da região metropolitana. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de guindaste Franna FR17 pick and carry para içamento e movimentação de cargas.",
+    "longDescription": "O FRANNA FR17 (Terex Franna) é guindaste tipo pick and carry compacto, com capacidade de 17 t e lança telescópica de até 20,40 m, indicado para içamento, carga e descarga em obras, indústria e manutenção. Tração 4x4, operação sem estabilizadores e boa manobrabilidade em espaços reduzidos. Locação com entrega e retirada em Belo Horizonte, Contagem, Betim, Nova Lima e demais municípios da região metropolitana. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Modelo",
-        "value": "Franna FR17"
+        "value": "Franna FR17 (Terex)"
       },
       {
-        "label": "Aplicação",
-        "value": "Içamento, carga e descarga de cargas pesadas"
+        "label": "Tipo",
+        "value": "Pick and carry"
       },
       {
-        "label": "Atendimento",
-        "value": "Belo Horizonte, Minas Gerais e todo o Brasil"
+        "label": "Capacidade máxima",
+        "value": "17 t"
       },
       {
-        "label": "Orçamento",
-        "value": "Sob consulta com avaliação da operação"
+        "label": "Comprimento máximo da lança",
+        "value": "20,40 m"
+      },
+      {
+        "label": "Altura máxima na ponta",
+        "value": "20,40 m"
+      },
+      {
+        "label": "Tração",
+        "value": "4x4"
+      },
+      {
+        "label": "Velocidade de deslocamento",
+        "value": "42 km/h"
       }
     ],
     "tags": [
@@ -3130,78 +3142,128 @@
   },
   {
     "slug": "plataforma-elevatoria-s80",
-    "name": "Plataforma Elevatória S80",
+    "name": "Plataforma Elevatória Genie S-85 XC E",
     "category": "plataformas-elevatorias",
-    "shortDescription": "Locação de plataforma elevatória S80 para trabalho em altura.",
-    "longDescription": "A Plataforma Elevatória S80 atende serviços em altura em obras, manutenções e montagens, com indicação conforme altura de trabalho e ambiente de operação. Locação com entrega e retirada em Belo Horizonte, Contagem, Betim, Nova Lima e demais municípios da região metropolitana. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de plataforma elevatória telescópica Genie S-85 XC E para trabalho em altura.",
+    "longDescription": "A Genie S-85 XC E é lança telescópica elétrica com capacidade dupla (300 kg livre / 454 kg restrita), alcance horizontal de 22,71 m e altura de trabalho de 27,91 m — indicada para obras e manutenções com baixa emissão e ruído reduzido. Locação com entrega e retirada em Belo Horizonte, Contagem, Betim, Nova Lima e demais municípios da região metropolitana. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Modelo",
-        "value": "S80"
+        "value": "Genie S-85 XC E"
       },
       {
-        "label": "Aplicação",
-        "value": "Trabalho em altura em obra e manutenção"
+        "label": "Tipo",
+        "value": "Lança telescópica"
       },
       {
-        "label": "Entrega",
-        "value": "Região metropolitana de BH e conforme logística"
+        "label": "Altura de trabalho",
+        "value": "27,91 m"
+      },
+      {
+        "label": "Altura da plataforma",
+        "value": "25,91 m"
+      },
+      {
+        "label": "Alcance horizontal",
+        "value": "22,71 m"
+      },
+      {
+        "label": "Capacidade da plataforma",
+        "value": "300 kg (livre) / 454 kg (restrita)"
+      },
+      {
+        "label": "Alimentação",
+        "value": "Elétrica (bateria de lítio)"
       }
     ],
     "tags": [
       "plataforma",
+      "genie",
       "altura",
-      "s80"
+      "aerea"
     ],
     "featured": true,
     "available": true
   },
   {
     "slug": "plataforma-elevatoria-s60",
-    "name": "Plataforma Elevatória S60",
+    "name": "Plataforma Elevatória Genie Z-80/60",
     "category": "plataformas-elevatorias",
-    "shortDescription": "Locação de plataforma elevatória S60 para trabalho em altura.",
-    "longDescription": "A Plataforma Elevatória S60 é indicada para serviços em altura moderada a elevada, com operação segura e planejamento de acesso no canteiro. Locação com entrega e retirada em Belo Horizonte, Contagem, Betim, Nova Lima e demais municípios da região metropolitana. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de plataforma elevatória articulada Genie Z-80/60 para trabalho em altura.",
+    "longDescription": "A Genie Z-80/60 é lança articulada com altura de trabalho de 25,77 m, alcance horizontal de 18,29 m e capacidade de 227 kg — ideal para contornar obstáculos e posicionamento up-and-over em obras externas. Locação com entrega e retirada em Belo Horizonte, Contagem, Betim, Nova Lima e demais municípios da região metropolitana. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Modelo",
-        "value": "S60"
+        "value": "Genie Z-80/60"
       },
       {
-        "label": "Aplicação",
-        "value": "Trabalho em altura em obra e manutenção"
+        "label": "Tipo",
+        "value": "Lança articulada"
       },
       {
-        "label": "Entrega",
-        "value": "Região metropolitana de BH e conforme logística"
+        "label": "Altura de trabalho",
+        "value": "25,77 m"
+      },
+      {
+        "label": "Altura da plataforma",
+        "value": "23,77 m"
+      },
+      {
+        "label": "Alcance horizontal",
+        "value": "18,29 m"
+      },
+      {
+        "label": "Capacidade da plataforma",
+        "value": "227 kg"
+      },
+      {
+        "label": "Alimentação",
+        "value": "Diesel"
       }
     ],
     "tags": [
       "plataforma",
+      "genie",
       "altura",
-      "s60"
+      "articulada"
     ],
     "featured": true,
     "available": true
   },
   {
     "slug": "plataforma-elevatoria-gs4655",
-    "name": "Plataforma Elevatória GS4655",
+    "name": "Plataforma Elevatória Genie GS-4655 E-Drive",
     "category": "plataformas-elevatorias",
-    "shortDescription": "Locação de plataforma elevatória Genie GS4655.",
-    "longDescription": "A Plataforma Elevatória GS4655 (Genie) atende trabalhos em altura em galpões, obras e manutenções prediais com boa capacidade de plataforma e alcance vertical. Locação com entrega e retirada em Belo Horizonte, Contagem, Betim, Nova Lima e demais municípios da região metropolitana. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de plataforma elevatória tesoura Genie GS-4655 E-Drive.",
+    "longDescription": "A Genie GS-4655 E-Drive é tesoura elétrica de alta eficiência, com altura de trabalho de 15,95 m em uso interno, capacidade de 350 kg e deck extensível de 1,22 m — indicada para galpões, obras e manutenções em superfícies firmes. Locação com entrega e retirada em Belo Horizonte, Contagem, Betim, Nova Lima e demais municípios da região metropolitana. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Modelo",
-        "value": "Genie GS4655"
+        "value": "Genie GS-4655 E-Drive"
       },
       {
         "label": "Tipo",
         "value": "Tesoura"
       },
       {
-        "label": "Aplicação",
-        "value": "Trabalho em altura interno e externo"
+        "label": "Altura de trabalho (interno)",
+        "value": "15,95 m"
+      },
+      {
+        "label": "Altura da plataforma (interno)",
+        "value": "13,95 m"
+      },
+      {
+        "label": "Altura de trabalho (externo)",
+        "value": "8,55 m"
+      },
+      {
+        "label": "Capacidade da plataforma",
+        "value": "350 kg"
+      },
+      {
+        "label": "Alimentação",
+        "value": "Elétrica (E-Drive)"
       }
     ],
     "tags": [
@@ -3214,55 +3276,89 @@
   },
   {
     "slug": "plataforma-elevatoria-1350sjp",
-    "name": "Plataforma Elevatória 1350SJP",
+    "name": "Plataforma Elevatória JLG 1350SJP",
     "category": "plataformas-elevatorias",
-    "shortDescription": "Locação de plataforma elevatória Skyjack 1350SJP.",
-    "longDescription": "A Plataforma Elevatória 1350SJP (Skyjack) é indicada para serviços em altura em obras e manutenções, com operação segura conforme manual do fabricante. Locação com entrega e retirada em Belo Horizonte, Contagem, Betim, Nova Lima e demais municípios da região metropolitana. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de plataforma elevatória telescópica JLG 1350SJP Ultra Boom.",
+    "longDescription": "O JLG 1350SJP é lança telescópica Ultra Boom com altura de plataforma de 41,30 m, alcance horizontal de 24,38 m e capacidade dupla (227 kg livre / 454 kg restrita) — indicado para obras de grande altura, indústria pesada e manutenções complexas. Locação com entrega e retirada em Belo Horizonte, Contagem, Betim, Nova Lima e demais municípios da região metropolitana. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Modelo",
-        "value": "Skyjack 1350SJP"
+        "value": "JLG 1350SJP"
       },
       {
         "label": "Tipo",
-        "value": "Tesoura"
+        "value": "Lança telescópica"
       },
       {
-        "label": "Aplicação",
-        "value": "Trabalho em altura em obra e manutenção"
+        "label": "Altura da plataforma",
+        "value": "41,30 m"
+      },
+      {
+        "label": "Alcance horizontal",
+        "value": "24,38 m"
+      },
+      {
+        "label": "Capacidade da plataforma",
+        "value": "227 kg (livre) / 454 kg (restrita)"
+      },
+      {
+        "label": "Peso operacional",
+        "value": "20.300 kg"
+      },
+      {
+        "label": "Alimentação",
+        "value": "Diesel (Deutz TD2.9L4 Tier 4 Final)"
       }
     ],
     "tags": [
       "plataforma",
-      "skyjack",
-      "tesoura"
+      "jlg",
+      "altura",
+      "aerea"
     ],
     "featured": true,
     "available": true
   },
   {
     "slug": "manipulador-telescopico-mxt840",
-    "name": "Manipulador Telescópico MXT840",
+    "name": "Manipulador Telescópico Manitou MXT 840",
     "category": "manipuladores-telescopicos",
-    "shortDescription": "Locação de manipulador telescópico Magni MXT840.",
-    "longDescription": "O Manipulador Telescópico MXT840 movimenta cargas em canteiros, galpões e pátios logísticos, com alcance e capacidade conforme especificação do fabricante e planejamento da operação. Locação com entrega e retirada em Belo Horizonte, Contagem, Betim, Nova Lima e demais municípios da região metropolitana. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de manipulador telescópico Manitou MXT 840 para movimentação de cargas.",
+    "longDescription": "O Manitou MXT 840 é manipulador telescópico para construção civil com capacidade de 4.000 kg, altura máxima de elevação de 7,60 m e alcance de 4,23 m — indicado para carga e descarga, posicionamento de materiais e operações em terrenos irregulares. Locação com entrega e retirada em Belo Horizonte, Contagem, Betim, Nova Lima e demais municípios da região metropolitana. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Modelo",
-        "value": "Magni MXT840"
+        "value": "Manitou MXT 840"
       },
       {
-        "label": "Aplicação",
-        "value": "Movimentação de cargas em obra e indústria"
+        "label": "Capacidade máxima",
+        "value": "4.000 kg"
       },
       {
-        "label": "Atendimento",
-        "value": "Belo Horizonte, Minas Gerais e todo o Brasil"
+        "label": "Altura máxima de elevação",
+        "value": "7,60 m"
+      },
+      {
+        "label": "Alcance máximo",
+        "value": "4,23 m"
+      },
+      {
+        "label": "Potência do motor",
+        "value": "94 hp (70 kW)"
+      },
+      {
+        "label": "Peso próprio (com garfos)",
+        "value": "8.500 kg"
+      },
+      {
+        "label": "Raio de giro externo",
+        "value": "3,90 m"
       }
     ],
     "tags": [
       "manipulador",
       "telescópico",
+      "manitou",
       "mxt840"
     ],
     "featured": true,

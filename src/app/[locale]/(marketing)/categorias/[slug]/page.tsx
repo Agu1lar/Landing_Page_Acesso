@@ -5,7 +5,7 @@ import { CategoryGallery } from '@/components/marketing/CategoryGallery';
 import { CategorySeoSection } from '@/components/marketing/CategorySeoSection';
 import { ConversionCtas } from '@/components/marketing/ConversionCtas';
 import { SetMobileDockConfig } from '@/components/marketing/mobile-dock-config';
-import { EquipmentCard } from '@/components/marketing/EquipmentCard';
+import { CategoryEquipmentGrid } from '@/components/marketing/CategoryEquipmentGrid';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { buildWhatsAppMessage, buildWhatsAppUrl } from '@/lib/brand';
 import {
@@ -128,25 +128,13 @@ export default async function CategoryPage(props: CategoryPageProps) {
             >
               {t('catalog_title', { category: categoryLabel })}
             </h2>
-            <p className="mt-1 text-sm text-neutral-600">
-              {t('results_count', { count: equipment.length })}
-            </p>
           </div>
 
-          {equipment.length === 0 ? (
-            <p className="mt-8 text-center text-neutral-600">{t('empty')}</p>
-          ) : (
-            <div className="mt-6 grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
-              {equipment.map((item, index) => (
-                <EquipmentCard
-                  equipment={item}
-                  imagePriority={index < 4}
-                  imageSrc={imageBySlug[item.slug]}
-                  key={item.slug}
-                />
-              ))}
-            </div>
-          )}
+          <CategoryEquipmentGrid
+            equipment={equipment}
+            imageBySlug={imageBySlug}
+            showPlatformKindFilter={slug === 'plataformas-elevatorias'}
+          />
 
           <section
             aria-labelledby="category-catalog-cta-title"
