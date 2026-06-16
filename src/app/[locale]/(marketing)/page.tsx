@@ -1,22 +1,21 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { CategoryHomeGrid } from '@/components/marketing/CategoryHomeGrid';
 import { ConversionCtas } from '@/components/marketing/ConversionCtas';
 import { EquipmentCard } from '@/components/marketing/EquipmentCard';
 import { SetMobileDockConfig } from '@/components/marketing/mobile-dock-config';
 import { ServiceAreaSection } from '@/components/marketing/ServiceAreaSection';
 import { StepsSection } from '@/components/marketing/StepsSection';
 import { TestimonialsSection } from '@/components/marketing/TestimonialsSection';
+import { HOME_CATEGORY_CARDS } from '@/data/home-category-cards';
 import { buildWhatsAppMessage, buildWhatsAppUrl } from '@/lib/brand';
-import { getFeaturedEquipment } from '@/lib/equipment';
+import { getAllEquipment, getFeaturedEquipment } from '@/lib/equipment';
 import { getResolvedEquipmentImageMap } from '@/lib/equipment-images-server';
+import { buildHomeCategoryImagePools } from '@/lib/home-category-images';
 import { buildMarketingMetadata } from '@/lib/seo-metadata';
 import { Link } from '@/libs/I18nNavigation';
-import { CATEGORY_LABELS, EQUIPMENT_CATEGORY_ORDER } from '@/types/equipment';
-import type { EquipmentCategory } from '@/types/equipment';
 import { resolveAppLocale } from '@/utils/locale';
-
-const categories: EquipmentCategory[] = [...EQUIPMENT_CATEGORY_ORDER];
 
 type IndexPageProps = {
   params: Promise<{ locale: string }>;
@@ -50,8 +49,12 @@ export default async function HomePage(props: IndexPageProps) {
     locale,
     namespace: 'ServiceArea',
   });
-  const featured = await getFeaturedEquipment(6);
-  const imageBySlug = await getResolvedEquipmentImageMap();
+  const [featured, imageBySlug, equipment] = await Promise.all([
+    getFeaturedEquipment(6),
+    getResolvedEquipmentImageMap(),
+    getAllEquipment(),
+  ]);
+  const categoryImagePools = buildHomeCategoryImagePools(equipment, imageBySlug);
   const whatsappHome = buildWhatsAppUrl(buildWhatsAppMessage({ origin: 'site-home' }));
 
   return (
@@ -103,19 +106,11 @@ export default async function HomePage(props: IndexPageProps) {
         <h2 className="font-heading text-2xl font-bold text-neutral-900">
           {t('categories_title')}
         </h2>
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {categories.map((cat) => (
-            <Link
-              className="rounded-[var(--radius-card)] border border-neutral-200 bg-surface p-5 transition-all hover:border-primary hover:shadow-md"
-              href={`/categorias/${cat}`}
-              key={cat}
-            >
-              <span className="font-heading font-semibold text-neutral-900">
-                {CATEGORY_LABELS[cat]}
-              </span>
-            </Link>
-          ))}
-        </div>
+        <CategoryHomeGrid
+          cards={HOME_CATEGORY_CARDS}
+          ctaLabel={t('category_card_cta')}
+          imagePools={categoryImagePools}
+        />
       </section>
 
       <section className="cv-auto bg-neutral-100">
