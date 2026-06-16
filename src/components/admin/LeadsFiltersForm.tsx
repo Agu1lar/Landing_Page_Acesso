@@ -76,6 +76,9 @@ export async function LeadsFiltersForm(props: LeadsFiltersFormProps) {
             placeholder={t('filter_search_placeholder')}
           />
         </div>
+        {filters.campaignKey ? (
+          <input name="campaignKey" type="hidden" value={filters.campaignKey} />
+        ) : null}
         <div className="flex flex-wrap gap-2 sm:col-span-2 lg:col-span-3">
           <Button size="sm" type="submit">
             {t('filter_apply')}

@@ -1,7 +1,6 @@
 import { and, count, desc, eq, gte, lte, sql } from 'drizzle-orm';
 import { sumAnalyticsDailyForPeriod } from '@/lib/analytics-daily';
 import {
-  formatCampaignName,
   formatDevice,
   formatEquipmentAnalyticsLabel,
   formatSitePath,
@@ -9,6 +8,11 @@ import {
   formatWhatsAppOrigin,
 } from '@/lib/analytics-display-labels';
 import { previousPeriodRange, resolveAnalyticsPeriod } from '@/lib/analytics-period';
+import {
+  getCampaignPerformanceReport,
+  type CampaignDailyLeadsRow,
+  type CampaignPerformanceRow,
+} from '@/lib/campaign-analytics';
 import {
   mergeEquipmentConversionRows,
   type EquipmentConversionRow,
@@ -48,7 +52,8 @@ export type OperationalDashboard = {
   quoteSubmitsPrevious: number;
   whatsappByOrigin: CountRow[];
   trafficBySource: CountRow[];
-  campaigns: { campaign: string; whatsapp: number; leads: number }[];
+  campaignPerformance: CampaignPerformanceRow[];
+  campaignDailyLeads: CampaignDailyLeadsRow[];
   topEquipmentWhatsapp: CountRow[];
   topEquipmentLeads: CountRow[];
   topPages: PageEngagementRow[];
@@ -149,48 +154,6 @@ async function trafficBySourceSimple(from: Date, to: Date) {
     .map(([label, countValue]) => ({ label, count: countValue }))
     .sort((a, b) => b.count - a.count)
     .slice(0, 10);
-}
-
-async function campaignTable(from: Date, to: Date) {
-  const whatsappRows = await db
-    .select({
-      campaign: sql<string>`coalesce(${analyticsEventsSchema.utmCampaign}, '(sem campanha)')`,
-      count: count(),
-    })
-    .from(analyticsEventsSchema)
-    .where(
-      and(
-        eq(analyticsEventsSchema.eventType, 'whatsapp_click'),
-        gte(analyticsEventsSchema.createdAt, from),
-        lte(analyticsEventsSchema.createdAt, to),
-      ),
-    )
-    .groupBy(sql`coalesce(${analyticsEventsSchema.utmCampaign}, '(sem campanha)')`);
-
-  const leadRows = await db
-    .select({
-      campaign: sql<string>`coalesce(${leadsSchema.utmCampaign}, '(sem campanha)')`,
-      count: count(),
-    })
-    .from(leadsSchema)
-    .where(and(gte(leadsSchema.createdAt, from), lte(leadsSchema.createdAt, to)))
-    .groupBy(sql`coalesce(${leadsSchema.utmCampaign}, '(sem campanha)')`);
-
-  const merged = new Map<string, { whatsapp: number; leads: number }>();
-
-  for (const row of whatsappRows) {
-    merged.set(row.campaign, { whatsapp: row.count, leads: 0 });
-  }
-
-  for (const row of leadRows) {
-    const existing = merged.get(row.campaign) ?? { whatsapp: 0, leads: 0 };
-    merged.set(row.campaign, { ...existing, leads: row.count });
-  }
-
-  return [...merged.entries()]
-    .map(([campaign, stats]) => ({ campaign, ...stats }))
-    .sort((a, b) => b.whatsapp + b.leads - (a.whatsapp + a.leads))
-    .slice(0, 12);
 }
 
 async function topEquipment(
@@ -463,7 +426,7 @@ export async function getOperationalDashboard(
     quoteSubmitsPrevious,
     whatsappByOriginRows,
     trafficBySource,
-    campaigns,
+    campaignReport,
     topEquipmentWhatsapp,
     topEquipmentLeadsRows,
     topPagesRows,
@@ -482,7 +445,7 @@ export async function getOperationalDashboard(
     countEvents('quote_submit', previous.from, previous.to),
     whatsappByOrigin(period.from, period.to),
     trafficBySourceSimple(period.from, period.to),
-    campaignTable(period.from, period.to),
+    getCampaignPerformanceReport(period.from, period.to),
     topEquipment('whatsapp_click', period.from, period.to),
     topEquipmentLeads(period.from, period.to),
     topPagesByEngagement(period.from, period.to),
@@ -513,10 +476,8 @@ export async function getOperationalDashboard(
     quoteSubmitsPrevious,
     whatsappByOrigin: humanizeCountRows(whatsappByOriginRows, formatWhatsAppOrigin),
     trafficBySource: humanizeCountRows(trafficBySource, formatTrafficSource),
-    campaigns: campaigns.map((row) => ({
-      ...row,
-      campaign: formatCampaignName(row.campaign),
-    })),
+    campaignPerformance: campaignReport.campaigns,
+    campaignDailyLeads: campaignReport.dailyLeads,
     topEquipmentWhatsapp: humanizeCountRows(topEquipmentWhatsapp, (label) =>
       formatEquipmentAnalyticsLabel(label, 'whatsapp'),
     ),

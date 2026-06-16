@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { CampaignPerformanceSection } from '@/components/admin/CampaignPerformanceSection';
 import { AnalyticsBarTable } from '@/components/admin/AnalyticsBarTable';
 import { AnalyticsEquipmentConversionTable } from '@/components/admin/AnalyticsEquipmentConversionTable';
 import { AnalyticsPeriodFilters } from '@/components/admin/AnalyticsPeriodFilters';
 import { AnalyticsTopPagesTable } from '@/components/admin/AnalyticsTopPagesTable';
 import { AdminCallout } from '@/components/admin/AdminCallout';
-import { AdminCard } from '@/components/admin/AdminCard';
 import { AdminKpiCard } from '@/components/admin/AdminKpiCard';
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
 import { getOperationalDashboard, percentChange } from '@/lib/analytics-admin';
@@ -127,6 +127,37 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
         </div>
       )}
 
+      <CampaignPerformanceSection
+        campaigns={dashboard.campaignPerformance}
+        dailyLeads={dashboard.campaignDailyLeads}
+        dateFrom={dashboard.period.dateFrom}
+        dateTo={dashboard.period.dateTo}
+        labels={{
+          title: t('chart_campaign_performance'),
+          hint: t('hint_chart_campaign_performance'),
+          dailyTitle: t('chart_campaign_daily'),
+          dailyHint: t('hint_chart_campaign_daily'),
+          empty: t('empty_data'),
+          colCampaign: t('col_campaign'),
+          colSource: t('col_source'),
+          colMedium: t('col_medium'),
+          colWhatsapp: t('col_whatsapp'),
+          colTotalLeads: t('col_total_leads'),
+          colQuoteLeads: t('col_quote_leads'),
+          colGoogleLeads: t('col_google_leads'),
+          colGclid: t('col_gclid'),
+          colDate: t('col_date'),
+          colLeads: t('col_leads'),
+          viewLeads: t('view_campaign_leads'),
+          statusNew: t('status_new_short'),
+          statusContacted: t('status_contacted_short'),
+          statusQuoted: t('status_quoted_short'),
+          statusWon: t('status_won_short'),
+          statusLost: t('status_lost_short'),
+          statusOther: t('status_other_short'),
+        }}
+      />
+
       <AnalyticsTopPagesTable
         colAvgTime={t('col_avg_active_time')}
         colPage={t('col_page')}
@@ -196,33 +227,6 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
           title={t('chart_device')}
         />
       </div>
-
-      <AdminCard helpLabel={helpLabel} helpText={t('hint_chart_campaigns')} title={t('chart_campaigns')}>
-        {dashboard.campaigns.length === 0 ? (
-          <p className="text-sm text-neutral-500">{t('empty_data')}</p>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="min-w-full text-left text-sm">
-              <thead>
-                <tr className="border-b border-neutral-200 text-neutral-500">
-                  <th className="py-2.5 pr-4 font-medium">{t('col_campaign')}</th>
-                  <th className="py-2.5 pr-4 font-medium">{t('col_whatsapp')}</th>
-                  <th className="py-2.5 font-medium">{t('col_leads')}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {dashboard.campaigns.map((row) => (
-                  <tr className="border-b border-neutral-100 last:border-0" key={row.campaign}>
-                    <td className="py-2.5 pr-4 font-medium text-neutral-900">{row.campaign}</td>
-                    <td className="py-2.5 pr-4 tabular-nums text-neutral-700">{row.whatsapp}</td>
-                    <td className="py-2.5 tabular-nums text-neutral-700">{row.leads}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </AdminCard>
     </div>
   );
 }

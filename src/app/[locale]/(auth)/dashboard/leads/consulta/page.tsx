@@ -6,6 +6,7 @@ import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
 import { Button } from '@/components/ui/Button';
 import { buildLeadsFilterQuery, buildContactOrderCounts, listLeads } from '@/lib/leads-admin';
 import type { LeadListFilters } from '@/lib/leads-admin';
+import { formatCampaignKey } from '@/lib/campaign-analytics';
 import { Link } from '@/libs/I18nNavigation';
 import { resolveAppLocale } from '@/utils/locale';
 
@@ -17,6 +18,7 @@ type LeadsConsultaPageProps = {
     status?: string;
     city?: string;
     origin?: string;
+    campaignKey?: string;
     q?: string;
     page?: string;
   }>;
@@ -40,6 +42,7 @@ type LeadsSearchParams = {
   status?: string;
   city?: string;
   origin?: string;
+  campaignKey?: string;
   q?: string;
   page?: string;
 };
@@ -52,6 +55,7 @@ function parseFilters(searchParams: LeadsSearchParams): LeadListFilters {
     status: searchParams.status,
     city: searchParams.city,
     origin: searchParams.origin,
+    campaignKey: searchParams.campaignKey,
     q: searchParams.q,
     page: Number.isNaN(page) ? 1 : page,
   };
@@ -90,7 +94,13 @@ export default async function LeadsConsultaPage(props: LeadsConsultaPageProps) {
             {t('export_csv')}
           </Button>
         }
-        description={t('summary', { count: total })}
+        description={
+          filters.campaignKey
+            ? `${t('summary', { count: total })} · ${t('filter_campaign_active', {
+                campaign: formatCampaignKey(filters.campaignKey),
+              })}`
+            : t('summary', { count: total })
+        }
         title={t('title')}
       />
 

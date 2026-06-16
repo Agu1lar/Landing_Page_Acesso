@@ -1,4 +1,8 @@
-import { and, count, desc, eq, gte, ilike, inArray, lte, or, sql } from 'drizzle-orm';
+import { and, count, desc, eq, gte, ilike, inArray, isNull, lte, or, sql } from 'drizzle-orm';
+import {
+  GOOGLE_ADS_NO_UTM_KEY,
+  NO_CAMPAIGN_KEY,
+} from '@/lib/campaign-analytics';
 import type { InferSelectModel } from 'drizzle-orm';
 import * as z from 'zod';
 import { countContactOrders, normalizeLeadEmail, normalizeLeadPhone, sortRelatedLeads } from '@/lib/lead-contact';
@@ -26,6 +30,7 @@ export type LeadListFilters = {
   status?: string;
   city?: string;
   origin?: string;
+  campaignKey?: string;
   q?: string;
   page?: number;
   pageSize?: number;
@@ -138,6 +143,23 @@ function buildWhere(filters: LeadListFilters) {
   }
   if (filters.origin?.trim()) {
     conditions.push(ilike(leadsSchema.origin, `%${filters.origin.trim()}%`));
+  }
+  if (filters.campaignKey?.trim()) {
+    const campaignKey = filters.campaignKey.trim();
+    if (campaignKey === NO_CAMPAIGN_KEY) {
+      conditions.push(
+        or(isNull(leadsSchema.utmCampaign), eq(leadsSchema.utmCampaign, ''))!,
+      );
+    } else if (campaignKey === GOOGLE_ADS_NO_UTM_KEY) {
+      conditions.push(
+        and(
+          or(isNull(leadsSchema.utmCampaign), eq(leadsSchema.utmCampaign, ''))!,
+          sql`nullif(trim(${leadsSchema.gclid}), '') is not null`,
+        )!,
+      );
+    } else {
+      conditions.push(eq(leadsSchema.utmCampaign, campaignKey));
+    }
   }
   if (filters.dateFrom?.trim()) {
     const from = new Date(`${filters.dateFrom.trim()}T00:00:00.000Z`);
@@ -483,6 +505,9 @@ export function buildLeadsFilterQuery(filters: LeadListFilters) {
   }
   if (filters.origin) {
     params.set('origin', filters.origin);
+  }
+  if (filters.campaignKey) {
+    params.set('campaignKey', filters.campaignKey);
   }
   if (filters.q) {
     params.set('q', filters.q);

@@ -29,8 +29,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       publicCrawlRules('*'),
       ...AI_CRAWLER_USER_AGENTS.map((userAgent) => publicCrawlRules(userAgent)),
-    ],
+    ] as MetadataRoute.Robots['rules'],
     sitemap: `${baseUrl}/sitemap.xml`,
-    host: baseUrl.replace(/^https?:\/\//, '').replace(/\/$/, ''),
   };
 }
