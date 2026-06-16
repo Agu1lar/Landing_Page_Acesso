@@ -19,12 +19,12 @@ describe('get equipment sitemap last modified by slug', () => {
     vi.mocked(loadPublishedEquipmentSitemapEntries).mockResolvedValue([
       {
         slug: 'betoneira',
-        category: 'concretagem',
+        category: 'ferramentas-eletricas',
         updatedAt: new Date('2026-04-10T12:00:00.000Z'),
       },
       {
         slug: 'guindaste-industrial-munck-remocao-bh',
-        category: 'guindastes-remocoes',
+        category: 'guindaste-industrial',
         updatedAt: new Date('2026-06-08T09:30:00.000Z'),
       },
     ]);
@@ -45,7 +45,7 @@ describe('get equipment sitemap last modified by slug', () => {
     vi.mocked(loadPublishedEquipmentSitemapEntries).mockResolvedValue([
       {
         slug: 'betoneira',
-        category: 'concretagem',
+        category: 'ferramentas-eletricas',
         updatedAt: new Date('2026-04-10T12:00:00.000Z'),
       },
     ]);

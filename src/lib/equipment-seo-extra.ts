@@ -1,71 +1,51 @@
 import type { Equipment } from '@/types/equipment';
-import { formatBrandServiceArea } from '@/lib/brand';
 
-export type EquipmentSeoExtra = {
+const BH_REGION = 'Belo Horizonte e região metropolitana';
+
+type EquipmentSeoExtra = {
   title: string;
   paragraphs: string[];
 };
 
-const BH_REGION = formatBrandServiceArea();
-
-/**
- * Builds long-tail SEO copy for aerial platform rental pages.
- *
- * @param equipment - Equipment record from catalog.
- * @returns Extra paragraphs for the equipment detail page.
- */
-function buildAerialPlatformExtra(equipment: Equipment): EquipmentSeoExtra {
-  const workHeight = equipment.specs.find((spec) => spec.label === 'Altura de trabalho')?.value;
-  const heightPhrase = workHeight ? ` com altura de trabalho em torno de ${workHeight}` : '';
-
-  return {
-    title: `Locação de ${equipment.name} em Belo Horizonte`,
-    paragraphs: [
-      `A locação de ${equipment.name}${heightPhrase} atende obras e manutenções em ${BH_REGION}. A Acesso Equipamentos dimensiona o modelo conforme espaço no canteiro, tipo de piso, voltagem disponível e carga prevista na plataforma — fatores que impactam segurança e produtividade.`,
-      `Para serviços em altura, combine o equipamento com treinamento de operadores alinhado à NR-18 quando necessário. Entrega e retirada são programadas com o responsável pela obra; valores e período mínimo de locação sob consulta com nossa equipe comercial.`,
-      `Solicite orçamento informando endereço da obra, datas e descrição do serviço. Se preferir resposta imediata, use o WhatsApp com o nome deste equipamento — o atendimento funciona em horário útil com foco em construção civil e indústria em Minas Gerais.`,
-    ],
-  };
-}
-
 const CATEGORY_EXTRA: Partial<Record<Equipment['category'], EquipmentSeoExtra>> = {
-  concretagem: {
-    title: 'Locação para concretagem em Belo Horizonte',
+  'ferramentas-eletricas': {
+    title: 'Locação de ferramentas elétricas em Belo Horizonte',
     paragraphs: [
-      `Equipamentos de concretagem em locação reduzem custo fixo em obras com pico de demanda em ${BH_REGION}. Informe volume estimado de concreto, voltagem no canteiro e período de uso para montarmos proposta com betoneira, vibrador ou mangote compatíveis.`,
-      'Entrega e retirada conforme disponibilidade da frota; condições comerciais transparentes no contato com o comercial.',
+      `Ferramentas elétricas em locação reduzem custo fixo em obras com demanda variável em ${BH_REGION}. Informe voltagem no canteiro, tipo de serviço e período de uso para montarmos proposta com o equipamento compatível.`,
     ],
   },
-  'andaimes-acesso': {
-    title: 'Locação de andaimes e acesso em Belo Horizonte',
+  andaimes: {
+    title: 'Locação de andaimes em Belo Horizonte',
     paragraphs: [
-      `Sistemas de andaime e acesso temporário para obras em ${BH_REGION}. Envie quantitativos ou descrição da frente de serviço para apoio na indicação de peças disponíveis; montagem deve seguir projeto e normas, com equipe habilitada no canteiro.`,
+      `Andaimes e componentes de acesso temporário para fachadas e frentes de obra em ${BH_REGION}. Envie lista de peças, altura e prazo para orçamento com entrega programada.`,
     ],
   },
-  'guindastes-remocoes': {
-    title: 'Guindaste industrial, Munck e remoção técnica em BH',
+  'guindaste-industrial': {
+    title: 'Locação de guindaste industrial em Belo Horizonte',
     paragraphs: [
-      `Serviços de içamento e remoção técnica para máquinas, estruturas, geradores, transformadores e cargas pesadas em ${BH_REGION}. A indicação depende de peso, dimensões, acesso ao local e raio de operação.`,
-      'Informe fotos do ponto de carga e descarga, endereço, prazo desejado e características da carga para que a equipe comercial confirme disponibilidade e monte a proposta.',
+      `Guindaste industrial, Munck e içamento técnico em ${BH_REGION}. Informe peso da carga, raio de operação e endereço da obra para proposta com equipe especializada.`,
     ],
   },
-  compactacao: {
-    title: 'Locação de equipamentos de compactação em BH',
+  'ferramentas-combustao': {
+    title: 'Locação de ferramentas à combustão em Belo Horizonte',
     paragraphs: [
-      `Compactadores e placas vibratórias para preparação de base, calçadas e valas em ${BH_REGION}. Indique área a compactar e tipo de material para escolha do modelo adequado.`,
+      `Geradores, compactadores e máquinas à combustão para obras sem rede elétrica em ${BH_REGION}. Informe autonomia, tipo de serviço e local de uso.`,
     ],
   },
 };
 
 /**
- * Returns optional long-tail block for equipment detail SEO.
- *
- * @param equipment - Equipment record from catalog.
- * @returns Extra content or null when not applicable.
+ * Optional extra SEO block on equipment detail pages (category-specific copy).
  */
 export function getEquipmentSeoExtra(equipment: Equipment): EquipmentSeoExtra | null {
-  if (equipment.category === 'equipamentos-aereos') {
-    return buildAerialPlatformExtra(equipment);
+  if (equipment.category === 'plataformas-elevatorias') {
+    return {
+      title: 'Locação de plataformas elevatórias em Belo Horizonte',
+      paragraphs: [
+        `Para serviços em altura, combine o equipamento com treinamento de operadores alinhado à NR-18 quando necessário. Entrega e retirada são programadas com o responsável pela obra; valores e período mínimo de locação sob consulta com nossa equipe comercial.`,
+        `Solicite orçamento informando endereço da obra, datas e descrição do serviço. Se preferir resposta imediata, use o WhatsApp com o nome deste equipamento — o atendimento funciona em horário útil com foco em construção civil e indústria em Minas Gerais.`,
+      ],
+    };
   }
 
   return CATEGORY_EXTRA[equipment.category] ?? null;

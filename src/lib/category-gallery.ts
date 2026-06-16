@@ -7,7 +7,7 @@ export type CategoryGalleryImage = {
 };
 
 const CATEGORY_GALLERY: Partial<Record<EquipmentCategory, CategoryGalleryImage[]>> = {
-  'guindastes-remocoes': [
+  'guindaste-industrial': [
     {
       src: '/categorias/guindastes-remocoes/guindaste-industrial-operacao.webp',
       alt: 'Guindaste industrial em operação de içamento em obra',

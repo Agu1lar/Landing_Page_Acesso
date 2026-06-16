@@ -12,7 +12,7 @@ import type { Equipment } from '@/types/equipment';
 const betoneira: Equipment = {
   slug: 'betoneira',
   name: 'Betoneira',
-  category: 'concretagem',
+  category: 'ferramentas-eletricas',
   shortDescription: 'Locação de betoneira.',
   longDescription:
     'Betoneira: Equipamento para concretagem e misturas em obra civil. Aplicação em fundações, lajes e serviços de alvenaria. Entrega e retirada combinadas com a locação.',
@@ -28,7 +28,7 @@ const betoneira: Equipment = {
 const hb1430: Equipment = {
   slug: 'plataforma-elevatoria-hb-1430',
   name: 'Plataforma elevatória HB 1430',
-  category: 'equipamentos-aereos',
+  category: 'plataformas-elevatorias',
   shortDescription: 'Locação de Plataforma elevatória HB 1430.',
   longDescription:
     'Tesoura elétrica Hy-Brid HB 1430 para trabalho em altura em ambientes internos e lajes. Altura de trabalho em torno de 6 m, ideal para manutenção predial e montagens leves na região metropolitana de BH.',

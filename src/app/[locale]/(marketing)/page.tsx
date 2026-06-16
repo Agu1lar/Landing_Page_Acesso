@@ -3,30 +3,19 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { ConversionCtas } from '@/components/marketing/ConversionCtas';
 import { EquipmentCard } from '@/components/marketing/EquipmentCard';
 import { SetMobileDockConfig } from '@/components/marketing/mobile-dock-config';
-import { PrimaryLinesSection } from '@/components/marketing/PrimaryLinesSection';
 import { ServiceAreaSection } from '@/components/marketing/ServiceAreaSection';
 import { StepsSection } from '@/components/marketing/StepsSection';
 import { TestimonialsSection } from '@/components/marketing/TestimonialsSection';
 import { buildWhatsAppMessage, buildWhatsAppUrl } from '@/lib/brand';
-import { getManifestImageSrc } from '@/lib/equipment-images-manifest';
-import { countEquipmentInCategory, getEquipmentBySlug, getFeaturedEquipment } from '@/lib/equipment';
+import { getFeaturedEquipment } from '@/lib/equipment';
 import { getResolvedEquipmentImageMap } from '@/lib/equipment-images-server';
 import { buildMarketingMetadata } from '@/lib/seo-metadata';
 import { Link } from '@/libs/I18nNavigation';
-import { CATEGORY_LABELS } from '@/types/equipment';
+import { CATEGORY_LABELS, EQUIPMENT_CATEGORY_ORDER } from '@/types/equipment';
 import type { EquipmentCategory } from '@/types/equipment';
 import { resolveAppLocale } from '@/utils/locale';
 
-const categories: EquipmentCategory[] = [
-  'equipamentos-aereos',
-  'guindastes-remocoes',
-  'concretagem',
-  'andaimes-acesso',
-  'ferramentas-eletricas',
-  'demolicao-perfuracao',
-  'compactacao',
-  'energia',
-];
+const categories: EquipmentCategory[] = [...EQUIPMENT_CATEGORY_ORDER];
 
 type IndexPageProps = {
   params: Promise<{ locale: string }>;
@@ -62,32 +51,7 @@ export default async function HomePage(props: IndexPageProps) {
   });
   const featured = await getFeaturedEquipment(6);
   const imageBySlug = await getResolvedEquipmentImageMap();
-  const aerialCount = await countEquipmentInCategory('equipamentos-aereos');
-  const guindaste = await getEquipmentBySlug('guindaste-industrial-munck-remocao-bh');
   const whatsappHome = buildWhatsAppUrl(buildWhatsAppMessage({ origin: 'site-home' }));
-
-  const primaryLineCards = [
-    {
-      badge: t('primary_aerial_badge', { count: aerialCount }),
-      title: t('primary_aerial_title'),
-      description: t('primary_aerial_description'),
-      href: '/categorias/equipamentos-aereos',
-      cta: t('primary_aerial_cta'),
-      imageSrc: getManifestImageSrc('plataforma-elevatoria-hb-1430'),
-      imageAlt: 'Plataforma elevatória para locação em BH',
-    },
-    {
-      badge: t('primary_crane_badge'),
-      title: t('primary_crane_title'),
-      description: t('primary_crane_description'),
-      href: guindaste
-        ? `/equipamentos/${guindaste.slug}`
-        : '/categorias/guindastes-remocoes',
-      cta: t('primary_crane_cta'),
-      imageSrc: guindaste ? getManifestImageSrc(guindaste.slug) : undefined,
-      imageAlt: guindaste?.name,
-    },
-  ];
 
   return (
     <>
@@ -118,12 +82,6 @@ export default async function HomePage(props: IndexPageProps) {
         primaryLabel={tServiceArea('primary_label')}
         moreLabel={tServiceArea('more_label')}
         title={tServiceArea('title')}
-      />
-
-      <PrimaryLinesSection
-        cards={primaryLineCards}
-        subtitle={t('primary_lines_subtitle')}
-        title={t('primary_lines_title')}
       />
 
       <section className="cv-auto mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">

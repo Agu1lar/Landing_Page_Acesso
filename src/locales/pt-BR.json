@@ -124,7 +124,7 @@
   },
   "Equipamentos": {
     "meta_title": "Catálogo de equipamentos para locação em BH | Acesso Equipamentos",
-    "meta_description": "Mais de 100 equipamentos para construção civil: plataformas aéreas, guindaste, Munck, andaimes, concretagem, compactação e ferramentas. Orçamento sob consulta.",
+    "meta_description": "Mais de 100 equipamentos para construção civil: plataformas elevatórias, guindaste industrial, manipuladores telescópicos, andaimes e ferramentas elétricas, à combustão e à bateria. Orçamento sob consulta.",
     "title": "Equipamentos para locação",
     "filter_all": "Todos",
     "results_count": "{count, plural, =1 {# equipamento no catálogo} other {# equipamentos no catálogo}}",
@@ -555,7 +555,7 @@
     "import_json_hint": "Use só na primeira vez, se a lista estiver vazia.",
     "import_advanced_label": "Configuração inicial (avançado)",
     "sync_priority_catalog": "Sincronizar guindaste / Munck",
-    "sync_priority_catalog_hint": "Garante o item guindastes-remocoes no Postgres a partir do JSON.",
+    "sync_priority_catalog_hint": "Garante o item guindaste-industrial no Postgres a partir do JSON.",
     "new_equipment": "Novo equipamento",
     "search_placeholder": "Buscar por nome ou slug",
     "filter_all_categories": "Todas as categorias",

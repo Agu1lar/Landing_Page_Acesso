@@ -107,7 +107,7 @@ export function EquipmentAdminForm(props: EquipmentAdminFormProps) {
           </label>
           <select
             className="w-full rounded-lg border border-neutral-200 bg-surface px-3 py-2 text-sm"
-            defaultValue={row?.category ?? 'outros'}
+            defaultValue={row?.category ?? 'ferramentas-eletricas'}
             id="category"
             name="category"
           >

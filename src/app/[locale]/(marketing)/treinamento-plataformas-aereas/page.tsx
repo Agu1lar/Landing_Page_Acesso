@@ -147,7 +147,7 @@ export default async function TreinamentoPlataformasPage(props: PageProps) {
           Também disponibilizamos{' '}
           <Link
             className="font-semibold text-primary hover:underline"
-            href="/categorias/equipamentos-aereos"
+            href="/categorias/plataformas-elevatorias"
           >
             locação de plataformas elevatórias
           </Link>{' '}

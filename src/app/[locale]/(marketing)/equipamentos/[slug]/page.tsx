@@ -140,7 +140,7 @@ export default async function EquipmentDetailPage(props: EquipmentDetailProps) {
               <SpecTable
                 specs={equipment.specs}
                 title={t('specs_title')}
-                variant={equipment.category === 'equipamentos-aereos' ? 'aerial' : 'default'}
+                variant={equipment.category === 'plataformas-elevatorias' ? 'aerial' : 'default'}
               />
             </div>
 

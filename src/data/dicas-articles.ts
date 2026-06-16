@@ -43,7 +43,7 @@ export const DICAS_ARTICLES: DicaArticle[] = [
       },
     ],
     relatedLinks: [
-      { label: 'Plataformas elevatórias no catálogo', href: '/categorias/equipamentos-aereos' },
+      { label: 'Plataformas elevatórias no catálogo', href: '/categorias/plataformas-elevatorias' },
       { label: 'Treinamento em plataformas aéreas', href: '/treinamento-plataformas-aereas' },
     ],
   },
@@ -72,7 +72,7 @@ export const DICAS_ARTICLES: DicaArticle[] = [
       },
     ],
     relatedLinks: [
-      { label: 'Equipamentos para concretagem', href: '/categorias/concretagem' },
+      { label: 'Ferramentas elétricas', href: '/categorias/ferramentas-eletricas' },
       { label: 'Solicitar orçamento', href: '/orcamento' },
     ],
   },
@@ -130,8 +130,8 @@ export const DICAS_ARTICLES: DicaArticle[] = [
       },
     ],
     relatedLinks: [
-      { label: 'Andaimes e acesso', href: '/categorias/andaimes-acesso' },
-      { label: 'Plataformas elevatórias', href: '/categorias/equipamentos-aereos' },
+      { label: 'Andaimes', href: '/categorias/andaimes' },
+      { label: 'Plataformas elevatórias', href: '/categorias/plataformas-elevatorias' },
     ],
   },
 ];

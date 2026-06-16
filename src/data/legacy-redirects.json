@@ -13,18 +13,58 @@
       "note": "Categoria acessorios removida do catálogo"
     },
     {
+      "source": "/categorias/equipamentos-aereos",
+      "destination": "/categorias/plataformas-elevatorias",
+      "note": "Slug de categoria renomeado"
+    },
+    {
+      "source": "/categorias/guindastes-remocoes",
+      "destination": "/categorias/guindaste-industrial",
+      "note": "Slug de categoria renomeado"
+    },
+    {
+      "source": "/categorias/andaimes-acesso",
+      "destination": "/categorias/andaimes",
+      "note": "Slug de categoria renomeado"
+    },
+    {
+      "source": "/categorias/concretagem",
+      "destination": "/categorias/ferramentas-eletricas",
+      "note": "Categoria incorporada em ferramentas elétricas"
+    },
+    {
+      "source": "/categorias/compactacao",
+      "destination": "/categorias/ferramentas-combustao",
+      "note": "Compactadores à combustão; elétricos em ferramentas elétricas"
+    },
+    {
+      "source": "/categorias/demolicao-perfuracao",
+      "destination": "/categorias/ferramentas-eletricas",
+      "note": "Categoria incorporada em ferramentas elétricas"
+    },
+    {
+      "source": "/categorias/energia",
+      "destination": "/categorias/ferramentas-combustao",
+      "note": "Geradores em ferramentas à combustão"
+    },
+    {
+      "source": "/categorias/outros",
+      "destination": "/categorias/guindaste-industrial",
+      "note": "Itens de içamento em guindaste industrial"
+    },
+    {
       "source": "/utilizacao-de-plataformas-elevatorias-em-empresa-mineradora-regiao-metropolitana-de-belo-horizonte",
-      "destination": "/categorias/equipamentos-aereos",
+      "destination": "/categorias/plataformas-elevatorias",
       "note": "Post — plataformas / mineração"
     },
     {
       "source": "/plataformas-elevatorias-na-industria-siderurgica-em-bh",
-      "destination": "/categorias/equipamentos-aereos",
+      "destination": "/categorias/plataformas-elevatorias",
       "note": "Post — plataformas / siderurgia"
     },
     {
       "source": "/plataforma-lanca-articulada-para-galpao-logistico-em-bh",
-      "destination": "/categorias/equipamentos-aereos",
+      "destination": "/categorias/plataformas-elevatorias",
       "note": "Post — lança articulada"
     },
     {
@@ -44,22 +84,22 @@
     },
     {
       "source": "/aluguel-plataforma-elevatoria-modelo-elevador-individual-bh",
-      "destination": "/categorias/equipamentos-aereos",
+      "destination": "/categorias/plataformas-elevatorias",
       "note": "Post — elevador individual"
     },
     {
       "source": "/locacao-e-montagem-de-andaimes",
-      "destination": "/categorias/andaimes-acesso",
+      "destination": "/categorias/andaimes",
       "note": "Página WP — andaimes"
     },
     {
       "source": "/aluguel-compactador-de-solo-bh",
-      "destination": "/categorias/compactacao",
+      "destination": "/categorias/ferramentas-combustao",
       "note": "Página WP — compactação"
     },
     {
       "source": "/aluguel-gerador-de-energia-bh",
-      "destination": "/categorias/energia",
+      "destination": "/categorias/ferramentas-combustao",
       "note": "Página WP — geradores"
     },
     {
@@ -74,7 +114,7 @@
     },
     {
       "source": "/linha-ferramentas-a-bateria",
-      "destination": "/categorias/ferramentas-eletricas",
+      "destination": "/categorias/ferramentas-bateria",
       "note": "Página WP — ferramentas bateria"
     },
     {
@@ -84,7 +124,7 @@
     },
     {
       "source": "/aluguel-de-marteletes-hilti-em-belo-horizonte",
-      "destination": "/categorias/demolicao-perfuracao",
+      "destination": "/categorias/ferramentas-eletricas",
       "note": "Página WP — marteletes"
     },
     {
@@ -114,12 +154,12 @@
     },
     {
       "source": "/aluguel-de-manipulador-telescopico-minas-gerais",
-      "destination": "/equipamentos/guindaste-industrial-munck-remocao-bh",
+      "destination": "/categorias/manipuladores-telescopicos",
       "note": "Página WP — manipulador telescópico"
     },
     {
       "source": "/locacao-de-plataformas-elevatorias",
-      "destination": "/categorias/equipamentos-aereos",
+      "destination": "/categorias/plataformas-elevatorias",
       "note": "Página WP — plataformas elevatórias"
     },
     {

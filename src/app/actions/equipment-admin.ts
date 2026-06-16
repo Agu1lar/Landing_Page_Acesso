@@ -58,7 +58,7 @@ export async function importEquipmentCatalogAction() {
 
   revalidatePath('/dashboard/equipamentos');
   revalidatePath('/equipamentos');
-  revalidatePath('/categorias/guindastes-remocoes');
+  revalidatePath('/categorias/guindaste-industrial');
   redirect('/dashboard/equipamentos');
 }
 
@@ -81,7 +81,7 @@ export async function syncPriorityCatalogAction() {
 
   for (const row of sync) {
     if (row.action !== 'skipped') {
-      revalidateEquipmentPaths(row.slug, 'guindastes-remocoes');
+      revalidateEquipmentPaths(row.slug, 'guindaste-industrial');
     }
   }
 

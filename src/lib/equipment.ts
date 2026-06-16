@@ -1,6 +1,7 @@
 import { cache } from 'react';
 import { unstable_cache } from 'next/cache';
 import equipmentData from '@/data/equipamentos.json';
+import { FEATURED_EQUIPMENT_SLUGS } from '@/data/featured-equipment';
 import {
   countEquipmentInDb,
   loadDbEquipmentSlugs,
@@ -75,8 +76,18 @@ export async function getEquipmentBySlug(slug: string) {
   return items.find((item) => item.slug === slug);
 }
 
-export async function getFeaturedEquipment(limit = 6) {
+export async function getFeaturedEquipment(limit = FEATURED_EQUIPMENT_SLUGS.length) {
   const items = await loadCatalog();
+  const bySlug = new Map(items.map((item) => [item.slug, item]));
+
+  const ordered = FEATURED_EQUIPMENT_SLUGS.map((slug) => bySlug.get(slug)).filter(
+    (item): item is Equipment => Boolean(item),
+  );
+
+  if (ordered.length > 0) {
+    return ordered.slice(0, limit);
+  }
+
   return items.filter((item) => item.featured).slice(0, limit);
 }
 

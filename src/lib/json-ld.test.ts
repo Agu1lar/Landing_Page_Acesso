@@ -21,7 +21,7 @@ import type { Equipment } from '@/types/equipment';
 const equipment: Equipment = {
   slug: 'betoneira',
   name: 'Betoneira',
-  category: 'concretagem',
+  category: 'ferramentas-eletricas',
   shortDescription: 'Locação de betoneira em Belo Horizonte — sob consulta.',
   longDescription: 'Descrição longa.',
   specs: [],
@@ -118,9 +118,9 @@ describe('build equipment page json-ld', () => {
 
 describe('build category page json-ld', () => {
   it('exposes CollectionPage, BreadcrumbList and ItemList', () => {
-    const seo = getCategorySeo('concretagem');
+    const seo = getCategorySeo('ferramentas-eletricas');
     const json = buildCategoryPageJsonLd({
-      slug: 'concretagem',
+      slug: 'ferramentas-eletricas',
       seo,
       equipment: [equipment],
     });
@@ -139,9 +139,9 @@ describe('build category page json-ld', () => {
   });
 
   it('links CollectionPage to breadcrumb and item list entities', () => {
-    const seo = getCategorySeo('concretagem');
+    const seo = getCategorySeo('ferramentas-eletricas');
     const json = buildCategoryPageJsonLd({
-      slug: 'concretagem',
+      slug: 'ferramentas-eletricas',
       seo,
       equipment: [equipment],
     });
@@ -164,7 +164,7 @@ describe('build category page json-ld', () => {
     expect(breadcrumb?.itemListElement?.map((item) => item.name)).toEqual([
       'Início',
       'Equipamentos',
-      'Concretagem',
+      'Ferramentas Elétricas',
     ]);
   });
 });

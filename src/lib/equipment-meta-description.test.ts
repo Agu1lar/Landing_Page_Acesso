@@ -10,7 +10,7 @@ import type { Equipment } from '@/types/equipment';
 const betoneira: Equipment = {
   slug: 'betoneira',
   name: 'Betoneira',
-  category: 'concretagem',
+  category: 'ferramentas-eletricas',
   shortDescription: 'Locação de betoneira.',
   longDescription:
     'Betoneira: Equipamento para concretagem e misturas em obra civil. Aplicação em fundações, lajes e serviços de alvenaria.',

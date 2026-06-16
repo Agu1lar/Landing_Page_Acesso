@@ -17,7 +17,7 @@ describe('usesMobileConversionDock', () => {
   });
 
   it('returns true for category pages', () => {
-    expect(usesMobileConversionDock('/pt-BR/categorias/equipamentos-aereos')).toBe(true);
+    expect(usesMobileConversionDock('/pt-BR/categorias/plataformas-elevatorias')).toBe(true);
   });
 
   it('returns true for equipment detail pages', () => {

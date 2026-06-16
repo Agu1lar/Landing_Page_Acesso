@@ -52,23 +52,26 @@ export function auditLegacyRedirectPaths(paths: string[]) {
 export function suggestLegacyRedirectDestination(path: string) {
   const normalized = extractAuditPath(path);
 
-  if (normalized.includes('guindaste') || normalized.includes('munck') || normalized.includes('manipulador')) {
+  if (normalized.includes('guindaste') || normalized.includes('munck')) {
     return '/equipamentos/guindaste-industrial-munck-remocao-bh';
   }
   if (normalized.includes('plataforma') || normalized.includes('elevatoria')) {
-    return '/categorias/equipamentos-aereos';
+    return '/categorias/plataformas-elevatorias';
   }
   if (normalized.includes('andaime')) {
-    return '/categorias/andaimes-acesso';
+    return '/categorias/andaimes';
   }
   if (normalized.includes('compactador')) {
-    return '/categorias/compactacao';
+    return '/categorias/ferramentas-combustao';
   }
   if (normalized.includes('gerador')) {
-    return '/categorias/energia';
+    return '/categorias/ferramentas-combustao';
   }
   if (normalized.includes('martelete')) {
-    return '/categorias/demolicao-perfuracao';
+    return '/categorias/ferramentas-eletricas';
+  }
+  if (normalized.includes('manipulador') || normalized.includes('telescop')) {
+    return '/categorias/manipuladores-telescopicos';
   }
   if (normalized.includes('privacidade') || normalized.includes('cookies')) {
     return '/privacidade';

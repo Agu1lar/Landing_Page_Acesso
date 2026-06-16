@@ -4,15 +4,13 @@ export type EquipmentSpec = {
 };
 
 export type EquipmentCategory =
-  | 'equipamentos-aereos'
-  | 'concretagem'
-  | 'compactacao'
-  | 'demolicao-perfuracao'
-  | 'andaimes-acesso'
-  | 'guindastes-remocoes'
-  | 'energia'
+  | 'plataformas-elevatorias'
+  | 'guindaste-industrial'
   | 'ferramentas-eletricas'
-  | 'outros';
+  | 'ferramentas-combustao'
+  | 'ferramentas-bateria'
+  | 'andaimes'
+  | 'manipuladores-telescopicos';
 
 export type Equipment = {
   slug: string;
@@ -27,13 +25,22 @@ export type Equipment = {
 };
 
 export const CATEGORY_LABELS: Record<EquipmentCategory, string> = {
-  'equipamentos-aereos': 'Plataformas elevatórias',
-  concretagem: 'Concretagem',
-  compactacao: 'Compactação',
-  'demolicao-perfuracao': 'Demolição e perfuração',
-  'andaimes-acesso': 'Andaimes e acesso',
-  'guindastes-remocoes': 'Guindastes e remoções',
-  energia: 'Energia',
-  'ferramentas-eletricas': 'Ferramentas elétricas',
-  outros: 'Outros',
+  'plataformas-elevatorias': 'Plataformas Elevatórias',
+  'guindaste-industrial': 'Guindaste Industrial',
+  'ferramentas-eletricas': 'Ferramentas Elétricas',
+  'ferramentas-combustao': 'Ferramentas à Combustão',
+  'ferramentas-bateria': 'Ferramentas à Bateria',
+  andaimes: 'Andaimes',
+  'manipuladores-telescopicos': 'Manipuladores Telescópicos',
 };
+
+/** Display order for home, sitemap and admin category pickers. */
+export const EQUIPMENT_CATEGORY_ORDER: EquipmentCategory[] = [
+  'plataformas-elevatorias',
+  'guindaste-industrial',
+  'manipuladores-telescopicos',
+  'andaimes',
+  'ferramentas-eletricas',
+  'ferramentas-combustao',
+  'ferramentas-bateria',
+];

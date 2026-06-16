@@ -5,24 +5,20 @@ import type { Equipment, EquipmentCategory } from '@/types/equipment';
 const META_MAX_LENGTH = 160;
 
 const CATEGORY_META: Record<EquipmentCategory, (name: string) => string> = {
-  'equipamentos-aereos': (name) =>
+  'plataformas-elevatorias': (name) =>
     `Alugue ${name} em BH e região. Frota revisada, entrega na obra e orçamento rápido pelo site ou WhatsApp.`,
-  concretagem: (name) =>
-    `Locação de ${name} para concretagem em BH e RMBH. Entrega programada e condições claras. Solicite orçamento.`,
-  compactacao: (name) =>
-    `Alugue ${name} para compactação de solo em BH e região. Peça orçamento online com entrega na obra.`,
-  'demolicao-perfuracao': (name) =>
-    `Locação de ${name} em BH e região metropolitana. Equipamento revisado — orçamento pelo site ou WhatsApp.`,
-  'andaimes-acesso': (name) =>
-    `Alugue ${name} para sua obra em BH e RMBH. Atendimento comercial ágil e entrega conforme disponibilidade.`,
-  'guindastes-remocoes': (name) =>
+  'guindaste-industrial': (name) =>
     `Locação de ${name} em BH e região. Operação planejada para içamento e remoção. Peça orçamento agora.`,
-  energia: (name) =>
-    `Alugue ${name} para sua obra em BH e região. Frota revisada e orçamento sob consulta pelo site.`,
+  'manipuladores-telescopicos': (name) =>
+    `Alugue ${name} para movimentação de cargas em obra. Orçamento sob consulta em ${brand.seoRegion}.`,
+  andaimes: (name) =>
+    `Alugue ${name} para sua obra em BH e RMBH. Atendimento comercial ágil e entrega conforme disponibilidade.`,
   'ferramentas-eletricas': (name) =>
     `Locação de ${name} em BH e RMBH. Retire na loja ou combine entrega — solicite orçamento online.`,
-  outros: (name) =>
-    `Locação de ${name} em ${brand.seoRegion}. Peça orçamento pelo site ou WhatsApp com resposta ágil.`,
+  'ferramentas-combustao': (name) =>
+    `Alugue ${name} à combustão para sua obra em BH e região. Frota revisada e orçamento sob consulta.`,
+  'ferramentas-bateria': (name) =>
+    `Locação de ${name} à bateria em ${brand.seoRegion}. Peça orçamento pelo site ou WhatsApp.`,
 };
 
 function trimMetaDescription(text: string) {

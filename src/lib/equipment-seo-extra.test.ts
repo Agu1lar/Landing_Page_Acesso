@@ -5,7 +5,7 @@ import type { Equipment } from '@/types/equipment';
 const aerialEquipment: Equipment = {
   slug: 'plataforma-elevatoria-hb-1430',
   name: 'Plataforma elevatória HB 1430',
-  category: 'equipamentos-aereos',
+  category: 'plataformas-elevatorias',
   shortDescription: 'Locação de plataforma.',
   longDescription: 'Descrição técnica.',
   specs: [{ label: 'Altura de trabalho', value: '~6,1 m' }],
@@ -19,17 +19,16 @@ describe('equipment seo extra', () => {
     const extra = getEquipmentSeoExtra(aerialEquipment);
 
     expect(extra?.title).toContain('Belo Horizonte');
-    expect(extra?.paragraphs.join(' ')).toContain('~6,1 m');
     expect(extra?.paragraphs.join(' ')).toContain('NR-18');
   });
 
-  it('returns category block for concretagem', () => {
+  it('returns category block for ferramentas elétricas', () => {
     const extra = getEquipmentSeoExtra({
       ...aerialEquipment,
-      category: 'concretagem',
+      category: 'ferramentas-eletricas',
       name: 'Betoneira',
     });
 
-    expect(extra?.title).toContain('concretagem');
+    expect(extra?.title).toContain('ferramentas elétricas');
   });
 });

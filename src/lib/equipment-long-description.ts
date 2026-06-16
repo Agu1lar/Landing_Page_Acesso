@@ -1,4 +1,4 @@
-import { brand, formatBrandServiceArea } from '@/lib/brand';
+import { formatBrandServiceArea } from '@/lib/brand';
 import { CATEGORY_LABELS, type Equipment, type EquipmentCategory } from '@/types/equipment';
 
 const MIN_RICH_LONG_LENGTH = 180;
@@ -18,29 +18,25 @@ const THIN_MARKERS = [
 ];
 
 const CATEGORY_INTRO: Record<EquipmentCategory, (equipment: Equipment) => string> = {
-  'equipamentos-aereos': (equipment) => {
+  'plataformas-elevatorias': (equipment) => {
     const tipo = specValue(equipment, 'Tipo');
     const altura = specValue(equipment, 'Altura de trabalho');
     const tipoPhrase = tipo ? `plataforma ${tipo.toLowerCase()}` : 'plataforma elevatória';
     const alturaPhrase = altura ? ` com altura de trabalho em torno de ${altura}` : '';
     return `A ${equipment.name} é uma ${tipoPhrase}${alturaPhrase}, indicada para serviços em altura com segurança em obras e manutenções em ${formatBrandServiceArea()}.`;
   },
-  concretagem: (equipment) =>
-    `A ${equipment.name} apoia etapas de concretagem, argamassa e misturas em fundações, lajes, contrapisos e reformas em ${formatBrandServiceArea()}.`,
-  compactacao: (equipment) =>
-    `O ${equipment.name} compacta solo e base em valas, calçadas e áreas de assentamento, com operação conforme manual do fabricante e EPIs adequados.`,
-  'demolicao-perfuracao': (equipment) =>
-    `O ${equipment.name} atende demolição, perfuração e preparo de superfícies em reformas e obras civis, com operador treinado e isolamento da área de trabalho.`,
-  'andaimes-acesso': (equipment) =>
-    `O ${equipment.name} compõe sistemas de andaime e acesso temporário em fachadas, shafts e frentes de serviço, conforme projeto e NR-18 no canteiro.`,
-  'guindastes-remocoes': (equipment) =>
+  'guindaste-industrial': (equipment) =>
     `${equipment.name}: solução para içamento, carga, descarga e remoção técnica de cargas pesadas, com planejamento de operação e equipe especializada.`,
-  energia: (equipment) =>
-    `O ${equipment.name} supre demanda de energia ou ar comprimido no canteiro; dimensionamento conforme carga conectada, autonomia e instalação elétrica disponível.`,
+  'manipuladores-telescopicos': (equipment) =>
+    `O ${equipment.name} é manipulador telescópico para movimentação de cargas em obra e indústria, com alcance e capacidade conforme especificação do fabricante.`,
+  andaimes: (equipment) =>
+    `O ${equipment.name} compõe sistemas de andaime e acesso temporário em fachadas, shafts e frentes de serviço, conforme projeto e NR-18 no canteiro.`,
   'ferramentas-eletricas': (equipment) =>
-    `A ${equipment.name} é ferramenta elétrica para corte, furação, acabamento e montagem em obra, com uso de EPI e instalação compatível com o modelo locado.`,
-  outros: (equipment) =>
-    `O ${equipment.name} está disponível para locação em ${brand.seoRegion}, com orientação da equipe comercial sobre aplicação e logística.`,
+    `A ${equipment.name} é ferramenta elétrica para corte, furação, acabamento, concretagem ou montagem em obra, com uso de EPI e instalação compatível com o modelo locado.`,
+  'ferramentas-combustao': (equipment) =>
+    `O ${equipment.name} é ferramenta ou máquina à combustão para uso em obra, com operação conforme manual do fabricante e EPIs adequados.`,
+  'ferramentas-bateria': (equipment) =>
+    `A ${equipment.name} integra a linha de ferramentas à bateria para mobilidade no canteiro, com carregamento e uso conforme especificação do fabricante.`,
 };
 
 function specValue(equipment: Equipment, label: string) {
