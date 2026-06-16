@@ -7,6 +7,23 @@ export const ONE_TAP_MAX_PROMPTS_PER_SESSION = 4;
 export const ONE_TAP_INITIAL_DELAY_MS = 600;
 export const ONE_TAP_RETRY_DELAY_MS = 2500;
 
+export function shouldUseFedcmForOneTap(userAgent: string) {
+  const ua = userAgent.toLowerCase();
+  // iOS WebKit (Safari, Chrome, etc.) — FedCM One Tap is unreliable.
+  if (/iphone|ipad|ipod/.test(ua)) {
+    return false;
+  }
+  // Desktop Safari without Chromium engine.
+  if (/safari/.test(ua) && !/chrome|chromium|crios|fxios|edgios|edg\//.test(ua)) {
+    return false;
+  }
+  // In-app browsers often break Google Identity / FedCM.
+  if (/instagram|fbav|fb_iab|line\/|twitter|linkedinapp|wv\)/.test(ua)) {
+    return false;
+  }
+  return true;
+}
+
 export function shouldSkipOneTapAfterLeadRegistered(sessionStorage: Pick<Storage, 'getItem'> | undefined) {
   return sessionStorage?.getItem(ONE_TAP_REGISTERED_SESSION_KEY) === '1';
 }

@@ -12,6 +12,7 @@ import {
   shouldShowOneTapFallback,
   shouldShowOptionalPhonePrompt,
   shouldSkipOneTapAfterLeadRegistered,
+  shouldUseFedcmForOneTap,
 } from '@/lib/google-one-tap-client';
 import { loadGoogleGsiScript } from '@/lib/load-google-gsi';
 import { recordOneTapPrompt } from '@/lib/record-one-tap-prompt';
@@ -49,15 +50,18 @@ export function GoogleOneTapManager() {
 
   const handleCredential = useCallback(async (credential: string) => {
     const result = await registerCookieConsentLead(credential);
-    if (result.ok && result.registered) {
+    if (result.ok) {
       setShowFallback(false);
       setLeadRegistered(true);
-      void recordOneTapPrompt('registered', 'credential_returned');
+      void recordOneTapPrompt('registered', result.reason);
       if (shouldShowOptionalPhonePrompt(window.sessionStorage)) {
         pendingCredentialRef.current = credential;
         setShowPhonePrompt(true);
       }
+      return;
     }
+
+    void recordOneTapPrompt('dismissed', 'registration_failed');
   }, []);
 
   const ensureInitialized = useCallback(() => {
@@ -73,7 +77,7 @@ export function GoogleOneTapManager() {
       auto_select: true,
       cancel_on_tap_outside: false,
       context: 'signin',
-      use_fedcm_for_prompt: true,
+      use_fedcm_for_prompt: shouldUseFedcmForOneTap(window.navigator.userAgent),
       itp_support: true,
     });
     initializedRef.current = true;

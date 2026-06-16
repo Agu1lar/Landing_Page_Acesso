@@ -105,6 +105,8 @@ ORDER BY n DESC;
 
 **Limites por sessão:** até 4 tentativas de prompt (navegação entre páginas conta como nova tentativa). Após registro bem-sucedido, não repete na mesma aba.
 
+**Mobile:** em iPhone/iPad e Safari desktop o site desliga FedCM (`use_fedcm_for_prompt: false`) e usa o fluxo legado do Google, mais estável. Navegadores in-app (Instagram, Facebook etc.) podem não devolver credencial — abra no Chrome/Safari nativo.
+
 **Privacidade:** nome/e-mail só após gesto explícito no One Tap. Telefone continua vindo do formulário de orçamento ou WhatsApp.
 
 **Telefone opcional:** logo após confirmar o One Tap, um card discreto pergunta WhatsApp (opcional). “Agora não” fecha e não repete na mesma sessão. Endpoint: `POST /api/leads/cookie-consent/phone`.
@@ -120,6 +122,7 @@ ORDER BY n DESC;
 | Prompt nunca aparece | Origem não autorizada | Adicionar URL exata no Google Cloud |
 | Só em produção custom domain | Falta origem `vercel.app` | Incluir ambas URLs |
 | Fallback aparece, lead não grava | JWT inválido / Arcjet | Ver logs Vercel em `/api/leads/cookie-consent` |
+| Mobile: clica Google, “carrega”, prompt repete | FedCM instável no iOS Safari ou registro falhou em silêncio | Usar Safari/Chrome fora de WebView; ver `dismissed:registration_failed` nos eventos |
 | Aceitar cookies sem lead | Esperado sem One Tap | Usuário precisa confirmar Google |
 
 ---

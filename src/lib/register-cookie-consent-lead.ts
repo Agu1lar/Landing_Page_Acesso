@@ -20,12 +20,22 @@ export async function registerCookieConsentLead(credential: string) {
     ok?: boolean;
     created?: boolean;
     updated?: boolean;
+    skipped?: string;
   };
 
-  if (body.ok && (body.created || body.updated)) {
+  if (body.ok) {
     markOneTapLeadRegistered(window.sessionStorage);
-    return { ok: true as const, registered: true as const };
+    if (body.skipped === 'quote_exists') {
+      return { ok: true as const, reason: 'quote_exists' as const };
+    }
+    if (body.created) {
+      return { ok: true as const, reason: 'created' as const };
+    }
+    if (body.updated) {
+      return { ok: true as const, reason: 'updated' as const };
+    }
+    return { ok: true as const, reason: 'acknowledged' as const };
   }
 
-  return { ok: true as const, registered: false as const };
+  return { ok: false as const };
 }
