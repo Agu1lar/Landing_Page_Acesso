@@ -1167,7 +1167,7 @@
       "ferramentas"
     ],
     "featured": false,
-    "available": true
+    "available": false
   },
   {
     "slug": "bateria",
@@ -1193,7 +1193,7 @@
       "ferramentas"
     ],
     "featured": false,
-    "available": true
+    "available": false
   },
   {
     "slug": "placa-vibratoria-gasolina",
@@ -2441,7 +2441,7 @@
       "andaime"
     ],
     "featured": false,
-    "available": true
+    "available": false
   },
   {
     "slug": "rodape-de-0-20-x-2-00-m",
