@@ -6,6 +6,7 @@ import equipmentJson from '@/data/equipamentos.json';
 import { db } from '@/libs/DB';
 import { equipmentImagesSchema, equipmentSchema } from '@/models/Schema';
 import type { Equipment, EquipmentCategory, EquipmentSpec } from '@/types/equipment';
+import { isEquipmentCategory } from '@/types/equipment';
 
 export type EquipmentRow = InferSelectModel<typeof equipmentSchema>;
 export type EquipmentImageRow = InferSelectModel<typeof equipmentImagesSchema>;
@@ -51,7 +52,8 @@ export function rowToEquipment(row: EquipmentRow): Equipment {
     specs: row.specs ?? [],
     tags: row.tags ?? [],
     featured: row.featured,
-    available: row.available && row.published && !row.deletedAt,
+    available:
+      row.available && row.published && !row.deletedAt && isEquipmentCategory(row.category),
   };
 }
 

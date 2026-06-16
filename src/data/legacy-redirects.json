@@ -123,6 +123,16 @@
       "note": "Categoria ferramentas-bateria removida do catálogo"
     },
     {
+      "source": "/equipamentos/bateria",
+      "destination": "/categorias/ferramentas-eletricas",
+      "note": "Equipamento bateria removido do catálogo"
+    },
+    {
+      "source": "/equipamentos/carregador",
+      "destination": "/categorias/ferramentas-eletricas",
+      "note": "Equipamento carregador removido do catálogo"
+    },
+    {
       "source": "/aluguel-de-maquinas-e-ferramentas-eletricas",
       "destination": "/categorias/ferramentas-eletricas",
       "note": "Página WP — ferramentas elétricas"

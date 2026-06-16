@@ -41,3 +41,7 @@ export const EQUIPMENT_CATEGORY_ORDER: EquipmentCategory[] = [
   'ferramentas-eletricas',
   'ferramentas-combustao',
 ];
+
+export function isEquipmentCategory(category: string): category is EquipmentCategory {
+  return (EQUIPMENT_CATEGORY_ORDER as readonly string[]).includes(category);
+}

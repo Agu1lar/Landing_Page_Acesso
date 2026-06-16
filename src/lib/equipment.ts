@@ -10,6 +10,7 @@ import {
 } from '@/lib/equipment-db';
 import { EQUIPMENT_CATALOG_TAG } from '@/lib/equipment-cache-tags';
 import type { Equipment, EquipmentCategory } from '@/types/equipment';
+import { isEquipmentCategory } from '@/types/equipment';
 
 export { getEquipmentQuoteCartKind } from '@/lib/equipment-quote-cart';
 export { EQUIPMENT_CATALOG_TAG } from '@/lib/equipment-cache-tags';
@@ -18,7 +19,7 @@ const jsonFallback = equipmentData as Equipment[];
 
 /** Public site only lists items open for quote — not live stock. */
 export function isPublicCatalogItem(item: Equipment) {
-  return item.available;
+  return item.available && isEquipmentCategory(item.category);
 }
 
 function filterPublicCatalog(items: Equipment[]) {

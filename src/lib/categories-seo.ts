@@ -91,9 +91,7 @@ const CATEGORIES_SEO: Record<EquipmentCategory, CategorySeoContent> = {
   },
 };
 
-export function isEquipmentCategory(slug: string): slug is EquipmentCategory {
-  return slug in CATEGORIES_SEO;
-}
+export { isEquipmentCategory } from '@/types/equipment';
 
 export function getCategorySeo(slug: EquipmentCategory): CategorySeoContent {
   return CATEGORIES_SEO[slug];

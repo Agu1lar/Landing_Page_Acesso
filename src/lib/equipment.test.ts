@@ -18,6 +18,15 @@ describe('public catalog item', () => {
   it('excludes unavailable equipment', () => {
     expect(isPublicCatalogItem({ ...guindasteJson, available: false })).toBe(false);
   });
+
+  it('excludes equipment in removed categories', () => {
+    expect(
+      isPublicCatalogItem({
+        ...guindasteJson,
+        category: 'ferramentas-bateria' as Equipment['category'],
+      }),
+    ).toBe(false);
+  });
 });
 
 describe('merge catalog with JSON fallback', () => {
