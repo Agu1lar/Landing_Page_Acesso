@@ -16,6 +16,22 @@ Site da **Acesso Equipamentos** (locação de equipamentos para construção civ
 
 ---
 
+## Changelog — 15 jun 2026 (GEO / descoberta por IAs)
+
+Preparação para **buscas generativas** (ChatGPT, Perplexity, Gemini, Copilot) — funciona na URL Vercel e migra automaticamente quando o domínio oficial estiver no ar.
+
+| Recurso | URL | Descrição |
+|---------|-----|-----------|
+| **llms.txt** | `/llms.txt` | Mapa em texto para LLMs: resumo da empresa, categorias, contato, links principais |
+| **Catálogo JSON** | `/catalog.json` | Equipamentos publicados com specs e URLs absolutas (cache 5 min) |
+| **robots.txt** | `/robots.txt` | Regras explícitas para `GPTBot`, `ClaudeBot`, `PerplexityBot`, `Google-Extended`, etc. |
+| **Footer** | — | Link “Guia para IAs (llms.txt)” |
+| **Sitemap** | `/sitemap.xml` | Inclui `/llms.txt` e `/catalog.json` |
+
+Guia completo: [docs/GEO-AI-SEARCH.md](docs/GEO-AI-SEARCH.md) · health check: `GET /api/health` → `aiDiscovery`.
+
+---
+
 ## Changelog — 15 jun 2026
 
 Resumo do que foi projetado e entregue nesta sessão (commits `c2d7f1b` … `main`).
@@ -150,7 +166,8 @@ Resumo do que foi projetado e entregue nesta sessão (commits `c2d7f1b` … `mai
   - Categoria: **CollectionPage** + **ItemList** + **BreadcrumbList** (`buildCategoryPageJsonLd`).
   - FAQ: **FAQPage**; treinamento: **Course**.
 - **Sitemap** com prioridades de crawl (home, categorias, catálogo, fichas).
-- Testes unitários em `src/lib/seo-metadata.test.ts` e `src/lib/json-ld.test.ts`.
+- **GEO / IAs:** [`/llms.txt`](docs/GEO-AI-SEARCH.md), [`/catalog.json`](docs/GEO-AI-SEARCH.md), robots para crawlers de IA — ver [docs/GEO-AI-SEARCH.md](docs/GEO-AI-SEARCH.md).
+- Testes unitários em `src/lib/seo-metadata.test.ts`, `src/lib/json-ld.test.ts` e `src/lib/ai-discovery.test.ts`.
 
 ### Analytics e LGPD
 

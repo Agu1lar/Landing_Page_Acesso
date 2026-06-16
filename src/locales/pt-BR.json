@@ -162,6 +162,7 @@
     "address": "Endereço",
     "hours": "Horário",
     "privacy_link": "Privacidade",
+    "ai_discovery_link": "Guia para IAs (llms.txt)",
     "admin_area_link": "Área restrita",
     "rights": "© {year} {name}. Todos os direitos reservados."
   },

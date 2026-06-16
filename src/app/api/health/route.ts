@@ -81,5 +81,17 @@ export async function GET() {
       analyticsAcceptRecordsEvent: 'POST /api/analytics/consent',
     },
     leadsRateLimit: '8 requests / 15 min per IP (Arcjet)',
+    aiDiscovery: {
+      llmsTxt: '/llms.txt',
+      publicCatalog: '/catalog.json',
+      doc: 'docs/GEO-AI-SEARCH.md',
+      aiCrawlersAllowed: [
+        'GPTBot',
+        'OAI-SearchBot',
+        'ClaudeBot',
+        'PerplexityBot',
+        'Google-Extended',
+      ],
+    },
   });
 }

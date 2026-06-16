@@ -28,6 +28,8 @@ function revalidateEquipmentPaths(slug: string, category?: string) {
   revalidatePath('/equipamentos');
   revalidatePath(`/equipamentos/${slug}`);
   revalidatePath('/sitemap.xml');
+  revalidatePath('/catalog.json');
+  revalidatePath('/llms.txt');
 
   if (category) {
     revalidatePath(`/categorias/${category}`);

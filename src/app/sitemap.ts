@@ -16,6 +16,8 @@ const STATIC_ROUTE_LAST_MODIFIED: Record<string, Date> = {
   '/faq': new Date('2026-05-21'),
   '/dicas': new Date('2026-05-21'),
   '/privacidade': new Date('2026-05-21'),
+  '/llms.txt': new Date('2026-06-15'),
+  '/catalog.json': new Date('2026-06-15'),
 };
 
 function priorityForRoute(route: string) {
@@ -79,6 +81,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/faq',
     '/dicas',
     '/privacidade',
+    '/llms.txt',
+    '/catalog.json',
   ];
 
   const [catalog, equipmentLastModified, dicaLastModified] = await Promise.all([
