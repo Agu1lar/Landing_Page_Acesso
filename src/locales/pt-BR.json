@@ -183,7 +183,8 @@
     "phone_saving": "Salvando…",
     "phone_skip": "Agora não",
     "phone_invalid": "Informe um telefone com DDD",
-    "phone_save_error": "Não foi possível salvar. Tente de novo."
+    "phone_save_error": "Não foi possível salvar. Tente de novo.",
+    "success_message": "Contato salvo com Google. Obrigado!"
   },
   "PrivacidadePage": {
     "meta_title": "Política de privacidade",

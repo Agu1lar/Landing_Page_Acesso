@@ -13,7 +13,7 @@ export async function registerCookieConsentLead(credential: string) {
   });
 
   if (!response.ok) {
-    return { ok: false as const };
+    return { ok: false as const, status: response.status };
   }
 
   const body = (await response.json()) as {
@@ -37,5 +37,5 @@ export async function registerCookieConsentLead(credential: string) {
     return { ok: true as const, reason: 'acknowledged' as const };
   }
 
-  return { ok: false as const };
+  return { ok: false as const, status: response.status };
 }

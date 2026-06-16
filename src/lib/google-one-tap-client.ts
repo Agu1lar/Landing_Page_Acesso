@@ -9,8 +9,8 @@ export const ONE_TAP_RETRY_DELAY_MS = 2500;
 
 export function shouldUseFedcmForOneTap(userAgent: string) {
   const ua = userAgent.toLowerCase();
-  // iOS WebKit (Safari, Chrome, etc.) — FedCM One Tap is unreliable.
-  if (/iphone|ipad|ipod/.test(ua)) {
+  // Mobile browsers (Android + iOS) — FedCM often returns no credential after account pick.
+  if (/android|iphone|ipad|ipod/.test(ua)) {
     return false;
   }
   // Desktop Safari without Chromium engine.
@@ -18,10 +18,16 @@ export function shouldUseFedcmForOneTap(userAgent: string) {
     return false;
   }
   // In-app browsers often break Google Identity / FedCM.
-  if (/instagram|fbav|fb_iab|line\/|twitter|linkedinapp|wv\)/.test(ua)) {
+  if (/instagram|fbav|fb_iab|line\/|twitter|linkedinapp|whatsapp|wv\)/.test(ua)) {
     return false;
   }
   return true;
+}
+
+/** auto_select fails silently on many phones when multiple Google accounts exist. */
+export function shouldAutoSelectOneTap(userAgent: string) {
+  const ua = userAgent.toLowerCase();
+  return !/android|iphone|ipad|ipod|mobile/.test(ua);
 }
 
 export function shouldSkipOneTapAfterLeadRegistered(sessionStorage: Pick<Storage, 'getItem'> | undefined) {

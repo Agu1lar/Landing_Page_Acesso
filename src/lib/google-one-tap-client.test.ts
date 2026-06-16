@@ -9,6 +9,7 @@ import {
   markOneTapLeadRegistered,
   markOptionalPhonePromptDismissed,
   markOptionalPhonePromptSaved,
+  shouldAutoSelectOneTap,
   shouldRetryOneTapAfterSkip,
   shouldShowOneTapFallback,
   shouldShowOptionalPhonePrompt,
@@ -74,7 +75,7 @@ describe('google-one-tap-client', () => {
     expect(shouldShowOptionalPhonePrompt(savedStorage)).toBe(false);
   });
 
-  it('disables FedCM on iOS Safari and in-app browsers', () => {
+  it('disables FedCM on mobile and in-app browsers', () => {
     expect(
       shouldUseFedcmForOneTap(
         'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1',
@@ -89,16 +90,29 @@ describe('google-one-tap-client', () => {
       shouldUseFedcmForOneTap(
         'Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Mobile Safari/537.36',
       ),
-    ).toBe(true);
+    ).toBe(false);
     expect(
       shouldUseFedcmForOneTap(
-        'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/124.0.0.0 Mobile/15E148 Safari/604.1',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
       ),
-    ).toBe(false);
+    ).toBe(true);
     expect(
       shouldUseFedcmForOneTap(
         'Mozilla/5.0 (Linux; Android 14; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/124.0.0.0 Mobile Safari/537.36 Instagram 312.0.0.0',
       ),
     ).toBe(false);
+  });
+
+  it('disables auto_select on phones', () => {
+    expect(
+      shouldAutoSelectOneTap(
+        'Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Mobile Safari/537.36',
+      ),
+    ).toBe(false);
+    expect(
+      shouldAutoSelectOneTap(
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+      ),
+    ).toBe(true);
   });
 });

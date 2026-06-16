@@ -12,6 +12,7 @@ import {
   shouldShowOneTapFallback,
   shouldShowOptionalPhonePrompt,
   shouldSkipOneTapAfterLeadRegistered,
+  shouldAutoSelectOneTap,
   shouldUseFedcmForOneTap,
 } from '@/lib/google-one-tap-client';
 import { loadGoogleGsiScript } from '@/lib/load-google-gsi';
@@ -32,10 +33,12 @@ export function GoogleOneTapManager() {
   const fallbackRenderedRef = useRef(false);
   const buttonContainerRef = useRef<HTMLDivElement>(null);
   const pendingCredentialRef = useRef<string | null>(null);
+  const credentialInFlightRef = useRef(false);
 
   const [showFallback, setShowFallback] = useState(false);
   const [leadRegistered, setLeadRegistered] = useState(false);
   const [showPhonePrompt, setShowPhonePrompt] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   useEffect(() => {
     setLeadRegistered(shouldSkipOneTapAfterLeadRegistered(window.sessionStorage));
@@ -49,35 +52,46 @@ export function GoogleOneTapManager() {
   }, []);
 
   const handleCredential = useCallback(async (credential: string) => {
-    const result = await registerCookieConsentLead(credential);
-    if (result.ok) {
-      setShowFallback(false);
-      setLeadRegistered(true);
-      void recordOneTapPrompt('registered', result.reason);
-      if (shouldShowOptionalPhonePrompt(window.sessionStorage)) {
-        pendingCredentialRef.current = credential;
-        setShowPhonePrompt(true);
-      }
-      return;
-    }
+    credentialInFlightRef.current = true;
+    clearRetryTimer();
+    window.google?.accounts?.id?.cancel();
 
-    void recordOneTapPrompt('dismissed', 'registration_failed');
-  }, []);
+    try {
+      const result = await registerCookieConsentLead(credential);
+      if (result.ok) {
+        setShowFallback(false);
+        setLeadRegistered(true);
+        setShowSuccessMessage(true);
+        void recordOneTapPrompt('registered', result.reason);
+        if (shouldShowOptionalPhonePrompt(window.sessionStorage)) {
+          pendingCredentialRef.current = credential;
+          setShowPhonePrompt(true);
+        }
+        return;
+      }
+
+      void recordOneTapPrompt('dismissed', `registration_failed:${result.status ?? 'unknown'}`);
+    } finally {
+      credentialInFlightRef.current = false;
+    }
+  }, [clearRetryTimer]);
 
   const ensureInitialized = useCallback(() => {
     if (!clientId || !window.google?.accounts?.id || initializedRef.current) {
       return;
     }
 
+    const userAgent = window.navigator.userAgent;
+
     window.google.accounts.id.initialize({
       client_id: clientId,
       callback: (response) => {
         void handleCredential(response.credential);
       },
-      auto_select: true,
+      auto_select: shouldAutoSelectOneTap(userAgent),
       cancel_on_tap_outside: false,
       context: 'signin',
-      use_fedcm_for_prompt: shouldUseFedcmForOneTap(window.navigator.userAgent),
+      use_fedcm_for_prompt: shouldUseFedcmForOneTap(userAgent),
       itp_support: true,
     });
     initializedRef.current = true;
@@ -153,9 +167,28 @@ export function GoogleOneTapManager() {
     return () => {
       window.clearTimeout(timer);
       clearRetryTimer();
-      window.google?.accounts?.id?.cancel();
+      if (
+        !credentialInFlightRef.current &&
+        !shouldSkipOneTapAfterLeadRegistered(window.sessionStorage)
+      ) {
+        window.google?.accounts?.id?.cancel();
+      }
     };
-  }, [clearRetryTimer, clientId, leadRegistered, pathname, runPrompt]);
+  }, [clearRetryTimer, clientId, leadRegistered, runPrompt]);
+
+  useEffect(() => {
+    if (!showSuccessMessage) {
+      return;
+    }
+
+    const timer = window.setTimeout(() => {
+      setShowSuccessMessage(false);
+    }, 4000);
+
+    return () => {
+      window.clearTimeout(timer);
+    };
+  }, [showSuccessMessage]);
 
   useEffect(() => {
     if (!showFallback || !clientId || leadRegistered) {
@@ -213,12 +246,28 @@ export function GoogleOneTapManager() {
       />
     ) : null;
 
+  const successToast = showSuccessMessage ? (
+    <div
+      aria-live="polite"
+      className="fixed top-4 right-4 left-4 z-40 mx-auto max-w-sm rounded-xl border border-emerald-500/30 bg-emerald-950/95 px-4 py-3 text-sm text-emerald-100 shadow-lg backdrop-blur-sm sm:left-auto"
+      role="status"
+    >
+      {t('success_message')}
+    </div>
+  ) : null;
+
   if (!showFallback || leadRegistered) {
-    return phonePrompt;
+    return (
+      <>
+        {successToast}
+        {phonePrompt}
+      </>
+    );
   }
 
   return (
     <>
+      {successToast}
       <div
         aria-labelledby="google-one-tap-fallback-title"
         className="fixed bottom-20 left-4 z-30 max-w-xs rounded-xl border border-neutral-700 bg-neutral-900/95 px-4 py-3 text-neutral-200 shadow-lg backdrop-blur-sm sm:bottom-6"

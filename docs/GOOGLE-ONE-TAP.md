@@ -105,7 +105,7 @@ ORDER BY n DESC;
 
 **Limites por sessão:** até 4 tentativas de prompt (navegação entre páginas conta como nova tentativa). Após registro bem-sucedido, não repete na mesma aba.
 
-**Mobile:** em iPhone/iPad e Safari desktop o site desliga FedCM (`use_fedcm_for_prompt: false`) e usa o fluxo legado do Google, mais estável. Navegadores in-app (Instagram, Facebook etc.) podem não devolver credencial — abra no Chrome/Safari nativo.
+**Mobile:** em **Android, iPhone/iPad** e Safari desktop o site desliga FedCM e `auto_select` (fluxo legado, mais estável). Navegadores in-app (Instagram, WhatsApp, Facebook etc.) podem não devolver credencial — abra no Chrome/Safari nativo. Após sucesso, um toast verde confirma “Contato salvo com Google”.
 
 **Privacidade:** nome/e-mail só após gesto explícito no One Tap. Telefone continua vindo do formulário de orçamento ou WhatsApp.
 
