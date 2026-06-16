@@ -12,7 +12,6 @@ export type EquipmentCategory =
   | 'guindastes-remocoes'
   | 'energia'
   | 'ferramentas-eletricas'
-  | 'acessorios'
   | 'outros';
 
 export type Equipment = {
@@ -36,6 +35,5 @@ export const CATEGORY_LABELS: Record<EquipmentCategory, string> = {
   'guindastes-remocoes': 'Guindastes e remoções',
   energia: 'Energia',
   'ferramentas-eletricas': 'Ferramentas elétricas',
-  acessorios: 'Acessórios',
   outros: 'Outros',
 };

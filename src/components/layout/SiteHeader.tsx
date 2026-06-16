@@ -160,7 +160,7 @@ export function SiteHeader({ searchIndex }: SiteHeaderProps) {
             style={{ gridArea: 'logo' }}
           >
             <div
-              className="overflow-hidden transition-[height] duration-300 ease-out"
+              className="flex items-center overflow-hidden transition-[height] duration-300 ease-out"
               style={{ height: compact ? 44 : undefined, minHeight: compact ? 44 : 72 }}
             >
               <BrandLogo compact={compact} />

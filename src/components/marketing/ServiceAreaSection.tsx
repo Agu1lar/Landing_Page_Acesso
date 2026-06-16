@@ -2,8 +2,6 @@ import { brand } from '@/lib/brand';
 
 type ServiceAreaSectionProps = {
   title: string;
-  subtitle: string;
-  note: string;
   eyebrow: string;
   primaryLabel: string;
   /** Defaults to brand.serviceAreaCities (same list as LocalBusiness schema). */
@@ -52,8 +50,6 @@ export function ServiceAreaSection(props: ServiceAreaSectionProps) {
             >
               {props.title}
             </h2>
-            <p className="mt-3 text-base leading-relaxed text-neutral-600">{props.subtitle}</p>
-            <p className="mt-4 text-sm leading-relaxed text-neutral-500">{props.note}</p>
           </div>
 
           <ul className="flex flex-wrap gap-2 lg:justify-end">

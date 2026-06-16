@@ -57,7 +57,7 @@ export const FAQ_ITEMS: FaqItem[] = [
     id: 'treinamento',
     question: 'A Acesso oferece treinamento em plataformas elevatórias?',
     answer:
-      'Sim. Além da locação, oferecemos treinamento para operação segura de plataformas elevatórias (tesoura, lança articulada e mastro), com conteúdo alinhado à NR-12 e boas práticas de trabalho em altura. Consulte a página Treinamento — plataformas aéreas ou fale com o comercial para turmas, certificado e valores.',
+      'Sim. Além da locação, oferecemos treinamento para operação segura de plataformas elevatórias (tesoura, lança articulada e mastro), com conteúdo alinhado à NR-18 e boas práticas de trabalho em altura. Consulte a página Treinamento — plataformas aéreas ou fale com o comercial para turmas, certificado e valores.',
   },
   {
     id: 'prazos',

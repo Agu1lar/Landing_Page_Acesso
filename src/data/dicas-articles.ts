@@ -37,7 +37,7 @@ export const DICAS_ARTICLES: DicaArticle[] = [
       {
         heading: 'O que informar no orçamento',
         paragraphs: [
-          'Ao solicitar orçamento, descreva altura aproximada do serviço, tipo de piso (interno/externo), voltagem disponível no canteiro, período de locação e endereço da obra. Com esses dados indicamos modelos disponíveis na frota, condições de entrega e retirada e, se necessário, treinamento em operação segura alinhado à NR-12.',
+          'Ao solicitar orçamento, descreva altura aproximada do serviço, tipo de piso (interno/externo), voltagem disponível no canteiro, período de locação e endereço da obra. Com esses dados indicamos modelos disponíveis na frota, condições de entrega e retirada e, se necessário, treinamento em operação segura alinhado à NR-18.',
           'A Acesso Equipamentos atende construtoras, empreiteiras e indústrias em MG desde 2013. Valores sob consulta; resposta comercial em horário útil por formulário ou WhatsApp.',
         ],
       },
@@ -95,7 +95,7 @@ export const DICAS_ARTICLES: DicaArticle[] = [
       {
         heading: 'Treinamento e operação segura',
         paragraphs: [
-          'A Acesso Equipamentos oferece treinamento em operação de plataformas elevatórias, com conteúdo alinhado à NR-12 e boas práticas de trabalho em altura — ideal para empresas que desejam padronizar equipes antes de iniciar serviços em altura. Combine locação + capacitação na mesma obra para reduzir risco e retrabalho.',
+          'A Acesso Equipamentos oferece treinamento em operação de plataformas elevatórias, com conteúdo alinhado à NR-18 e boas práticas de trabalho em altura — ideal para empresas que desejam padronizar equipes antes de iniciar serviços em altura. Combine locação + capacitação na mesma obra para reduzir risco e retrabalho.',
           'Antes de mobilizar o equipamento, avalie solo, inclinação, proximidade de redes elétricas e delimitação da área. Em caso de dúvida sobre o modelo adequado à classificação ABNT do serviço, consulte nosso comercial com a descrição da atividade e do local.',
         ],
       },

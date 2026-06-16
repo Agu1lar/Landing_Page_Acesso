@@ -86,9 +86,7 @@ export default async function SobrePage(props: PageProps) {
 
       <ServiceAreaSection
         eyebrow={tServiceArea('eyebrow')}
-        note={tServiceArea('note')}
         primaryLabel={tServiceArea('primary_label')}
-        subtitle={tServiceArea('subtitle')}
         title={tServiceArea('title')}
       />
 
@@ -220,7 +218,7 @@ export default async function SobrePage(props: PageProps) {
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                (31) 99470-0201
+                {brand.whatsappDisplay}
               </TrackedWhatsAppLink>
             </li>
             <li>

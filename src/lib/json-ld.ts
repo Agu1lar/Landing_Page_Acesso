@@ -71,7 +71,7 @@ function organizationNode(baseUrl: string) {
     email: brand.email,
     telephone: `+55${brand.phone}`,
     foundingDate: String(brand.foundedYear),
-    sameAs: [`https://www.instagram.com/${brand.instagram}/`],
+    sameAs: [brand.instagramUrl, brand.linkedinUrl],
     address: postalAddress(),
   };
 }
@@ -442,7 +442,7 @@ export function buildTrainingCourseJsonLd() {
         '@id': `${url}#course`,
         name: 'Treinamento em plataformas elevatórias',
         description:
-          'Capacitação para operação segura de plataformas elevatórias, alinhada à NR-12 e trabalho em altura.',
+          'Capacitação para operação segura de plataformas elevatórias, alinhada à NR-18 e trabalho em altura.',
         url,
         inLanguage: 'pt-BR',
         provider: { '@id': `${baseUrl}/#organization` },

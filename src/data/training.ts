@@ -1,7 +1,7 @@
 /** Conteúdo — treinamento em plataformas elevatórias (Acesso Equipamentos) */
 
 export const TRAINING_TOPICS = [
-  'Legislação aplicável e responsabilidades (NR-12, NR-35 e normas correlatas)',
+  'Legislação aplicável e responsabilidades (NR-18, NR-35 e normas correlatas)',
   'Riscos em trabalho em altura e prevenção de acidentes',
   'Tipos de plataformas elevatórias: tesoura, lança articulada e mastro',
   'Inspeção pré-operacional e checklist do equipamento',

@@ -23,7 +23,6 @@ const categories: EquipmentCategory[] = [
   'concretagem',
   'andaimes-acesso',
   'ferramentas-eletricas',
-  'acessorios',
   'demolicao-perfuracao',
   'compactacao',
   'energia',
@@ -94,11 +93,8 @@ export default async function HomePage(props: IndexPageProps) {
     <>
       <section className="border-b border-neutral-200 bg-surface">
         <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="text-sm font-semibold tracking-wider text-primary uppercase">
-              Desde 2013 · Região metropolitana de BH
-            </p>
-            <h1 className="mt-4 font-heading text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl lg:text-5xl">
+          <div className="mx-auto max-w-4xl text-center">
+            <h1 className="font-heading text-2xl leading-snug font-bold tracking-tight text-neutral-900 sm:text-3xl lg:text-4xl">
               {t('hero_title')}
             </h1>
             <p className="mt-4 text-base leading-relaxed text-neutral-600 sm:mt-6 sm:text-lg">
@@ -119,9 +115,7 @@ export default async function HomePage(props: IndexPageProps) {
 
       <ServiceAreaSection
         eyebrow={tServiceArea('eyebrow')}
-        note={tServiceArea('note')}
         primaryLabel={tServiceArea('primary_label')}
-        subtitle={tServiceArea('subtitle')}
         title={tServiceArea('title')}
       />
 

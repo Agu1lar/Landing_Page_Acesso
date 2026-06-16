@@ -1,16 +1,20 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { TrackedWhatsAppLink } from '@/components/analytics/TrackedWhatsAppLink';
 import { ConversionCtas } from '@/components/marketing/ConversionCtas';
 import { ServiceAreaSection } from '@/components/marketing/ServiceAreaSection';
+import { InstagramIcon, LinkedInIcon, WhatsAppIcon } from '@/components/layout/SocialIcons';
 import { brand, buildWhatsAppMessage, buildWhatsAppUrl, seoTitle } from '@/lib/brand';
 import { buildMarketingMetadata } from '@/lib/seo-metadata';
 import { resolveAppLocale } from '@/utils/locale';
 
 type PageProps = { params: Promise<{ locale: string }> };
 
+const whatsappContato = buildWhatsAppUrl(buildWhatsAppMessage({ origin: 'site-contato' }));
+
 export const metadata: Metadata = buildMarketingMetadata({
   title: seoTitle('Contato e orçamento'),
-  description: `Telefone, WhatsApp e endereço da ${brand.name} em Belo Horizonte. Atendimento comercial em horário útil para locação de equipamentos na região metropolitana.`,
+  description: `Telefone, WhatsApp, Instagram e endereço da ${brand.name} em Belo Horizonte. Atendimento comercial em horário útil para locação de equipamentos em Minas Gerais e em todo o Brasil.`,
   path: '/contato',
 });
 
@@ -29,9 +33,22 @@ export default async function ContatoPage(props: PageProps) {
         <ul className="mt-8 space-y-4 text-neutral-700">
           <li>
             <strong className="text-neutral-900">Telefone:</strong>{' '}
-            <a className="text-primary hover:underline" href={`tel:+${brand.phone}`}>
+            <a className="text-primary hover:underline" href={`tel:+55${brand.phone}`}>
               {brand.phoneDisplay}
             </a>
+          </li>
+          <li>
+            <strong className="text-neutral-900">Celular / WhatsApp:</strong>{' '}
+            <TrackedWhatsAppLink
+              className="inline-flex items-center gap-2 text-primary hover:underline"
+              href={whatsappContato}
+              origin="site-contato"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <WhatsAppIcon className="h-5 w-5 shrink-0 text-cta-whatsapp" />
+              {brand.whatsappDisplay}
+            </TrackedWhatsAppLink>
           </li>
           <li>
             <strong className="text-neutral-900">E-mail:</strong>{' '}
@@ -45,11 +62,38 @@ export default async function ContatoPage(props: PageProps) {
           <li>
             <strong className="text-neutral-900">Horário:</strong> {brand.hours}
           </li>
+          <li>
+            <strong className="text-neutral-900">Redes sociais:</strong>
+            <ul className="mt-2 space-y-2">
+              <li>
+                <a
+                  className="inline-flex items-center gap-2 text-primary hover:underline"
+                  href={brand.instagramUrl}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <InstagramIcon className="h-5 w-5 shrink-0" />
+                  @{brand.instagram}
+                </a>
+              </li>
+              <li>
+                <a
+                  className="inline-flex items-center gap-2 text-primary hover:underline"
+                  href={brand.linkedinUrl}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <LinkedInIcon className="h-5 w-5 shrink-0" />
+                  LinkedIn — Acesso Equipamentos
+                </a>
+              </li>
+            </ul>
+          </li>
         </ul>
         <ConversionCtas
           className="mt-8"
           quoteLabel="Solicitar orçamento"
-          whatsappHref={buildWhatsAppUrl(buildWhatsAppMessage({ origin: 'site-contato' }))}
+          whatsappHref={whatsappContato}
           whatsappLabel="Falar no WhatsApp"
           whatsappOrigin="site-contato"
         />
@@ -58,9 +102,7 @@ export default async function ContatoPage(props: PageProps) {
       <ServiceAreaSection
         className="border-t-0"
         eyebrow={t('eyebrow')}
-        note={t('note')}
         primaryLabel={t('primary_label')}
-        subtitle={t('subtitle')}
         title={t('title')}
       />
     </>

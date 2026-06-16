@@ -22,7 +22,7 @@ function buildAerialPlatformExtra(equipment: Equipment): EquipmentSeoExtra {
     title: `Locação de ${equipment.name} em Belo Horizonte`,
     paragraphs: [
       `A locação de ${equipment.name}${heightPhrase} atende obras e manutenções em ${BH_REGION}. A Acesso Equipamentos dimensiona o modelo conforme espaço no canteiro, tipo de piso, voltagem disponível e carga prevista na plataforma — fatores que impactam segurança e produtividade.`,
-      `Para serviços em altura, combine o equipamento com treinamento de operadores alinhado à NR-12 quando necessário. Entrega e retirada são programadas com o responsável pela obra; valores e período mínimo de locação sob consulta com nossa equipe comercial.`,
+      `Para serviços em altura, combine o equipamento com treinamento de operadores alinhado à NR-18 quando necessário. Entrega e retirada são programadas com o responsável pela obra; valores e período mínimo de locação sob consulta com nossa equipe comercial.`,
       `Solicite orçamento informando endereço da obra, datas e descrição do serviço. Se preferir resposta imediata, use o WhatsApp com o nome deste equipamento — o atendimento funciona em horário útil com foco em construção civil e indústria em Minas Gerais.`,
     ],
   };

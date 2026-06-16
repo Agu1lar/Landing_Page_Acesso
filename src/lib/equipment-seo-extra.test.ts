@@ -20,7 +20,7 @@ describe('equipment seo extra', () => {
 
     expect(extra?.title).toContain('Belo Horizonte');
     expect(extra?.paragraphs.join(' ')).toContain('~6,1 m');
-    expect(extra?.paragraphs.join(' ')).toContain('NR-12');
+    expect(extra?.paragraphs.join(' ')).toContain('NR-18');
   });
 
   it('returns category block for concretagem', () => {

@@ -8,6 +8,11 @@
       "note": "Hub informacional — seção /dicas (Sprint 9.4)"
     },
     {
+      "source": "/categorias/acessorios",
+      "destination": "/equipamentos",
+      "note": "Categoria acessorios removida do catálogo"
+    },
+    {
       "source": "/utilizacao-de-plataformas-elevatorias-em-empresa-mineradora-regiao-metropolitana-de-belo-horizonte",
       "destination": "/categorias/equipamentos-aereos",
       "note": "Post — plataformas / mineração"

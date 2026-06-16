@@ -1,6 +1,6 @@
 /** Conteúdo institucional — alinhado ao site oficial e docs/REQUISITOS.md */
 export const companyServices = [
-  'Treinamento em operação segura de plataformas elevatórias (NR-12 / trabalho em altura)',
+  'Treinamento em operação segura de plataformas elevatórias (NR-18 / trabalho em altura)',
   'Locação de plataformas elevatórias (tesoura, articulada, mastro e elevador individual)',
   'Locação e montagem de andaimes (torre NR 18, multidirecional e tubo e braçadeira)',
   'Acessórios para andaimes (sapatas, pranchões, escadas moduladas, guarda-corpos)',

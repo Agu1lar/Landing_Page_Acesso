@@ -6,8 +6,13 @@ export const brand = {
   phone: '3133763377',
   phoneDisplay: '(31) 3376-3377',
   whatsapp: '5531994700201',
+  whatsappDisplay: '(31) 99470-0201',
   email: 'comercial@acessoequipamentos.com.br',
   instagram: 'acessoequipamentos',
+  instagramUrl: 'https://www.instagram.com/acessoequipamentos/',
+  linkedinUrl: 'https://www.linkedin.com/company/acesso-equipamentos-ltda',
+  footerTagline:
+    'Locação de equipamentos para construção civil em Minas Gerais e em todo o território nacional. Empresa desde 2013.',
   address: {
     street: 'Praça Chuí, 100',
     neighborhood: 'João Pinheiro',

@@ -92,6 +92,13 @@
       "when": 1780200000000,
       "tag": "0012_dashboard_allowlist",
       "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1780300000000,
+      "tag": "0013_remove_acessorios_category",
+      "breakpoints": true
     }
   ]
 }

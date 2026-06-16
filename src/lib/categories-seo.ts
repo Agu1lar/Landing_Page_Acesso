@@ -21,7 +21,7 @@ const CATEGORIES_SEO: Record<EquipmentCategory, CategorySeoContent> = {
       'Nossa frota inclui plataformas tipo tesoura e outros modelos adequados a diferentes alturas de trabalho e capacidades de carga. Cada equipamento é indicado conforme o tipo de terreno, o espaço disponível na obra e a necessidade de deslocamento — fatores que nossa equipe comercial avalia ao montar sua proposta. Os valores são informados sob consulta, de acordo com o período de locação e a logística de entrega e retirada.',
       'Trabalhar em altura exige planejamento: análise do solo, delimitação da área, capacitação de operadores e uso de EPIs compatíveis com a atividade. A Acesso Equipamentos orienta o cliente sobre documentação e requisitos usuais para locação de máquinas aéreas, alinhados às boas práticas do setor e à legislação vigente. Fundada em 2013, a empresa conta com profissionais com mais de vinte anos de experiência no mercado de locação para construção civil.',
       'Atendemos obras em Belo Horizonte e cidades da região metropolitana, com entrega e retirada programadas conforme a disponibilidade da frota. O atendimento comercial funciona em horário útil, com resposta ágil por telefone, e-mail ou WhatsApp — canais que facilitam o orçamento mesmo para demandas de curto prazo.',
-      'Ao escolher a Acesso para a locação de plataforma elevatória em BH, você centraliza o relacionamento com uma locadora que também disponibiliza andaimes, equipamentos de concretagem, compactação e ferramentas elétricas — reduzindo a necessidade de múltiplos fornecedores na mesma obra. Oferecemos ainda treinamento em operação segura de plataformas elevatórias, para empresas que desejam capacitar operadores com conteúdo alinhado à NR-12 e ao trabalho em altura. Consulte o catálogo abaixo, a página de treinamento, solicite orçamento pelo formulário ou fale diretamente com nossa equipe.',
+      'Ao escolher a Acesso para a locação de plataforma elevatória em BH, você centraliza o relacionamento com uma locadora que também disponibiliza andaimes, equipamentos de concretagem, compactação e ferramentas elétricas — reduzindo a necessidade de múltiplos fornecedores na mesma obra. Oferecemos ainda treinamento em operação segura de plataformas elevatórias, para empresas que desejam capacitar operadores com conteúdo alinhado à NR-18 e ao trabalho em altura. Consulte o catálogo abaixo, a página de treinamento, solicite orçamento pelo formulário ou fale diretamente com nossa equipe.',
     ],
   },
   'guindastes-remocoes': {
@@ -119,20 +119,6 @@ const CATEGORIES_SEO: Record<EquipmentCategory, CategorySeoContent> = {
       'Revise o estado do equipamento na retirada ou na entrega, utilize EPIs adequados e respeite as instruções de uso. Devoluções fora do prazo ou com danos podem gerar cobranças adicionais conforme contrato — nossa equipe comercial esclarece as condições no momento da locação.',
       'Por concentrar também andaimes, betoneiras, plataformas elevatórias e compactadores, a Acesso reduz a fragmentação de fornecedores em obras que exigem máquinas leves e pesadas ao mesmo tempo. Atendimento em horário comercial e contato via WhatsApp para demandas urgentes dentro da disponibilidade da frota.',
       'Navegue pelos equipamentos listados nesta página. Para busca rápida por nome, utilize a busca global no topo do site (atalho Ctrl+K).',
-    ],
-  },
-  acessorios: {
-    slug: 'acessorios',
-    h1: 'Locação de acessórios para obra em Belo Horizonte',
-    metaTitle: 'Locação de acessórios para construção civil em BH | Acesso Equipamentos',
-    metaDescription:
-      'Aluguel de ponteiras, punhos, cabos, mangueiras e acessórios para equipamentos de locação em BH e região metropolitana.',
-    paragraphs: [
-      'Acessórios complementam a locação de ferramentas, guinchos, bombas e demais equipamentos — ponteiras e talhadeiras por peso, punhos para furadeira ou martelo, cabos, mangueiras, chaves e peças para máquina de solda, entre outros itens do dia a dia da obra.',
-      'Na Acesso Equipamentos, em Belo Horizonte e região metropolitana, os acessórios são locados conforme disponibilidade de frota. Ao solicitar orçamento, informe o equipamento principal, o modelo ou peso desejado e o período de uso para que a equipe comercial confirme compatibilidade.',
-      'Fotos e especificações detalhadas podem variar conforme o lote disponível; valores sob consulta. A entrega e retirada seguem as mesmas condições da locação de equipamentos.',
-      'Combine acessórios com ferramentas elétricas, guinchos de coluna, bombas e andaimes na mesma proposta para simplificar a logística do canteiro.',
-      'Navegue pelo catálogo abaixo ou use a busca global (Ctrl+K) para localizar o item pelo nome.',
     ],
   },
   outros: {

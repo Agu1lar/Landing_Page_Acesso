@@ -25,9 +25,7 @@
   },
   "ServiceArea": {
     "eyebrow": "Área de atendimento",
-    "title": "Atendemos Belo Horizonte e a região metropolitana",
-    "subtitle": "Entrega e retirada de equipamentos no canteiro de obras nas cidades abaixo — plataformas elevatórias, guindastes, andaimes, concretagem e ferramentas.",
-    "note": "Sua cidade não está na lista? Fale com o comercial: avaliamos outras localidades próximas conforme a disponibilidade da frota.",
+    "title": "Atendemos Belo Horizonte, região metropolitana e todo território nacional.",
     "primary_label": "Sede"
   },
   "Search": {
@@ -40,10 +38,10 @@
   "Index": {
     "meta_title": "Locação de equipamentos para obra em BH | Acesso Equipamentos",
     "meta_description": "Aluguel de plataformas elevatórias, guindaste industrial, Munck, andaimes e ferramentas em Belo Horizonte, Contagem, Betim, Nova Lima e região metropolitana. Frota revisada e orçamento rápido.",
-    "hero_title": "Equipamentos para sua obra, com segurança e agilidade",
-    "hero_subtitle": "Plataformas elevatórias, guindaste industrial, Munck, andaimes, concretagem e ferramentas. Treinamento em plataformas aéreas. Fundada em 2013.",
+    "hero_title": "Desde 2013, oferecemos soluções em locação de equipamentos para construção, indústria e mineração, combinando qualidade, segurança e agilidade em cada atendimento",
+    "hero_subtitle": "Plataformas Elevatórias, Guindaste Industrial, Manipuladores Telescópicos, Andaimes, Ferramentas Elétricas, Combustão e à Bateria, Treinamentos em Plataformas Elevatórias.",
     "training_title": "Treinamento em plataformas elevatórias",
-    "training_description": "Capacite operadores com segurança: programa alinhado à NR-12 e trabalho em altura, com certificado. Combine locação + treinamento na mesma obra.",
+    "training_description": "Capacite operadores com segurança: programa alinhado à NR-18 e trabalho em altura, com certificado. Combine locação + treinamento na mesma obra.",
     "training_cta": "Conhecer o treinamento",
     "hero_cta_quote": "Solicitar orçamento",
     "hero_cta_whatsapp": "Falar no WhatsApp",

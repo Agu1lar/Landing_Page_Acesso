@@ -39,8 +39,6 @@ const CATEGORY_INTRO: Record<EquipmentCategory, (equipment: Equipment) => string
     `O ${equipment.name} supre demanda de energia ou ar comprimido no canteiro; dimensionamento conforme carga conectada, autonomia e instalação elétrica disponível.`,
   'ferramentas-eletricas': (equipment) =>
     `A ${equipment.name} é ferramenta elétrica para corte, furação, acabamento e montagem em obra, com uso de EPI e instalação compatível com o modelo locado.`,
-  acessorios: (equipment) =>
-    `O ${equipment.name} é acessório de locação para complementar equipamentos de obra, içamento ou concretagem, conforme compatibilidade com o serviço.`,
   outros: (equipment) =>
     `O ${equipment.name} está disponível para locação em ${brand.seoRegion}, com orientação da equipe comercial sobre aplicação e logística.`,
 };

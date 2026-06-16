@@ -21,8 +21,6 @@ const CATEGORY_META: Record<EquipmentCategory, (name: string) => string> = {
     `Alugue ${name} para sua obra em BH e região. Frota revisada e orçamento sob consulta pelo site.`,
   'ferramentas-eletricas': (name) =>
     `Locação de ${name} em BH e RMBH. Retire na loja ou combine entrega — solicite orçamento online.`,
-  acessorios: (name) =>
-    `Alugue ${name} para sua obra em BH e região. Catálogo completo e orçamento rápido com a Acesso.`,
   outros: (name) =>
     `Locação de ${name} em ${brand.seoRegion}. Peça orçamento pelo site ou WhatsApp com resposta ágil.`,
 };
