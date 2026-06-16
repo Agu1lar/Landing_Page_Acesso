@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { ConversionCtas } from '@/components/marketing/ConversionCtas';
 import { EquipmentCard } from '@/components/marketing/EquipmentCard';
@@ -55,17 +56,31 @@ export default async function HomePage(props: IndexPageProps) {
 
   return (
     <>
-      <section className="border-b border-neutral-200 bg-surface">
-        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
+      <section className="relative overflow-hidden border-b border-neutral-200">
+        <Image
+          alt=""
+          aria-hidden
+          className="object-cover object-center"
+          fill
+          priority
+          sizes="100vw"
+          src="/assets/images/home-hero-background.png"
+        />
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-gradient-to-b from-neutral-900/70 via-neutral-900/55 to-neutral-900/75"
+        />
+        <div className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-20 lg:px-8 lg:py-28">
           <div className="mx-auto max-w-4xl text-center">
-            <h1 className="font-heading text-2xl leading-snug font-bold tracking-tight text-neutral-900 sm:text-3xl lg:text-4xl">
+            <h1 className="font-heading text-2xl leading-snug font-bold tracking-tight text-white sm:text-3xl lg:text-4xl">
               {t('hero_title')}
             </h1>
-            <p className="mt-4 text-base leading-relaxed text-neutral-600 sm:mt-6 sm:text-lg">
+            <p className="mt-4 text-base leading-relaxed text-neutral-100 sm:mt-6 sm:text-lg">
               {t('hero_subtitle')}
             </p>
             <ConversionCtas
               className="mt-6 justify-center sm:mt-8"
+              onDark
               quoteLabel={t('hero_cta_quote')}
               size="lg"
               whatsappHref={whatsappHome}
