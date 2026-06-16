@@ -87,6 +87,7 @@ export default async function SobrePage(props: PageProps) {
       <ServiceAreaSection
         eyebrow={tServiceArea('eyebrow')}
         primaryLabel={tServiceArea('primary_label')}
+        moreLabel={tServiceArea('more_label')}
         title={tServiceArea('title')}
       />
 

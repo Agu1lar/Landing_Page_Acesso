@@ -26,7 +26,8 @@
   "ServiceArea": {
     "eyebrow": "Área de atendimento",
     "title": "Atendemos Belo Horizonte, região metropolitana e todo território nacional.",
-    "primary_label": "Sede"
+    "primary_label": "Sede",
+    "more_label": "e mais"
   },
   "Search": {
     "placeholder": "Buscar equipamentos…",

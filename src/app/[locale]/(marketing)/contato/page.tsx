@@ -103,6 +103,7 @@ export default async function ContatoPage(props: PageProps) {
         className="border-t-0"
         eyebrow={t('eyebrow')}
         primaryLabel={t('primary_label')}
+        moreLabel={t('more_label')}
         title={t('title')}
       />
     </>

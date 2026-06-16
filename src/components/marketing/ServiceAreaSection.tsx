@@ -4,6 +4,8 @@ type ServiceAreaSectionProps = {
   title: string;
   eyebrow: string;
   primaryLabel: string;
+  /** Pill after city list — e.g. national coverage hint. */
+  moreLabel?: string;
   /** Defaults to brand.serviceAreaCities (same list as LocalBusiness schema). */
   cities?: readonly string[];
   /** Highlighted municipality — usually Belo Horizonte (sede). */
@@ -76,6 +78,13 @@ export function ServiceAreaSection(props: ServiceAreaSectionProps) {
                 </li>
               );
             })}
+            {props.moreLabel ? (
+              <li>
+                <span className="inline-flex items-center rounded-full border border-dashed border-primary/50 bg-primary/5 px-3.5 py-1.5 text-sm font-semibold text-primary shadow-sm">
+                  {props.moreLabel}
+                </span>
+              </li>
+            ) : null}
           </ul>
         </div>
       </div>
