@@ -402,6 +402,7 @@
     "filter_city_placeholder": "Ex.: Belo Horizonte",
     "filter_origin": "Origem",
     "filter_origin_placeholder": "site-orcamento",
+    "filter_campaign": "Campanha UTM",
     "filter_search": "Busca",
     "filter_search_placeholder": "Nome, e-mail, telefone ou equipamento",
     "filter_apply": "Filtrar",

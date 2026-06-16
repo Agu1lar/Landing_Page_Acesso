@@ -72,6 +72,40 @@ export function resolveCampaignKey(
   return NO_CAMPAIGN_KEY;
 }
 
+export type CampaignFilterOption = {
+  key: string;
+  label: string;
+};
+
+/** Distinct UTM campaigns plus special buckets for the leads consulta filter. */
+export async function listCampaignFilterOptions(): Promise<CampaignFilterOption[]> {
+  const rows = await db
+    .selectDistinct({ utmCampaign: leadsSchema.utmCampaign })
+    .from(leadsSchema)
+    .where(sql`nullif(trim(${leadsSchema.utmCampaign}), '') is not null`)
+    .orderBy(leadsSchema.utmCampaign);
+
+  const utmOptions = rows
+    .map((row) => row.utmCampaign?.trim())
+    .filter((value): value is string => Boolean(value))
+    .map((key) => ({
+      key,
+      label: formatCampaignKey(key),
+    }));
+
+  return [
+    ...utmOptions,
+    {
+      key: GOOGLE_ADS_NO_UTM_KEY,
+      label: formatCampaignKey(GOOGLE_ADS_NO_UTM_KEY),
+    },
+    {
+      key: NO_CAMPAIGN_KEY,
+      label: formatCampaignKey(NO_CAMPAIGN_KEY),
+    },
+  ];
+}
+
 /** Display label for a campaign bucket key. */
 export function formatCampaignKey(key: string) {
   if (key === NO_CAMPAIGN_KEY) {

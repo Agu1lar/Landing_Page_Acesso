@@ -3,6 +3,7 @@ import { LeadsDatePresets } from '@/components/admin/LeadsDatePresets';
 import { AdminFilterPanel } from '@/components/admin/AdminFilterPanel';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
+import { listCampaignFilterOptions } from '@/lib/campaign-analytics';
 import { LEAD_STATUSES } from '@/lib/lead-status';
 import type { LeadListFilters } from '@/lib/leads-admin';
 
@@ -14,6 +15,7 @@ type LeadsFiltersFormProps = {
 export async function LeadsFiltersForm(props: LeadsFiltersFormProps) {
   const { filters, basePath = '/dashboard/leads/consulta' } = props;
   const t = await getTranslations('LeadsAdminPage');
+  const campaignOptions = await listCampaignFilterOptions();
 
   return (
     <AdminFilterPanel title={t('filter_panel_title')}>
@@ -67,6 +69,24 @@ export async function LeadsFiltersForm(props: LeadsFiltersFormProps) {
           name="origin"
           placeholder={t('filter_origin_placeholder')}
         />
+        <div>
+          <label className="mb-1.5 block text-sm font-medium text-neutral-700" htmlFor="campaignKey">
+            {t('filter_campaign')}
+          </label>
+          <select
+            className="w-full rounded-lg border border-neutral-200 bg-white px-3 py-2 text-sm shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+            defaultValue={filters.campaignKey ?? ''}
+            id="campaignKey"
+            name="campaignKey"
+          >
+            <option value="">{t('filter_all')}</option>
+            {campaignOptions.map((option) => (
+              <option key={option.key} value={option.key}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
         <div className="sm:col-span-2 lg:col-span-3">
           <Input
             defaultValue={filters.q ?? ''}
@@ -76,9 +96,6 @@ export async function LeadsFiltersForm(props: LeadsFiltersFormProps) {
             placeholder={t('filter_search_placeholder')}
           />
         </div>
-        {filters.campaignKey ? (
-          <input name="campaignKey" type="hidden" value={filters.campaignKey} />
-        ) : null}
         <div className="flex flex-wrap gap-2 sm:col-span-2 lg:col-span-3">
           <Button size="sm" type="submit">
             {t('filter_apply')}

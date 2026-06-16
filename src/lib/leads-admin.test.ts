@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { buildLeadsCsv, formatLeadCartItems, parseLeadCartItems } from '@/lib/leads-admin';
+import {
+  buildLeadsCsv,
+  formatLeadCartItems,
+  parseLeadCartItems,
+  parseLeadListFiltersFromSearchParams,
+} from '@/lib/leads-admin';
 
 describe('parse lead cart items', () => {
   it('parses valid cart json', () => {
@@ -25,6 +30,28 @@ describe('format lead cart items', () => {
     );
     expect(text).toContain('Item A');
     expect(text).toContain('×3');
+  });
+});
+
+describe('parseLeadListFiltersFromSearchParams', () => {
+  it('includes campaignKey for export and consulta filters', () => {
+    expect(
+      parseLeadListFiltersFromSearchParams({
+        dateFrom: '2026-06-01',
+        dateTo: '2026-06-15',
+        campaignKey: 'obra-maio',
+        page: '2',
+      }),
+    ).toStrictEqual({
+      dateFrom: '2026-06-01',
+      dateTo: '2026-06-15',
+      status: undefined,
+      city: undefined,
+      origin: undefined,
+      campaignKey: 'obra-maio',
+      q: undefined,
+      page: 2,
+    });
   });
 });
 

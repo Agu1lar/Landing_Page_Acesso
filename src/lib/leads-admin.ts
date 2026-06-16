@@ -36,6 +36,34 @@ export type LeadListFilters = {
   pageSize?: number;
 };
 
+export type LeadListSearchParams = {
+  dateFrom?: string | null;
+  dateTo?: string | null;
+  status?: string | null;
+  city?: string | null;
+  origin?: string | null;
+  campaignKey?: string | null;
+  q?: string | null;
+  page?: string | null;
+};
+
+/** Parses lead list filters from URL or export query params. */
+export function parseLeadListFiltersFromSearchParams(
+  params: LeadListSearchParams,
+): LeadListFilters {
+  const page = params.page ? Number.parseInt(params.page, 10) : undefined;
+  return {
+    dateFrom: params.dateFrom ?? undefined,
+    dateTo: params.dateTo ?? undefined,
+    status: params.status ?? undefined,
+    city: params.city ?? undefined,
+    origin: params.origin ?? undefined,
+    campaignKey: params.campaignKey ?? undefined,
+    q: params.q ?? undefined,
+    page: page !== undefined && !Number.isNaN(page) ? page : undefined,
+  };
+}
+
 const DEFAULT_PAGE_SIZE = 25;
 
 type LeadCsvRow = {

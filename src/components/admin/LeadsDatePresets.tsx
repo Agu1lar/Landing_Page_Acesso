@@ -22,6 +22,7 @@ export async function LeadsDatePresets(props: LeadsDatePresetsProps) {
     status: props.filters.status,
     city: props.filters.city,
     origin: props.filters.origin,
+    campaignKey: props.filters.campaignKey,
     q: props.filters.q,
   };
 
