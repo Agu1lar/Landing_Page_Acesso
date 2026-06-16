@@ -47,10 +47,4 @@ export const HOME_CATEGORY_CARDS: HomeCategoryCardConfig[] = [
       'Geradores, compactadores, cortadoras a gasolina e equipamentos à combustão para obras sem rede elétrica.',
     imageFit: 'contain',
   },
-  {
-    slug: 'ferramentas-bateria',
-    description:
-      'Parafusadeiras, furadeiras e ferramentas portáteis à bateria para mobilidade e produtividade na obra.',
-    imageFit: 'contain',
-  },
 ];

@@ -8,7 +8,6 @@ export type EquipmentCategory =
   | 'guindaste-industrial'
   | 'ferramentas-eletricas'
   | 'ferramentas-combustao'
-  | 'ferramentas-bateria'
   | 'andaimes'
   | 'manipuladores-telescopicos';
 
@@ -29,7 +28,6 @@ export const CATEGORY_LABELS: Record<EquipmentCategory, string> = {
   'guindaste-industrial': 'Guindaste Industrial',
   'ferramentas-eletricas': 'Ferramentas Elétricas',
   'ferramentas-combustao': 'Ferramentas à Combustão',
-  'ferramentas-bateria': 'Ferramentas à Bateria',
   andaimes: 'Andaimes',
   'manipuladores-telescopicos': 'Manipuladores Telescópicos',
 };
@@ -42,5 +40,4 @@ export const EQUIPMENT_CATEGORY_ORDER: EquipmentCategory[] = [
   'andaimes',
   'ferramentas-eletricas',
   'ferramentas-combustao',
-  'ferramentas-bateria',
 ];

@@ -114,8 +114,13 @@
     },
     {
       "source": "/linha-ferramentas-a-bateria",
-      "destination": "/categorias/ferramentas-bateria",
-      "note": "Página WP — ferramentas bateria"
+      "destination": "/categorias/ferramentas-eletricas",
+      "note": "Página WP — ferramentas bateria (categoria removida)"
+    },
+    {
+      "source": "/categorias/ferramentas-bateria",
+      "destination": "/categorias/ferramentas-eletricas",
+      "note": "Categoria ferramentas-bateria removida do catálogo"
     },
     {
       "source": "/aluguel-de-maquinas-e-ferramentas-eletricas",

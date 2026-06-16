@@ -98,7 +98,7 @@ export default async function SobrePage(props: PageProps) {
             A {brand.name} nasceu em Belo Horizonte com o objetivo de oferecer locação de
             equipamentos com qualidade, preço justo e proximidade com o cliente. Ao longo de mais de
             uma década de operação, ampliamos a frota e os serviços — de plataformas elevatórias a
-            andaimes, ferramentas elétricas, equipamentos à bateria e soluções de içamento.
+            andaimes, ferramentas elétricas e soluções de içamento.
           </p>
           <p>
             Atendemos obras de pequeno, médio e grande porte, indústrias, comércios e condomínios na{' '}

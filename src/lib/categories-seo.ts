@@ -89,19 +89,6 @@ const CATEGORIES_SEO: Record<EquipmentCategory, CategorySeoContent> = {
       'Consulte o catálogo de ferramentas à combustão abaixo e solicite orçamento pelo formulário, telefone ou WhatsApp comercial.',
     ],
   },
-  'ferramentas-bateria': {
-    slug: 'ferramentas-bateria',
-    h1: 'Locação de ferramentas à bateria em Belo Horizonte',
-    metaTitle: 'Locação de ferramentas à bateria em BH | Acesso Equipamentos',
-    metaDescription:
-      'Aluguel de ferramentas à bateria, carregadores e acessórios para obra em BH, Minas Gerais e em todo o Brasil.',
-    paragraphs: [
-      'Ferramentas à bateria oferecem mobilidade no canteiro sem depender de extensões e tomadas em todos os pontos de trabalho. Parafusadeiras, furadeiras, serras e acessórios com baterias intercambiáveis aumentam a produtividade em acabamentos, montagens leves e manutenções pontuais.',
-      'A Acesso Equipamentos disponibiliza ferramentas à bateria e carregadores para locação em Belo Horizonte, Minas Gerais e em todo o território nacional. Ao solicitar orçamento, informe o tipo de serviço, quantidade de baterias necessárias e período de uso para indicarmos o kit compatível.',
-      'Carregue as baterias em local ventilado, utilize apenas carregadores indicados pelo fabricante e inspecione o estado dos equipamentos na retirada e na devolução. Valores e condições comerciais sob consulta com nossa equipe.',
-      'Veja os itens desta linha no catálogo abaixo ou combine ferramentas à bateria com outras categorias do nosso portfólio na mesma proposta de locação.',
-    ],
-  },
 };
 
 export function isEquipmentCategory(slug: string): slug is EquipmentCategory {

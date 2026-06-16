@@ -1144,58 +1144,6 @@
     "available": true
   },
   {
-    "slug": "carregador",
-    "name": "Carregador",
-    "category": "ferramentas-bateria",
-    "shortDescription": "Locação de carregador.",
-    "longDescription": "A Carregador é ferramenta elétrica para corte, furação, acabamento e montagem em obra, com uso de EPI e instalação compatível com o modelo locado. Características técnicas: Aplicação: Obra civil e reforma; Alimentação: 220 V monofásica; Entrega: Região metropolitana de BH. Locação com entrega e retirada em Belo Horizonte, Contagem, Betim, Nova Lima e demais municípios da região metropolitana. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
-    "specs": [
-      {
-        "label": "Aplicação",
-        "value": "Obra civil e reforma"
-      },
-      {
-        "label": "Alimentação",
-        "value": "220 V monofásica"
-      },
-      {
-        "label": "Entrega",
-        "value": "Região metropolitana de BH"
-      }
-    ],
-    "tags": [
-      "ferramentas"
-    ],
-    "featured": false,
-    "available": false
-  },
-  {
-    "slug": "bateria",
-    "name": "Bateria",
-    "category": "ferramentas-bateria",
-    "shortDescription": "Locação de bateria.",
-    "longDescription": "A Bateria é ferramenta elétrica para corte, furação, acabamento e montagem em obra, com uso de EPI e instalação compatível com o modelo locado. Características técnicas: Aplicação: Obra civil e reforma; Alimentação: 220 V monofásica; Entrega: Região metropolitana de BH. Locação com entrega e retirada em Belo Horizonte, Contagem, Betim, Nova Lima e demais municípios da região metropolitana. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
-    "specs": [
-      {
-        "label": "Aplicação",
-        "value": "Obra civil e reforma"
-      },
-      {
-        "label": "Alimentação",
-        "value": "220 V monofásica"
-      },
-      {
-        "label": "Entrega",
-        "value": "Região metropolitana de BH"
-      }
-    ],
-    "tags": [
-      "ferramentas"
-    ],
-    "featured": false,
-    "available": false
-  },
-  {
     "slug": "placa-vibratoria-gasolina",
     "name": "Placa Vibratoria Gasolina",
     "category": "ferramentas-combustao",

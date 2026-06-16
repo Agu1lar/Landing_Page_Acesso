@@ -5,7 +5,6 @@ export const companyServices = [
   'Locação e montagem de andaimes (torre NR 18, multidirecional e tubo e braçadeira)',
   'Acessórios para andaimes (sapatas, pranchões, escadas moduladas, guarda-corpos)',
   'Locação de máquinas e ferramentas elétricas',
-  'Locação de ferramentas à bateria',
   'Locação de máquinas à combustão',
   'Locação de guindaste industrial, Munck e serviços de içamento em BH',
 ] as const;

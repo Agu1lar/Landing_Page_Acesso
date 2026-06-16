@@ -35,8 +35,6 @@ const CATEGORY_INTRO: Record<EquipmentCategory, (equipment: Equipment) => string
     `A ${equipment.name} é ferramenta elétrica para corte, furação, acabamento, concretagem ou montagem em obra, com uso de EPI e instalação compatível com o modelo locado.`,
   'ferramentas-combustao': (equipment) =>
     `O ${equipment.name} é ferramenta ou máquina à combustão para uso em obra, com operação conforme manual do fabricante e EPIs adequados.`,
-  'ferramentas-bateria': (equipment) =>
-    `A ${equipment.name} integra a linha de ferramentas à bateria para mobilidade no canteiro, com carregamento e uso conforme especificação do fabricante.`,
 };
 
 function specValue(equipment: Equipment, label: string) {

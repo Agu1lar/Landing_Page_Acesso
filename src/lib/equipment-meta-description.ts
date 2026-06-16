@@ -17,8 +17,6 @@ const CATEGORY_META: Record<EquipmentCategory, (name: string) => string> = {
     `Locação de ${name} em BH e RMBH. Retire na loja ou combine entrega — solicite orçamento online.`,
   'ferramentas-combustao': (name) =>
     `Alugue ${name} à combustão para sua obra em BH e região. Frota revisada e orçamento sob consulta.`,
-  'ferramentas-bateria': (name) =>
-    `Locação de ${name} à bateria em ${brand.seoRegion}. Peça orçamento pelo site ou WhatsApp.`,
 };
 
 function trimMetaDescription(text: string) {

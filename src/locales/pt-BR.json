@@ -40,7 +40,7 @@
     "meta_title": "Locação de equipamentos para obra em BH | Acesso Equipamentos",
     "meta_description": "Aluguel de plataformas elevatórias, guindaste industrial, Munck, andaimes e ferramentas em Belo Horizonte, Contagem, Betim, Nova Lima e região metropolitana. Frota revisada e orçamento rápido.",
     "hero_title": "Desde 2013, oferecemos soluções em locação de equipamentos para construção, indústria e mineração, combinando qualidade, segurança e agilidade em cada atendimento",
-    "hero_subtitle": "Plataformas Elevatórias, Guindaste Industrial, Manipuladores Telescópicos, Andaimes, Ferramentas Elétricas, Combustão e à Bateria, Treinamentos em Plataformas Elevatórias.",
+    "hero_subtitle": "Plataformas Elevatórias, Guindaste Industrial, Manipuladores Telescópicos, Andaimes, Ferramentas Elétricas e à Combustão, Treinamentos em Plataformas Elevatórias.",
     "training_title": "Treinamento em plataformas elevatórias",
     "training_description": "Capacite operadores com segurança: programa alinhado à NR-18 e trabalho em altura, com certificado. Combine locação + treinamento na mesma obra.",
     "training_cta": "Conhecer o treinamento",
@@ -129,7 +129,7 @@
   },
   "Equipamentos": {
     "meta_title": "Catálogo de equipamentos para locação em BH | Acesso Equipamentos",
-    "meta_description": "Mais de 100 equipamentos para construção civil: plataformas elevatórias, guindaste industrial, manipuladores telescópicos, andaimes e ferramentas elétricas, à combustão e à bateria. Orçamento sob consulta.",
+    "meta_description": "Mais de 100 equipamentos para construção civil: plataformas elevatórias, guindaste industrial, manipuladores telescópicos, andaimes e ferramentas elétricas e à combustão. Orçamento sob consulta.",
     "title": "Equipamentos para locação",
     "filter_all": "Todos",
     "results_count": "{count, plural, =1 {# equipamento no catálogo} other {# equipamentos no catálogo}}",
