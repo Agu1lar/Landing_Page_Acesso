@@ -13,7 +13,7 @@ Recursos para que **crawlers e buscas generativas** encontrem, leiam e citem o s
 | `/sitemap.xml` | XML | Todas as páginas indexáveis |
 | `/robots.txt` | Texto | Permite crawlers gerais + bots de IA listados abaixo |
 
-**Preview Vercel:** `/llms.txt` e `/catalog.json` retornam **404** (evita indexar deploy temporário).
+**Preview Vercel:** `/llms.txt` e `/catalog.json` retornam **404** quando `VERCEL_ENV=preview` (deploy temporário de branch/PR). Produção em `*.vercel.app` continua disponível.
 
 **Cache:** `llms.txt` 1 h · `catalog.json` 5 min (alinhado ao catálogo).
 
