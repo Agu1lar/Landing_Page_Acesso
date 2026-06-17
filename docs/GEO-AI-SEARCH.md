@@ -35,9 +35,9 @@ Explicitamente liberados em `src/app/robots.ts` (mesmas regras do site público)
 ## Verificação rápida
 
 ```bash
-curl -s https://landing-page-acesso.vercel.app/llms.txt | head -20
-curl -s https://landing-page-acesso.vercel.app/catalog.json | jq '.counts'
-curl -s https://landing-page-acesso.vercel.app/api/health | jq '.aiDiscovery'
+curl -s https://acessoequipamentos.com.br/llms.txt | head -20
+curl -s https://acessoequipamentos.com.br/catalog.json | jq '.counts'
+curl -s https://acessoequipamentos.com.br/api/health | jq '.aiDiscovery'
 ```
 
 ---

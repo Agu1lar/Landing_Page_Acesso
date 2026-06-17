@@ -1,9 +1,11 @@
 import { sql } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
+import { brand } from '@/lib/brand';
 import { clerkKeyMode, isClerkProductionKeyMismatch } from '@/lib/clerk-env';
 import { legacyRedirectStats } from '@/lib/legacy-redirects';
 import { db } from '@/libs/DB';
 import { Env } from '@/libs/Env';
+import { getBaseUrl } from '@/utils/Helpers';
 
 /**
  * Lightweight operational health for go-live checks (Clerk, DB, redirects, Resend).
@@ -68,10 +70,9 @@ export async function GET() {
       leadEndpoint: 'POST /api/leads/cookie-consent',
       promptTelemetryEndpoint: 'POST /api/analytics/one-tap',
       checklistDoc: 'docs/GOOGLE-ONE-TAP.md',
-      authorizedOriginsHint: [
-        Env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, ''),
-        'http://localhost:3000',
-      ].filter(Boolean),
+      authorizedOriginsHint: Array.from(
+        new Set([getBaseUrl(), brand.officialSiteUrl, 'http://localhost:3000']),
+      ),
     },
     ga4Configured,
     posthogConfigured,

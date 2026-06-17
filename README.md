@@ -4,7 +4,7 @@
 
 Site da **Acesso Equipamentos** (locação de equipamentos para construção civil e plataformas aéreas). O visitante consulta o catálogo, monta um orçamento com vários itens e quantidades, e envia o pedido pelo **WhatsApp** (fluxo principal). O lead é salvo no **PostgreSQL**, o comercial recebe **e-mail interno** (Resend) e a equipe acompanha tudo no **painel administrativo**.
 
-**Produção (sempre a versão mais nova):** [https://landing-page-acesso.vercel.app/](https://landing-page-acesso.vercel.app/)
+**Produção:** [https://acessoequipamentos.com.br/](https://acessoequipamentos.com.br/) · Preview Vercel: [landing-page-acesso.vercel.app](https://landing-page-acesso.vercel.app/)
 
 **Repositório:** [github.com/Agu1lar/Landing_Page_Acesso](https://github.com/Agu1lar/Landing_Page_Acesso)
 

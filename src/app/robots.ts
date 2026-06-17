@@ -5,7 +5,14 @@ import { getBaseUrl } from '@/utils/Helpers';
 
 const PUBLIC_DISALLOW = ['/dashboard', '/sign-in', '/api/'];
 
-function publicCrawlRules(userAgent: string): MetadataRoute.Robots['rules'] {
+type RobotsRule = {
+  userAgent: string | string[];
+  allow?: string | string[];
+  disallow?: string | string[];
+  crawlDelay?: number;
+};
+
+function publicCrawlRules(userAgent: string): RobotsRule {
   return {
     userAgent,
     allow: '/',
@@ -29,7 +36,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       publicCrawlRules('*'),
       ...AI_CRAWLER_USER_AGENTS.map((userAgent) => publicCrawlRules(userAgent)),
-    ] as MetadataRoute.Robots['rules'],
+    ],
     sitemap: `${baseUrl}/sitemap.xml`,
   };
 }

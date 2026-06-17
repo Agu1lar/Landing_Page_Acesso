@@ -1,13 +1,35 @@
+import { brand } from '@/lib/brand';
 import { Env } from '@/libs/Env';
 import { routing } from '@/libs/I18nRouting';
 
+function normalizeBaseUrl(url: string) {
+  return url.replace(/\/$/, '');
+}
+
+function isVercelAppHost(url: string) {
+  try {
+    return /\.vercel\.app$/i.test(new URL(url).hostname);
+  } catch {
+    return false;
+  }
+}
+
 /**
  * Resolves the public base URL of the application.
- * @returns The configured public app URL or the local development URL.
+ * Production uses the official domain even when `NEXT_PUBLIC_APP_URL` still points at `*.vercel.app`.
  */
 export const getBaseUrl = () => {
-  if (Env.NEXT_PUBLIC_APP_URL) {
-    return Env.NEXT_PUBLIC_APP_URL;
+  const configured = Env.NEXT_PUBLIC_APP_URL?.trim();
+
+  if (configured) {
+    if (Env.VERCEL_ENV === 'production' && isVercelAppHost(configured)) {
+      return brand.officialSiteUrl;
+    }
+    return normalizeBaseUrl(configured);
+  }
+
+  if (Env.VERCEL_ENV === 'production') {
+    return brand.officialSiteUrl;
   }
 
   return 'http://localhost:3000';
