@@ -56,11 +56,6 @@ export async function SiteFooter() {
               </Link>
             </li>
             <li>
-              <a className="hover:text-white" href="/llms.txt">
-                {t('ai_discovery_link')}
-              </a>
-            </li>
-            <li>
               <Link className="hover:text-white" href="/sign-in">
                 {t('admin_area_link')}
               </Link>

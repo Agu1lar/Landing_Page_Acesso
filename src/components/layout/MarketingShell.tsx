@@ -4,6 +4,7 @@ import { SiteHeader } from '@/components/layout/SiteHeader';
 import { WhatsAppButton } from '@/components/layout/WhatsAppButton';
 import { MarketingMobileBottomBar } from '@/components/marketing/MarketingMobileBottomBar';
 import { MobileDockConfigProvider } from '@/components/marketing/mobile-dock-config';
+import { AiDiscoveryCrawlerHints } from '@/components/seo/AiDiscoveryCrawlerHints';
 import { SkipToMainLink } from '@/components/ui/SkipToMainLink';
 import { AttributionCapture } from '@/components/marketing/AttributionCapture';
 import { QuoteCartProvider } from '@/components/quote-cart/QuoteCartProvider';
@@ -28,6 +29,7 @@ export async function MarketingShell(props: MarketingShellProps) {
               {props.children}
             </main>
             <SiteFooter />
+            <AiDiscoveryCrawlerHints />
             <WhatsAppButton />
             <MarketingMobileBottomBar />
           </QuoteCartProvider>

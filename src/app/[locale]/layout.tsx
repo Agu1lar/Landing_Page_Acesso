@@ -3,6 +3,7 @@ import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { setRequestLocale } from 'next-intl/server';
 import { Inter, Plus_Jakarta_Sans } from 'next/font/google';
 import { notFound } from 'next/navigation';
+import { AiDiscoveryHeadLinks } from '@/components/seo/AiDiscoveryHeadLinks';
 import { withSiteOpenGraph } from '@/lib/site-metadata';
 import { routing } from '@/libs/I18nRouting';
 import { resolveAppLocale } from '@/utils/locale';
@@ -54,6 +55,9 @@ export default async function RootLayout(props: {
 
   return (
     <html className={`${plusJakarta.variable} ${inter.variable}`} lang={locale}>
+      <head>
+        <AiDiscoveryHeadLinks />
+      </head>
       <body>
         <NextIntlClientProvider>{props.children}</NextIntlClientProvider>
       </body>

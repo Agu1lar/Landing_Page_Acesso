@@ -25,7 +25,7 @@ Preparação para **buscas generativas** (ChatGPT, Perplexity, Gemini, Copilot) 
 | **llms.txt** | `/llms.txt` | Mapa em texto para LLMs: resumo da empresa, categorias, contato, links principais |
 | **Catálogo JSON** | `/catalog.json` | Equipamentos publicados com specs e URLs absolutas (cache 5 min) |
 | **robots.txt** | `/robots.txt` | Regras explícitas para `GPTBot`, `ClaudeBot`, `PerplexityBot`, `Google-Extended`, etc. |
-| **Footer** | — | Link “Guia para IAs (llms.txt)” |
+| **Head + HTML** | — | `<link rel="alternate">` no `<head>` e hints ocultos no HTML (sem link no rodapé) |
 | **Sitemap** | `/sitemap.xml` | Inclui `/llms.txt` e `/catalog.json` |
 
 Guia completo: [docs/GEO-AI-SEARCH.md](docs/GEO-AI-SEARCH.md) · health check: `GET /api/health` → `aiDiscovery`.

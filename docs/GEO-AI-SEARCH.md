@@ -15,6 +15,8 @@ Recursos para que **crawlers e buscas generativas** encontrem, leiam e citem o s
 
 **Preview Vercel:** `/llms.txt` e `/catalog.json` retornam **404** quando `VERCEL_ENV=preview` (deploy temporário de branch/PR). Produção em `*.vercel.app` continua disponível.
 
+**Descoberta sem link no rodapé:** páginas de marketing incluem `<link rel="alternate" type="text/plain" href="…/llms.txt">` no `<head>` e links ocultos (`<div hidden>`) no HTML para crawlers de IA.
+
 **Cache:** `llms.txt` 1 h · `catalog.json` 5 min (alinhado ao catálogo).
 
 ---
@@ -56,6 +58,8 @@ curl -s https://acessoequipamentos.com.br/api/health | jq '.aiDiscovery'
 | Arquivo | Função |
 |---------|--------|
 | `src/lib/ai-discovery.ts` | Gera conteúdo de `llms.txt` e payload JSON |
+| `src/components/seo/AiDiscoveryHeadLinks.tsx` | `<link rel="alternate">` explícito no `<head>` |
+| `src/components/seo/AiDiscoveryCrawlerHints.tsx` | Links ocultos no HTML para crawlers |
 | `src/app/llms.txt/route.ts` | Rota HTTP |
 | `src/app/catalog.json/route.ts` | Rota HTTP |
 | `src/app/robots.ts` | Regras para crawlers de IA |
