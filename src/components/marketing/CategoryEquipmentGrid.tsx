@@ -19,7 +19,12 @@ type CategoryEquipmentGridProps = {
   showPlatformKindFilter?: boolean;
 };
 
-const PLATFORM_KIND_FILTERS: PlatformKindFilter[] = ['all', 'aerea', 'articulada'];
+const PLATFORM_KIND_FILTERS: PlatformKindFilter[] = [
+  'all',
+  'tesoura',
+  'articulada',
+  'telescopica',
+];
 const PLATFORM_HEIGHT_FILTERS: PlatformHeightFilter[] = [
   'all',
   'up-to-10',
@@ -44,8 +49,9 @@ export function CategoryEquipmentGrid(props: CategoryEquipmentGridProps) {
 
   const filterLabel: Record<PlatformKindFilter, string> = {
     all: t('filter_all_platforms'),
-    aerea: t('filter_aerial'),
+    tesoura: t('filter_scissor'),
     articulada: t('filter_articulated'),
+    telescopica: t('filter_telescopic'),
   };
   const heightFilterLabel: Record<PlatformHeightFilter, string> = {
     all: t('filter_all_heights'),

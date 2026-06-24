@@ -1,6 +1,6 @@
 import type { Equipment } from '@/types/equipment';
 
-export type PlatformKind = 'aerea' | 'articulada';
+export type PlatformKind = 'tesoura' | 'articulada' | 'telescopica';
 
 export type PlatformKindFilter = 'all' | PlatformKind;
 
@@ -10,14 +10,20 @@ function tipoSpecValue(item: Equipment): string {
 
 /**
  * Classifies aerial platform equipment for category filters.
- * Telescopic booms are "aérea"; knuckle booms are "articulada".
  */
 export function getPlatformKind(item: Equipment): PlatformKind | null {
-  if (item.tags.includes('aerea')) {
-    return 'aerea';
+  if (item.category !== 'plataformas-elevatorias') {
+    return null;
+  }
+
+  if (item.tags.includes('telescopica') || item.tags.includes('aerea')) {
+    return 'telescopica';
   }
   if (item.tags.includes('articulada')) {
     return 'articulada';
+  }
+  if (item.tags.includes('tesoura')) {
+    return 'tesoura';
   }
 
   if (item.slug.includes('lanca-articulada')) {
@@ -25,11 +31,15 @@ export function getPlatformKind(item: Equipment): PlatformKind | null {
   }
 
   const tipo = tipoSpecValue(item);
-  if (tipo.includes('lança articulada') || tipo.includes('lanca articulada')) {
+
+  if (tipo.includes('tesoura')) {
+    return 'tesoura';
+  }
+  if (tipo.includes('articulada')) {
     return 'articulada';
   }
   if (tipo.includes('telescóp') || tipo.includes('telescop')) {
-    return 'aerea';
+    return 'telescopica';
   }
 
   return null;
