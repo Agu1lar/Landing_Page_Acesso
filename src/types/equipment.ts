@@ -24,12 +24,12 @@ export type Equipment = {
 };
 
 export const CATEGORY_LABELS: Record<EquipmentCategory, string> = {
-  'plataformas-elevatorias': 'Plataformas Elevatórias',
-  'guindaste-industrial': 'Guindaste Industrial',
-  'ferramentas-eletricas': 'Ferramentas Elétricas',
-  'ferramentas-combustao': 'Ferramentas à Combustão',
+  'plataformas-elevatorias': 'Plataformas elevatórias',
+  'guindaste-industrial': 'Guindaste industrial',
+  'ferramentas-eletricas': 'Ferramentas elétricas',
+  'ferramentas-combustao': 'Ferramentas à combustão',
   andaimes: 'Andaimes',
-  'manipuladores-telescopicos': 'Manipuladores Telescópicos',
+  'manipuladores-telescopicos': 'Manipuladores telescópicos',
 };
 
 /** Display order for home, sitemap and admin category pickers. */

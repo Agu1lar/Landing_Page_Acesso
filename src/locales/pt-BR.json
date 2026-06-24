@@ -25,7 +25,7 @@
   },
   "ServiceArea": {
     "eyebrow": "Área de atendimento",
-    "title": "Atendemos Belo Horizonte, região metropolitana e todo território nacional.",
+    "title": "Atendemos a região metropolitana de Belo Horizonte e realizamos operações em todo o território nacional.",
     "primary_label": "Sede",
     "more_label": "e mais"
   },
@@ -39,8 +39,8 @@
   "Index": {
     "meta_title": "Locação de equipamentos para obra em BH | Acesso Equipamentos",
     "meta_description": "Aluguel de plataformas elevatórias, guindaste industrial, Munck, andaimes e ferramentas em Belo Horizonte, Contagem, Betim, Nova Lima e região metropolitana. Frota revisada e orçamento rápido.",
-    "hero_title": "Desde 2013, oferecemos soluções em locação de equipamentos para construção, indústria e mineração, combinando qualidade, segurança e agilidade em cada atendimento",
-    "hero_subtitle": "Plataformas Elevatórias, Guindaste Industrial, Manipuladores Telescópicos, Andaimes, Ferramentas Elétricas e à Combustão, Treinamentos em Plataformas Elevatórias.",
+    "hero_title": "Locação de equipamentos para construção, indústria e mineração com segurança e agilidade",
+    "hero_subtitle": "Plataformas elevatórias, guindaste industrial, manipuladores telescópicos, andaimes, ferramentas elétricas e à combustão.",
     "training_title": "Treinamento em plataformas elevatórias",
     "training_description": "Capacite operadores com segurança: programa alinhado à NR-18 e trabalho em altura, com certificado. Combine locação + treinamento na mesma obra.",
     "training_cta": "Conhecer o treinamento",
@@ -125,7 +125,13 @@
     "filter_all_platforms": "Todos",
     "filter_aerial": "Aérea",
     "filter_articulated": "Articulada",
-    "filter_platform_kind_label": "Filtrar por tipo de plataforma"
+    "filter_platform_kind_label": "Filtrar por tipo de plataforma",
+    "filter_platform_height_label": "Filtrar por altura de trabalho",
+    "filter_all_heights": "Todas as alturas",
+    "filter_height_up_to_10": "Até 10 m",
+    "filter_height_10_to_16": "10 a 16 m",
+    "filter_height_16_to_26": "16 a 26 m",
+    "filter_height_above_26": "Acima de 26 m"
   },
   "Equipamentos": {
     "meta_title": "Catálogo de equipamentos para locação em BH | Acesso Equipamentos",
@@ -145,6 +151,7 @@
     "detail_cta_title": "Interessado no {name}?",
     "detail_cta_subtitle": "Adicione ao orçamento ou fale com nosso comercial em horário útil.",
     "back": "Voltar ao catálogo",
+    "back_to_category": "Voltar para {category}",
     "related_title": "Equipamentos relacionados"
   },
   "NotFoundPage": {
@@ -221,7 +228,7 @@
     },
     "contact_line": "Dúvidas sobre privacidade:",
     "orcamento_link_prefix": "Para orçamentos, use",
-    "orcamento_link": "solicitar orçamento"
+    "orcamento_link": "Solicitar orçamento"
   },
   "UnauthorizedPage": {
     "meta_title": "Acesso não autorizado",

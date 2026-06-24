@@ -139,26 +139,6 @@ export default async function HomePage(props: IndexPageProps) {
         </div>
       </section>
 
-      <section className="border-y border-primary/20 bg-primary-light">
-        <div className="mx-auto flex max-w-7xl flex-col items-start gap-6 px-4 py-12 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
-          <div className="max-w-2xl">
-            <p className="text-sm font-semibold tracking-wider text-primary uppercase">
-              Capacitação
-            </p>
-            <h2 className="mt-2 font-heading text-2xl font-bold text-neutral-900">
-              {t('training_title')}
-            </h2>
-            <p className="mt-3 leading-relaxed text-neutral-700">{t('training_description')}</p>
-          </div>
-          <Link
-            className="inline-flex shrink-0 items-center justify-center rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-primary-hover"
-            href="/treinamento-plataformas-aereas"
-          >
-            {t('training_cta')} →
-          </Link>
-        </div>
-      </section>
-
       <StepsSection
         steps={[
           {

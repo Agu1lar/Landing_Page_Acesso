@@ -91,8 +91,11 @@ export default async function EquipmentDetailPage(props: EquipmentDetailProps) {
       <EquipmentViewTracker name={equipment.name} slug={equipment.slug} />
       <JsonLd data={buildEquipmentPageJsonLd(equipment, imagePath)} />
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-10 lg:px-8">
-        <Link className="text-xs font-medium text-primary hover:underline sm:text-sm" href="/equipamentos">
-          ← {t('back')}
+        <Link
+          className="text-xs font-medium text-primary hover:underline sm:text-sm"
+          href={`/categorias/${equipment.category}`}
+        >
+          ← {t('back_to_category', { category: CATEGORY_LABELS[equipment.category] })}
         </Link>
 
         <div className="mt-4 grid gap-6 lg:mt-6 lg:grid-cols-2 lg:gap-10">
