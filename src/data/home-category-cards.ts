@@ -19,7 +19,7 @@ export const HOME_CATEGORY_CARDS: HomeCategoryCardConfig[] = [
   {
     slug: 'guindaste-industrial',
     description:
-      'Guindaste industrial, Munck e içamento técnico para remoção de cargas pesadas, máquinas e estruturas em obra e indústria.',
+      'Locação de guindaste industrial e içamento técnico para remoção de cargas pesadas, máquinas e estruturas em obra e indústria.',
     imageFit: 'contain',
   },
   {

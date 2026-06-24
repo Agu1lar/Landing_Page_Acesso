@@ -65,7 +65,7 @@ export async function importEquipmentCatalogAction() {
 }
 
 /**
- * Upserts priority catalog items (guindaste/Munck) from equipamentos.json.
+ * Upserts priority catalog items (guindaste industrial) from equipamentos.json.
  */
 export async function syncPriorityCatalogAction() {
   const access = await requireAdminAccess();

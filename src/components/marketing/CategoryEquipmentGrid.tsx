@@ -119,6 +119,7 @@ export function CategoryEquipmentGrid(props: CategoryEquipmentGridProps) {
           {filtered.map((item, index) => (
             <EquipmentCard
               equipment={item}
+              hideCategoryLabel
               imagePriority={index < 4}
               imageSrc={props.imageBySlug[item.slug]}
               key={item.slug}

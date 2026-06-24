@@ -9,32 +9,45 @@ type CategoryGalleryProps = {
 
 /**
  * Responsive image showcase for category landing pages.
- * Mobile: horizontal scroll (compact). Desktop: 2-column grid.
+ * Mobile: horizontal scroll (compact). Desktop: 2-column grid, or full-width hero when single image.
  */
 export function CategoryGallery(props: CategoryGalleryProps) {
   if (props.images.length === 0) {
     return null;
   }
 
+  const isSingleHero = props.images.length === 1;
+
   return (
     <section aria-label={props.title} className={props.className ?? 'mt-10'}>
       <div
         className={[
-          '-mx-4 flex gap-3 overflow-x-auto px-4 pb-1',
-          'snap-x snap-mandatory scroll-px-4',
-          '[scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden',
-          'sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-4 sm:overflow-visible sm:px-0 sm:pb-0',
+          isSingleHero
+            ? 'mx-0'
+            : [
+                '-mx-4 flex gap-3 overflow-x-auto px-4 pb-1',
+                'snap-x snap-mandatory scroll-px-4',
+                '[scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden',
+                'sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-4 sm:overflow-visible sm:px-0 sm:pb-0',
+              ].join(' '),
         ].join(' ')}
       >
         {props.images.map((image, index) => (
           <figure
             className={[
-              'group shrink-0 snap-center overflow-hidden rounded-[var(--radius-card)] border border-neutral-200 bg-neutral-100 shadow-sm',
-              'w-[min(82vw,18rem)] sm:w-auto',
+              'group overflow-hidden rounded-[var(--radius-card)] border border-neutral-200 bg-neutral-100 shadow-sm',
+              isSingleHero
+                ? 'w-full'
+                : 'shrink-0 snap-center w-[min(82vw,18rem)] sm:w-auto',
             ].join(' ')}
             key={image.src}
           >
-            <div className="relative aspect-[4/3] w-full overflow-hidden sm:aspect-[16/10]">
+            <div
+              className={[
+                'relative w-full overflow-hidden',
+                isSingleHero ? 'aspect-[16/9] sm:aspect-[21/9]' : 'aspect-[4/3] sm:aspect-[16/10]',
+              ].join(' ')}
+            >
               <Image
                 alt={image.alt}
                 className="object-cover object-center motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:scale-[1.02]"
@@ -42,7 +55,7 @@ export function CategoryGallery(props: CategoryGalleryProps) {
                 fill
                 loading={index === 0 ? undefined : 'lazy'}
                 priority={index === 0}
-                sizes="(max-width: 640px) 82vw, 50vw"
+                sizes={isSingleHero ? '100vw' : '(max-width: 640px) 82vw, 50vw'}
                 src={image.src}
               />
             </div>

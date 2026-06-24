@@ -4,12 +4,12 @@ import type { Equipment } from '@/types/equipment';
 
 const guindasteJson: Equipment = {
   slug: 'guindaste-industrial-munck-remocao-bh',
-  name: 'Guindaste industrial, Munck e remoção técnica',
+  name: 'Locação de guindaste industrial e remoção técnica',
   category: 'guindaste-industrial',
-  shortDescription: 'Locação de guindaste industrial, caminhão Munck e remoção técnica em BH.',
+  shortDescription: 'Locação de guindaste industrial e remoção técnica em BH.',
   longDescription: 'Solução para içamento.',
   specs: [],
-  tags: ['guindaste', 'munck'],
+  tags: ['guindaste', 'içamento'],
   featured: true,
   available: true,
 };

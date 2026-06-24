@@ -1685,7 +1685,7 @@
       "ferramentas"
     ],
     "featured": false,
-    "available": true
+    "available": false
   },
   {
     "slug": "talha-1t",
@@ -1716,7 +1716,7 @@
       "carga"
     ],
     "featured": false,
-    "available": true
+    "available": false
   },
   {
     "slug": "transformador",
@@ -2897,9 +2897,9 @@
   },
   {
     "slug": "guindaste-industrial-munck-remocao-bh",
-    "name": "Guindaste industrial, Munck e remoção técnica",
+    "name": "Locação de guindaste industrial e remoção técnica",
     "category": "guindaste-industrial",
-    "shortDescription": "Locação de guindaste industrial, caminhão Munck e remoção técnica em BH.",
+    "shortDescription": "Locação de guindaste industrial e remoção técnica em BH.",
     "longDescription": "Solução para içamento, movimentação e transporte de cargas pesadas em Belo Horizonte e região metropolitana. Atende remoção industrial, carga e descarga de materiais, montagem de estruturas, movimentação de máquinas e apoio técnico em operações que exigem planejamento, segurança e equipe especializada.",
     "specs": [
       {
@@ -2912,7 +2912,7 @@
       },
       {
         "label": "Equipamentos",
-        "value": "Guindaste industrial e caminhão Munck conforme disponibilidade"
+        "value": "Guindaste industrial conforme disponibilidade da operação"
       },
       {
         "label": "Atendimento",
@@ -2925,7 +2925,6 @@
     ],
     "tags": [
       "guindaste",
-      "munck",
       "içamento",
       "remoção técnica",
       "carga pesada"
@@ -3534,8 +3533,7 @@
     "tags": [
       "guindaste",
       "franna",
-      "içamento",
-      "munck"
+      "içamento"
     ],
     "featured": true,
     "available": true

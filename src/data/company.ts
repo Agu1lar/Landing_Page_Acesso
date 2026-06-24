@@ -6,7 +6,7 @@ export const companyServices = [
   'Acessórios para andaimes (sapatas, pranchões, escadas moduladas, guarda-corpos)',
   'Locação de máquinas e ferramentas elétricas',
   'Locação de máquinas à combustão',
-  'Locação de guindaste industrial, Munck e serviços de içamento em BH',
+  'Locação de guindaste industrial e serviços de içamento em BH',
 ] as const;
 
 export const companySegments = [

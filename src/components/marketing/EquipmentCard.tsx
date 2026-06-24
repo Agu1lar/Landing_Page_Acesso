@@ -14,6 +14,7 @@ type EquipmentCardProps = {
   imagePriority?: boolean;
   /** Pre-resolved URL from server cache; falls back to manifest. */
   imageSrc?: string;
+  hideCategoryLabel?: boolean;
 };
 
 /**
@@ -47,10 +48,14 @@ export function EquipmentCard(props: EquipmentCardProps) {
         )}
       </div>
       <div className="flex flex-1 flex-col p-4">
-        <p className="text-xs font-medium tracking-wide text-primary uppercase">
-          {CATEGORY_LABELS[props.equipment.category]}
-        </p>
-        <h3 className="mt-1 font-heading text-lg font-semibold text-neutral-900 group-hover:text-primary">
+        {props.hideCategoryLabel ? null : (
+          <p className="text-xs font-medium tracking-wide text-primary uppercase">
+            {CATEGORY_LABELS[props.equipment.category]}
+          </p>
+        )}
+        <h3
+          className={`font-heading text-lg font-semibold text-neutral-900 group-hover:text-primary ${props.hideCategoryLabel ? '' : 'mt-1'}`}
+        >
           <Link href={`/equipamentos/${props.equipment.slug}`}>{props.equipment.name}</Link>
         </h3>
         <p className="mt-2 line-clamp-2 flex-1 text-sm text-neutral-600">

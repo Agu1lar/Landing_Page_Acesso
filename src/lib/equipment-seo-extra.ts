@@ -68,7 +68,7 @@ const CATEGORY_EXTRA: Partial<Record<Equipment['category'], EquipmentSeoExtra>> 
   'guindaste-industrial': {
     title: 'Locação de guindaste industrial em Belo Horizonte',
     paragraphs: [
-      `Guindaste industrial, Munck e içamento técnico em ${BH_REGION}. Informe peso da carga, raio de operação e endereço da obra para proposta com equipe especializada.`,
+      `Guindaste industrial e içamento técnico em ${BH_REGION}. Informe peso da carga, raio de operação e endereço da obra para proposta com equipe especializada.`,
     ],
   },
   'ferramentas-combustao': {

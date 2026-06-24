@@ -120,6 +120,12 @@ export default async function CategoryPage(props: CategoryPageProps) {
           <div aria-hidden className="h-0" id="category-hero-sentinel" />
         </header>
 
+        <CategoryGallery
+          className="mt-6 sm:mt-8"
+          images={gallery}
+          title={categoryLabel}
+        />
+
         <section aria-labelledby="category-catalog-title" className="mt-8 sm:mt-10">
           <div>
             <h2
@@ -169,12 +175,6 @@ export default async function CategoryPage(props: CategoryPageProps) {
         <CategorySeoSection
           paragraphs={seo.paragraphs}
           readMoreLabel={t('seo_read_more', { category: categoryLabel })}
-        />
-
-        <CategoryGallery
-          className="mt-10 border-t border-neutral-200 pt-8 sm:mt-12 sm:pt-10"
-          images={gallery}
-          title={categoryLabel}
         />
       </div>
 
