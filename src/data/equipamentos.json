@@ -2897,9 +2897,9 @@
   },
   {
     "slug": "guindaste-industrial-munck-remocao-bh",
-    "name": "Locação de guindaste industrial e remoção técnica",
+    "name": "Guindaste Munck",
     "category": "guindaste-industrial",
-    "shortDescription": "Locação de guindaste industrial e remoção técnica em BH.",
+    "shortDescription": "Locação de guindaste Munck em BH.",
     "longDescription": "Solução para içamento, movimentação e transporte de cargas pesadas em Belo Horizonte e região metropolitana. Atende remoção industrial, carga e descarga de materiais, montagem de estruturas, movimentação de máquinas e apoio técnico em operações que exigem planejamento, segurança e equipe especializada.",
     "specs": [
       {
@@ -2925,6 +2925,7 @@
     ],
     "tags": [
       "guindaste",
+      "munck",
       "içamento",
       "remoção técnica",
       "carga pesada"

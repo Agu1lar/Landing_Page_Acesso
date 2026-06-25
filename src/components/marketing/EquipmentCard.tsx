@@ -25,8 +25,8 @@ export function EquipmentCard(props: EquipmentCardProps) {
   const cardDescription = getEquipmentCardDescription(props.equipment);
 
   return (
-    <article className="group flex flex-col overflow-hidden rounded-[var(--radius-card)] border border-neutral-200 bg-surface shadow-sm transition-shadow hover:shadow-md">
-      <div className="relative h-36 w-full overflow-hidden bg-neutral-100">
+    <article className="group relative flex flex-col overflow-hidden rounded-[var(--radius-card)] border border-neutral-200 bg-surface shadow-sm transition-shadow hover:shadow-md">
+      <div className="pointer-events-none relative h-36 w-full overflow-hidden bg-neutral-100">
         {src ? (
           <Image
             alt={props.equipment.name}
@@ -56,12 +56,17 @@ export function EquipmentCard(props: EquipmentCardProps) {
         <h3
           className={`font-heading text-lg font-semibold text-neutral-900 group-hover:text-primary ${props.hideCategoryLabel ? '' : 'mt-1'}`}
         >
-          <Link href={`/equipamentos/${props.equipment.slug}`}>{props.equipment.name}</Link>
+          <Link
+            className="rounded-sm after:absolute after:inset-0 after:rounded-[var(--radius-card)] after:content-[''] hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            href={`/equipamentos/${props.equipment.slug}`}
+          >
+            {props.equipment.name}
+          </Link>
         </h3>
-        <p className="mt-2 line-clamp-2 flex-1 text-sm text-neutral-600">
+        <p className="pointer-events-none mt-2 line-clamp-2 flex-1 text-sm text-neutral-600">
           {cardDescription}
         </p>
-        <div className="mt-3">
+        <div className="relative z-10 mt-3">
           <AddToQuoteButton
             className="w-full"
             item={{
