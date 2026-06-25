@@ -27,6 +27,8 @@ const isAuthPage = createRouteMatcher([
   '/:locale/unauthorized(.*)',
 ]);
 
+const isAdminApiRoute = createRouteMatcher(['/api/admin/(.*)']);
+
 function localePrefixFromPath(pathname: string) {
   return pathname.match(/(\/.*)\/(?:dashboard|sign-in|sign-up|unauthorized)/u)?.at(1) ?? '';
 }
@@ -64,6 +66,14 @@ export default async function proxy(request: NextRequest, event: NextFetchEvent)
   if (isSignUpPage(request)) {
     const locale = localePrefixFromPath(request.nextUrl.pathname);
     return NextResponse.redirect(new URL(`${locale}/sign-in`, request.url));
+  }
+
+  if (isAdminApiRoute(request)) {
+    return clerkMiddleware()(request, event);
+  }
+
+  if (request.nextUrl.pathname.startsWith('/api/')) {
+    return NextResponse.next();
   }
 
   // Clerk keyless mode doesn't work with i18n, this is why we need to run the middleware conditionally
@@ -115,5 +125,5 @@ export const config = {
   // Match all pathnames except for
   // - … if they start with `/_next`, `/_vercel` or `monitoring`
   // - … the ones containing a dot (e.g. `favicon.ico`)
-  matcher: '/((?!_next|_vercel|monitoring|api|.*\\..*).*)',
+  matcher: '/((?!_next|_vercel|monitoring|.*\\..*).*)',
 };

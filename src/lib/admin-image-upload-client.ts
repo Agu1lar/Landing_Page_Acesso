@@ -32,10 +32,19 @@ export async function uploadAdminImage(props: {
   }
 
   let payload: { url?: string; error?: string };
+  const rawBody = await response.text();
+  if (!rawBody.trim()) {
+    throw new Error(`Erro do servidor (${response.status}).`);
+  }
+
   try {
-    payload = (await response.json()) as { url?: string; error?: string };
+    payload = JSON.parse(rawBody) as { url?: string; error?: string };
   } catch {
-    throw new Error('Resposta inválida do servidor.');
+    throw new Error(
+      response.status === 401 || response.status === 403
+        ? 'Sessão expirada. Faça login novamente no painel.'
+        : `Erro do servidor (${response.status}).`,
+    );
   }
 
   if (!response.ok) {
