@@ -30,8 +30,8 @@ export const QuoteFormSchema = z.object({
   cartItems: z.array(QuoteCartItemSchema).max(40).optional(),
   origin: z.string().trim().max(80),
   attribution: AttributionSchema.optional(),
-  /** Honeypot — deve permanecer vazio */
-  website: z.string().max(0).optional().or(z.literal('')),
+  /** Honeypot — deve permanecer vazio; bots que preenchem são ignorados na API */
+  website: z.string().max(200).optional().or(z.literal('')),
 });
 
 export type QuoteFormInput = z.infer<typeof QuoteFormSchema>;

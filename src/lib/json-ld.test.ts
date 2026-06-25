@@ -161,10 +161,10 @@ describe('build category page json-ld', () => {
     expect(collectionPage?.breadcrumb?.['@id']).toContain('#breadcrumb');
     expect(collectionPage?.mainEntity?.['@id']).toContain('#itemlist');
     expect(breadcrumb?.['@id']).toContain('#breadcrumb');
-    expect(breadcrumb?.itemListElement?.map((item) => item.name)).toEqual([
+    expect(breadcrumb?.itemListElement?.map((item) => item.name)).toStrictEqual([
       'Início',
       'Equipamentos',
-      'Ferramentas Elétricas',
+      'Ferramentas elétricas',
     ]);
   });
 });

@@ -10,6 +10,6 @@ describe('get category gallery', () => {
   });
 
   it('returns empty array for categories without gallery', () => {
-    expect(getCategoryGallery('plataformas-elevatorias')).toEqual([]);
+    expect(getCategoryGallery('plataformas-elevatorias')).toStrictEqual([]);
   });
 });

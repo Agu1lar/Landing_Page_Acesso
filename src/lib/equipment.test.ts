@@ -16,7 +16,7 @@ const guindasteJson: Equipment = {
 
 describe('public catalog item', () => {
   it('excludes unavailable equipment', () => {
-    expect(isPublicCatalogItem({ ...guindasteJson, available: false })).toBe(false);
+    expect(isPublicCatalogItem({ ...guindasteJson, available: false })).toBeFalsy();
   });
 
   it('excludes equipment in removed categories', () => {
@@ -25,7 +25,7 @@ describe('public catalog item', () => {
         ...guindasteJson,
         category: 'ferramentas-bateria' as Equipment['category'],
       }),
-    ).toBe(false);
+    ).toBeFalsy();
   });
 });
 
@@ -33,19 +33,19 @@ describe('merge catalog with JSON fallback', () => {
   it('adds JSON item when slug is not managed in Postgres', () => {
     const items = mergeCatalogWithJsonFallback([], new Set());
 
-    expect(items.some((item) => item.slug === 'guindaste-industrial-munck-remocao-bh')).toBe(true);
+    expect(items.some((item) => item.slug === 'guindaste-industrial-munck-remocao-bh')).toBeTruthy();
   });
 
   it('skips JSON item when slug exists in Postgres (even if hidden from catalog)', () => {
     const items = mergeCatalogWithJsonFallback([], new Set(['guindaste-industrial-munck-remocao-bh']));
 
-    expect(items.some((item) => item.slug === 'guindaste-industrial-munck-remocao-bh')).toBe(false);
+    expect(items.some((item) => item.slug === 'guindaste-industrial-munck-remocao-bh')).toBeFalsy();
   });
 
   it('never merges unavailable JSON items', () => {
     const hidden: Equipment = { ...guindasteJson, available: false };
     const items = mergeCatalogWithJsonFallback([hidden], new Set());
 
-    expect(items.some((item) => item.slug === guindasteJson.slug)).toBe(false);
+    expect(items.some((item) => item.slug === guindasteJson.slug)).toBeFalsy();
   });
 });
