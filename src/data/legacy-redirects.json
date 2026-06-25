@@ -144,8 +144,8 @@
     },
     {
       "source": "/locacao-de-guindaste-industrial-munck-e-remocao-em-bh",
-      "destination": "/equipamentos/guindaste-industrial-munck-remocao-bh",
-      "note": "Página WP — guindaste"
+      "destination": "/categorias/guindaste-industrial",
+      "note": "Página WP — guindaste Munck (item descontinuado)"
     },
     {
       "source": "/politica-de-privacidade-acesso-equipamentos",
@@ -159,12 +159,12 @@
     },
     {
       "source": "/aluguel-de-guindaste-fr17-franna-bh",
-      "destination": "/equipamentos/guindaste-industrial-munck-remocao-bh",
+      "destination": "/equipamentos/franna-fr17",
       "note": "Página WP — guindaste FR17"
     },
     {
       "source": "/aluguel-de-guindaste-fr17-franna",
-      "destination": "/equipamentos/guindaste-industrial-munck-remocao-bh",
+      "destination": "/equipamentos/franna-fr17",
       "note": "Página WP — guindaste FR17 (variante URL)"
     },
     {

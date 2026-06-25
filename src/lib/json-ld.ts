@@ -1,4 +1,4 @@
-import type { DicaArticle } from '@/data/dicas-articles';
+import type { BlogArticle } from '@/types/blog-article';
 import type { FaqItem } from '@/data/faq';
 import { brand } from '@/lib/brand';
 import type { CategorySeoContent } from '@/lib/categories-seo';
@@ -357,27 +357,34 @@ export function buildFaqPageJsonLd(items: FaqItem[]) {
 /**
  * BlogPosting schema for a /dicas article.
  */
-export function buildDicaArticleJsonLd(article: DicaArticle) {
+export function buildDicaArticleJsonLd(article: BlogArticle) {
   const baseUrl = getBaseUrl();
   const path = `/dicas/${article.slug}`;
   const url = `${baseUrl}${path}`;
 
+  const blogPosting: Record<string, unknown> = {
+    '@type': 'BlogPosting',
+    '@id': `${url}#article`,
+    headline: article.title,
+    description: article.metaDescription,
+    url,
+    datePublished: article.publishedAt,
+    dateModified: article.updatedAt.slice(0, 10),
+    inLanguage: 'pt-BR',
+    author: { '@id': `${baseUrl}/#organization` },
+    publisher: { '@id': `${baseUrl}/#organization` },
+    isPartOf: { '@id': `${baseUrl}/#website` },
+    mainEntityOfPage: url,
+  };
+
+  if (article.coverImageUrl) {
+    blogPosting.image = equipmentImageUrl(article.coverImageUrl);
+  }
+
   return {
     '@context': SCHEMA_CONTEXT,
     '@graph': [
-      {
-        '@type': 'BlogPosting',
-        '@id': `${url}#article`,
-        headline: article.title,
-        description: article.metaDescription,
-        url,
-        datePublished: article.publishedAt,
-        inLanguage: 'pt-BR',
-        author: { '@id': `${baseUrl}/#organization` },
-        publisher: { '@id': `${baseUrl}/#organization` },
-        isPartOf: { '@id': `${baseUrl}/#website` },
-        mainEntityOfPage: url,
-      },
+      blogPosting,
       buildBreadcrumbListJsonLd([
         { name: 'Início', path: '/' },
         { name: 'Dicas', path: '/dicas' },
@@ -390,7 +397,7 @@ export function buildDicaArticleJsonLd(article: DicaArticle) {
 /**
  * CollectionPage schema for /dicas index.
  */
-export function buildDicasIndexJsonLd(articles: DicaArticle[]) {
+export function buildDicasIndexJsonLd(articles: BlogArticle[]) {
   const baseUrl = getBaseUrl();
   const path = '/dicas';
   const url = `${baseUrl}${path}`;

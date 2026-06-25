@@ -8,10 +8,12 @@ import {
   ONE_TAP_RETRY_DELAY_MS,
   canAttemptOneTapPrompt,
   incrementOneTapPromptAttempts,
+  markOneTapFallbackDismissed,
   shouldRetryOneTapAfterSkip,
   shouldShowOneTapFallback,
   shouldShowOptionalPhonePrompt,
   shouldSkipOneTapAfterLeadRegistered,
+  shouldSkipOneTapFallbackDismissed,
   shouldAutoSelectOneTap,
   shouldUseFedcmForOneTap,
 } from '@/lib/google-one-tap-client';
@@ -36,12 +38,14 @@ export function GoogleOneTapManager() {
   const credentialInFlightRef = useRef(false);
 
   const [showFallback, setShowFallback] = useState(false);
+  const [fallbackDismissed, setFallbackDismissed] = useState(false);
   const [leadRegistered, setLeadRegistered] = useState(false);
   const [showPhonePrompt, setShowPhonePrompt] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   useEffect(() => {
     setLeadRegistered(shouldSkipOneTapAfterLeadRegistered(window.sessionStorage));
+    setFallbackDismissed(shouldSkipOneTapFallbackDismissed(window.sessionStorage));
   }, [pathname]);
 
   const clearRetryTimer = useCallback(() => {
@@ -50,6 +54,15 @@ export function GoogleOneTapManager() {
       retryTimerRef.current = null;
     }
   }, []);
+
+  const dismissFallback = useCallback(() => {
+    clearRetryTimer();
+    window.google?.accounts?.id?.cancel();
+    markOneTapFallbackDismissed(window.sessionStorage);
+    setShowFallback(false);
+    setFallbackDismissed(true);
+    void recordOneTapPrompt('dismissed', 'user_closed_fallback');
+  }, [clearRetryTimer]);
 
   const handleCredential = useCallback(async (credential: string) => {
     credentialInFlightRef.current = true;
@@ -98,7 +111,11 @@ export function GoogleOneTapManager() {
   }, [clientId, handleCredential]);
 
   const runPrompt = useCallback(async () => {
-    if (!clientId || shouldSkipOneTapAfterLeadRegistered(window.sessionStorage)) {
+    if (
+      !clientId ||
+      shouldSkipOneTapAfterLeadRegistered(window.sessionStorage) ||
+      shouldSkipOneTapFallbackDismissed(window.sessionStorage)
+    ) {
       return;
     }
 
@@ -156,7 +173,13 @@ export function GoogleOneTapManager() {
   }, [clearRetryTimer, clientId, ensureInitialized]);
 
   useEffect(() => {
-    if (!clientId || leadRegistered || shouldSkipOneTapAfterLeadRegistered(window.sessionStorage)) {
+    if (
+      !clientId ||
+      leadRegistered ||
+      fallbackDismissed ||
+      shouldSkipOneTapAfterLeadRegistered(window.sessionStorage) ||
+      shouldSkipOneTapFallbackDismissed(window.sessionStorage)
+    ) {
       return;
     }
 
@@ -174,7 +197,7 @@ export function GoogleOneTapManager() {
         window.google?.accounts?.id?.cancel();
       }
     };
-  }, [clearRetryTimer, clientId, leadRegistered, runPrompt]);
+  }, [clearRetryTimer, clientId, fallbackDismissed, leadRegistered, runPrompt]);
 
   useEffect(() => {
     if (!showSuccessMessage) {
@@ -256,7 +279,7 @@ export function GoogleOneTapManager() {
     </div>
   ) : null;
 
-  if (!showFallback || leadRegistered) {
+  if (!showFallback || leadRegistered || fallbackDismissed) {
     return (
       <>
         {successToast}
@@ -270,9 +293,17 @@ export function GoogleOneTapManager() {
       {successToast}
       <div
         aria-labelledby="google-one-tap-fallback-title"
-        className="fixed bottom-20 left-4 z-30 max-w-xs rounded-xl border border-neutral-700 bg-neutral-900/95 px-4 py-3 text-neutral-200 shadow-lg backdrop-blur-sm sm:bottom-6"
+        className="relative fixed bottom-20 left-4 z-30 max-w-xs rounded-xl border border-neutral-700 bg-neutral-900/95 px-4 py-3 pr-10 text-neutral-200 shadow-lg backdrop-blur-sm sm:bottom-6"
         role="complementary"
       >
+        <button
+          aria-label={t('fallback_close')}
+          className="absolute top-2 right-2 flex h-7 w-7 items-center justify-center rounded-md text-base leading-none text-neutral-400 transition-colors hover:bg-neutral-800 hover:text-white"
+          onClick={dismissFallback}
+          type="button"
+        >
+          <span aria-hidden>×</span>
+        </button>
         <p className="text-sm font-medium text-white" id="google-one-tap-fallback-title">
           {t('fallback_title')}
         </p>

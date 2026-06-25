@@ -1,5 +1,6 @@
 export const ONE_TAP_REGISTERED_SESSION_KEY = 'acesso_cookie_lead_registered';
 export const ONE_TAP_PROMPT_ATTEMPTS_SESSION_KEY = 'acesso_one_tap_prompt_attempts';
+export const ONE_TAP_FALLBACK_DISMISSED_SESSION_KEY = 'acesso_one_tap_fallback_dismissed';
 export const ONE_TAP_PHONE_DISMISSED_SESSION_KEY = 'acesso_cookie_lead_phone_dismissed';
 export const ONE_TAP_PHONE_SAVED_SESSION_KEY = 'acesso_cookie_lead_phone_saved';
 
@@ -32,6 +33,14 @@ export function shouldAutoSelectOneTap(userAgent: string) {
 
 export function shouldSkipOneTapAfterLeadRegistered(sessionStorage: Pick<Storage, 'getItem'> | undefined) {
   return sessionStorage?.getItem(ONE_TAP_REGISTERED_SESSION_KEY) === '1';
+}
+
+export function shouldSkipOneTapFallbackDismissed(sessionStorage: Pick<Storage, 'getItem'> | undefined) {
+  return sessionStorage?.getItem(ONE_TAP_FALLBACK_DISMISSED_SESSION_KEY) === '1';
+}
+
+export function markOneTapFallbackDismissed(sessionStorage: Pick<Storage, 'setItem'>) {
+  sessionStorage.setItem(ONE_TAP_FALLBACK_DISMISSED_SESSION_KEY, '1');
 }
 
 export function markOneTapLeadRegistered(sessionStorage: Pick<Storage, 'setItem'>) {

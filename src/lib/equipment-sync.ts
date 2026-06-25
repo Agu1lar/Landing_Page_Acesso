@@ -12,7 +12,7 @@ import type { Equipment } from '@/types/equipment';
 const jsonCatalog = equipmentJson as Equipment[];
 
 /** Slugs that must exist in Postgres with correct category and visibility. */
-export const PRIORITY_CATALOG_SLUGS = ['guindaste-industrial-munck-remocao-bh'] as const;
+export const PRIORITY_CATALOG_SLUGS = ['franna-fr17'] as const;
 
 export type PrioritySyncResult = {
   slug: string;

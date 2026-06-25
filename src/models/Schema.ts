@@ -150,3 +150,31 @@ export const analyticsDailySchema = pgTable('analytics_daily', {
   quoteSubmits: integer('quote_submits').notNull().default(0),
   topSources: jsonb('top_sources').$type<Record<string, number>>().notNull().default({}),
 });
+
+export type BlogRelatedLink = {
+  label: string;
+  href: string;
+};
+
+/** Artigos do blog /dicas — CMS marketing */
+export const blogArticlesSchema = pgTable('blog_articles', {
+  id: serial('id').primaryKey(),
+  slug: varchar('slug', { length: 120 }).notNull().unique(),
+  title: text('title').notNull(),
+  excerpt: text('excerpt').notNull(),
+  metaTitle: varchar('meta_title', { length: 200 }).notNull(),
+  metaDescription: varchar('meta_description', { length: 320 }).notNull(),
+  coverImageUrl: text('cover_image_url'),
+  content: jsonb('content').$type<Record<string, unknown>>().notNull().default({}),
+  relatedLinks: jsonb('related_links').$type<BlogRelatedLink[]>().notNull().default([]),
+  status: varchar('status', { length: 20 }).notNull().default('draft'),
+  publishedAt: timestamp('published_at', { mode: 'date' }),
+  readingMinutes: integer('reading_minutes').notNull().default(1),
+  deletedAt: timestamp('deleted_at', { mode: 'date' }),
+  createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
+  updatedAt: timestamp('updated_at', { mode: 'date' })
+    .defaultNow()
+    .$onUpdate(() => new Date())
+    .notNull(),
+  updatedBy: varchar('updated_by', { length: 320 }),
+});

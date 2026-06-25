@@ -6,6 +6,7 @@ import {
   canAttemptOneTapPrompt,
   getOneTapPromptAttempts,
   incrementOneTapPromptAttempts,
+  markOneTapFallbackDismissed,
   markOneTapLeadRegistered,
   markOptionalPhonePromptDismissed,
   markOptionalPhonePromptSaved,
@@ -14,6 +15,7 @@ import {
   shouldShowOneTapFallback,
   shouldShowOptionalPhonePrompt,
   shouldSkipOneTapAfterLeadRegistered,
+  shouldSkipOneTapFallbackDismissed,
   shouldUseFedcmForOneTap,
 } from '@/lib/google-one-tap-client';
 
@@ -73,6 +75,13 @@ describe('google-one-tap-client', () => {
     const savedStorage = memoryStorage();
     markOptionalPhonePromptSaved(savedStorage);
     expect(shouldShowOptionalPhonePrompt(savedStorage)).toBe(false);
+  });
+
+  it('blocks one tap fallback after user dismisses the card', () => {
+    const storage = memoryStorage();
+    expect(shouldSkipOneTapFallbackDismissed(storage)).toBe(false);
+    markOneTapFallbackDismissed(storage);
+    expect(shouldSkipOneTapFallbackDismissed(storage)).toBe(true);
   });
 
   it('disables FedCM on mobile and in-app browsers', () => {

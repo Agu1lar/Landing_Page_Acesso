@@ -44,10 +44,16 @@ describe('resolve legacy redirect', () => {
     expect(resolveLegacyRedirect('/web-stories/exemplo')).toBe('/dicas');
   });
 
-  it('redirects guindaste wp page to equipment detail', () => {
+  it('redirects guindaste wp page to guindaste category', () => {
     expect(
       resolveLegacyRedirect('/locacao-de-guindaste-industrial-munck-e-remocao-em-bh'),
-    ).toBe('/equipamentos/guindaste-industrial-munck-remocao-bh');
+    ).toBe('/categorias/guindaste-industrial');
+  });
+
+  it('redirects franna wp page to franna detail', () => {
+    expect(resolveLegacyRedirect('/aluguel-de-guindaste-fr17-franna-bh')).toBe(
+      '/equipamentos/franna-fr17',
+    );
   });
 
   it('redirects wp content prefix to home', () => {

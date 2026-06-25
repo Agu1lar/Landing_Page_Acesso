@@ -1,3 +1,4 @@
+import { hasEquipmentLongDescription, isThinLongDescription } from '@/lib/equipment-long-description';
 import type { Equipment } from '@/types/equipment';
 
 const BH_REGION = 'Belo Horizonte e região metropolitana';
@@ -5,6 +6,8 @@ const BH_REGION = 'Belo Horizonte e região metropolitana';
 type EquipmentSeoExtra = {
   title: string;
   paragraphs: string[];
+  /** When true, the page already shows a technical block — use i18n title instead of `title`. */
+  commercialOnly?: boolean;
 };
 
 const SLUG_SEO_EXTRA: Partial<Record<string, EquipmentSeoExtra>> = {
@@ -85,12 +88,28 @@ const CATEGORY_EXTRA: Partial<Record<Equipment['category'], EquipmentSeoExtra>> 
   },
 };
 
+function commercialOnlyExtra(paragraphs: string[]): EquipmentSeoExtra | null {
+  if (paragraphs.length === 0) {
+    return null;
+  }
+  return {
+    title: '',
+    paragraphs,
+    commercialOnly: true,
+  };
+}
+
 /**
  * Optional extra SEO block on equipment detail pages (category-specific copy).
  */
 export function getEquipmentSeoExtra(equipment: Equipment): EquipmentSeoExtra | null {
+  const hasRichTechnical =
+    hasEquipmentLongDescription(equipment) && !isThinLongDescription(equipment);
   const slugExtra = SLUG_SEO_EXTRA[equipment.slug];
   if (slugExtra) {
+    if (hasRichTechnical) {
+      return commercialOnlyExtra(slugExtra.paragraphs.slice(1));
+    }
     return slugExtra;
   }
 
@@ -104,5 +123,10 @@ export function getEquipmentSeoExtra(equipment: Equipment): EquipmentSeoExtra | 
     };
   }
 
-  return CATEGORY_EXTRA[equipment.category] ?? null;
+  const categoryExtra = CATEGORY_EXTRA[equipment.category];
+  if (categoryExtra && hasRichTechnical) {
+    return null;
+  }
+
+  return categoryExtra ?? null;
 }

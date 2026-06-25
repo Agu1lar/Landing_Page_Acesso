@@ -52,5 +52,6 @@ describe('isAdminOnlyDashboardPath', () => {
     expect(isAdminOnlyDashboardPath('/dashboard/equipamentos')).toBe(true);
     expect(isAdminOnlyDashboardPath('/dashboard/acesso')).toBe(true);
     expect(isAdminOnlyDashboardPath('/dashboard/leads')).toBe(false);
+    expect(isAdminOnlyDashboardPath('/dashboard/dicas')).toBe(false);
   });
 });

@@ -26,9 +26,24 @@ describe('featured equipment page seo', () => {
       const equipment = bySlug.get(slug);
       const extra = getEquipmentSeoExtra(equipment!);
 
-      expect(extra?.title, slug).toContain('Belo Horizonte');
       expect(extra?.paragraphs.length, slug).toBeGreaterThan(0);
+      if (extra?.commercialOnly) {
+        expect(extra.paragraphs.join(' '), slug).toMatch(/orçamento|consulta|proposta/i);
+      } else {
+        expect(extra?.title, slug).toContain('Belo Horizonte');
+      }
     }
+  });
+
+  it('drops spec-heavy seo paragraph when technical description is already on page', () => {
+    const equipment = bySlug.get('franna-fr17');
+    expect(equipment).toBeDefined();
+
+    const extra = getEquipmentSeoExtra(equipment!);
+
+    expect(extra?.commercialOnly).toBe(true);
+    expect(extra?.paragraphs.join(' ')).not.toMatch(/pick and carry da Terex/i);
+    expect(extra?.paragraphs.join(' ')).toMatch(/orçamento|proposta/i);
   });
 });
 
@@ -52,11 +67,17 @@ describe('equipment seo extra', () => {
     expect(extra?.paragraphs.join(' ')).toContain('NR-18');
   });
 
-  it('returns category block for ferramentas elétricas', () => {
+  it('returns category block for ferramentas elétricas without technical body', () => {
     const extra = getEquipmentSeoExtra({
-      ...aerialEquipment,
+      slug: 'betoneira',
       category: 'ferramentas-eletricas',
       name: 'Betoneira',
+      shortDescription: 'Locação de betoneira.',
+      longDescription: '',
+      specs: [],
+      tags: [],
+      featured: false,
+      available: true,
     });
 
     expect(extra?.title).toContain('ferramentas elétricas');

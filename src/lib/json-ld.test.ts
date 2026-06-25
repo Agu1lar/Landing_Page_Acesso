@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { DICAS_ARTICLES } from '@/data/dicas-articles';
+import { sectionsToTiptapDoc } from '@/lib/blog-tiptap';
 import { FAQ_ITEMS } from '@/data/faq';
 import { brand } from '@/lib/brand';
 import { getCategorySeo } from '@/lib/categories-seo';
@@ -203,15 +204,30 @@ describe('build training course json-ld', () => {
 });
 
 describe('build dicas json-ld', () => {
+  const legacyAsBlog = DICAS_ARTICLES.map((article) => ({
+    slug: article.slug,
+    title: article.title,
+    metaTitle: article.metaTitle,
+    metaDescription: article.metaDescription,
+    publishedAt: article.publishedAt,
+    updatedAt: `${article.publishedAt}T00:00:00.000Z`,
+    readingMinutes: article.readingMinutes,
+    excerpt: article.excerpt,
+    coverImageUrl: null,
+    content: sectionsToTiptapDoc(article.sections),
+    relatedLinks: article.relatedLinks,
+    status: 'published' as const,
+  }));
+
   it('includes BlogPosting for article pages', () => {
-    const json = buildDicaArticleJsonLd(DICAS_ARTICLES[0]!);
+    const json = buildDicaArticleJsonLd(legacyAsBlog[0]!);
     const graph = json['@graph'] as Record<string, unknown>[];
 
     expect(graph.some((node) => node['@type'] === 'BlogPosting')).toBeTruthy();
   });
 
   it('includes CollectionPage and ItemList for index', () => {
-    const json = buildDicasIndexJsonLd(DICAS_ARTICLES);
+    const json = buildDicasIndexJsonLd(legacyAsBlog);
     const graph = json['@graph'] as Record<string, unknown>[];
 
     expect(graph.some((node) => node['@type'] === 'CollectionPage')).toBeTruthy();

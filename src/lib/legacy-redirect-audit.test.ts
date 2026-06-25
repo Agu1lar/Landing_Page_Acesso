@@ -24,9 +24,15 @@ describe('audit legacy redirect paths', () => {
 });
 
 describe('suggest legacy redirect destination', () => {
-  it('suggests guindaste detail for munck URLs', () => {
+  it('suggests guindaste category for munck URLs', () => {
     expect(suggestLegacyRedirectDestination('/aluguel-munck-bh')).toBe(
-      '/equipamentos/guindaste-industrial-munck-remocao-bh',
+      '/categorias/guindaste-industrial',
+    );
+  });
+
+  it('suggests franna detail for franna URLs', () => {
+    expect(suggestLegacyRedirectDestination('/aluguel-de-guindaste-fr17-franna-bh')).toBe(
+      '/equipamentos/franna-fr17',
     );
   });
 });

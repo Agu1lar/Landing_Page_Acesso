@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next';
-import { getAllDicaSlugs, getDicaLastModifiedBySlug } from '@/data/dicas-articles';
+import { getAllBlogSlugs, getBlogLastModifiedBySlug } from '@/lib/blog-articles';
 import { ALL_EQUIPMENT_CATEGORIES } from '@/lib/categories-seo';
 import { getAllEquipment, getEquipmentSitemapLastModifiedBySlug } from '@/lib/equipment';
 import type { EquipmentCategory } from '@/types/equipment';
@@ -85,10 +85,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/catalog.json',
   ];
 
-  const [catalog, equipmentLastModified, dicaLastModified] = await Promise.all([
+  const [catalog, equipmentLastModified, dicaLastModified, dicaSlugs] = await Promise.all([
     getAllEquipment(),
     getEquipmentSitemapLastModifiedBySlug(),
-    Promise.resolve(getDicaLastModifiedBySlug()),
+    getBlogLastModifiedBySlug(),
+    getAllBlogSlugs(),
   ]);
 
   const slugsByCategory = new Map<EquipmentCategory, string[]>();
@@ -108,7 +109,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const categoryRoutes = ALL_EQUIPMENT_CATEGORIES.map((slug) => `/categorias/${slug}`);
   const equipmentRoutes = catalog.map((item) => `/equipamentos/${item.slug}`);
-  const dicaRoutes = getAllDicaSlugs().map((slug) => `/dicas/${slug}`);
+  const dicaRoutes = dicaSlugs.map((slug) => `/dicas/${slug}`);
   const allRoutes = [...staticRoutes, ...categoryRoutes, ...equipmentRoutes, ...dicaRoutes];
 
   return allRoutes.map((route) => {

@@ -58,6 +58,12 @@ export async function AdminShell(props: AdminShellProps) {
                 label={t('analytics_link')}
               />
             </li>
+            <li>
+              <AdminNavLink href="/dashboard/dicas" icon="blog" label={t('blog_link')} />
+            </li>
+            <li>
+              <AdminNavLink href="/dashboard/dicas/new" icon="plus" label={t('blog_new_link')} />
+            </li>
           </ul>
 
           {props.role === 'admin' ? (

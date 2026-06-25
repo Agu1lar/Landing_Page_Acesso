@@ -43,6 +43,19 @@ export function IconEquipment({ className = 'h-5 w-5' }: IconProps) {
   );
 }
 
+export function IconBlog({ className = 'h-5 w-5' }: IconProps) {
+  return (
+    <svg aria-hidden className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path
+        d="M9 12h6M9 16h6M7 4h7l5 5v11a2 2 0 01-2 2H7a2 2 0 01-2-2V6a2 2 0 012-2z"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.75"
+      />
+    </svg>
+  );
+}
+
 export function IconPlus({ className = 'h-5 w-5' }: IconProps) {
   return (
     <svg aria-hidden className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">

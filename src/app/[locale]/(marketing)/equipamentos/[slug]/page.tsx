@@ -167,7 +167,7 @@ export default async function EquipmentDetailPage(props: EquipmentDetailProps) {
             {seoExtra ? (
               <section className="mt-6">
                 <h2 className="font-heading text-base font-semibold text-neutral-900 sm:text-lg">
-                  {seoExtra.title}
+                  {seoExtra.commercialOnly ? t('seo_quote_title') : seoExtra.title}
                 </h2>
                 <ExpandableParagraphs
                   className="mt-3"

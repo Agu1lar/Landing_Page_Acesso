@@ -1,9 +1,11 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
+import { BlogArticleBody } from '@/components/marketing/BlogArticleBody';
 import { ConversionCtas } from '@/components/marketing/ConversionCtas';
 import { JsonLd } from '@/components/seo/JsonLd';
-import { getAllDicaSlugs, getDicaBySlug } from '@/data/dicas-articles';
+import { getAllBlogSlugs, getBlogArticleBySlug } from '@/lib/blog-articles';
 import { buildWhatsAppMessage, buildWhatsAppUrl } from '@/lib/brand';
 import { buildDicaArticleJsonLd } from '@/lib/json-ld';
 import { buildMarketingMetadata } from '@/lib/seo-metadata';
@@ -15,15 +17,14 @@ type DicaArticlePageProps = {
   params: Promise<{ locale: string; slug: string }>;
 };
 
-export function generateStaticParams() {
-  return routing.locales.flatMap((locale) =>
-    getAllDicaSlugs().map((slug) => ({ locale, slug })),
-  );
+export async function generateStaticParams() {
+  const slugs = await getAllBlogSlugs();
+  return routing.locales.flatMap((locale) => slugs.map((slug) => ({ locale, slug })));
 }
 
 export async function generateMetadata(props: DicaArticlePageProps): Promise<Metadata> {
   const { slug } = await props.params;
-  const article = getDicaBySlug(slug);
+  const article = await getBlogArticleBySlug(slug);
   if (!article) {
     return { title: 'Dica' };
   }
@@ -31,13 +32,14 @@ export async function generateMetadata(props: DicaArticlePageProps): Promise<Met
     title: article.metaTitle,
     description: article.metaDescription,
     path: `/dicas/${article.slug}`,
+    ogPath: article.coverImageUrl?.startsWith('/') ? article.coverImageUrl : undefined,
   });
 }
 
 export default async function DicaArticlePage(props: DicaArticlePageProps) {
   const { locale, slug } = await props.params;
   setRequestLocale(resolveAppLocale(locale));
-  const article = getDicaBySlug(slug);
+  const article = await getBlogArticleBySlug(slug);
 
   if (!article) {
     notFound();
@@ -85,21 +87,21 @@ export default async function DicaArticlePage(props: DicaArticlePageProps) {
           </h1>
         </header>
 
-        <div className="mt-10 space-y-8 text-base leading-relaxed text-neutral-700">
-          {article.sections.map((section, sectionIndex) => (
-            <section key={sectionIndex}>
-              {section.heading ? (
-                <h2 className="font-heading text-xl font-semibold text-neutral-900">
-                  {section.heading}
-                </h2>
-              ) : null}
-              <div className={section.heading ? 'mt-3 space-y-4' : 'space-y-4'}>
-                {section.paragraphs.map((paragraph, paragraphIndex) => (
-                  <p key={paragraphIndex}>{paragraph}</p>
-                ))}
-              </div>
-            </section>
-          ))}
+        {article.coverImageUrl ? (
+          <div className="relative mt-8 aspect-[16/9] w-full overflow-hidden rounded-[var(--radius-card)] bg-neutral-100">
+            <Image
+              alt=""
+              className="object-cover"
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, 768px"
+              src={article.coverImageUrl}
+            />
+          </div>
+        ) : null}
+
+        <div className="mt-10">
+          <BlogArticleBody content={article.content} />
         </div>
 
         {article.relatedLinks.length > 0 ? (

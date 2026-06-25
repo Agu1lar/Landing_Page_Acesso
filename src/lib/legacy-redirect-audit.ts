@@ -52,8 +52,14 @@ export function auditLegacyRedirectPaths(paths: string[]) {
 export function suggestLegacyRedirectDestination(path: string) {
   const normalized = extractAuditPath(path);
 
-  if (normalized.includes('guindaste') || normalized.includes('munck')) {
-    return '/equipamentos/guindaste-industrial-munck-remocao-bh';
+  if (normalized.includes('franna') || normalized.includes('fr17')) {
+    return '/equipamentos/franna-fr17';
+  }
+  if (normalized.includes('munck')) {
+    return '/categorias/guindaste-industrial';
+  }
+  if (normalized.includes('guindaste')) {
+    return '/categorias/guindaste-industrial';
   }
   if (normalized.includes('plataforma') || normalized.includes('elevatoria')) {
     return '/categorias/plataformas-elevatorias';
