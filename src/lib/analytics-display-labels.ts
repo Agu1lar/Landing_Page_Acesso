@@ -57,8 +57,8 @@ function formatUnknownWhatsAppOrigin(origin: string) {
 }
 
 /** Turns internal tracking ids (e.g. site-header) into plain-language labels. */
-export function formatWhatsAppOrigin(origin: string | null | undefined) {
-  if (!origin) {
+export function formatWhatsAppOrigin(origin: string): string {
+  if (!origin || origin === '—') {
     return 'Não informado';
   }
 
@@ -66,7 +66,7 @@ export function formatWhatsAppOrigin(origin: string | null | undefined) {
 }
 
 /** Humanizes landing paths and top pages for the dashboard. */
-export function formatSitePath(path: string | null | undefined) {
+export function formatSitePath(path: string): string {
   if (!path || path === '—') {
     return 'Não informado';
   }
@@ -74,8 +74,9 @@ export function formatSitePath(path: string | null | undefined) {
   const withoutLocale = path.replace(/^\/pt-BR/i, '').split('?')[0] || '/';
   const normalized = withoutLocale === '' ? '/' : withoutLocale;
 
-  if (SITE_PATH_LABELS[normalized]) {
-    return SITE_PATH_LABELS[normalized];
+  const siteLabel = SITE_PATH_LABELS[normalized];
+  if (siteLabel) {
+    return siteLabel;
   }
 
   const equipmentMatch = normalized.match(/^\/equipamentos\/([^/]+)/);
@@ -111,12 +112,13 @@ export function formatTrafficSource(source: string) {
 }
 
 /** Labels device buckets from WhatsApp clicks. */
-export function formatDevice(device: string | null | undefined) {
-  if (!device) {
-    return DEVICE_LABELS.desconhecido;
+export function formatDevice(device: string): string {
+  const key = device.trim().toLowerCase();
+  if (!key || key === '—') {
+    return 'Não identificado';
   }
 
-  return DEVICE_LABELS[device.toLowerCase()] ?? device;
+  return DEVICE_LABELS[key] ?? device;
 }
 
 /** Shortens multi-item lead lines and replaces empty equipment markers. */
