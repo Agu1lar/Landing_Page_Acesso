@@ -1,8 +1,8 @@
 'use client';
 
-import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { useMemo, useState } from 'react';
+import { BlogCoverUpload } from '@/components/admin/BlogCoverUpload';
 import { BlogTiptapEditor } from '@/components/admin/BlogTiptapEditor';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -46,7 +46,6 @@ export function BlogArticleForm(props: BlogArticleFormProps) {
   const [relatedLinks, setRelatedLinks] = useState(() =>
     initialRelatedLinks(article?.relatedLinks),
   );
-  const [uploadingCover, setUploadingCover] = useState(false);
 
   const contentJson = useMemo(() => JSON.stringify(content), [content]);
   const relatedLinksJson = useMemo(
@@ -64,27 +63,6 @@ export function BlogArticleForm(props: BlogArticleFormProps) {
     }
     if (!metaTitle.trim()) {
       setMetaTitle(value ? `${value} | Dicas Acesso` : '');
-    }
-  };
-
-  const uploadCover = async (file: File) => {
-    setUploadingCover(true);
-    try {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('slug', slug || 'rascunho');
-      const response = await fetch('/api/admin/blog/upload', {
-        method: 'POST',
-        body: formData,
-      });
-      if (response.ok) {
-        const data = (await response.json()) as { url?: string };
-        if (data.url) {
-          setCoverImageUrl(data.url);
-        }
-      }
-    } finally {
-      setUploadingCover(false);
     }
   };
 
@@ -173,46 +151,11 @@ export function BlogArticleForm(props: BlogArticleFormProps) {
       <section className="space-y-4 rounded-lg border border-neutral-200 bg-surface p-5">
         <h2 className="font-heading text-lg font-semibold text-neutral-900">{t('section_cover')}</h2>
 
-        {coverImageUrl ? (
-          <div className="relative h-48 w-full max-w-md overflow-hidden rounded-lg bg-neutral-100">
-            <Image
-              alt=""
-              className="object-cover"
-              fill
-              sizes="400px"
-              src={coverImageUrl}
-            />
-          </div>
-        ) : null}
-
-        <div className="flex flex-wrap gap-2">
-          <label className="cursor-pointer">
-            <span className="inline-flex rounded-lg border border-neutral-200 bg-white px-3 py-2 text-sm font-medium hover:bg-neutral-50">
-              {uploadingCover ? t('cover_uploading') : t('cover_upload')}
-            </span>
-            <input
-              accept="image/jpeg,image/png,image/webp"
-              className="hidden"
-              onChange={(event) => {
-                const file = event.target.files?.[0];
-                if (file) {
-                  void uploadCover(file);
-                }
-                event.target.value = '';
-              }}
-              type="file"
-            />
-          </label>
-          {coverImageUrl ? (
-            <Button
-              onClick={() => setCoverImageUrl('')}
-              type="button"
-              variant="secondary"
-            >
-              {t('cover_remove')}
-            </Button>
-          ) : null}
-        </div>
+        <BlogCoverUpload
+          coverImageUrl={coverImageUrl}
+          onChange={setCoverImageUrl}
+          slug={slug || 'rascunho'}
+        />
       </section>
 
       <section className="space-y-4 rounded-lg border border-neutral-200 bg-surface p-5">

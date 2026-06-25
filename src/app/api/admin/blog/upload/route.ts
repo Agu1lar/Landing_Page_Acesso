@@ -27,6 +27,11 @@ export async function POST(request: Request) {
 
   const slug = String(formData.get('slug') ?? '').trim() || undefined;
 
-  const url = await storeAdminImage(file, { folder: 'blog', slug });
-  return NextResponse.json({ url });
+  try {
+    const url = await storeAdminImage(file, { folder: 'blog', slug });
+    return NextResponse.json({ url });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Falha no upload.';
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
 }

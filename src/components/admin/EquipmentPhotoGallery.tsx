@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { useRef, useState } from 'react';
 import { Button } from '@/components/ui/Button';
+import { pickImageFiles, uploadAdminImage } from '@/lib/admin-image-upload-client';
 
 export type GalleryItem = {
   url: string;
@@ -29,7 +30,7 @@ export function EquipmentPhotoGallery(props: EquipmentPhotoGalleryProps) {
   const [error, setError] = useState<string | null>(null);
 
   const uploadFiles = async (files: FileList | File[]) => {
-    const list = [...files].filter((file) => file.type.startsWith('image/'));
+    const list = pickImageFiles(files);
     if (list.length === 0) {
       setError(t('upload_error_format'));
       return;
@@ -41,39 +42,31 @@ export function EquipmentPhotoGallery(props: EquipmentPhotoGalleryProps) {
     const nextItems = [...props.items];
     let primaryExists = nextItems.some((item) => item.isPrimary);
 
-    for (const file of list) {
-      const body = new FormData();
-      body.append('file', file);
-      if (props.slug.trim()) {
-        body.append('slug', props.slug.trim());
+    try {
+      for (const file of list) {
+        const { url } = await uploadAdminImage({
+          file,
+          endpoint: '/api/admin/equipment/upload',
+          slug: props.slug,
+        });
+
+        const isPrimary = !primaryExists;
+        nextItems.push({
+          url,
+          alt: props.defaultAlt?.trim() ?? file.name.replace(/\.[^.]+$/u, ''),
+          isPrimary,
+        });
+        if (isPrimary) {
+          primaryExists = true;
+        }
       }
 
-      const response = await fetch('/api/admin/equipment/upload', {
-        method: 'POST',
-        body,
-      });
-
-      if (!response.ok) {
-        const payload = (await response.json()) as { error?: string };
-        setError(payload.error ?? t('upload_error_generic'));
-        setUploading(false);
-        return;
-      }
-
-      const { url } = (await response.json()) as { url: string };
-      const isPrimary = !primaryExists;
-      nextItems.push({
-        url,
-        alt: props.defaultAlt?.trim() ?? file.name.replace(/\.[^.]+$/u, ''),
-        isPrimary,
-      });
-      if (isPrimary) {
-        primaryExists = true;
-      }
+      props.onChange(nextItems);
+    } catch (uploadError) {
+      setError(uploadError instanceof Error ? uploadError.message : t('upload_error_generic'));
+    } finally {
+      setUploading(false);
     }
-
-    props.onChange(nextItems);
-    setUploading(false);
   };
 
   const onDrop = (event: React.DragEvent) => {
@@ -123,7 +116,7 @@ export function EquipmentPhotoGallery(props: EquipmentPhotoGalleryProps) {
         onDrop={onDrop}
       >
         <input
-          accept="image/jpeg,image/png,image/webp"
+          accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
           className="sr-only"
           multiple
           onChange={(event) => {

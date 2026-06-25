@@ -7,7 +7,8 @@ import Placeholder from '@tiptap/extension-placeholder';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { useTranslations } from 'next-intl';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+import { uploadAdminImage } from '@/lib/admin-image-upload-client';
 
 type BlogTiptapEditorProps = {
   content: JSONContent;
@@ -44,6 +45,8 @@ function ToolbarButton(props: {
 export function BlogTiptapEditor(props: BlogTiptapEditorProps) {
   const t = useTranslations('BlogArticleForm');
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   const editor = useEditor({
     immediatelyRender: false,
@@ -80,22 +83,20 @@ export function BlogTiptapEditor(props: BlogTiptapEditorProps) {
       return;
     }
 
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('slug', props.uploadSlug || 'rascunho');
+    setUploadingImage(true);
+    setUploadError(null);
 
-    const response = await fetch('/api/admin/blog/upload', {
-      method: 'POST',
-      body: formData,
-    });
-
-    if (!response.ok) {
-      return;
-    }
-
-    const data = (await response.json()) as { url?: string };
-    if (data.url) {
-      editor.chain().focus().setImage({ src: data.url }).run();
+    try {
+      const { url } = await uploadAdminImage({
+        file,
+        endpoint: '/api/admin/blog/upload',
+        slug: props.uploadSlug || 'rascunho',
+      });
+      editor.chain().focus().setImage({ src: url }).run();
+    } catch (error) {
+      setUploadError(error instanceof Error ? error.message : t('upload_error_generic'));
+    } finally {
+      setUploadingImage(false);
     }
   };
 
@@ -156,8 +157,12 @@ export function BlogTiptapEditor(props: BlogTiptapEditorProps) {
         />
         <ToolbarButton label={t('toolbar_link')} onClick={setLink} />
         <ToolbarButton
-          label={t('toolbar_image')}
-          onClick={() => fileInputRef.current?.click()}
+          label={uploadingImage ? t('cover_uploading') : t('toolbar_image')}
+          onClick={() => {
+            if (!uploadingImage) {
+              fileInputRef.current?.click();
+            }
+          }}
         />
         <ToolbarButton
           label={t('toolbar_undo')}
@@ -168,9 +173,10 @@ export function BlogTiptapEditor(props: BlogTiptapEditorProps) {
           onClick={() => editor.chain().focus().redo().run()}
         />
       </div>
+      {uploadError ? <p className="border-t border-neutral-200 px-4 py-2 text-sm text-red-600">{uploadError}</p> : null}
       <EditorContent editor={editor} />
       <input
-        accept="image/jpeg,image/png,image/webp"
+        accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
         className="hidden"
         onChange={(event) => {
           const file = event.target.files?.[0];

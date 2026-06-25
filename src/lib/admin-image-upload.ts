@@ -21,22 +21,49 @@ function slugifySafe(value: string) {
 }
 
 /**
+ * Resolves MIME type from file metadata or extension (Windows often omits file.type).
+ */
+export function resolveAdminImageMime(file: Pick<File, 'name' | 'type'>) {
+  if (file.type && ALLOWED_TYPES.has(file.type)) {
+    return file.type;
+  }
+
+  const ext = file.name.split('.').pop()?.toLowerCase();
+  if (ext === 'jpg' || ext === 'jpeg') {
+    return 'image/jpeg';
+  }
+  if (ext === 'png') {
+    return 'image/png';
+  }
+  if (ext === 'webp') {
+    return 'image/webp';
+  }
+
+  return null;
+}
+
+/**
  * Validates an uploaded admin image file.
  */
 export function validateAdminImageFile(file: File) {
-  if (!ALLOWED_TYPES.has(file.type)) {
+  const mime = resolveAdminImageMime(file);
+  if (!mime) {
     return { ok: false as const, error: 'Formato inválido. Use JPG, PNG ou WebP.' };
   }
   if (file.size > MAX_BYTES) {
     return { ok: false as const, error: 'Arquivo muito grande. Máximo 5 MB.' };
   }
-  return { ok: true as const };
+  return { ok: true as const, mime };
 }
 
 type StoreAdminImageOptions = {
   folder: 'equipment' | 'blog';
   slug?: string;
 };
+
+function canPersistAdminImagesLocally() {
+  return Env.NODE_ENV === 'development' || Env.NODE_ENV === 'test';
+}
 
 /**
  * Stores an admin upload and returns its public URL.
@@ -48,7 +75,7 @@ export async function storeAdminImage(file: File, options: StoreAdminImageOption
   }
 
   const buffer = Buffer.from(await file.arrayBuffer());
-  const ext = extensionForMime(file.type);
+  const ext = extensionForMime(validation.mime);
   const prefix = options.slug?.trim() ? slugifySafe(options.slug.trim()) : 'rascunho';
   const filename = `${prefix}-${Date.now()}.${ext}`;
 
@@ -56,9 +83,15 @@ export async function storeAdminImage(file: File, options: StoreAdminImageOption
     const blob = await put(`${options.folder}/${filename}`, buffer, {
       access: 'public',
       token: Env.BLOB_READ_WRITE_TOKEN,
-      contentType: file.type,
+      contentType: validation.mime,
     });
     return blob.url;
+  }
+
+  if (!canPersistAdminImagesLocally()) {
+    throw new Error(
+      'Armazenamento de imagens não configurado. Adicione BLOB_READ_WRITE_TOKEN no ambiente.',
+    );
   }
 
   const localFolder = options.folder === 'blog' ? 'blog' : 'equipamentos';
