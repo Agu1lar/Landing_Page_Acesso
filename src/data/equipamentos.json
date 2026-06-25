@@ -2490,7 +2490,7 @@
       "acesso"
     ],
     "featured": false,
-    "available": true
+    "available": false
   },
   {
     "slug": "abracadeira-fixa",
@@ -2645,7 +2645,7 @@
       "acesso"
     ],
     "featured": false,
-    "available": true
+    "available": false
   },
   {
     "slug": "chave-de-catraca-7-8",
@@ -2738,7 +2738,7 @@
       "acesso"
     ],
     "featured": false,
-    "available": true
+    "available": false
   },
   {
     "slug": "parafuso-enxerto",
@@ -2769,7 +2769,7 @@
       "acesso"
     ],
     "featured": false,
-    "available": true
+    "available": false
   },
   {
     "slug": "pranchao-de-1-00-m-ate-3-00-m",
