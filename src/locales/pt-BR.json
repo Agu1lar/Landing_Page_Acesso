@@ -576,7 +576,9 @@
     "col_campaign": "Campanha",
     "col_whatsapp": "WhatsApp",
     "col_leads": "Leads",
-    "empty_data": "Sem dados no período."
+    "empty_data": "Sem dados no período.",
+    "load_error": "Não foi possível carregar as métricas. Confirme se as migrations do banco foram aplicadas (tabelas page_engagement_events e coluna lead_kind em leads) e tente novamente.",
+    "retry_button": "Tentar novamente"
   },
   "EquipmentAdminPage": {
     "meta_title": "Equipamentos",

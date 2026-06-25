@@ -37,10 +37,20 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
     namespace: 'AnalyticsAdminPage',
   });
 
-  const dashboard = await getOperationalDashboard({
-    dateFrom: searchParams.dateFrom,
-    dateTo: searchParams.dateTo,
-  });
+  let dashboard;
+  try {
+    dashboard = await getOperationalDashboard({
+      dateFrom: searchParams.dateFrom,
+      dateTo: searchParams.dateTo,
+    });
+  } catch {
+    return (
+      <div className="space-y-6">
+        <AdminPageHeader description={t('meta_description')} title={t('title')} />
+        <AdminCallout variant="warning">{t('load_error')}</AdminCallout>
+      </div>
+    );
+  }
 
   const visitsDelta = percentChange(dashboard.pageViews, dashboard.pageViewsPrevious);
   const whatsappDelta = percentChange(

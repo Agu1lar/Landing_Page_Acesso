@@ -8,7 +8,11 @@ export function stripLocaleFromPath(pathname: string) {
 /**
  * Returns true when the sidebar item should appear active.
  */
-export function isAdminNavActive(pathname: string, href: string) {
+export function isAdminNavActive(pathname: string | null, href: string) {
+  if (!pathname) {
+    return false;
+  }
+
   const path = stripLocaleFromPath(pathname);
 
   if (href === '/dashboard/leads') {

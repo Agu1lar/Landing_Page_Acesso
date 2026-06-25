@@ -75,7 +75,10 @@ function humanizeCountRows(
   rows: CountRow[],
   formatLabel: (label: string) => string,
 ): CountRow[] {
-  return rows.map((row) => ({ ...row, label: formatLabel(row.label) }));
+  return rows.map((row) => ({
+    ...row,
+    label: formatLabel(row.label ?? '—'),
+  }));
 }
 
 async function countEvents(

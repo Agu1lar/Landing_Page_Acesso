@@ -13,23 +13,23 @@ const GAP = 8;
 
 /**
  * Compact "?" help control for dashboard metric cards.
- * Uses a native dialog (top layer) so card overflow cannot clip the explanation.
  */
 export function AdminMetricHelp(props: AdminMetricHelpProps) {
   const [open, setOpen] = useState(false);
-  const panelId = useId();
+  const titleId = useId();
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const dialogRef = useRef<HTMLDialogElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const [panelStyle, setPanelStyle] = useState<{ top: number; left: number } | null>(null);
 
-  const positionDialog = () => {
+  const positionPanel = () => {
     const button = buttonRef.current;
-    const dialog = dialogRef.current;
-    if (!button || !dialog) {
+    const panel = panelRef.current;
+    if (!button || !panel) {
       return;
     }
 
     const rect = button.getBoundingClientRect();
-    const panelHeight = dialog.offsetHeight || 160;
+    const panelHeight = panel.offsetHeight || 160;
     let left = rect.right - PANEL_WIDTH;
     let top = rect.bottom + GAP;
 
@@ -44,65 +44,54 @@ export function AdminMetricHelp(props: AdminMetricHelpProps) {
 
     top = Math.max(VIEWPORT_PADDING, top);
 
-    dialog.style.top = `${top}px`;
-    dialog.style.left = `${left}px`;
+    setPanelStyle({ top, left });
   };
 
   const close = () => {
-    dialogRef.current?.close();
     setOpen(false);
+    setPanelStyle(null);
+    buttonRef.current?.focus();
   };
 
   const toggle = () => {
-    const dialog = dialogRef.current;
-    if (!dialog) {
-      return;
-    }
-
-    if (dialog.open) {
+    if (open) {
       close();
       return;
     }
 
-    dialog.showModal();
     setOpen(true);
-    requestAnimationFrame(positionDialog);
+    requestAnimationFrame(positionPanel);
   };
-
-  useEffect(() => {
-    const dialog = dialogRef.current;
-    if (!dialog) {
-      return;
-    }
-
-    const onClose = () => setOpen(false);
-    dialog.addEventListener('close', onClose);
-
-    return () => {
-      dialog.removeEventListener('close', onClose);
-    };
-  }, []);
 
   useEffect(() => {
     if (!open) {
       return;
     }
 
-    const onLayoutChange = () => positionDialog();
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        close();
+      }
+    };
+
+    const onLayoutChange = () => positionPanel();
+
+    document.addEventListener('keydown', onKeyDown);
     window.addEventListener('resize', onLayoutChange);
     window.addEventListener('scroll', onLayoutChange, true);
 
     return () => {
+      document.removeEventListener('keydown', onKeyDown);
       window.removeEventListener('resize', onLayoutChange);
       window.removeEventListener('scroll', onLayoutChange, true);
     };
   }, [open]);
 
   return (
-    <>
+    <span className="relative inline-flex">
       <button
         ref={buttonRef}
-        aria-controls={panelId}
+        aria-controls={open ? titleId : undefined}
         aria-expanded={open}
         aria-haspopup="dialog"
         aria-label={props.label}
@@ -113,19 +102,26 @@ export function AdminMetricHelp(props: AdminMetricHelpProps) {
         ?
       </button>
 
-      <dialog
-        ref={dialogRef}
-        aria-labelledby={panelId}
-        className="fixed m-0 w-72 max-w-[calc(100vw-1.5rem)] rounded-xl border border-neutral-200 bg-white p-3 text-sm leading-relaxed text-neutral-600 shadow-lg ring-1 ring-black/5 backdrop:bg-transparent open:flex open:flex-col"
-        id={panelId}
-        onClick={(event) => {
-          if (event.target === dialogRef.current) {
-            close();
-          }
-        }}
-      >
-        <p>{props.text}</p>
-      </dialog>
-    </>
+      {open ? (
+        <>
+          <button
+            aria-label={props.label}
+            className="fixed inset-0 z-40 cursor-default bg-transparent"
+            onClick={close}
+            tabIndex={-1}
+            type="button"
+          />
+          <div
+            ref={panelRef}
+            aria-labelledby={titleId}
+            className="fixed z-50 w-72 max-w-[calc(100vw-1.5rem)] rounded-xl border border-neutral-200 bg-white p-3 text-sm leading-relaxed text-neutral-600 shadow-lg ring-1 ring-black/5"
+            role="dialog"
+            style={panelStyle ? { top: panelStyle.top, left: panelStyle.left } : { visibility: 'hidden' }}
+          >
+            <p id={titleId}>{props.text}</p>
+          </div>
+        </>
+      ) : null}
+    </span>
   );
 }

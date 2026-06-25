@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
-import { setRequestLocale } from 'next-intl/server';
+import { getMessages, setRequestLocale } from 'next-intl/server';
 import { Inter, Plus_Jakarta_Sans } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import { AiDiscoveryHeadLinks } from '@/components/seo/AiDiscoveryHeadLinks';
@@ -52,6 +52,7 @@ export default async function RootLayout(props: {
   }
 
   setRequestLocale(locale);
+  const messages = await getMessages();
 
   return (
     <html className={`${plusJakarta.variable} ${inter.variable}`} lang={locale}>
@@ -59,7 +60,9 @@ export default async function RootLayout(props: {
         <AiDiscoveryHeadLinks />
       </head>
       <body>
-        <NextIntlClientProvider>{props.children}</NextIntlClientProvider>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          {props.children}
+        </NextIntlClientProvider>
       </body>
     </html>
   );

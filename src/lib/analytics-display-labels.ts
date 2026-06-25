@@ -57,12 +57,16 @@ function formatUnknownWhatsAppOrigin(origin: string) {
 }
 
 /** Turns internal tracking ids (e.g. site-header) into plain-language labels. */
-export function formatWhatsAppOrigin(origin: string) {
+export function formatWhatsAppOrigin(origin: string | null | undefined) {
+  if (!origin) {
+    return 'Não informado';
+  }
+
   return WHATSAPP_ORIGIN_LABELS[origin] ?? formatUnknownWhatsAppOrigin(origin);
 }
 
 /** Humanizes landing paths and top pages for the dashboard. */
-export function formatSitePath(path: string) {
+export function formatSitePath(path: string | null | undefined) {
   if (!path || path === '—') {
     return 'Não informado';
   }
@@ -107,7 +111,11 @@ export function formatTrafficSource(source: string) {
 }
 
 /** Labels device buckets from WhatsApp clicks. */
-export function formatDevice(device: string) {
+export function formatDevice(device: string | null | undefined) {
+  if (!device) {
+    return DEVICE_LABELS.desconhecido;
+  }
+
   return DEVICE_LABELS[device.toLowerCase()] ?? device;
 }
 
