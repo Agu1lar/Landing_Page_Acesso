@@ -2676,7 +2676,7 @@
       "acesso"
     ],
     "featured": false,
-    "available": true
+    "available": false
   },
   {
     "slug": "degrau-de-escada",
@@ -2707,7 +2707,7 @@
       "acesso"
     ],
     "featured": false,
-    "available": true
+    "available": false
   },
   {
     "slug": "luva-de-uniao",
