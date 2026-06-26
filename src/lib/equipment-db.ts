@@ -143,12 +143,14 @@ export async function listJsonOnlyEquipmentForAdmin(filters: EquipmentAdminFilte
   const dbSlugs = await loadDbEquipmentSlugs();
   let items = jsonFallback.filter((item) => !dbSlugs.has(item.slug));
 
-  if (filters.category?.trim()) {
-    items = items.filter((item) => item.category === filters.category.trim());
+  const categoryFilter = filters.category?.trim();
+  if (categoryFilter) {
+    items = items.filter((item) => item.category === categoryFilter);
   }
 
-  if (filters.q?.trim()) {
-    const term = filters.q.trim().toLowerCase();
+  const queryFilter = filters.q?.trim();
+  if (queryFilter) {
+    const term = queryFilter.toLowerCase();
     items = items.filter(
       (item) =>
         item.name.toLowerCase().includes(term) ||
@@ -195,12 +197,14 @@ export async function listEquipmentForAdmin(filters: EquipmentAdminFilters = {})
     }
   }
 
-  if (filters.category?.trim()) {
-    conditions.push(eq(equipmentSchema.category, filters.category.trim()));
+  const categoryFilter = filters.category?.trim();
+  if (categoryFilter) {
+    conditions.push(eq(equipmentSchema.category, categoryFilter));
   }
 
-  if (filters.q?.trim()) {
-    const term = `%${filters.q.trim()}%`;
+  const queryFilter = filters.q?.trim();
+  if (queryFilter) {
+    const term = `%${queryFilter}%`;
     conditions.push(
       or(ilike(equipmentSchema.name, term), ilike(equipmentSchema.slug, term))!,
     );
