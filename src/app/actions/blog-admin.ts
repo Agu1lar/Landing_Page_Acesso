@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { logAdminActivity } from '@/lib/admin-activity';
+import { adminListFiltersSuffix, blogAdminListPath, returnPathFromFormData } from '@/lib/admin-return-path';
 import { requireDashboardAccess } from '@/lib/auth-roles';
 import {
   getBlogArticleAdminById,
@@ -83,7 +84,8 @@ export async function saveBlogArticleAction(formData: FormData) {
   });
 
   revalidateBlogPaths(saved.slug);
-  redirect(`/dashboard/dicas/${saved.slug}/edit`);
+  const filters = adminListFiltersSuffix(formData);
+  redirect(`/dashboard/dicas/${saved.slug}/edit${filters}`);
 }
 
 /**
@@ -113,7 +115,8 @@ export async function unpublishBlogArticleAction(formData: FormData) {
   });
 
   revalidateBlogPaths(slug);
-  redirect(`/dashboard/dicas/${slug}/edit`);
+  const filters = adminListFiltersSuffix(formData);
+  redirect(returnPathFromFormData(formData, `/dashboard/dicas/${slug}/edit${filters}`));
 }
 
 /**
@@ -143,5 +146,5 @@ export async function publishBlogArticleAction(formData: FormData) {
   });
 
   revalidateBlogPaths(slug);
-  redirect('/dashboard/dicas');
+  redirect(returnPathFromFormData(formData, '/dashboard/dicas'));
 }

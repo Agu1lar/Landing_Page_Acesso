@@ -584,6 +584,15 @@
     "load_error": "Não foi possível carregar as métricas. Confirme se as migrations do banco foram aplicadas (tabelas page_engagement_events e coluna lead_kind em leads) e tente novamente.",
     "retry_button": "Tentar novamente"
   },
+  "AdminCommon": {
+    "back_to_list": "Voltar à lista",
+    "saving": "Salvando…",
+    "archiving": "Arquivando…",
+    "duplicating": "Duplicando…",
+    "publishing": "Publicando…",
+    "unpublishing": "Tirando do ar…",
+    "processing": "Processando…"
+  },
   "EquipmentAdminPage": {
     "meta_title": "Equipamentos",
     "new_meta_title": "Novo equipamento",
@@ -616,7 +625,8 @@
     "badge_archived": "Arquivado",
     "edit": "Editar",
     "duplicate": "Duplicar",
-    "archive": "Arquivar"
+    "archive": "Arquivar",
+    "archive_confirm": "Arquivar este equipamento? Ele deixará de aparecer no site público."
   },
   "BlogAdminPage": {
     "meta_title": "Artigos do blog",

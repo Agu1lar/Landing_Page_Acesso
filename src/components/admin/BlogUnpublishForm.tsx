@@ -1,9 +1,11 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { AdminPendingButton } from '@/components/admin/AdminPendingButton';
 
 type BlogUnpublishFormProps = {
   action: (formData: FormData) => void;
+  returnTo?: string;
   slug: string;
 };
 
@@ -12,6 +14,7 @@ type BlogUnpublishFormProps = {
  */
 export function BlogUnpublishForm(props: BlogUnpublishFormProps) {
   const t = useTranslations('BlogAdminPage');
+  const tCommon = useTranslations('AdminCommon');
 
   return (
     <form
@@ -22,10 +25,13 @@ export function BlogUnpublishForm(props: BlogUnpublishFormProps) {
         }
       }}
     >
+      {props.returnTo ? <input name="returnTo" type="hidden" value={props.returnTo} /> : null}
       <input name="slug" type="hidden" value={props.slug} />
-      <button className="text-sm font-medium text-amber-700 hover:underline" type="submit">
-        {t('unpublish')}
-      </button>
+      <AdminPendingButton
+        label={t('unpublish')}
+        pendingLabel={tCommon('unpublishing')}
+        variant="link"
+      />
     </form>
   );
 }

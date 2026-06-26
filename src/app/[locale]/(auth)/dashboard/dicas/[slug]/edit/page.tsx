@@ -5,14 +5,17 @@ import {
   saveBlogArticleAction,
   unpublishBlogArticleAction,
 } from '@/app/actions/blog-admin';
+import { AdminBackLink } from '@/components/admin/AdminBackLink';
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
 import { BlogArticleForm } from '@/components/admin/BlogArticleForm';
 import { requireDashboardAccess } from '@/lib/auth-roles';
+import { blogAdminListPath } from '@/lib/admin-return-path';
 import { getBlogArticleAdminBySlug } from '@/lib/blog-articles-db';
 import { resolveAppLocale } from '@/utils/locale';
 
 type BlogAdminEditProps = {
   params: Promise<{ locale: string; slug: string }>;
+  searchParams: Promise<{ q?: string; status?: string }>;
 };
 
 export async function generateMetadata(props: BlogAdminEditProps): Promise<Metadata> {
@@ -26,10 +29,15 @@ export async function generateMetadata(props: BlogAdminEditProps): Promise<Metad
 
 export default async function BlogAdminEditPage(props: BlogAdminEditProps) {
   const { locale, slug } = await props.params;
+  const searchParams = await props.searchParams;
   setRequestLocale(resolveAppLocale(locale));
   const t = await getTranslations({
     locale: resolveAppLocale(locale),
     namespace: 'BlogAdminPage',
+  });
+  const tCommon = await getTranslations({
+    locale: resolveAppLocale(locale),
+    namespace: 'AdminCommon',
   });
 
   const access = await requireDashboardAccess();
@@ -42,8 +50,14 @@ export default async function BlogAdminEditPage(props: BlogAdminEditProps) {
     notFound();
   }
 
+  const listPath = blogAdminListPath({
+    q: searchParams.q,
+    status: searchParams.status,
+  });
+
   return (
     <div className="space-y-8">
+      <AdminBackLink href={listPath} label={tCommon('back_to_list')} />
       <AdminPageHeader
         description={t('edit_description', { title: article.title })}
         title={t('edit_title')}
@@ -51,6 +65,7 @@ export default async function BlogAdminEditPage(props: BlogAdminEditProps) {
       <BlogArticleForm
         action={saveBlogArticleAction}
         article={article}
+        returnTo={listPath}
         unpublishAction={unpublishBlogArticleAction}
       />
     </div>

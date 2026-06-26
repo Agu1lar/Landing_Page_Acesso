@@ -33,13 +33,13 @@ describe('merge catalog with JSON fallback', () => {
   it('adds JSON item when slug is not managed in Postgres', () => {
     const items = mergeCatalogWithJsonFallback([], new Set());
 
-    expect(items.some((item) => item.slug === 'guindaste-industrial-munck-remocao-bh')).toBeTruthy();
+    expect(items.some((item) => item.slug === 'franna-fr17')).toBeTruthy();
   });
 
   it('skips JSON item when slug exists in Postgres (even if hidden from catalog)', () => {
-    const items = mergeCatalogWithJsonFallback([], new Set(['guindaste-industrial-munck-remocao-bh']));
+    const items = mergeCatalogWithJsonFallback([], new Set(['franna-fr17']));
 
-    expect(items.some((item) => item.slug === 'guindaste-industrial-munck-remocao-bh')).toBeFalsy();
+    expect(items.some((item) => item.slug === 'franna-fr17')).toBeFalsy();
   });
 
   it('never merges unavailable JSON items', () => {

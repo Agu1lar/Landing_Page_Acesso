@@ -3,7 +3,9 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import Link from 'next/link';
 import { importEquipmentCatalogAction, syncFerramentasEletricasCopyAction, syncPriorityCatalogAction } from '@/app/actions/equipment-admin';
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
+import { AdminPendingButton } from '@/components/admin/AdminPendingButton';
 import { requireAdminAccess } from '@/lib/auth-roles';
+import { buildAdminListQuery } from '@/lib/admin-return-path';
 import { countEquipmentInDb, listEquipmentForAdmin } from '@/lib/equipment-db';
 import { CATEGORY_LABELS } from '@/types/equipment';
 import type { EquipmentCategory } from '@/types/equipment';
@@ -38,10 +40,21 @@ export default async function EquipmentAdminListPage(props: EquipmentAdminListPr
   }
 
   const dbCount = await countEquipmentInDb();
+  const listFilters = {
+    q: searchParams.q,
+    category: searchParams.category,
+    status: searchParams.status,
+  };
+  const listQuery = buildAdminListQuery(listFilters);
   const rows = await listEquipmentForAdmin({
     q: searchParams.q,
     category: searchParams.category,
     status: (searchParams.status as 'all' | 'active' | 'draft' | 'archived') ?? 'all',
+  });
+
+  const tCommon = await getTranslations({
+    locale: resolveAppLocale(locale),
+    namespace: 'AdminCommon',
   });
 
   return (
@@ -56,38 +69,35 @@ export default async function EquipmentAdminListPage(props: EquipmentAdminListPr
                 </summary>
                 <form action={importEquipmentCatalogAction} className="mt-2">
                   <p className="mb-2 text-xs text-neutral-500">{t('import_json_hint')}</p>
-                  <button
-                    className="rounded-lg border border-neutral-200 bg-white px-3 py-2 text-sm font-medium shadow-sm hover:bg-neutral-50"
-                    type="submit"
-                  >
-                    {t('import_json')}
-                  </button>
+                  <AdminPendingButton
+                    label={t('import_json')}
+                    pendingLabel={tCommon('processing')}
+                    variant="default"
+                  />
                 </form>
               </details>
             ) : (
               <>
                 <form action={syncPriorityCatalogAction}>
-                  <button
-                    className="rounded-lg border border-neutral-200 bg-white px-3 py-2 text-sm font-medium shadow-sm hover:bg-neutral-50"
-                    type="submit"
-                  >
-                    {t('sync_priority_catalog')}
-                  </button>
+                  <AdminPendingButton
+                    label={t('sync_priority_catalog')}
+                    pendingLabel={tCommon('processing')}
+                    variant="default"
+                  />
                 </form>
                 <form action={syncFerramentasEletricasCopyAction}>
-                  <button
-                    className="rounded-lg border border-neutral-200 bg-white px-3 py-2 text-sm font-medium shadow-sm hover:bg-neutral-50"
+                  <AdminPendingButton
+                    label={t('sync_ferramentas_eletricas_copy')}
+                    pendingLabel={tCommon('processing')}
                     title={t('sync_ferramentas_eletricas_copy_hint')}
-                    type="submit"
-                  >
-                    {t('sync_ferramentas_eletricas_copy')}
-                  </button>
+                    variant="default"
+                  />
                 </form>
               </>
             )}
             <Link
               className="rounded-lg bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary-hover"
-              href="/dashboard/equipamentos/new"
+              href={`/dashboard/equipamentos/new${listQuery}`}
             >
               {t('new_equipment')}
             </Link>
@@ -150,12 +160,25 @@ export default async function EquipmentAdminListPage(props: EquipmentAdminListPr
                 <td className="px-4 py-3 font-medium text-neutral-900">{row.name}</td>
                 <td className="px-4 py-3">{CATEGORY_LABELS[row.category as EquipmentCategory]}</td>
                 <td className="px-4 py-3">
-                  {!row.published ? t('badge_draft') : !row.available ? t('badge_archived') : t('badge_active')}
+                  {row.deletedAt
+                    ? t('badge_archived')
+                    : !row.published
+                      ? t('badge_draft')
+                      : !row.available
+                        ? t('badge_archived')
+                        : t('badge_active')}
                 </td>
                 <td className="px-4 py-3">
-                  <Link className="text-primary hover:underline" href={`/dashboard/equipamentos/${row.slug}/edit`}>
-                    {t('edit')}
-                  </Link>
+                  {row.deletedAt ? (
+                    <span className="text-neutral-400">{t('edit')}</span>
+                  ) : (
+                    <Link
+                      className="text-primary hover:underline"
+                      href={`/dashboard/equipamentos/${row.slug}/edit${listQuery}`}
+                    >
+                      {t('edit')}
+                    </Link>
+                  )}
                 </td>
               </tr>
             ))}

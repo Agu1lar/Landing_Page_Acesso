@@ -5,6 +5,7 @@ import { useMemo, useState } from 'react';
 import { EquipmentPhotoGallery, type GalleryItem } from '@/components/admin/EquipmentPhotoGallery';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
+import { AdminPendingButton } from '@/components/admin/AdminPendingButton';
 import { ALL_EQUIPMENT_CATEGORIES } from '@/lib/categories-seo';
 import { slugifyEquipmentName } from '@/lib/equipment-slug';
 import { CATEGORY_LABELS } from '@/types/equipment';
@@ -15,6 +16,7 @@ type EquipmentAdminFormProps = {
   action: (formData: FormData) => void;
   row?: EquipmentRow;
   images?: EquipmentImageRow[];
+  returnTo?: string;
 };
 
 function initialGallery(images: EquipmentImageRow[] | undefined): GalleryItem[] {
@@ -57,6 +59,7 @@ function specsToJson(rows: EquipmentSpec[]) {
  */
 export function EquipmentAdminForm(props: EquipmentAdminFormProps) {
   const t = useTranslations('EquipmentAdminForm');
+  const tCommon = useTranslations('AdminCommon');
   const row = props.row;
   const [name, setName] = useState(row?.name ?? '');
   const [slug, setSlug] = useState(row?.slug ?? '');
@@ -85,6 +88,7 @@ export function EquipmentAdminForm(props: EquipmentAdminFormProps) {
   return (
     <form action={props.action} className="space-y-8">
       {row ? <input name="existingId" type="hidden" value={row.id} /> : null}
+      {props.returnTo ? <input name="returnTo" type="hidden" value={props.returnTo} /> : null}
       <input name="imagesJson" type="hidden" value={imagesJson} />
       <input name="specsJson" type="hidden" value={specsJson} />
       <input name="slug" type="hidden" value={slug} />
@@ -292,9 +296,11 @@ export function EquipmentAdminForm(props: EquipmentAdminFormProps) {
         </div>
       </details>
 
-      <Button size="md" type="submit">
-        {t('submit')}
-      </Button>
+      <AdminPendingButton
+        label={t('submit')}
+        pendingLabel={tCommon('saving')}
+        variant="primary"
+      />
     </form>
   );
 }

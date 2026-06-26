@@ -12,6 +12,10 @@ import {
   seedEquipmentFromJson,
 } from '@/lib/equipment-db';
 import { consolidateMangoteVibradorInDb, MANGOTE_VIBRADOR_SLUG, syncEquipmentCategoryCopyFromJson, syncPriorityEquipmentFromJson } from '@/lib/equipment-sync';
+import {
+  adminListFiltersSuffix,
+  equipmentAdminListPathAfterArchive,
+} from '@/lib/admin-return-path';
 import { slugifyEquipmentName } from '@/lib/equipment-slug';
 import { ALL_EQUIPMENT_CATEGORIES } from '@/lib/categories-seo';
 import {
@@ -208,7 +212,8 @@ export async function saveEquipmentAction(formData: FormData) {
   });
 
   revalidateEquipmentPaths(data.slug, data.category);
-  redirect(`/dashboard/equipamentos/${data.slug}/edit`);
+  const filters = adminListFiltersSuffix(formData);
+  redirect(`/dashboard/equipamentos/${data.slug}/edit${filters}`);
 }
 
 function safeParseSpecsJson(raw: string) {
@@ -247,7 +252,7 @@ export async function duplicateEquipmentFormAction(formData: FormData) {
   if (!slug) {
     redirect('/dashboard/equipamentos');
   }
-  await duplicateEquipmentAction(slug);
+  await duplicateEquipmentAction(slug, formData);
 }
 
 /**
@@ -258,13 +263,13 @@ export async function archiveEquipmentFormAction(formData: FormData) {
   if (!slug) {
     redirect('/dashboard/equipamentos');
   }
-  await archiveEquipmentAction(slug);
+  await archiveEquipmentAction(slug, formData);
 }
 
 /**
  * Archives equipment (soft delete).
  */
-export async function archiveEquipmentAction(slug: string) {
+export async function archiveEquipmentAction(slug: string, formData?: FormData) {
   const access = await requireAdminAccess();
   if (!access.ok) {
     redirect('/unauthorized');
@@ -280,13 +285,16 @@ export async function archiveEquipmentAction(slug: string) {
 
   revalidateEquipmentPaths(slug);
   revalidatePath('/dashboard/equipamentos');
-  redirect('/dashboard/equipamentos');
+  if (formData) {
+    redirect(equipmentAdminListPathAfterArchive(formData));
+  }
+  redirect('/dashboard/equipamentos?status=archived');
 }
 
 /**
  * Duplicates equipment as draft.
  */
-export async function duplicateEquipmentAction(slug: string) {
+export async function duplicateEquipmentAction(slug: string, formData?: FormData) {
   const access = await requireAdminAccess();
   if (!access.ok) {
     return { error: 'Sem permissão' };
@@ -306,5 +314,6 @@ export async function duplicateEquipmentAction(slug: string) {
   });
 
   revalidatePath('/dashboard/equipamentos');
-  redirect(`/dashboard/equipamentos/${copy.slug}/edit`);
+  const filters = formData ? adminListFiltersSuffix(formData) : '';
+  redirect(`/dashboard/equipamentos/${copy.slug}/edit${filters}`);
 }

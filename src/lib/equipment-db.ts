@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { and, asc, desc, eq, ilike, isNull, or, sql } from 'drizzle-orm';
+import { and, asc, desc, eq, ilike, isNotNull, isNull, or, sql } from 'drizzle-orm';
 import type { InferSelectModel } from 'drizzle-orm';
 import equipmentJson from '@/data/equipamentos.json';
 import { db } from '@/libs/DB';
@@ -103,13 +103,10 @@ export async function loadPublishedEquipmentSitemapEntries() {
 }
 
 /**
- * Returns all non-deleted equipment slugs in Postgres (any status).
+ * Returns all equipment slugs managed in Postgres (including archived).
  */
 export async function loadDbEquipmentSlugs() {
-  const rows = await db
-    .select({ slug: equipmentSchema.slug })
-    .from(equipmentSchema)
-    .where(isNull(equipmentSchema.deletedAt));
+  const rows = await db.select({ slug: equipmentSchema.slug }).from(equipmentSchema);
 
   return new Set(rows.map((row) => row.slug));
 }
@@ -139,19 +136,23 @@ export async function getEquipmentRowBySlug(slug: string) {
  * Lists equipment for admin with filters.
  */
 export async function listEquipmentForAdmin(filters: EquipmentAdminFilters = {}) {
-  const conditions = [isNull(equipmentSchema.deletedAt)];
+  const conditions = [];
+
+  if (filters.status === 'archived') {
+    conditions.push(isNotNull(equipmentSchema.deletedAt));
+  } else {
+    conditions.push(isNull(equipmentSchema.deletedAt));
+
+    if (filters.status === 'active') {
+      conditions.push(eq(equipmentSchema.published, true));
+      conditions.push(eq(equipmentSchema.available, true));
+    } else if (filters.status === 'draft') {
+      conditions.push(eq(equipmentSchema.published, false));
+    }
+  }
 
   if (filters.category?.trim()) {
     conditions.push(eq(equipmentSchema.category, filters.category.trim()));
-  }
-
-  if (filters.status === 'active') {
-    conditions.push(eq(equipmentSchema.published, true));
-    conditions.push(eq(equipmentSchema.available, true));
-  } else if (filters.status === 'draft') {
-    conditions.push(eq(equipmentSchema.published, false));
-  } else if (filters.status === 'archived') {
-    conditions.push(eq(equipmentSchema.available, false));
   }
 
   if (filters.q?.trim()) {

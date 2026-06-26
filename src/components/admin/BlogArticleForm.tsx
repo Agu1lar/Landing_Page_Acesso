@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 import { useMemo, useState } from 'react';
 import { BlogCoverUpload } from '@/components/admin/BlogCoverUpload';
 import { BlogTiptapEditor } from '@/components/admin/BlogTiptapEditor';
+import { AdminPendingButton } from '@/components/admin/AdminPendingButton';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { slugifyEquipmentName } from '@/lib/equipment-slug';
@@ -20,6 +21,7 @@ type BlogArticleFormProps = {
   action: (formData: FormData) => void;
   unpublishAction?: (formData: FormData) => void;
   article?: BlogArticleAdminRow;
+  returnTo?: string;
 };
 
 function initialRelatedLinks(links: RelatedLinkRow[] | undefined): RelatedLinkRow[] {
@@ -34,6 +36,7 @@ function initialRelatedLinks(links: RelatedLinkRow[] | undefined): RelatedLinkRo
  */
 export function BlogArticleForm(props: BlogArticleFormProps) {
   const t = useTranslations('BlogArticleForm');
+  const tCommon = useTranslations('AdminCommon');
   const article = props.article;
   const [title, setTitle] = useState(article?.title ?? '');
   const [slug, setSlug] = useState(article?.slug ?? '');
@@ -69,6 +72,7 @@ export function BlogArticleForm(props: BlogArticleFormProps) {
   return (
     <form action={props.action} className="space-y-8">
       {article ? <input name="articleId" type="hidden" value={article.id} /> : null}
+      {props.returnTo ? <input name="returnTo" type="hidden" value={props.returnTo} /> : null}
       <input name="contentJson" type="hidden" value={contentJson} />
       <input name="relatedLinksJson" type="hidden" value={relatedLinksJson} />
       <input name="slug" type="hidden" value={slug} />
@@ -199,27 +203,34 @@ export function BlogArticleForm(props: BlogArticleFormProps) {
       </section>
 
       <div className="flex flex-wrap gap-3">
-        <Button name="intent" type="submit" value="save">
-          {article?.status === 'published' ? t('save_changes') : t('save_draft')}
-        </Button>
-        <Button name="intent" type="submit" value="publish" variant="primary">
-          {t('publish')}
-        </Button>
+        <AdminPendingButton
+          label={article?.status === 'published' ? t('save_changes') : t('save_draft')}
+          name="intent"
+          pendingLabel={tCommon('saving')}
+          value="save"
+          variant="outline"
+        />
+        <AdminPendingButton
+          label={t('publish')}
+          name="intent"
+          pendingLabel={tCommon('publishing')}
+          value="publish"
+          variant="primary"
+        />
         {article?.status === 'published' && props.unpublishAction ? (
-          <Button
+          <AdminPendingButton
             formAction={props.unpublishAction}
+            label={t('unpublish')}
             name="intent"
             onClick={(event) => {
               if (!window.confirm(t('unpublish_confirm'))) {
                 event.preventDefault();
               }
             }}
-            type="submit"
+            pendingLabel={tCommon('unpublishing')}
             value="unpublish"
-            variant="secondary"
-          >
-            {t('unpublish')}
-          </Button>
+            variant="outline"
+          />
         ) : null}
         {article?.status === 'published' ? (
           <a

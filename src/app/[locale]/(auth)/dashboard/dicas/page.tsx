@@ -6,8 +6,10 @@ import {
   unpublishBlogArticleAction,
 } from '@/app/actions/blog-admin';
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
+import { BlogPublishForm } from '@/components/admin/BlogPublishForm';
 import { BlogUnpublishForm } from '@/components/admin/BlogUnpublishForm';
 import { requireDashboardAccess } from '@/lib/auth-roles';
+import { blogAdminListPath, buildAdminListQuery } from '@/lib/admin-return-path';
 import { listBlogArticlesAdmin } from '@/lib/blog-articles-db';
 import { resolveAppLocale } from '@/utils/locale';
 
@@ -39,6 +41,13 @@ export default async function BlogAdminListPage(props: BlogAdminListProps) {
     return <p className="py-8 text-sm text-neutral-600">{t('no_permission')}</p>;
   }
 
+  const listFilters = {
+    q: searchParams.q,
+    status: searchParams.status,
+  };
+  const listPath = blogAdminListPath(listFilters);
+  const listQuery = buildAdminListQuery(listFilters);
+
   const rows = await listBlogArticlesAdmin({
     q: searchParams.q,
     status: (searchParams.status as 'all' | 'draft' | 'published') ?? 'all',
@@ -50,7 +59,7 @@ export default async function BlogAdminListPage(props: BlogAdminListProps) {
         actions={
           <Link
             className="rounded-lg bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary-hover"
-            href="/dashboard/dicas/new"
+            href={`/dashboard/dicas/new${listQuery}`}
           >
             {t('new_article')}
           </Link>
@@ -121,7 +130,7 @@ export default async function BlogAdminListPage(props: BlogAdminListProps) {
                   <div className="flex flex-wrap gap-2">
                     <Link
                       className="text-sm font-medium text-primary hover:underline"
-                      href={`/dashboard/dicas/${row.slug}/edit`}
+                      href={`/dashboard/dicas/${row.slug}/edit${listQuery}`}
                     >
                       {t('edit')}
                     </Link>
@@ -135,18 +144,18 @@ export default async function BlogAdminListPage(props: BlogAdminListProps) {
                         >
                           {t('view')}
                         </a>
-                        <BlogUnpublishForm action={unpublishBlogArticleAction} slug={row.slug} />
+                        <BlogUnpublishForm
+                          action={unpublishBlogArticleAction}
+                          returnTo={listPath}
+                          slug={row.slug}
+                        />
                       </>
                     ) : (
-                      <form action={publishBlogArticleAction}>
-                        <input name="slug" type="hidden" value={row.slug} />
-                        <button
-                          className="text-sm font-medium text-emerald-700 hover:underline"
-                          type="submit"
-                        >
-                          {t('publish')}
-                        </button>
-                      </form>
+                      <BlogPublishForm
+                        action={publishBlogArticleAction}
+                        returnTo={listPath}
+                        slug={row.slug}
+                      />
                     )}
                   </div>
                 </td>
