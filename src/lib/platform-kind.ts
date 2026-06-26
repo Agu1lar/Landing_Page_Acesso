@@ -1,7 +1,7 @@
 import type { Equipment } from '@/types/equipment';
 import { readPlatformKindFromSpecs } from '@/lib/platform-kind-admin';
 
-export type PlatformKind = 'tesoura' | 'articulada' | 'telescopica';
+export type PlatformKind = 'tesoura' | 'articulada' | 'telescopica' | 'mastro';
 
 export type PlatformKindFilter = 'all' | PlatformKind;
 
@@ -21,6 +21,9 @@ export function getPlatformKind(item: Equipment): PlatformKind | null {
   }
   if (item.tags.includes('tesoura')) {
     return 'tesoura';
+  }
+  if (item.tags.includes('mastro')) {
+    return 'mastro';
   }
 
   if (item.slug.includes('lanca-articulada')) {

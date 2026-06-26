@@ -28,6 +28,17 @@ describe('read platform kind from specs', () => {
       }),
     ).toBe('articulada');
   });
+
+  it('infers mastro from AWP model name', () => {
+    expect(
+      readPlatformKindFromSpecs({
+        specs: [],
+        tags: [],
+        name: 'Plataforma elevatória AWP 30S',
+        slug: 'plataforma-elevatoria-awp-30s',
+      }),
+    ).toBe('mastro');
+  });
 });
 
 describe('apply platform kind to catalog item', () => {
@@ -71,5 +82,14 @@ describe('get platform kind for new fleet models', () => {
       name: 'PLATAFORMA AÉREA ARTICULADA Z34',
     });
     expect(getPlatformKind(platform)).toBe('articulada');
+  });
+
+  it('classifies AWP 30S as mastro filter', () => {
+    const platform = item({
+      slug: 'plataforma-elevatoria-awp-30s',
+      name: 'Plataforma elevatória AWP 30S',
+      specs: [{ label: 'Tipo', value: 'Mastro vertical (AWP)' }],
+    });
+    expect(getPlatformKind(platform)).toBe('mastro');
   });
 });

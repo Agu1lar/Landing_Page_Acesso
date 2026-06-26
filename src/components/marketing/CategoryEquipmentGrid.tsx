@@ -24,6 +24,7 @@ const PLATFORM_KIND_FILTERS: PlatformKindFilter[] = [
   'tesoura',
   'articulada',
   'telescopica',
+  'mastro',
 ];
 const PLATFORM_HEIGHT_FILTERS: PlatformHeightFilter[] = [
   'all',
@@ -52,6 +53,7 @@ export function CategoryEquipmentGrid(props: CategoryEquipmentGridProps) {
     tesoura: t('filter_scissor'),
     articulada: t('filter_articulated'),
     telescopica: t('filter_telescopic'),
+    mastro: t('filter_mast'),
   };
   const heightFilterLabel: Record<PlatformHeightFilter, string> = {
     all: t('filter_all_heights'),

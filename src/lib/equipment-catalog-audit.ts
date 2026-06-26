@@ -99,18 +99,12 @@ export function auditEquipmentCatalog(props: {
     }
 
     if (item.category === 'plataformas-elevatorias' && item.available) {
-      const tipo =
-        item.specs
-          .find((spec) => spec.label.trim().toLowerCase() === 'tipo')
-          ?.value.toLowerCase() ?? '';
-      const isMastro = tipo.includes('mastro');
-
-      if (!isMastro && !getPlatformKind(item)) {
+      if (!getPlatformKind(item)) {
         issues.push({
           slug: item.slug,
           name: item.name,
           code: 'platform_missing_kind',
-          detail: 'Sem classificação para filtro Tesoura/Articulada/Telescópica',
+          detail: 'Sem classificação para filtro Tesoura/Articulada/Telescópica/Mastro vertical',
         });
       }
       if (getPlatformHeightMeters(item) === null) {

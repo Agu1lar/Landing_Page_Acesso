@@ -23,6 +23,11 @@ export const PLATFORM_KIND_OPTIONS: {
     tipoValue: 'Lança telescópica',
     tag: 'telescopica',
   },
+  {
+    value: 'mastro',
+    tipoValue: 'Mastro vertical',
+    tag: 'mastro',
+  },
 ];
 
 const platformKindSet = new Set<PlatformKind>(PLATFORM_KIND_OPTIONS.map((option) => option.value));
@@ -57,6 +62,9 @@ export function readPlatformKindFromSpecs(props: {
   if (tipo.includes('telescóp') || tipo.includes('telescop')) {
     return 'telescopica' as const;
   }
+  if (tipo.includes('mastro')) {
+    return 'mastro' as const;
+  }
 
   if (props.tags.includes('tesoura')) {
     return 'tesoura' as const;
@@ -67,8 +75,18 @@ export function readPlatformKindFromSpecs(props: {
   if (props.tags.includes('telescopica') || props.tags.includes('aerea')) {
     return 'telescopica' as const;
   }
+  if (props.tags.includes('mastro')) {
+    return 'mastro' as const;
+  }
 
   const haystack = `${props.name ?? ''} ${props.slug ?? ''}`.toLowerCase();
+  if (
+    haystack.includes('mastro') ||
+    /\bawp[\s-]?\d/u.test(haystack) ||
+    haystack.includes('mvl')
+  ) {
+    return 'mastro' as const;
+  }
   if (haystack.includes('articulada') || /\bz[\d/-]/u.test(haystack)) {
     return 'articulada' as const;
   }

@@ -41,6 +41,14 @@ describe('platform-kind', () => {
     expect(getPlatformKind(platform)).toBe('telescopica');
   });
 
+  it('detects mast platforms from tipo spec', () => {
+    const platform = item({
+      slug: 'plataforma-elevatoria-awp-30s',
+      specs: [{ label: 'Tipo', value: 'Mastro vertical (AWP)' }],
+    });
+    expect(getPlatformKind(platform)).toBe('mastro');
+  });
+
   it('maps legacy aerea tag to telescopica', () => {
     const platform = item({
       slug: 'plataforma-elevatoria-1350sjp',
@@ -71,6 +79,7 @@ describe('platform-kind', () => {
     expect(matchesPlatformKindFilter(scissor, 'tesoura')).toBe(true);
     expect(matchesPlatformKindFilter(articulated, 'articulada')).toBe(true);
     expect(matchesPlatformKindFilter(telescopic, 'telescopica')).toBe(true);
+    expect(matchesPlatformKindFilter(mast, 'mastro')).toBe(true);
     expect(matchesPlatformKindFilter(scissor, 'articulada')).toBe(false);
     expect(matchesPlatformKindFilter(telescopic, 'tesoura')).toBe(false);
     expect(matchesPlatformKindFilter(mast, 'tesoura')).toBe(false);
