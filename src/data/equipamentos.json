@@ -3589,5 +3589,77 @@
     ],
     "featured": true,
     "available": true
+  },
+  {
+    "slug": "plataforma-aerea-gs-3246",
+    "name": "Plataforma aérea GS 3246",
+    "category": "plataformas-elevatorias",
+    "shortDescription": "Locação de plataforma elevatória tesoura Genie GS-3246.",
+    "longDescription": "Tesoura elétrica Genie GS-3246 para trabalho em altura em galpões, obras e manutenção predial, com cerca de 11,8 m de altura de trabalho e plataforma de 0,76 m de largura. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "specs": [
+      {
+        "label": "Tipo",
+        "value": "Tesoura"
+      },
+      {
+        "label": "Altura de trabalho",
+        "value": "~11,8 m"
+      },
+      {
+        "label": "Capacidade / peso na plataforma",
+        "value": "230 kg"
+      },
+      {
+        "label": "Alimentação",
+        "value": "Elétrica (bateria)"
+      },
+      {
+        "label": "Classificação ABNT (NBR 16776)",
+        "value": "Tipo 3 · Grupo A (tesoura autopropelida — comando no cesto · NBR 16776)"
+      }
+    ],
+    "tags": [
+      "plataforma",
+      "genie",
+      "tesoura"
+    ],
+    "featured": false,
+    "available": true
+  },
+  {
+    "slug": "plataforma-aerea-articulada-z34",
+    "name": "Plataforma aérea articulada Z34",
+    "category": "plataformas-elevatorias",
+    "shortDescription": "Locação de plataforma elevatória lança articulada JLG Z34.",
+    "longDescription": "Lança articulada JLG Z34 para trabalho em altura com alcance horizontal, com cerca de 12 m de altura de trabalho — indicada para manutenção, instalações e obras que exigem contornar obstáculos. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "specs": [
+      {
+        "label": "Tipo",
+        "value": "Lança articulada"
+      },
+      {
+        "label": "Altura de trabalho",
+        "value": "~12 m"
+      },
+      {
+        "label": "Capacidade / peso na plataforma",
+        "value": "227 kg"
+      },
+      {
+        "label": "Alimentação",
+        "value": "Elétrica (bateria)"
+      },
+      {
+        "label": "Classificação ABNT (NBR 16776)",
+        "value": "Tipo 3 · Grupo B (lança articulada — comando no cesto · NBR 16776)"
+      }
+    ],
+    "tags": [
+      "plataforma",
+      "jlg",
+      "articulada"
+    ],
+    "featured": false,
+    "available": true
   }
 ]

@@ -12,6 +12,8 @@ import {
   seedEquipmentFromJson,
 } from '@/lib/equipment-db';
 import { consolidateMangoteVibradorInDb, MANGOTE_VIBRADOR_SLUG, syncEquipmentCategoryCopyFromJson, syncPriorityEquipmentFromJson } from '@/lib/equipment-sync';
+import { applyPlatformKindToCatalogItem, isPlatformKind } from '@/lib/platform-kind-admin';
+import { applyWorkHeightToSpecs, parseWorkHeightMeters } from '@/lib/platform-height-admin';
 import {
   adminListFiltersSuffix,
   equipmentAdminListPathAfterArchive,
@@ -199,12 +201,31 @@ export async function saveEquipmentAction(formData: FormData) {
   if (!specsResult.ok || !imagesResult.ok) {
     redirect('/dashboard/equipamentos');
   }
-  const specs = specsResult.data;
+  let specs = specsResult.data;
   const images = imagesResult.data;
-  const tags = data.tags
+  let tags = data.tags
     .split(',')
     .map((tag) => tag.trim())
     .filter(Boolean);
+
+  if (data.category === 'plataformas-elevatorias') {
+    const kindRaw = String(formData.get('platformKind') ?? '');
+    const workHeightRaw = String(formData.get('platformWorkHeight') ?? '');
+    const workHeightMeters = parseWorkHeightMeters(workHeightRaw);
+    if (!isPlatformKind(kindRaw) || workHeightMeters === null) {
+      redirect('/dashboard/equipamentos');
+    }
+    const applied = applyPlatformKindToCatalogItem({
+      specs,
+      tags,
+      kind: kindRaw,
+    });
+    specs = applyWorkHeightToSpecs({
+      specs: applied.specs,
+      workHeightMeters,
+    });
+    tags = applied.tags;
+  }
 
   if (images.length === 0) {
     images.push({

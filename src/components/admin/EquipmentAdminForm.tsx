@@ -8,6 +8,17 @@ import { Input } from '@/components/ui/Input';
 import { AdminPendingButton } from '@/components/admin/AdminPendingButton';
 import { ALL_EQUIPMENT_CATEGORIES } from '@/lib/categories-seo';
 import { slugifyEquipmentName } from '@/lib/equipment-slug';
+import {
+  getPlatformHeightFilterKey,
+  parseWorkHeightMeters,
+  platformHeightFilterLocaleKey,
+  readWorkHeightMetersFromSpecs,
+} from '@/lib/platform-height-admin';
+import {
+  isPlatformKind,
+  PLATFORM_KIND_OPTIONS,
+  readPlatformKindFromSpecs,
+} from '@/lib/platform-kind-admin';
 import { CATEGORY_LABELS } from '@/types/equipment';
 import type { EquipmentCategory, EquipmentSpec } from '@/types/equipment';
 import type { EquipmentImageRow, EquipmentRow } from '@/lib/equipment-db';
@@ -59,16 +70,35 @@ function specsToJson(rows: EquipmentSpec[]) {
  */
 export function EquipmentAdminForm(props: EquipmentAdminFormProps) {
   const t = useTranslations('EquipmentAdminForm');
+  const tCategory = useTranslations('Categoria');
   const tCommon = useTranslations('AdminCommon');
   const row = props.row;
   const [name, setName] = useState(row?.name ?? '');
   const [slug, setSlug] = useState(row?.slug ?? '');
   const [slugManual, setSlugManual] = useState(Boolean(row?.slug));
+  const [category, setCategory] = useState<EquipmentCategory>(
+    (row?.category as EquipmentCategory) ?? 'ferramentas-eletricas',
+  );
+  const [platformKind, setPlatformKind] = useState(() =>
+    readPlatformKindFromSpecs({
+      specs: row?.specs ?? [],
+      tags: row?.tags ?? [],
+      name: row?.name,
+      slug: row?.slug,
+    }),
+  );
+  const [platformWorkHeight, setPlatformWorkHeight] = useState(() => {
+    const meters = readWorkHeightMetersFromSpecs(row?.specs ?? []);
+    return meters ? String(meters).replace('.', ',') : '';
+  });
   const [gallery, setGallery] = useState(() => initialGallery(props.images));
   const [specs, setSpecs] = useState(() => initialSpecs(row?.specs ?? undefined));
 
   const imagesJson = useMemo(() => galleryToJson(gallery), [gallery]);
   const specsJson = useMemo(() => specsToJson(specs), [specs]);
+  const parsedWorkHeight = parseWorkHeightMeters(platformWorkHeight);
+  const heightFilterPreview =
+    parsedWorkHeight !== null ? getPlatformHeightFilterKey(parsedWorkHeight) : null;
 
   const updateName = (value: string) => {
     setName(value);
@@ -111,9 +141,17 @@ export function EquipmentAdminForm(props: EquipmentAdminFormProps) {
           </label>
           <select
             className="w-full rounded-lg border border-neutral-200 bg-surface px-3 py-2 text-sm"
-            defaultValue={row?.category ?? 'ferramentas-eletricas'}
             id="category"
             name="category"
+            onChange={(event) => {
+              const next = event.target.value as EquipmentCategory;
+              setCategory(next);
+              if (next !== 'plataformas-elevatorias') {
+                setPlatformKind('');
+                setPlatformWorkHeight('');
+              }
+            }}
+            value={category}
           >
             {ALL_EQUIPMENT_CATEGORIES.map((category) => (
               <option key={category} value={category}>
@@ -122,6 +160,61 @@ export function EquipmentAdminForm(props: EquipmentAdminFormProps) {
             ))}
           </select>
         </div>
+
+        {category === 'plataformas-elevatorias' ? (
+          <div className="rounded-lg border border-primary/20 bg-primary/5 p-4">
+            <label className="mb-1 block text-sm font-medium text-neutral-900" htmlFor="platformKind">
+              {t('field_platform_kind')}
+            </label>
+            <select
+              className="w-full rounded-lg border border-neutral-200 bg-white px-3 py-2 text-sm"
+              id="platformKind"
+              name="platformKind"
+              onChange={(event) => setPlatformKind(event.target.value)}
+              required
+              value={platformKind}
+            >
+              <option disabled value="">
+                {t('field_platform_kind_placeholder')}
+              </option>
+              {PLATFORM_KIND_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {t(`platform_kind_${option.value}`)}
+                </option>
+              ))}
+            </select>
+            <p className="mt-2 text-xs text-neutral-600">{t('field_platform_kind_hint')}</p>
+            {platformKind && isPlatformKind(platformKind) ? (
+              <p className="mt-1 text-xs font-medium text-neutral-700">
+                {t('field_platform_kind_preview', {
+                  filter: t(`platform_kind_${platformKind}`),
+                })}
+              </p>
+            ) : null}
+
+            <label className="mb-1 mt-4 block text-sm font-medium text-neutral-900" htmlFor="platformWorkHeight">
+              {t('field_platform_work_height')}
+            </label>
+            <input
+              className="w-full rounded-lg border border-neutral-200 bg-white px-3 py-2 text-sm"
+              id="platformWorkHeight"
+              inputMode="decimal"
+              name="platformWorkHeight"
+              onChange={(event) => setPlatformWorkHeight(event.target.value)}
+              placeholder={t('field_platform_work_height_placeholder')}
+              required
+              value={platformWorkHeight}
+            />
+            <p className="mt-2 text-xs text-neutral-600">{t('field_platform_work_height_hint')}</p>
+            {heightFilterPreview ? (
+              <p className="mt-1 text-xs font-medium text-neutral-700">
+                {t('field_platform_work_height_preview', {
+                  filter: tCategory(platformHeightFilterLocaleKey(heightFilterPreview)),
+                })}
+              </p>
+            ) : null}
+          </div>
+        ) : null}
 
         <Input
           defaultValue={row?.shortDescription ?? ''}

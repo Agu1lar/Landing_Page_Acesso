@@ -1,12 +1,9 @@
 import type { Equipment } from '@/types/equipment';
+import { readPlatformKindFromSpecs } from '@/lib/platform-kind-admin';
 
 export type PlatformKind = 'tesoura' | 'articulada' | 'telescopica';
 
 export type PlatformKindFilter = 'all' | PlatformKind;
-
-function tipoSpecValue(item: Equipment): string {
-  return item.specs.find((spec) => spec.label === 'Tipo')?.value.toLowerCase() ?? '';
-}
 
 /**
  * Classifies aerial platform equipment for category filters.
@@ -30,16 +27,14 @@ export function getPlatformKind(item: Equipment): PlatformKind | null {
     return 'articulada';
   }
 
-  const tipo = tipoSpecValue(item);
-
-  if (tipo.includes('tesoura')) {
-    return 'tesoura';
-  }
-  if (tipo.includes('articulada')) {
-    return 'articulada';
-  }
-  if (tipo.includes('telescóp') || tipo.includes('telescop')) {
-    return 'telescopica';
+  const inferred = readPlatformKindFromSpecs({
+    specs: item.specs,
+    tags: item.tags,
+    name: item.name,
+    slug: item.slug,
+  });
+  if (inferred) {
+    return inferred;
   }
 
   return null;
