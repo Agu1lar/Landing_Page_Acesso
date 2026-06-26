@@ -14,6 +14,7 @@ import {
   platformHeightFilterLocaleKey,
   readWorkHeightMetersFromSpecs,
 } from '@/lib/platform-height-admin';
+import type { PlatformKind } from '@/lib/platform-kind';
 import {
   isPlatformKind,
   PLATFORM_KIND_OPTIONS,
@@ -79,7 +80,7 @@ export function EquipmentAdminForm(props: EquipmentAdminFormProps) {
   const [category, setCategory] = useState<EquipmentCategory>(
     (row?.category as EquipmentCategory) ?? 'ferramentas-eletricas',
   );
-  const [platformKind, setPlatformKind] = useState(() =>
+  const [platformKind, setPlatformKind] = useState<PlatformKind | ''>(() =>
     readPlatformKindFromSpecs({
       specs: row?.specs ?? [],
       tags: row?.tags ?? [],
@@ -170,7 +171,10 @@ export function EquipmentAdminForm(props: EquipmentAdminFormProps) {
               className="w-full rounded-lg border border-neutral-200 bg-white px-3 py-2 text-sm"
               id="platformKind"
               name="platformKind"
-              onChange={(event) => setPlatformKind(event.target.value)}
+              onChange={(event) => {
+                const value = event.target.value;
+                setPlatformKind(isPlatformKind(value) ? value : '');
+              }}
               required
               value={platformKind}
             >
