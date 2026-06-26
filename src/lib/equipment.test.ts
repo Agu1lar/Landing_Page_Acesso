@@ -27,6 +27,16 @@ describe('public catalog item', () => {
       }),
     ).toBeFalsy();
   });
+
+  it('excludes retired mangote slugs from public catalog', () => {
+    expect(
+      isPublicCatalogItem({
+        ...guindasteJson,
+        slug: 'mangote-vibrador-35mm',
+        name: 'Mangote Vibrador 35mm',
+      }),
+    ).toBeFalsy();
+  });
 });
 
 describe('merge catalog with JSON fallback', () => {
@@ -47,5 +57,16 @@ describe('merge catalog with JSON fallback', () => {
     const items = mergeCatalogWithJsonFallback([hidden], new Set());
 
     expect(items.some((item) => item.slug === guindasteJson.slug)).toBeFalsy();
+  });
+
+  it('never merges retired mangote slugs from postgres', () => {
+    const retired: Equipment = {
+      ...guindasteJson,
+      slug: 'mangote-vibrador-45mm',
+      name: 'Mangote Vibrador 45mm',
+    };
+    const items = mergeCatalogWithJsonFallback([retired], new Set());
+
+    expect(items.some((item) => item.slug === 'mangote-vibrador-45mm')).toBeFalsy();
   });
 });

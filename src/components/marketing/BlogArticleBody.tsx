@@ -13,7 +13,7 @@ export function BlogArticleBody(props: BlogArticleBodyProps) {
 
   return (
     <div
-      className="prose prose-neutral max-w-none prose-headings:font-heading prose-headings:text-neutral-900 prose-p:text-neutral-700 prose-p:leading-relaxed prose-a:text-primary prose-blockquote:border-primary/30 prose-blockquote:text-neutral-600 prose-img:rounded-lg"
+      className="prose prose-neutral max-w-none prose-headings:font-heading prose-headings:text-neutral-900 prose-p:text-neutral-700 prose-p:leading-relaxed prose-a:text-primary prose-blockquote:border-primary/30 prose-blockquote:text-neutral-600 prose-img:rounded-lg [&_a[data-cta-button]]:no-underline [&_div[data-video-embed]]:my-8"
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );

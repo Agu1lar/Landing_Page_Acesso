@@ -147,6 +147,13 @@ async function uploadToVercelBlob(pathname: string, buffer: Buffer, contentType:
 }
 
 /**
+ * Uploads a buffer to Vercel Blob (or throws when misconfigured).
+ */
+export async function uploadAdminBlobBuffer(pathname: string, buffer: Buffer, contentType: string) {
+  return uploadToVercelBlob(pathname, buffer, contentType);
+}
+
+/**
  * Stores an admin upload and returns its public URL.
  */
 export async function storeAdminImage(file: File, options: StoreAdminImageOptions) {

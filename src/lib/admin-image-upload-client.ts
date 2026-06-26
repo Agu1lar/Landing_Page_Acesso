@@ -1,14 +1,13 @@
 const UPLOAD_TIMEOUT_MS = 60_000;
+const VIDEO_UPLOAD_TIMEOUT_MS = 180_000;
 
 export type AdminImageUploadEndpoint = '/api/admin/blog/upload' | '/api/admin/equipment/upload';
 
-/**
- * Uploads one image to an admin API route with timeout and error parsing.
- */
-export async function uploadAdminImage(props: {
+async function postAdminUpload(props: {
   file: File;
   endpoint: AdminImageUploadEndpoint;
   slug?: string;
+  timeoutMs: number;
 }) {
   const body = new FormData();
   body.append('file', props.file);
@@ -22,7 +21,7 @@ export async function uploadAdminImage(props: {
       method: 'POST',
       body,
       credentials: 'same-origin',
-      signal: AbortSignal.timeout(UPLOAD_TIMEOUT_MS),
+      signal: AbortSignal.timeout(props.timeoutMs),
     });
   } catch (error) {
     if (error instanceof DOMException && error.name === 'TimeoutError') {
@@ -52,10 +51,37 @@ export async function uploadAdminImage(props: {
   }
 
   if (!payload.url) {
-    throw new Error('URL da imagem não retornada.');
+    throw new Error('URL do arquivo não retornada.');
   }
 
   return { url: payload.url };
+}
+
+/**
+ * Uploads one image to an admin API route with timeout and error parsing.
+ */
+export async function uploadAdminImage(props: {
+  file: File;
+  endpoint: AdminImageUploadEndpoint;
+  slug?: string;
+}) {
+  return postAdminUpload({ ...props, timeoutMs: UPLOAD_TIMEOUT_MS });
+}
+
+/**
+ * Uploads blog image or video (longer timeout for video files).
+ */
+export async function uploadAdminBlogMedia(props: {
+  file: File;
+  endpoint: '/api/admin/blog/upload';
+  slug?: string;
+}) {
+  const isVideo =
+    props.file.type.startsWith('video/') || /\.(mp4|webm)$/iu.test(props.file.name);
+  return postAdminUpload({
+    ...props,
+    timeoutMs: isVideo ? VIDEO_UPLOAD_TIMEOUT_MS : UPLOAD_TIMEOUT_MS,
+  });
 }
 
 /**

@@ -38,12 +38,20 @@ Configure em **Production** (e Preview, se quiser testar antes):
 2. Add → `acessoequipamentos.com.br` e `www.acessoequipamentos.com.br`
 3. Anote os registros DNS que a Vercel pedir (geralmente `A` ou `CNAME`)
 
-### 2.2 Configurar DNS no registrador
+### 2.2 Configurar DNS no painel Task (não só no Registro.br)
 
-1. Acesse o painel onde o domínio está registrado
-2. Crie/edite os registros conforme a Vercel indicou
-3. Aguarde propagação (minutos a 48 h)
-4. Na Vercel, confirme status **Valid**
+O domínio `acessoequipamentos.com.br` está registrado no **Registro.br**, mas os **nameservers** apontam para a **Task** (`ns2.task.com.br`, etc.). Por isso:
+
+1. Acesse o **painel da Task** (hospedagem do site WordPress atual)
+2. Abra a **zona DNS** do domínio
+3. Crie/edite os registros **conforme a Vercel indicou** (geralmente `A` na raiz + `CNAME` no `www`)
+4. **Preserve** registros de e-mail (MX, SPF) se a empresa usa e-mail no domínio
+5. Aguarde propagação (minutos a 48 h)
+6. Na Vercel, confirme status **Valid**
+
+> No Registro.br você só precisa confirmar titularidade e renovação. A mudança de site é feita na **Task**.
+
+Guia completo com diagrama e checklist: [GO-LIVE-GATE.md](./GO-LIVE-GATE.md)
 
 ### 2.3 Redirecionar www → raiz (ou o contrário)
 

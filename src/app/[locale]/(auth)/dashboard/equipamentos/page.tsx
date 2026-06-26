@@ -1,7 +1,12 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import Link from 'next/link';
-import { importEquipmentCatalogAction, syncFerramentasEletricasCopyAction, syncPriorityCatalogAction } from '@/app/actions/equipment-admin';
+import {
+  consolidateMangoteVibradorAction,
+  importEquipmentCatalogAction,
+  syncFerramentasEletricasCopyAction,
+  syncPriorityCatalogAction,
+} from '@/app/actions/equipment-admin';
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
 import { AdminPendingButton } from '@/components/admin/AdminPendingButton';
 import { requireAdminAccess } from '@/lib/auth-roles';
@@ -82,6 +87,14 @@ export default async function EquipmentAdminListPage(props: EquipmentAdminListPr
                   <AdminPendingButton
                     label={t('sync_priority_catalog')}
                     pendingLabel={tCommon('processing')}
+                    variant="default"
+                  />
+                </form>
+                <form action={consolidateMangoteVibradorAction}>
+                  <AdminPendingButton
+                    label={t('consolidate_mangote_vibrador')}
+                    pendingLabel={tCommon('processing')}
+                    title={t('consolidate_mangote_vibrador_hint')}
                     variant="default"
                   />
                 </form>

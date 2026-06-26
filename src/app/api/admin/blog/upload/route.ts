@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
-import { storeAdminImage, validateAdminImageFile } from '@/lib/admin-image-upload';
+import { storeAdminBlogMedia, validateAdminBlogMediaFile } from '@/lib/admin-blog-media-upload';
 import { requireDashboardAccess } from '@/lib/auth-roles';
 
 /**
- * Uploads one blog image (cover or inline).
+ * Uploads one blog image or video (cover or inline).
  */
 export async function POST(request: Request) {
   try {
@@ -21,13 +21,13 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Arquivo não enviado' }, { status: 400 });
     }
 
-    const validation = validateAdminImageFile(file);
+    const validation = validateAdminBlogMediaFile(file);
     if (!validation.ok) {
       return NextResponse.json({ error: validation.error }, { status: 400 });
     }
 
     const slug = String(formData.get('slug') ?? '').trim() || undefined;
-    const url = await storeAdminImage(file, { folder: 'blog', slug });
+    const url = await storeAdminBlogMedia(file, { slug });
     return NextResponse.json({ url });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Falha no upload.';

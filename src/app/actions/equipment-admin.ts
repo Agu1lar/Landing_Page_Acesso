@@ -105,7 +105,7 @@ export async function syncFerramentasEletricasCopyAction() {
   }
 
   const sync = await syncEquipmentCategoryCopyFromJson('ferramentas-eletricas', access.userId);
-  const mangote = await consolidateMangoteVibradorInDb(access.userId);
+  const mangote = await consolidateMangoteVibradorInDb(access.userId, { overwriteFromJson: true });
   const updated = sync.filter((row) => row.action === 'updated');
 
   await logAdminActivity({
@@ -130,6 +130,37 @@ export async function syncFerramentasEletricasCopyAction() {
   revalidatePath('/dashboard/equipamentos');
   revalidatePath('/categorias/ferramentas-eletricas');
   redirect('/dashboard/equipamentos');
+}
+
+/**
+ * Archives legacy mangote slugs and keeps a single published mangote-vibrador item.
+ */
+export async function consolidateMangoteVibradorAction() {
+  const access = await requireAdminAccess();
+  if (!access.ok) {
+    redirect('/unauthorized');
+  }
+
+  const mangote = await consolidateMangoteVibradorInDb(access.userId);
+
+  await logAdminActivity({
+    userId: access.userId,
+    action: 'consolidate_mangote_vibrador',
+    entityType: 'equipment',
+    details: `consolidated=${mangote.consolidated}; archived=${mangote.archived.join(',') || 'none'}`,
+  });
+
+  if (mangote.consolidated !== 'skipped') {
+    revalidateEquipmentPaths(MANGOTE_VIBRADOR_SLUG, 'ferramentas-eletricas');
+  }
+
+  for (const slug of mangote.archived) {
+    revalidateEquipmentPaths(slug, 'ferramentas-eletricas');
+  }
+
+  revalidatePath('/dashboard/equipamentos');
+  revalidatePath('/categorias/ferramentas-eletricas');
+  redirect('/dashboard/equipamentos?category=ferramentas-eletricas&q=mangote');
 }
 
 /**

@@ -6,6 +6,10 @@ import {
   listEquipmentImages,
 } from '@/lib/equipment-db';
 import { getManifestImageSrc } from '@/lib/equipment-images-manifest';
+import {
+  MANGOTE_VIBRADOR_SLUG,
+  RETIRED_MANGOTE_VIBRADOR_SLUGS,
+} from '@/lib/equipment-retired-slugs';
 import { db } from '@/libs/DB';
 import { equipmentImagesSchema, equipmentSchema } from '@/models/Schema';
 import type { Equipment, EquipmentCategory } from '@/types/equipment';
@@ -15,18 +19,7 @@ const jsonCatalog = equipmentJson as Equipment[];
 /** Slugs that must exist in Postgres with correct category and visibility. */
 export const PRIORITY_CATALOG_SLUGS = ['franna-fr17'] as const;
 
-/** Retired mangote slugs merged into {@link MANGOTE_VIBRADOR_SLUG}. */
-export const RETIRED_MANGOTE_VIBRADOR_SLUGS = [
-  'mangote-25mm-5m-vibr-port',
-  'mangote-35mm-3m-makita',
-  'mangote-35mm-3m-bosch',
-  'mangote-vibrador-25mm',
-  'mangote-vibrador-35mm',
-  'mangote-vibrador-45mm',
-  'mangote-vibrador-60mm',
-] as const;
-
-export const MANGOTE_VIBRADOR_SLUG = 'mangote-vibrador';
+export { MANGOTE_VIBRADOR_SLUG, RETIRED_MANGOTE_VIBRADOR_SLUGS } from '@/lib/equipment-retired-slugs';
 
 export type PrioritySyncResult = {
   slug: string;
@@ -160,19 +153,33 @@ export async function syncEquipmentCategoryCopyFromJson(
 
 export type MangoteConsolidationResult = {
   archived: string[];
-  consolidated: 'inserted' | 'updated' | 'skipped';
+  consolidated: 'inserted' | 'updated' | 'published' | 'skipped';
+};
+
+type ConsolidateMangoteOptions = {
+  /** When true, overwrites text fields from equipamentos.json on an existing row. */
+  overwriteFromJson?: boolean;
 };
 
 /**
  * Archives retired mangote slugs and upserts the consolidated catalog item in Postgres.
  */
-export async function consolidateMangoteVibradorInDb(updatedBy?: string) {
+export async function consolidateMangoteVibradorInDb(
+  updatedBy?: string,
+  options?: ConsolidateMangoteOptions,
+) {
+  const overwriteFromJson = options?.overwriteFromJson ?? false;
   const actor = updatedBy ?? 'sync-json';
   const archived: string[] = [];
 
   for (const slug of RETIRED_MANGOTE_VIBRADOR_SLUGS) {
-    const existing = await getEquipmentRowBySlug(slug);
-    if (!existing) {
+    const [row] = await db
+      .select({ id: equipmentSchema.id, deletedAt: equipmentSchema.deletedAt })
+      .from(equipmentSchema)
+      .where(eq(equipmentSchema.slug, slug))
+      .limit(1);
+
+    if (!row?.id || row.deletedAt) {
       continue;
     }
 
@@ -188,16 +195,32 @@ export async function consolidateMangoteVibradorInDb(updatedBy?: string) {
   const existing = await getEquipmentRowBySlug(MANGOTE_VIBRADOR_SLUG);
 
   if (existing) {
+    if (overwriteFromJson) {
+      await db
+        .update(equipmentSchema)
+        .set({
+          name: jsonItem.name,
+          category: jsonItem.category,
+          shortDescription: jsonItem.shortDescription,
+          longDescription: jsonItem.longDescription,
+          specs: jsonItem.specs,
+          tags: jsonItem.tags,
+          featured: jsonItem.featured,
+          available: true,
+          published: true,
+          deletedAt: null,
+          updatedBy: actor,
+          updatedAt: new Date(),
+        })
+        .where(eq(equipmentSchema.id, existing.id));
+
+      await ensurePrimaryImage(existing.id, jsonItem.slug, jsonItem.name);
+      return { archived, consolidated: 'updated' as const };
+    }
+
     await db
       .update(equipmentSchema)
       .set({
-        name: jsonItem.name,
-        category: jsonItem.category,
-        shortDescription: jsonItem.shortDescription,
-        longDescription: jsonItem.longDescription,
-        specs: jsonItem.specs,
-        tags: jsonItem.tags,
-        featured: jsonItem.featured,
         available: true,
         published: true,
         deletedAt: null,
@@ -207,7 +230,7 @@ export async function consolidateMangoteVibradorInDb(updatedBy?: string) {
       .where(eq(equipmentSchema.id, existing.id));
 
     await ensurePrimaryImage(existing.id, jsonItem.slug, jsonItem.name);
-    return { archived, consolidated: 'updated' as const };
+    return { archived, consolidated: 'published' as const };
   }
 
   const [row] = await db

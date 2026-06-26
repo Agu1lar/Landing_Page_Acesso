@@ -29,4 +29,38 @@ describe('render blog content html', () => {
     expect(html).toContain('<h2');
     expect(html).toContain('Parágrafo de teste');
   });
+
+  it('renders embedded youtube video blocks', () => {
+    const html = renderBlogContentHtml({
+      type: 'doc',
+      content: [
+        {
+          type: 'videoEmbed',
+          attrs: {
+            provider: 'youtube',
+            embedSrc: 'https://www.youtube.com/embed/abc12345678',
+          },
+        },
+      ],
+    });
+
+    expect(html).toContain('data-video-embed');
+    expect(html).toContain('youtube.com/embed/abc12345678');
+  });
+
+  it('renders cta button blocks', () => {
+    const html = renderBlogContentHtml({
+      type: 'doc',
+      content: [
+        {
+          type: 'ctaButton',
+          attrs: { href: '/orcamento', label: 'Pedir orçamento' },
+        },
+      ],
+    });
+
+    expect(html).toContain('data-cta-button');
+    expect(html).toContain('Pedir orçamento');
+    expect(html).toContain('href="/orcamento"');
+  });
 });

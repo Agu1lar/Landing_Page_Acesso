@@ -9,6 +9,7 @@ import {
   loadPublishedEquipmentSitemapEntries,
 } from '@/lib/equipment-db';
 import { EQUIPMENT_CATALOG_TAG } from '@/lib/equipment-cache-tags';
+import { isRetiredEquipmentSlug } from '@/lib/equipment-retired-slugs';
 import type { Equipment, EquipmentCategory } from '@/types/equipment';
 import { isEquipmentCategory } from '@/types/equipment';
 
@@ -19,6 +20,9 @@ const jsonFallback = equipmentData as Equipment[];
 
 /** Public site only lists items open for quote — not live stock. */
 export function isPublicCatalogItem(item: Equipment) {
+  if (isRetiredEquipmentSlug(item.slug)) {
+    return false;
+  }
   return item.available && isEquipmentCategory(item.category);
 }
 
@@ -30,7 +34,9 @@ function filterPublicCatalog(items: Equipment[]) {
  * Merges DB catalog with JSON entries not yet managed in Postgres.
  */
 export function mergeCatalogWithJsonFallback(fromDb: Equipment[], dbSlugs: Set<string>) {
-  const bySlug = new Map(fromDb.map((item) => [item.slug, item]));
+  const bySlug = new Map(
+    fromDb.filter((item) => !isRetiredEquipmentSlug(item.slug)).map((item) => [item.slug, item]),
+  );
 
   for (const jsonItem of jsonFallback) {
     if (!isPublicCatalogItem(jsonItem) || dbSlugs.has(jsonItem.slug)) {

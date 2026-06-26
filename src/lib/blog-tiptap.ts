@@ -1,22 +1,8 @@
 import type { JSONContent } from '@tiptap/core';
-import Image from '@tiptap/extension-image';
-import Link from '@tiptap/extension-link';
-import StarterKit from '@tiptap/starter-kit';
 import { generateHTML } from '@tiptap/html';
+import { createBlogTiptapExtensions } from '@/lib/blog-tiptap-extensions';
 
-const renderExtensions = [
-  StarterKit.configure({
-    heading: { levels: [2, 3] },
-    link: false,
-  }),
-  Link.configure({
-    openOnClick: false,
-    HTMLAttributes: { class: 'text-primary underline underline-offset-2' },
-  }),
-  Image.configure({
-    HTMLAttributes: { class: 'rounded-lg max-w-full h-auto my-6' },
-  }),
-];
+const renderExtensions = createBlogTiptapExtensions();
 
 /**
  * Converts legacy section paragraphs into a TipTap document.
