@@ -7,7 +7,7 @@ import {
 import { getManifestImageSrc } from '@/lib/equipment-images-manifest';
 import { db } from '@/libs/DB';
 import { equipmentImagesSchema, equipmentSchema } from '@/models/Schema';
-import type { Equipment } from '@/types/equipment';
+import type { Equipment, EquipmentCategory } from '@/types/equipment';
 
 const jsonCatalog = equipmentJson as Equipment[];
 
@@ -17,6 +17,11 @@ export const PRIORITY_CATALOG_SLUGS = ['franna-fr17'] as const;
 export type PrioritySyncResult = {
   slug: string;
   action: 'inserted' | 'updated' | 'skipped';
+};
+
+export type CategoryCopySyncResult = {
+  slug: string;
+  action: 'updated' | 'skipped';
 };
 
 function primaryImageUrl(slug: string) {
@@ -100,6 +105,40 @@ export async function syncPriorityEquipmentFromJson(updatedBy?: string) {
     }
 
     results.push({ slug, action: 'inserted' });
+  }
+
+  return results;
+}
+
+/**
+ * Updates short/long descriptions and specs in Postgres from equipamentos.json for one category.
+ */
+export async function syncEquipmentCategoryCopyFromJson(
+  category: EquipmentCategory,
+  updatedBy?: string,
+) {
+  const results: CategoryCopySyncResult[] = [];
+  const actor = updatedBy ?? 'sync-json';
+
+  for (const jsonItem of jsonCatalog.filter((item) => item.category === category)) {
+    const existing = await getEquipmentRowBySlug(jsonItem.slug);
+    if (!existing) {
+      results.push({ slug: jsonItem.slug, action: 'skipped' });
+      continue;
+    }
+
+    await db
+      .update(equipmentSchema)
+      .set({
+        shortDescription: jsonItem.shortDescription,
+        longDescription: jsonItem.longDescription,
+        specs: jsonItem.specs,
+        updatedBy: actor,
+        updatedAt: new Date(),
+      })
+      .where(eq(equipmentSchema.id, existing.id));
+
+    results.push({ slug: jsonItem.slug, action: 'updated' });
   }
 
   return results;

@@ -3,8 +3,8 @@
     "slug": "argamassadeira",
     "name": "Argamassadeira",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de argamassadeira para preparo de concreto, argamassa e massas em obra.",
-    "longDescription": "Argamassadeira indicado para preparo homogêneo de concreto, argamassa, reboco e massas em obras e reformas. Equipamento usado para reduzir esforço manual e manter produtividade no canteiro. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de argamassadeira elétrica para mistura de concreto, argamassa e reboco em obra.",
+    "longDescription": "Argamassadeira elétrica indicada para preparo homogêneo de concreto, argamassa, reboco e massas em obras e reformas. Reduz esforço manual e acelera a produção no canteiro, com capacidade conforme o modelo locado. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
@@ -35,12 +35,16 @@
     "slug": "aspirador-de-po",
     "name": "Aspirador de Pó",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de aspirador de pó para limpeza pesada e apoio em obras.",
-    "longDescription": "Aspirador de pó indicado para limpeza de resíduos secos, poeira de obra e apoio em cortes, lixamentos e acabamentos. Deve ser usado conforme capacidade do reservatório e tipo de resíduo permitido pelo modelo locado. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de aspirador de pó industrial para limpeza pesada de pó e resíduos secos em obra.",
+    "longDescription": "Aspirador de pó industrial indicado para aspiração de pó fino, pó de concreto, gesso e entulho leve em reformas, demolições controladas e acabamento. Equipamento de alta sucção, com reservatório reforçado e filtros para uso intenso no canteiro — não é aspirador doméstico. Auxilia na limpeza após corte, lixamento, furação e desbaste, mantendo o ambiente mais seguro para a equipe. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
-        "value": "Limpeza pesada, pó seco e resíduos leves de obra"
+        "value": "Aspiração de pó e resíduos secos em obra"
+      },
+      {
+        "label": "Tipo",
+        "value": "Industrial, alto fluxo e reservatório reforçado"
       },
       {
         "label": "Alimentação",
@@ -48,7 +52,7 @@
       },
       {
         "label": "Uso indicado",
-        "value": "Reformas, manutenção e acabamento"
+        "value": "Reformas, demolições leves e limpeza de canteiro"
       },
       {
         "label": "Entrega",
@@ -67,8 +71,8 @@
     "slug": "betoneira",
     "name": "Betoneira",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de betoneira para preparo de concreto, argamassa e massas em obra.",
-    "longDescription": "Betoneira indicado para preparo homogêneo de concreto, argamassa, reboco e massas em obras e reformas. Equipamento usado para reduzir esforço manual e manter produtividade no canteiro. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de betoneira elétrica para preparo de concreto, argamassa e massas em obra.",
+    "longDescription": "Betoneira elétrica indicada para preparo homogêneo de concreto, argamassa, reboco e massas em obras e reformas. Permite dosagem e mistura contínua no canteiro, com capacidade do tambor conforme o modelo locado. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
@@ -99,8 +103,8 @@
     "slug": "bomba-lameira",
     "name": "Bomba Lameira",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de bomba Lameira para drenagem e bombeamento em obra.",
-    "longDescription": "Bomba Lameira indicada para esgotamento, drenagem e transferência de água com sólidos ou lama, conforme capacidade do modelo locado e condição do material bombeado. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de bomba lameira para drenagem, esgotamento e bombeamento de água com sólidos.",
+    "longDescription": "Bomba lameira indicada para esgotamento de valas, caixas e áreas alagadas, com bombeamento de água suja, lama e sólidos em suspensão conforme capacidade do modelo locado. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
@@ -131,8 +135,8 @@
     "slug": "bomba-mangote",
     "name": "Bomba Mangote",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de bomba Mangote para drenagem e bombeamento em obra.",
-    "longDescription": "Bomba Mangote indicada para esgotamento, drenagem e transferência de água com sólidos ou lama, conforme capacidade do modelo locado e condição do material bombeado. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de bomba mangote para drenagem e transferência de água em obra.",
+    "longDescription": "Bomba mangote indicada para esgotamento, drenagem e transferência de água com sólidos ou lama em fundações, valas e serviços de contenção, conforme vazão do modelo locado. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
@@ -163,8 +167,8 @@
     "slug": "bomba-mangote-75",
     "name": "Bomba Mangote 75\"",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de bomba Mangote 75\" para drenagem e bombeamento em obra.",
-    "longDescription": "Bomba Mangote 75\" indicada para esgotamento, drenagem e transferência de água com sólidos ou lama, conforme capacidade do modelo locado e condição do material bombeado. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de bomba mangote 75 mm para drenagem e bombeamento em obra.",
+    "longDescription": "Bomba mangote 75 mm indicada para esgotamento e transferência de água com sólidos em valas, caixas e áreas de escavação, com mangote de 75 mm conforme disponibilidade de frota. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
@@ -195,8 +199,8 @@
     "slug": "chave-de-impacto",
     "name": "Chave de Impacto",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de chave de Impacto para aperto e desaperto de parafusos e porcas.",
-    "longDescription": "Chave de Impacto indicado para aperto e desaperto de parafusos e porcas. A operação deve respeitar o acessório correto, a capacidade do modelo e os EPIs exigidos para o serviço. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de chave de impacto elétrica para aperto e desaperto de parafusos e porcas.",
+    "longDescription": "Chave de impacto elétrica indicada para aperto e desaperto rápido de parafusos, porcas e fixações em montagens metálicas, estruturas e manutenção industrial. Uso com soquetes compatíveis, torque adequado ao serviço e EPIs de proteção. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
@@ -204,11 +208,11 @@
       },
       {
         "label": "Alimentação",
-        "value": "220 V, conforme modelo disponível"
+        "value": "220 V monofásica, conforme modelo disponível"
       },
       {
         "label": "Segurança",
-        "value": "EPI obrigatório e acessório compatível"
+        "value": "EPI obrigatório e acessório compatível com o serviço"
       },
       {
         "label": "Entrega",
@@ -225,8 +229,8 @@
     "slug": "compactador-eletrico",
     "name": "Compactador Elétrico",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de compactador Elétrico para compactação de solo em obra.",
-    "longDescription": "Compactador Elétrico indicado para compactação localizada de solo, base e reaterro em valas, calçadas e áreas de assentamento, com uso conforme capacidade do equipamento. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de compactador elétrico para compactação de solo e base em obra.",
+    "longDescription": "Compactador elétrico indicado para compactação localizada de solo, base e reaterro em valas, calçadas, calçamentos e áreas de assentamento, com operação conforme capacidade do modelo locado. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
@@ -256,8 +260,8 @@
     "slug": "compactador-eletrico-unidade-2",
     "name": "Compactador Elétrico (unidade 2)",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de compactador Elétrico (unidade 2) para compactação de solo em obra.",
-    "longDescription": "Compactador Elétrico (unidade 2) indicado para compactação localizada de solo, base e reaterro em valas, calçadas e áreas de assentamento, com uso conforme capacidade do equipamento. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de compactador elétrico (unidade 2) para compactação de solo em obra.",
+    "longDescription": "Compactador elétrico indicado para compactação localizada de solo, base e reaterro em valas, calçadas e frentes de serviço, ampliando a disponibilidade de frota para obras simultâneas. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
@@ -287,8 +291,8 @@
     "slug": "compressor-220v",
     "name": "Compressor 220V",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de compressor 220V para ar comprimido em obra.",
-    "longDescription": "Compressor 220V indicado para fornecimento de ar comprimido em serviços de pintura, limpeza, calibração e apoio a ferramentas pneumáticas compatíveis com a vazão do modelo locado. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de compressor 220 V para ar comprimido em pintura e ferramentas pneumáticas.",
+    "longDescription": "Compressor 220 V indicado para fornecimento de ar comprimido em pintura, limpeza, calibração e acionamento de ferramentas pneumáticas compatíveis com a vazão e pressão do modelo locado. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
@@ -318,20 +322,20 @@
     "slug": "cortadora",
     "name": "Cortadora",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de cortadora para corte de materiais conforme disco e modelo.",
-    "longDescription": "Cortadora indicado para corte de materiais conforme disco e modelo. A operação deve respeitar o acessório correto, a capacidade do modelo e os EPIs exigidos para o serviço. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de cortadora elétrica para corte de pisos, revestimentos e alvenaria.",
+    "longDescription": "Cortadora elétrica indicada para corte de pisos cerâmicos, porcelanato, revestimentos e alvenaria com disco diamantado compatível. Uso com guia, refrigeração quando necessário e EPIs para proteção contra pó e estilhaços. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
-        "value": "Corte de materiais conforme disco e modelo"
+        "value": "Corte de pisos, revestimentos e alvenaria com disco diamantado"
       },
       {
         "label": "Alimentação",
-        "value": "220 V, conforme modelo disponível"
+        "value": "220 V monofásica, conforme modelo disponível"
       },
       {
         "label": "Segurança",
-        "value": "EPI obrigatório e acessório compatível"
+        "value": "EPI obrigatório e acessório compatível com o serviço"
       },
       {
         "label": "Entrega",
@@ -379,8 +383,8 @@
     "slug": "escada-fibra-6m-extensiva",
     "name": "Escada Fibra 6m Extensiva",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de escada extensiva de fibra 6 m para acesso temporário.",
-    "longDescription": "Escada extensiva de fibra indicada para acesso temporário em manutenção elétrica, predial e industrial. A fibra reduz condução elétrica, mas o uso deve seguir análise de risco, apoio correto e limite do fabricante. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de escada extensiva de fibra 6 m para acesso temporário em altura.",
+    "longDescription": "Escada extensiva de fibra de 6 m indicada para acesso temporário em manutenção elétrica, predial e industrial. A fibra reduz condução elétrica, mas o uso deve seguir análise de risco, apoio correto e limite do fabricante. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
@@ -410,8 +414,8 @@
     "slug": "esmerilhadeira-4-5-220v",
     "name": "Esmerilhadeira 4,5\" 220V",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de esmerilhadeira 4,5\" 220V para corte, desbaste e acabamento com disco 4,5 polegadas.",
-    "longDescription": "Esmerilhadeira 4,5\" 220V indicado para corte, desbaste e acabamento com disco 4,5 polegadas. A operação deve respeitar o acessório correto, a capacidade do modelo e os EPIs exigidos para o serviço. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de esmerilhadeira 4,5\" 220 V para corte e desbaste com disco 4,5 polegadas.",
+    "longDescription": "Esmerilhadeira 4,5\" 220 V indicada para corte, desbaste e acabamento em metal, concreto e alvenaria com disco de 4,5 polegadas. Ferramenta compacta para serviços em altura e frentes de obra com acesso limitado. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
@@ -419,11 +423,11 @@
       },
       {
         "label": "Alimentação",
-        "value": "220 V, conforme modelo disponível"
+        "value": "220 V monofásica, conforme modelo disponível"
       },
       {
         "label": "Segurança",
-        "value": "EPI obrigatório e acessório compatível"
+        "value": "EPI obrigatório e acessório compatível com o serviço"
       },
       {
         "label": "Entrega",
@@ -440,8 +444,8 @@
     "slug": "esmerilhadeira-7-m-220v",
     "name": "Esmerilhadeira 7\" 220V",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de esmerilhadeira 7\" 220V para corte, desbaste e acabamento com disco 7 polegadas.",
-    "longDescription": "Esmerilhadeira 7\" 220V indicado para corte, desbaste e acabamento com disco 7 polegadas. A operação deve respeitar o acessório correto, a capacidade do modelo e os EPIs exigidos para o serviço. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de esmerilhadeira 7\" 220 V para corte e desbaste com disco 7 polegadas.",
+    "longDescription": "Esmerilhadeira 7\" 220 V indicada para corte, desbaste e acabamento pesado em metal, concreto e alvenaria com disco de 7 polegadas. Maior capacidade de remoção de material para serviços exigentes no canteiro. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
@@ -449,11 +453,11 @@
       },
       {
         "label": "Alimentação",
-        "value": "220 V, conforme modelo disponível"
+        "value": "220 V monofásica, conforme modelo disponível"
       },
       {
         "label": "Segurança",
-        "value": "EPI obrigatório e acessório compatível"
+        "value": "EPI obrigatório e acessório compatível com o serviço"
       },
       {
         "label": "Entrega",
@@ -470,20 +474,20 @@
     "slug": "furadeira-5-8-220v",
     "name": "Furadeira 5/8 220V",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de furadeira 5/8 220V para furação em alvenaria, metal ou madeira conforme broca.",
-    "longDescription": "Furadeira 5/8 220V indicado para furação em alvenaria, metal ou madeira conforme broca. A operação deve respeitar o acessório correto, a capacidade do modelo e os EPIs exigidos para o serviço. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de furadeira 5/8\" 220 V para furação em madeira, metal e alvenaria.",
+    "longDescription": "Furadeira 5/8\" 220 V indicada para furação em madeira, metal, alvenaria e concreto com brocas compatíveis. Uso com fixação estável da peça, controle de profundidade e EPIs contra pó e projeção de partículas. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
-        "value": "Furação em alvenaria, metal ou madeira conforme broca"
+        "value": "Furação em madeira, metal e alvenaria com broca 5/8\""
       },
       {
         "label": "Alimentação",
-        "value": "220 V, conforme modelo disponível"
+        "value": "220 V monofásica, conforme modelo disponível"
       },
       {
         "label": "Segurança",
-        "value": "EPI obrigatório e acessório compatível"
+        "value": "EPI obrigatório e acessório compatível com o serviço"
       },
       {
         "label": "Entrega",
@@ -500,20 +504,20 @@
     "slug": "furadeira-1-2-200v",
     "name": "Furadeira 1/2 200V",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de furadeira 1/2 200V para furação em alvenaria, metal ou madeira conforme broca.",
-    "longDescription": "Furadeira 1/2 200V indicado para furação em alvenaria, metal ou madeira conforme broca. A operação deve respeitar o acessório correto, a capacidade do modelo e os EPIs exigidos para o serviço. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de furadeira 1/2\" 220 V para furação e parafusamento em obra.",
+    "longDescription": "Furadeira 1/2\" 220 V indicada para furação leve a média em madeira, metal e alvenaria, além de parafusamento com bits compatíveis. Ferramenta versátil para montagens e instalações no canteiro. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
-        "value": "Furação em alvenaria, metal ou madeira conforme broca"
+        "value": "Furação e parafusamento com mandril 1/2\""
       },
       {
         "label": "Alimentação",
-        "value": "220 V, conforme modelo disponível"
+        "value": "220 V monofásica, conforme modelo disponível"
       },
       {
         "label": "Segurança",
-        "value": "EPI obrigatório e acessório compatível"
+        "value": "EPI obrigatório e acessório compatível com o serviço"
       },
       {
         "label": "Entrega",
@@ -623,12 +627,12 @@
     "slug": "lavador-de-alta-pressao",
     "name": "Lavador de Alta Pressão",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de lavador de Alta Pressão para limpeza com jato de alta pressão.",
-    "longDescription": "Lavador de Alta Pressão indicado para limpeza com jato de alta pressão. A operação deve respeitar o acessório correto, a capacidade do modelo e os EPIs exigidos para o serviço. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de lavadora de alta pressão elétrica para limpeza pesada em obra e fachadas.",
+    "longDescription": "Lavadora de alta pressão elétrica indicada para remoção de sujeira, lama, tinta solta e resíduos em pisos, fachadas, máquinas e áreas externas. Uso com bico e pressão adequados ao revestimento para evitar danos à superfície. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
-        "value": "Limpeza com jato de alta pressão"
+        "value": "Limpeza com jato de alta pressão em obra e fachadas"
       },
       {
         "label": "Alimentação",
@@ -636,7 +640,7 @@
       },
       {
         "label": "Segurança",
-        "value": "EPI obrigatório e acessório compatível"
+        "value": "EPI obrigatório e distância segura do jato"
       },
       {
         "label": "Entrega",
@@ -653,20 +657,20 @@
     "slug": "lixadeira-7-220v",
     "name": "Lixadeira 7\" 220V",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de lixadeira 7\" 220V para lixamento e acabamento de superfícies.",
-    "longDescription": "Lixadeira 7\" 220V indicado para lixamento e acabamento de superfícies. A operação deve respeitar o acessório correto, a capacidade do modelo e os EPIs exigidos para o serviço. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de lixadeira 7\" 220 V para lixamento e acabamento de superfícies.",
+    "longDescription": "Lixadeira 7\" 220 V indicada para lixamento, nivelamento e acabamento de madeira, metal e superfícies preparatórias para pintura. Uso com lixa de granulometria adequada e extração de pó quando disponível. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
-        "value": "Lixamento e acabamento de superfícies"
+        "value": "Lixamento e acabamento de superfícies com disco 7\""
       },
       {
         "label": "Alimentação",
-        "value": "220 V, conforme modelo disponível"
+        "value": "220 V monofásica, conforme modelo disponível"
       },
       {
         "label": "Segurança",
-        "value": "EPI obrigatório e acessório compatível"
+        "value": "EPI obrigatório e acessório compatível com o serviço"
       },
       {
         "label": "Entrega",
@@ -683,8 +687,8 @@
     "slug": "lixadeira",
     "name": "Lixadeira",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de lixadeira para lixamento e acabamento de superfícies.",
-    "longDescription": "Lixadeira indicado para lixamento e acabamento de superfícies. A operação deve respeitar o acessório correto, a capacidade do modelo e os EPIs exigidos para o serviço. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de lixadeira elétrica para lixamento e acabamento de superfícies.",
+    "longDescription": "Lixadeira elétrica indicada para lixamento, nivelamento e acabamento de madeira, massa corrida, verniz e superfícies metálicas. Uso com lixa compatível e proteção contra pó. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
@@ -692,11 +696,11 @@
       },
       {
         "label": "Alimentação",
-        "value": "220 V, conforme modelo disponível"
+        "value": "220 V monofásica, conforme modelo disponível"
       },
       {
         "label": "Segurança",
-        "value": "EPI obrigatório e acessório compatível"
+        "value": "EPI obrigatório e acessório compatível com o serviço"
       },
       {
         "label": "Entrega",
@@ -713,20 +717,20 @@
     "slug": "makitao",
     "name": "Makitão",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de makitão para corte pesado com serra circular portátil.",
-    "longDescription": "Makitão indicado para corte pesado com serra circular portátil. A operação deve respeitar o acessório correto, a capacidade do modelo e os EPIs exigidos para o serviço. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de makitão (serra circular portátil) para corte de madeira e chapas.",
+    "longDescription": "Makitão — serra circular portátil — indicado para corte reto de madeira, compensado, MDF e chapas em bancada ou guia. Uso com disco adequado à espessura, profundidade de corte regulada e EPIs de proteção. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
-        "value": "Corte pesado com serra circular portátil"
+        "value": "Corte de madeira e chapas com serra circular portátil"
       },
       {
         "label": "Alimentação",
-        "value": "220 V, conforme modelo disponível"
+        "value": "220 V monofásica, conforme modelo disponível"
       },
       {
         "label": "Segurança",
-        "value": "EPI obrigatório e acessório compatível"
+        "value": "EPI obrigatório e acessório compatível com o serviço"
       },
       {
         "label": "Entrega",
@@ -743,20 +747,20 @@
     "slug": "mangote-25mm-5m-vibr-port",
     "name": "Mangote 25mm 5m Vibr. port.",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de mangote 25mm 5m Vibr. port. para adensamento de concreto.",
-    "longDescription": "Mangote 25mm 5m Vibr. port. indicado para adensamento de concreto em vigas, pilares, lajes e fundações, reduzindo vazios e melhorando o acabamento da concretagem. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de mangote 25 mm 5 m para vibrador de concreto portátil.",
+    "longDescription": "Mangote de 25 mm com 5 m de comprimento para acoplamento em vibrador de concreto portátil, permitindo adensamento em vigas estreitas, pilares e áreas de difícil acesso. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
-        "value": "Adensamento de concreto"
+        "value": "Adensamento de concreto com vibrador portátil"
       },
       {
-        "label": "Medida",
-        "value": "25mm"
+        "label": "Diâmetro",
+        "value": "25 mm"
       },
       {
-        "label": "Acionamento",
-        "value": "Elétrico, conforme modelo disponível"
+        "label": "Comprimento",
+        "value": "5 m"
       },
       {
         "label": "Entrega",
@@ -774,20 +778,24 @@
     "slug": "mangote-35mm-3m-makita",
     "name": "Mangote 35mm 3m Makita",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de mangote 35mm 3m Makita para adensamento de concreto.",
-    "longDescription": "Mangote 35mm 3m Makita indicado para adensamento de concreto em vigas, pilares, lajes e fundações, reduzindo vazios e melhorando o acabamento da concretagem. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de mangote 35 mm 3 m Makita para vibrador de concreto.",
+    "longDescription": "Mangote de 35 mm com 3 m de comprimento, compatível com vibrador Makita, para adensamento de concreto em lajes, vigas e pilares de médio porte. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
         "value": "Adensamento de concreto"
       },
       {
-        "label": "Medida",
-        "value": "35mm"
+        "label": "Diâmetro",
+        "value": "35 mm"
       },
       {
-        "label": "Acionamento",
-        "value": "Elétrico, conforme modelo disponível"
+        "label": "Comprimento",
+        "value": "3 m"
+      },
+      {
+        "label": "Compatibilidade",
+        "value": "Vibrador Makita"
       },
       {
         "label": "Entrega",
@@ -805,20 +813,24 @@
     "slug": "mangote-35mm-3m-bosch",
     "name": "Mangote 35mm 3m Bosch",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de mangote 35mm 3m Bosch para adensamento de concreto.",
-    "longDescription": "Mangote 35mm 3m Bosch indicado para adensamento de concreto em vigas, pilares, lajes e fundações, reduzindo vazios e melhorando o acabamento da concretagem. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de mangote 35 mm 3 m Bosch para vibrador de concreto.",
+    "longDescription": "Mangote de 35 mm com 3 m de comprimento, compatível com vibrador Bosch, para adensamento de concreto em lajes, vigas e pilares de médio porte. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
         "value": "Adensamento de concreto"
       },
       {
-        "label": "Medida",
-        "value": "35mm"
+        "label": "Diâmetro",
+        "value": "35 mm"
       },
       {
-        "label": "Acionamento",
-        "value": "Elétrico, conforme modelo disponível"
+        "label": "Comprimento",
+        "value": "3 m"
+      },
+      {
+        "label": "Compatibilidade",
+        "value": "Vibrador Bosch"
       },
       {
         "label": "Entrega",
@@ -836,20 +848,16 @@
     "slug": "mangote-vibrador-25mm",
     "name": "Mangote Vibrador 25mm",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de mangote Vibrador 25mm para adensamento de concreto.",
-    "longDescription": "Mangote Vibrador 25mm indicado para adensamento de concreto em vigas, pilares, lajes e fundações, reduzindo vazios e melhorando o acabamento da concretagem. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de mangote vibrador 25 mm para adensamento de concreto.",
+    "longDescription": "Mangote vibrador de 25 mm indicado para adensamento de concreto em vigas estreitas, pilares e fundações, acoplado ao motor vibrador compatível. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
         "value": "Adensamento de concreto"
       },
       {
-        "label": "Medida",
-        "value": "25mm"
-      },
-      {
-        "label": "Acionamento",
-        "value": "Elétrico, conforme modelo disponível"
+        "label": "Diâmetro",
+        "value": "25 mm"
       },
       {
         "label": "Entrega",
@@ -867,20 +875,16 @@
     "slug": "mangote-vibrador-35mm",
     "name": "Mangote Vibrador 35mm",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de mangote Vibrador 35mm para adensamento de concreto.",
-    "longDescription": "Mangote Vibrador 35mm indicado para adensamento de concreto em vigas, pilares, lajes e fundações, reduzindo vazios e melhorando o acabamento da concretagem. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de mangote vibrador 35 mm para adensamento de concreto.",
+    "longDescription": "Mangote vibrador de 35 mm indicado para adensamento de concreto em lajes, vigas e pilares, com boa penetração em massas de consistência média. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
         "value": "Adensamento de concreto"
       },
       {
-        "label": "Medida",
-        "value": "35mm"
-      },
-      {
-        "label": "Acionamento",
-        "value": "Elétrico, conforme modelo disponível"
+        "label": "Diâmetro",
+        "value": "35 mm"
       },
       {
         "label": "Entrega",
@@ -898,20 +902,16 @@
     "slug": "mangote-vibrador-45mm",
     "name": "Mangote Vibrador 45mm",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de mangote Vibrador 45mm para adensamento de concreto.",
-    "longDescription": "Mangote Vibrador 45mm indicado para adensamento de concreto em vigas, pilares, lajes e fundações, reduzindo vazios e melhorando o acabamento da concretagem. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de mangote vibrador 45 mm para adensamento de concreto.",
+    "longDescription": "Mangote vibrador de 45 mm indicado para adensamento de concreto em lajes e elementos estruturais de maior volume, acoplado ao motor vibrador compatível. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
         "value": "Adensamento de concreto"
       },
       {
-        "label": "Medida",
-        "value": "45mm"
-      },
-      {
-        "label": "Acionamento",
-        "value": "Elétrico, conforme modelo disponível"
+        "label": "Diâmetro",
+        "value": "45 mm"
       },
       {
         "label": "Entrega",
@@ -929,20 +929,16 @@
     "slug": "mangote-vibrador-60mm",
     "name": "Mangote Vibrador 60mm",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de mangote Vibrador 60mm para adensamento de concreto.",
-    "longDescription": "Mangote Vibrador 60mm indicado para adensamento de concreto em vigas, pilares, lajes e fundações, reduzindo vazios e melhorando o acabamento da concretagem. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de mangote vibrador 60 mm para adensamento de concreto.",
+    "longDescription": "Mangote vibrador de 60 mm indicado para adensamento de concreto em lajes espessas e grandes volumes, com maior área de influência por passada. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
         "value": "Adensamento de concreto"
       },
       {
-        "label": "Medida",
-        "value": "60mm"
-      },
-      {
-        "label": "Acionamento",
-        "value": "Elétrico, conforme modelo disponível"
+        "label": "Diâmetro",
+        "value": "60 mm"
       },
       {
         "label": "Entrega",
@@ -960,12 +956,12 @@
     "slug": "máquina-de-solda",
     "name": "Máquina de Solda",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de máquina de Solda para soldagem conforme eletrodo e capacidade do modelo.",
-    "longDescription": "Máquina de Solda indicado para soldagem conforme eletrodo e capacidade do modelo. A operação deve respeitar o acessório correto, a capacidade do modelo e os EPIs exigidos para o serviço. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de máquina de solda elétrica para soldagem em obra e manutenção.",
+    "longDescription": "Máquina de solda elétrica indicada para soldagem de aço carbono e estruturas metálicas em obra, manutenção e montagens temporárias. Uso com eletrodo ou arame compatível, aterramento adequado e EPIs de soldador. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
-        "value": "Soldagem conforme eletrodo e capacidade do modelo"
+        "value": "Soldagem de aço e estruturas metálicas"
       },
       {
         "label": "Alimentação",
@@ -973,7 +969,7 @@
       },
       {
         "label": "Segurança",
-        "value": "EPI obrigatório e acessório compatível"
+        "value": "EPI de soldador e área ventilada"
       },
       {
         "label": "Entrega",
@@ -990,20 +986,20 @@
     "slug": "martelo-10-kg",
     "name": "Martelo 10 Kg",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de martelo 10 Kg para demolição, perfuração e rompimento.",
-    "longDescription": "Martelo 10 Kg indicado para demolição, rompimento e perfuração em concreto, alvenaria e pisos, conforme ponteira, talhadeira ou broca compatível com o equipamento. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de martelo demolidor 10 kg para demolição leve em alvenaria e reboco.",
+    "longDescription": "Martelo demolidor de 10 kg indicado para demolição leve de reboco, azulejo, concreto fino e remoção de revestimentos. Peso intermediário entre ferramentas de quebra, com boa manobrabilidade em reformas. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
-        "value": "Demolição, perfuração e rompimento"
+        "value": "Demolição leve de reboco, revestimentos e concreto fino"
       },
       {
-        "label": "Acessórios",
-        "value": "Ponteiras, talhadeiras ou brocas compatíveis"
+        "label": "Peso",
+        "value": "10 kg"
       },
       {
-        "label": "Segurança",
-        "value": "EPI obrigatório e operação conforme manual"
+        "label": "Alimentação",
+        "value": "220 V, conforme modelo disponível"
       },
       {
         "label": "Entrega",
@@ -1021,20 +1017,20 @@
     "slug": "martelete-sds-combinado",
     "name": "Martelete Sds Combinado",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de martelete Sds Combinado para demolição, perfuração e rompimento.",
-    "longDescription": "Martelete Sds Combinado indicado para demolição, rompimento e perfuração em concreto, alvenaria e pisos, conforme ponteira, talhadeira ou broca compatível com o equipamento. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de martelete SDS combinado para perfuração e leve demolição.",
+    "longDescription": "Martelete SDS combinado indicado para perfuração em concreto e alvenaria com brocas SDS, além de modo cinzel para quebra leve. Ferramenta versátil para instalações elétricas, hidráulicas e fixações em parede. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
-        "value": "Demolição, perfuração e rompimento"
+        "value": "Perfuração e leve demolição com encaixe SDS"
       },
       {
-        "label": "Acessórios",
-        "value": "Ponteiras, talhadeiras ou brocas compatíveis"
+        "label": "Funções",
+        "value": "Perfuração, impacto e combinação"
       },
       {
-        "label": "Segurança",
-        "value": "EPI obrigatório e operação conforme manual"
+        "label": "Alimentação",
+        "value": "220 V, conforme modelo disponível"
       },
       {
         "label": "Entrega",
@@ -1052,20 +1048,20 @@
     "slug": "martelo-5kg",
     "name": "Martelo 5kg",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de martelo 5kg para demolição, perfuração e rompimento.",
-    "longDescription": "Martelo 5kg indicado para demolição, rompimento e perfuração em concreto, alvenaria e pisos, conforme ponteira, talhadeira ou broca compatível com o equipamento. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de martelo demolidor 5 kg para demolição pontual e acabamento.",
+    "longDescription": "Martelo demolidor de 5 kg indicado para demolição pontual de reboco, rejunte, azulejo e concreto fino em reformas com acesso restrito. Menor peso facilita trabalho em altura e frentes estreitas. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
-        "value": "Demolição, perfuração e rompimento"
+        "value": "Demolição pontual de reboco e revestimentos"
       },
       {
-        "label": "Acessórios",
-        "value": "Ponteiras, talhadeiras ou brocas compatíveis"
+        "label": "Peso",
+        "value": "5 kg"
       },
       {
-        "label": "Segurança",
-        "value": "EPI obrigatório e operação conforme manual"
+        "label": "Alimentação",
+        "value": "220 V, conforme modelo disponível"
       },
       {
         "label": "Entrega",
@@ -1083,20 +1079,20 @@
     "slug": "martelo-demolidor-15-kg",
     "name": "Martelo Demolidor 15 Kg",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de martelo Demolidor 15 Kg para demolição, perfuração e rompimento.",
-    "longDescription": "Martelo Demolidor 15 Kg indicado para demolição, rompimento e perfuração em concreto, alvenaria e pisos, conforme ponteira, talhadeira ou broca compatível com o equipamento. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de martelo demolidor 15 kg para quebra de concreto e alvenaria.",
+    "longDescription": "Martelo demolidor de 15 kg indicado para quebra de concreto, alvenaria estrutural e remoção de pisos e revestimentos pesados. Maior energia de impacto para demolições de média intensidade. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
-        "value": "Demolição, perfuração e rompimento"
+        "value": "Quebra de concreto, alvenaria e pisos"
       },
       {
-        "label": "Acessórios",
-        "value": "Ponteiras, talhadeiras ou brocas compatíveis"
+        "label": "Peso",
+        "value": "15 kg"
       },
       {
-        "label": "Segurança",
-        "value": "EPI obrigatório e operação conforme manual"
+        "label": "Alimentação",
+        "value": "220 V, conforme modelo disponível"
       },
       {
         "label": "Entrega",
@@ -1114,20 +1110,20 @@
     "slug": "martelo-demolidor-18kg",
     "name": "Martelo Demolidor 18kg",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de martelo Demolidor 18kg para demolição, perfuração e rompimento.",
-    "longDescription": "Martelo Demolidor 18kg indicado para demolição, rompimento e perfuração em concreto, alvenaria e pisos, conforme ponteira, talhadeira ou broca compatível com o equipamento. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de martelo demolidor 18 kg para demolição pesada em obra.",
+    "longDescription": "Martelo demolidor de 18 kg indicado para demolição pesada de concreto, vigas, lajes e fundações em reformas estruturais. Requer operador treinado, apoio firme e EPIs completos. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
-        "value": "Demolição, perfuração e rompimento"
+        "value": "Demolição pesada de concreto e estruturas"
       },
       {
-        "label": "Acessórios",
-        "value": "Ponteiras, talhadeiras ou brocas compatíveis"
+        "label": "Peso",
+        "value": "18 kg"
       },
       {
-        "label": "Segurança",
-        "value": "EPI obrigatório e operação conforme manual"
+        "label": "Alimentação",
+        "value": "220 V, conforme modelo disponível"
       },
       {
         "label": "Entrega",
@@ -1145,20 +1141,20 @@
     "slug": "martelo-demolidor-30-kg",
     "name": "Martelo Demolidor 30 Kg",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de martelo Demolidor 30 Kg para demolição, perfuração e rompimento.",
-    "longDescription": "Martelo Demolidor 30 Kg indicado para demolição, rompimento e perfuração em concreto, alvenaria e pisos, conforme ponteira, talhadeira ou broca compatível com o equipamento. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de martelo demolidor 30 kg para demolição estrutural pesada.",
+    "longDescription": "Martelo demolidor de 30 kg indicado para demolição estrutural pesada de concreto armado, pisos industriais e elementos de grande espessura. Equipamento de alto impacto para serviços que exigem produtividade em quebra de massa. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
-        "value": "Demolição, perfuração e rompimento"
+        "value": "Demolição estrutural pesada de concreto armado"
       },
       {
-        "label": "Acessórios",
-        "value": "Ponteiras, talhadeiras ou brocas compatíveis"
+        "label": "Peso",
+        "value": "30 kg"
       },
       {
-        "label": "Segurança",
-        "value": "EPI obrigatório e operação conforme manual"
+        "label": "Alimentação",
+        "value": "220 V, conforme modelo disponível"
       },
       {
         "label": "Entrega",
@@ -1176,20 +1172,20 @@
     "slug": "misturador-argamassa-portatil",
     "name": "Misturador Argamassa portátil",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de misturador Argamassa portátil para preparo de concreto, argamassa e massas em obra.",
-    "longDescription": "Misturador Argamassa portátil indicado para preparo homogêneo de concreto, argamassa, reboco e massas em obras e reformas. Equipamento usado para reduzir esforço manual e manter produtividade no canteiro. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de misturador portátil de argamassa para pequenas batidas em obra.",
+    "longDescription": "Misturador portátil de argamassa indicado para preparo de pequenas quantidades de argamassa colante, rejunte, gesso e massas em reformas e acabamento, com hélice compatível ao material. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
-        "value": "Mistura de concreto, argamassa, reboco e massas"
+        "value": "Mistura de argamassa colante, rejunte e massas"
       },
       {
         "label": "Acionamento",
-        "value": "Elétrico 220 V, conforme modelo disponível"
+        "value": "Elétrico, conforme modelo disponível"
       },
       {
         "label": "Uso indicado",
-        "value": "Obras, reformas, contrapisos e alvenaria"
+        "value": "Revestimentos, rejuntamento e acabamento"
       },
       {
         "label": "Entrega",
@@ -1208,20 +1204,20 @@
     "slug": "motor-weg",
     "name": "Motor WEG",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de motor WEG para acionamento elétrico para aplicação compatível.",
-    "longDescription": "Motor WEG indicado para acionamento elétrico para aplicação compatível. A operação deve respeitar o acessório correto, a capacidade do modelo e os EPIs exigidos para o serviço. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de motor elétrico WEG para acionamento de bombas e equipamentos.",
+    "longDescription": "Motor elétrico WEG indicado para acionamento de bombas, misturadores e equipamentos auxiliares em obra e manutenção industrial. Potência e rotação conforme modelo disponível na frota. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
-        "value": "Acionamento elétrico para aplicação compatível"
+        "value": "Acionamento de bombas e equipamentos auxiliares"
+      },
+      {
+        "label": "Fabricante",
+        "value": "WEG"
       },
       {
         "label": "Alimentação",
-        "value": "220 V, conforme modelo disponível"
-      },
-      {
-        "label": "Segurança",
-        "value": "EPI obrigatório e acessório compatível"
+        "value": "Conforme modelo disponível"
       },
       {
         "label": "Entrega",
@@ -1238,20 +1234,20 @@
     "slug": "motor-vibrador",
     "name": "Motor Vibrador",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de motor Vibrador para adensamento de concreto.",
-    "longDescription": "Motor Vibrador indicado para adensamento de concreto em vigas, pilares, lajes e fundações, reduzindo vazios e melhorando o acabamento da concretagem. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de motor vibrador para adensamento de concreto com mangote.",
+    "longDescription": "Motor vibrador indicado para acionamento de mangotes em adensamento de concreto em vigas, pilares, lajes e fundações, reduzindo vazios e melhorando resistência da massa. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
-        "value": "Adensamento de concreto"
-      },
-      {
-        "label": "Medida",
-        "value": "Conforme modelo disponível"
+        "value": "Adensamento de concreto com mangote"
       },
       {
         "label": "Acionamento",
         "value": "Elétrico, conforme modelo disponível"
+      },
+      {
+        "label": "Conexão",
+        "value": "Mangote conforme diâmetro do serviço"
       },
       {
         "label": "Entrega",
@@ -1269,20 +1265,20 @@
     "slug": "nível-laser",
     "name": "Nível Laser",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de nível Laser para nívelamento, alinhamento e marcação em obra.",
-    "longDescription": "Nível Laser indicado para nívelamento, alinhamento e marcação em obra. A operação deve respeitar o acessório correto, a capacidade do modelo e os EPIs exigidos para o serviço. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de nível laser para marcação e nivelamento em obra.",
+    "longDescription": "Nível laser indicado para marcação de níveis, prumos e alinhamentos em alvenaria, instalações e acabamento. Uso em ambiente com referência estável e proteção contra poeira excessiva. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
-        "value": "Nívelamento, alinhamento e marcação em obra"
+        "value": "Nivelamento, prumo e alinhamento em obra"
       },
       {
         "label": "Alimentação",
-        "value": "Bateria ou pilhas, conforme modelo"
+        "value": "Bateria ou elétrica, conforme modelo"
       },
       {
-        "label": "Segurança",
-        "value": "EPI obrigatório e acessório compatível"
+        "label": "Uso indicado",
+        "value": "Alvenaria, instalações e acabamento"
       },
       {
         "label": "Entrega",
@@ -1299,20 +1295,20 @@
     "slug": "painel-de-comando",
     "name": "Painel de Comando",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de painel de Comando para comando elétrico para equipamento compatível.",
-    "longDescription": "Painel de Comando indicado para comando elétrico para equipamento compatível. A operação deve respeitar o acessório correto, a capacidade do modelo e os EPIs exigidos para o serviço. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de painel de comando elétrico para distribuição e proteção em obra.",
+    "longDescription": "Painel de comando elétrico indicado para distribuição, proteção e acionamento de equipamentos em obra temporária. Dimensionamento conforme carga instalada e normas de instalação elétrica. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
-        "value": "Comando elétrico para equipamento compatível"
+        "value": "Distribuição e comando elétrico em obra"
       },
       {
         "label": "Alimentação",
-        "value": "220 V, conforme modelo disponível"
+        "value": "Conforme projeto e modelo disponível"
       },
       {
         "label": "Segurança",
-        "value": "EPI obrigatório e acessório compatível"
+        "value": "Instalação por eletricista habilitado"
       },
       {
         "label": "Entrega",
@@ -1329,20 +1325,20 @@
     "slug": "parafusadeira",
     "name": "Parafusadeira",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de parafusadeira para parafusamento e montagem.",
-    "longDescription": "Parafusadeira indicado para parafusamento e montagem. A operação deve respeitar o acessório correto, a capacidade do modelo e os EPIs exigidos para o serviço. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de parafusadeira elétrica para parafusamento e montagem.",
+    "longDescription": "Parafusadeira elétrica indicada para parafusamento em montagens de drywall, madeira, estruturas leves e instalações. Uso com bits e parafusos compatíveis, controle de profundidade e EPIs. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
-        "value": "Parafusamento e montagem"
+        "value": "Parafusamento e montagem em obra"
       },
       {
         "label": "Alimentação",
-        "value": "220 V, conforme modelo disponível"
+        "value": "220 V monofásica, conforme modelo disponível"
       },
       {
         "label": "Segurança",
-        "value": "EPI obrigatório e acessório compatível"
+        "value": "EPI obrigatório e acessório compatível com o serviço"
       },
       {
         "label": "Entrega",
@@ -1390,8 +1386,8 @@
     "slug": "plaina-220v",
     "name": "Plaina 220V",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de plaina 220V para desbaste e acabamento em madeira.",
-    "longDescription": "Plaina 220V indicado para desbaste e acabamento em madeira. A operação deve respeitar o acessório correto, a capacidade do modelo e os EPIs exigidos para o serviço. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de plaina elétrica 220 V para desbaste e acabamento em madeira.",
+    "longDescription": "Plaina elétrica 220 V indicada para desbaste, nivelamento e acabamento em madeira, compensado e batentes. Uso com lâmina afiada, passadas uniformes e proteção contra estilhaços. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
@@ -1399,11 +1395,11 @@
       },
       {
         "label": "Alimentação",
-        "value": "220 V, conforme modelo disponível"
+        "value": "220 V monofásica, conforme modelo disponível"
       },
       {
         "label": "Segurança",
-        "value": "EPI obrigatório e acessório compatível"
+        "value": "EPI obrigatório e acessório compatível com o serviço"
       },
       {
         "label": "Entrega",
@@ -1420,20 +1416,20 @@
     "slug": "retifica-220v",
     "name": "Retifica 220V",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de retifica 220V para acabamento, desbaste e rebarbação.",
-    "longDescription": "Retifica 220V indicado para acabamento, desbaste e rebarbação. A operação deve respeitar o acessório correto, a capacidade do modelo e os EPIs exigidos para o serviço. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de retífica 220 V para corte, desbaste e rebarbação de metal.",
+    "longDescription": "Retífica 220 V indicada para corte, desbaste e rebarbação de metal, soldas e peças em manutenção industrial e montagens metálicas. Uso com disco fino compatível e proteção contra faíscas. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
-        "value": "Acabamento, desbaste e rebarbação"
+        "value": "Corte, desbaste e rebarbação de metal"
       },
       {
         "label": "Alimentação",
-        "value": "220 V, conforme modelo disponível"
+        "value": "220 V monofásica, conforme modelo disponível"
       },
       {
         "label": "Segurança",
-        "value": "EPI obrigatório e acessório compatível"
+        "value": "EPI obrigatório e acessório compatível com o serviço"
       },
       {
         "label": "Entrega",
@@ -1481,20 +1477,20 @@
     "slug": "serra-circular-7-220v",
     "name": "Serra Circular 7 \" 220V",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de serra Circular 7 \" 220V para corte de madeira e chapas conforme disco.",
-    "longDescription": "Serra Circular 7 \" 220V indicado para corte de madeira e chapas conforme disco. A operação deve respeitar o acessório correto, a capacidade do modelo e os EPIs exigidos para o serviço. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de serra circular 7\" 220 V para corte de madeira e chapas.",
+    "longDescription": "Serra circular 7\" 220 V indicada para corte reto de madeira, compensado e chapas com disco de 7 polegadas. Uso com guia, profundidade regulada e proteção contra rebarbas. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
-        "value": "Corte de madeira e chapas conforme disco"
+        "value": "Corte de madeira e chapas com disco 7\""
       },
       {
         "label": "Alimentação",
-        "value": "220 V, conforme modelo disponível"
+        "value": "220 V monofásica, conforme modelo disponível"
       },
       {
         "label": "Segurança",
-        "value": "EPI obrigatório e acessório compatível"
+        "value": "EPI obrigatório e acessório compatível com o serviço"
       },
       {
         "label": "Entrega",
@@ -1511,20 +1507,20 @@
     "slug": "serra-circular-9-220v",
     "name": "Serra Circular 9\" 220V",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de serra Circular 9\" 220V para corte de madeira e chapas conforme disco.",
-    "longDescription": "Serra Circular 9\" 220V indicado para corte de madeira e chapas conforme disco. A operação deve respeitar o acessório correto, a capacidade do modelo e os EPIs exigidos para o serviço. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de serra circular 9\" 220 V para corte de madeira e chapas grossas.",
+    "longDescription": "Serra circular 9\" 220 V indicada para corte de madeira maciça, vigas e chapas mais espessas com disco de 9 polegadas. Maior profundidade de corte para carpintaria e montagens no canteiro. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
-        "value": "Corte de madeira e chapas conforme disco"
+        "value": "Corte de madeira e chapas com disco 9\""
       },
       {
         "label": "Alimentação",
-        "value": "220 V, conforme modelo disponível"
+        "value": "220 V monofásica, conforme modelo disponível"
       },
       {
         "label": "Segurança",
-        "value": "EPI obrigatório e acessório compatível"
+        "value": "EPI obrigatório e acessório compatível com o serviço"
       },
       {
         "label": "Entrega",
@@ -1541,20 +1537,20 @@
     "slug": "serra-de-bancada",
     "name": "Serra de Bancada",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de serra de Bancada para corte seriado de madeira e peças apoiadas em bancada.",
-    "longDescription": "Serra de Bancada indicado para corte seriado de madeira e peças apoiadas em bancada. A operação deve respeitar o acessório correto, a capacidade do modelo e os EPIs exigidos para o serviço. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de serra de bancada para corte seriado de madeira e peças apoiadas.",
+    "longDescription": "Serra de bancada indicada para corte seriado de madeira, ripas e peças apoiadas em bancada, com maior estabilidade e precisão que serras portáteis. Uso com guia, empurrador e proteção da lâmina. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
-        "value": "Corte seriado de madeira e peças apoiadas em bancada"
+        "value": "Corte seriado de madeira em bancada"
       },
       {
         "label": "Alimentação",
-        "value": "220 V, conforme modelo disponível"
+        "value": "220 V monofásica, conforme modelo disponível"
       },
       {
         "label": "Segurança",
-        "value": "EPI obrigatório e acessório compatível"
+        "value": "EPI obrigatório e acessório compatível com o serviço"
       },
       {
         "label": "Entrega",
@@ -1571,20 +1567,20 @@
     "slug": "serra-de-marmore-220v",
     "name": "Serra de Mármore 220V",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de serra de Mármore 220V para corte de revestimentos, pedras e alvenaria conforme disco.",
-    "longDescription": "Serra de Mármore 220V indicado para corte de revestimentos, pedras e alvenaria conforme disco. A operação deve respeitar o acessório correto, a capacidade do modelo e os EPIs exigidos para o serviço. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de serra de mármore 220 V para corte de revestimentos e pedras.",
+    "longDescription": "Serra de mármore 220 V indicada para corte de porcelanato, granito, mármore e revestimentos com disco diamantado e refrigeração. Uso com guia, corte contínuo e EPIs contra pó e estilhaços. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
-        "value": "Corte de revestimentos, pedras e alvenaria conforme disco"
+        "value": "Corte de revestimentos, pedras e alvenaria"
       },
       {
         "label": "Alimentação",
-        "value": "220 V, conforme modelo disponível"
+        "value": "220 V monofásica, conforme modelo disponível"
       },
       {
         "label": "Segurança",
-        "value": "EPI obrigatório e acessório compatível"
+        "value": "EPI obrigatório e acessório compatível com o serviço"
       },
       {
         "label": "Entrega",
@@ -1601,20 +1597,20 @@
     "slug": "serra-policorte-14-220v",
     "name": "Serra Policorte 14\" 220V",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de serra Policorte 14\" 220V para corte de barras, perfis e metais conforme disco.",
-    "longDescription": "Serra Policorte 14\" 220V indicado para corte de barras, perfis e metais conforme disco. A operação deve respeitar o acessório correto, a capacidade do modelo e os EPIs exigidos para o serviço. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de serra policorte 14\" 220 V para corte de metal e perfis.",
+    "longDescription": "Serra policorte 14\" 220 V indicada para corte de barras, tubos, perfis metálicos e chapas com disco abrasivo de 14 polegadas. Uso com fixação da peça, proteção contra faíscas e ventilação adequada. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
-        "value": "Corte de barras, perfis e metais conforme disco"
+        "value": "Corte de barras, perfis e metais com disco 14\""
       },
       {
         "label": "Alimentação",
-        "value": "220 V, conforme modelo disponível"
+        "value": "220 V monofásica, conforme modelo disponível"
       },
       {
         "label": "Segurança",
-        "value": "EPI obrigatório e acessório compatível"
+        "value": "EPI obrigatório e acessório compatível com o serviço"
       },
       {
         "label": "Entrega",
@@ -1631,8 +1627,8 @@
     "slug": "serra-tico-tico-220v",
     "name": "Serra Tico Tico 220V",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de serra Tico Tico 220V para cortes retos e curvos em madeira e chapas.",
-    "longDescription": "Serra Tico Tico 220V indicado para cortes retos e curvos em madeira e chapas. A operação deve respeitar o acessório correto, a capacidade do modelo e os EPIs exigidos para o serviço. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de serra tico-tico 220 V para cortes retos e curvos em madeira.",
+    "longDescription": "Serra tico-tico 220 V indicada para cortes retos e curvos em madeira, compensado, MDF e chapas finas. Ideal para recortes, aberturas e acabamentos que exigem manobrabilidade. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
@@ -1640,11 +1636,11 @@
       },
       {
         "label": "Alimentação",
-        "value": "220 V, conforme modelo disponível"
+        "value": "220 V monofásica, conforme modelo disponível"
       },
       {
         "label": "Segurança",
-        "value": "EPI obrigatório e acessório compatível"
+        "value": "EPI obrigatório e acessório compatível com o serviço"
       },
       {
         "label": "Entrega",
@@ -1661,20 +1657,20 @@
     "slug": "serra-sabre",
     "name": "Serra Sabre",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de serra Sabre para corte de demolição, tubos, madeira e materiais compatíveis.",
-    "longDescription": "Serra Sabre indicado para corte de demolição, tubos, madeira e materiais compatíveis. A operação deve respeitar o acessório correto, a capacidade do modelo e os EPIs exigidos para o serviço. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de serra sabre para corte em demolição, tubos e madeira.",
+    "longDescription": "Serra sabre indicada para corte em demolição, tubos, madeira embutida e materiais variados com lâmina compatível. Ferramenta versátil para serviços de manutenção e desmontagem no canteiro. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
-        "value": "Corte de demolição, tubos, madeira e materiais compatíveis"
+        "value": "Corte em demolição, tubos, madeira e materiais variados"
       },
       {
         "label": "Alimentação",
-        "value": "220 V, conforme modelo disponível"
+        "value": "220 V monofásica, conforme modelo disponível"
       },
       {
         "label": "Segurança",
-        "value": "EPI obrigatório e acessório compatível"
+        "value": "EPI obrigatório e acessório compatível com o serviço"
       },
       {
         "label": "Entrega",
@@ -1722,20 +1718,20 @@
     "slug": "transformador",
     "name": "Transformador",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de transformador para adequação de tensão para equipamentos compatíveis.",
-    "longDescription": "Transformador indicado para adequação de tensão para equipamentos compatíveis. A operação deve respeitar o acessório correto, a capacidade do modelo e os EPIs exigidos para o serviço. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de transformador para adequação de tensão em obra.",
+    "longDescription": "Transformador indicado para adequação de tensão e alimentação de equipamentos compatíveis em obra temporária. Dimensionamento conforme potência demandada e instalação por profissional habilitado. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
-        "value": "Adequação de tensão para equipamentos compatíveis"
+        "value": "Adequação de tensão para equipamentos em obra"
       },
       {
         "label": "Alimentação",
-        "value": "220 V, conforme modelo disponível"
+        "value": "Conforme modelo e carga instalada"
       },
       {
         "label": "Segurança",
-        "value": "EPI obrigatório e acessório compatível"
+        "value": "Instalação por eletricista habilitado"
       },
       {
         "label": "Entrega",
@@ -1752,20 +1748,20 @@
     "slug": "vibrador-conc-port-makita",
     "name": "Vibrador Conc. port. Makita",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de vibrador Conc. port. Makita para adensamento de concreto.",
-    "longDescription": "Vibrador Conc. port. Makita indicado para adensamento de concreto em vigas, pilares, lajes e fundações, reduzindo vazios e melhorando o acabamento da concretagem. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de vibrador de concreto portátil Makita para adensamento.",
+    "longDescription": "Vibrador de concreto portátil Makita indicado para adensamento em vigas, pilares, lajes e fundações, reduzindo vazios e melhorando o acabamento da concretagem. Acoplamento de mangotes conforme diâmetro do serviço. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
         "value": "Adensamento de concreto"
       },
       {
-        "label": "Medida",
-        "value": "Conforme modelo disponível"
+        "label": "Fabricante",
+        "value": "Makita"
       },
       {
         "label": "Acionamento",
-        "value": "Elétrico, conforme modelo disponível"
+        "value": "Elétrico portátil"
       },
       {
         "label": "Entrega",
@@ -1783,20 +1779,20 @@
     "slug": "vibrador-conc-port-bosh",
     "name": "Vibrador Conc. port. Bosch",
     "category": "ferramentas-eletricas",
-    "shortDescription": "Locação de vibrador Conc. port. Bosch para adensamento de concreto.",
-    "longDescription": "Vibrador Conc. port. Bosch indicado para adensamento de concreto em vigas, pilares, lajes e fundações, reduzindo vazios e melhorando o acabamento da concretagem. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de vibrador de concreto portátil Bosch para adensamento.",
+    "longDescription": "Vibrador de concreto portátil Bosch indicado para adensamento em vigas, pilares, lajes e fundações, reduzindo vazios e melhorando o acabamento da concretagem. Acoplamento de mangotes conforme diâmetro do serviço. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
         "value": "Adensamento de concreto"
       },
       {
-        "label": "Medida",
-        "value": "Conforme modelo disponível"
+        "label": "Fabricante",
+        "value": "Bosch"
       },
       {
         "label": "Acionamento",
-        "value": "Elétrico, conforme modelo disponível"
+        "value": "Elétrico portátil"
       },
       {
         "label": "Entrega",

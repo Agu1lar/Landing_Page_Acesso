@@ -15,7 +15,14 @@ const THIN_MARKERS = [
   'Equipamento para concretagem e misturas em obra civil',
   'Equipamento para locação em obra civil na região metropolitana',
   'Solução de acesso e estrutura temporária para obra',
+  'ferramenta elétrica para corte, furação, acabamento, concretagem ou montagem',
+  'A operação deve respeitar o acessório correto, a capacidade do modelo',
 ];
+
+const GENERIC_APLICACAO = new Set([
+  'Obra civil e reforma',
+  'Locação para construção civil',
+]);
 
 const CATEGORY_INTRO: Record<EquipmentCategory, (equipment: Equipment) => string> = {
   'plataformas-elevatorias': (equipment) => {
@@ -31,8 +38,21 @@ const CATEGORY_INTRO: Record<EquipmentCategory, (equipment: Equipment) => string
     `O ${equipment.name} é manipulador telescópico para movimentação de cargas em obra e indústria, com alcance e capacidade conforme especificação do fabricante.`,
   andaimes: (equipment) =>
     `O ${equipment.name} compõe sistemas de andaime e acesso temporário em fachadas, shafts e frentes de serviço, conforme projeto e NR-18 no canteiro.`,
-  'ferramentas-eletricas': (equipment) =>
-    `A ${equipment.name} é ferramenta elétrica para corte, furação, acabamento, concretagem ou montagem em obra, com uso de EPI e instalação compatível com o modelo locado.`,
+  'ferramentas-eletricas': (equipment) => {
+    const aplicacao = specValue(equipment, 'Aplicação');
+    if (aplicacao && !GENERIC_APLICACAO.has(aplicacao)) {
+      const phrase = aplicacao.charAt(0).toLowerCase() + aplicacao.slice(1);
+      return `O ${equipment.name} é ferramenta elétrica indicada para ${phrase}, com uso de EPI e alimentação compatível com o modelo locado.`;
+    }
+
+    const short = equipment.shortDescription.trim().replace(/^Locação de\s+/iu, '');
+    if (short.length >= 30) {
+      const detail = short.endsWith('.') ? short.slice(0, -1) : short;
+      return `${equipment.name} indicado para ${detail.charAt(0).toLowerCase()}${detail.slice(1)}.`;
+    }
+
+    return `O ${equipment.name} é ferramenta elétrica para locação em obra e reforma, com uso de EPI e alimentação conforme o modelo disponível.`;
+  },
   'ferramentas-combustao': (equipment) =>
     `O ${equipment.name} é ferramenta ou máquina à combustão para uso em obra, com operação conforme manual do fabricante e EPIs adequados.`,
 };
@@ -79,8 +99,19 @@ export function isThinLongDescription(equipment: Equipment) {
 /**
  * Builds a technical long-form description from category, specs and service area.
  */
+function openingForThinDescription(equipment: Equipment) {
+  const existing = equipment.longDescription.trim();
+  const existingIsUseful =
+    existing.length >= 80 && !THIN_MARKERS.some((marker) => existing.includes(marker));
+  if (existingIsUseful) {
+    return existing;
+  }
+
+  return CATEGORY_INTRO[equipment.category](equipment);
+}
+
 export function buildEquipmentLongDescription(equipment: Equipment) {
-  const intro = CATEGORY_INTRO[equipment.category](equipment);
+  const opening = openingForThinDescription(equipment);
   const specs = formatSpecsSentence(equipment);
   const logistics = logisticsSentence();
   const categoryLabel = CATEGORY_LABELS[equipment.category].toLowerCase();
@@ -88,8 +119,6 @@ export function buildEquipmentLongDescription(equipment: Equipment) {
   const existing = equipment.longDescription.trim();
   const existingIsUseful =
     existing.length >= 80 && !THIN_MARKERS.some((marker) => existing.includes(marker));
-
-  const opening = existingIsUseful ? existing : intro;
   const context = existingIsUseful
     ? `Equipamento da linha de ${categoryLabel} para locação em ${formatBrandServiceArea()}.`
     : '';

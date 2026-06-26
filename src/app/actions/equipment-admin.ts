@@ -11,7 +11,7 @@ import {
   saveEquipmentWithImages,
   seedEquipmentFromJson,
 } from '@/lib/equipment-db';
-import { syncPriorityEquipmentFromJson } from '@/lib/equipment-sync';
+import { syncEquipmentCategoryCopyFromJson, syncPriorityEquipmentFromJson } from '@/lib/equipment-sync';
 import { slugifyEquipmentName } from '@/lib/equipment-slug';
 import { ALL_EQUIPMENT_CATEGORIES } from '@/lib/categories-seo';
 import {
@@ -88,6 +88,34 @@ export async function syncPriorityCatalogAction() {
   }
 
   revalidatePath('/dashboard/equipamentos');
+  redirect('/dashboard/equipamentos');
+}
+
+/**
+ * Updates ferramentas elétricas text fields in Postgres from equipamentos.json.
+ */
+export async function syncFerramentasEletricasCopyAction() {
+  const access = await requireAdminAccess();
+  if (!access.ok) {
+    redirect('/unauthorized');
+  }
+
+  const sync = await syncEquipmentCategoryCopyFromJson('ferramentas-eletricas', access.userId);
+  const updated = sync.filter((row) => row.action === 'updated');
+
+  await logAdminActivity({
+    userId: access.userId,
+    action: 'sync_ferramentas_eletricas_copy',
+    entityType: 'equipment',
+    details: `updated=${updated.length}; skipped=${sync.length - updated.length}`,
+  });
+
+  for (const row of updated) {
+    revalidateEquipmentPaths(row.slug, 'ferramentas-eletricas');
+  }
+
+  revalidatePath('/dashboard/equipamentos');
+  revalidatePath('/categorias/ferramentas-eletricas');
   redirect('/dashboard/equipamentos');
 }
 

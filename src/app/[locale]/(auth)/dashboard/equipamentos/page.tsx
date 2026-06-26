@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import Link from 'next/link';
-import { importEquipmentCatalogAction, syncPriorityCatalogAction } from '@/app/actions/equipment-admin';
+import { importEquipmentCatalogAction, syncFerramentasEletricasCopyAction, syncPriorityCatalogAction } from '@/app/actions/equipment-admin';
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
 import { requireAdminAccess } from '@/lib/auth-roles';
 import { countEquipmentInDb, listEquipmentForAdmin } from '@/lib/equipment-db';
@@ -65,14 +65,25 @@ export default async function EquipmentAdminListPage(props: EquipmentAdminListPr
                 </form>
               </details>
             ) : (
-              <form action={syncPriorityCatalogAction}>
-                <button
-                  className="rounded-lg border border-neutral-200 bg-white px-3 py-2 text-sm font-medium shadow-sm hover:bg-neutral-50"
-                  type="submit"
-                >
-                  {t('sync_priority_catalog')}
-                </button>
-              </form>
+              <>
+                <form action={syncPriorityCatalogAction}>
+                  <button
+                    className="rounded-lg border border-neutral-200 bg-white px-3 py-2 text-sm font-medium shadow-sm hover:bg-neutral-50"
+                    type="submit"
+                  >
+                    {t('sync_priority_catalog')}
+                  </button>
+                </form>
+                <form action={syncFerramentasEletricasCopyAction}>
+                  <button
+                    className="rounded-lg border border-neutral-200 bg-white px-3 py-2 text-sm font-medium shadow-sm hover:bg-neutral-50"
+                    title={t('sync_ferramentas_eletricas_copy_hint')}
+                    type="submit"
+                  >
+                    {t('sync_ferramentas_eletricas_copy')}
+                  </button>
+                </form>
+              </>
             )}
             <Link
               className="rounded-lg bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary-hover"

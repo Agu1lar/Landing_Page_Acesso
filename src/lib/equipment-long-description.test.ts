@@ -66,7 +66,31 @@ describe('resolve equipment long description', () => {
     const enriched = buildEquipmentLongDescription(betoneira);
 
     expect(enriched).not.toContain('Entrega e retirada combinadas com a locação');
+    expect(enriched).not.toContain('corte, furação, acabamento, concretagem ou montagem');
     expect(enriched).toContain('Betoneira');
+  });
+
+  it('uses application-specific intro for ferramentas elétricas with thin copy', () => {
+    const aspirador: Equipment = {
+      slug: 'aspirador-de-po',
+      name: 'Aspirador de Pó',
+      category: 'ferramentas-eletricas',
+      shortDescription:
+        'Locação de aspirador de pó industrial para limpeza pesada de pó e resíduos secos em obra.',
+      longDescription: '',
+      specs: [
+        { label: 'Aplicação', value: 'Aspiração de pó e resíduos secos em obra' },
+        { label: 'Alimentação', value: '220 V monofásica' },
+      ],
+      tags: [],
+      featured: false,
+      available: true,
+    };
+
+    const body = buildEquipmentLongDescription(aspirador);
+
+    expect(body).toContain('aspiração de pó e resíduos secos em obra');
+    expect(body).not.toContain('corte, furação, acabamento, concretagem ou montagem');
   });
 });
 

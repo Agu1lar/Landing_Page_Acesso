@@ -597,6 +597,8 @@
     "import_advanced_label": "Configuração inicial (avançado)",
     "sync_priority_catalog": "Sincronizar guindaste industrial",
     "sync_priority_catalog_hint": "Garante o item guindaste-industrial no Postgres a partir do JSON.",
+    "sync_ferramentas_eletricas_copy": "Atualizar textos — ferramentas elétricas",
+    "sync_ferramentas_eletricas_copy_hint": "Copia descrições e especificações do JSON para itens já cadastrados no banco.",
     "new_equipment": "Novo equipamento",
     "search_placeholder": "Buscar por nome ou slug",
     "filter_all_categories": "Todas as categorias",
