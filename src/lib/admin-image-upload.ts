@@ -66,14 +66,14 @@ function canPersistAdminImagesLocally() {
 }
 
 /**
- * Returns true when Vercel Blob is configured (token or store on Vercel deploy).
+ * Returns true when Vercel Blob is configured (token, store id, or OIDC on Vercel).
  */
 export function canUseVercelBlobStorage() {
-  if (Env.BLOB_READ_WRITE_TOKEN) {
+  if (Env.BLOB_READ_WRITE_TOKEN || Env.BLOB_STORE_ID) {
     return true;
   }
 
-  return Boolean(Env.BLOB_STORE_ID && Env.VERCEL_ENV);
+  return Boolean(Env.VERCEL_OIDC_TOKEN && (Env.VERCEL_ENV || Env.VERCEL === '1'));
 }
 
 function blobAccessMismatchMessage(error: unknown) {
@@ -162,7 +162,7 @@ export async function storeAdminImage(file: File, options: StoreAdminImageOption
 
   if (!canPersistAdminImagesLocally()) {
     throw new Error(
-      'Armazenamento de imagens não configurado. Conecte um Blob store ao projeto na Vercel ou adicione BLOB_READ_WRITE_TOKEN.',
+      'Armazenamento de imagens não configurado. Conecte o Blob Public ao projeto, confira BLOB_STORE_ID em Production e faça redeploy após conectar o store.',
     );
   }
 
