@@ -133,6 +133,41 @@
       "note": "Equipamento carregador removido do catálogo"
     },
     {
+      "source": "/equipamentos/mangote-25mm-5m-vibr-port",
+      "destination": "/equipamentos/mangote-vibrador",
+      "note": "Mangotes consolidados em um único item"
+    },
+    {
+      "source": "/equipamentos/mangote-35mm-3m-makita",
+      "destination": "/equipamentos/mangote-vibrador",
+      "note": "Mangotes consolidados em um único item"
+    },
+    {
+      "source": "/equipamentos/mangote-35mm-3m-bosch",
+      "destination": "/equipamentos/mangote-vibrador",
+      "note": "Mangotes consolidados em um único item"
+    },
+    {
+      "source": "/equipamentos/mangote-vibrador-25mm",
+      "destination": "/equipamentos/mangote-vibrador",
+      "note": "Mangotes consolidados em um único item"
+    },
+    {
+      "source": "/equipamentos/mangote-vibrador-35mm",
+      "destination": "/equipamentos/mangote-vibrador",
+      "note": "Mangotes consolidados em um único item"
+    },
+    {
+      "source": "/equipamentos/mangote-vibrador-45mm",
+      "destination": "/equipamentos/mangote-vibrador",
+      "note": "Mangotes consolidados em um único item"
+    },
+    {
+      "source": "/equipamentos/mangote-vibrador-60mm",
+      "destination": "/equipamentos/mangote-vibrador",
+      "note": "Mangotes consolidados em um único item"
+    },
+    {
       "source": "/aluguel-de-maquinas-e-ferramentas-eletricas",
       "destination": "/categorias/ferramentas-eletricas",
       "note": "Página WP — ferramentas elétricas"

@@ -11,7 +11,7 @@ import {
   saveEquipmentWithImages,
   seedEquipmentFromJson,
 } from '@/lib/equipment-db';
-import { syncEquipmentCategoryCopyFromJson, syncPriorityEquipmentFromJson } from '@/lib/equipment-sync';
+import { consolidateMangoteVibradorInDb, MANGOTE_VIBRADOR_SLUG, syncEquipmentCategoryCopyFromJson, syncPriorityEquipmentFromJson } from '@/lib/equipment-sync';
 import { slugifyEquipmentName } from '@/lib/equipment-slug';
 import { ALL_EQUIPMENT_CATEGORIES } from '@/lib/categories-seo';
 import {
@@ -101,17 +101,26 @@ export async function syncFerramentasEletricasCopyAction() {
   }
 
   const sync = await syncEquipmentCategoryCopyFromJson('ferramentas-eletricas', access.userId);
+  const mangote = await consolidateMangoteVibradorInDb(access.userId);
   const updated = sync.filter((row) => row.action === 'updated');
 
   await logAdminActivity({
     userId: access.userId,
     action: 'sync_ferramentas_eletricas_copy',
     entityType: 'equipment',
-    details: `updated=${updated.length}; skipped=${sync.length - updated.length}`,
+    details: `updated=${updated.length}; skipped=${sync.length - updated.length}; mangote=${mangote.consolidated}; archived=${mangote.archived.length}`,
   });
 
   for (const row of updated) {
     revalidateEquipmentPaths(row.slug, 'ferramentas-eletricas');
+  }
+
+  if (mangote.consolidated !== 'skipped') {
+    revalidateEquipmentPaths(MANGOTE_VIBRADOR_SLUG, 'ferramentas-eletricas');
+  }
+
+  for (const slug of mangote.archived) {
+    revalidateEquipmentPaths(slug, 'ferramentas-eletricas');
   }
 
   revalidatePath('/dashboard/equipamentos');

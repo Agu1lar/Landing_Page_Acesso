@@ -229,85 +229,17 @@ const COPY = {
     ),
     specs: powerToolSpecs('Corte de madeira e chapas com serra circular portátil'),
   },
-  'mangote-25mm-5m-vibr-port': {
-    short: 'Locação de mangote 25 mm 5 m para vibrador de concreto portátil.',
+  'mangote-vibrador': {
+    short: 'Locação de mangote vibrador em vários diâmetros (25 a 60 mm) para adensamento de concreto.',
     long: long(
-      'Mangote de 25 mm com 5 m de comprimento para acoplamento em vibrador de concreto portátil, permitindo adensamento em vigas estreitas, pilares e áreas de difícil acesso.',
+      'Mangote vibrador para adensamento de concreto em vigas, pilares, lajes e fundações. Trabalhamos com vários diâmetros — 25 mm, 35 mm, 45 mm e 60 mm — e comprimentos de 3 m e 5 m, para motores vibradores e vibradores portáteis (Makita e Bosch). Informe diâmetro, comprimento e tipo de acoplamento no orçamento para reservarmos o modelo compatível com o serviço.',
     ),
     specs: [
-      { label: 'Aplicação', value: 'Adensamento de concreto com vibrador portátil' },
-      { label: 'Diâmetro', value: '25 mm' },
-      { label: 'Comprimento', value: '5 m' },
-      DELIVERY,
-    ],
-  },
-  'mangote-35mm-3m-makita': {
-    short: 'Locação de mangote 35 mm 3 m Makita para vibrador de concreto.',
-    long: long(
-      'Mangote de 35 mm com 3 m de comprimento, compatível com vibrador Makita, para adensamento de concreto em lajes, vigas e pilares de médio porte.',
-    ),
-    specs: [
-      { label: 'Aplicação', value: 'Adensamento de concreto' },
-      { label: 'Diâmetro', value: '35 mm' },
-      { label: 'Comprimento', value: '3 m' },
-      { label: 'Compatibilidade', value: 'Vibrador Makita' },
-      DELIVERY,
-    ],
-  },
-  'mangote-35mm-3m-bosch': {
-    short: 'Locação de mangote 35 mm 3 m Bosch para vibrador de concreto.',
-    long: long(
-      'Mangote de 35 mm com 3 m de comprimento, compatível com vibrador Bosch, para adensamento de concreto em lajes, vigas e pilares de médio porte.',
-    ),
-    specs: [
-      { label: 'Aplicação', value: 'Adensamento de concreto' },
-      { label: 'Diâmetro', value: '35 mm' },
-      { label: 'Comprimento', value: '3 m' },
-      { label: 'Compatibilidade', value: 'Vibrador Bosch' },
-      DELIVERY,
-    ],
-  },
-  'mangote-vibrador-25mm': {
-    short: 'Locação de mangote vibrador 25 mm para adensamento de concreto.',
-    long: long(
-      'Mangote vibrador de 25 mm indicado para adensamento de concreto em vigas estreitas, pilares e fundações, acoplado ao motor vibrador compatível.',
-    ),
-    specs: [
-      { label: 'Aplicação', value: 'Adensamento de concreto' },
-      { label: 'Diâmetro', value: '25 mm' },
-      DELIVERY,
-    ],
-  },
-  'mangote-vibrador-35mm': {
-    short: 'Locação de mangote vibrador 35 mm para adensamento de concreto.',
-    long: long(
-      'Mangote vibrador de 35 mm indicado para adensamento de concreto em lajes, vigas e pilares, com boa penetração em massas de consistência média.',
-    ),
-    specs: [
-      { label: 'Aplicação', value: 'Adensamento de concreto' },
-      { label: 'Diâmetro', value: '35 mm' },
-      DELIVERY,
-    ],
-  },
-  'mangote-vibrador-45mm': {
-    short: 'Locação de mangote vibrador 45 mm para adensamento de concreto.',
-    long: long(
-      'Mangote vibrador de 45 mm indicado para adensamento de concreto em lajes e elementos estruturais de maior volume, acoplado ao motor vibrador compatível.',
-    ),
-    specs: [
-      { label: 'Aplicação', value: 'Adensamento de concreto' },
-      { label: 'Diâmetro', value: '45 mm' },
-      DELIVERY,
-    ],
-  },
-  'mangote-vibrador-60mm': {
-    short: 'Locação de mangote vibrador 60 mm para adensamento de concreto.',
-    long: long(
-      'Mangote vibrador de 60 mm indicado para adensamento de concreto em lajes espessas e grandes volumes, com maior área de influência por passada.',
-    ),
-    specs: [
-      { label: 'Aplicação', value: 'Adensamento de concreto' },
-      { label: 'Diâmetro', value: '60 mm' },
+      { label: 'Aplicação', value: 'Adensamento de concreto com motor vibrador ou vibrador portátil' },
+      { label: 'Diâmetros disponíveis', value: '25 mm, 35 mm, 45 mm e 60 mm' },
+      { label: 'Comprimentos', value: '3 m e 5 m conforme modelo' },
+      { label: 'Compatibilidade', value: 'Motores vibradores; vibradores portáteis Makita e Bosch' },
+      { label: 'Disponibilidade', value: 'Consulte diâmetro, comprimento e marca na cotação' },
       DELIVERY,
     ],
   },
