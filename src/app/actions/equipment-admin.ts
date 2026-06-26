@@ -270,12 +270,15 @@ export async function saveEquipmentAction(formData: FormData) {
   }
 
   if (images.length === 0) {
-    images.push({
-      url: defaultEquipmentImageUrl(data.slug),
-      alt: data.name,
-      sortOrder: 0,
-      isPrimary: true,
-    });
+    const manifestFallback = defaultEquipmentImageUrl(data.slug);
+    if (manifestFallback) {
+      images.push({
+        url: manifestFallback,
+        alt: data.name,
+        sortOrder: 0,
+        isPrimary: true,
+      });
+    }
   } else if (!images.some((image) => image.isPrimary)) {
     images[0]!.isPrimary = true;
   }

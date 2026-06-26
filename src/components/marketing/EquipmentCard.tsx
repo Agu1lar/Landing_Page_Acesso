@@ -1,7 +1,7 @@
 'use client';
 
-import Image from 'next/image';
 import { AddToQuoteButton } from '@/components/quote-cart/AddToQuoteButton';
+import { EquipmentCatalogImage } from '@/components/marketing/EquipmentCatalogImage';
 import { getEquipmentCardDescription } from '@/lib/equipment-card-description';
 import { getEquipmentQuoteCartKind } from '@/lib/equipment-quote-cart';
 import { getManifestImageSrc } from '@/lib/equipment-images-manifest';
@@ -28,14 +28,14 @@ export function EquipmentCard(props: EquipmentCardProps) {
     <article className="group relative flex flex-col overflow-hidden rounded-[var(--radius-card)] border border-neutral-200 bg-surface shadow-sm transition-shadow hover:shadow-md">
       <div className="pointer-events-none relative h-36 w-full overflow-hidden bg-neutral-100">
         {src ? (
-          <Image
+          <EquipmentCatalogImage
             alt={props.equipment.name}
             className="object-contain object-center p-1"
-            fetchPriority={props.imagePriority ? 'high' : 'low'}
             fill
-            loading={props.imagePriority ? undefined : 'lazy'}
+            key={src}
             priority={props.imagePriority}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+            slug={props.equipment.slug}
             src={src}
           />
         ) : (

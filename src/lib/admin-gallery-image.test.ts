@@ -25,13 +25,23 @@ describe('resolve admin gallery image src', () => {
     ).toBe('/equipamentos/plataforma-elevatoria-z45-25j-dc-lanca-articulada.png');
   });
 
-  it('falls back to slug webp when manifest is missing', () => {
+  it('keeps admin upload path when manifest is missing', () => {
     expect(
       resolveAdminGalleryImageSrc({
-        url: '/equipamentos/item-sem-foto.webp',
+        url: '/equipamentos/uploads/item-sem-foto.jpg',
         slug: 'item-sem-foto-inexistente',
       }),
-    ).toBe('/equipamentos/item-sem-foto.webp');
+    ).toBe('/equipamentos/uploads/item-sem-foto.jpg');
+  });
+
+  it('prefers admin upload over manifest for same slug', () => {
+    const upload = '/equipamentos/uploads/lavadora-nova.jpg';
+    expect(
+      resolveAdminGalleryImageSrc({
+        url: upload,
+        slug: 'lavadora-de-alta-pressao',
+      }),
+    ).toBe(upload);
   });
 });
 
@@ -39,5 +49,9 @@ describe('default equipment image url', () => {
   it('uses manifest path when available', () => {
     const url = defaultEquipmentImageUrl('plataforma-elevatoria-awp-30s');
     expect(url).toContain('plataforma-elevatoria-awp-30s');
+  });
+
+  it('returns undefined when manifest is missing', () => {
+    expect(defaultEquipmentImageUrl('item-sem-foto-inexistente')).toBeUndefined();
   });
 });

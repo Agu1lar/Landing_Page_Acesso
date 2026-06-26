@@ -25,7 +25,7 @@ async function buildResolvedImageMap() {
   const result: Record<string, string> = {};
 
   for (const slug of slugs) {
-    const resolved = resolveEquipmentImageSrc(manifestMap[slug], dbMap[slug]);
+    const resolved = resolveEquipmentImageSrc(manifestMap[slug], dbMap[slug], slug);
     if (resolved) {
       result[slug] = resolved;
     }

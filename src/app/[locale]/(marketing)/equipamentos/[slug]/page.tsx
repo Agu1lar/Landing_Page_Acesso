@@ -99,7 +99,7 @@ export default async function EquipmentDetailPage(props: EquipmentDetailProps) {
         </Link>
 
         <div className="mt-4 grid gap-6 lg:mt-6 lg:grid-cols-2 lg:gap-10">
-          <EquipmentDetailImage name={equipment.name} src={imagePath} />
+          <EquipmentDetailImage name={equipment.name} slug={equipment.slug} src={imagePath} />
 
           <div>
             <Link

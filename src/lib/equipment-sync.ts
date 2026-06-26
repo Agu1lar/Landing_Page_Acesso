@@ -42,9 +42,14 @@ async function ensurePrimaryImage(equipmentId: number, slug: string, name: strin
     return;
   }
 
+  const url = primaryImageUrl(slug);
+  if (!url) {
+    return;
+  }
+
   await db.insert(equipmentImagesSchema).values({
     equipmentId,
-    url: primaryImageUrl(slug),
+    url,
     alt: name,
     sortOrder: 0,
     isPrimary: true,

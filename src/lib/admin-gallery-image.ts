@@ -11,12 +11,12 @@ export function resolveAdminGalleryImageSrc(props: { url: string; slug: string }
   }
 
   const manifestSrc = getManifestImageSrc(props.slug);
-  return resolveEquipmentImageSrc(manifestSrc, trimmed) ?? trimmed;
+  return resolveEquipmentImageSrc(manifestSrc, trimmed, props.slug) ?? trimmed;
 }
 
 /**
- * Returns the best default image URL when the admin gallery is empty on save.
+ * Returns manifest image URL when available; otherwise undefined (no fake placeholder).
  */
 export function defaultEquipmentImageUrl(slug: string) {
-  return getManifestImageSrc(slug) ?? `/equipamentos/${slug}.webp`;
+  return getManifestImageSrc(slug);
 }

@@ -279,7 +279,7 @@ export async function seedEquipmentFromJson(updatedBy?: string) {
       .returning({ id: equipmentSchema.id });
 
     const manifestUrl = defaultEquipmentImageUrl(item.slug);
-    if (row?.id) {
+    if (row?.id && manifestUrl) {
       await db.insert(equipmentImagesSchema).values({
         equipmentId: row.id,
         url: manifestUrl,
