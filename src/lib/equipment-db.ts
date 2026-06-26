@@ -120,6 +120,50 @@ export async function countEquipmentInDb() {
 }
 
 /**
+ * Loads one equipment row by slug, including archived rows.
+ */
+export async function getEquipmentRowBySlugIncludingArchived(slug: string) {
+  const [row] = await db
+    .select()
+    .from(equipmentSchema)
+    .where(eq(equipmentSchema.slug, slug))
+    .limit(1);
+
+  return row;
+}
+
+/**
+ * Lists JSON catalog items not yet stored in Postgres (visible on site via fallback).
+ */
+export async function listJsonOnlyEquipmentForAdmin(filters: EquipmentAdminFilters = {}) {
+  if (filters.status === 'draft' || filters.status === 'archived') {
+    return [] as Equipment[];
+  }
+
+  const dbSlugs = await loadDbEquipmentSlugs();
+  let items = jsonFallback.filter((item) => !dbSlugs.has(item.slug));
+
+  if (filters.category?.trim()) {
+    items = items.filter((item) => item.category === filters.category.trim());
+  }
+
+  if (filters.q?.trim()) {
+    const term = filters.q.trim().toLowerCase();
+    items = items.filter(
+      (item) =>
+        item.name.toLowerCase().includes(term) ||
+        item.slug.toLowerCase().includes(term),
+    );
+  }
+
+  if (filters.status === 'active') {
+    items = items.filter((item) => item.available);
+  }
+
+  return items.sort((left, right) => left.name.localeCompare(right.name, 'pt-BR'));
+}
+
+/**
  * Loads one equipment by slug including non-published rows (admin).
  */
 export async function getEquipmentRowBySlug(slug: string) {

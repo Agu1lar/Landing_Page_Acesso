@@ -4,6 +4,7 @@ import Link from 'next/link';
 import {
   consolidateMangoteVibradorAction,
   importEquipmentCatalogAction,
+  importEquipmentFromJsonAction,
   syncFerramentasEletricasCopyAction,
   syncPriorityCatalogAction,
 } from '@/app/actions/equipment-admin';
@@ -11,7 +12,7 @@ import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
 import { AdminPendingButton } from '@/components/admin/AdminPendingButton';
 import { requireAdminAccess } from '@/lib/auth-roles';
 import { buildAdminListQuery } from '@/lib/admin-return-path';
-import { countEquipmentInDb, listEquipmentForAdmin } from '@/lib/equipment-db';
+import { countEquipmentInDb, listEquipmentForAdmin, listJsonOnlyEquipmentForAdmin } from '@/lib/equipment-db';
 import { CATEGORY_LABELS } from '@/types/equipment';
 import type { EquipmentCategory } from '@/types/equipment';
 import { resolveAppLocale } from '@/utils/locale';
@@ -52,6 +53,11 @@ export default async function EquipmentAdminListPage(props: EquipmentAdminListPr
   };
   const listQuery = buildAdminListQuery(listFilters);
   const rows = await listEquipmentForAdmin({
+    q: searchParams.q,
+    category: searchParams.category,
+    status: (searchParams.status as 'all' | 'active' | 'draft' | 'archived') ?? 'all',
+  });
+  const jsonOnlyRows = await listJsonOnlyEquipmentForAdmin({
     q: searchParams.q,
     category: searchParams.category,
     status: (searchParams.status as 'all' | 'active' | 'draft' | 'archived') ?? 'all',
@@ -195,9 +201,38 @@ export default async function EquipmentAdminListPage(props: EquipmentAdminListPr
                 </td>
               </tr>
             ))}
+            {jsonOnlyRows.map((item) => (
+              <tr className="border-b border-neutral-100 bg-amber-50/40" key={`json-${item.slug}`}>
+                <td className="px-4 py-3">
+                  <p className="font-medium text-neutral-900">{item.name}</p>
+                  <p className="mt-0.5 text-xs text-neutral-500">{item.slug}</p>
+                </td>
+                <td className="px-4 py-3">{CATEGORY_LABELS[item.category as EquipmentCategory]}</td>
+                <td className="px-4 py-3">
+                  <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-900">
+                    {t('badge_json_only')}
+                  </span>
+                </td>
+                <td className="px-4 py-3">
+                  <form action={importEquipmentFromJsonAction}>
+                    <input name="returnTo" type="hidden" value={`/dashboard/equipamentos${listQuery}`} />
+                    <input name="slug" type="hidden" value={item.slug} />
+                    <AdminPendingButton
+                      label={t('import_json_item')}
+                      pendingLabel={tCommon('processing')}
+                      variant="outline"
+                    />
+                  </form>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
+
+      {jsonOnlyRows.length > 0 ? (
+        <p className="text-sm text-neutral-600">{t('json_only_hint')}</p>
+      ) : null}
     </div>
   );
 }

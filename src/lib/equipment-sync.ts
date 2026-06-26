@@ -3,6 +3,7 @@ import equipmentJson from '@/data/equipamentos.json';
 import {
   archiveEquipmentBySlug,
   getEquipmentRowBySlug,
+  getEquipmentRowBySlugIncludingArchived,
   listEquipmentImages,
 } from '@/lib/equipment-db';
 import { getManifestImageSrc } from '@/lib/equipment-images-manifest';
@@ -57,43 +58,31 @@ export async function syncPriorityEquipmentFromJson(updatedBy?: string) {
   const results: PrioritySyncResult[] = [];
 
   for (const slug of PRIORITY_CATALOG_SLUGS) {
-    const jsonItem = jsonCatalog.find((item) => item.slug === slug);
-    if (!jsonItem) {
-      results.push({ slug, action: 'skipped' });
-      continue;
-    }
+    results.push(await upsertEquipmentFromJsonBySlug(slug, updatedBy));
+  }
 
-    const existing = await getEquipmentRowBySlug(slug);
-    const actor = updatedBy ?? 'sync-json';
+  return results;
+}
 
-    if (existing) {
-      await db
-        .update(equipmentSchema)
-        .set({
-          name: jsonItem.name,
-          category: jsonItem.category,
-          shortDescription: jsonItem.shortDescription,
-          longDescription: jsonItem.longDescription,
-          specs: jsonItem.specs,
-          tags: jsonItem.tags,
-          featured: jsonItem.featured,
-          available: true,
-          published: true,
-          deletedAt: null,
-          updatedBy: actor,
-          updatedAt: new Date(),
-        })
-        .where(eq(equipmentSchema.id, existing.id));
+/**
+ * Inserts or updates one catalog item from equipamentos.json into Postgres.
+ */
+export async function upsertEquipmentFromJsonBySlug(
+  slug: string,
+  updatedBy?: string,
+): Promise<PrioritySyncResult> {
+  const jsonItem = jsonCatalog.find((item) => item.slug === slug);
+  if (!jsonItem) {
+    return { slug, action: 'skipped' };
+  }
 
-      await ensurePrimaryImage(existing.id, jsonItem.slug, jsonItem.name);
-      results.push({ slug, action: 'updated' });
-      continue;
-    }
+  const existing = await getEquipmentRowBySlugIncludingArchived(slug);
+  const actor = updatedBy ?? 'sync-json';
 
-    const [row] = await db
-      .insert(equipmentSchema)
-      .values({
-        slug: jsonItem.slug,
+  if (existing) {
+    await db
+      .update(equipmentSchema)
+      .set({
         name: jsonItem.name,
         category: jsonItem.category,
         shortDescription: jsonItem.shortDescription,
@@ -103,18 +92,38 @@ export async function syncPriorityEquipmentFromJson(updatedBy?: string) {
         featured: jsonItem.featured,
         available: true,
         published: true,
+        deletedAt: null,
         updatedBy: actor,
+        updatedAt: new Date(),
       })
-      .returning({ id: equipmentSchema.id });
+      .where(eq(equipmentSchema.id, existing.id));
 
-    if (row?.id) {
-      await ensurePrimaryImage(row.id, jsonItem.slug, jsonItem.name);
-    }
-
-    results.push({ slug, action: 'inserted' });
+    await ensurePrimaryImage(existing.id, jsonItem.slug, jsonItem.name);
+    return { slug, action: 'updated' };
   }
 
-  return results;
+  const [row] = await db
+    .insert(equipmentSchema)
+    .values({
+      slug: jsonItem.slug,
+      name: jsonItem.name,
+      category: jsonItem.category,
+      shortDescription: jsonItem.shortDescription,
+      longDescription: jsonItem.longDescription,
+      specs: jsonItem.specs,
+      tags: jsonItem.tags,
+      featured: jsonItem.featured,
+      available: true,
+      published: true,
+      updatedBy: actor,
+    })
+    .returning({ id: equipmentSchema.id });
+
+  if (row?.id) {
+    await ensurePrimaryImage(row.id, jsonItem.slug, jsonItem.name);
+  }
+
+  return { slug, action: 'inserted' };
 }
 
 /**

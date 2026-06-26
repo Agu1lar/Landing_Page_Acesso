@@ -11,7 +11,13 @@ import {
   saveEquipmentWithImages,
   seedEquipmentFromJson,
 } from '@/lib/equipment-db';
-import { consolidateMangoteVibradorInDb, MANGOTE_VIBRADOR_SLUG, syncEquipmentCategoryCopyFromJson, syncPriorityEquipmentFromJson } from '@/lib/equipment-sync';
+import {
+  consolidateMangoteVibradorInDb,
+  MANGOTE_VIBRADOR_SLUG,
+  syncEquipmentCategoryCopyFromJson,
+  syncPriorityEquipmentFromJson,
+  upsertEquipmentFromJsonBySlug,
+} from '@/lib/equipment-sync';
 import { applyPlatformKindToCatalogItem, isPlatformKind } from '@/lib/platform-kind-admin';
 import { applyWorkHeightToSpecs, parseWorkHeightMeters } from '@/lib/platform-height-admin';
 import {
@@ -163,6 +169,41 @@ export async function consolidateMangoteVibradorAction() {
   revalidatePath('/dashboard/equipamentos');
   revalidatePath('/categorias/ferramentas-eletricas');
   redirect('/dashboard/equipamentos?category=ferramentas-eletricas&q=mangote');
+}
+
+/**
+ * Imports one JSON catalog item into Postgres so it can be edited in the admin.
+ */
+export async function importEquipmentFromJsonAction(formData: FormData) {
+  const access = await requireAdminAccess();
+  if (!access.ok) {
+    redirect('/unauthorized');
+  }
+
+  const slug = String(formData.get('slug') ?? '').trim();
+  if (!slug) {
+    redirect('/dashboard/equipamentos');
+  }
+
+  const result = await upsertEquipmentFromJsonBySlug(slug, access.userId);
+
+  await logAdminActivity({
+    userId: access.userId,
+    action: 'import_from_json',
+    entityType: 'equipment',
+    entitySlug: slug,
+    details: result.action,
+  });
+
+  revalidateEquipmentPaths(slug);
+  revalidatePath('/dashboard/equipamentos');
+
+  const filters = adminListFiltersSuffix(formData);
+  if (result.action === 'skipped') {
+    redirect(`/dashboard/equipamentos${filters}`);
+  }
+
+  redirect(`/dashboard/equipamentos/${slug}/edit${filters}`);
 }
 
 /**
