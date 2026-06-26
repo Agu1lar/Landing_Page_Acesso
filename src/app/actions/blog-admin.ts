@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { logAdminActivity } from '@/lib/admin-activity';
-import { adminListFiltersSuffix, blogAdminListPath, returnPathFromFormData } from '@/lib/admin-return-path';
+import { adminListFiltersSuffix, returnPathFromFormData } from '@/lib/admin-return-path';
 import { requireDashboardAccess } from '@/lib/auth-roles';
 import {
   getBlogArticleAdminById,
