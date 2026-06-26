@@ -1,7 +1,12 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { put } from '@vercel/blob';
-import { Env } from '@/libs/Env';
+import {
+  Env,
+  getBlobReadWriteToken,
+  getBlobStoreId,
+  isVercelRuntime,
+} from '@/libs/Env';
 
 const ALLOWED_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp']);
 const MAX_BYTES = 5 * 1024 * 1024;
@@ -66,14 +71,14 @@ function canPersistAdminImagesLocally() {
 }
 
 /**
- * Returns true when Vercel Blob is configured (token, store id, or OIDC on Vercel).
+ * Returns true when Vercel Blob credentials are available at runtime.
  */
 export function canUseVercelBlobStorage() {
-  if (Env.BLOB_READ_WRITE_TOKEN || Env.BLOB_STORE_ID) {
+  if (getBlobReadWriteToken() || getBlobStoreId()) {
     return true;
   }
 
-  return Boolean(Env.VERCEL_OIDC_TOKEN && (Env.VERCEL_ENV || Env.VERCEL === '1'));
+  return Boolean(process.env.VERCEL_OIDC_TOKEN && isVercelRuntime());
 }
 
 function blobAccessMismatchMessage(error: unknown) {
@@ -84,18 +89,17 @@ function blobAccessMismatchMessage(error: unknown) {
 
   return (
     'O projeto ainda usa o Blob Private. Na Vercel: desconecte o store Private do projeto, ' +
-    'conecte o store Public, apague BLOB_READ_WRITE_TOKEN (se existir — ela aponta para o store antigo), ' +
-    'confira BLOB_STORE_ID do store Public e faça redeploy.'
+    'conecte o store Public, confira BLOB_STORE_ID do store Public e faça redeploy.'
   );
 }
 
-function shouldUseExplicitBlobToken() {
-  if (!Env.BLOB_READ_WRITE_TOKEN) {
+function shouldUseExplicitBlobToken(storeId: string | undefined) {
+  const token = getBlobReadWriteToken();
+  if (!token) {
     return false;
   }
 
-  // On Vercel deploy, prefer OIDC + BLOB_STORE_ID over a stale read-write token.
-  if (Env.VERCEL_ENV && Env.BLOB_STORE_ID) {
+  if (isVercelRuntime() && storeId) {
     return false;
   }
 
@@ -111,6 +115,7 @@ async function uploadToVercelBlob(pathname: string, buffer: Buffer, contentType:
     );
   }
 
+  const storeId = getBlobStoreId();
   const options: {
     access: 'public' | 'private';
     contentType: string;
@@ -121,12 +126,12 @@ async function uploadToVercelBlob(pathname: string, buffer: Buffer, contentType:
     contentType,
   };
 
-  if (Env.BLOB_STORE_ID) {
-    options.storeId = Env.BLOB_STORE_ID;
+  if (storeId) {
+    options.storeId = storeId;
   }
 
-  if (shouldUseExplicitBlobToken()) {
-    options.token = Env.BLOB_READ_WRITE_TOKEN;
+  if (shouldUseExplicitBlobToken(storeId)) {
+    options.token = getBlobReadWriteToken();
   }
 
   try {
@@ -156,13 +161,13 @@ export async function storeAdminImage(file: File, options: StoreAdminImageOption
   const filename = `${prefix}-${Date.now()}.${ext}`;
   const pathname = `${options.folder}/${filename}`;
 
-  if (canUseVercelBlobStorage()) {
+  if (canUseVercelBlobStorage() || isVercelRuntime()) {
     return uploadToVercelBlob(pathname, buffer, validation.mime);
   }
 
   if (!canPersistAdminImagesLocally()) {
     throw new Error(
-      'Armazenamento de imagens não configurado. Conecte o Blob Public ao projeto, confira BLOB_STORE_ID em Production e faça redeploy após conectar o store.',
+      'Armazenamento de imagens não configurado. Conecte o Blob Public ao projeto e confira BLOB_STORE_ID em Production.',
     );
   }
 

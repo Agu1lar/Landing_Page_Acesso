@@ -42,8 +42,8 @@ export const Env = createEnv({
     RESEND_API_KEY: process.env.RESEND_API_KEY,
     RESEND_FROM_EMAIL: process.env.RESEND_FROM_EMAIL,
     LEADS_NOTIFY_EMAIL: process.env.LEADS_NOTIFY_EMAIL,
-    BLOB_READ_WRITE_TOKEN: process.env.BLOB_READ_WRITE_TOKEN,
-    BLOB_STORE_ID: process.env.BLOB_STORE_ID,
+    BLOB_READ_WRITE_TOKEN: process.env.BLOB_READ_WRITE_TOKEN ?? process.env.Blob_READ_WRITE_TOKEN,
+    BLOB_STORE_ID: process.env.BLOB_STORE_ID ?? process.env.Blob_STORE_ID,
     BLOB_ACCESS: process.env.BLOB_ACCESS,
     VERCEL_ENV: process.env.VERCEL_ENV,
     VERCEL: process.env.VERCEL,
@@ -61,3 +61,36 @@ export const Env = createEnv({
     NODE_ENV: process.env.NODE_ENV,
   },
 });
+
+/**
+ * Reads Blob store id at request time (Vercel injects storage env on the server).
+ */
+export function getBlobStoreId() {
+  return (
+    process.env.BLOB_STORE_ID ??
+    process.env.Blob_STORE_ID ??
+    Env.BLOB_STORE_ID
+  );
+}
+
+/**
+ * Reads Blob read-write token at request time.
+ */
+export function getBlobReadWriteToken() {
+  return (
+    process.env.BLOB_READ_WRITE_TOKEN ??
+    process.env.Blob_READ_WRITE_TOKEN ??
+    Env.BLOB_READ_WRITE_TOKEN
+  );
+}
+
+/**
+ * Returns true when code runs on Vercel infrastructure.
+ */
+export function isVercelRuntime() {
+  return (
+    Env.VERCEL === '1' ||
+    Boolean(Env.VERCEL_ENV) ||
+    Boolean(process.env.VERCEL_URL)
+  );
+}
