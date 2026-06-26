@@ -66,6 +66,35 @@ function canPersistAdminImagesLocally() {
 }
 
 /**
+ * Returns true when Vercel Blob is configured (token or store on Vercel deploy).
+ */
+export function canUseVercelBlobStorage() {
+  if (Env.BLOB_READ_WRITE_TOKEN) {
+    return true;
+  }
+
+  return Boolean(Env.BLOB_STORE_ID && Env.VERCEL_ENV);
+}
+
+async function uploadToVercelBlob(pathname: string, buffer: Buffer, contentType: string) {
+  const options: {
+    access: 'public';
+    contentType: string;
+    token?: string;
+  } = {
+    access: 'public',
+    contentType,
+  };
+
+  if (Env.BLOB_READ_WRITE_TOKEN) {
+    options.token = Env.BLOB_READ_WRITE_TOKEN;
+  }
+
+  const blob = await put(pathname, buffer, options);
+  return blob.url;
+}
+
+/**
  * Stores an admin upload and returns its public URL.
  */
 export async function storeAdminImage(file: File, options: StoreAdminImageOptions) {
@@ -78,19 +107,15 @@ export async function storeAdminImage(file: File, options: StoreAdminImageOption
   const ext = extensionForMime(validation.mime);
   const prefix = options.slug?.trim() ? slugifySafe(options.slug.trim()) : 'rascunho';
   const filename = `${prefix}-${Date.now()}.${ext}`;
+  const pathname = `${options.folder}/${filename}`;
 
-  if (Env.BLOB_READ_WRITE_TOKEN) {
-    const blob = await put(`${options.folder}/${filename}`, buffer, {
-      access: 'public',
-      token: Env.BLOB_READ_WRITE_TOKEN,
-      contentType: validation.mime,
-    });
-    return blob.url;
+  if (canUseVercelBlobStorage()) {
+    return uploadToVercelBlob(pathname, buffer, validation.mime);
   }
 
   if (!canPersistAdminImagesLocally()) {
     throw new Error(
-      'Armazenamento de imagens não configurado. Adicione BLOB_READ_WRITE_TOKEN no ambiente.',
+      'Armazenamento de imagens não configurado. Conecte um Blob store ao projeto na Vercel ou adicione BLOB_READ_WRITE_TOKEN.',
     );
   }
 
