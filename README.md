@@ -32,6 +32,54 @@ Guia completo: [docs/GEO-AI-SEARCH.md](docs/GEO-AI-SEARCH.md) · health check: `
 
 ---
 
+## Changelog — jun 2026 (CMS, catálogo admin, plataformas)
+
+Resumo das entregas de conteúdo e operação comercial no painel.
+
+### CMS de blog / dicas (`/dicas`)
+
+- Artigos migrados de TypeScript estático para **Postgres** (`migrations/0021_blog_articles.sql`).
+- Painel em **`/dashboard/dicas`**: criar, editar, **publicar** e **tirar do ar** (rascunho / arquivado).
+- Editor **TipTap** com formatação, imagens, **vídeo** (YouTube, Vimeo ou upload MP4/WebM até 50 MB), **links** (redirect, nova aba, download) e **botão CTA**.
+- Capa do artigo com upload drag-and-drop (Blob Vercel ou `public/blog/uploads/` local).
+- Páginas públicas: **`/dicas`** (listagem) e **`/dicas/[slug]`** (artigo com HTML rico).
+- Upload de mídia: `POST /api/admin/blog/upload` · biblioteca: `src/lib/blog-tiptap-extensions.ts`.
+
+### Admin de equipamentos (CRUD completo)
+
+- **`/dashboard/equipamentos`**: lista com busca, filtro por categoria e status (ativo / rascunho / arquivado).
+- **`/dashboard/equipamentos/new`** e **`/dashboard/equipamentos/[slug]/edit`**: formulário comercial (nome, slug, categoria, descrições, specs, tags, visibilidade).
+- **Galeria de fotos**: drag-and-drop, foto principal, texto alternativo; upload via **`POST /api/admin/equipment/upload`**.
+- Armazenamento: **Vercel Blob Public** em produção; em dev, `public/equipamentos/uploads/` (sem Blob).
+- Prévia no painel resolve URLs como o site público (`src/lib/admin-gallery-image.ts` — manifest + Blob + DB).
+- **Arquivar** e **duplicar** equipamento; botões com feedback de carregamento (`AdminPendingButton`).
+- **Voltar para lista** mantém filtros da busca (`admin-return-path.ts`).
+- Linhas **「Só no site (JSON)」**: itens que aparecem no catálogo público mas ainda não estão no Postgres — botão **Trazer para o painel**.
+- Ações de sync (barra superior):
+  - **Sincronizar catálogo prioritário** (`syncPriorityCatalogAction`)
+  - **Consolidar mangotes** — unifica `mangote-vibrador` e arquiva slugs legados (`consolidateMangoteVibradorAction`)
+  - **Sincronizar textos ferramentas elétricas** — copia do JSON para o Postgres (`syncFerramentasEletricasCopyAction`)
+- Auditoria do catálogo: `node docs/scripts/audit-equipment-catalog.mjs` · lib: `src/lib/equipment-catalog-audit.ts`.
+
+### Filtros de plataformas elevatórias (site + admin)
+
+- Na categoria **`/categorias/plataformas-elevatorias`**: filtros por **tipo** (Tesoura, Articulada, Telescópica, **Mastro vertical**) e por **faixa de altura de trabalho**.
+- No admin, campo **Filtro na aba Plataformas elevatórias** + **Altura de trabalho (metros)** — grava spec `Tipo`, tag de filtro e altura automaticamente.
+- Bibliotecas: `src/lib/platform-kind.ts`, `src/lib/platform-kind-admin.ts`, `src/lib/platform-height-admin.ts`.
+
+### Sitemap e SEO
+
+- **`lastModified` real** no sitemap: datas de `equipment.updated_at` e `publishedAt` dos artigos (não mais `new Date()` em todo build).
+- Itens só no JSON usam data estável quando não há linha no Postgres.
+
+### UX do painel
+
+- Navegação com **estado de loading** nos formulários (salvar, arquivar, importar, sync).
+- Item arquivado **some da lista** ativa (não fica editável como ativo).
+- Ajuda contextual (`AdminHelpLauncher`) inclui fotos de equipamentos e editor de blog.
+
+---
+
 ## Changelog — 15 jun 2026
 
 Resumo do que foi projetado e entregue nesta sessão (commits `c2d7f1b` … `main`).
@@ -63,7 +111,7 @@ Resumo do que foi projetado e entregue nesta sessão (commits `c2d7f1b` … `mai
 
 ### Catálogo e performance
 
-- Categoria **equipamentos-aéreos** exibida como **Plataformas elevatórias** (slug da URL mantido).
+- Categoria **plataformas-elevatorias** exibida como **Plataformas elevatórias** (slug da URL mantido).
 - **Cache de 5 min** no catálogo e no mapa de imagens (`unstable_cache` + tags em `equipment-cache-tags.ts`).
 - Cards do catálogo **síncronos no client** com `imageSrc` pré-resolvido no servidor (sem round-trip de DB por card).
 - Resolução de fotos: manifest local + Blob Vercel + DB, com prioridade correta (`equipment-image-resolve.ts`).
@@ -108,7 +156,8 @@ Resumo do que foi projetado e entregue nesta sessão (commits `c2d7f1b` … `mai
 | Início | `/` | Apresentação, área de atendimento (RMBH), categorias, depoimentos, como funciona |
 | Equipamentos | `/equipamentos` | Catálogo com busca e filtro por categoria |
 | Detalhe | `/equipamentos/[slug]` | Ficha, specs (plataformas aéreas), foto, relacionados, carrinho |
-| Categorias | `/categorias/[slug]` | SEO por linha, galeria (ex.: guindaste/Munck), listagem do catálogo |
+| Categorias | `/categorias/[slug]` | SEO por linha, galeria (ex.: guindaste/Munck), filtros de plataforma (tipo + altura), listagem do catálogo |
+| Dicas / blog | `/dicas`, `/dicas/[slug]` | Artigos publicados via CMS (Postgres + TipTap) |
 | Orçamento | `/orcamento` | Formulário + painel do carrinho |
 | Treinamento NR | `/treinamento-plataformas-aereas` | Plataformas aéreas / NR |
 | Sobre, Contato, FAQ, Privacidade | `/sobre`, `/contato`, `/faq`, `/privacidade` | Institucional e LGPD |
@@ -135,7 +184,9 @@ Resumo do que foi projetado e entregue nesta sessão (commits `c2d7f1b` … `mai
 - O site **não controla disponibilidade de frota** — só exibe itens marcados como **Exibir no site** no admin (`available: true`).
 - Itens ocultos no painel **não aparecem** em catálogo, categorias, busca nem ficha pública (404).
 - Postgres + JSON: itens só no JSON entram no site até existirem no admin; slug no Postgres **não** é sobrescrito pelo JSON.
-- **Guindaste / Munck:** migration `0007`, sync em `src/lib/equipment-sync.ts`, botão **Sincronizar guindaste / Munck** em `/dashboard/equipamentos`.
+- **Plataformas elevatórias:** filtros públicos por tipo (tesoura, articulada, telescópica, mastro vertical) e altura de trabalho na página de categoria.
+- **Guindaste / Munck:** migration `0007`, sync em `src/lib/equipment-sync.ts`, botão **Sincronizar catálogo prioritário** em `/dashboard/equipamentos`.
+- **Mangote vibrador:** item consolidado `mangote-vibrador`; slugs legados arquivados — botão **Consolidar mangotes** no admin.
 
 ### Catálogo e conteúdo
 
@@ -165,7 +216,7 @@ Resumo do que foi projetado e entregue nesta sessão (commits `c2d7f1b` … `mai
   - Equipamento: **Product** + **BreadcrumbList**.
   - Categoria: **CollectionPage** + **ItemList** + **BreadcrumbList** (`buildCategoryPageJsonLd`).
   - FAQ: **FAQPage**; treinamento: **Course**.
-- **Sitemap** com prioridades de crawl (home, categorias, catálogo, fichas).
+- **Sitemap** com prioridades de crawl (home, categorias, catálogo, fichas, **dicas**) e `lastModified` a partir do Postgres.
 - **GEO / IAs:** [`/llms.txt`](docs/GEO-AI-SEARCH.md), [`/catalog.json`](docs/GEO-AI-SEARCH.md), robots para crawlers de IA — ver [docs/GEO-AI-SEARCH.md](docs/GEO-AI-SEARCH.md).
 - Testes unitários em `src/lib/seo-metadata.test.ts`, `src/lib/json-ld.test.ts` e `src/lib/ai-discovery.test.ts`.
 
@@ -193,7 +244,10 @@ Rotas protegidas por **Clerk** + papel em `publicMetadata.role` (`admin` ou `com
 | Status do lead | `PATCH /api/admin/leads/[id]/status` |
 | Notas internas | `PATCH /api/admin/leads/[id]/notes` |
 | Export CSV | `GET /api/admin/leads/export` |
-| Equipamentos (admin) | `/dashboard/equipamentos` |
+| **Equipamentos (admin)** | `/dashboard/equipamentos` — CRUD, galeria, specs, filtros de plataforma, sync JSON |
+| **Blog / dicas (admin)** | `/dashboard/dicas` — editor TipTap, capa, publicar / tirar do ar |
+| Upload de fotos (equip.) | `POST /api/admin/equipment/upload` |
+| Upload de mídia (blog) | `POST /api/admin/blog/upload` (imagem até 5 MB · vídeo até 50 MB) |
 | Ajuda contextual | Botão **?** flutuante + **?** em cada métrica |
 
 Guia completo: [docs/CLERK-ACESSO-ADMIN.md](docs/CLERK-ACESSO-ADMIN.md)
@@ -212,7 +266,8 @@ Guia completo: [docs/CLERK-ACESSO-ADMIN.md](docs/CLERK-ACESSO-ADMIN.md)
 - Deploy automático na **Vercel** a cada push em `main`.
 - **Build:** `npm run build` (roda `db:migrate` antes do `next build` — ver `vercel.json`).
 - Banco **Neon** (produção) + **PGlite** local (porta 5433 no `npm run dev`).
-- Migrações Drizzle: leads, equipamentos admin, **`0007_sync_guindaste_catalog`** (guindaste/Munck).
+- Migrações Drizzle: leads, equipamentos admin (`0006`), blog (`0021`), guindaste/Munck (`0007`), analytics, gclid (`0010`), etc.
+- **Vercel Blob Public** para fotos de equipamentos e mídia do blog (`BLOB_STORE_ID`, `BLOB_ACCESS=public`).
 - Rate limit no `POST /api/leads` (Arcjet: 8 req / 15 min por IP).
 - Pool Postgres limitado por instância serverless (`max: 5`); Resend em 429 não bloqueia lead no Neon.
 - **`GET /api/health`** — Clerk live vs test, DB, contagem de redirects, flags Resend/Arcjet.
@@ -252,7 +307,7 @@ Detalhamento por sprint em [ROADMAP.temp.md](ROADMAP.temp.md). **Passos manuais 
 | Manual | Configurar **GA4** na Vercel (`NEXT_PUBLIC_GA_MEASUREMENT_ID`) e importar conversões no Google Ads — [docs/GOOGLE-ADS-GA4.md](docs/GOOGLE-ADS-GA4.md) |
 | Planejado | Sprints 12–22 (CRM, disponibilidade frota, SEO programático) |
 
-**Já no código (go-live):** mapa 301 WP, scripts auditoria GSC/Ads, guindaste no Postgres, health check, specs no WhatsApp, catálogo sem “estoque”, painel comercial com fila e métricas, GA4 + gclid nos leads.
+**Já no código (go-live):** mapa 301 WP, scripts auditoria GSC/Ads, guindaste no Postgres, health check, specs no WhatsApp, catálogo sem “estoque”, painel comercial com fila e métricas, GA4 + gclid nos leads, **CMS de blog**, **CRUD de equipamentos com fotos**, **filtros de plataformas elevatórias**.
 
 ---
 
@@ -264,7 +319,11 @@ Detalhamento por sprint em [ROADMAP.temp.md](ROADMAP.temp.md). **Passos manuais 
 
 Guia: [docs/SPRINT-9-FOTOS.md](docs/SPRINT-9-FOTOS.md)
 
+**Fotos pelo painel admin (alternativa ao script):** em `/dashboard/equipamentos/[slug]/edit`, arraste JPG/PNG/WebP na galeria. Em produção exige **Vercel Blob Public**; após salvar, o site usa a URL do Blob com prioridade sobre o manifest local.
+
 Novos acessórios no catálogo: `python docs/scripts/seed-acessorios.py` (idempotente).
+
+Auditoria catálogo (JSON vs Postgres, filtros de plataforma, destaques): `node docs/scripts/audit-equipment-catalog.mjs`
 
 Validação do preview: [docs/PREVIEW-VALIDACAO.md](docs/PREVIEW-VALIDACAO.md)
 
@@ -342,6 +401,7 @@ No `.env.local` / Vercel:
 | `NEXT_PUBLIC_GA_MEASUREMENT_ID` | Opcional | GA4 + conversões Google Ads — [docs/GOOGLE-ADS-GA4.md](docs/GOOGLE-ADS-GA4.md) |
 | `NEXT_PUBLIC_SENTRY_DISABLED=true` | Preview | Sem Sentry no preview |
 | `ARCJET_KEY` | Opcional | Rate limit em `/api/leads` |
+| `BLOB_STORE_ID`, `BLOB_ACCESS=public` | Produção (fotos/blog) | Conectar **Blob Public** ao projeto na Vercel — ver [docs/GO-LIVE-GATE.md](docs/GO-LIVE-GATE.md) § Blob |
 | `WHATSAPPOS_API_URL`, `WHATSAPPOS_WIDGET_KEY` | Opcional | CRM whatsappOS (capture server-side) |
 
 Guia: [docs/DEPLOY-PREVIEW-VERCEL.md](docs/DEPLOY-PREVIEW-VERCEL.md) · go-live: [docs/PASSOS-MANUAIS.md](docs/PASSOS-MANUAIS.md)
@@ -377,9 +437,13 @@ curl -s https://landing-page-acesso.vercel.app/api/health
 | [docs/CI.md](docs/CI.md) | Pipeline CI e branch protection (Sprint 8.7) |
 | [docs/MIGRACAO-SEO-WP.md](docs/MIGRACAO-SEO-WP.md) | Mapa 301 WordPress + auditoria GSC/Ads |
 | [docs/PASSOS-MANUAIS.md](docs/PASSOS-MANUAIS.md) | Go-live, DNS Task, Clerk, Neon, Resend, reunião domínio |
-| [docs/GO-LIVE-GATE.md](docs/GO-LIVE-GATE.md) | Gate pré-domínio (CI, 301, health) |
+| [docs/GO-LIVE-GATE.md](docs/GO-LIVE-GATE.md) | Gate pré-domínio (CI, 301, health, Blob, DNS Task) |
 | [docs/CLERK-ACESSO-ADMIN.md](docs/CLERK-ACESSO-ADMIN.md) | Painel, papéis e Clerk Production no go-live |
 | [docs/GOOGLE-ADS-GA4.md](docs/GOOGLE-ADS-GA4.md) | GA4, eventos de conversão e gclid no Google Ads |
+| [docs/GOOGLE-ONE-TAP.md](docs/GOOGLE-ONE-TAP.md) | Google One Tap para leads (opcional) |
+| [docs/GEO-AI-SEARCH.md](docs/GEO-AI-SEARCH.md) | llms.txt, catalog.json e crawlers de IA |
+| [docs/FLUXO-SOLO.md](docs/FLUXO-SOLO.md) | Commit direto na `main` (fluxo solo) |
+| `docs/scripts/audit-equipment-catalog.mjs` | Auditoria catálogo (JSON, Postgres, plataformas) |
 | `docs/scripts/audit-legacy-redirects.mjs` | Valida cobertura 301 (sitemap + GSC) |
 | `docs/scripts/import-google-ads-urls.mjs` | Audita URLs finais dos anúncios |
 | `src/data/legacy-redirects.json` | Mapa 301 versionado |
@@ -391,7 +455,7 @@ curl -s https://landing-page-acesso.vercel.app/api/health
 
 ## Base técnica
 
-**Next.js 16** (App Router), **TypeScript**, **Tailwind v4**, **next-intl** (pt-BR), **Drizzle** + **PostgreSQL** (Neon / PGlite), **Zod**, **React Hook Form**, **Resend**, **Arcjet**, **Clerk** (auth do painel), **PostHog** + **GA4** (analytics com consentimento), hospedagem **Vercel**.
+**Next.js 16** (App Router), **TypeScript**, **Tailwind v4**, **next-intl** (pt-BR), **Drizzle** + **PostgreSQL** (Neon / PGlite), **Zod**, **React Hook Form**, **TipTap** (CMS blog), **Resend**, **Arcjet**, **Clerk** (auth do painel), **Vercel Blob** (fotos e mídia), **PostHog** + **GA4** (analytics com consentimento), hospedagem **Vercel**.
 
 ---
 
