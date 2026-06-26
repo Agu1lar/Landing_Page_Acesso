@@ -76,22 +76,69 @@ export function canUseVercelBlobStorage() {
   return Boolean(Env.BLOB_STORE_ID && Env.VERCEL_ENV);
 }
 
+function blobAccessMismatchMessage(error: unknown) {
+  const message = error instanceof Error ? error.message : String(error);
+  if (!/private store|public access on a private store/iu.test(message)) {
+    return null;
+  }
+
+  return (
+    'O projeto ainda usa o Blob Private. Na Vercel: desconecte o store Private do projeto, ' +
+    'conecte o store Public, apague BLOB_READ_WRITE_TOKEN (se existir — ela aponta para o store antigo), ' +
+    'confira BLOB_STORE_ID do store Public e faça redeploy.'
+  );
+}
+
+function shouldUseExplicitBlobToken() {
+  if (!Env.BLOB_READ_WRITE_TOKEN) {
+    return false;
+  }
+
+  // On Vercel deploy, prefer OIDC + BLOB_STORE_ID over a stale read-write token.
+  if (Env.VERCEL_ENV && Env.BLOB_STORE_ID) {
+    return false;
+  }
+
+  return true;
+}
+
 async function uploadToVercelBlob(pathname: string, buffer: Buffer, contentType: string) {
+  const access = Env.BLOB_ACCESS;
+
+  if (access === 'private') {
+    throw new Error(
+      'BLOB_ACCESS=private não serve fotos públicas do site. Crie um Blob Public na Vercel e deixe BLOB_ACCESS=public.',
+    );
+  }
+
   const options: {
-    access: 'public';
+    access: 'public' | 'private';
     contentType: string;
+    storeId?: string;
     token?: string;
   } = {
-    access: 'public',
+    access,
     contentType,
   };
 
-  if (Env.BLOB_READ_WRITE_TOKEN) {
+  if (Env.BLOB_STORE_ID) {
+    options.storeId = Env.BLOB_STORE_ID;
+  }
+
+  if (shouldUseExplicitBlobToken()) {
     options.token = Env.BLOB_READ_WRITE_TOKEN;
   }
 
-  const blob = await put(pathname, buffer, options);
-  return blob.url;
+  try {
+    const blob = await put(pathname, buffer, options);
+    return blob.url;
+  } catch (error) {
+    const friendly = blobAccessMismatchMessage(error);
+    if (friendly) {
+      throw new Error(friendly);
+    }
+    throw error;
+  }
 }
 
 /**
