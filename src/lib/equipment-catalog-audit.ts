@@ -154,7 +154,7 @@ export function auditEquipmentCatalog(props: {
     }
   }
 
-  const byCode = {
+  const byCode: Record<CatalogAuditCode, CatalogAuditIssue[]> = {
     json_only: [],
     slug_name_mismatch: [],
     platform_missing_kind: [],
@@ -163,7 +163,7 @@ export function auditEquipmentCatalog(props: {
     featured_missing: [],
     duplicate_slug: [],
     available_thin_description: [],
-  } satisfies Record<CatalogAuditCode, CatalogAuditIssue[]>;
+  };
 
   for (const issue of issues) {
     byCode[issue.code].push(issue);
