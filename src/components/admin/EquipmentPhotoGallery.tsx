@@ -1,8 +1,8 @@
 'use client';
 
-import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { useRef, useState } from 'react';
+import { AdminGalleryImage } from '@/components/admin/AdminGalleryImage';
 import { Button } from '@/components/ui/Button';
 import { pickImageFiles, uploadAdminImage } from '@/lib/admin-image-upload-client';
 
@@ -152,13 +152,10 @@ export function EquipmentPhotoGallery(props: EquipmentPhotoGalleryProps) {
               key={`${item.url}-${index}`}
             >
               <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-neutral-100">
-                <Image
+                <AdminGalleryImage
                   alt={item.alt || t('photo_preview_alt')}
-                  className="object-cover"
-                  fill
-                  sizes="(max-width: 640px) 100vw, 280px"
-                  src={item.url}
-                  unoptimized
+                  slug={props.slug}
+                  url={item.url}
                 />
               </div>
               <label className="block text-sm">

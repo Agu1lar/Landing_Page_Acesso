@@ -75,6 +75,7 @@ export default async function EditEquipmentPage(props: EditEquipmentPageProps) {
       <EquipmentAdminForm
         action={saveEquipmentAction}
         images={images}
+        key={row.id}
         returnTo={listPath}
         row={row}
       />

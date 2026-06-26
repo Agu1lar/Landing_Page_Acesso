@@ -6,6 +6,7 @@ import { EquipmentPhotoGallery, type GalleryItem } from '@/components/admin/Equi
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { AdminPendingButton } from '@/components/admin/AdminPendingButton';
+import { resolveAdminGalleryImageSrc } from '@/lib/admin-gallery-image';
 import { ALL_EQUIPMENT_CATEGORIES } from '@/lib/categories-seo';
 import { slugifyEquipmentName } from '@/lib/equipment-slug';
 import {
@@ -31,12 +32,12 @@ type EquipmentAdminFormProps = {
   returnTo?: string;
 };
 
-function initialGallery(images: EquipmentImageRow[] | undefined): GalleryItem[] {
+function initialGallery(images: EquipmentImageRow[] | undefined, slug: string): GalleryItem[] {
   if (!images || images.length === 0) {
     return [];
   }
   return images.map((image) => ({
-    url: image.url,
+    url: resolveAdminGalleryImageSrc({ url: image.url, slug }),
     alt: image.alt ?? '',
     isPrimary: image.isPrimary,
   }));
@@ -92,7 +93,7 @@ export function EquipmentAdminForm(props: EquipmentAdminFormProps) {
     const meters = readWorkHeightMetersFromSpecs(row?.specs ?? []);
     return meters ? String(meters).replace('.', ',') : '';
   });
-  const [gallery, setGallery] = useState(() => initialGallery(props.images));
+  const [gallery, setGallery] = useState(() => initialGallery(props.images, row?.slug ?? ''));
   const [specs, setSpecs] = useState(() => initialSpecs(row?.specs ?? undefined));
 
   const imagesJson = useMemo(() => galleryToJson(gallery), [gallery]);

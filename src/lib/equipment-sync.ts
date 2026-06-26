@@ -6,7 +6,7 @@ import {
   getEquipmentRowBySlugIncludingArchived,
   listEquipmentImages,
 } from '@/lib/equipment-db';
-import { getManifestImageSrc } from '@/lib/equipment-images-manifest';
+import { defaultEquipmentImageUrl } from '@/lib/admin-gallery-image';
 import {
   MANGOTE_VIBRADOR_SLUG,
   RETIRED_MANGOTE_VIBRADOR_SLUGS,
@@ -33,7 +33,7 @@ export type CategoryCopySyncResult = {
 };
 
 function primaryImageUrl(slug: string) {
-  return getManifestImageSrc(slug) ?? `/equipamentos/${slug}.webp`;
+  return defaultEquipmentImageUrl(slug);
 }
 
 async function ensurePrimaryImage(equipmentId: number, slug: string, name: string) {

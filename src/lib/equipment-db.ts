@@ -3,6 +3,7 @@ import 'server-only';
 import { and, asc, desc, eq, ilike, isNotNull, isNull, or, sql } from 'drizzle-orm';
 import type { InferSelectModel } from 'drizzle-orm';
 import equipmentJson from '@/data/equipamentos.json';
+import { defaultEquipmentImageUrl } from '@/lib/admin-gallery-image';
 import { db } from '@/libs/DB';
 import { equipmentImagesSchema, equipmentSchema } from '@/models/Schema';
 import type { Equipment, EquipmentCategory, EquipmentSpec } from '@/types/equipment';
@@ -277,7 +278,7 @@ export async function seedEquipmentFromJson(updatedBy?: string) {
       })
       .returning({ id: equipmentSchema.id });
 
-    const manifestUrl = `/equipamentos/${item.slug}.webp`;
+    const manifestUrl = defaultEquipmentImageUrl(item.slug);
     if (row?.id) {
       await db.insert(equipmentImagesSchema).values({
         equipmentId: row.id,

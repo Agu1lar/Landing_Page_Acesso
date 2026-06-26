@@ -19,6 +19,7 @@ import {
   upsertEquipmentFromJsonBySlug,
 } from '@/lib/equipment-sync';
 import { applyPlatformKindToCatalogItem, isPlatformKind } from '@/lib/platform-kind-admin';
+import { defaultEquipmentImageUrl, resolveAdminGalleryImageSrc } from '@/lib/admin-gallery-image';
 import { applyWorkHeightToSpecs, parseWorkHeightMeters } from '@/lib/platform-height-admin';
 import {
   adminListFiltersSuffix,
@@ -270,7 +271,7 @@ export async function saveEquipmentAction(formData: FormData) {
 
   if (images.length === 0) {
     images.push({
-      url: `/equipamentos/${data.slug}.webp`,
+      url: defaultEquipmentImageUrl(data.slug),
       alt: data.name,
       sortOrder: 0,
       isPrimary: true,
@@ -278,6 +279,12 @@ export async function saveEquipmentAction(formData: FormData) {
   } else if (!images.some((image) => image.isPrimary)) {
     images[0]!.isPrimary = true;
   }
+
+  const normalizedImages = images.map((image, index) => ({
+    ...image,
+    url: resolveAdminGalleryImageSrc({ url: image.url, slug: data.slug }),
+    sortOrder: index,
+  }));
 
   await saveEquipmentWithImages({
     input: {
@@ -292,7 +299,7 @@ export async function saveEquipmentAction(formData: FormData) {
       available: data.available,
       published: data.published,
     },
-    images,
+    images: normalizedImages,
     userId: access.userId,
     existingId: existingId ? Number.parseInt(String(existingId), 10) : undefined,
   });
