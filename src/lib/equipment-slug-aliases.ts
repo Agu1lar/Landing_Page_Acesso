@@ -10,16 +10,17 @@ function getVariantsBySlug() {
   }
 
   variantsBySlug = new Map();
+  const slugVariants = variantsBySlug;
 
   const link = (left: string, right: string) => {
-    if (!variantsBySlug!.has(left)) {
-      variantsBySlug!.set(left, new Set());
+    if (!slugVariants.has(left)) {
+      slugVariants.set(left, new Set());
     }
-    if (!variantsBySlug!.has(right)) {
-      variantsBySlug!.set(right, new Set());
+    if (!slugVariants.has(right)) {
+      slugVariants.set(right, new Set());
     }
-    variantsBySlug.get(left)!.add(right);
-    variantsBySlug.get(right)!.add(left);
+    slugVariants.get(left)!.add(right);
+    slugVariants.get(right)!.add(left);
   };
 
   for (const [from, to] of Object.entries(aliasMap)) {
