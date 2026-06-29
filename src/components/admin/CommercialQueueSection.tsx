@@ -1,3 +1,4 @@
+import { formatDateTimeBrasilia } from '@/lib/app-datetime';
 import { getTranslations } from 'next-intl/server';
 import { AdminCard } from '@/components/admin/AdminCard';
 import { LeadPriorityBadge } from '@/components/admin/LeadPriorityBadge';
@@ -11,14 +12,6 @@ type CommercialQueueSectionProps = {
   total: number;
   weekRange: { dateFrom: string; dateTo: string };
 };
-
-function formatDateTime(date: Date) {
-  return new Intl.DateTimeFormat('pt-BR', {
-    dateStyle: 'short',
-    timeStyle: 'short',
-  }).format(date);
-}
-
 function activityAt(lead: LeadWithIntent) {
   return lead.lastActivityAt ?? lead.createdAt;
 }
@@ -76,7 +69,7 @@ export async function CommercialQueueSection(props: CommercialQueueSectionProps)
                         {lead.city ?? '—'} · {itemsSummary}
                       </p>
                       <p className="text-xs text-neutral-500">
-                        {formatDateTime(activityAt(lead))}
+                        {formatDateTimeBrasilia(activityAt(lead))}
                         {lead.utmSource ? ` · utm: ${lead.utmSource}` : ''}
                       </p>
                     </div>

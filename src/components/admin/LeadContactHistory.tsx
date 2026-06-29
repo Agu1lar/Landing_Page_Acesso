@@ -1,3 +1,4 @@
+import { formatDateTimeBrasilia } from '@/lib/app-datetime';
 import { getTranslations } from 'next-intl/server';
 import { LEAD_STATUSES } from '@/lib/lead-status';
 import type { LeadStatus } from '@/lib/lead-status';
@@ -10,14 +11,6 @@ type LeadContactHistoryProps = {
   currentLeadId: number;
   relatedLeads: LeadRecord[];
 };
-
-function formatDateTime(date: Date) {
-  return new Intl.DateTimeFormat('pt-BR', {
-    dateStyle: 'short',
-    timeStyle: 'short',
-  }).format(date);
-}
-
 function activityDate(lead: LeadRecord) {
   return lead.lastActivityAt ?? lead.createdAt;
 }
@@ -48,7 +41,7 @@ export async function LeadContactHistory(props: LeadContactHistoryProps) {
                 <p className="font-medium text-neutral-900">
                   {isCurrent ? t('contact_history_current') : t('contact_history_entry', { id: row.id })}
                   {' · '}
-                  {formatDateTime(activityDate(row))}
+                  {formatDateTimeBrasilia(activityDate(row))}
                 </p>
                 <p className="text-xs text-neutral-500">
                   {t(kindKey)} · {t(statusKey)} · {row.origin}

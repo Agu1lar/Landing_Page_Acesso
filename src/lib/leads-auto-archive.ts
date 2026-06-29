@@ -1,4 +1,5 @@
 import { and, eq, lt, sql } from 'drizzle-orm';
+import { APP_TIMEZONE, brasiliaDayStartUtc } from '@/lib/app-datetime';
 import { currentWeekRange } from '@/lib/leads-date-presets';
 import { db } from '@/libs/DB';
 import { leadsSchema } from '@/models/Schema';
@@ -6,11 +7,11 @@ import { leadsSchema } from '@/models/Schema';
 const leadActivityOrder = sql`coalesce(${leadsSchema.lastActivityAt}, ${leadsSchema.createdAt})`;
 
 /**
- * Returns Monday 00:00 UTC for the week that contains `reference`.
+ * Returns Monday 00:00 in America/Sao_Paulo for the week that contains `reference`.
  */
 export function currentWeekStartUtc(reference = new Date()) {
   const { dateFrom } = currentWeekRange(reference);
-  return new Date(`${dateFrom}T00:00:00.000Z`);
+  return brasiliaDayStartUtc(dateFrom);
 }
 
 /**

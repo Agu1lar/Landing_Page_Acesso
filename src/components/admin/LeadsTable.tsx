@@ -1,3 +1,4 @@
+import { formatDateTimeBrasilia } from '@/lib/app-datetime';
 import { getTranslations } from 'next-intl/server';
 import { LEAD_STATUSES } from '@/lib/lead-status';
 import type { LeadStatus } from '@/lib/lead-status';
@@ -14,14 +15,6 @@ type LeadsTableProps = {
   leads: LeadRecord[];
   contactOrderCounts: Map<number, number>;
 };
-
-function formatDateTime(date: Date) {
-  return new Intl.DateTimeFormat('pt-BR', {
-    dateStyle: 'short',
-    timeStyle: 'short',
-  }).format(date);
-}
-
 export async function LeadsTable(props: LeadsTableProps) {
   const { leads, contactOrderCounts } = props;
   const t = await getTranslations('LeadsAdminPage');
@@ -73,7 +66,7 @@ export async function LeadsTable(props: LeadsTableProps) {
               return (
                 <tr className="transition-colors hover:bg-neutral-50/80" key={lead.id}>
                   <td className="px-4 py-3 whitespace-nowrap text-neutral-600">
-                    {formatDateTime(activityAt)}
+                    {formatDateTimeBrasilia(activityAt)}
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex flex-wrap items-center gap-2">

@@ -1,4 +1,5 @@
-import { and, asc, count, eq, gte, lte, sql } from 'drizzle-orm';
+import { and, asc, count, eq, lte, sql } from 'drizzle-orm';
+import { APP_TIMEZONE } from '@/lib/app-datetime';
 import { scoreLeadIntent } from '@/lib/lead-intent-score';
 import { currentWeekRange } from '@/lib/leads-date-presets';
 import { db } from '@/libs/DB';
@@ -12,9 +13,10 @@ const leadActivityOrder = sql`coalesce(${leadsSchema.lastActivityAt}, ${leadsSch
 
 function buildCurrentWeekActivityWhere() {
   const weekRange = currentWeekRange();
-  const from = new Date(`${weekRange.dateFrom}T00:00:00.000Z`);
-  const to = new Date(`${weekRange.dateTo}T23:59:59.999Z`);
-  return and(gte(leadActivityOrder, from), lte(leadActivityOrder, to));
+  return and(
+    sql`(${leadActivityOrder} at time zone ${APP_TIMEZONE})::date >= ${weekRange.dateFrom}::date`,
+    sql`(${leadActivityOrder} at time zone ${APP_TIMEZONE})::date <= ${weekRange.dateTo}::date`,
+  );
 }
 
 export type StaleLeadsSummary = {

@@ -1,4 +1,5 @@
-import { and, count, desc, eq, gte, ilike, inArray, isNull, lte, ne, or, sql } from 'drizzle-orm';
+import { and, count, desc, eq, ilike, inArray, isNull, ne, or, sql } from 'drizzle-orm';
+import { APP_TIMEZONE, formatDateTimeBrasiliaExport } from '@/lib/app-datetime';
 import {
   GOOGLE_ADS_NO_UTM_KEY,
   NO_CAMPAIGN_KEY,
@@ -190,15 +191,19 @@ function buildWhere(filters: LeadListFilters) {
     }
   }
   if (filters.dateFrom?.trim()) {
-    const from = new Date(`${filters.dateFrom.trim()}T00:00:00.000Z`);
-    if (!Number.isNaN(from.getTime())) {
-      conditions.push(gte(leadsSchema.createdAt, from));
+    const dateFrom = filters.dateFrom.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/u.test(dateFrom)) {
+      conditions.push(
+        sql`(${leadsSchema.createdAt} at time zone ${APP_TIMEZONE})::date >= ${dateFrom}::date`,
+      );
     }
   }
   if (filters.dateTo?.trim()) {
-    const to = new Date(`${filters.dateTo.trim()}T23:59:59.999Z`);
-    if (!Number.isNaN(to.getTime())) {
-      conditions.push(lte(leadsSchema.createdAt, to));
+    const dateTo = filters.dateTo.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/u.test(dateTo)) {
+      conditions.push(
+        sql`(${leadsSchema.createdAt} at time zone ${APP_TIMEZONE})::date <= ${dateTo}::date`,
+      );
     }
   }
   if (filters.q?.trim()) {
@@ -218,13 +223,16 @@ function buildWhere(filters: LeadListFilters) {
 }
 
 function buildActivityDateWhere(dateFrom: string, dateTo: string) {
-  const from = new Date(`${dateFrom.trim()}T00:00:00.000Z`);
-  const to = new Date(`${dateTo.trim()}T23:59:59.999Z`);
-  if (Number.isNaN(from.getTime()) || Number.isNaN(to.getTime())) {
+  const from = dateFrom.trim();
+  const to = dateTo.trim();
+  if (!/^\d{4}-\d{2}-\d{2}$/u.test(from) || !/^\d{4}-\d{2}-\d{2}$/u.test(to)) {
     return undefined;
   }
 
-  return and(gte(leadActivityOrder, from), lte(leadActivityOrder, to));
+  return and(
+    sql`(${leadActivityOrder} at time zone ${APP_TIMEZONE})::date >= ${from}::date`,
+    sql`(${leadActivityOrder} at time zone ${APP_TIMEZONE})::date <= ${to}::date`,
+  );
 }
 
 function excludeArchivedWhere(extra?: ReturnType<typeof and>) {
@@ -474,7 +482,7 @@ function escapeCsvCell(value: string) {
 function leadToCsvRow(lead: LeadRecord): LeadCsvRow {
   return {
     id: String(lead.id),
-    createdAt: lead.createdAt.toISOString(),
+    createdAt: formatDateTimeBrasiliaExport(lead.createdAt),
     name: lead.name,
     email: lead.email,
     phone: lead.phone ?? '',

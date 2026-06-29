@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/Button';
 import { LEAD_STATUSES } from '@/lib/lead-status';
 import type { LeadStatus } from '@/lib/lead-status';
 import { scoreLeadIntent } from '@/lib/lead-intent-score';
+import { formatDateTimeBrasilia } from '@/lib/app-datetime';
 import { formatLeadCartItems, getLeadById, listRelatedLeads, parseLeadCartItems } from '@/lib/leads-admin';
 import { Link } from '@/libs/I18nNavigation';
 import { resolveAppLocale } from '@/utils/locale';
@@ -19,13 +20,6 @@ import { resolveAppLocale } from '@/utils/locale';
 type LeadDetailPageProps = {
   params: Promise<{ locale: string; id: string }>;
 };
-
-function formatDateTime(date: Date) {
-  return new Intl.DateTimeFormat('pt-BR', {
-    dateStyle: 'full',
-    timeStyle: 'short',
-  }).format(date);
-}
 
 export async function generateMetadata(props: LeadDetailPageProps): Promise<Metadata> {
   const { locale, id } = await props.params;
@@ -86,7 +80,7 @@ export default async function LeadDetailPage(props: LeadDetailPageProps) {
           {t('back_to_list')}
         </Button>
         <p className="text-sm text-neutral-500">
-          {t('detail_id', { id: lead.id })} · {formatDateTime(activityAt)}
+          {t('detail_id', { id: lead.id })} · {formatDateTimeBrasilia(activityAt, 'full')}
           {lead.lastActivityAt ? ` (${t('last_activity_label')})` : null}
         </p>
       </div>
