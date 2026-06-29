@@ -52,6 +52,12 @@ describe('merge catalog with JSON fallback', () => {
     expect(items.some((item) => item.slug === 'franna-fr17')).toBeFalsy();
   });
 
+  it('skips JSON item when postgres uses alias slug (nivel-laser vs nível-laser)', () => {
+    const items = mergeCatalogWithJsonFallback([], new Set(['nivel-laser']));
+
+    expect(items.some((item) => item.slug === 'nível-laser')).toBeFalsy();
+  });
+
   it('never merges unavailable JSON items', () => {
     const hidden: Equipment = { ...guindasteJson, available: false };
     const items = mergeCatalogWithJsonFallback([hidden], new Set());

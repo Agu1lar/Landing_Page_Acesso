@@ -10,6 +10,7 @@ import {
 } from '@/lib/equipment-db';
 import { EQUIPMENT_CATALOG_TAG } from '@/lib/equipment-cache-tags';
 import { isRetiredEquipmentSlug } from '@/lib/equipment-retired-slugs';
+import { isSlugManagedInPostgres } from '@/lib/equipment-slug-aliases';
 import type { Equipment, EquipmentCategory } from '@/types/equipment';
 import { isEquipmentCategory } from '@/types/equipment';
 
@@ -39,7 +40,10 @@ export function mergeCatalogWithJsonFallback(fromDb: Equipment[], dbSlugs: Set<s
   );
 
   for (const jsonItem of jsonFallback) {
-    if (!isPublicCatalogItem(jsonItem) || dbSlugs.has(jsonItem.slug)) {
+    if (
+      !isPublicCatalogItem(jsonItem) ||
+      isSlugManagedInPostgres(jsonItem.slug, dbSlugs)
+    ) {
       continue;
     }
     if (!bySlug.has(jsonItem.slug)) {
@@ -145,7 +149,11 @@ export async function getEquipmentSitemapLastModifiedBySlug() {
     }
 
     for (const item of jsonFallback) {
-      if (isPublicCatalogItem(item) && !dbSlugs.has(item.slug) && !map.has(item.slug)) {
+      if (
+        isPublicCatalogItem(item) &&
+        !isSlugManagedInPostgres(item.slug, dbSlugs) &&
+        !map.has(item.slug)
+      ) {
         map.set(item.slug, JSON_ONLY_SITEMAP_LAST_MODIFIED);
       }
     }

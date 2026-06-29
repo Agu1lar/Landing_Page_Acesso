@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import { logAdminActivity } from '@/lib/admin-activity';
 import { requireAdminAccess } from '@/lib/auth-roles';
 import { EQUIPMENT_CATALOG_TAG, EQUIPMENT_IMAGE_MAP_TAG } from '@/lib/equipment-cache-tags';
+import { getEquipmentSlugVariants } from '@/lib/equipment-slug-aliases';
 import {
   archiveEquipmentBySlug,
   duplicateEquipmentAsDraft,
@@ -39,7 +40,9 @@ function revalidateEquipmentPaths(slug: string, category?: string) {
   updateTag(EQUIPMENT_IMAGE_MAP_TAG);
   revalidatePath('/');
   revalidatePath('/equipamentos');
-  revalidatePath(`/equipamentos/${slug}`);
+  for (const variant of getEquipmentSlugVariants(slug)) {
+    revalidatePath(`/equipamentos/${variant}`);
+  }
   revalidatePath('/sitemap.xml');
   revalidatePath('/catalog.json');
   revalidatePath('/llms.txt');
