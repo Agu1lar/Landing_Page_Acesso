@@ -1,6 +1,8 @@
-# Sprint 9 — Fotos da frota (guia rápido)
+# Sprint 9 — Fotos da frota (guia legado)
 
-## Maneira mais rápida (recomendada)
+> **Atualização (jun/2026):** o fluxo oficial de fotos é o **painel admin** (`/dashboard/equipamentos` → galeria → **Vercel Blob**). Este guia e o script Python servem só para **manutenção do acervo antigo** ainda indexado em `equipment-image-manifest.json` ou em `public/equipamentos/`. Veja também o [README.md](../README.md) § Fotos e mídia.
+
+## Maneira mais rápida (legado — não use para fotos novas em produção)
 
 **Não edite** `equipamentos.json` para cada foto. O site lê arquivos em:
 

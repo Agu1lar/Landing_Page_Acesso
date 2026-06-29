@@ -49,9 +49,10 @@ Resumo das entregas de conteúdo e operação comercial no painel.
 
 - **`/dashboard/equipamentos`**: lista com busca, filtro por categoria e status (ativo / rascunho / arquivado).
 - **`/dashboard/equipamentos/new`** e **`/dashboard/equipamentos/[slug]/edit`**: formulário comercial (nome, slug, categoria, descrições, specs, tags, visibilidade).
-- **Galeria de fotos**: drag-and-drop, foto principal, texto alternativo; upload via **`POST /api/admin/equipment/upload`**.
+- **Galeria de fotos**: drag-and-drop, foto principal, texto alternativo; upload via **`POST /api/admin/equipment/upload`** → **fonte oficial** de fotos (Blob + Postgres).
 - Armazenamento: **Vercel Blob Public** em produção; em dev, `public/equipamentos/uploads/` (sem Blob).
-- Prévia no painel resolve URLs como o site público (`src/lib/admin-gallery-image.ts` — manifest + Blob + DB).
+- Prévia no painel resolve URLs como o site público (`src/lib/admin-gallery-image.ts` — Blob + DB; manifest só como fallback).
+- **Nomes em MAIÚSCULAS** ao salvar e nos cards (`src/lib/equipment-name.ts`).
 - **Arquivar** e **duplicar** equipamento; botões com feedback de carregamento (`AdminPendingButton`).
 - **Voltar para lista** mantém filtros da busca (`admin-return-path.ts`).
 - Linhas **「Só no site (JSON)」**: itens que aparecem no catálogo público mas ainda não estão no Postgres — botão **Trazer para o painel**.
@@ -80,6 +81,45 @@ Resumo das entregas de conteúdo e operação comercial no painel.
 
 ---
 
+## Changelog — jun 2026 (leads da semana, fotos, catálogo)
+
+### Leads da semana e fila comercial
+
+- **`/dashboard/leads`** — visão operacional da **semana atual** (segunda–domingo): fila comercial, tabela resumida e alertas.
+- **`/dashboard/leads/consulta`** — consulta completa com filtros, paginação e export CSV (histórico e campanhas).
+- **Prioridade com bônus de recência** — leads das últimas 6h/24h/48h sobem na fila além do score quente/morno/frio.
+- **Arquivamento automático** — leads com status *Novo* de semanas anteriores passam para **Arquivado** ao abrir o painel (recuperáveis na consulta).
+- Alerta de leads parados (+24h) **só na semana corrente**.
+- Status **`archived`** (Arquivado) no funil comercial.
+- Libs: `src/lib/leads-auto-archive.ts`, `src/lib/leads-stale-alert.ts`.
+
+### Fotos de equipamentos — fluxo atual
+
+- **Canal oficial:** galeria no painel (`/dashboard/equipamentos/[slug]/edit`) → **Vercel Blob Public** (produção) ou `public/equipamentos/uploads/` (dev).
+- URLs gravadas no Postgres (`equipment_images`); o site prioriza upload do admin sobre qualquer legado.
+- **Legado no repositório** (não é mais o fluxo de cadastro):
+  - `public/equipamentos/{slug}.ext` — poucas fotos commitadas de migrações antigas.
+  - `src/data/equipment-image-manifest.json` — índice estático usado como **fallback** quando não há foto no painel.
+  - `docs/scripts/sync-equipment-photos.py` — só para manutenção pontual do legado; **novas fotos devem ir pelo admin**.
+- Resolução: `src/lib/equipment-image-resolve.ts` (Blob/DB > manifest > placeholder).
+
+### Catálogo e nomes
+
+- **Nomes em MAIÚSCULAS** nos cards e no banco (`formatEquipmentName` + migration `0022_uppercase_equipment_names.sql`).
+- **Aliases de slug** (`equipment-photo-aliases.json`, `equipment-slug-aliases.ts`) — evita duplicata JSON/Postgres (ex.: `nivel-laser` vs `nível-laser`) e itens arquivados que sumem do catálogo público.
+- Revalidação de paths ao arquivar equipamento inclui variantes de slug.
+
+### Métricas e migrations
+
+- Migration idempotente **`0023_ensure_analytics_engagement_schema`** — garante `page_engagement_events` e `lead_kind` em bancos que não aplicaram a `0009`.
+- Dashboard de métricas tolera schema pendente (KPIs principais continuam; engajamento por página fica vazio até migrar).
+
+### Painel de acesso (admin)
+
+- **`/dashboard/acesso`** — allowlist de e-mails autorizados no painel (`migrations/0012_dashboard_allowlist.sql`).
+
+---
+
 ## Changelog — 15 jun 2026
 
 Resumo do que foi projetado e entregue nesta sessão (commits `c2d7f1b` … `main`).
@@ -94,10 +134,13 @@ Resumo do que foi projetado e entregue nesta sessão (commits `c2d7f1b` … `mai
 
 ### Painel comercial (leads)
 
-- **Fila do comercial:** leads com status *Novo*, ordenados por prioridade.
-- **Score de intenção** (quente / morno / frio) com base em telefone, cidade, itens no carrinho, período, mensagem e campanha.
-- **Alerta de leads parados** (+24 h sem mudança de status).
+- **`/dashboard/leads`** — **Leads da semana**: fila do comercial (status *Novo*), tabela resumida e alertas da semana corrente.
+- **`/dashboard/leads/consulta`** — consulta completa, filtros, paginação e export CSV (histórico).
+- **Score de intenção** (quente / morno / frio) com **bônus de recência** (últimas horas sobem na fila).
+- **Arquivamento automático** de leads *Novos* não atendidos de semanas anteriores (status **Arquivado**).
+- **Alerta de leads parados** (+24 h sem contato, só na semana atual).
 - Export CSV, filtros, notas internas e atribuição UTM/gclid na ficha do lead.
+- Leads **Google (cookies)** e **Google One Tap** opcional (`NEXT_PUBLIC_GOOGLE_CLIENT_ID`) — ver [docs/GOOGLE-ONE-TAP.md](docs/GOOGLE-ONE-TAP.md).
 - Correção de crash ao abrir o painel (ícones server → client na navegação).
 
 ### Métricas operacionais (`/dashboard/analytics`)
@@ -114,7 +157,7 @@ Resumo do que foi projetado e entregue nesta sessão (commits `c2d7f1b` … `mai
 - Categoria **plataformas-elevatorias** exibida como **Plataformas elevatórias** (slug da URL mantido).
 - **Cache de 5 min** no catálogo e no mapa de imagens (`unstable_cache` + tags em `equipment-cache-tags.ts`).
 - Cards do catálogo **síncronos no client** com `imageSrc` pré-resolvido no servidor (sem round-trip de DB por card).
-- Resolução de fotos: manifest local + Blob Vercel + DB, com prioridade correta (`equipment-image-resolve.ts`).
+- Resolução de fotos: **upload admin (Blob/DB)** com fallback no manifest legado (`equipment-image-resolve.ts`).
 - Página de detalhe usa `EquipmentDetailImage` (sem `pg` no bundle do browser — fix build Vercel).
 
 ### Mobile e conversão
@@ -136,14 +179,17 @@ Resumo do que foi projetado e entregue nesta sessão (commits `c2d7f1b` … `mai
 
 ---
 
-## Números do catálogo (atual)
+## Números do catálogo (referência)
 
 | Métrica | Valor |
 |---------|------:|
-| Itens no catálogo | **148** (110 equipamentos + **38 acessórios**) |
+| Itens no catálogo (JSON base) | **148** (110 equipamentos + **38 acessórios**) |
 | Categorias | 9 (inclui **Acessórios**) |
-| Fotos publicadas | **144 / 148** (`src/data/equipment-image-manifest.json`) |
-| Sem foto ainda | **5:** `carregador`, `bateria`, `maleta`, `pinca-para-maquina-de-solda`, `rodape-de-0-20-x-3-00-m` |
+| Fotos no manifest legado | **~150 entradas** em `src/data/equipment-image-manifest.json` (fallback estático) |
+| Fotos no repositório (`public/equipamentos/`) | **Poucas dezenas** commitadas — legado de migração; **não** é o fluxo atual |
+| Fotos em produção | **Painel admin + Vercel Blob** (Postgres `equipment_images`) — fonte de verdade para itens editados no CMS |
+
+> **Operação:** novas fotos → `/dashboard/equipamentos` → editar item → galeria. O manifest/script Python só serve para manutenção do acervo antigo ainda não migrado ao painel.
 
 ---
 
@@ -153,7 +199,7 @@ Resumo do que foi projetado e entregue nesta sessão (commits `c2d7f1b` … `mai
 
 | Página | Rota | Conteúdo |
 |--------|------|----------|
-| Início | `/` | Apresentação, área de atendimento (RMBH), categorias, depoimentos, como funciona |
+| Início | `/` | Apresentação, área de atendimento (RMBH), categorias, depoimentos Google, como funciona |
 | Equipamentos | `/equipamentos` | Catálogo com busca e filtro por categoria |
 | Detalhe | `/equipamentos/[slug]` | Ficha, specs (plataformas aéreas), foto, relacionados, carrinho |
 | Categorias | `/categorias/[slug]` | SEO por linha, galeria (ex.: guindaste/Munck), filtros de plataforma (tipo + altura), listagem do catálogo |
@@ -190,10 +236,10 @@ Resumo do que foi projetado e entregue nesta sessão (commits `c2d7f1b` … `mai
 
 ### Catálogo e conteúdo
 
-- **110 equipamentos** do inventário original + **38 acessórios**.
+- **110 equipamentos** do inventário original + **38 acessórios** (`src/data/equipamentos.json` — seed/fallback até existir no Postgres).
 - **Especificações das 14 plataformas aéreas** revisadas no JSON.
-- **Nomes padronizados** (`docs/scripts/normalize-equipment-names.py`).
-- **Fotos da frota:** `public/equipamentos/{slug}.ext` + `docs/scripts/sync-equipment-photos.py` + aliases em `equipment-photo-aliases.json`.
+- **Nomes padronizados** em MAIÚSCULAS no site e no admin (`src/lib/equipment-name.ts`).
+- **Fotos (fluxo atual):** painel admin → Blob Vercel → Postgres; manifest + `public/equipamentos/` são **fallback legado** (ver seção [Fotos e mídia](#fotos-e-mídia-operacional)).
 - **Guindastes e remoções:** galeria em `public/categorias/guindastes-remocoes/` + ficha `guindaste-industrial-munck-remocao-bh`.
 
 ### Migração WordPress → Next.js (301)
@@ -235,17 +281,20 @@ Rotas protegidas por **Clerk** + papel em `publicMetadata.role` (`admin` ou `com
 | Recurso | Rota / API |
 |---------|------------|
 | Login | `/sign-in` (cadastro público desativado → redireciona) |
-| Lista de leads | `/dashboard/leads` |
+| **Leads da semana** | `/dashboard/leads` — fila, alertas e resumo da semana |
+| **Consulta de leads** | `/dashboard/leads/consulta` — histórico, filtros, CSV |
 | Detalhe do lead | `/dashboard/leads/[id]` |
 | **Métricas operacionais** | `/dashboard/analytics` |
-| Fila comercial + prioridade | `/dashboard/leads` (status *Novo*, score quente/morno/frio) |
-| Filtros | Data, status, cidade, origem, busca textual |
+| Fila comercial + prioridade | `/dashboard/leads` (status *Novo*, score + recência) |
+| Arquivamento automático | Leads *Novos* de semanas anteriores → status **Arquivado** |
+| Filtros (consulta) | Data, status, cidade, origem, campanha UTM, busca textual |
 | Atalhos de data | Últimos 7 / 30 dias |
-| Status do lead | `PATCH /api/admin/leads/[id]/status` |
+| Status do lead | `PATCH /api/admin/leads/[id]/status` (`new`, `contacted`, `quoted`, `won`, `lost`, `archived`) |
 | Notas internas | `PATCH /api/admin/leads/[id]/notes` |
 | Export CSV | `GET /api/admin/leads/export` |
-| **Equipamentos (admin)** | `/dashboard/equipamentos` — CRUD, galeria, specs, filtros de plataforma, sync JSON |
+| **Equipamentos (admin)** | `/dashboard/equipamentos` — CRUD, galeria (Blob), specs, filtros de plataforma, sync JSON |
 | **Blog / dicas (admin)** | `/dashboard/dicas` — editor TipTap, capa, publicar / tirar do ar |
+| **Acesso ao painel** | `/dashboard/acesso` — allowlist de e-mails (só `admin`) |
 | Upload de fotos (equip.) | `POST /api/admin/equipment/upload` |
 | Upload de mídia (blog) | `POST /api/admin/blog/upload` (imagem até 5 MB · vídeo até 50 MB) |
 | Ajuda contextual | Botão **?** flutuante + **?** em cada métrica |
@@ -266,7 +315,7 @@ Guia completo: [docs/CLERK-ACESSO-ADMIN.md](docs/CLERK-ACESSO-ADMIN.md)
 - Deploy automático na **Vercel** a cada push em `main`.
 - **Build:** `npm run build` (roda `db:migrate` antes do `next build` — ver `vercel.json`).
 - Banco **Neon** (produção) + **PGlite** local (porta 5433 no `npm run dev`).
-- Migrações Drizzle: leads, equipamentos admin (`0006`), blog (`0021`), guindaste/Munck (`0007`), analytics, gclid (`0010`), etc.
+- Migrações Drizzle: leads, equipamentos admin (`0006`), blog (`0021`), guindaste/Munck (`0007`), analytics (`0009`, `0023`), gclid (`0010`), nomes maiúsculos (`0022`), allowlist (`0012`), etc.
 - **Vercel Blob Public** para fotos de equipamentos e mídia do blog (`BLOB_STORE_ID`, `BLOB_ACCESS=public`).
 - Rate limit no `POST /api/leads` (Arcjet: 8 req / 15 min por IP).
 - Pool Postgres limitado por instância serverless (`max: 5`); Resend em 429 não bloqueia lead no Neon.
@@ -301,29 +350,50 @@ Detalhamento por sprint em [ROADMAP.temp.md](ROADMAP.temp.md). **Passos manuais 
 | Alta | **DNS Task** → Vercel + Clerk **Production** + `DATABASE_URL` Neon pooler |
 | Alta | **Acesso painel Task** (ou técnico na call) para TXT Search Console e corte DNS |
 | Média | Export **GSC** (90 dias) e revalidar com `import-gsc-urls.mjs` se surgirem URLs fora do sitemap |
-| Baixa | **5 fotos** pendentes (lista acima) |
+| Média | **Fotos faltantes** — enviar pelo **painel admin** (galeria + Blob); manifest/script Python só para legado |
 | Média | **Casos de Sucesso** — logos em `public/clientes/{setor}/` — [docs/CLIENT-LOGOS.md](docs/CLIENT-LOGOS.md) |
 | Média | Polish Sprint 7 (a11y, PageSpeed mobile) |
 | Manual | Configurar **GA4** na Vercel (`NEXT_PUBLIC_GA_MEASUREMENT_ID`) e importar conversões no Google Ads — [docs/GOOGLE-ADS-GA4.md](docs/GOOGLE-ADS-GA4.md) |
 | Planejado | Sprints 12–22 (CRM, disponibilidade frota, SEO programático) |
 
-**Já no código (go-live):** mapa 301 WP, scripts auditoria GSC/Ads, guindaste no Postgres, health check, specs no WhatsApp, catálogo sem “estoque”, painel comercial com fila e métricas, GA4 + gclid nos leads, **CMS de blog**, **CRUD de equipamentos com fotos**, **filtros de plataformas elevatórias**.
+**Já no código (go-live):** mapa 301 WP, scripts auditoria GSC/Ads, guindaste no Postgres, health check, specs no WhatsApp, catálogo sem “estoque”, painel comercial com **leads da semana** + arquivamento automático, GA4 + gclid nos leads, **CMS de blog**, **CRUD de equipamentos com fotos via Blob**, **filtros de plataformas elevatórias**, nomes em maiúsculas nos cards, aliases de slug, allowlist de acesso.
 
 ---
 
-## Fotos e acessórios (operacional)
+## Fotos e mídia (operacional)
 
-1. Coloque arquivos em `public/equipamentos/_incoming/` (pasta no `.gitignore`; não vai para o Git).
-2. Rode: `python docs/scripts/sync-equipment-photos.py`
-3. Commit das imagens em `public/equipamentos/` e do `src/data/equipment-image-manifest.json`.
+### Equipamentos — fluxo recomendado (produção)
 
-Guia: [docs/SPRINT-9-FOTOS.md](docs/SPRINT-9-FOTOS.md)
+1. Acesse **`/dashboard/equipamentos`** → editar o item (ou **Trazer para o painel** se ainda estiver só no JSON).
+2. Na **galeria**, arraste JPG, PNG ou WebP (foto principal + alternativas + texto `alt`).
+3. Salve — em produção a imagem vai para **Vercel Blob Public** e a URL fica no Postgres.
+4. O site público usa essa URL com prioridade (`equipment-image-resolve.ts`).
 
-**Fotos pelo painel admin (alternativa ao script):** em `/dashboard/equipamentos/[slug]/edit`, arraste JPG/PNG/WebP na galeria. Em produção exige **Vercel Blob Public**; após salvar, o site usa a URL do Blob com prioridade sobre o manifest local.
+**Requisito Vercel:** Blob store **Public** (`BLOB_STORE_ID`, `BLOB_ACCESS=public`) — [docs/GO-LIVE-GATE.md](docs/GO-LIVE-GATE.md) § Blob.
 
-Novos acessórios no catálogo: `python docs/scripts/seed-acessorios.py` (idempotente).
+### Legado no código (fallback, não cadastrar fotos novas assim)
+
+| Artefato | Função hoje |
+|----------|-------------|
+| `src/data/equipment-image-manifest.json` | Índice estático ~150 slugs → caminho local; usado quando **não** há upload no painel |
+| `public/equipamentos/*.webp` (etc.) | Dezenas de arquivos commitados na migração inicial; poucos itens |
+| `src/data/equipment-photo-aliases.json` | Nomes de arquivo que não batem com o slug |
+| `docs/scripts/sync-equipment-photos.py` | Atualiza manifest + copia de `_incoming/` — **manutenção pontual** do legado |
+
+**Não** é necessário commitar novas fotos em `public/equipamentos/` para o site funcionar em produção — use o painel.
+
+### Blog / dicas
+
+- Capa e imagens no corpo: upload no editor TipTap ou `POST /api/admin/blog/upload`.
+- Local dev: `public/blog/uploads/`; produção: Blob.
+
+### Acessórios e auditoria
+
+Novos acessórios no catálogo JSON: `python docs/scripts/seed-acessorios.py` (idempotente).
 
 Auditoria catálogo (JSON vs Postgres, filtros de plataforma, destaques): `node docs/scripts/audit-equipment-catalog.mjs`
+
+Guia legado de fotos (script Python): [docs/SPRINT-9-FOTOS.md](docs/SPRINT-9-FOTOS.md) — consulte só para acervo antigo.
 
 Validação do preview: [docs/PREVIEW-VALIDACAO.md](docs/PREVIEW-VALIDACAO.md)
 
@@ -399,6 +469,7 @@ No `.env.local` / Vercel:
 | `RESEND_API_KEY`, `RESEND_FROM_EMAIL`, `LEADS_NOTIFY_EMAIL` | Para e-mail de leads | |
 | `NEXT_PUBLIC_POSTHOG_KEY`, `NEXT_PUBLIC_POSTHOG_HOST` | Opcional | Analytics após consentimento |
 | `NEXT_PUBLIC_GA_MEASUREMENT_ID` | Opcional | GA4 + conversões Google Ads — [docs/GOOGLE-ADS-GA4.md](docs/GOOGLE-ADS-GA4.md) |
+| `NEXT_PUBLIC_GOOGLE_CLIENT_ID` | Opcional | Google One Tap para identificar leads — [docs/GOOGLE-ONE-TAP.md](docs/GOOGLE-ONE-TAP.md) |
 | `NEXT_PUBLIC_SENTRY_DISABLED=true` | Preview | Sem Sentry no preview |
 | `ARCJET_KEY` | Opcional | Rate limit em `/api/leads` |
 | `BLOB_STORE_ID`, `BLOB_ACCESS=public` | Produção (fotos/blog) | Conectar **Blob Public** ao projeto na Vercel — ver [docs/GO-LIVE-GATE.md](docs/GO-LIVE-GATE.md) § Blob |

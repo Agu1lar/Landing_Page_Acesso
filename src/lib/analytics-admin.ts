@@ -1,6 +1,6 @@
 import { and, count, desc, eq, gte, lte, sql } from 'drizzle-orm';
 import { sumAnalyticsDailyForPeriod } from '@/lib/analytics-daily';
-import { isAnalyticsSchemaMissingError } from '@/lib/analytics-schema';
+import { isAnalyticsSchemaMissingError, withAnalyticsSchema } from '@/lib/analytics-schema';
 import {
   formatDevice,
   formatEquipmentAnalyticsLabel,
@@ -62,6 +62,8 @@ export type OperationalDashboard = {
   landingPages: CountRow[];
   deviceSplit: CountRow[];
   posthogHint: boolean;
+  /** True when some analytics tables/columns were missing and fallbacks were used. */
+  schemaIncomplete?: boolean;
 };
 
 function percentChange(current: number, previous: number) {
@@ -267,8 +269,19 @@ async function deviceSplit(from: Date, to: Date) {
   return rows.map((row) => ({ label: row.label, count: row.count }));
 }
 
+function emptyEngagementSummary() {
+  return { views: 0, totalActiveSeconds: 0, uniqueSessions: 0 };
+}
+
+const EMPTY_DAILY_SUM = {
+  pageViews: 0,
+  uniqueSessions: 0,
+  whatsappClicks: 0,
+  quoteSubmits: 0,
+};
+
 async function pageEngagementSummary(from: Date, to: Date) {
-  return withEngagementSchema(emptyEngagementSummary(), () =>
+  return withAnalyticsSchema(emptyEngagementSummary(), () =>
     pageEngagementSummaryQuery(from, to),
   );
 }
@@ -296,7 +309,7 @@ async function pageEngagementSummaryQuery(from: Date, to: Date) {
 }
 
 async function topPagesByEngagement(from: Date, to: Date) {
-  return withEngagementSchema([], () => topPagesByEngagementQuery(from, to));
+  return withAnalyticsSchema([], () => topPagesByEngagementQuery(from, to));
 }
 
 async function topPagesByEngagementQuery(from: Date, to: Date) {
@@ -329,23 +342,8 @@ async function topPagesByEngagementQuery(from: Date, to: Date) {
   });
 }
 
-function emptyEngagementSummary() {
-  return { views: 0, totalActiveSeconds: 0, uniqueSessions: 0 };
-}
-
-async function withEngagementSchema<T>(fallback: T, run: () => Promise<T>) {
-  try {
-    return await run();
-  } catch (error) {
-    if (isAnalyticsSchemaMissingError(error)) {
-      return fallback;
-    }
-    throw error;
-  }
-}
-
 async function countCookieConsentLeads(from: Date, to: Date) {
-  return withEngagementSchema(0, async () => {
+  return withAnalyticsSchema(0, async () => {
     const [row] = await db
       .select({ count: count() })
       .from(leadsSchema)
@@ -364,7 +362,7 @@ async function countCookieConsentLeads(from: Date, to: Date) {
 const equipmentSlugFromPath = sql<string>`substring(${pageEngagementEventsSchema.pathname} from '/equipamentos/([^/?]+)')`;
 
 async function equipmentConversionTable(from: Date, to: Date) {
-  return withEngagementSchema([], () => equipmentConversionTableQuery(from, to));
+  return withAnalyticsSchema([], () => equipmentConversionTableQuery(from, to));
 }
 
 async function equipmentConversionTableQuery(from: Date, to: Date) {
@@ -446,6 +444,56 @@ async function equipmentConversionTableQuery(from: Date, to: Date) {
 export async function getOperationalDashboard(
   filters: AnalyticsDashboardFilters = {},
 ): Promise<OperationalDashboard> {
+  try {
+    return await loadOperationalDashboard(filters);
+  } catch (error) {
+    if (!isAnalyticsSchemaMissingError(error)) {
+      throw error;
+    }
+
+    return buildEmptyOperationalDashboard(filters, true);
+  }
+}
+
+function buildEmptyOperationalDashboard(
+  filters: AnalyticsDashboardFilters,
+  schemaIncomplete: boolean,
+): OperationalDashboard {
+  const period = resolveAnalyticsPeriod(filters);
+  const previous = previousPeriodRange(period.dateFrom, period.dateTo);
+
+  return {
+    period: { dateFrom: period.dateFrom, dateTo: period.dateTo },
+    previousPeriod: { dateFrom: previous.dateFrom, dateTo: previous.dateTo },
+    pageViews: 0,
+    uniqueSessions: 0,
+    pageViewsPrevious: 0,
+    uniqueSessionsPrevious: 0,
+    totalActiveSeconds: 0,
+    totalActiveSecondsPrevious: 0,
+    whatsappClicks: 0,
+    quoteSubmits: 0,
+    cookieConsentLeads: 0,
+    whatsappClicksPrevious: 0,
+    quoteSubmitsPrevious: 0,
+    whatsappByOrigin: [],
+    trafficBySource: [],
+    campaignPerformance: [],
+    campaignDailyLeads: [],
+    topEquipmentWhatsapp: [],
+    topEquipmentLeads: [],
+    topPages: [],
+    equipmentConversion: [],
+    landingPages: [],
+    deviceSplit: [],
+    posthogHint: Boolean(process.env.NEXT_PUBLIC_POSTHOG_KEY),
+    schemaIncomplete,
+  };
+}
+
+async function loadOperationalDashboard(
+  filters: AnalyticsDashboardFilters = {},
+): Promise<OperationalDashboard> {
   const period = resolveAnalyticsPeriod(filters);
   const previous = previousPeriodRange(period.dateFrom, period.dateTo);
 
@@ -469,26 +517,28 @@ export async function getOperationalDashboard(
     landingPages,
     deviceSplitRows,
   ] = await Promise.all([
-    sumAnalyticsDailyForPeriod(period.dateFrom, period.dateTo),
-    sumAnalyticsDailyForPeriod(previous.dateFrom, previous.dateTo),
+    withAnalyticsSchema(EMPTY_DAILY_SUM, () => sumAnalyticsDailyForPeriod(period.dateFrom, period.dateTo)),
+    withAnalyticsSchema(EMPTY_DAILY_SUM, () =>
+      sumAnalyticsDailyForPeriod(previous.dateFrom, previous.dateTo),
+    ),
     pageEngagementSummary(period.from, period.to),
     pageEngagementSummary(previous.from, previous.to),
-    countEvents('whatsapp_click', period.from, period.to),
-    countEvents('quote_submit', period.from, period.to),
+    withAnalyticsSchema(0, () => countEvents('whatsapp_click', period.from, period.to)),
+    withAnalyticsSchema(0, () => countEvents('quote_submit', period.from, period.to)),
     countCookieConsentLeads(period.from, period.to),
-    countEvents('whatsapp_click', previous.from, previous.to),
-    countEvents('quote_submit', previous.from, previous.to),
-    whatsappByOrigin(period.from, period.to),
-    trafficBySourceSimple(period.from, period.to),
-    withEngagementSchema({ campaigns: [], dailyLeads: [] }, () =>
+    withAnalyticsSchema(0, () => countEvents('whatsapp_click', previous.from, previous.to)),
+    withAnalyticsSchema(0, () => countEvents('quote_submit', previous.from, previous.to)),
+    withAnalyticsSchema([], () => whatsappByOrigin(period.from, period.to)),
+    withAnalyticsSchema([], () => trafficBySourceSimple(period.from, period.to)),
+    withAnalyticsSchema({ campaigns: [], dailyLeads: [] }, () =>
       getCampaignPerformanceReport(period.from, period.to),
     ),
-    topEquipment('whatsapp_click', period.from, period.to),
-    topEquipmentLeads(period.from, period.to),
+    withAnalyticsSchema([], () => topEquipment('whatsapp_click', period.from, period.to)),
+    withAnalyticsSchema([], () => topEquipmentLeads(period.from, period.to)),
     topPagesByEngagement(period.from, period.to),
     equipmentConversionTable(period.from, period.to),
-    landingPagesSimple(period.from, period.to),
-    deviceSplit(period.from, period.to),
+    withAnalyticsSchema([], () => landingPagesSimple(period.from, period.to)),
+    withAnalyticsSchema([], () => deviceSplit(period.from, period.to)),
   ]);
 
   const pageViews = engagementCurrent.views || dailyCurrent.pageViews;
@@ -533,6 +583,7 @@ export async function getOperationalDashboard(
     landingPages: humanizeCountRows(landingPages, formatSitePath),
     deviceSplit: humanizeCountRows(deviceSplitRows, formatDevice),
     posthogHint: Boolean(process.env.NEXT_PUBLIC_POSTHOG_KEY),
+    schemaIncomplete: false,
   };
 }
 

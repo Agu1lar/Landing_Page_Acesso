@@ -78,6 +78,10 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
         title={t('title')}
       />
 
+      {dashboard.schemaIncomplete ? (
+        <AdminCallout variant="warning">{t('schema_pending_hint')}</AdminCallout>
+      ) : null}
+
       <div className="space-y-3">
         {dashboard.posthogHint ? <AdminCallout>{t('posthog_visits_hint')}</AdminCallout> : null}
         <AdminCallout variant="tip">{t('page_time_hint')}</AdminCallout>
