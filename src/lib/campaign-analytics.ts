@@ -7,6 +7,10 @@ import { analyticsEventsSchema, leadsSchema } from '@/models/Schema';
 export const NO_CAMPAIGN_KEY = '__no_campaign__';
 export const GOOGLE_ADS_NO_UTM_KEY = '__google_ads_no_utm__';
 
+function sqlCampaignLiteral(key: string) {
+  return sql.raw(`'${key.replace(/'/g, "''")}'`);
+}
+
 export type CampaignStatusCounts = Record<LeadStatus | 'other', number>;
 
 export type CampaignPerformanceRow = {
@@ -187,9 +191,11 @@ export function mergeCampaignLeadAggregates(rows: LeadAggregateRow[]): CampaignP
 
 const campaignKeySql = sql<string>`case
   when nullif(trim(${leadsSchema.utmCampaign}), '') is not null then trim(${leadsSchema.utmCampaign})
-  when nullif(trim(${leadsSchema.gclid}), '') is not null then ${GOOGLE_ADS_NO_UTM_KEY}
-  else ${NO_CAMPAIGN_KEY}
+  when nullif(trim(${leadsSchema.gclid}), '') is not null then ${sqlCampaignLiteral(GOOGLE_ADS_NO_UTM_KEY)}
+  else ${sqlCampaignLiteral(NO_CAMPAIGN_KEY)}
 end`;
+
+const analyticsCampaignKeySql = sql<string>`coalesce(nullif(trim(${analyticsEventsSchema.utmCampaign}), ''), ${sqlCampaignLiteral(NO_CAMPAIGN_KEY)})`;
 
 const leadDaySql = sql<string>`to_char((${leadsSchema.createdAt} at time zone 'America/Sao_Paulo'), 'YYYY-MM-DD')`;
 
@@ -222,7 +228,7 @@ async function leadAggregatesByCampaign(from: Date, to: Date) {
 async function whatsappByCampaign(from: Date, to: Date) {
   const rows = await db
     .select({
-      campaignKey: sql<string>`coalesce(nullif(trim(${analyticsEventsSchema.utmCampaign}), ''), ${NO_CAMPAIGN_KEY})`,
+      campaignKey: analyticsCampaignKeySql,
       count: count(),
     })
     .from(analyticsEventsSchema)
@@ -233,7 +239,7 @@ async function whatsappByCampaign(from: Date, to: Date) {
         lte(analyticsEventsSchema.createdAt, to),
       ),
     )
-    .groupBy(sql`coalesce(nullif(trim(${analyticsEventsSchema.utmCampaign}), ''), ${NO_CAMPAIGN_KEY})`);
+    .groupBy(analyticsCampaignKeySql);
 
   return new Map(rows.map((row) => [row.campaignKey, row.count]));
 }
