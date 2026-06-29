@@ -11,6 +11,7 @@ import {
 import { EQUIPMENT_CATALOG_TAG } from '@/lib/equipment-cache-tags';
 import { isRetiredEquipmentSlug } from '@/lib/equipment-retired-slugs';
 import { isSlugManagedInPostgres } from '@/lib/equipment-slug-aliases';
+import { withFormattedEquipmentName } from '@/lib/equipment-name';
 import type { Equipment, EquipmentCategory } from '@/types/equipment';
 import { isEquipmentCategory } from '@/types/equipment';
 
@@ -28,7 +29,7 @@ export function isPublicCatalogItem(item: Equipment) {
 }
 
 function filterPublicCatalog(items: Equipment[]) {
-  return items.filter(isPublicCatalogItem);
+  return items.filter(isPublicCatalogItem).map(withFormattedEquipmentName);
 }
 
 /**

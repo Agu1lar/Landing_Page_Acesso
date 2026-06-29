@@ -5,7 +5,9 @@ import { GoogleCookieLeadCallout } from '@/components/admin/GoogleCookieLeadCall
 import { GoogleOneTapActiveCallout } from '@/components/admin/GoogleOneTapActiveCallout';
 import { LeadsTable } from '@/components/admin/LeadsTable';
 import { StaleLeadsAlert } from '@/components/admin/StaleLeadsAlert';
+import { AdminCallout } from '@/components/admin/AdminCallout';
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
+import { archiveStaleCommercialLeads } from '@/lib/leads-auto-archive';
 import { Button } from '@/components/ui/Button';
 import {
   buildContactOrderCounts,
@@ -42,6 +44,8 @@ export default async function LeadsAdminPage(props: LeadsPageProps) {
     namespace: 'LeadsAdminPage',
   });
 
+  const archivedCount = await archiveStaleCommercialLeads();
+
   const [queueResult, weekResult, staleLeads] = await Promise.all([
     listCommercialQueue(),
     listWeekOperationalLeads(),
@@ -68,6 +72,12 @@ export default async function LeadsAdminPage(props: LeadsPageProps) {
       />
 
       <StaleLeadsAlert summary={staleLeads} />
+
+      {archivedCount > 0 ? (
+        <AdminCallout variant="tip">
+          {t('auto_archive_notice', { count: archivedCount })}
+        </AdminCallout>
+      ) : null}
 
       <GoogleCookieLeadCallout googleClientIdConfigured={googleClientIdConfigured} />
       <GoogleOneTapActiveCallout googleClientIdConfigured={googleClientIdConfigured} />

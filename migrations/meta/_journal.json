@@ -134,6 +134,20 @@
       "when": 1780800000000,
       "tag": "0021_blog_articles",
       "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1780900000000,
+      "tag": "0022_uppercase_equipment_names",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1781000000000,
+      "tag": "0023_ensure_analytics_engagement_schema",
+      "breakpoints": true
     }
   ]
 }

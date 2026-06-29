@@ -51,6 +51,7 @@ function emptyStatusCounts(): CampaignStatusCounts {
     quoted: 0,
     won: 0,
     lost: 0,
+    archived: 0,
     other: 0,
   };
 }

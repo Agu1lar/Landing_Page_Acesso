@@ -3,6 +3,7 @@
 import { AddToQuoteButton } from '@/components/quote-cart/AddToQuoteButton';
 import { EquipmentCatalogImage } from '@/components/marketing/EquipmentCatalogImage';
 import { getEquipmentCardDescription } from '@/lib/equipment-card-description';
+import { formatEquipmentName } from '@/lib/equipment-name';
 import { getEquipmentQuoteCartKind } from '@/lib/equipment-quote-cart';
 import { getManifestImageSrc } from '@/lib/equipment-images-manifest';
 import { Link } from '@/libs/I18nNavigation';
@@ -23,13 +24,14 @@ type EquipmentCardProps = {
 export function EquipmentCard(props: EquipmentCardProps) {
   const src = props.imageSrc ?? getManifestImageSrc(props.equipment.slug);
   const cardDescription = getEquipmentCardDescription(props.equipment);
+  const displayName = formatEquipmentName(props.equipment.name);
 
   return (
     <article className="group relative flex flex-col overflow-hidden rounded-[var(--radius-card)] border border-neutral-200 bg-surface shadow-sm transition-shadow hover:shadow-md">
       <div className="pointer-events-none relative h-36 w-full overflow-hidden bg-neutral-100">
         {src ? (
           <EquipmentCatalogImage
-            alt={props.equipment.name}
+            alt={displayName}
             className="object-contain object-center p-1"
             fill
             key={src}
@@ -60,7 +62,7 @@ export function EquipmentCard(props: EquipmentCardProps) {
             className="rounded-sm after:absolute after:inset-0 after:rounded-[var(--radius-card)] after:content-[''] hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             href={`/equipamentos/${props.equipment.slug}`}
           >
-            {props.equipment.name}
+            {displayName}
           </Link>
         </h3>
         <p className="pointer-events-none mt-2 line-clamp-2 flex-1 text-sm text-neutral-600">
@@ -71,7 +73,7 @@ export function EquipmentCard(props: EquipmentCardProps) {
             className="w-full"
             item={{
               slug: props.equipment.slug,
-              name: props.equipment.name,
+              name: displayName,
               kind: getEquipmentQuoteCartKind(props.equipment),
             }}
             size="sm"

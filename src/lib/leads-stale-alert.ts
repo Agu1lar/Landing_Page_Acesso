@@ -1,11 +1,21 @@
-import { and, asc, count, eq, lte } from 'drizzle-orm';
+import { and, asc, count, eq, gte, lte, sql } from 'drizzle-orm';
 import { scoreLeadIntent } from '@/lib/lead-intent-score';
+import { currentWeekRange } from '@/lib/leads-date-presets';
 import { db } from '@/libs/DB';
 import { leadsSchema } from '@/models/Schema';
 import type { LeadWithIntent } from '@/lib/leads-admin';
 
 /** Hours a lead can stay "new" before the stale alert appears. */
 export const STALE_LEAD_HOURS = 24;
+
+const leadActivityOrder = sql`coalesce(${leadsSchema.lastActivityAt}, ${leadsSchema.createdAt})`;
+
+function buildCurrentWeekActivityWhere() {
+  const weekRange = currentWeekRange();
+  const from = new Date(`${weekRange.dateFrom}T00:00:00.000Z`);
+  const to = new Date(`${weekRange.dateTo}T23:59:59.999Z`);
+  return and(gte(leadActivityOrder, from), lte(leadActivityOrder, to));
+}
 
 export type StaleLeadsSummary = {
   leads: LeadWithIntent[];
@@ -18,7 +28,11 @@ export type StaleLeadsSummary = {
  */
 export async function listStaleNewLeads(limit = 10): Promise<StaleLeadsSummary> {
   const cutoff = new Date(Date.now() - STALE_LEAD_HOURS * 60 * 60 * 1000);
-  const where = and(eq(leadsSchema.status, 'new'), lte(leadsSchema.createdAt, cutoff));
+  const where = and(
+    eq(leadsSchema.status, 'new'),
+    lte(leadsSchema.createdAt, cutoff),
+    buildCurrentWeekActivityWhere(),
+  );
 
   const [rows, countRow] = await Promise.all([
     db

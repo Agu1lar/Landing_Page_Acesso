@@ -1,5 +1,6 @@
 import { and, count, desc, eq, gte, lte, sql } from 'drizzle-orm';
 import { sumAnalyticsDailyForPeriod } from '@/lib/analytics-daily';
+import { isAnalyticsSchemaMissingError } from '@/lib/analytics-schema';
 import {
   formatDevice,
   formatEquipmentAnalyticsLabel,
@@ -267,6 +268,12 @@ async function deviceSplit(from: Date, to: Date) {
 }
 
 async function pageEngagementSummary(from: Date, to: Date) {
+  return withEngagementSchema(emptyEngagementSummary(), () =>
+    pageEngagementSummaryQuery(from, to),
+  );
+}
+
+async function pageEngagementSummaryQuery(from: Date, to: Date) {
   const [row] = await db
     .select({
       views: count(),
@@ -289,6 +296,10 @@ async function pageEngagementSummary(from: Date, to: Date) {
 }
 
 async function topPagesByEngagement(from: Date, to: Date) {
+  return withEngagementSchema([], () => topPagesByEngagementQuery(from, to));
+}
+
+async function topPagesByEngagementQuery(from: Date, to: Date) {
   const rows = await db
     .select({
       pathname: pageEngagementEventsSchema.pathname,
@@ -318,24 +329,45 @@ async function topPagesByEngagement(from: Date, to: Date) {
   });
 }
 
-async function countCookieConsentLeads(from: Date, to: Date) {
-  const [row] = await db
-    .select({ count: count() })
-    .from(leadsSchema)
-    .where(
-      and(
-        eq(leadsSchema.leadKind, 'cookie_consent'),
-        gte(leadsSchema.createdAt, from),
-        lte(leadsSchema.createdAt, to),
-      ),
-    );
+function emptyEngagementSummary() {
+  return { views: 0, totalActiveSeconds: 0, uniqueSessions: 0 };
+}
 
-  return row?.count ?? 0;
+async function withEngagementSchema<T>(fallback: T, run: () => Promise<T>) {
+  try {
+    return await run();
+  } catch (error) {
+    if (isAnalyticsSchemaMissingError(error)) {
+      return fallback;
+    }
+    throw error;
+  }
+}
+
+async function countCookieConsentLeads(from: Date, to: Date) {
+  return withEngagementSchema(0, async () => {
+    const [row] = await db
+      .select({ count: count() })
+      .from(leadsSchema)
+      .where(
+        and(
+          eq(leadsSchema.leadKind, 'cookie_consent'),
+          gte(leadsSchema.createdAt, from),
+          lte(leadsSchema.createdAt, to),
+        ),
+      );
+
+    return row?.count ?? 0;
+  });
 }
 
 const equipmentSlugFromPath = sql<string>`substring(${pageEngagementEventsSchema.pathname} from '/equipamentos/([^/?]+)')`;
 
 async function equipmentConversionTable(from: Date, to: Date) {
+  return withEngagementSchema([], () => equipmentConversionTableQuery(from, to));
+}
+
+async function equipmentConversionTableQuery(from: Date, to: Date) {
   const pageViewRows = await db
     .select({
       slug: equipmentSlugFromPath,
@@ -448,7 +480,9 @@ export async function getOperationalDashboard(
     countEvents('quote_submit', previous.from, previous.to),
     whatsappByOrigin(period.from, period.to),
     trafficBySourceSimple(period.from, period.to),
-    getCampaignPerformanceReport(period.from, period.to),
+    withEngagementSchema({ campaigns: [], dailyLeads: [] }, () =>
+      getCampaignPerformanceReport(period.from, period.to),
+    ),
     topEquipment('whatsapp_click', period.from, period.to),
     topEquipmentLeads(period.from, period.to),
     topPagesByEngagement(period.from, period.to),

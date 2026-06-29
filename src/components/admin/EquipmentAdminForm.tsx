@@ -9,6 +9,7 @@ import { AdminPendingButton } from '@/components/admin/AdminPendingButton';
 import { resolveAdminGalleryImageSrc } from '@/lib/admin-gallery-image';
 import { ALL_EQUIPMENT_CATEGORIES } from '@/lib/categories-seo';
 import { slugifyEquipmentName } from '@/lib/equipment-slug';
+import { formatEquipmentName } from '@/lib/equipment-name';
 import {
   getPlatformHeightFilterKey,
   parseWorkHeightMeters,
@@ -75,7 +76,7 @@ export function EquipmentAdminForm(props: EquipmentAdminFormProps) {
   const tCategory = useTranslations('Categoria');
   const tCommon = useTranslations('AdminCommon');
   const row = props.row;
-  const [name, setName] = useState(row?.name ?? '');
+  const [name, setName] = useState(() => formatEquipmentName(row?.name ?? ''));
   const [slug, setSlug] = useState(row?.slug ?? '');
   const [slugManual, setSlugManual] = useState(Boolean(row?.slug));
   const [category, setCategory] = useState<EquipmentCategory>(
@@ -103,9 +104,10 @@ export function EquipmentAdminForm(props: EquipmentAdminFormProps) {
     parsedWorkHeight !== null ? getPlatformHeightFilterKey(parsedWorkHeight) : null;
 
   const updateName = (value: string) => {
-    setName(value);
+    const formatted = formatEquipmentName(value);
+    setName(formatted);
     if (!slugManual) {
-      setSlug(slugifyEquipmentName(value));
+      setSlug(slugifyEquipmentName(formatted));
     }
   };
 

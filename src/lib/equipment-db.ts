@@ -4,6 +4,7 @@ import { and, asc, desc, eq, ilike, isNotNull, isNull, or, sql } from 'drizzle-o
 import type { InferSelectModel } from 'drizzle-orm';
 import equipmentJson from '@/data/equipamentos.json';
 import { defaultEquipmentImageUrl } from '@/lib/admin-gallery-image';
+import { formatEquipmentName } from '@/lib/equipment-name';
 import { db } from '@/libs/DB';
 import { equipmentImagesSchema, equipmentSchema } from '@/models/Schema';
 import type { Equipment, EquipmentCategory, EquipmentSpec } from '@/types/equipment';
@@ -46,7 +47,7 @@ export type EquipmentImageInput = {
 export function rowToEquipment(row: EquipmentRow): Equipment {
   return {
     slug: row.slug,
-    name: row.name,
+    name: formatEquipmentName(row.name),
     category: row.category as EquipmentCategory,
     shortDescription: row.shortDescription,
     longDescription: row.longDescription,
@@ -265,7 +266,7 @@ export async function seedEquipmentFromJson(updatedBy?: string) {
       .insert(equipmentSchema)
       .values({
         slug: item.slug,
-        name: item.name,
+        name: formatEquipmentName(item.name),
         category: item.category,
         shortDescription: item.shortDescription,
         longDescription: item.longDescription,
@@ -304,7 +305,7 @@ export async function saveEquipmentWithImages(options: {
 }) {
   const values = {
     slug: options.input.slug,
-    name: options.input.name,
+    name: formatEquipmentName(options.input.name),
     category: options.input.category,
     shortDescription: options.input.shortDescription,
     longDescription: options.input.longDescription,
@@ -375,7 +376,7 @@ export async function duplicateEquipmentAsDraft(sourceSlug: string, userId: stri
   const newId = await saveEquipmentWithImages({
     input: {
       slug: newSlug,
-      name: `${source.name} (cópia)`,
+      name: formatEquipmentName(`${source.name} (cópia)`),
       category: source.category as EquipmentCategory,
       shortDescription: source.shortDescription,
       longDescription: source.longDescription,

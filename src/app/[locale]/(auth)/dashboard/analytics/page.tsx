@@ -164,6 +164,7 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
           statusQuoted: t('status_quoted_short'),
           statusWon: t('status_won_short'),
           statusLost: t('status_lost_short'),
+          statusArchived: t('status_archived_short'),
           statusOther: t('status_other_short'),
         }}
       />

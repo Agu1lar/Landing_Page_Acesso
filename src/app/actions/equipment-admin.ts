@@ -27,6 +27,7 @@ import {
   equipmentAdminListPathAfterArchive,
 } from '@/lib/admin-return-path';
 import { slugifyEquipmentName } from '@/lib/equipment-slug';
+import { formatEquipmentName } from '@/lib/equipment-name';
 import { ALL_EQUIPMENT_CATEGORIES } from '@/lib/categories-seo';
 import {
   EquipmentAdminFormSchema,
@@ -219,7 +220,7 @@ export async function saveEquipmentAction(formData: FormData) {
     redirect('/unauthorized');
   }
 
-  const nameFromForm = String(formData.get('name') ?? '').trim();
+  const nameFromForm = formatEquipmentName(String(formData.get('name') ?? ''));
   const slugFromForm = String(formData.get('slug') ?? '').trim();
   const resolvedSlug = slugFromForm || slugifyEquipmentName(nameFromForm);
 

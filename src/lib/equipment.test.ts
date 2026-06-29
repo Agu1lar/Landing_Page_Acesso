@@ -75,4 +75,14 @@ describe('merge catalog with JSON fallback', () => {
 
     expect(items.some((item) => item.slug === 'mangote-vibrador-45mm')).toBeFalsy();
   });
+
+  it('formats equipment names to uppercase in catalog output', () => {
+    const items = mergeCatalogWithJsonFallback(
+      [{ ...guindasteJson, name: 'guindaste munck' }],
+      new Set(),
+    );
+    const item = items.find((i) => i.slug === guindasteJson.slug);
+
+    expect(item?.name).toBe('GUINDASTE MUNCK');
+  });
 });

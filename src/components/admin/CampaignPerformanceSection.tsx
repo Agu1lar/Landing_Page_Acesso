@@ -30,6 +30,7 @@ type CampaignPerformanceSectionProps = {
     statusQuoted: string;
     statusWon: string;
     statusLost: string;
+    statusArchived: string;
     statusOther: string;
   };
 };
@@ -40,6 +41,7 @@ const STATUS_COLUMNS: Array<{ key: LeadStatus | 'other'; labelKey: keyof Campaig
   { key: 'quoted', labelKey: 'statusQuoted' },
   { key: 'won', labelKey: 'statusWon' },
   { key: 'lost', labelKey: 'statusLost' },
+  { key: 'archived', labelKey: 'statusArchived' },
   { key: 'other', labelKey: 'statusOther' },
 ];
 

@@ -1,4 +1,4 @@
-import { and, count, desc, eq, gte, ilike, inArray, isNull, lte, or, sql } from 'drizzle-orm';
+import { and, count, desc, eq, gte, ilike, inArray, isNull, lte, ne, or, sql } from 'drizzle-orm';
 import {
   GOOGLE_ADS_NO_UTM_KEY,
   NO_CAMPAIGN_KEY,
@@ -227,6 +227,27 @@ function buildActivityDateWhere(dateFrom: string, dateTo: string) {
   return and(gte(leadActivityOrder, from), lte(leadActivityOrder, to));
 }
 
+function excludeArchivedWhere(extra?: ReturnType<typeof and>) {
+  const notArchived = ne(leadsSchema.status, 'archived');
+  return extra ? and(notArchived, extra) : notArchived;
+}
+
+function applyRecencyBoost(lead: LeadRecord) {
+  const scored = scoreLeadIntent(lead);
+  const activityAt = lead.lastActivityAt ?? lead.createdAt;
+  const hours = (Date.now() - activityAt.getTime()) / 3_600_000;
+  const bonus = hours <= 6 ? 3 : hours <= 24 ? 2 : hours <= 48 ? 1 : 0;
+  const score = scored.score + bonus;
+
+  if (score >= 8) {
+    return { ...lead, score, tier: 'hot' as const };
+  }
+  if (score >= 5) {
+    return { ...lead, score, tier: 'warm' as const };
+  }
+  return { ...lead, score, tier: 'cold' as const };
+}
+
 export type CommercialQueueResult = {
   leads: LeadWithIntent[];
   total: number;
@@ -260,10 +281,7 @@ export async function listCommercialQueue(limit = COMMERCIAL_QUEUE_MAX): Promise
   ]);
 
   const leads = rows
-    .map((lead) => ({
-      ...lead,
-      ...scoreLeadIntent(lead),
-    }))
+    .map((lead) => applyRecencyBoost(lead))
     .sort(
       (a, b) =>
         b.score - a.score ||
@@ -285,7 +303,8 @@ export async function listWeekOperationalLeads(
   limit = WEEK_LEADS_DISPLAY_MAX,
 ): Promise<WeekOperationalLeadsResult> {
   const weekRange = currentWeekRange();
-  const where = buildActivityDateWhere(weekRange.dateFrom, weekRange.dateTo);
+  const activityWhere = buildActivityDateWhere(weekRange.dateFrom, weekRange.dateTo);
+  const where = excludeArchivedWhere(activityWhere);
 
   const [rows, countRow] = await Promise.all([
     db
