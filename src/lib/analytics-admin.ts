@@ -9,7 +9,7 @@ import {
   formatTrafficSource,
   formatWhatsAppOrigin,
 } from '@/lib/analytics-display-labels';
-import { previousPeriodRange, resolveAnalyticsPeriod } from '@/lib/analytics-period';
+import { resolveAnalyticsPeriod, resolveComparisonPeriod } from '@/lib/analytics-period';
 import {
   getCampaignPerformanceReport,
   type CampaignDailyLeadsRow,
@@ -25,6 +25,8 @@ import { analyticsEventsSchema, leadsSchema, pageEngagementEventsSchema } from '
 export type AnalyticsDashboardFilters = {
   dateFrom?: string;
   dateTo?: string;
+  compareDateFrom?: string;
+  compareDateTo?: string;
 };
 
 type CountRow = { label: string; count: number };
@@ -40,6 +42,9 @@ export type PageEngagementRow = {
 
 export type OperationalDashboard = {
   period: { dateFrom: string; dateTo: string };
+  comparisonPeriod: { dateFrom: string; dateTo: string };
+  comparisonMode: 'auto' | 'custom';
+  /** @deprecated Use comparisonPeriod — kept for compatibility. */
   previousPeriod: { dateFrom: string; dateTo: string };
   pageViews: number;
   uniqueSessions: number;
@@ -461,11 +466,13 @@ function buildEmptyOperationalDashboard(
   schemaIncomplete: boolean,
 ): OperationalDashboard {
   const period = resolveAnalyticsPeriod(filters);
-  const previous = previousPeriodRange(period.dateFrom, period.dateTo);
+  const comparison = resolveComparisonPeriod(period, filters);
 
   return {
     period: { dateFrom: period.dateFrom, dateTo: period.dateTo },
-    previousPeriod: { dateFrom: previous.dateFrom, dateTo: previous.dateTo },
+    comparisonPeriod: { dateFrom: comparison.dateFrom, dateTo: comparison.dateTo },
+    comparisonMode: comparison.comparisonMode,
+    previousPeriod: { dateFrom: comparison.dateFrom, dateTo: comparison.dateTo },
     pageViews: 0,
     uniqueSessions: 0,
     pageViewsPrevious: 0,
@@ -496,7 +503,7 @@ async function loadOperationalDashboard(
   filters: AnalyticsDashboardFilters = {},
 ): Promise<OperationalDashboard> {
   const period = resolveAnalyticsPeriod(filters);
-  const previous = previousPeriodRange(period.dateFrom, period.dateTo);
+  const comparison = resolveComparisonPeriod(period, filters);
 
   const [
     dailyCurrent,
@@ -523,14 +530,14 @@ async function loadOperationalDashboard(
     ),
     runAnalyticsDashboardStep('daily_previous', 'Agregados diários (período anterior)', () =>
       withAnalyticsSchema(EMPTY_DAILY_SUM, () =>
-        sumAnalyticsDailyForPeriod(previous.dateFrom, previous.dateTo),
+        sumAnalyticsDailyForPeriod(comparison.dateFrom, comparison.dateTo),
       ),
     ),
     runAnalyticsDashboardStep('engagement_current', 'Tempo ativo por página (período)', () =>
       pageEngagementSummary(period.from, period.to),
     ),
     runAnalyticsDashboardStep('engagement_previous', 'Tempo ativo por página (período anterior)', () =>
-      pageEngagementSummary(previous.from, previous.to),
+      pageEngagementSummary(comparison.from, comparison.to),
     ),
     runAnalyticsDashboardStep('whatsapp_current', 'Cliques WhatsApp (período)', () =>
       withAnalyticsSchema(0, () => countEvents('whatsapp_click', period.from, period.to)),
@@ -542,10 +549,10 @@ async function loadOperationalDashboard(
       countCookieConsentLeads(period.from, period.to),
     ),
     runAnalyticsDashboardStep('whatsapp_previous', 'Cliques WhatsApp (período anterior)', () =>
-      withAnalyticsSchema(0, () => countEvents('whatsapp_click', previous.from, previous.to)),
+      withAnalyticsSchema(0, () => countEvents('whatsapp_click', comparison.from, comparison.to)),
     ),
     runAnalyticsDashboardStep('quote_submits_previous', 'Leads de orçamento (período anterior)', () =>
-      withAnalyticsSchema(0, () => countEvents('quote_submit', previous.from, previous.to)),
+      withAnalyticsSchema(0, () => countEvents('quote_submit', comparison.from, comparison.to)),
     ),
     runAnalyticsDashboardStep('whatsapp_by_origin', 'WhatsApp por origem', () =>
       withAnalyticsSchema([], () => whatsappByOrigin(period.from, period.to)),
@@ -586,7 +593,9 @@ async function loadOperationalDashboard(
 
   return {
     period: { dateFrom: period.dateFrom, dateTo: period.dateTo },
-    previousPeriod: { dateFrom: previous.dateFrom, dateTo: previous.dateTo },
+    comparisonPeriod: { dateFrom: comparison.dateFrom, dateTo: comparison.dateTo },
+    comparisonMode: comparison.comparisonMode,
+    previousPeriod: { dateFrom: comparison.dateFrom, dateTo: comparison.dateTo },
     pageViews,
     uniqueSessions,
     pageViewsPrevious,

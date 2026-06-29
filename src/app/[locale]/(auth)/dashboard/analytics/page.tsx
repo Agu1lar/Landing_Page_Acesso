@@ -16,7 +16,12 @@ import { logger } from '@/libs/Logger';
 
 type AnalyticsPageProps = {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ dateFrom?: string; dateTo?: string }>;
+  searchParams: Promise<{
+    dateFrom?: string;
+    dateTo?: string;
+    compareDateFrom?: string;
+    compareDateTo?: string;
+  }>;
 };
 
 export const dynamic = 'force-dynamic';
@@ -45,6 +50,8 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
   const filters = {
     dateFrom: searchParams.dateFrom,
     dateTo: searchParams.dateTo,
+    compareDateFrom: searchParams.compareDateFrom,
+    compareDateTo: searchParams.compareDateTo,
   };
 
   let dashboard;
@@ -97,16 +104,34 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
       ? Math.round((dashboard.whatsappClicks / dashboard.pageViews) * 100)
       : 0;
   const helpLabel = t('help_button_label');
+  const deltaLabel =
+    dashboard.comparisonMode === 'custom'
+      ? t('delta_vs_custom_period', {
+          from: dashboard.comparisonPeriod.dateFrom,
+          to: dashboard.comparisonPeriod.dateTo,
+        })
+      : t('delta_vs_auto_previous', {
+          from: dashboard.comparisonPeriod.dateFrom,
+          to: dashboard.comparisonPeriod.dateTo,
+        });
+  const headerDescription =
+    dashboard.comparisonMode === 'custom'
+      ? t('period_comparison_summary', {
+          from: dashboard.period.dateFrom,
+          to: dashboard.period.dateTo,
+          compareFrom: dashboard.comparisonPeriod.dateFrom,
+          compareTo: dashboard.comparisonPeriod.dateTo,
+        })
+      : t('period_summary_with_auto_compare', {
+          from: dashboard.period.dateFrom,
+          to: dashboard.period.dateTo,
+          compareFrom: dashboard.comparisonPeriod.dateFrom,
+          compareTo: dashboard.comparisonPeriod.dateTo,
+        });
 
   return (
     <div className="space-y-8">
-      <AdminPageHeader
-        description={t('period_summary', {
-          from: dashboard.period.dateFrom,
-          to: dashboard.period.dateTo,
-        })}
-        title={t('title')}
-      />
+      <AdminPageHeader description={headerDescription} title={t('title')} />
 
       {dashboard.schemaIncomplete ? (
         <AdminCallout variant="warning">{t('schema_pending_hint')}</AdminCallout>
@@ -118,6 +143,9 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
       </div>
 
       <AnalyticsPeriodFilters
+        compareDateFrom={searchParams.compareDateFrom}
+        compareDateTo={searchParams.compareDateTo}
+        comparisonMode={dashboard.comparisonMode}
         dateFrom={searchParams.dateFrom ?? dashboard.period.dateFrom}
         dateTo={searchParams.dateTo ?? dashboard.period.dateTo}
       />
@@ -125,7 +153,7 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <AdminKpiCard
           delta={visitsDelta}
-          deltaLabel={t('delta_vs_previous')}
+          deltaLabel={deltaLabel}
           helpLabel={helpLabel}
           helpText={t('hint_kpi_page_views')}
           label={t('kpi_page_views')}
@@ -134,7 +162,7 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
         <AdminKpiCard
           accent="neutral"
           delta={activeTimeDelta}
-          deltaLabel={t('delta_vs_previous')}
+          deltaLabel={deltaLabel}
           helpLabel={helpLabel}
           helpText={t('hint_kpi_active_time')}
           label={t('kpi_active_time')}
@@ -143,7 +171,7 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
         <AdminKpiCard
           accent="whatsapp"
           delta={whatsappDelta}
-          deltaLabel={t('delta_vs_previous')}
+          deltaLabel={deltaLabel}
           helpLabel={helpLabel}
           helpText={t('hint_kpi_whatsapp')}
           label={t('kpi_whatsapp')}
@@ -152,7 +180,7 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
         <AdminKpiCard
           accent="primary"
           delta={leadsDelta}
-          deltaLabel={t('delta_vs_previous')}
+          deltaLabel={deltaLabel}
           helpLabel={helpLabel}
           helpText={t('hint_kpi_leads')}
           label={t('kpi_leads')}

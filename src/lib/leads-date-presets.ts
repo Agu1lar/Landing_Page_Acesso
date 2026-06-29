@@ -37,6 +37,13 @@ export function currentWeekRange(reference = new Date()) {
   };
 }
 
+/** Monday–Sunday range for the week before the week containing `reference`. */
+export function previousWeekRange(reference = new Date()) {
+  const anchor = new Date(reference);
+  anchor.setUTCDate(anchor.getUTCDate() - 7);
+  return currentWeekRange(anchor);
+}
+
 /** Human-readable week label for admin headers (pt-BR). */
 export function formatWeekRangeLabel(range: { dateFrom: string; dateTo: string }) {
   const from = new Date(`${range.dateFrom}T12:00:00.000Z`);

@@ -18,8 +18,10 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const dateFrom = searchParams.get('dateFrom') ?? undefined;
   const dateTo = searchParams.get('dateTo') ?? undefined;
+  const compareDateFrom = searchParams.get('compareDateFrom') ?? undefined;
+  const compareDateTo = searchParams.get('compareDateTo') ?? undefined;
 
-  const result = await probeAnalyticsDashboard({ dateFrom, dateTo });
+  const result = await probeAnalyticsDashboard({ dateFrom, dateTo, compareDateFrom, compareDateTo });
 
   if (!result.ok) {
     logger.warn('Analytics smoke test failed', {
