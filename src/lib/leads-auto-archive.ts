@@ -1,5 +1,5 @@
 import { and, eq, lt, sql } from 'drizzle-orm';
-import { APP_TIMEZONE, brasiliaDayStartUtc } from '@/lib/app-datetime';
+import { brasiliaDayStartUtc } from '@/lib/app-datetime';
 import { currentWeekRange } from '@/lib/leads-date-presets';
 import { db } from '@/libs/DB';
 import { leadsSchema } from '@/models/Schema';
