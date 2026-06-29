@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { CampaignPerformanceSection } from '@/components/admin/CampaignPerformanceSection';
+import { AnalyticsLoadFailure } from '@/components/admin/AnalyticsLoadFailure';
 import { AnalyticsBarTable } from '@/components/admin/AnalyticsBarTable';
 import { AnalyticsEquipmentConversionTable } from '@/components/admin/AnalyticsEquipmentConversionTable';
 import { AnalyticsPeriodFilters } from '@/components/admin/AnalyticsPeriodFilters';
@@ -8,7 +9,7 @@ import { AnalyticsTopPagesTable } from '@/components/admin/AnalyticsTopPagesTabl
 import { AdminCallout } from '@/components/admin/AdminCallout';
 import { AdminKpiCard } from '@/components/admin/AdminKpiCard';
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
-import { getOperationalDashboard, percentChange } from '@/lib/analytics-admin';
+import { getOperationalDashboard, percentChange, probeAnalyticsDashboard } from '@/lib/analytics-admin';
 import { parseAnalyticsDashboardFailure } from '@/lib/analytics-dashboard-errors';
 import { resolveAppLocale } from '@/utils/locale';
 import { logger } from '@/libs/Logger';
@@ -17,6 +18,8 @@ type AnalyticsPageProps = {
   params: Promise<{ locale: string }>;
   searchParams: Promise<{ dateFrom?: string; dateTo?: string }>;
 };
+
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata(props: AnalyticsPageProps): Promise<Metadata> {
   const { locale } = await props.params;
@@ -39,42 +42,43 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
     namespace: 'AnalyticsAdminPage',
   });
 
+  const filters = {
+    dateFrom: searchParams.dateFrom,
+    dateTo: searchParams.dateTo,
+  };
+
   let dashboard;
   try {
-    dashboard = await getOperationalDashboard({
-      dateFrom: searchParams.dateFrom,
-      dateTo: searchParams.dateTo,
-    });
+    dashboard = await getOperationalDashboard(filters);
   } catch (error) {
     const failure = parseAnalyticsDashboardFailure(error);
     logger.error('Analytics dashboard page load failed', failure);
 
+    let probe;
+    try {
+      probe = await probeAnalyticsDashboard(filters);
+    } catch (probeError) {
+      logger.warn('Analytics probe failed after page load error', {
+        message: probeError instanceof Error ? probeError.message : String(probeError),
+      });
+    }
+
     return (
-      <div className="space-y-6">
-        <AdminPageHeader description={t('meta_description')} title={t('title')} />
-        <AdminCallout variant="warning">{t('load_error')}</AdminCallout>
-        {failure.stepId ? (
-          <AdminCallout variant="warning">
-            {t('load_error_step', {
-              step: failure.stepLabel ?? failure.stepId,
-            })}
-          </AdminCallout>
-        ) : null}
-        <details className="rounded-lg border border-neutral-200 bg-neutral-50 p-4 text-sm text-neutral-700">
-          <summary className="cursor-pointer font-medium text-neutral-900">
-            {t('load_error_debug_toggle')}
-          </summary>
-          <pre className="mt-3 overflow-x-auto whitespace-pre-wrap break-words font-mono text-xs">
-            {failure.message}
-          </pre>
-          {failure.cause ? (
-            <pre className="mt-2 overflow-x-auto whitespace-pre-wrap break-words font-mono text-xs text-neutral-600">
-              {failure.cause}
-            </pre>
-          ) : null}
-        </details>
-        <p className="text-sm text-neutral-600">{t('smoke_test_hint')}</p>
-      </div>
+      <AnalyticsLoadFailure
+        debugToggle={t('load_error_debug_toggle')}
+        description={t('meta_description')}
+        failure={failure}
+        loadError={t('load_error')}
+        loadErrorStep={
+          failure.stepId
+            ? t('load_error_step', { step: failure.stepLabel ?? failure.stepId })
+            : undefined
+        }
+        probe={probe}
+        probeOkHint={t('load_error_probe_ok_hint')}
+        smokeTestHint={t('smoke_test_hint')}
+        title={t('title')}
+      />
     );
   }
 

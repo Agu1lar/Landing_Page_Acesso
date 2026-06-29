@@ -683,8 +683,8 @@ export async function probeAnalyticsDashboard(
     },
     {
       id: 'full_dashboard',
-      label: 'Dashboard completo (loadOperationalDashboard)',
-      run: () => loadOperationalDashboard(filters),
+      label: 'Dashboard completo (getOperationalDashboard)',
+      run: () => getOperationalDashboard(filters),
     },
   ];
 
