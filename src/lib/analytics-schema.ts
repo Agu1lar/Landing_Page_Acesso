@@ -13,7 +13,7 @@ const ANALYTICS_SCHEMA_MARKERS = [
 /**
  * Flattens nested Drizzle/pg error messages for schema detection.
  */
-function flattenDbErrorMessage(error: unknown) {
+export function flattenDbErrorMessage(error: unknown) {
   const parts: string[] = [];
   let current: unknown = error;
 
@@ -26,14 +26,34 @@ function flattenDbErrorMessage(error: unknown) {
     parts.push(String(error));
   }
 
-  return parts.join(' | ').toLowerCase();
+  return parts.join(' | ');
+}
+
+function flattenDbErrorMessageLower(error: unknown) {
+  return flattenDbErrorMessage(error).toLowerCase();
+}
+
+export type DbErrorDetails = {
+  summary: string;
+  cause?: string;
+};
+
+/**
+ * Formats a database error for logs and admin diagnostics.
+ */
+export function formatDbErrorDetails(error: unknown): DbErrorDetails {
+  const summary = flattenDbErrorMessage(error);
+  const cause =
+    error instanceof Error && error.cause instanceof Error ? error.cause.message : undefined;
+
+  return { summary, cause };
 }
 
 /**
  * Returns true when Postgres reports a missing analytics table or column.
  */
 export function isAnalyticsSchemaMissingError(error: unknown) {
-  const message = flattenDbErrorMessage(error);
+  const message = flattenDbErrorMessageLower(error);
 
   const schemaSignal =
     message.includes('does not exist') ||

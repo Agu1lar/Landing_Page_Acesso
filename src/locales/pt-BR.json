@@ -585,7 +585,10 @@
     "col_whatsapp": "WhatsApp",
     "col_leads": "Leads",
     "empty_data": "Sem dados no período.",
-    "load_error": "Não foi possível carregar as métricas. Confirme se as migrations do banco foram aplicadas (`npm run db:migrate` ou deploy com `npm run build`) e tente novamente.",
+    "load_error": "Não foi possível carregar as métricas. Confirme se o deploy mais recente foi publicado e se as migrations do banco foram aplicadas.",
+    "load_error_step": "Falha na consulta: {step}.",
+    "load_error_debug_toggle": "Detalhes técnicos do erro",
+    "smoke_test_hint": "Com login no painel, abra /api/admin/analytics/smoke no navegador para ver qual etapa da consulta falhou (JSON com cada passo).",
     "schema_pending_hint": "Parte do schema de analytics ainda não está no banco (page_engagement_events, lead_kind, gclid, etc.). Rode as migrations e atualize a página — os KPIs de WhatsApp e leads já podem aparecer parcialmente.",
     "retry_button": "Tentar novamente"
   },

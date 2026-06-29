@@ -1,5 +1,6 @@
 import { and, count, desc, eq, gte, lte, sql } from 'drizzle-orm';
 import { sumAnalyticsDailyForPeriod } from '@/lib/analytics-daily';
+import { runAnalyticsDashboardStep, parseAnalyticsDashboardFailure } from '@/lib/analytics-dashboard-errors';
 import { isAnalyticsSchemaMissingError, withAnalyticsSchema } from '@/lib/analytics-schema';
 import {
   formatDevice,
@@ -517,28 +518,64 @@ async function loadOperationalDashboard(
     landingPages,
     deviceSplitRows,
   ] = await Promise.all([
-    withAnalyticsSchema(EMPTY_DAILY_SUM, () => sumAnalyticsDailyForPeriod(period.dateFrom, period.dateTo)),
-    withAnalyticsSchema(EMPTY_DAILY_SUM, () =>
-      sumAnalyticsDailyForPeriod(previous.dateFrom, previous.dateTo),
+    runAnalyticsDashboardStep('daily_current', 'Agregados diários (período)', () =>
+      withAnalyticsSchema(EMPTY_DAILY_SUM, () => sumAnalyticsDailyForPeriod(period.dateFrom, period.dateTo)),
     ),
-    pageEngagementSummary(period.from, period.to),
-    pageEngagementSummary(previous.from, previous.to),
-    withAnalyticsSchema(0, () => countEvents('whatsapp_click', period.from, period.to)),
-    withAnalyticsSchema(0, () => countEvents('quote_submit', period.from, period.to)),
-    countCookieConsentLeads(period.from, period.to),
-    withAnalyticsSchema(0, () => countEvents('whatsapp_click', previous.from, previous.to)),
-    withAnalyticsSchema(0, () => countEvents('quote_submit', previous.from, previous.to)),
-    withAnalyticsSchema([], () => whatsappByOrigin(period.from, period.to)),
-    withAnalyticsSchema([], () => trafficBySourceSimple(period.from, period.to)),
-    withAnalyticsSchema({ campaigns: [], dailyLeads: [] }, () =>
-      getCampaignPerformanceReport(period.from, period.to),
+    runAnalyticsDashboardStep('daily_previous', 'Agregados diários (período anterior)', () =>
+      withAnalyticsSchema(EMPTY_DAILY_SUM, () =>
+        sumAnalyticsDailyForPeriod(previous.dateFrom, previous.dateTo),
+      ),
     ),
-    withAnalyticsSchema([], () => topEquipment('whatsapp_click', period.from, period.to)),
-    withAnalyticsSchema([], () => topEquipmentLeads(period.from, period.to)),
-    topPagesByEngagement(period.from, period.to),
-    equipmentConversionTable(period.from, period.to),
-    withAnalyticsSchema([], () => landingPagesSimple(period.from, period.to)),
-    withAnalyticsSchema([], () => deviceSplit(period.from, period.to)),
+    runAnalyticsDashboardStep('engagement_current', 'Tempo ativo por página (período)', () =>
+      pageEngagementSummary(period.from, period.to),
+    ),
+    runAnalyticsDashboardStep('engagement_previous', 'Tempo ativo por página (período anterior)', () =>
+      pageEngagementSummary(previous.from, previous.to),
+    ),
+    runAnalyticsDashboardStep('whatsapp_current', 'Cliques WhatsApp (período)', () =>
+      withAnalyticsSchema(0, () => countEvents('whatsapp_click', period.from, period.to)),
+    ),
+    runAnalyticsDashboardStep('quote_submits_current', 'Leads de orçamento (período)', () =>
+      withAnalyticsSchema(0, () => countEvents('quote_submit', period.from, period.to)),
+    ),
+    runAnalyticsDashboardStep('cookie_consent_leads', 'Leads Google (cookies)', () =>
+      countCookieConsentLeads(period.from, period.to),
+    ),
+    runAnalyticsDashboardStep('whatsapp_previous', 'Cliques WhatsApp (período anterior)', () =>
+      withAnalyticsSchema(0, () => countEvents('whatsapp_click', previous.from, previous.to)),
+    ),
+    runAnalyticsDashboardStep('quote_submits_previous', 'Leads de orçamento (período anterior)', () =>
+      withAnalyticsSchema(0, () => countEvents('quote_submit', previous.from, previous.to)),
+    ),
+    runAnalyticsDashboardStep('whatsapp_by_origin', 'WhatsApp por origem', () =>
+      withAnalyticsSchema([], () => whatsappByOrigin(period.from, period.to)),
+    ),
+    runAnalyticsDashboardStep('traffic_by_source', 'Tráfego por fonte UTM', () =>
+      withAnalyticsSchema([], () => trafficBySourceSimple(period.from, period.to)),
+    ),
+    runAnalyticsDashboardStep('campaign_report', 'Desempenho por campanha', () =>
+      withAnalyticsSchema({ campaigns: [], dailyLeads: [] }, () =>
+        getCampaignPerformanceReport(period.from, period.to),
+      ),
+    ),
+    runAnalyticsDashboardStep('top_equipment_whatsapp', 'Equipamentos (WhatsApp)', () =>
+      withAnalyticsSchema([], () => topEquipment('whatsapp_click', period.from, period.to)),
+    ),
+    runAnalyticsDashboardStep('top_equipment_leads', 'Equipamentos (leads)', () =>
+      withAnalyticsSchema([], () => topEquipmentLeads(period.from, period.to)),
+    ),
+    runAnalyticsDashboardStep('top_pages', 'Páginas mais acessadas', () =>
+      topPagesByEngagement(period.from, period.to),
+    ),
+    runAnalyticsDashboardStep('equipment_conversion', 'Conversão por equipamento', () =>
+      equipmentConversionTable(period.from, period.to),
+    ),
+    runAnalyticsDashboardStep('landing_pages', 'Páginas de entrada', () =>
+      withAnalyticsSchema([], () => landingPagesSimple(period.from, period.to)),
+    ),
+    runAnalyticsDashboardStep('device_split', 'Dispositivos', () =>
+      withAnalyticsSchema([], () => deviceSplit(period.from, period.to)),
+    ),
   ]);
 
   const pageViews = engagementCurrent.views || dailyCurrent.pageViews;
@@ -588,3 +625,92 @@ async function loadOperationalDashboard(
 }
 
 export { percentChange };
+
+export type AnalyticsDashboardProbeStep = {
+  id: string;
+  label: string;
+  status: 'ok' | 'error';
+  durationMs: number;
+  error?: string;
+  cause?: string;
+};
+
+export type AnalyticsDashboardProbeResult = {
+  ok: boolean;
+  failedStepId?: string;
+  steps: AnalyticsDashboardProbeStep[];
+};
+
+/**
+ * Runs each analytics dashboard query in order and reports the first failing step.
+ */
+export async function probeAnalyticsDashboard(
+  filters: AnalyticsDashboardFilters = {},
+): Promise<AnalyticsDashboardProbeResult> {
+  const period = resolveAnalyticsPeriod(filters);
+  const steps: AnalyticsDashboardProbeStep[] = [];
+
+  const definitions: Array<{ id: string; label: string; run: () => Promise<unknown> }> = [
+    {
+      id: 'daily_current',
+      label: 'Tabela analytics_daily (período)',
+      run: () => sumAnalyticsDailyForPeriod(period.dateFrom, period.dateTo),
+    },
+    {
+      id: 'engagement_current',
+      label: 'Tabela page_engagement_events (período)',
+      run: () => pageEngagementSummaryQuery(period.from, period.to),
+    },
+    {
+      id: 'whatsapp_current',
+      label: 'Tabela analytics_events — WhatsApp',
+      run: () => countEvents('whatsapp_click', period.from, period.to),
+    },
+    {
+      id: 'cookie_consent_leads',
+      label: 'Coluna leads.lead_kind — Google cookies',
+      run: () => countCookieConsentLeads(period.from, period.to),
+    },
+    {
+      id: 'traffic_by_source',
+      label: 'UTM em leads + analytics_events',
+      run: () => trafficBySourceSimple(period.from, period.to),
+    },
+    {
+      id: 'campaign_report',
+      label: 'Relatório de campanhas (GROUP BY)',
+      run: () => getCampaignPerformanceReport(period.from, period.to),
+    },
+    {
+      id: 'full_dashboard',
+      label: 'Dashboard completo (loadOperationalDashboard)',
+      run: () => loadOperationalDashboard(filters),
+    },
+  ];
+
+  for (const definition of definitions) {
+    const started = Date.now();
+    try {
+      await definition.run();
+      steps.push({
+        id: definition.id,
+        label: definition.label,
+        status: 'ok',
+        durationMs: Date.now() - started,
+      });
+    } catch (error) {
+      const failure = parseAnalyticsDashboardFailure(error);
+      steps.push({
+        id: definition.id,
+        label: definition.label,
+        status: 'error',
+        durationMs: Date.now() - started,
+        error: failure.message,
+        cause: failure.cause,
+      });
+      return { ok: false, failedStepId: definition.id, steps };
+    }
+  }
+
+  return { ok: true, steps };
+}
