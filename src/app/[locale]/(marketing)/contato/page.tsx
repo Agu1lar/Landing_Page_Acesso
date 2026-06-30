@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { TrackedPhoneLink } from '@/components/TrackedPhoneLink';
 import { TrackedWhatsAppLink } from '@/components/analytics/TrackedWhatsAppLink';
 import { ConversionCtas } from '@/components/marketing/ConversionCtas';
 import { ServiceAreaSection } from '@/components/marketing/ServiceAreaSection';
@@ -33,9 +34,13 @@ export default async function ContatoPage(props: PageProps) {
         <ul className="mt-8 space-y-4 text-neutral-700">
           <li>
             <strong className="text-neutral-900">Telefone:</strong>{' '}
-            <a className="text-primary hover:underline" href={`tel:+55${brand.phone}`}>
+            <TrackedPhoneLink
+              className="text-primary hover:underline"
+              href={`tel:+55${brand.phone}`}
+              origin="site-contato-ligar"
+            >
               {brand.phoneDisplay}
-            </a>
+            </TrackedPhoneLink>
           </li>
           <li>
             <strong className="text-neutral-900">Celular / WhatsApp:</strong>{' '}

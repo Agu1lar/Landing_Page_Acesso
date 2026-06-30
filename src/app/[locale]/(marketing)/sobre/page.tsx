@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { TrackedPhoneLink } from '@/components/TrackedPhoneLink';
 import { TrackedWhatsAppLink } from '@/components/analytics/TrackedWhatsAppLink';
 import { ConversionCtas } from '@/components/marketing/ConversionCtas';
 import { ServiceAreaSection } from '@/components/marketing/ServiceAreaSection';
@@ -206,9 +207,13 @@ export default async function SobrePage(props: PageProps) {
           <ul className="mx-auto mt-6 max-w-md space-y-2 text-left text-neutral-700 sm:text-center">
             <li>
               <strong>Telefone:</strong>{' '}
-              <a className="text-primary hover:underline" href={`tel:+55${brand.phone}`}>
+              <TrackedPhoneLink
+                className="text-primary hover:underline"
+                href={`tel:+55${brand.phone}`}
+                origin="site-sobre-ligar"
+              >
                 {brand.phoneDisplay}
-              </a>
+              </TrackedPhoneLink>
             </li>
             <li>
               <strong>WhatsApp:</strong>{' '}

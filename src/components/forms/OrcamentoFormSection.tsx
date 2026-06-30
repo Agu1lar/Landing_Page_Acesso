@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { TrackedPhoneLink } from '@/components/TrackedPhoneLink';
 import { TrackedWhatsAppLink } from '@/components/analytics/TrackedWhatsAppLink';
 import { QuoteForm } from '@/components/forms/QuoteForm';
 import { QuoteCartPanel } from '@/components/quote-cart/QuoteCartPanel';
@@ -58,9 +59,13 @@ export function OrcamentoFormSection(props: OrcamentoFormSectionProps) {
               WhatsApp
             </TrackedWhatsAppLink>{' '}
             ·{' '}
-            <a className="font-medium text-primary hover:underline" href={`tel:+${brand.phone}`}>
+            <TrackedPhoneLink
+              className="font-medium text-primary hover:underline"
+              href={`tel:+${brand.phone}`}
+              origin="site-orcamento-ligar"
+            >
               {brand.phoneDisplay}
-            </a>{' '}
+            </TrackedPhoneLink>{' '}
             · {brand.hours}
           </p>
         </aside>

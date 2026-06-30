@@ -1,4 +1,5 @@
 import { Link } from '@/libs/I18nNavigation';
+import { percentChange } from '@/lib/analytics-admin';
 import type { CampaignDailyLeadsRow, CampaignPerformanceRow } from '@/lib/campaign-analytics';
 import { buildLeadsFilterQuery } from '@/lib/leads-admin';
 import type { LeadStatus } from '@/lib/lead-status';
@@ -25,6 +26,7 @@ type CampaignPerformanceSectionProps = {
     colDate: string;
     colLeads: string;
     viewLeads: string;
+    comparePrevious: string;
     statusNew: string;
     statusContacted: string;
     statusQuoted: string;
@@ -53,8 +55,45 @@ function campaignConsultaHref(campaignKey: string, dateFrom: string, dateTo: str
   })}`;
 }
 
+function formatCompareDelta(current: number, previous: number) {
+  if (previous === 0 && current === 0) {
+    return null;
+  }
+
+  const delta = percentChange(current, previous);
+  const sign = delta > 0 ? '+' : '';
+  return `${sign}${delta}%`;
+}
+
+function CampaignCompareCell(props: {
+  current: number;
+  previous: number;
+  compareLabel: string;
+}) {
+  const delta = formatCompareDelta(props.current, props.previous);
+
+  return (
+    <div>
+      <span className="tabular-nums text-neutral-700">{props.current}</span>
+      {delta ? (
+        <p className="mt-0.5 text-xs text-neutral-500">
+          {props.compareLabel}: {props.previous}
+          <span
+            className={
+              props.current >= props.previous ? 'ml-1 text-emerald-700' : 'ml-1 text-rose-700'
+            }
+          >
+            ({delta})
+          </span>
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
 export function CampaignPerformanceSection(props: CampaignPerformanceSectionProps) {
   const { campaigns, dailyLeads, dateFrom, dateTo, labels } = props;
+  const compareLabel = labels.comparePrevious;
 
   return (
     <div className="space-y-6">
@@ -93,11 +132,27 @@ export function CampaignPerformanceSection(props: CampaignPerformanceSectionProp
                     <td className="py-2.5 pr-4 font-medium text-neutral-900">{row.campaignLabel}</td>
                     <td className="py-2.5 pr-4 text-neutral-700">{row.utmSource}</td>
                     <td className="py-2.5 pr-4 text-neutral-700">{row.utmMedium}</td>
-                    <td className="py-2.5 pr-4 tabular-nums text-neutral-700">{row.whatsappClicks}</td>
-                    <td className="py-2.5 pr-4 tabular-nums font-semibold text-neutral-900">
-                      {row.totalLeads}
+                    <td className="py-2.5 pr-4">
+                      <CampaignCompareCell
+                        compareLabel={compareLabel}
+                        current={row.whatsappClicks}
+                        previous={row.whatsappClicksPrevious}
+                      />
                     </td>
-                    <td className="py-2.5 pr-4 tabular-nums text-neutral-700">{row.quoteLeads}</td>
+                    <td className="py-2.5 pr-4 font-semibold text-neutral-900">
+                      <CampaignCompareCell
+                        compareLabel={compareLabel}
+                        current={row.totalLeads}
+                        previous={row.totalLeadsPrevious}
+                      />
+                    </td>
+                    <td className="py-2.5 pr-4">
+                      <CampaignCompareCell
+                        compareLabel={compareLabel}
+                        current={row.quoteLeads}
+                        previous={row.quoteLeadsPrevious}
+                      />
+                    </td>
                     <td className="py-2.5 pr-4 tabular-nums text-neutral-700">{row.cookieLeads}</td>
                     <td className="py-2.5 pr-4 tabular-nums text-neutral-700">{row.withGclid}</td>
                     {STATUS_COLUMNS.map((column) => (

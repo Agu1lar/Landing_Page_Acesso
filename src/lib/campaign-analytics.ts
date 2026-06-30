@@ -24,6 +24,9 @@ export type CampaignPerformanceRow = {
   cookieLeads: number;
   withGclid: number;
   statusCounts: CampaignStatusCounts;
+  totalLeadsPrevious: number;
+  whatsappClicksPrevious: number;
+  quoteLeadsPrevious: number;
 };
 
 export type CampaignDailyLeadsRow = {
@@ -151,6 +154,9 @@ export function mergeCampaignLeadAggregates(rows: LeadAggregateRow[]): CampaignP
       cookieLeads: 0,
       withGclid: 0,
       statusCounts: emptyStatusCounts(),
+      totalLeadsPrevious: 0,
+      whatsappClicksPrevious: 0,
+      quoteLeadsPrevious: 0,
       sourceCounts: new Map<string, number>(),
       mediumCounts: new Map<string, number>(),
     };
@@ -184,9 +190,32 @@ export function mergeCampaignLeadAggregates(rows: LeadAggregateRow[]): CampaignP
         ...row,
         utmSource: topSource ?? '—',
         utmMedium: topMedium ?? '—',
+        totalLeadsPrevious: 0,
+        whatsappClicksPrevious: 0,
+        quoteLeadsPrevious: 0,
       };
     })
     .sort((a, b) => b.totalLeads - a.totalLeads || b.whatsappClicks - a.whatsappClicks);
+}
+
+/**
+ * Adds comparison-period totals to each campaign row for the dashboard table.
+ */
+export function mergeCampaignPerformanceComparison(
+  current: CampaignPerformanceRow[],
+  previous: CampaignPerformanceRow[],
+): CampaignPerformanceRow[] {
+  const previousByKey = new Map(previous.map((row) => [row.campaignKey, row]));
+
+  return current.map((row) => {
+    const prev = previousByKey.get(row.campaignKey);
+    return {
+      ...row,
+      totalLeadsPrevious: prev?.totalLeads ?? 0,
+      whatsappClicksPrevious: prev?.whatsappClicks ?? 0,
+      quoteLeadsPrevious: prev?.quoteLeads ?? 0,
+    };
+  });
 }
 
 const campaignKeySql = sql<string>`case
@@ -295,6 +324,9 @@ export async function getCampaignPerformanceReport(from: Date, to: Date): Promis
       cookieLeads: 0,
       withGclid: 0,
       statusCounts: emptyStatusCounts(),
+      totalLeadsPrevious: 0,
+      whatsappClicksPrevious: 0,
+      quoteLeadsPrevious: 0,
     });
   }
 

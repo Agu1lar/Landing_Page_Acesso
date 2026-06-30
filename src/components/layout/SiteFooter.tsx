@@ -1,5 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 import { CookiePreferencesLink } from '@/components/analytics/CookiePreferencesLink';
+import { TrackedPhoneLink } from '@/components/TrackedPhoneLink';
 import { TrackedWhatsAppLink } from '@/components/analytics/TrackedWhatsAppLink';
 import { InstagramIcon, LinkedInIcon, WhatsAppIcon } from '@/components/layout/SocialIcons';
 import { brand, buildWhatsAppMessage, buildWhatsAppUrl } from '@/lib/brand';
@@ -69,9 +70,9 @@ export async function SiteFooter() {
           <p className="font-semibold text-white">{t('contact')}</p>
           <ul className="mt-3 space-y-3 text-sm">
             <li>
-              <a className="hover:text-white" href={`tel:+55${brand.phone}`}>
+              <TrackedPhoneLink className="hover:text-white" href={`tel:+55${brand.phone}`} origin="site-footer-ligar">
                 {brand.phoneDisplay}
-              </a>
+              </TrackedPhoneLink>
             </li>
             <li>
               <TrackedWhatsAppLink

@@ -32,10 +32,7 @@ export function trackWhatsAppClick(input: WhatsAppClickInput) {
   const attribution = readStoredAttribution();
   const pathname = window.location.pathname;
 
-  void fetch('/api/analytics', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
+  const body = JSON.stringify({
       eventType: 'whatsapp_click',
       origin: input.origin,
       equipmentSlug: input.equipmentSlug,
@@ -43,7 +40,20 @@ export function trackWhatsAppClick(input: WhatsAppClickInput) {
       pathname,
       device: detectDevice(),
       attribution: attribution ?? undefined,
-    }),
+    });
+
+  if (typeof navigator !== 'undefined' && typeof navigator.sendBeacon === 'function') {
+    navigator.sendBeacon(
+      '/api/analytics',
+      new Blob([body], { type: 'application/json' }),
+    );
+    return;
+  }
+
+  void fetch('/api/analytics', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body,
     keepalive: true,
   });
 }

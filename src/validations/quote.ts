@@ -37,6 +37,60 @@ export const QuoteFormSchema = z.object({
 export type QuoteFormInput = z.infer<typeof QuoteFormSchema>;
 export type QuoteCartItemInput = z.infer<typeof QuoteCartItemSchema>;
 
+/** Builds equipment slug/name summary from cart lines for leads and analytics. */
+export function summarizeCartEquipment(cartItems: QuoteCartItemInput[] | undefined) {
+  if (!cartItems?.length) {
+    return { equipmentSlug: undefined, equipmentName: undefined };
+  }
+
+  return {
+    equipmentSlug: cartItems
+      .map((item) => item.slug)
+      .join(',')
+      .slice(0, 120),
+    equipmentName: cartItems
+      .map((item) => (item.quantity > 1 ? `${item.name} (×${item.quantity})` : item.name))
+      .join(' · ')
+      .slice(0, 300),
+  };
+}
+
+/** Parses persisted cart JSON from a lead row. */
+export function parseQuoteCartItemsFromJson(itemsJson: string | undefined) {
+  if (!itemsJson?.trim()) {
+    return undefined;
+  }
+
+  try {
+    const parsed = z.array(QuoteCartItemSchema).safeParse(JSON.parse(itemsJson));
+    return parsed.success ? parsed.data : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+/** Fills missing equipment fields from itemsJson when the cart was saved but columns were empty. */
+export function fillEquipmentFromCartItems<
+  T extends {
+    equipmentSlug?: string;
+    equipmentName?: string;
+    itemsJson?: string;
+  },
+>(input: T) {
+  if (input.equipmentSlug?.trim() && input.equipmentName?.trim()) {
+    return input;
+  }
+
+  const cartItems = parseQuoteCartItemsFromJson(input.itemsJson);
+  const summary = summarizeCartEquipment(cartItems);
+
+  return {
+    ...input,
+    equipmentSlug: input.equipmentSlug?.trim() || summary.equipmentSlug,
+    equipmentName: input.equipmentName?.trim() || summary.equipmentName,
+  };
+}
+
 export function normalizeQuotePayload(data: QuoteFormInput) {
   const period = data.rentalPeriod?.trim();
   const validPeriod =
@@ -45,20 +99,9 @@ export function normalizeQuotePayload(data: QuoteFormInput) {
       : undefined;
 
   const cartItems = data.cartItems?.length ? data.cartItems : undefined;
-  const equipmentSlug =
-    (cartItems
-      ?.map((item) => item.slug)
-      .join(',')
-      .slice(0, 120) ??
-    data.equipmentSlug?.trim()) ??
-    undefined;
-  const equipmentName =
-    (cartItems
-      ?.map((item) => (item.quantity > 1 ? `${item.name} (×${item.quantity})` : item.name))
-      .join(' · ')
-      .slice(0, 300) ??
-    data.equipmentName?.trim()) ??
-    undefined;
+  const equipmentFromCart = summarizeCartEquipment(cartItems);
+  const equipmentSlug = equipmentFromCart.equipmentSlug ?? data.equipmentSlug?.trim() ?? undefined;
+  const equipmentName = equipmentFromCart.equipmentName ?? data.equipmentName?.trim() ?? undefined;
 
   return {
     name: data.name.trim(),

@@ -5,7 +5,7 @@ import type { GoogleIdTokenPayload } from '@/lib/google-id-token';
 import { db } from '@/libs/DB';
 import { logger } from '@/libs/Logger';
 import { leadsSchema } from '@/models/Schema';
-import type { normalizeQuotePayload } from '@/validations/quote';
+import { fillEquipmentFromCartItems, type normalizeQuotePayload } from '@/validations/quote';
 
 export type CreateLeadInput = ReturnType<typeof normalizeQuotePayload>;
 
@@ -109,23 +109,24 @@ export async function removeCookieConsentLeadForEmail(email: string) {
 }
 
 export async function createLead(input: CreateLeadInput) {
-  const email = normalizeEmail(input.email);
+  const enriched = fillEquipmentFromCartItems(input);
+  const email = normalizeEmail(enriched.email);
   await removeCookieConsentLeadForEmail(email);
 
   const [lead] = await db
     .insert(leadsSchema)
     .values({
-      name: input.name,
+      name: enriched.name,
       email,
-      phone: input.phone,
-      company: input.company ?? null,
-      equipmentSlug: input.equipmentSlug ?? null,
-      equipmentName: input.equipmentName ?? null,
-      rentalPeriod: input.rentalPeriod ?? null,
-      city: input.city,
-      message: input.message ?? null,
-      itemsJson: input.itemsJson ?? null,
-      origin: input.origin || 'site-orcamento',
+      phone: enriched.phone,
+      company: enriched.company ?? null,
+      equipmentSlug: enriched.equipmentSlug ?? null,
+      equipmentName: enriched.equipmentName ?? null,
+      rentalPeriod: enriched.rentalPeriod ?? null,
+      city: enriched.city,
+      message: enriched.message ?? null,
+      itemsJson: enriched.itemsJson ?? null,
+      origin: enriched.origin || 'site-orcamento',
       leadKind: 'quote',
       status: 'new',
       utmSource: input.utmSource ?? null,

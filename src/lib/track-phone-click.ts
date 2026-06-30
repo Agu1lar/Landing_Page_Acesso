@@ -1,18 +1,52 @@
+import { readStoredAttribution } from '@/lib/attribution';
 import { capturePhoneClick } from '@/lib/posthog-events';
 import { GA_CONVERSION_EVENTS, captureGaEvent } from '@/lib/google-analytics';
 
 type TrackPhoneClickInput = {
   origin: string;
-  pathname?: string;
 };
 
+function detectDevice() {
+  if (typeof window === 'undefined') {
+    return undefined;
+  }
+
+  return window.matchMedia('(max-width: 768px)').matches ? 'mobile' : 'desktop';
+}
+
 /**
- * Sends phone_click to PostHog and GA4 when a tel: link is used.
+ * Sends phone_click to PostHog, GA4 and persists the event in Neon.
  */
 export function trackPhoneClick(input: TrackPhoneClickInput) {
   capturePhoneClick(input);
 
   captureGaEvent(GA_CONVERSION_EVENTS.phoneClick, {
     origin: input.origin,
+  });
+
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  const attribution = readStoredAttribution();
+  const pathname = window.location.pathname;
+  const body = JSON.stringify({
+    eventType: 'phone_click',
+    origin: input.origin,
+    pathname,
+    device: detectDevice(),
+    attribution: attribution ?? undefined,
+  });
+
+  if (typeof navigator !== 'undefined' && typeof navigator.sendBeacon === 'function') {
+    navigator.sendBeacon('/api/analytics', new Blob([body], { type: 'application/json' }));
+    return;
+  }
+
+  void fetch('/api/analytics', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body,
+    keepalive: true,
   });
 }

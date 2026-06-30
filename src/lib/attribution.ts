@@ -1,4 +1,5 @@
 import * as z from 'zod';
+import { isInternalAnalyticsPath } from '@/lib/analytics-internal-paths';
 
 const ATTRIBUTION_STORAGE_KEY = 'acesso_attribution';
 
@@ -141,15 +142,21 @@ export function captureAttributionFirstTouch() {
     return;
   }
 
-  const built = buildAttributionFromVisit({
-    search: window.location.search,
-    referrer: document.referrer,
-    landingPath: `${window.location.pathname}${window.location.search}`,
-  });
-
-  if (!hasAttributionData(built)) {
+  const landingPath = `${window.location.pathname}${window.location.search}`;
+  if (isInternalAnalyticsPath(landingPath)) {
     return;
   }
 
-  window.sessionStorage.setItem(ATTRIBUTION_STORAGE_KEY, JSON.stringify(built));
+  const built = buildAttributionFromVisit({
+    search: window.location.search,
+    referrer: document.referrer,
+    landingPath,
+  });
+
+  const payload: AttributionInput = {
+    ...built,
+    landingPage: (built.landingPage ?? landingPath.trim()).slice(0, 500) || undefined,
+  };
+
+  window.sessionStorage.setItem(ATTRIBUTION_STORAGE_KEY, JSON.stringify(payload));
 }

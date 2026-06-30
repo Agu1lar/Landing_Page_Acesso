@@ -14,7 +14,8 @@ import { readStoredAttribution } from '@/lib/attribution';
 import { brand } from '@/lib/brand';
 import { captureQuoteSubmit } from '@/lib/posthog-events';
 import { buildQuoteWhatsAppUrl } from '@/lib/quote-whatsapp';
-import { QuoteFormSchema, rentalPeriodOptions } from '@/validations/quote';
+import { TrackedPhoneLink } from '@/components/TrackedPhoneLink';
+import { QuoteFormSchema, rentalPeriodOptions, summarizeCartEquipment } from '@/validations/quote';
 
 type QuoteFormProps = {
   initialEquipment?: {
@@ -98,8 +99,6 @@ export function QuoteForm(props: QuoteFormProps) {
       body: JSON.stringify({
         ...data,
         cartItems,
-        equipmentSlug: cartItems?.[0]?.slug ?? data.equipmentSlug,
-        equipmentName: cartItems?.[0]?.name ?? data.equipmentName,
         attribution: attribution ?? undefined,
       }),
     });
@@ -117,12 +116,14 @@ export function QuoteForm(props: QuoteFormProps) {
       return;
     }
 
+    const equipmentSummary = summarizeCartEquipment(cartItems);
+
     captureQuoteSubmit({
       origin,
       leadId: body.id,
       cartLineCount: cartItems?.length ?? 0,
-      equipmentSlug: cartItems?.[0]?.slug ?? data.equipmentSlug,
-      equipmentName: cartItems?.[0]?.name ?? data.equipmentName,
+      equipmentSlug: equipmentSummary.equipmentSlug ?? data.equipmentSlug,
+      equipmentName: equipmentSummary.equipmentName ?? data.equipmentName,
     });
 
     const whatsappUrl =
@@ -136,7 +137,7 @@ export function QuoteForm(props: QuoteFormProps) {
         rentalPeriod: data.rentalPeriod?.trim() ?? undefined,
         message: data.message?.trim() ?? undefined,
         cartItems,
-        equipmentName: cartItems?.[0]?.name ?? data.equipmentName?.trim(),
+        equipmentName: equipmentSummary.equipmentName ?? data.equipmentName?.trim(),
         origin,
       });
 
@@ -177,9 +178,13 @@ export function QuoteForm(props: QuoteFormProps) {
               Abrir WhatsApp com sua mensagem
             </a>{' '}
             · Urgente:{' '}
-            <a className="font-medium text-primary hover:underline" href={`tel:+${brand.phone}`}>
+            <TrackedPhoneLink
+              className="font-medium text-primary hover:underline"
+              href={`tel:+${brand.phone}`}
+              origin="site-orcamento-ligar"
+            >
               {brand.phoneDisplay}
-            </a>
+            </TrackedPhoneLink>
           </p>
         ) : null}
       </div>

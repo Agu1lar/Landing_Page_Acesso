@@ -1,5 +1,6 @@
 import { and, count, desc, eq, gte, lte, sql } from 'drizzle-orm';
 import { sumAnalyticsDailyForPeriod } from '@/lib/analytics-daily';
+import { isInternalAnalyticsPath } from '@/lib/analytics-internal-paths';
 import { runAnalyticsDashboardStep, parseAnalyticsDashboardFailure } from '@/lib/analytics-dashboard-errors';
 import { isAnalyticsSchemaMissingError, withAnalyticsSchema } from '@/lib/analytics-schema';
 import {
@@ -8,10 +9,12 @@ import {
   formatSitePath,
   formatTrafficSource,
   formatWhatsAppOrigin,
+  formatPhoneOrigin,
 } from '@/lib/analytics-display-labels';
 import { resolveAnalyticsPeriod, resolveComparisonPeriod } from '@/lib/analytics-period';
 import {
   getCampaignPerformanceReport,
+  mergeCampaignPerformanceComparison,
   type CampaignDailyLeadsRow,
   type CampaignPerformanceRow,
 } from '@/lib/campaign-analytics';
@@ -57,7 +60,10 @@ export type OperationalDashboard = {
   cookieConsentLeads: number;
   whatsappClicksPrevious: number;
   quoteSubmitsPrevious: number;
+  phoneClicks: number;
+  phoneClicksPrevious: number;
   whatsappByOrigin: CountRow[];
+  phoneByOrigin: CountRow[];
   trafficBySource: CountRow[];
   campaignPerformance: CampaignPerformanceRow[];
   campaignDailyLeads: CampaignDailyLeadsRow[];
@@ -110,6 +116,14 @@ async function countEvents(
 }
 
 async function whatsappByOrigin(from: Date, to: Date) {
+  return clicksByOrigin('whatsapp_click', from, to);
+}
+
+async function phoneByOrigin(from: Date, to: Date) {
+  return clicksByOrigin('phone_click', from, to);
+}
+
+async function clicksByOrigin(eventType: string, from: Date, to: Date) {
   const rows = await db
     .select({
       label: analyticsEventsSchema.origin,
@@ -118,7 +132,7 @@ async function whatsappByOrigin(from: Date, to: Date) {
     .from(analyticsEventsSchema)
     .where(
       and(
-        eq(analyticsEventsSchema.eventType, 'whatsapp_click'),
+        eq(analyticsEventsSchema.eventType, eventType),
         gte(analyticsEventsSchema.createdAt, from),
         lte(analyticsEventsSchema.createdAt, to),
       ),
@@ -202,7 +216,13 @@ async function topEquipmentLeads(from: Date, to: Date) {
       count: count(),
     })
     .from(leadsSchema)
-    .where(and(gte(leadsSchema.createdAt, from), lte(leadsSchema.createdAt, to)))
+    .where(
+      and(
+        eq(leadsSchema.leadKind, 'quote'),
+        gte(leadsSchema.createdAt, from),
+        lte(leadsSchema.createdAt, to),
+      ),
+    )
     .groupBy(sql`coalesce(${leadsSchema.equipmentName}, ${leadsSchema.equipmentSlug}, '—')`)
     .orderBy(desc(count()))
     .limit(8);
@@ -251,6 +271,7 @@ async function landingPagesSimple(from: Date, to: Date) {
 
   return [...merged.entries()]
     .map(([label, countValue]) => ({ label, count: countValue }))
+    .filter((row) => !isInternalAnalyticsPath(row.label))
     .sort((a, b) => b.count - a.count)
     .slice(0, 8);
 }
@@ -484,7 +505,10 @@ function buildEmptyOperationalDashboard(
     cookieConsentLeads: 0,
     whatsappClicksPrevious: 0,
     quoteSubmitsPrevious: 0,
+    phoneClicks: 0,
+    phoneClicksPrevious: 0,
     whatsappByOrigin: [],
+    phoneByOrigin: [],
     trafficBySource: [],
     campaignPerformance: [],
     campaignDailyLeads: [],
@@ -515,9 +539,13 @@ async function loadOperationalDashboard(
     cookieConsentLeads,
     whatsappClicksPrevious,
     quoteSubmitsPrevious,
+    phoneClicks,
+    phoneClicksPrevious,
     whatsappByOriginRows,
+    phoneByOriginRows,
     trafficBySource,
     campaignReport,
+    campaignReportPrevious,
     topEquipmentWhatsapp,
     topEquipmentLeadsRows,
     topPagesRows,
@@ -554,8 +582,17 @@ async function loadOperationalDashboard(
     runAnalyticsDashboardStep('quote_submits_previous', 'Leads de orçamento (período anterior)', () =>
       withAnalyticsSchema(0, () => countEvents('quote_submit', comparison.from, comparison.to)),
     ),
+    runAnalyticsDashboardStep('phone_current', 'Cliques ligar (período)', () =>
+      withAnalyticsSchema(0, () => countEvents('phone_click', period.from, period.to)),
+    ),
+    runAnalyticsDashboardStep('phone_previous', 'Cliques ligar (período anterior)', () =>
+      withAnalyticsSchema(0, () => countEvents('phone_click', comparison.from, comparison.to)),
+    ),
     runAnalyticsDashboardStep('whatsapp_by_origin', 'WhatsApp por origem', () =>
       withAnalyticsSchema([], () => whatsappByOrigin(period.from, period.to)),
+    ),
+    runAnalyticsDashboardStep('phone_by_origin', 'Ligar por origem', () =>
+      withAnalyticsSchema([], () => phoneByOrigin(period.from, period.to)),
     ),
     runAnalyticsDashboardStep('traffic_by_source', 'Tráfego por fonte UTM', () =>
       withAnalyticsSchema([], () => trafficBySourceSimple(period.from, period.to)),
@@ -563,6 +600,11 @@ async function loadOperationalDashboard(
     runAnalyticsDashboardStep('campaign_report', 'Desempenho por campanha', () =>
       withAnalyticsSchema({ campaigns: [], dailyLeads: [] }, () =>
         getCampaignPerformanceReport(period.from, period.to),
+      ),
+    ),
+    runAnalyticsDashboardStep('campaign_report_previous', 'Desempenho por campanha (comparação)', () =>
+      withAnalyticsSchema({ campaigns: [], dailyLeads: [] }, () =>
+        getCampaignPerformanceReport(comparison.from, comparison.to),
       ),
     ),
     runAnalyticsDashboardStep('top_equipment_whatsapp', 'Equipamentos (WhatsApp)', () =>
@@ -591,6 +633,11 @@ async function loadOperationalDashboard(
   const uniqueSessionsPrevious =
     engagementPrevious.uniqueSessions || dailyPrevious.uniqueSessions;
 
+  const campaignPerformance = mergeCampaignPerformanceComparison(
+    campaignReport.campaigns,
+    campaignReportPrevious.campaigns,
+  );
+
   return {
     period: { dateFrom: period.dateFrom, dateTo: period.dateTo },
     comparisonPeriod: { dateFrom: comparison.dateFrom, dateTo: comparison.dateTo },
@@ -607,9 +654,12 @@ async function loadOperationalDashboard(
     cookieConsentLeads,
     whatsappClicksPrevious,
     quoteSubmitsPrevious,
+    phoneClicks,
+    phoneClicksPrevious,
     whatsappByOrigin: humanizeCountRows(whatsappByOriginRows, formatWhatsAppOrigin),
+    phoneByOrigin: humanizeCountRows(phoneByOriginRows, formatPhoneOrigin),
     trafficBySource: humanizeCountRows(trafficBySource, formatTrafficSource),
-    campaignPerformance: campaignReport.campaigns,
+    campaignPerformance,
     campaignDailyLeads: campaignReport.dailyLeads,
     topEquipmentWhatsapp: humanizeCountRows(topEquipmentWhatsapp, (label) =>
       formatEquipmentAnalyticsLabel(label, 'whatsapp'),

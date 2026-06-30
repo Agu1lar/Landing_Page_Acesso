@@ -6,6 +6,7 @@ import { AnalyticsBarTable } from '@/components/admin/AnalyticsBarTable';
 import { AnalyticsEquipmentConversionTable } from '@/components/admin/AnalyticsEquipmentConversionTable';
 import { AnalyticsPeriodFilters } from '@/components/admin/AnalyticsPeriodFilters';
 import { AnalyticsTopPagesTable } from '@/components/admin/AnalyticsTopPagesTable';
+import { AnalyticsWhatsappHero } from '@/components/admin/AnalyticsWhatsappHero';
 import { AdminCallout } from '@/components/admin/AdminCallout';
 import { AdminKpiCard } from '@/components/admin/AdminKpiCard';
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
@@ -94,6 +95,7 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
     dashboard.whatsappClicks,
     dashboard.whatsappClicksPrevious,
   );
+  const phoneDelta = percentChange(dashboard.phoneClicks, dashboard.phoneClicksPrevious);
   const leadsDelta = percentChange(dashboard.quoteSubmits, dashboard.quoteSubmitsPrevious);
   const activeTimeDelta = percentChange(
     dashboard.totalActiveSeconds,
@@ -140,6 +142,9 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
       <div className="space-y-3">
         {dashboard.posthogHint ? <AdminCallout>{t('posthog_visits_hint')}</AdminCallout> : null}
         <AdminCallout variant="tip">{t('page_time_hint')}</AdminCallout>
+        {dashboard.whatsappClicks === 0 ? (
+          <AdminCallout variant="tip">{t('whatsapp_tracking_hint')}</AdminCallout>
+        ) : null}
       </div>
 
       <AnalyticsPeriodFilters
@@ -148,6 +153,31 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
         comparisonMode={dashboard.comparisonMode}
         dateFrom={searchParams.dateFrom ?? dashboard.period.dateFrom}
         dateTo={searchParams.dateTo ?? dashboard.period.dateTo}
+      />
+
+      <AnalyticsWhatsappHero
+        clicks={dashboard.whatsappClicks}
+        clicksLabel={t('whatsapp_hero_clicks_label', { count: dashboard.whatsappClicks })}
+        clicksPrevious={dashboard.whatsappClicksPrevious}
+        delta={whatsappDelta}
+        deltaLabel={deltaLabel}
+        emptyHint={t('whatsapp_hero_empty_hint')}
+        helpLabel={helpLabel}
+        helpText={t('hint_kpi_whatsapp')}
+        pageViews={dashboard.pageViews}
+        periodLabel={t('whatsapp_hero_period', {
+          from: dashboard.period.dateFrom,
+          to: dashboard.period.dateTo,
+        })}
+        previousPeriodLabel={t('whatsapp_hero_previous_period', {
+          count: dashboard.whatsappClicksPrevious,
+        })}
+        rateLabel={
+          dashboard.pageViews > 0
+            ? t('whatsapp_hero_rate', { rate: whatsappRate })
+            : undefined
+        }
+        title={t('whatsapp_hero_title')}
       />
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -186,6 +216,15 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
           label={t('kpi_leads')}
           value={dashboard.quoteSubmits}
         />
+        <AdminKpiCard
+          accent="neutral"
+          delta={phoneDelta}
+          deltaLabel={deltaLabel}
+          helpLabel={helpLabel}
+          helpText={t('hint_kpi_phone')}
+          label={t('kpi_phone')}
+          value={dashboard.phoneClicks}
+        />
       </div>
 
       {(dashboard.cookieConsentLeads > 0 || dashboard.pageViews > 0) && (
@@ -221,6 +260,7 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
           colDate: t('col_date'),
           colLeads: t('col_leads'),
           viewLeads: t('view_campaign_leads'),
+          comparePrevious: t('campaign_compare_previous'),
           statusNew: t('status_new_short'),
           statusContacted: t('status_contacted_short'),
           statusQuoted: t('status_quoted_short'),
@@ -263,6 +303,13 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
           hint={t('hint_chart_whatsapp_origin')}
           rows={dashboard.whatsappByOrigin}
           title={t('chart_whatsapp_origin')}
+        />
+        <AnalyticsBarTable
+          emptyLabel={t('empty_data')}
+          helpLabel={helpLabel}
+          hint={t('hint_chart_phone_origin')}
+          rows={dashboard.phoneByOrigin}
+          title={t('chart_phone_origin')}
         />
         <AnalyticsBarTable
           emptyLabel={t('empty_data')}

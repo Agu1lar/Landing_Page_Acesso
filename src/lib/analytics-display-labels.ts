@@ -18,8 +18,14 @@ const WHATSAPP_ORIGIN_LABELS: Record<string, string> = {
   'site-faq': 'Perguntas frequentes',
   'site-dica': 'Artigo de dicas',
   'site-orcamento': 'Formulário de orçamento',
+  'site-footer': 'Rodapé do site',
+  'site-catalogo': 'Catálogo de equipamentos',
   'site-carrinho-mobile': 'Carrinho de orçamento (celular)',
   'site-mobile-ligar': 'Botão ligar (celular)',
+  'site-footer-ligar': 'Rodapé do site (ligar)',
+  'site-contato-ligar': 'Página de contato (ligar)',
+  'site-sobre-ligar': 'Página Sobre (ligar)',
+  'site-orcamento-ligar': 'Formulário de orçamento (ligar)',
 };
 
 const SITE_PATH_LABELS: Record<string, string> = {
@@ -63,6 +69,11 @@ export function formatWhatsAppOrigin(origin: string): string {
   }
 
   return WHATSAPP_ORIGIN_LABELS[origin] ?? formatUnknownWhatsAppOrigin(origin);
+}
+
+/** Same origin vocabulary as WhatsApp clicks (site-header, site-footer-ligar, etc.). */
+export function formatPhoneOrigin(origin: string) {
+  return formatWhatsAppOrigin(origin);
 }
 
 /** Humanizes landing paths and top pages for the dashboard. */

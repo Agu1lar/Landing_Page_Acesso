@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { AnalyticsWhatsappWeekStrip } from '@/components/admin/AnalyticsWhatsappWeekStrip';
 import { CommercialQueueSection } from '@/components/admin/CommercialQueueSection';
 import { GoogleCookieLeadCallout } from '@/components/admin/GoogleCookieLeadCallout';
 import { GoogleOneTapActiveCallout } from '@/components/admin/GoogleOneTapActiveCallout';
@@ -8,6 +9,7 @@ import { StaleLeadsAlert } from '@/components/admin/StaleLeadsAlert';
 import { AdminCallout } from '@/components/admin/AdminCallout';
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
 import { archiveStaleCommercialLeads } from '@/lib/leads-auto-archive';
+import { getOperationalDashboard } from '@/lib/analytics-admin';
 import { Button } from '@/components/ui/Button';
 import {
   buildContactOrderCounts,
@@ -15,7 +17,7 @@ import {
   listWeekOperationalLeads,
   WEEK_LEADS_DISPLAY_MAX,
 } from '@/lib/leads-admin';
-import { formatWeekRangeLabel } from '@/lib/leads-date-presets';
+import { formatWeekRangeLabel, currentWeekRange } from '@/lib/leads-date-presets';
 import { listStaleNewLeads } from '@/lib/leads-stale-alert';
 import { Link } from '@/libs/I18nNavigation';
 import { resolveAppLocale } from '@/utils/locale';
@@ -43,13 +45,22 @@ export default async function LeadsAdminPage(props: LeadsPageProps) {
     locale: resolveAppLocale(locale),
     namespace: 'LeadsAdminPage',
   });
+  const tAnalytics = await getTranslations({
+    locale: resolveAppLocale(locale),
+    namespace: 'AnalyticsAdminPage',
+  });
 
   const archivedCount = await archiveStaleCommercialLeads();
+  const weekRange = currentWeekRange();
 
-  const [queueResult, weekResult, staleLeads] = await Promise.all([
+  const [queueResult, weekResult, staleLeads, weekMetrics] = await Promise.all([
     listCommercialQueue(),
     listWeekOperationalLeads(),
     listStaleNewLeads(),
+    getOperationalDashboard({
+      dateFrom: weekRange.dateFrom,
+      dateTo: weekRange.dateTo,
+    }),
   ]);
   const contactOrderCounts = await buildContactOrderCounts(weekResult.leads);
   const googleClientIdConfigured = Boolean(process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID?.trim());
@@ -69,6 +80,17 @@ export default async function LeadsAdminPage(props: LeadsPageProps) {
           week: weekLabel,
         })}
         title={t('title_week')}
+      />
+
+      <AnalyticsWhatsappWeekStrip
+        clicks={weekMetrics.whatsappClicks}
+        clicksLabel={tAnalytics('whatsapp_hero_clicks_label', {
+          count: weekMetrics.whatsappClicks,
+        })}
+        detailHref="/dashboard/analytics"
+        detailLabel={t('week_whatsapp_detail_link')}
+        title={tAnalytics('whatsapp_hero_title')}
+        weekLabel={weekLabel}
       />
 
       <StaleLeadsAlert summary={staleLeads} />
