@@ -44,7 +44,7 @@ function FilterChip(props: FilterChipProps) {
   return (
     <button
       aria-pressed={props.active}
-      className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-colors ${props.active ? 'bg-primary text-primary-foreground shadow-sm' : 'bg-white text-neutral-700 ring-1 ring-neutral-200 hover:bg-neutral-50'}`}
+      className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-medium transition-colors sm:px-4 sm:py-2 sm:text-sm ${props.active ? 'bg-primary text-primary-foreground shadow-sm' : 'bg-white text-neutral-700 ring-1 ring-neutral-200 hover:bg-neutral-50'}`}
       onClick={props.onClick}
       type="button"
     >
@@ -60,11 +60,11 @@ type FilterGroupProps = {
 
 function FilterGroup(props: FilterGroupProps) {
   return (
-    <div className="rounded-xl border border-neutral-200 bg-white p-3 sm:p-4">
+    <div className="min-w-0 overflow-hidden rounded-xl border border-neutral-200 bg-white p-3 sm:p-4">
       <p className="text-sm font-semibold text-neutral-900">{props.groupLabel}</p>
       <div
         aria-label={props.groupLabel}
-        className="mt-2.5 flex gap-2 overflow-x-auto pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] sm:flex-wrap sm:overflow-visible [&::-webkit-scrollbar]:hidden"
+        className="mt-2.5 flex min-w-0 flex-wrap gap-2"
         role="group"
       >
         {props.chips.map((chip) => (
@@ -114,7 +114,7 @@ export function CategoryEquipmentGrid(props: CategoryEquipmentGridProps) {
       {showPlatformFilters ? (
         <section
           aria-labelledby="category-platform-filters-title"
-          className="mt-4 rounded-[var(--radius-card)] border border-neutral-200 bg-neutral-50 p-4 sm:p-5"
+          className="mt-4 min-w-0 overflow-hidden rounded-[var(--radius-card)] border border-neutral-200 bg-neutral-50 p-4 sm:p-5"
         >
           <h3
             className="font-heading text-base font-bold text-neutral-900 sm:text-lg"
@@ -124,7 +124,7 @@ export function CategoryEquipmentGrid(props: CategoryEquipmentGridProps) {
           </h3>
           <p className="mt-1.5 text-sm text-neutral-600">{t('filter_platform_intro')}</p>
 
-          <div className="mt-4 grid gap-3 sm:gap-4">
+          <div className="mt-4 grid min-w-0 gap-3 sm:gap-4">
             <FilterGroup
               chips={PLATFORM_KIND_FILTERS.map((kind) => ({
                 id: kind,
