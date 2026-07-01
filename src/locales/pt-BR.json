@@ -157,7 +157,12 @@
     "detail_cta_subtitle": "Adicione ao orçamento ou fale com nosso comercial em horário útil.",
     "back": "Voltar ao catálogo",
     "back_to_category": "Voltar para {category}",
-    "related_title": "Equipamentos relacionados"
+    "related_title": "Equipamentos relacionados",
+    "gallery_label": "Fotos de {name}",
+    "gallery_prev": "Foto anterior",
+    "gallery_next": "Próxima foto",
+    "gallery_go_to": "Ir para foto {current} de {total}",
+    "gallery_status": "Foto {current} de {total}"
   },
   "NotFoundPage": {
     "eyebrow": "Página não encontrada",
@@ -782,7 +787,7 @@
   "EquipmentAdminForm": {
     "section_main": "Informações do equipamento",
     "section_photos": "Fotos",
-    "section_photos_hint": "Arraste as fotos para a área abaixo ou clique em escolher arquivos. Marque qual é a principal.",
+    "section_photos_hint": "Envie várias fotos de uma vez. Marque a principal (capa do catálogo). As demais aparecem em carrossel na página do equipamento.",
     "upload_drop_title": "Arraste as fotos aqui",
     "upload_drop_hint": "JPG, PNG ou WebP — até 5 MB por arquivo. Você pode enviar várias de uma vez.",
     "upload_choose_files": "Escolher arquivos",

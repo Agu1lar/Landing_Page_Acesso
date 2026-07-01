@@ -17,7 +17,7 @@ import {
   getEquipmentQuoteCartKind,
   getRelatedEquipment,
 } from '@/lib/equipment';
-import { getEquipmentImageSrc, getResolvedEquipmentImageMap } from '@/lib/equipment-images-server';
+import { getEquipmentGalleryImages, getResolvedEquipmentImageMap } from '@/lib/equipment-images-server';
 import { getEquipmentSeoExtra } from '@/lib/equipment-seo-extra';
 import {
   buildEquipmentMetaDescription,
@@ -77,19 +77,19 @@ export default async function EquipmentDetailPage(props: EquipmentDetailProps) {
   }
 
   const whatsappHref = buildEquipmentWhatsAppUrl(equipment);
-  const [related, imageBySlug] = await Promise.all([
+  const [related, imageBySlug, galleryImages] = await Promise.all([
     getRelatedEquipment(slug),
     getResolvedEquipmentImageMap(),
+    getEquipmentGalleryImages(equipment.slug, equipment.name),
   ]);
   const seoExtra = getEquipmentSeoExtra(equipment);
-  const imagePath = await getEquipmentImageSrc(equipment.slug);
   const pageBodyDescription = getEquipmentPageBodyDescription(equipment);
   const showTechnicalSection = hasEquipmentLongDescription(equipment);
 
   return (
     <>
       <EquipmentViewTracker name={equipment.name} slug={equipment.slug} />
-      <JsonLd data={buildEquipmentPageJsonLd(equipment, imagePath)} />
+      <JsonLd data={buildEquipmentPageJsonLd(equipment, galleryImages.map((image) => image.src))} />
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-10 lg:px-8">
         <Link
           className="text-xs font-medium text-primary hover:underline sm:text-sm"
@@ -99,7 +99,7 @@ export default async function EquipmentDetailPage(props: EquipmentDetailProps) {
         </Link>
 
         <div className="mt-4 grid gap-6 lg:mt-6 lg:grid-cols-2 lg:gap-10">
-          <EquipmentDetailImage name={equipment.name} slug={equipment.slug} src={imagePath} />
+          <EquipmentDetailImage images={galleryImages} name={equipment.name} slug={equipment.slug} />
 
           <div>
             <Link

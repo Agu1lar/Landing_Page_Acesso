@@ -171,10 +171,15 @@ function buildBreadcrumbListJsonLd(items: BreadcrumbItem[]) {
 /**
  * Product schema for equipment rental (price on request — no numeric price).
  */
-export function buildProductJsonLd(equipment: Equipment, imagePath?: string | null) {
+export function buildProductJsonLd(equipment: Equipment, imagePath?: string | string[] | null) {
   const baseUrl = getBaseUrl();
   const path = `/equipamentos/${equipment.slug}`;
   const url = `${baseUrl}${path}`;
+  const imagePaths = Array.isArray(imagePath)
+    ? imagePath
+    : imagePath
+      ? [imagePath]
+      : [];
 
   return {
     '@context': SCHEMA_CONTEXT,
@@ -185,7 +190,9 @@ export function buildProductJsonLd(equipment: Equipment, imagePath?: string | nu
     category: CATEGORY_LABELS[equipment.category],
     url,
     sku: equipment.slug,
-    ...(imagePath ? { image: [equipmentImageUrl(imagePath)] } : {}),
+    ...(imagePaths.length > 0
+      ? { image: imagePaths.map((pathItem) => equipmentImageUrl(pathItem)) }
+      : {}),
     brand: {
       '@type': 'Brand',
       name: brand.name,
@@ -205,7 +212,7 @@ export function buildProductJsonLd(equipment: Equipment, imagePath?: string | nu
 /**
  * Equipment detail @graph: Product + BreadcrumbList.
  */
-export function buildEquipmentPageJsonLd(equipment: Equipment, imagePath?: string | null) {
+export function buildEquipmentPageJsonLd(equipment: Equipment, imagePath?: string | string[] | null) {
   const categoryLabel = CATEGORY_LABELS[equipment.category];
 
   return {

@@ -1,16 +1,17 @@
-import { EquipmentCatalogImage } from '@/components/marketing/EquipmentCatalogImage';
+import { EquipmentImageCarousel } from '@/components/marketing/EquipmentImageCarousel';
+import type { EquipmentGalleryImage } from '@/lib/equipment-gallery';
 
 type EquipmentDetailImageProps = {
+  images: EquipmentGalleryImage[];
   name: string;
   slug: string;
-  src?: string;
 };
 
 /**
- * Detail hero image — receives a pre-resolved URL from the server page (no DB).
+ * Detail hero gallery — receives pre-resolved images from the server page.
  */
 export function EquipmentDetailImage(props: EquipmentDetailImageProps) {
-  if (!props.src) {
+  if (props.images.length === 0) {
     return (
       <div className="flex aspect-[4/3] items-center justify-center rounded-[var(--radius-card)] border border-neutral-200 bg-neutral-100 text-sm text-neutral-400">
         Imagem em breve
@@ -19,17 +20,6 @@ export function EquipmentDetailImage(props: EquipmentDetailImageProps) {
   }
 
   return (
-    <div className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-card)] border border-neutral-200 bg-neutral-100">
-      <EquipmentCatalogImage
-        alt={props.name}
-        className="object-contain object-center p-2"
-        fill
-        key={props.src}
-        priority
-        sizes="(max-width: 1024px) 100vw, 50vw"
-        slug={props.slug}
-        src={props.src}
-      />
-    </div>
+    <EquipmentImageCarousel images={props.images} name={props.name} slug={props.slug} />
   );
 }
