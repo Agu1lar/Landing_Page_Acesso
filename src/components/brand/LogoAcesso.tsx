@@ -70,7 +70,7 @@ export function LogoAcesso({ variant = 'header', className = '' }: LogoAcessoPro
           x="82"
           y="88"
         >
-          PLATAFORMAS AÉREAS • ANDAIMES • MÁQUINAS
+          PLATAFORMAS ELEVATÓRIAS • ANDAIMES • MÁQUINAS
         </text>
       )}
     </svg>

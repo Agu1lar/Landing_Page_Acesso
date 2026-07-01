@@ -7,7 +7,7 @@ describe('formatEquipmentName', () => {
   });
 
   it('collapses extra spaces', () => {
-    expect(formatEquipmentName('  plataforma   aérea   gs 3246  ')).toBe('PLATAFORMA AÉREA GS 3246');
+    expect(formatEquipmentName('  plataforma   elevatória   gs 3246  ')).toBe('PLATAFORMA ELEVATÓRIA GS 3246');
   });
 
   it('keeps already uppercase names stable', () => {

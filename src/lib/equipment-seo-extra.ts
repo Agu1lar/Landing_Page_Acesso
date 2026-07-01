@@ -21,7 +21,7 @@ const SLUG_SEO_EXTRA: Partial<Record<string, EquipmentSeoExtra>> = {
   'plataforma-elevatoria-s80': {
     title: 'Locação de plataforma telescópica Genie S-85 XC E em Belo Horizonte',
     paragraphs: [
-      `A Genie S-85 XC E é lança telescópica elétrica (aérea) com altura de trabalho de 27,91 m e alcance horizontal de 22,71 m — ideal para manutenções e montagens com baixa emissão em ${BH_REGION}.`,
+      `A Genie S-85 XC E é lança telescópica elétrica com altura de trabalho de 27,91 m e alcance horizontal de 22,71 m — ideal para manutenções e montagens com baixa emissão em ${BH_REGION}.`,
       `Combine locação com treinamento de operadores alinhado à NR-18 quando necessário. Solicite orçamento informando endereço, datas e altura de trabalho.`,
     ],
   },
@@ -42,7 +42,7 @@ const SLUG_SEO_EXTRA: Partial<Record<string, EquipmentSeoExtra>> = {
   'plataforma-elevatoria-1350sjp': {
     title: 'Locação de plataforma telescópica JLG 1350SJP em Belo Horizonte',
     paragraphs: [
-      `O JLG 1350SJP Ultra Boom é lança telescópica (aérea) com altura de plataforma de 41,30 m e alcance horizontal de 24,38 m — para obras de grande altura e manutenções industriais em ${BH_REGION}.`,
+      `O JLG 1350SJP Ultra Boom é lança telescópica com altura de plataforma de 41,30 m e alcance horizontal de 24,38 m — para obras de grande altura e manutenções industriais em ${BH_REGION}.`,
       `Solicite orçamento com endereço da obra, datas e descrição do serviço. Atendimento comercial em horário útil por telefone, e-mail e WhatsApp.`,
     ],
   },

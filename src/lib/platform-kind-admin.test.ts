@@ -12,7 +12,7 @@ describe('read platform kind from specs', () => {
       readPlatformKindFromSpecs({
         specs: [],
         tags: [],
-        name: 'PLATAFORMA AEREA GS 3246',
+        name: 'PLATAFORMA ELEVATÓRIA GS 3246',
         slug: 'plataforma-aerea-gs-3246',
       }),
     ).toBe('tesoura');
@@ -23,7 +23,7 @@ describe('read platform kind from specs', () => {
       readPlatformKindFromSpecs({
         specs: [],
         tags: [],
-        name: 'PLATAFORMA AÉREA ARTICULADA Z34',
+        name: 'PLATAFORMA ELEVATÓRIA ARTICULADA Z34',
         slug: 'plataforma-aerea-articulada-z34',
       }),
     ).toBe('articulada');
@@ -71,7 +71,7 @@ describe('get platform kind for new fleet models', () => {
   it('classifies GS 3246 as tesoura filter', () => {
     const platform = item({
       slug: 'plataforma-aerea-gs-3246',
-      name: 'PLATAFORMA AEREA GS 3246',
+      name: 'PLATAFORMA ELEVATÓRIA GS 3246',
     });
     expect(getPlatformKind(platform)).toBe('tesoura');
   });
@@ -79,7 +79,7 @@ describe('get platform kind for new fleet models', () => {
   it('classifies Z34 as articulada filter', () => {
     const platform = item({
       slug: 'plataforma-aerea-articulada-z34',
-      name: 'PLATAFORMA AÉREA ARTICULADA Z34',
+      name: 'PLATAFORMA ELEVATÓRIA ARTICULADA Z34',
     });
     expect(getPlatformKind(platform)).toBe('articulada');
   });

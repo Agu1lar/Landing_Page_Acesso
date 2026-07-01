@@ -37,7 +37,7 @@ const SITE_PATH_LABELS: Record<string, string> = {
   '/faq': 'Perguntas frequentes',
   '/dicas': 'Dicas e artigos',
   '/privacidade': 'Política de privacidade',
-  '/treinamento-plataformas-aereas': 'Treinamento de plataformas',
+  '/treinamento-plataformas-aereas': 'Treinamento de plataformas elevatórias',
 };
 
 const DEVICE_LABELS: Record<string, string> = {

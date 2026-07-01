@@ -18,7 +18,7 @@ import { resolveAppLocale } from '@/utils/locale';
 type PageProps = { params: Promise<{ locale: string }> };
 
 const trainingDescription =
-  'Treinamento para operação segura de plataformas elevatórias em Belo Horizonte. Capacitação alinhada à NR-18 e trabalho em altura. Certificado e orçamento sob consulta.';
+  'Treinamento para operação segura de plataformas elevatórias (plataforma aérea) em Belo Horizonte. Capacitação alinhada à NR-18 e trabalho em altura. Certificado e orçamento sob consulta.';
 
 export const metadata: Metadata = buildMarketingMetadata({
   title: seoTitle('Treinamento em plataformas elevatórias'),

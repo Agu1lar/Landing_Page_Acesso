@@ -34,6 +34,52 @@ const PLATFORM_HEIGHT_FILTERS: PlatformHeightFilter[] = [
   'above-26',
 ];
 
+type FilterChipProps = {
+  active: boolean;
+  label: string;
+  onClick: () => void;
+};
+
+function FilterChip(props: FilterChipProps) {
+  return (
+    <button
+      aria-pressed={props.active}
+      className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-colors ${props.active ? 'bg-primary text-primary-foreground shadow-sm' : 'bg-white text-neutral-700 ring-1 ring-neutral-200 hover:bg-neutral-50'}`}
+      onClick={props.onClick}
+      type="button"
+    >
+      {props.label}
+    </button>
+  );
+}
+
+type FilterGroupProps = {
+  chips: Array<{ id: string; active: boolean; label: string; onClick: () => void }>;
+  groupLabel: string;
+};
+
+function FilterGroup(props: FilterGroupProps) {
+  return (
+    <div className="rounded-xl border border-neutral-200 bg-white p-3 sm:p-4">
+      <p className="text-sm font-semibold text-neutral-900">{props.groupLabel}</p>
+      <div
+        aria-label={props.groupLabel}
+        className="mt-2.5 flex gap-2 overflow-x-auto pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] sm:flex-wrap sm:overflow-visible [&::-webkit-scrollbar]:hidden"
+        role="group"
+      >
+        {props.chips.map((chip) => (
+          <FilterChip
+            active={chip.active}
+            key={chip.id}
+            label={chip.label}
+            onClick={chip.onClick}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function CategoryEquipmentGrid(props: CategoryEquipmentGridProps) {
   const t = useTranslations('Categoria');
   const [platformKind, setPlatformKind] = useState<PlatformKindFilter>('all');
@@ -66,48 +112,39 @@ export function CategoryEquipmentGrid(props: CategoryEquipmentGridProps) {
   return (
     <>
       {showPlatformFilters ? (
-        <div className="mt-4 space-y-3">
-          <div
-            aria-label={t('filter_platform_kind_label')}
-            className="flex flex-wrap gap-2"
-            role="group"
+        <section
+          aria-labelledby="category-platform-filters-title"
+          className="mt-4 rounded-[var(--radius-card)] border border-neutral-200 bg-neutral-50 p-4 sm:p-5"
+        >
+          <h3
+            className="font-heading text-base font-bold text-neutral-900 sm:text-lg"
+            id="category-platform-filters-title"
           >
-            {PLATFORM_KIND_FILTERS.map((kind) => {
-              const active = platformKind === kind;
-              return (
-                <button
-                  aria-pressed={active}
-                  className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${active ? 'bg-primary text-primary-foreground' : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'}`}
-                  key={kind}
-                  onClick={() => setPlatformKind(kind)}
-                  type="button"
-                >
-                  {filterLabel[kind]}
-                </button>
-              );
-            })}
+            {t('filter_platform_filters_title')}
+          </h3>
+          <p className="mt-1.5 text-sm text-neutral-600">{t('filter_platform_intro')}</p>
+
+          <div className="mt-4 grid gap-3 sm:gap-4">
+            <FilterGroup
+              chips={PLATFORM_KIND_FILTERS.map((kind) => ({
+                id: kind,
+                active: platformKind === kind,
+                label: filterLabel[kind],
+                onClick: () => setPlatformKind(kind),
+              }))}
+              groupLabel={t('filter_platform_kind_label')}
+            />
+            <FilterGroup
+              chips={PLATFORM_HEIGHT_FILTERS.map((height) => ({
+                id: height,
+                active: platformHeight === height,
+                label: heightFilterLabel[height],
+                onClick: () => setPlatformHeight(height),
+              }))}
+              groupLabel={t('filter_platform_height_label')}
+            />
           </div>
-          <div
-            aria-label={t('filter_platform_height_label')}
-            className="flex flex-wrap gap-2"
-            role="group"
-          >
-            {PLATFORM_HEIGHT_FILTERS.map((height) => {
-              const active = platformHeight === height;
-              return (
-                <button
-                  aria-pressed={active}
-                  className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${active ? 'bg-primary text-primary-foreground' : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'}`}
-                  key={height}
-                  onClick={() => setPlatformHeight(height)}
-                  type="button"
-                >
-                  {heightFilterLabel[height]}
-                </button>
-              );
-            })}
-          </div>
-        </div>
+        </section>
       ) : null}
 
       <p className={`text-sm text-neutral-600 ${showPlatformFilters ? 'mt-4' : 'mt-1'}`}>

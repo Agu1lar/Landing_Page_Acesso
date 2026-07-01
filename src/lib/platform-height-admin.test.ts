@@ -44,7 +44,7 @@ describe('fleet models height filters', () => {
     const specs = applyWorkHeightToSpecs({ specs: [], workHeightMeters: 11.8 });
     const platform = item({
       slug: 'plataforma-aerea-gs-3246',
-      name: 'PLATAFORMA AEREA GS 3246',
+      name: 'PLATAFORMA ELEVATÓRIA GS 3246',
       specs,
       tags: ['tesoura'],
     });
@@ -58,7 +58,7 @@ describe('fleet models height filters', () => {
     const specs = applyWorkHeightToSpecs({ specs: [], workHeightMeters: 12 });
     const platform = item({
       slug: 'plataforma-aerea-articulada-z34',
-      name: 'PLATAFORMA AÉREA ARTICULADA Z34',
+      name: 'PLATAFORMA ELEVATÓRIA ARTICULADA Z34',
       specs,
       tags: ['articulada'],
     });

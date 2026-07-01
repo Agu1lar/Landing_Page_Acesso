@@ -6,7 +6,7 @@ const META_MAX_LENGTH = 160;
 
 const CATEGORY_META: Record<EquipmentCategory, (name: string) => string> = {
   'plataformas-elevatorias': (name) =>
-    `Alugue ${name} em BH e região. Frota revisada, entrega na obra e orçamento rápido pelo site ou WhatsApp.`,
+    `Alugue ${name} (plataforma aérea) em BH e região. Plataforma elevatória revisada, entrega na obra e orçamento rápido.`,
   'guindaste-industrial': (name) =>
     `Locação de ${name} em BH e região. Operação planejada para içamento e remoção. Peça orçamento agora.`,
   'manipuladores-telescopicos': (name) =>
@@ -65,6 +65,10 @@ const FEATURED_META_OVERRIDES: Partial<Record<string, string>> = {
     'Alugue tesoura Genie GS-4655 E-Drive em BH. Altura interna 15,95 m e capacidade 350 kg. Frota revisada — orçamento sob consulta.',
   'plataforma-elevatoria-1350sjp':
     'Alugue plataforma JLG 1350SJP em BH e região. Lança telescópica com 41,30 m de altura de plataforma. Ultra Boom — solicite orçamento.',
+  'plataforma-aerea-gs-3246':
+    'Alugue plataforma aérea Genie GS-3246 (elevatória) em BH. Tesoura ~11,8 m — entrega na obra e orçamento rápido.',
+  'plataforma-aerea-articulada-z34':
+    'Alugue plataforma aérea articulada JLG Z34 (elevatória) em BH. ~12 m de altura — solicite orçamento.',
   'manipulador-telescopico-mxt840':
     'Alugue manipulador Manitou MXT 840 em BH. Capacidade 4 t e elevação até 7,60 m. Movimentação de cargas em obra — orçamento rápido.',
 };

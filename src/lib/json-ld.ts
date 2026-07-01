@@ -449,7 +449,7 @@ export function buildTrainingCourseJsonLd() {
         '@id': `${url}#course`,
         name: 'Treinamento em plataformas elevatórias',
         description:
-          'Capacitação para operação segura de plataformas elevatórias, alinhada à NR-18 e trabalho em altura.',
+          'Capacitação para operação segura de plataformas elevatórias (plataforma aérea), alinhada à NR-18 e trabalho em altura.',
         url,
         inLanguage: 'pt-BR',
         provider: { '@id': `${baseUrl}/#organization` },
@@ -465,7 +465,7 @@ export function buildTrainingCourseJsonLd() {
       },
       buildBreadcrumbListJsonLd([
         { name: 'Início', path: '/' },
-        { name: 'Treinamento em plataformas aéreas', path },
+        { name: 'Treinamento em plataformas elevatórias', path },
       ]),
     ],
   };

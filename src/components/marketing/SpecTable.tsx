@@ -3,7 +3,7 @@ import type { EquipmentSpec } from '@/types/equipment';
 type SpecTableProps = {
   specs: EquipmentSpec[];
   title: string;
-  /** Destaque visual para plataformas aéreas (referência Santos) */
+  /** Destaque visual para plataformas elevatórias (referência Santos) */
   variant?: 'default' | 'aerial';
   emptyMessage?: string;
 };

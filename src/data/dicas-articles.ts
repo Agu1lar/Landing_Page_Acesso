@@ -44,7 +44,7 @@ export const DICAS_ARTICLES: DicaArticle[] = [
     ],
     relatedLinks: [
       { label: 'Plataformas elevatórias no catálogo', href: '/categorias/plataformas-elevatorias' },
-      { label: 'Treinamento em plataformas aéreas', href: '/treinamento-plataformas-aereas' },
+      { label: 'Treinamento em plataformas elevatórias', href: '/treinamento-plataformas-aereas' },
     ],
   },
   {
@@ -81,7 +81,7 @@ export const DICAS_ARTICLES: DicaArticle[] = [
     title: 'NR-12 e trabalho em altura na locação de equipamentos',
     metaTitle: 'NR-12 e locação de plataforma elevatória | Dicas Acesso',
     metaDescription:
-      'Responsabilidades do locador e do contratante na locação de máquinas aéreas. Treinamento, EPI e documentação em MG.',
+      'Responsabilidades do locador e do contratante na locação de plataformas elevatórias. Treinamento, EPI e documentação em MG.',
     publishedAt: '2026-05-21',
     readingMinutes: 5,
     excerpt:
@@ -101,7 +101,7 @@ export const DICAS_ARTICLES: DicaArticle[] = [
       },
     ],
     relatedLinks: [
-      { label: 'Treinamento em plataformas aéreas', href: '/treinamento-plataformas-aereas' },
+      { label: 'Treinamento em plataformas elevatórias', href: '/treinamento-plataformas-aereas' },
       { label: 'Perguntas frequentes', href: '/faq' },
     ],
   },

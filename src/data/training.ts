@@ -14,7 +14,7 @@ export const TRAINING_AUDIENCE = [
   'Operadores de plataformas elevatórias',
   'Encarregados e supervisores de obra',
   'Técnicos de segurança do trabalho (SST)',
-  'Empresas que locam equipamentos aéreos e precisam capacitar a equipe',
+  'Empresas que locam plataformas elevatórias e precisam capacitar a equipe',
   'Construtoras, indústrias e manutenção de fachadas na RMBH',
 ] as const;
 
@@ -32,7 +32,7 @@ export const TRAINING_BENEFITS = [
   {
     title: 'Instrutores experientes',
     description:
-      'Conteúdo ministrado por profissionais com vivência em locação e operação de equipamentos aéreos no mercado mineiro.',
+      'Conteúdo ministrado por profissionais com vivência em locação e operação de plataformas elevatórias no mercado mineiro.',
   },
   {
     title: 'Flexibilidade',
