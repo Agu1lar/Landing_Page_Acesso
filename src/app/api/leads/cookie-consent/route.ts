@@ -1,19 +1,9 @@
-import { fixedWindow } from '@arcjet/next';
 import { NextResponse } from 'next/server';
 import * as z from 'zod';
 import { AttributionSchema } from '@/lib/attribution';
 import { verifyGoogleIdToken } from '@/lib/google-id-token';
 import { createCookieConsentLead } from '@/lib/leads';
-import arcjet from '@/libs/Arcjet';
 import { logger } from '@/libs/Logger';
-
-const aj = arcjet.withRule(
-  fixedWindow({
-    mode: 'LIVE',
-    window: '15m',
-    max: 12,
-  }),
-);
 
 const CookieConsentLeadSchema = z.object({
   credential: z.string().min(20).max(8_000),
@@ -25,11 +15,6 @@ export const POST = async (request: Request) => {
     const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID?.trim();
     if (!clientId) {
       return NextResponse.json({ error: 'Google sign-in not configured' }, { status: 503 });
-    }
-
-    const decision = await aj.protect(request);
-    if (decision.isDenied()) {
-      return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
     }
 
     const json = await request.json();

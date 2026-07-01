@@ -1,4 +1,3 @@
-import { fixedWindow } from '@arcjet/next';
 import { NextResponse } from 'next/server';
 import * as z from 'zod';
 import { notifyLeadByEmail } from '@/lib/email';
@@ -8,27 +7,21 @@ import {
   resolveEquipmentSpecsSummary,
 } from '@/lib/quote-equipment-specs';
 import { buildQuoteWhatsAppMessage, buildQuoteWhatsAppUrl } from '@/lib/quote-whatsapp';
-import arcjet from '@/libs/Arcjet';
+import { quoteLeadArcjet } from '@/libs/Arcjet';
 import { logger } from '@/libs/Logger';
 import { Env } from '@/libs/Env';
 import { normalizeQuotePayload, QuoteFormSchema } from '@/validations/quote';
 
-const aj = arcjet.withRule(
-  fixedWindow({
-    mode: 'LIVE',
-    window: '15m',
-    max: 8,
-  }),
-);
-
 export const POST = async (request: Request) => {
   try {
-    const decision = await aj.protect(request);
-    if (decision.isDenied()) {
-      return NextResponse.json(
-        { error: 'Muitas tentativas. Aguarde alguns minutos ou fale pelo WhatsApp.' },
-        { status: 429 },
-      );
+    if (Env.ARCJET_KEY) {
+      const decision = await quoteLeadArcjet.protect(request);
+      if (decision.isDenied()) {
+        return NextResponse.json(
+          { error: 'Muitas tentativas. Aguarde alguns minutos ou fale pelo WhatsApp.' },
+          { status: 429 },
+        );
+      }
     }
 
     const json = await request.json();

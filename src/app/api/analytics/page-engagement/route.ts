@@ -1,26 +1,11 @@
-import { fixedWindow } from '@arcjet/next';
 import { NextResponse } from 'next/server';
 import * as z from 'zod';
 import { recordPageEngagement } from '@/lib/page-engagement-server';
-import arcjet from '@/libs/Arcjet';
 import { logger } from '@/libs/Logger';
 import { PageEngagementSchema } from '@/validations/page-engagement';
 
-const aj = arcjet.withRule(
-  fixedWindow({
-    mode: 'LIVE',
-    window: '15m',
-    max: 120,
-  }),
-);
-
 export const POST = async (request: Request) => {
   try {
-    const decision = await aj.protect(request);
-    if (decision.isDenied()) {
-      return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
-    }
-
     const json = await request.json();
     const parsed = PageEngagementSchema.safeParse(json);
 

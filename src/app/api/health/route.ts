@@ -81,7 +81,7 @@ export async function GET() {
       clerkDashboardLoginDoesNotCreateLead: true,
       analyticsAcceptRecordsEvent: 'POST /api/analytics/consent',
     },
-    leadsRateLimit: '8 requests / 15 min per IP (Arcjet)',
+    leadsRateLimit: 'POST /api/leads only — 8 req / 15 min per IP + bot block (Arcjet)',
     aiDiscovery: {
       llmsTxt: '/llms.txt',
       publicCatalog: '/catalog.json',

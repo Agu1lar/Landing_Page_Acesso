@@ -1,18 +1,8 @@
-import { fixedWindow } from '@arcjet/next';
 import { NextResponse } from 'next/server';
 import * as z from 'zod';
 import { recordAnalyticsEvent } from '@/lib/analytics-events';
 import { AttributionSchema } from '@/lib/attribution';
-import arcjet from '@/libs/Arcjet';
 import { logger } from '@/libs/Logger';
-
-const aj = arcjet.withRule(
-  fixedWindow({
-    mode: 'LIVE',
-    window: '15m',
-    max: 30,
-  }),
-);
 
 const AnalyticsConsentSchema = z.object({
   action: z.enum(['accept', 'reject']),
@@ -22,11 +12,6 @@ const AnalyticsConsentSchema = z.object({
 
 export const POST = async (request: Request) => {
   try {
-    const decision = await aj.protect(request);
-    if (decision.isDenied()) {
-      return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
-    }
-
     const json = await request.json();
     const parsed = AnalyticsConsentSchema.safeParse(json);
 
