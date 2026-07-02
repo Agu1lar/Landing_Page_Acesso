@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { AI_CRAWLER_USER_AGENTS } from '@/lib/ai-discovery';
-import { isPreviewDeployment } from '@/utils/deployment';
+import { shouldBlockSearchIndexing } from '@/utils/deployment';
 import { getBaseUrl } from '@/utils/Helpers';
 
 const PUBLIC_DISALLOW = ['/dashboard', '/sign-in', '/api/'];
@@ -21,7 +21,7 @@ function publicCrawlRules(userAgent: string): RobotsRule {
 }
 
 export default function robots(): MetadataRoute.Robots {
-  if (isPreviewDeployment()) {
+  if (shouldBlockSearchIndexing()) {
     return {
       rules: {
         userAgent: '*',

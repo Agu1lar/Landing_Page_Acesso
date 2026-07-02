@@ -9,6 +9,7 @@ import { getEquipmentSlugVariants } from '@/lib/equipment-slug-aliases';
 import {
   archiveEquipmentBySlug,
   duplicateEquipmentAsDraft,
+  getEquipmentRowBySlug,
   saveEquipmentWithImages,
   seedEquipmentFromJson,
 } from '@/lib/equipment-db';
@@ -28,7 +29,9 @@ import {
 } from '@/lib/admin-return-path';
 import { slugifyEquipmentName } from '@/lib/equipment-slug';
 import { formatEquipmentName } from '@/lib/equipment-name';
-import { ALL_EQUIPMENT_CATEGORIES } from '@/lib/categories-seo';
+import equipmentJson from '@/data/equipamentos.json';
+import type { Equipment, EquipmentCategory } from '@/types/equipment';
+import { isEquipmentCategory } from '@/types/equipment';
 import {
   EquipmentAdminFormSchema,
   parseImagesJson,
@@ -36,7 +39,7 @@ import {
 } from '@/validations/equipment-admin';
 import * as z from 'zod';
 
-function revalidateEquipmentPaths(slug: string, category?: string) {
+function revalidateEquipmentCorePaths(slug: string) {
   updateTag(EQUIPMENT_CATALOG_TAG);
   updateTag(EQUIPMENT_IMAGE_MAP_TAG);
   revalidatePath('/');
@@ -47,14 +50,37 @@ function revalidateEquipmentPaths(slug: string, category?: string) {
   revalidatePath('/sitemap.xml');
   revalidatePath('/catalog.json');
   revalidatePath('/llms.txt');
+}
 
-  if (category) {
-    revalidatePath(`/categorias/${category}`);
-  } else {
-    for (const categorySlug of ALL_EQUIPMENT_CATEGORIES) {
-      revalidatePath(`/categorias/${categorySlug}`);
-    }
+function revalidateEquipmentPaths(slug: string, category: EquipmentCategory) {
+  revalidateEquipmentCorePaths(slug);
+  revalidatePath(`/categorias/${category}`);
+}
+
+function resolveEquipmentCategory(slug: string) {
+  const jsonItem = (equipmentJson as Equipment[]).find((item) => item.slug === slug);
+  if (jsonItem && isEquipmentCategory(jsonItem.category)) {
+    return jsonItem.category;
   }
+  return null;
+}
+
+async function revalidateEquipmentAfterChange(slug: string, category?: EquipmentCategory | null) {
+  const resolvedCategory =
+    category && isEquipmentCategory(category) ? category : resolveEquipmentCategory(slug);
+
+  if (resolvedCategory) {
+    revalidateEquipmentPaths(slug, resolvedCategory);
+    return;
+  }
+
+  const row = await getEquipmentRowBySlug(slug);
+  if (row && isEquipmentCategory(row.category)) {
+    revalidateEquipmentPaths(slug, row.category);
+    return;
+  }
+
+  revalidateEquipmentCorePaths(slug);
 }
 
 /**
@@ -200,7 +226,7 @@ export async function importEquipmentFromJsonAction(formData: FormData) {
     details: result.action,
   });
 
-  revalidateEquipmentPaths(slug);
+  await revalidateEquipmentAfterChange(slug);
   revalidatePath('/dashboard/equipamentos');
 
   const filters = adminListFiltersSuffix(formData);
@@ -382,6 +408,7 @@ export async function archiveEquipmentAction(slug: string, formData?: FormData) 
     redirect('/unauthorized');
   }
 
+  const row = await getEquipmentRowBySlug(slug);
   await archiveEquipmentBySlug(slug, access.userId);
   await logAdminActivity({
     userId: access.userId,
@@ -390,7 +417,10 @@ export async function archiveEquipmentAction(slug: string, formData?: FormData) 
     entitySlug: slug,
   });
 
-  revalidateEquipmentPaths(slug);
+  await revalidateEquipmentAfterChange(
+    slug,
+    row && isEquipmentCategory(row.category) ? row.category : null,
+  );
   revalidatePath('/dashboard/equipamentos');
   if (formData) {
     redirect(equipmentAdminListPathAfterArchive(formData));

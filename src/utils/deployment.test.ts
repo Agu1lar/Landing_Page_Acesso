@@ -8,7 +8,11 @@ vi.mock('@/libs/Env', () => ({
 }));
 
 import { Env } from '@/libs/Env';
-import { isPreviewDeployment } from '@/utils/deployment';
+import {
+  isPreLaunchVercelAppProduction,
+  isPreviewDeployment,
+  shouldBlockSearchIndexing,
+} from '@/utils/deployment';
 
 describe('isPreviewDeployment', () => {
   it('returns true for Vercel preview env', () => {
@@ -27,5 +31,36 @@ describe('isPreviewDeployment', () => {
     Env.VERCEL_ENV = undefined;
     Env.NEXT_PUBLIC_APP_URL = 'http://localhost:3000';
     expect(isPreviewDeployment()).toBe(false);
+  });
+});
+
+describe('isPreLaunchVercelAppProduction', () => {
+  it('returns true when production uses vercel.app URL', () => {
+    Env.VERCEL_ENV = 'production';
+    Env.NEXT_PUBLIC_APP_URL = 'https://landing-page-acesso.vercel.app';
+    expect(isPreLaunchVercelAppProduction()).toBe(true);
+  });
+
+  it('returns false when production uses the official domain', () => {
+    Env.VERCEL_ENV = 'production';
+    Env.NEXT_PUBLIC_APP_URL = 'https://acessoequipamentos.com.br';
+    expect(isPreLaunchVercelAppProduction()).toBe(false);
+  });
+});
+
+describe('shouldBlockSearchIndexing', () => {
+  it('blocks preview and pre-launch vercel.app production', () => {
+    Env.VERCEL_ENV = 'preview';
+    Env.NEXT_PUBLIC_APP_URL = 'https://landing-page-acesso.vercel.app';
+    expect(shouldBlockSearchIndexing()).toBe(true);
+
+    Env.VERCEL_ENV = 'production';
+    expect(shouldBlockSearchIndexing()).toBe(true);
+  });
+
+  it('allows indexing on production with official domain', () => {
+    Env.VERCEL_ENV = 'production';
+    Env.NEXT_PUBLIC_APP_URL = 'https://acessoequipamentos.com.br';
+    expect(shouldBlockSearchIndexing()).toBe(false);
   });
 });

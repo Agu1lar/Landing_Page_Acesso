@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { brand } from '@/lib/brand';
 import { getDefaultOgImages, withSiteOpenGraph } from '@/lib/site-metadata';
+import { shouldBlockSearchIndexing } from '@/utils/deployment';
 import { getBaseUrl } from '@/utils/Helpers';
 
 export type MarketingMetadataInput = {
@@ -17,6 +18,34 @@ export function buildCanonicalUrl(path: string) {
   const baseUrl = getBaseUrl();
   const normalized = path.startsWith('/') ? path : `/${path}`;
   return `${baseUrl}${normalized}`;
+}
+
+/**
+ * Builds robots metadata for marketing pages (noindex before official go-live on *.vercel.app).
+ */
+export function getMarketingRobotsMetadata(): Metadata['robots'] {
+  if (shouldBlockSearchIndexing()) {
+    return {
+      index: false,
+      follow: false,
+      googleBot: {
+        index: false,
+        follow: false,
+      },
+    };
+  }
+
+  return {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  };
 }
 
 /**
@@ -41,17 +70,7 @@ export function buildMarketingMetadata(input: MarketingMetadataInput): Metadata 
         title: input.title,
         description: input.description,
       },
-      robots: {
-        index: true,
-        follow: true,
-        googleBot: {
-          index: true,
-          follow: true,
-          'max-image-preview': 'large',
-          'max-snippet': -1,
-          'max-video-preview': -1,
-        },
-      },
+      robots: getMarketingRobotsMetadata(),
       category: 'construction equipment rental',
       authors: [{ name: brand.name, url: getBaseUrl() }],
     },

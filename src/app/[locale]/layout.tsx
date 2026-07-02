@@ -4,8 +4,10 @@ import { getMessages, setRequestLocale } from 'next-intl/server';
 import { Inter, Plus_Jakarta_Sans } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import { AiDiscoveryHeadLinks } from '@/components/seo/AiDiscoveryHeadLinks';
+import { getMarketingRobotsMetadata } from '@/lib/seo-metadata';
 import { withSiteOpenGraph } from '@/lib/site-metadata';
 import { routing } from '@/libs/I18nRouting';
+import { shouldBlockSearchIndexing } from '@/utils/deployment';
 import { resolveAppLocale } from '@/utils/locale';
 import '@/styles/global.css';
 
@@ -30,6 +32,7 @@ export const metadata: Metadata = withSiteOpenGraph({
   },
   description:
     'Locação de plataformas elevatórias, andaimes e equipamentos para construção civil na região metropolitana de BH.',
+  robots: getMarketingRobotsMetadata(),
 });
 
 export const viewport: Viewport = {
@@ -57,7 +60,7 @@ export default async function RootLayout(props: {
   return (
     <html className={`${plusJakarta.variable} ${inter.variable}`} lang={locale}>
       <head>
-        <AiDiscoveryHeadLinks />
+        {shouldBlockSearchIndexing() ? null : <AiDiscoveryHeadLinks />}
       </head>
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>

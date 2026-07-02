@@ -6,6 +6,7 @@ import manifest from '@/data/equipment-image-manifest.json';
 import { getManifestImageSrc } from '@/lib/equipment-images-manifest';
 import { resolveEquipmentImageSrc } from '@/lib/equipment-image-resolve';
 import { EQUIPMENT_IMAGE_MAP_TAG } from '@/lib/equipment-cache-tags';
+import { MARKETING_ISR_REVALIDATE_SECONDS } from '@/lib/isr-revalidate';
 import {
   getEquipmentRowBySlug,
   listEquipmentImages,
@@ -44,7 +45,7 @@ async function buildResolvedImageMap() {
 }
 
 const getCachedImageMap = unstable_cache(buildResolvedImageMap, ['equipment-image-map'], {
-  revalidate: 300,
+  revalidate: MARKETING_ISR_REVALIDATE_SECONDS,
   tags: [EQUIPMENT_IMAGE_MAP_TAG],
 });
 

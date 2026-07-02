@@ -9,6 +9,7 @@ import {
   loadPublishedEquipmentSitemapEntries,
 } from '@/lib/equipment-db';
 import { EQUIPMENT_CATALOG_TAG } from '@/lib/equipment-cache-tags';
+import { MARKETING_ISR_REVALIDATE_SECONDS } from '@/lib/isr-revalidate';
 import { isRetiredEquipmentSlug } from '@/lib/equipment-retired-slugs';
 import { isSlugManagedInPostgres } from '@/lib/equipment-slug-aliases';
 import { withFormattedEquipmentName } from '@/lib/equipment-name';
@@ -73,7 +74,7 @@ async function fetchCatalog() {
 }
 
 const getCachedCatalog = unstable_cache(fetchCatalog, ['equipment-catalog'], {
-  revalidate: 300,
+  revalidate: MARKETING_ISR_REVALIDATE_SECONDS,
   tags: [EQUIPMENT_CATALOG_TAG],
 });
 
