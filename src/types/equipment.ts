@@ -21,6 +21,8 @@ export type Equipment = {
   tags: string[];
   featured: boolean;
   available: boolean;
+  laudoUrl?: string | null;
+  laudoLabel?: string | null;
 };
 
 export const CATEGORY_LABELS: Record<EquipmentCategory, string> = {

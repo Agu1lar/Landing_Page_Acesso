@@ -1,5 +1,6 @@
 import * as z from 'zod';
 import { ALL_EQUIPMENT_CATEGORIES } from '@/lib/categories-seo';
+import { isAllowedEquipmentLaudoUrl } from '@/lib/equipment-laudo-upload';
 import type { EquipmentCategory } from '@/types/equipment';
 
 const categoryEnum = ALL_EQUIPMENT_CATEGORIES as [EquipmentCategory, ...EquipmentCategory[]];
@@ -32,6 +33,11 @@ export const EquipmentAdminFormSchema = z.object({
   available: z.coerce.boolean().default(true),
   published: z.coerce.boolean().default(true),
   imagesJson: z.string().default('[]'),
+  laudoUrl: z.string().max(500).default(''),
+  laudoLabel: z.string().max(200).default(''),
+}).refine((data) => isAllowedEquipmentLaudoUrl(data.laudoUrl), {
+  message: 'URL do laudo inválida. Envie o PDF pelo painel.',
+  path: ['laudoUrl'],
 });
 
 export type EquipmentAdminFormValues = z.infer<typeof EquipmentAdminFormSchema>;

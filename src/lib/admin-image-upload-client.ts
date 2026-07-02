@@ -1,7 +1,10 @@
 const UPLOAD_TIMEOUT_MS = 60_000;
 const VIDEO_UPLOAD_TIMEOUT_MS = 180_000;
 
-export type AdminImageUploadEndpoint = '/api/admin/blog/upload' | '/api/admin/equipment/upload';
+export type AdminImageUploadEndpoint =
+  | '/api/admin/blog/upload'
+  | '/api/admin/equipment/upload'
+  | '/api/admin/equipment/laudo/upload';
 
 async function postAdminUpload(props: {
   file: File;
@@ -81,6 +84,18 @@ export async function uploadAdminBlogMedia(props: {
   return postAdminUpload({
     ...props,
     timeoutMs: isVideo ? VIDEO_UPLOAD_TIMEOUT_MS : UPLOAD_TIMEOUT_MS,
+  });
+}
+
+/**
+ * Uploads one equipment laudo PDF.
+ */
+export async function uploadAdminEquipmentLaudo(props: { file: File; slug?: string }) {
+  return postAdminUpload({
+    file: props.file,
+    endpoint: '/api/admin/equipment/laudo/upload',
+    slug: props.slug,
+    timeoutMs: UPLOAD_TIMEOUT_MS,
   });
 }
 

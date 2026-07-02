@@ -331,6 +331,8 @@ export async function saveEquipmentAction(formData: FormData) {
       featured: data.featured,
       available: data.available,
       published: data.published,
+      laudoUrl: data.laudoUrl.trim() || null,
+      laudoLabel: data.laudoLabel.trim() || null,
     },
     images: normalizedImages,
     userId: access.userId,

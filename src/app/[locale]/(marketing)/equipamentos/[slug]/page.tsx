@@ -5,6 +5,7 @@ import { EquipmentViewTracker } from '@/components/analytics/EquipmentViewTracke
 import { ConversionCtas } from '@/components/marketing/ConversionCtas';
 import { EquipmentCard } from '@/components/marketing/EquipmentCard';
 import { EquipmentDetailImage } from '@/components/marketing/EquipmentDetailImage';
+import { EquipmentLaudoLink } from '@/components/marketing/EquipmentLaudoLink';
 import { ExpandableParagraphs } from '@/components/marketing/ExpandableParagraphs';
 import { SetMobileDockConfig } from '@/components/marketing/mobile-dock-config';
 import { SpecTable } from '@/components/marketing/SpecTable';
@@ -85,6 +86,8 @@ export default async function EquipmentDetailPage(props: EquipmentDetailProps) {
   const seoExtra = getEquipmentSeoExtra(equipment);
   const pageBodyDescription = getEquipmentPageBodyDescription(equipment);
   const showTechnicalSection = hasEquipmentLongDescription(equipment);
+  const laudoHref = equipment.laudoUrl?.trim() || null;
+  const laudoLabel = equipment.laudoLabel?.trim() || t('laudo_link_default');
 
   return (
     <>
@@ -116,6 +119,14 @@ export default async function EquipmentDetailPage(props: EquipmentDetailProps) {
               <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-neutral-600 sm:line-clamp-none sm:text-base">
                 {pageBodyDescription}
               </p>
+            ) : null}
+
+            {!showTechnicalSection && laudoHref ? (
+              <EquipmentLaudoLink
+                downloadHint={t('laudo_download_hint')}
+                href={laudoHref}
+                label={laudoLabel}
+              />
             ) : null}
 
             <div className="mt-4 flex flex-col gap-3 sm:mt-6">
@@ -161,6 +172,24 @@ export default async function EquipmentDetailPage(props: EquipmentDetailProps) {
                   </summary>
                   <p className="mt-2 text-sm leading-relaxed text-neutral-600">{pageBodyDescription}</p>
                 </details>
+                {laudoHref ? (
+                  <EquipmentLaudoLink
+                    downloadHint={t('laudo_download_hint')}
+                    href={laudoHref}
+                    label={laudoLabel}
+                  />
+                ) : null}
+              </section>
+            ) : showTechnicalSection && laudoHref ? (
+              <section className="mt-6">
+                <h2 className="font-heading text-base font-semibold text-neutral-900 sm:text-lg">
+                  {t('technical_description_title')}
+                </h2>
+                <EquipmentLaudoLink
+                  downloadHint={t('laudo_download_hint')}
+                  href={laudoHref}
+                  label={laudoLabel}
+                />
               </section>
             ) : null}
 

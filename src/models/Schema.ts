@@ -105,6 +105,8 @@ export const equipmentSchema = pgTable('equipment', {
   featured: boolean('featured').notNull().default(false),
   available: boolean('available').notNull().default(true),
   published: boolean('published').notNull().default(true),
+  laudoUrl: varchar('laudo_url', { length: 500 }),
+  laudoLabel: varchar('laudo_label', { length: 200 }),
   deletedAt: timestamp('deleted_at', { mode: 'date' }),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
   updatedAt: timestamp('updated_at', { mode: 'date' })

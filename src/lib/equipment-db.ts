@@ -32,6 +32,8 @@ export type EquipmentFormInput = {
   featured: boolean;
   available: boolean;
   published: boolean;
+  laudoUrl?: string | null;
+  laudoLabel?: string | null;
 };
 
 export type EquipmentImageInput = {
@@ -54,6 +56,8 @@ export function rowToEquipment(row: EquipmentRow): Equipment {
     specs: row.specs ?? [],
     tags: row.tags ?? [],
     featured: row.featured,
+    laudoUrl: row.laudoUrl ?? null,
+    laudoLabel: row.laudoLabel ?? null,
     available:
       row.available && row.published && !row.deletedAt && isEquipmentCategory(row.category),
   };
@@ -314,6 +318,8 @@ export async function saveEquipmentWithImages(options: {
     featured: options.input.featured,
     available: options.input.available,
     published: options.input.published,
+    laudoUrl: options.input.laudoUrl?.trim() || null,
+    laudoLabel: options.input.laudoLabel?.trim() || null,
     updatedBy: options.userId,
   };
 
@@ -385,6 +391,8 @@ export async function duplicateEquipmentAsDraft(sourceSlug: string, userId: stri
       featured: false,
       available: source.available,
       published: false,
+      laudoUrl: source.laudoUrl,
+      laudoLabel: source.laudoLabel,
     },
     images: images.map((image, index) => ({
       url: image.url,

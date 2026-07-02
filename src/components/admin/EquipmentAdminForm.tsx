@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { useMemo, useState } from 'react';
 import { EquipmentPhotoGallery, type GalleryItem } from '@/components/admin/EquipmentPhotoGallery';
+import { EquipmentLaudoField } from '@/components/admin/EquipmentLaudoField';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { AdminPendingButton } from '@/components/admin/AdminPendingButton';
@@ -96,6 +97,8 @@ export function EquipmentAdminForm(props: EquipmentAdminFormProps) {
   });
   const [gallery, setGallery] = useState(() => initialGallery(props.images, row?.slug ?? ''));
   const [specs, setSpecs] = useState(() => initialSpecs(row?.specs ?? undefined));
+  const [laudoUrl, setLaudoUrl] = useState(row?.laudoUrl ?? '');
+  const [laudoLabel, setLaudoLabel] = useState(row?.laudoLabel ?? '');
 
   const imagesJson = useMemo(() => galleryToJson(gallery), [gallery]);
   const specsJson = useMemo(() => specsToJson(specs), [specs]);
@@ -125,6 +128,7 @@ export function EquipmentAdminForm(props: EquipmentAdminFormProps) {
       {props.returnTo ? <input name="returnTo" type="hidden" value={props.returnTo} /> : null}
       <input name="imagesJson" type="hidden" value={imagesJson} />
       <input name="specsJson" type="hidden" value={specsJson} />
+      <input name="laudoUrl" type="hidden" value={laudoUrl} />
       <input name="slug" type="hidden" value={slug} />
 
       <section className="space-y-4 rounded-lg border border-neutral-200 bg-surface p-5">
@@ -243,6 +247,15 @@ export function EquipmentAdminForm(props: EquipmentAdminFormProps) {
             placeholder={t('field_long_description_placeholder')}
           />
         </div>
+
+        <EquipmentLaudoField
+          label={laudoLabel}
+          onLabelChange={setLaudoLabel}
+          onUrlChange={setLaudoUrl}
+          slug={slug}
+          url={laudoUrl}
+        />
+        <input name="laudoLabel" type="hidden" value={laudoLabel} />
 
         <div>
           <label className="mb-1 block text-sm font-medium text-neutral-700" htmlFor="tags">
