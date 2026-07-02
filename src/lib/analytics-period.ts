@@ -87,8 +87,9 @@ export function currentMonthToDateRange(reference = new Date()) {
  */
 export function previousMonthToDateRange(reference = new Date()) {
   const { dateFrom: currentFrom, dateTo: currentTo } = currentMonthToDateRange(reference);
-  const [, month, day] = currentTo.split('-').map(Number);
   const year = Number(currentFrom.slice(0, 4));
+  const month = Number(currentFrom.slice(5, 7));
+  const day = Number(currentTo.slice(8, 10));
   let prevYear = year;
   let prevMonth = month - 1;
   if (prevMonth < 1) {
