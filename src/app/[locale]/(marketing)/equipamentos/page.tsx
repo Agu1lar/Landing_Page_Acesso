@@ -7,7 +7,6 @@ import { buildWhatsAppMessage, buildWhatsAppUrl } from '@/lib/brand';
 import { getAllEquipment } from '@/lib/equipment';
 import { getResolvedEquipmentImageMap } from '@/lib/equipment-images-server';
 import { buildEquipmentCatalogJsonLd } from '@/lib/json-ld';
-import { MARKETING_ISR_REVALIDATE_SECONDS } from '@/lib/isr-revalidate';
 import { buildMarketingMetadata } from '@/lib/seo-metadata';
 import { resolveAppLocale } from '@/utils/locale';
 
@@ -16,7 +15,8 @@ type EquipamentosPageProps = {
   searchParams: Promise<{ q?: string; categoria?: string }>;
 };
 
-export const revalidate = MARKETING_ISR_REVALIDATE_SECONDS;
+/** @see MARKETING_ISR_REVALIDATE_SECONDS in @/lib/isr-revalidate */
+export const revalidate = 86_400;
 
 export async function generateMetadata(props: EquipamentosPageProps): Promise<Metadata> {
   const locale = resolveAppLocale((await props.params)?.locale);

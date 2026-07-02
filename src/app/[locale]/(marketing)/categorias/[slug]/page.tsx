@@ -17,7 +17,6 @@ import { getCategoryGallery } from '@/lib/category-gallery';
 import { getEquipmentByCategory } from '@/lib/equipment';
 import { getResolvedEquipmentImageMap } from '@/lib/equipment-images-server';
 import { buildCategoryPageJsonLd } from '@/lib/json-ld';
-import { MARKETING_ISR_REVALIDATE_SECONDS } from '@/lib/isr-revalidate';
 import { buildMarketingMetadata } from '@/lib/seo-metadata';
 import { Link } from '@/libs/I18nNavigation';
 import { routing } from '@/libs/I18nRouting';
@@ -28,7 +27,8 @@ type CategoryPageProps = {
   params: Promise<{ locale: string; slug: string }>;
 };
 
-export const revalidate = MARKETING_ISR_REVALIDATE_SECONDS;
+/** @see MARKETING_ISR_REVALIDATE_SECONDS in @/lib/isr-revalidate */
+export const revalidate = 86_400;
 
 export function generateStaticParams() {
   return routing.locales.flatMap((locale) =>

@@ -5,7 +5,8 @@ import { MARKETING_ISR_REVALIDATE_SECONDS } from '@/lib/isr-revalidate';
 import { shouldBlockSearchIndexing } from '@/utils/deployment';
 import { getBaseUrl } from '@/utils/Helpers';
 
-export const revalidate = MARKETING_ISR_REVALIDATE_SECONDS;
+/** @see MARKETING_ISR_REVALIDATE_SECONDS in @/lib/isr-revalidate */
+export const revalidate = 86_400;
 
 export async function GET() {
   if (shouldBlockSearchIndexing()) {
