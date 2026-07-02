@@ -89,6 +89,6 @@ export async function storeEquipmentLaudo(file: File, slug?: string) {
   }
 
   throw new Error(
-    'Armazenamento de laudo não configurado. Conecte o Blob Public ao projeto na Vercel.',
+    'Armazenamento das especificações não configurado. Conecte o Blob Public ao projeto na Vercel.',
   );
 }

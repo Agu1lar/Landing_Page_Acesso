@@ -36,7 +36,7 @@ export const EquipmentAdminFormSchema = z.object({
   laudoUrl: z.string().max(500).default(''),
   laudoLabel: z.string().max(200).default(''),
 }).refine((data) => isAllowedEquipmentLaudoUrl(data.laudoUrl), {
-  message: 'URL do laudo inválida. Envie o PDF pelo painel.',
+  message: 'URL das especificações inválida. Envie o PDF pelo painel.',
   path: ['laudoUrl'],
 });
 
