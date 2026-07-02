@@ -79,7 +79,7 @@ describe('build leads csv', () => {
         utmCampaign: null,
         utmContent: null,
         utmTerm: null,
-        gclid: null,
+        gclid: 'test_gclid_123',
         gbraid: null,
         wbraid: null,
         referrer: null,
@@ -92,5 +92,6 @@ describe('build leads csv', () => {
     expect(csv).toContain('Maria');
     expect(csv).toContain('m@ex.com');
     expect(csv).toContain('Ligou pela manhã');
+    expect(csv).toContain('test_gclid_123');
   });
 });

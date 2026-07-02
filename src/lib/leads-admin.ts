@@ -87,6 +87,7 @@ type LeadCsvRow = {
   utmCampaign: string;
   utmContent: string;
   utmTerm: string;
+  gclid: string;
   referrer: string;
   landingPage: string;
   internalNotes: string;
@@ -117,6 +118,7 @@ const CSV_COLUMNS: CsvColumn[] = [
   { key: 'utmCampaign', header: 'UTM campaign' },
   { key: 'utmContent', header: 'UTM content' },
   { key: 'utmTerm', header: 'UTM term' },
+  { key: 'gclid', header: 'gclid' },
   { key: 'referrer', header: 'Referrer' },
   { key: 'landingPage', header: 'Landing page' },
   { key: 'internalNotes', header: 'Notas internas' },
@@ -500,6 +502,7 @@ function leadToCsvRow(lead: LeadRecord): LeadCsvRow {
     utmCampaign: lead.utmCampaign ?? '',
     utmContent: lead.utmContent ?? '',
     utmTerm: lead.utmTerm ?? '',
+    gclid: lead.gclid ?? '',
     referrer: lead.referrer ?? '',
     landingPage: lead.landingPage ?? '',
     internalNotes: lead.internalNotes ?? '',
