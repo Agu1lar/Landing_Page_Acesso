@@ -16,6 +16,65 @@ Site da **Acesso Equipamentos** (locação de equipamentos para construção civ
 
 ---
 
+## Changelog — jul 2026 (métricas avançadas, geo e painel analytics)
+
+Entregas de instrumentação comercial, reorganização do painel de métricas, geolocalização opcional acoplada ao consentimento de analytics e correções de build/deploy.
+
+### Painel de métricas — Sprint 12 e 13 (`/dashboard/analytics`)
+
+| Recurso | Descrição |
+|---------|-----------|
+| **7 abas temáticas** | Visão geral, Conversão, Campanhas, Catálogo, Tráfego, Comportamento, Executivo — query `?section=` na URL |
+| **Seções com contexto** | `AnalyticsMetricSection`: badge do tipo de dado (contagem, taxa, funil, ranking…) + bloco **「O que significa?」** separado da área de números |
+| **Funil e comportamento** | Funil de conversão, abandono de carrinho, profundidade de rolagem, termos de busca, filtros de categoria, visualizações de equipamento |
+| **Aba Executivo** | Série diária (visitas × WhatsApp × orçamentos), **leads por cidade**, equipamentos mais cotados, categorias mais engajadas, export CSV do período |
+| **Instrumentação no site** | `src/lib/track-analytics-event.ts` + validações em `src/validations/analytics.ts`; trackers: `ScrollDepthTracker`, `QuoteAbandonTracker`, atualizações em carrinho, busca e grid de categoria |
+| **PostHog** | Gravação de sessão habilitada em `posthog-client.ts` (quando a conta PostHog permitir) |
+| **Libs** | `analytics-funnel.ts`, `analytics-executive.ts`, `analytics-sections.ts`, `analytics-display-labels.ts` |
+
+### Filtros de período (padrão comercial)
+
+- **Ao abrir o painel:** período analisado = **dia 1 do mês atual até hoje** (fuso **America/Sao_Paulo**), sem precisar de datas na URL.
+- **Dois blocos no formulário:**
+  - **1. Período analisado** — define todos os KPIs, tabelas e gráficos.
+  - **2. Período de comparação (opcional)** — usado **somente** para os percentuais (↑↓) nos cartões do topo; em branco = período anterior com a mesma quantidade de dias.
+- **Atalhos:** últimos 7 / 30 dias; **este mês (até hoje) vs mês anterior**; esta semana vs semana anterior.
+- **Libs:** `currentMonthToDateRange`, `previousMonthToDateRange` em `src/lib/analytics-period.ts`; `formatBrasiliaDateOnly` em `src/lib/app-datetime.ts`.
+
+### Geolocalização acoplada ao analytics (LGPD)
+
+- Ao clicar **「Aceitar analytics」**, o site liga PostHog + GA4 e **em seguida** pode solicitar **localização aproximada do navegador** (prompt separado do sistema — Chrome/Safari exigem).
+- Se o visitante **permitir**, cidade/região ficam em `localStorage` por **7 dias** e são enviadas com eventos e leads.
+- **Banco:** `geo_city`, `geo_region` em `leads` e `analytics_events` — migration **`0026_visitor_geo.sql`**.
+- **Leads por cidade:** usa **cidade do formulário**; se vazia, **cidade geo**; senão «—».
+- **Libs / API:** `src/lib/visitor-geo.ts` · `POST /api/analytics/visitor-geo` (evento `visitor_geo`).
+- Banner de cookies e `/privacidade` atualizados mencionando localização aproximada após aceite.
+
+### Export CSV de leads
+
+- Colunas adicionais: **`gclid`**, **`Cidade (geo)`**, **`Estado (geo)`** (além de UTM, referrer, landing page, etc.).
+- Export na **Consulta de leads** (filtros livres) ou na aba **Executivo** das métricas (só o período analisado).
+
+### Correções técnicas e painel de acesso
+
+| Correção | Detalhe |
+|----------|---------|
+| **Build Vercel (`pg` no client)** | Tipos e helpers sem DB: `analytics-admin-types.ts`, `analytics-percent.ts`, `leads-filter-query.ts` — componentes client não importam mais `analytics-admin.ts` |
+| **Allowlist `/dashboard/acesso`** | Server Actions em `src/app/actions/access-admin.ts` (evita bloqueio de adblock em rotas `/admin/`) |
+| **TypeScript** | `previousMonthToDateRange` sem `undefined` em partes de data |
+
+### Google Ads, GA4 e testes **antes do DNS oficial**
+
+- **Produção hoje:** deploy na Vercel em `https://landing-page-acesso.vercel.app` — o domínio `acessoequipamentos.com.br` ainda pode apontar para o **site legado** até o go-live (Sprint 10).
+- **Teste de gclid + UTM** (aba anônima, após aceitar analytics):
+
+  `https://landing-page-acesso.vercel.app/?utm_source=google&utm_medium=cpc&utm_campaign=teste_manual&gclid=test_gclid_123`
+
+- Orçamento completo grava `gclid` no lead; clique só no WhatsApp **não** cria lead (mas dispara evento GA4).
+- Guia: [docs/GOOGLE-ADS-GA4.md](docs/GOOGLE-ADS-GA4.md) · env: `NEXT_PUBLIC_GA_MEASUREMENT_ID` na Vercel **Production** (e Preview se quiser testar GA4 no preview).
+
+---
+
 ## Changelog — 15 jun 2026 (GEO / descoberta por IAs)
 
 Preparação para **buscas generativas** (ChatGPT, Perplexity, Gemini, Copilot) — funciona na URL Vercel e migra automaticamente quando o domínio oficial estiver no ar.
@@ -145,12 +204,14 @@ Resumo do que foi projetado e entregue nesta sessão (commits `c2d7f1b` … `mai
 
 ### Métricas operacionais (`/dashboard/analytics`)
 
-- Dashboard com KPIs: visualizações, tempo ativo, cliques WhatsApp, leads no período.
-- Tabelas: páginas mais acessadas, equipamento × conversão, origem do WhatsApp, tráfego UTM, campanhas, dispositivo, landing pages.
-- Filtro por período (7 / 30 dias ou intervalo customizado).
-- **Ajuda contextual:** botão **?** em cada card + guia flutuante no canto da tela (`AdminHelpLauncher`).
-- **Rótulos em português claro** — códigos internos (`site-header`, `direto`, `/`) viram textos legíveis (`Topo do site (menu principal)`, `Acesso direto`, `Página inicial`).
-- Biblioteca: `src/lib/analytics-display-labels.ts`.
+- Dashboard com **7 abas** (visão geral, conversão, campanhas, catálogo, tráfego, comportamento, executivo) e navegação por `?section=`.
+- KPIs: visualizações, tempo ativo, cliques WhatsApp/telefone, orçamentos, leads Google (cookies).
+- Funil de conversão, abandono de carrinho, scroll, busca, equipamento × conversão, campanhas UTM/gclid, dispositivo, landing pages.
+- **Aba Executivo:** série diária, leads por cidade (formulário + geo), top equipamentos cotados, export CSV do período.
+- **Filtros:** padrão = **mês atual (dia 1 → hoje, Brasília)**; comparação opcional só para % dos KPIs; atalhos 7/30 dias e mês/semana vs anterior.
+- **Ajuda contextual:** botão **?** em cada card + guia flutuante (`AdminHelpLauncher`); tipo de dado e «O que significa?» em blocos separados (`AnalyticsMetricSection`).
+- **Rótulos em português claro** — `src/lib/analytics-display-labels.ts`.
+- **Arquitetura:** dados no servidor (`getOperationalDashboard`); UI client importa só tipos/helpers sem `pg` (`analytics-admin-types.ts`, `analytics-percent.ts`).
 
 ### Catálogo e performance
 
@@ -268,11 +329,13 @@ Resumo do que foi projetado e entregue nesta sessão (commits `c2d7f1b` … `mai
 
 ### Analytics e LGPD
 
-- **PostHog** (opcional via env): `page_view`, `equipment_view`, `whatsapp_click`, UTMs como super properties.
+- **PostHog** (opcional via env): `page_view`, `equipment_view`, `whatsapp_click`, funil (scroll, busca, carrinho, abandono), UTMs como super properties; gravação de sessão quando habilitada na conta.
 - **Google Analytics 4** (opcional): page views e eventos de conversão após consentimento — ver [docs/GOOGLE-ADS-GA4.md](docs/GOOGLE-ADS-GA4.md).
+- **Eventos internos (Neon):** `analytics_events` — WhatsApp, telefone, orçamento, consentimento, **visitor_geo**, equipamento, busca, scroll, etc.
 - **Tempo ativo por página** (`page_engagement_events`) — só conta aba visível com interação recente.
-- **Banner de cookies**: PostHog e GA4 só iniciam após consentimento (`AnalyticsConsentProvider`).
-- Política de privacidade atualizada (menção a analytics).
+- **Banner de cookies:** PostHog e GA4 só iniciam após **「Aceitar analytics」** (`AnalyticsConsentProvider`).
+- **Geolocalização opcional:** após aceitar analytics, o navegador pode pedir permissão de localização; cidade/região aproximadas vão para leads e eventos (`src/lib/visitor-geo.ts`, migration `0026`).
+- Política de privacidade e texto do banner atualizados (analytics + localização aproximada).
 
 ### Painel administrativo (Clerk)
 
@@ -284,19 +347,20 @@ Rotas protegidas por **Clerk** + papel em `publicMetadata.role` (`admin` ou `com
 | **Leads da semana** | `/dashboard/leads` — fila, alertas e resumo da semana |
 | **Consulta de leads** | `/dashboard/leads/consulta` — histórico, filtros, CSV |
 | Detalhe do lead | `/dashboard/leads/[id]` |
-| **Métricas operacionais** | `/dashboard/analytics` |
+| **Métricas operacionais** | `/dashboard/analytics` — 7 abas, funil, campanhas, executivo, filtros mês-até-hoje |
 | Fila comercial + prioridade | `/dashboard/leads` (status *Novo*, score + recência) |
 | Arquivamento automático | Leads *Novos* de semanas anteriores → status **Arquivado** |
 | Filtros (consulta) | Data, status, cidade, origem, campanha UTM, busca textual |
-| Atalhos de data | Últimos 7 / 30 dias |
+| Atalhos de data (métricas) | Mês atual (padrão), 7 / 30 dias, mês vs anterior, semana vs anterior |
 | Status do lead | `PATCH /api/admin/leads/[id]/status` (`new`, `contacted`, `quoted`, `won`, `lost`, `archived`) |
 | Notas internas | `PATCH /api/admin/leads/[id]/notes` |
-| Export CSV | `GET /api/admin/leads/export` |
+| Export CSV | `GET /api/admin/leads/export` — inclui **gclid**, **cidade geo**, **estado geo** |
+| **Acesso ao painel** | `/dashboard/acesso` — allowlist (Server Actions; só `admin`) |
 | **Equipamentos (admin)** | `/dashboard/equipamentos` — CRUD, galeria (Blob), specs, filtros de plataforma, sync JSON |
 | **Blog / dicas (admin)** | `/dashboard/dicas` — editor TipTap, capa, publicar / tirar do ar |
-| **Acesso ao painel** | `/dashboard/acesso` — allowlist de e-mails (só `admin`) |
 | Upload de fotos (equip.) | `POST /api/admin/equipment/upload` |
 | Upload de mídia (blog) | `POST /api/admin/blog/upload` (imagem até 5 MB · vídeo até 50 MB) |
+| Geo visitante (analytics) | `POST /api/analytics/visitor-geo` — após consentimento + permissão do navegador |
 | Ajuda contextual | Botão **?** flutuante + **?** em cada métrica |
 
 Guia completo: [docs/CLERK-ACESSO-ADMIN.md](docs/CLERK-ACESSO-ADMIN.md)
@@ -315,7 +379,7 @@ Guia completo: [docs/CLERK-ACESSO-ADMIN.md](docs/CLERK-ACESSO-ADMIN.md)
 - Deploy automático na **Vercel** a cada push em `main`.
 - **Build:** `npm run build` (roda `db:migrate` antes do `next build` — ver `vercel.json`).
 - Banco **Neon** (produção) + **PGlite** local (porta 5433 no `npm run dev`).
-- Migrações Drizzle: leads, equipamentos admin (`0006`), blog (`0021`), guindaste/Munck (`0007`), analytics (`0009`, `0023`), gclid (`0010`), nomes maiúsculos (`0022`), allowlist (`0012`), etc.
+- Migrações Drizzle: leads, equipamentos admin (`0006`), blog (`0021`), guindaste/Munck (`0007`), analytics (`0009`, `0023`, `0024`), gclid (`0010`), nomes maiúsculos (`0022`), allowlist (`0012`), **geo visitante (`0026`)**, rate limit (`0025`), etc.
 - **Vercel Blob Public** para fotos de equipamentos e mídia do blog (`BLOB_STORE_ID`, `BLOB_ACCESS=public`).
 - Rate limit no `POST /api/leads` (Arcjet: 8 req / 15 min por IP).
 - Pool Postgres limitado por instância serverless (`max: 5`); Resend em 429 não bloqueia lead no Neon.
@@ -353,10 +417,10 @@ Detalhamento por sprint em [ROADMAP.temp.md](ROADMAP.temp.md). **Passos manuais 
 | Média | **Fotos faltantes** — enviar pelo **painel admin** (galeria + Blob); manifest/script Python só para legado |
 | Média | **Casos de Sucesso** — logos em `public/clientes/{setor}/` — [docs/CLIENT-LOGOS.md](docs/CLIENT-LOGOS.md) |
 | Média | Polish Sprint 7 (a11y, PageSpeed mobile) |
-| Manual | Configurar **GA4** na Vercel (`NEXT_PUBLIC_GA_MEASUREMENT_ID`) e importar conversões no Google Ads — [docs/GOOGLE-ADS-GA4.md](docs/GOOGLE-ADS-GA4.md) |
-| Planejado | Sprints 12–22 (CRM, disponibilidade frota, SEO programático) |
+| Manual | Configurar **GA4** na Vercel (`NEXT_PUBLIC_GA_MEASUREMENT_ID`) e importar conversões no Google Ads — [docs/GOOGLE-ADS-GA4.md](docs/GOOGLE-ADS-GA4.md) (testar no `*.vercel.app` até o DNS oficial) |
+| Planejado | CRM integrado, disponibilidade de frota, SEO programático (ver [ROADMAP.temp.md](ROADMAP.temp.md)) |
 
-**Já no código (go-live):** mapa 301 WP, scripts auditoria GSC/Ads, guindaste no Postgres, health check, specs no WhatsApp, catálogo sem “estoque”, painel comercial com **leads da semana** + arquivamento automático, GA4 + gclid nos leads, **CMS de blog**, **CRUD de equipamentos com fotos via Blob**, **filtros de plataformas elevatórias**, nomes em maiúsculas nos cards, aliases de slug, allowlist de acesso.
+**Já no código (go-live):** mapa 301 WP, scripts auditoria GSC/Ads, guindaste no Postgres, health check, specs no WhatsApp, catálogo sem “estoque”, painel comercial com **leads da semana** + arquivamento automático, GA4 + gclid nos leads, **métricas Sprint 12–13** (funil, 7 abas, executivo, filtros mês-até-hoje), **geo visitante** acoplada ao analytics, export CSV com gclid/geo, **CMS de blog**, **CRUD de equipamentos com fotos via Blob**, **filtros de plataformas elevatórias**, nomes em maiúsculas nos cards, aliases de slug, allowlist de acesso (Server Actions).
 
 ---
 
@@ -465,7 +529,7 @@ No `.env.local` / Vercel:
 |----------|:-----------:|-------|
 | `CLERK_SECRET_KEY`, `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | Sim | Preview: `pk_test_`; **domínio oficial: `pk_live_`** |
 | `DATABASE_URL` (Neon) | Sim | |
-| `NEXT_PUBLIC_APP_URL` | Recomendada | Canonical e OG |
+| `NEXT_PUBLIC_APP_URL` | Recomendada | Canonical e OG; em preview use `https://landing-page-acesso.vercel.app` |
 | `RESEND_API_KEY`, `RESEND_FROM_EMAIL`, `LEADS_NOTIFY_EMAIL` | Para e-mail de leads | |
 | `NEXT_PUBLIC_POSTHOG_KEY`, `NEXT_PUBLIC_POSTHOG_HOST` | Opcional | Analytics após consentimento |
 | `NEXT_PUBLIC_GA_MEASUREMENT_ID` | Opcional | GA4 + conversões Google Ads — [docs/GOOGLE-ADS-GA4.md](docs/GOOGLE-ADS-GA4.md) |
@@ -484,6 +548,19 @@ git push origin main
 ```
 
 Aguarde deploy **Ready** no topo da lista (**Production**, commit mais recente). Não use **Redeploy** em deploys antigos da lista.
+
+### Validar analytics, gclid e geo após deploy
+
+1. Abra em aba anônima (use a URL **Production** da Vercel se o domínio `.com.br` ainda for o site antigo):
+
+   `https://landing-page-acesso.vercel.app/?utm_source=google&utm_medium=cpc&utm_campaign=teste_manual&gclid=test_gclid_123`
+
+2. **Aceitar analytics** no banner → permitir localização se o navegador pedir.
+3. Envie um **orçamento teste** (ou clique WhatsApp para validar GA4).
+4. Confira `/dashboard/leads` (gclid na ficha) e `/dashboard/analytics` → aba **Executivo** (leads por cidade).
+5. GA4 → Tempo real; export CSV na consulta de leads ou no Executivo.
+
+Guia completo: [docs/GOOGLE-ADS-GA4.md](docs/GOOGLE-ADS-GA4.md)
 
 ### Validar SEO e go-live após deploy
 
@@ -510,7 +587,11 @@ curl -s https://landing-page-acesso.vercel.app/api/health
 | [docs/PASSOS-MANUAIS.md](docs/PASSOS-MANUAIS.md) | Go-live, DNS Task, Clerk, Neon, Resend, reunião domínio |
 | [docs/GO-LIVE-GATE.md](docs/GO-LIVE-GATE.md) | Gate pré-domínio (CI, 301, health, Blob, DNS Task) |
 | [docs/CLERK-ACESSO-ADMIN.md](docs/CLERK-ACESSO-ADMIN.md) | Painel, papéis e Clerk Production no go-live |
-| [docs/GOOGLE-ADS-GA4.md](docs/GOOGLE-ADS-GA4.md) | GA4, eventos de conversão e gclid no Google Ads |
+| `src/lib/analytics-period.ts` | Período padrão mês-até-hoje, comparação, atalhos |
+| `src/lib/visitor-geo.ts` | Geolocalização do navegador após consentimento analytics |
+| `src/lib/analytics-funnel.ts` | Funil e abandono de carrinho |
+| `src/lib/analytics-executive.ts` | Série diária, leads por cidade, tops executivos |
+| [docs/GOOGLE-ADS-GA4.md](docs/GOOGLE-ADS-GA4.md) | GA4, eventos de conversão, gclid e testes no preview Vercel |
 | [docs/GOOGLE-ONE-TAP.md](docs/GOOGLE-ONE-TAP.md) | Google One Tap para leads (opcional) |
 | [docs/GEO-AI-SEARCH.md](docs/GEO-AI-SEARCH.md) | llms.txt, catalog.json e crawlers de IA |
 | [docs/FLUXO-SOLO.md](docs/FLUXO-SOLO.md) | Commit direto na `main` (fluxo solo) |

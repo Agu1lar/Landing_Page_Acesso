@@ -1,4 +1,5 @@
 import { readStoredAttribution } from '@/lib/attribution';
+import { readStoredVisitorGeo } from '@/lib/visitor-geo';
 import { capturePhoneClick } from '@/lib/posthog-events';
 import { GA_CONVERSION_EVENTS, captureGaEvent } from '@/lib/google-analytics';
 
@@ -29,6 +30,7 @@ export function trackPhoneClick(input: TrackPhoneClickInput) {
   }
 
   const attribution = readStoredAttribution();
+  const visitorGeo = readStoredVisitorGeo();
   const pathname = window.location.pathname;
   const body = JSON.stringify({
     eventType: 'phone_click',
@@ -36,6 +38,7 @@ export function trackPhoneClick(input: TrackPhoneClickInput) {
     pathname,
     device: detectDevice(),
     attribution: attribution ?? undefined,
+    visitorGeo: visitorGeo ?? undefined,
   });
 
   if (typeof navigator !== 'undefined' && typeof navigator.sendBeacon === 'function') {

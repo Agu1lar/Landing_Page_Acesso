@@ -1,5 +1,6 @@
 import * as z from 'zod';
 import { AttributionSchema } from '@/lib/attribution';
+import { VisitorGeoSchema } from '@/lib/visitor-geo';
 
 const AnalyticsEventFieldsSchema = z.object({
   origin: z.string().min(1).max(80).optional(),
@@ -8,6 +9,7 @@ const AnalyticsEventFieldsSchema = z.object({
   pathname: z.string().max(500).optional(),
   device: z.enum(['mobile', 'desktop']).optional(),
   attribution: AttributionSchema.optional(),
+  visitorGeo: VisitorGeoSchema.optional(),
 });
 
 const ConversionEventSchema = AnalyticsEventFieldsSchema.extend({

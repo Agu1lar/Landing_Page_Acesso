@@ -11,6 +11,7 @@ import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import { Textarea } from '@/components/ui/Textarea';
 import { readStoredAttribution } from '@/lib/attribution';
+import { readStoredVisitorGeo } from '@/lib/visitor-geo';
 import { brand } from '@/lib/brand';
 import { captureQuoteSubmit } from '@/lib/posthog-events';
 import { markQuoteSubmitted } from '@/components/analytics/QuoteAbandonTracker';
@@ -93,6 +94,7 @@ export function QuoteForm(props: QuoteFormProps) {
     }
 
     const attribution = readStoredAttribution();
+    const visitorGeo = readStoredVisitorGeo();
 
     const response = await fetch('/api/leads', {
       method: 'POST',
@@ -101,6 +103,7 @@ export function QuoteForm(props: QuoteFormProps) {
         ...data,
         cartItems,
         attribution: attribution ?? undefined,
+        visitorGeo: visitorGeo ?? undefined,
       }),
     });
 

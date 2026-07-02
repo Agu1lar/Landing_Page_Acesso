@@ -1,4 +1,5 @@
 import { readStoredAttribution } from '@/lib/attribution';
+import { readStoredVisitorGeo } from '@/lib/visitor-geo';
 import { GA_CONVERSION_EVENTS, captureGaEvent } from '@/lib/google-analytics';
 import { captureWhatsAppClick, type WhatsAppClickInput } from '@/lib/posthog-events';
 
@@ -30,6 +31,7 @@ export function trackWhatsAppClick(input: WhatsAppClickInput) {
   }
 
   const attribution = readStoredAttribution();
+  const visitorGeo = readStoredVisitorGeo();
   const pathname = window.location.pathname;
 
   const body = JSON.stringify({
@@ -40,6 +42,7 @@ export function trackWhatsAppClick(input: WhatsAppClickInput) {
       pathname,
       device: detectDevice(),
       attribution: attribution ?? undefined,
+      visitorGeo: visitorGeo ?? undefined,
     });
 
   if (typeof navigator !== 'undefined' && typeof navigator.sendBeacon === 'function') {

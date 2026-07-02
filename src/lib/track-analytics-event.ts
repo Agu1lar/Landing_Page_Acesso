@@ -1,4 +1,5 @@
 import { readStoredAttribution } from '@/lib/attribution';
+import { readStoredVisitorGeo } from '@/lib/visitor-geo';
 
 export type PersistAnalyticsEventInput = {
   eventType: string;
@@ -26,6 +27,7 @@ export function persistAnalyticsEvent(input: PersistAnalyticsEventInput) {
   }
 
   const attribution = readStoredAttribution();
+  const visitorGeo = readStoredVisitorGeo();
   const pathname = input.pathname ?? window.location.pathname;
 
   const body = JSON.stringify({
@@ -36,6 +38,7 @@ export function persistAnalyticsEvent(input: PersistAnalyticsEventInput) {
     pathname,
     device: input.device ?? detectDevice(),
     attribution: attribution ?? undefined,
+    visitorGeo: visitorGeo ?? undefined,
   });
 
   if (typeof navigator !== 'undefined' && typeof navigator.sendBeacon === 'function') {

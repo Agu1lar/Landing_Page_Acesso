@@ -1,6 +1,7 @@
 import { db } from '@/libs/DB';
 import { analyticsEventsSchema } from '@/models/Schema';
 import type { AttributionInput } from '@/lib/attribution';
+import type { VisitorGeoInput } from '@/lib/visitor-geo';
 
 export type RecordAnalyticsEventInput = {
   eventType:
@@ -8,6 +9,7 @@ export type RecordAnalyticsEventInput = {
     | 'phone_click'
     | 'quote_submit'
     | 'analytics_consent'
+    | 'visitor_geo'
     | 'one_tap_prompt'
     | 'equipment_view'
     | 'add_to_quote'
@@ -22,6 +24,7 @@ export type RecordAnalyticsEventInput = {
   pathname?: string;
   device?: string;
   attribution?: AttributionInput;
+  visitorGeo?: VisitorGeoInput;
 };
 
 /**
@@ -49,6 +52,8 @@ export async function recordAnalyticsEvent(input: RecordAnalyticsEventInput) {
       wbraid: attribution?.wbraid ?? null,
       referrer: attribution?.referrer ?? null,
       landingPage: attribution?.landingPage ?? null,
+      geoCity: input.visitorGeo?.geoCity ?? null,
+      geoRegion: input.visitorGeo?.geoRegion ?? null,
     })
     .returning({ id: analyticsEventsSchema.id });
 

@@ -123,17 +123,19 @@ export async function getDailyConversionSeries(from: Date, to: Date) {
 }
 
 /**
- * Lead count grouped by city field from quote forms.
+ * Lead count grouped by city (form) with geo fallback from analytics consent.
  */
 export async function getLeadsByCity(from: Date, to: Date, limit = 12) {
+  const cityLabel = sql<string>`coalesce(nullif(trim(${leadsSchema.city}), ''), nullif(trim(${leadsSchema.geoCity}), ''), '—')`;
+
   const rows = await db
     .select({
-      label: sql<string>`coalesce(nullif(trim(${leadsSchema.city}), ''), '—')`,
+      label: cityLabel,
       count: count(),
     })
     .from(leadsSchema)
     .where(and(gte(leadsSchema.createdAt, from), lte(leadsSchema.createdAt, to)))
-    .groupBy(sql`coalesce(nullif(trim(${leadsSchema.city}), ''), '—')`)
+    .groupBy(cityLabel)
     .orderBy(desc(count()))
     .limit(limit);
 

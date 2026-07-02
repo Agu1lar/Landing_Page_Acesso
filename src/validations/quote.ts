@@ -1,5 +1,6 @@
 import * as z from 'zod';
 import { AttributionSchema } from '@/lib/attribution';
+import { VisitorGeoSchema } from '@/lib/visitor-geo';
 
 export const rentalPeriodOptions = ['diaria', 'semanal', 'mensal', 'ainda_nao_sei'] as const;
 
@@ -30,6 +31,7 @@ export const QuoteFormSchema = z.object({
   cartItems: z.array(QuoteCartItemSchema).max(40).optional(),
   origin: z.string().trim().max(80),
   attribution: AttributionSchema.optional(),
+  visitorGeo: VisitorGeoSchema.optional(),
   /** Honeypot — deve permanecer vazio; bots que preenchem são ignorados na API */
   website: z.string().max(200).optional().or(z.literal('')),
 });
@@ -125,5 +127,7 @@ export function normalizeQuotePayload(data: QuoteFormInput) {
     wbraid: data.attribution?.wbraid,
     referrer: data.attribution?.referrer,
     landingPage: data.attribution?.landingPage,
+    geoCity: data.visitorGeo?.geoCity,
+    geoRegion: data.visitorGeo?.geoRegion,
   };
 }

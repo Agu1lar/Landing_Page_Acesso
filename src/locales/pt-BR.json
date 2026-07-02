@@ -185,7 +185,7 @@
   },
   "CookieConsent": {
     "title": "Cookies e privacidade",
-    "description": "Usamos cookies essenciais para o site funcionar (orçamento e sessão). Com sua autorização, usamos PostHog e Google Analytics para medir visitas, cliques no WhatsApp e envio de orçamento — dados podem ser processados fora do Brasil.",
+    "description": "Usamos cookies essenciais para o site funcionar (orçamento e sessão). Com sua autorização, usamos PostHog e Google Analytics para medir visitas, cliques e orçamentos. O navegador pode pedir permissão para localização aproximada (cidade) — só com seu aceite, para entender de onde vem a demanda. Dados podem ser processados fora do Brasil.",
     "privacy_link": "Política de privacidade",
     "accept": "Aceitar analytics",
     "reject": "Somente essenciais",
@@ -218,7 +218,7 @@
       },
       "data": {
         "title": "Quais dados coletamos",
-        "body": "No formulário de orçamento podemos receber nome, e-mail, telefone, empresa (opcional), cidade da obra, equipamento de interesse, período de locação e mensagem. Cookies essenciais guardam preferências de sessão (ex.: carrinho de orçamento e origem da campanha). Analytics (PostHog) só é ativado se você aceitar no banner de cookies; mede páginas vistas e interações no site."
+        "body": "No formulário de orçamento podemos receber nome, e-mail, telefone, empresa (opcional), cidade da obra, equipamento de interesse, período de locação e mensagem. Cookies essenciais guardam preferências de sessão (ex.: carrinho de orçamento e origem da campanha). Analytics (PostHog e Google Analytics) só é ativado se você aceitar no banner de cookies; mede páginas vistas e interações. Com esse aceite, o navegador pode solicitar localização aproximada (cidade) — opcional e só se você permitir no prompt do sistema."
       },
       "purpose": {
         "title": "Para que usamos os dados",
@@ -674,7 +674,7 @@
     "hint_chart_daily_series": "Série diária de visualizações de página, cliques no WhatsApp e orçamentos enviados (fuso de Brasília).",
     "col_page_views_short": "Páginas",
     "chart_leads_by_city": "Leads por cidade",
-    "hint_chart_leads_by_city": "Cidade informada no formulário de orçamento. Útil para ver demanda por região (RMBH e interior).",
+    "hint_chart_leads_by_city": "Cidade informada no orçamento ou, se vazia, localização aproximada do navegador (após aceitar analytics e permitir localização). Útil para demanda por região.",
     "chart_top_quoted_equipment": "Equipamentos mais cotados",
     "hint_chart_top_quoted_equipment": "Soma itens do carrinho e equipamentos únicos nos orçamentos do período.",
     "chart_top_categories": "Categorias mais acessadas",

@@ -75,6 +75,8 @@ type LeadCsvRow = {
   phone: string;
   company: string;
   city: string;
+  geoCity: string;
+  geoRegion: string;
   rentalPeriod: string;
   equipmentName: string;
   items: string;
@@ -106,6 +108,8 @@ const CSV_COLUMNS: CsvColumn[] = [
   { key: 'phone', header: 'Telefone' },
   { key: 'company', header: 'Empresa' },
   { key: 'city', header: 'Cidade' },
+  { key: 'geoCity', header: 'Cidade (geo)' },
+  { key: 'geoRegion', header: 'Estado (geo)' },
   { key: 'rentalPeriod', header: 'Período' },
   { key: 'equipmentName', header: 'Equipamento' },
   { key: 'items', header: 'Itens do carrinho' },
@@ -490,6 +494,8 @@ function leadToCsvRow(lead: LeadRecord): LeadCsvRow {
     phone: lead.phone ?? '',
     company: lead.company ?? '',
     city: lead.city ?? '',
+    geoCity: lead.geoCity ?? '',
+    geoRegion: lead.geoRegion ?? '',
     rentalPeriod: lead.rentalPeriod ?? '',
     equipmentName: lead.equipmentName ?? '',
     items: formatLeadCartItems(lead.itemsJson),

@@ -7,7 +7,8 @@ const ANALYTICS_SCHEMA_MARKERS = [
   'gclid',
   'gbraid',
   'wbraid',
-  'last_activity_at',
+  'geo_city',
+  'geo_region',
 ] as const;
 
 /**

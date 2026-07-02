@@ -1,14 +1,17 @@
 import { readStoredAttribution } from '@/lib/attribution';
+import { readStoredVisitorGeo } from '@/lib/visitor-geo';
 import { markOneTapLeadRegistered } from '@/lib/google-one-tap-client';
 
 export async function registerCookieConsentLead(credential: string) {
   const attribution = readStoredAttribution();
+  const visitorGeo = readStoredVisitorGeo();
   const response = await fetch('/api/leads/cookie-consent', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       credential,
       attribution: attribution ?? undefined,
+      visitorGeo: visitorGeo ?? undefined,
     }),
   });
 

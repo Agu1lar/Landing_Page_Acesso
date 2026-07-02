@@ -25,6 +25,7 @@ export const POST = async (request: Request) => {
       pathname: data.pathname,
       device: data.device,
       attribution: data.attribution,
+      visitorGeo: data.visitorGeo,
     });
 
     return NextResponse.json({ ok: true });

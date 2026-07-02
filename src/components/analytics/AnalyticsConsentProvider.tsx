@@ -19,6 +19,7 @@ import {
 } from '@/lib/google-analytics';
 import { initPostHog } from '@/lib/posthog-client';
 import { recordAnalyticsConsent } from '@/lib/record-analytics-consent';
+import { captureVisitorGeoAfterConsent } from '@/lib/visitor-geo';
 
 type AnalyticsConsentProviderProps = {
   children: React.ReactNode;
@@ -54,6 +55,7 @@ export function AnalyticsConsentProvider(props: AnalyticsConsentProviderProps) {
     if (status === 'analytics') {
       initPostHog();
       grantGoogleAnalyticsConsent();
+      void captureVisitorGeoAfterConsent();
     }
   }, [status]);
 
@@ -63,6 +65,7 @@ export function AnalyticsConsentProvider(props: AnalyticsConsentProviderProps) {
     initPostHog();
     grantGoogleAnalyticsConsent();
     void recordAnalyticsConsent('accept');
+    void captureVisitorGeoAfterConsent();
   };
 
   const rejectAnalytics = () => {

@@ -1,6 +1,7 @@
 import { and, eq, sql } from 'drizzle-orm';
 import { recordAnalyticsEvent } from '@/lib/analytics-events';
 import type { AttributionInput } from '@/lib/attribution';
+import type { VisitorGeoInput } from '@/lib/visitor-geo';
 import type { GoogleIdTokenPayload } from '@/lib/google-id-token';
 import { db } from '@/libs/DB';
 import { logger } from '@/libs/Logger';
@@ -61,6 +62,7 @@ function attributionFromLead(lead: {
 async function touchCookieConsentLead(
   leadId: number,
   attribution?: AttributionInput,
+  visitorGeo?: VisitorGeoInput,
   existing?: {
     utmSource: string | null;
     utmMedium: string | null;
@@ -72,6 +74,8 @@ async function touchCookieConsentLead(
     wbraid?: string | null;
     referrer: string | null;
     landingPage: string | null;
+    geoCity?: string | null;
+    geoRegion?: string | null;
   },
 ) {
   const merged = mergeAttribution(existing ? attributionFromLead(existing) : undefined, attribution);
@@ -91,6 +95,8 @@ async function touchCookieConsentLead(
       wbraid: merged?.wbraid ?? null,
       referrer: merged?.referrer ?? null,
       landingPage: merged?.landingPage ?? null,
+      geoCity: visitorGeo?.geoCity ?? existing?.geoCity ?? null,
+      geoRegion: visitorGeo?.geoRegion ?? existing?.geoRegion ?? null,
     })
     .where(eq(leadsSchema.id, leadId))
     .returning();
@@ -139,6 +145,8 @@ export async function createLead(input: CreateLeadInput) {
       wbraid: input.wbraid ?? null,
       referrer: input.referrer ?? null,
       landingPage: input.landingPage ?? null,
+      geoCity: input.geoCity ?? null,
+      geoRegion: input.geoRegion ?? null,
       lastActivityAt: new Date(),
     })
     .returning();
@@ -165,6 +173,10 @@ export async function createLead(input: CreateLeadInput) {
         referrer: lead.referrer ?? undefined,
         landingPage: lead.landingPage ?? undefined,
       },
+      visitorGeo: {
+        geoCity: lead.geoCity ?? undefined,
+        geoRegion: lead.geoRegion ?? undefined,
+      },
     });
   }
 
@@ -174,6 +186,7 @@ export async function createLead(input: CreateLeadInput) {
 export type CreateCookieConsentLeadInput = {
   profile: GoogleIdTokenPayload;
   attribution?: AttributionInput;
+  visitorGeo?: VisitorGeoInput;
 };
 
 /**
@@ -211,6 +224,7 @@ export async function createCookieConsentLead(input: CreateCookieConsentLeadInpu
     const updated = await touchCookieConsentLead(
       existingCookieLead.id,
       input.attribution,
+      input.visitorGeo,
       existingCookieLead,
     );
     logger.info(`Lead cookie-consent #${existingCookieLead.id} revisit email=${email}`);
@@ -238,6 +252,8 @@ export async function createCookieConsentLead(input: CreateCookieConsentLeadInpu
       utmTerm: attribution?.utmTerm ?? null,
       referrer: attribution?.referrer ?? null,
       landingPage: attribution?.landingPage ?? null,
+      geoCity: input.visitorGeo?.geoCity ?? null,
+      geoRegion: input.visitorGeo?.geoRegion ?? null,
       lastActivityAt: new Date(),
     })
     .returning();

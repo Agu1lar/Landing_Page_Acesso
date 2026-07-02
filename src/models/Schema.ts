@@ -51,6 +51,8 @@ export const leadsSchema = pgTable('leads', {
   wbraid: varchar('wbraid', { length: 255 }),
   referrer: varchar('referrer', { length: 500 }),
   landingPage: varchar('landing_page', { length: 500 }),
+  geoCity: varchar('geo_city', { length: 120 }),
+  geoRegion: varchar('geo_region', { length: 120 }),
   internalNotes: text('internal_notes'),
   lastActivityAt: timestamp('last_activity_at', { mode: 'date' }),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
@@ -75,6 +77,8 @@ export const analyticsEventsSchema = pgTable('analytics_events', {
   wbraid: varchar('wbraid', { length: 255 }),
   referrer: varchar('referrer', { length: 500 }),
   landingPage: varchar('landing_page', { length: 500 }),
+  geoCity: varchar('geo_city', { length: 120 }),
+  geoRegion: varchar('geo_region', { length: 120 }),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
 });
 
