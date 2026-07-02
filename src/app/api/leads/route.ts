@@ -7,21 +7,19 @@ import {
   resolveEquipmentSpecsSummary,
 } from '@/lib/quote-equipment-specs';
 import { buildQuoteWhatsAppMessage, buildQuoteWhatsAppUrl } from '@/lib/quote-whatsapp';
-import { quoteLeadArcjet } from '@/libs/Arcjet';
+import { allowQuoteLeadRequest } from '@/lib/quote-lead-rate-limit';
 import { logger } from '@/libs/Logger';
 import { Env } from '@/libs/Env';
 import { normalizeQuotePayload, QuoteFormSchema } from '@/validations/quote';
 
 export const POST = async (request: Request) => {
   try {
-    if (Env.ARCJET_KEY) {
-      const decision = await quoteLeadArcjet.protect(request);
-      if (decision.isDenied()) {
-        return NextResponse.json(
-          { error: 'Muitas tentativas. Aguarde alguns minutos ou fale pelo WhatsApp.' },
-          { status: 429 },
-        );
-      }
+    const allowed = await allowQuoteLeadRequest(request);
+    if (!allowed) {
+      return NextResponse.json(
+        { error: 'Muitas tentativas. Aguarde alguns minutos ou fale pelo WhatsApp.' },
+        { status: 429 },
+      );
     }
 
     const json = await request.json();

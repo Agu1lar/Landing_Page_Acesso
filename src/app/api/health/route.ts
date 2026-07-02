@@ -38,7 +38,6 @@ export async function GET() {
   }
 
   const resendConfigured = Boolean(Env.RESEND_API_KEY?.startsWith('re_') && Env.LEADS_NOTIFY_EMAIL);
-  const arcjetConfigured = Boolean(Env.ARCJET_KEY?.startsWith('ajkey_'));
   const googleClientIdConfigured = Boolean(process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID?.trim());
   const ga4Configured = Boolean(process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim());
   const posthogConfigured = Boolean(process.env.NEXT_PUBLIC_POSTHOG_KEY?.trim());
@@ -62,7 +61,6 @@ export async function GET() {
     databaseUsesPooler,
     dashboardAllowlistTable,
     resendConfigured,
-    arcjetConfigured,
     googleClientIdConfigured,
     googleOneTap: {
       clientIdConfigured: googleClientIdConfigured,
@@ -81,7 +79,7 @@ export async function GET() {
       clerkDashboardLoginDoesNotCreateLead: true,
       analyticsAcceptRecordsEvent: 'POST /api/analytics/consent',
     },
-    leadsRateLimit: 'POST /api/leads only — 8 req / 15 min per IP + bot block (Arcjet)',
+    leadsRateLimit: 'POST /api/leads — 8 req / 15 min per IP (Neon bucket)',
     aiDiscovery: {
       llmsTxt: '/llms.txt',
       publicCatalog: '/catalog.json',

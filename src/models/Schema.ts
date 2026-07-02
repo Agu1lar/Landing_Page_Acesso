@@ -178,3 +178,15 @@ export const blogArticlesSchema = pgTable('blog_articles', {
     .notNull(),
   updatedBy: varchar('updated_by', { length: 320 }),
 });
+
+/** Fixed-window rate limit counters (e.g. POST /api/leads per IP). */
+export const rateLimitBucketsSchema = pgTable('rate_limit_buckets', {
+  id: serial('id').primaryKey(),
+  bucketKey: varchar('bucket_key', { length: 200 }).notNull().unique(),
+  windowStart: timestamp('window_start', { mode: 'date' }).notNull(),
+  requestCount: integer('request_count').notNull().default(1),
+  updatedAt: timestamp('updated_at', { mode: 'date' })
+    .defaultNow()
+    .$onUpdate(() => new Date())
+    .notNull(),
+});
