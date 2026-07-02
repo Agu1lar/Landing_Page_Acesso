@@ -1,9 +1,9 @@
 'use client';
 
-import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import type { AnalyticsSectionId } from '@/lib/analytics-sections';
 import { ANALYTICS_SECTIONS } from '@/lib/analytics-sections';
+import { Link } from '@/libs/I18nNavigation';
 
 type AnalyticsSectionNavProps = {
   activeSection: AnalyticsSectionId;
@@ -16,12 +16,13 @@ type AnalyticsSectionNavProps = {
 export function AnalyticsSectionNav(props: AnalyticsSectionNavProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const basePath = pathname ?? '/dashboard/analytics';
 
   function hrefFor(section: AnalyticsSectionId) {
     const params = new URLSearchParams(searchParams.toString());
     params.set('section', section);
     const query = params.toString();
-    return query ? `${pathname}?${query}` : pathname;
+    return query ? `${basePath}?${query}` : basePath;
   }
 
   return (

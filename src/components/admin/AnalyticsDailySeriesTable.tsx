@@ -1,4 +1,4 @@
-import type { DailyConversionRow } from '@/lib/analytics-executive';
+import type { DailyConversionRow } from '@/lib/analytics-executive-types';
 
 type AnalyticsDailySeriesTableProps = {
   rows: DailyConversionRow[];

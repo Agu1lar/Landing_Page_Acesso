@@ -1,24 +1,15 @@
+import 'server-only';
+
 import { and, count, desc, eq, gte, lte, sql } from 'drizzle-orm';
 import { CATEGORY_LABELS } from '@/types/equipment';
 import type { EquipmentCategory } from '@/types/equipment';
 import { isEquipmentCategory } from '@/types/equipment';
+import type { DailyConversionRow, ExecutiveSummary } from '@/lib/analytics-executive-types';
 import { db } from '@/libs/DB';
 import { analyticsEventsSchema, leadsSchema, pageEngagementEventsSchema } from '@/models/Schema';
 import { QuoteCartItemSchema } from '@/validations/quote';
 
-export type DailyConversionRow = {
-  date: string;
-  pageViews: number;
-  whatsappClicks: number;
-  quoteSubmits: number;
-};
-
-export type ExecutiveSummary = {
-  dailySeries: DailyConversionRow[];
-  leadsByCity: { label: string; count: number }[];
-  topQuotedEquipment: { label: string; count: number }[];
-  topCategories: { label: string; count: number }[];
-};
+export type { DailyConversionRow, ExecutiveSummary } from '@/lib/analytics-executive-types';
 
 const eventDaySql = (column: typeof analyticsEventsSchema.createdAt) =>
   sql<string>`to_char((${column} at time zone 'America/Sao_Paulo'), 'YYYY-MM-DD')`;

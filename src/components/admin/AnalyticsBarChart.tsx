@@ -15,8 +15,8 @@ export function AnalyticsBarChart(props: AnalyticsBarChartProps) {
 
   return (
     <ul className="space-y-4">
-      {props.rows.map((row) => (
-        <li key={row.label}>
+      {props.rows.map((row, index) => (
+        <li key={`${row.label}-${index}`}>
           <div className="flex items-center justify-between gap-2 text-sm">
             <span className="truncate font-medium text-neutral-800">{row.label}</span>
             <span className="shrink-0 tabular-nums font-semibold text-neutral-600">{row.count}</span>

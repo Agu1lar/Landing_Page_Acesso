@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server';
-import { buildLeadsFilterQuery } from '@/lib/leads-admin';
+import { buildLeadsFilterQuery } from '@/lib/leads-filter-query';
 import type { LeadListFilters } from '@/lib/leads-admin';
 import { lastDaysRange } from '@/lib/leads-date-presets';
 import { Link } from '@/libs/I18nNavigation';

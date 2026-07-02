@@ -1,3 +1,5 @@
+import 'server-only';
+
 import { and, count, desc, eq, gte, lte, sql } from 'drizzle-orm';
 import { formatCampaignName } from '@/lib/analytics-display-labels';
 import { LEAD_STATUSES, type LeadStatus } from '@/lib/lead-status';

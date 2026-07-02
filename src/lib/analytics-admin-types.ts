@@ -1,4 +1,4 @@
-import type { ExecutiveSummary } from '@/lib/analytics-executive';
+import type { ExecutiveSummary } from '@/lib/analytics-executive-types';
 import type {
   ConversionFunnelStep,
   QuoteAbandonSummary,

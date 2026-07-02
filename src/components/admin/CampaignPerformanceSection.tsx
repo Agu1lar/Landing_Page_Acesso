@@ -160,7 +160,7 @@ export function CampaignPerformanceSection(props: CampaignPerformanceSectionProp
                     <td className="py-2.5 pr-4 tabular-nums text-neutral-700">{row.withGclid}</td>
                     {STATUS_COLUMNS.map((column) => (
                       <td className="py-2.5 pr-3 tabular-nums text-neutral-700" key={column.key}>
-                        {row.statusCounts[column.key]}
+                        {row.statusCounts?.[column.key] ?? 0}
                       </td>
                     ))}
                     <td className="py-2.5 text-right">

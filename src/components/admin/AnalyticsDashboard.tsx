@@ -1,13 +1,12 @@
 'use client';
 
-import Link from 'next/link';
+import { Link } from '@/libs/I18nNavigation';
 import { CampaignPerformanceSection } from '@/components/admin/CampaignPerformanceSection';
 import { AnalyticsBarTable } from '@/components/admin/AnalyticsBarTable';
 import { AnalyticsConversionFunnel } from '@/components/admin/AnalyticsConversionFunnel';
 import { AnalyticsDailySeriesTable } from '@/components/admin/AnalyticsDailySeriesTable';
 import { AnalyticsEquipmentConversionTable } from '@/components/admin/AnalyticsEquipmentConversionTable';
 import { AnalyticsMetricSection } from '@/components/admin/AnalyticsMetricSection';
-import { AnalyticsSectionNav } from '@/components/admin/AnalyticsSectionNav';
 import { AnalyticsTopPagesTable } from '@/components/admin/AnalyticsTopPagesTable';
 import { AnalyticsWhatsappHero } from '@/components/admin/AnalyticsWhatsappHero';
 import { AdminCallout } from '@/components/admin/AdminCallout';
@@ -146,6 +145,12 @@ type AnalyticsDashboardProps = {
 
 export function AnalyticsDashboard(props: AnalyticsDashboardProps) {
   const { dashboard: d, labels: t, activeSection } = props;
+  const executive = d.executive ?? {
+    dailySeries: [],
+    leadsByCity: [],
+    topQuotedEquipment: [],
+    topCategories: [],
+  };
   const metricUi = {
     meaningToggleLabel: t.meaning_toggle,
     meaningHideLabel: t.meaning_hide,
@@ -171,8 +176,6 @@ export function AnalyticsDashboard(props: AnalyticsDashboardProps) {
 
   return (
     <div className="space-y-6">
-      <AnalyticsSectionNav activeSection={activeSection} labels={t.sections} />
-
       <p className="text-sm leading-relaxed text-neutral-600">{t.section_intros[activeSection]}</p>
 
       {d.schemaIncomplete ? (
@@ -195,7 +198,7 @@ export function AnalyticsDashboard(props: AnalyticsDashboardProps) {
 
           <AnalyticsWhatsappHero
             clicks={d.whatsappClicks}
-            clicksLabel={t.whatsapp_hero_clicks_label.replace('{count}', String(d.whatsappClicks))}
+            clicksLabel={t.whatsapp_hero_clicks_label}
             clicksPrevious={d.whatsappClicksPrevious}
             delta={whatsappDelta}
             deltaLabel={deltaLabel}
@@ -206,10 +209,7 @@ export function AnalyticsDashboard(props: AnalyticsDashboardProps) {
             periodLabel={t.whatsapp_hero_period
               .replace('{from}', d.period.dateFrom)
               .replace('{to}', d.period.dateTo)}
-            previousPeriodLabel={t.whatsapp_hero_previous_period.replace(
-              '{count}',
-              String(d.whatsappClicksPrevious),
-            )}
+            previousPeriodLabel={t.whatsapp_hero_previous_period}
             rateLabel={
               d.pageViews > 0
                 ? t.whatsapp_hero_rate.replace('{rate}', String(whatsappRate))
@@ -269,7 +269,7 @@ export function AnalyticsDashboard(props: AnalyticsDashboardProps) {
             <div className="flex flex-wrap gap-4 text-sm text-neutral-600">
               {d.cookieConsentLeads > 0 ? (
                 <span>
-                  {t.kpi_cookie_consent_leads.replace('{count}', String(d.cookieConsentLeads))}
+                  {t.kpi_cookie_consent_leads}
                 </span>
               ) : null}
               {d.pageViews > 0 ? (
@@ -527,7 +527,7 @@ export function AnalyticsDashboard(props: AnalyticsDashboardProps) {
               colPageViews={t.col_page_views_short}
               colWhatsapp={t.col_whatsapp}
               emptyLabel={t.empty_data}
-              rows={d.executive.dailySeries}
+              rows={executive.dailySeries}
             />
           </AnalyticsMetricSection>
 
@@ -537,7 +537,7 @@ export function AnalyticsDashboard(props: AnalyticsDashboardProps) {
               dataTypeLabel={dataTypes.ranking}
               emptyLabel={t.empty_data}
               meaning={t.hint_chart_leads_by_city}
-              rows={d.executive.leadsByCity}
+              rows={executive.leadsByCity}
               title={t.chart_leads_by_city}
               {...metricUi}
             />
@@ -546,7 +546,7 @@ export function AnalyticsDashboard(props: AnalyticsDashboardProps) {
               dataTypeLabel={dataTypes.ranking}
               emptyLabel={t.empty_data}
               meaning={t.hint_chart_top_quoted_equipment}
-              rows={d.executive.topQuotedEquipment}
+              rows={executive.topQuotedEquipment}
               title={t.chart_top_quoted_equipment}
               {...metricUi}
             />
@@ -555,7 +555,7 @@ export function AnalyticsDashboard(props: AnalyticsDashboardProps) {
               dataTypeLabel={dataTypes.ranking}
               emptyLabel={t.empty_data}
               meaning={t.hint_chart_top_categories}
-              rows={d.executive.topCategories}
+              rows={executive.topCategories}
               title={t.chart_top_categories}
               {...metricUi}
             />

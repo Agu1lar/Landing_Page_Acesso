@@ -5,8 +5,10 @@ import { AnalyticsDashboard } from '@/components/admin/AnalyticsDashboard';
 import type { AnalyticsDashboardLabels } from '@/components/admin/AnalyticsDashboard';
 import { AnalyticsLoadFailure } from '@/components/admin/AnalyticsLoadFailure';
 import { AnalyticsPeriodFilters } from '@/components/admin/AnalyticsPeriodFilters';
+import { AnalyticsSectionNav } from '@/components/admin/AnalyticsSectionNav';
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
 import { getOperationalDashboard, probeAnalyticsDashboard } from '@/lib/analytics-admin';
+import type { OperationalDashboard } from '@/lib/analytics-admin-types';
 import { parseAnalyticsDashboardFailure } from '@/lib/analytics-dashboard-errors';
 import { parseAnalyticsSection } from '@/lib/analytics-sections';
 import { resolveAppLocale } from '@/utils/locale';
@@ -37,7 +39,10 @@ export async function generateMetadata(props: AnalyticsPageProps): Promise<Metad
   };
 }
 
-async function buildDashboardLabels(locale: string): Promise<AnalyticsDashboardLabels> {
+async function buildDashboardLabels(
+  locale: string,
+  dashboard: OperationalDashboard,
+): Promise<AnalyticsDashboardLabels> {
   const t = await getTranslations({
     locale: resolveAppLocale(locale),
     namespace: 'AnalyticsAdminPage',
@@ -84,10 +89,12 @@ async function buildDashboardLabels(locale: string): Promise<AnalyticsDashboardL
     delta_vs_auto_previous: t('delta_vs_auto_previous'),
     whatsapp_hero_title: t('whatsapp_hero_title'),
     whatsapp_hero_period: t('whatsapp_hero_period'),
-    whatsapp_hero_clicks_label: t('whatsapp_hero_clicks_label'),
+    whatsapp_hero_clicks_label: t('whatsapp_hero_clicks_label', { count: dashboard.whatsappClicks }),
     whatsapp_hero_empty_hint: t('whatsapp_hero_empty_hint'),
     whatsapp_hero_rate: t('whatsapp_hero_rate'),
-    whatsapp_hero_previous_period: t('whatsapp_hero_previous_period'),
+    whatsapp_hero_previous_period: t('whatsapp_hero_previous_period', {
+      count: dashboard.whatsappClicksPrevious,
+    }),
     hint_kpi_whatsapp: t('hint_kpi_whatsapp'),
     kpi_page_views: t('kpi_page_views'),
     hint_kpi_page_views: t('hint_kpi_page_views'),
@@ -98,7 +105,7 @@ async function buildDashboardLabels(locale: string): Promise<AnalyticsDashboardL
     hint_kpi_leads: t('hint_kpi_leads'),
     kpi_phone: t('kpi_phone'),
     hint_kpi_phone: t('hint_kpi_phone'),
-    kpi_cookie_consent_leads: t('kpi_cookie_consent_leads'),
+    kpi_cookie_consent_leads: t('kpi_cookie_consent_leads', { count: dashboard.cookieConsentLeads }),
     kpi_whatsapp_rate: t('kpi_whatsapp_rate'),
     chart_conversion_funnel: t('chart_conversion_funnel'),
     hint_chart_conversion_funnel: t('hint_chart_conversion_funnel'),
@@ -252,11 +259,15 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
   exportParams.set('dateFrom', dashboard.period.dateFrom);
   exportParams.set('dateTo', dashboard.period.dateTo);
   const exportHref = `/api/admin/leads/export?${exportParams.toString()}`;
-  const labels = await buildDashboardLabels(locale);
+  const labels = await buildDashboardLabels(locale, dashboard);
 
   return (
     <div className="space-y-8">
       <AdminPageHeader description={headerDescription} title={t('title')} />
+
+      <Suspense fallback={<div className="h-11 animate-pulse rounded-full bg-neutral-100" />}>
+        <AnalyticsSectionNav activeSection={activeSection} labels={labels.sections} />
+      </Suspense>
 
       <AnalyticsPeriodFilters
         compareDateFrom={searchParams.compareDateFrom}

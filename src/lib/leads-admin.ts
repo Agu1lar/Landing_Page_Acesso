@@ -1,3 +1,5 @@
+import 'server-only';
+
 import { and, count, desc, eq, ilike, inArray, isNull, ne, or, sql } from 'drizzle-orm';
 import { APP_TIMEZONE, formatDateTimeBrasiliaExport } from '@/lib/app-datetime';
 import {

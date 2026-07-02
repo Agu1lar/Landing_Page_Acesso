@@ -1,4 +1,7 @@
+import 'server-only';
+
 import { and, count, desc, eq, gte, lte, sql } from 'drizzle-orm';
+
 import {
   getExecutiveSummary,
 } from '@/lib/analytics-executive';
