@@ -1,7 +1,10 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import {
+  addAllowlistEmailAction,
+  removeAllowlistEmailAction,
+} from '@/app/actions/access-admin';
 import type { AllowlistEntry } from '@/lib/dashboard-allowlist-email';
 import { normalizeAllowlistEmail } from '@/lib/dashboard-allowlist-email';
 import { Button } from '@/components/ui/Button';
@@ -47,22 +50,29 @@ function formatDateTime(date: Date) {
   }).format(date);
 }
 
+function mapAllowlistError(
+  code: 'unauthorized' | 'invalid' | 'duplicate' | 'last_admin' | 'not_found' | 'generic',
+  labels: AccessAllowlistPanelProps['labels'],
+) {
+  switch (code) {
+    case 'duplicate':
+      return labels.errorDuplicate;
+    case 'invalid':
+      return labels.errorInvalid;
+    case 'last_admin':
+      return labels.errorLastAdmin;
+  }
+
+  return labels.errorGeneric;
+}
+
 export function AccessAllowlistPanel(props: AccessAllowlistPanelProps) {
-  const router = useRouter();
   const [email, setEmail] = useState('');
   const [role, setRole] = useState<'admin' | 'comercial'>('comercial');
   const [isAdding, setIsAdding] = useState(false);
   const [removingId, setRemovingId] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-
-  async function parseJsonBody(response: Response) {
-    try {
-      return (await response.json()) as { error?: string };
-    } catch {
-      return {};
-    }
-  }
 
   return (
     <div className="space-y-8">
@@ -86,29 +96,21 @@ export function AccessAllowlistPanel(props: AccessAllowlistPanelProps) {
             const normalizedEmail = normalizeAllowlistEmail(email);
 
             try {
-              const response = await fetch('/api/admin/access', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email: normalizedEmail, role }),
+              const result = await addAllowlistEmailAction({
+                email: normalizedEmail,
+                role,
               });
 
-              const body = await parseJsonBody(response);
-
-              if (!response.ok) {
-                if (response.status === 409) {
-                  setError(props.labels.errorDuplicate);
-                } else if (response.status === 422) {
-                  setError(body.error ?? props.labels.errorInvalid);
-                } else {
-                  setError(body.error ?? props.labels.errorGeneric);
-                }
+              if (!result.ok) {
+                setError(mapAllowlistError(result.code, props.labels));
                 return;
               }
 
               setEmail('');
               setRole('comercial');
-              setSuccess(props.labels.successAdded.replace('{email}', normalizedEmail));
-              router.refresh();
+              setSuccess(
+                props.labels.successAdded.replace('{email}', result.email ?? normalizedEmail),
+              );
             } catch {
               setError(props.labels.errorNetwork);
             } finally {
@@ -199,22 +201,12 @@ export function AccessAllowlistPanel(props: AccessAllowlistPanelProps) {
                             setRemovingId(entry.id);
 
                             try {
-                              const response = await fetch(`/api/admin/access/${entry.id}`, {
-                                method: 'DELETE',
-                              });
+                              const result = await removeAllowlistEmailAction(entry.id);
 
-                              const body = await parseJsonBody(response);
-
-                              if (!response.ok) {
-                                if (response.status === 409) {
-                                  setError(body.error ?? props.labels.errorLastAdmin);
-                                } else {
-                                  setError(body.error ?? props.labels.errorGeneric);
-                                }
+                              if (!result.ok) {
+                                setError(mapAllowlistError(result.code, props.labels));
                                 return;
                               }
-
-                              router.refresh();
                             } catch {
                               setError(props.labels.errorNetwork);
                             } finally {
