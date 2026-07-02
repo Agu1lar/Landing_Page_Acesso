@@ -1,8 +1,8 @@
 import { getTranslations } from 'next-intl/server';
 import {
   buildAnalyticsFilterQuery,
-  currentCalendarMonthRange,
-  previousCalendarMonthRange,
+  currentMonthToDateRange,
+  previousMonthToDateRange,
 } from '@/lib/analytics-period';
 import { currentWeekRange, lastDaysRange, previousWeekRange } from '@/lib/leads-date-presets';
 import { Link } from '@/libs/I18nNavigation';
@@ -24,8 +24,8 @@ export async function AnalyticsPeriodFilters(props: AnalyticsPeriodFiltersProps)
   const t = await getTranslations('AnalyticsAdminPage');
   const range7 = lastDaysRange(7);
   const range30 = lastDaysRange(30);
-  const thisMonth = currentCalendarMonthRange();
-  const lastMonth = previousCalendarMonthRange();
+  const thisMonth = currentMonthToDateRange();
+  const lastMonth = previousMonthToDateRange();
   const thisWeek = currentWeekRange();
   const lastWeek = previousWeekRange();
 
@@ -70,7 +70,11 @@ export async function AnalyticsPeriodFilters(props: AnalyticsPeriodFiltersProps)
           </Link>
         </div>
 
-        <p className="text-sm text-neutral-600 sm:col-span-2 lg:col-span-4">{t('filter_period_primary')}</p>
+        <p className="text-sm text-neutral-600 sm:col-span-2 lg:col-span-4">{t('filter_default_convention')}</p>
+
+        <fieldset className="grid gap-4 rounded-xl border border-neutral-200 bg-neutral-50/60 p-4 sm:col-span-2 lg:col-span-4 sm:grid-cols-2">
+          <legend className="px-1 text-sm font-semibold text-neutral-800">{t('filter_period_primary_title')}</legend>
+          <p className="text-sm text-neutral-600 sm:col-span-2">{t('filter_period_primary_desc')}</p>
 
         <div>
           <label className="mb-1.5 block text-sm font-medium text-neutral-700" htmlFor="dateFrom">
@@ -96,15 +100,16 @@ export async function AnalyticsPeriodFilters(props: AnalyticsPeriodFiltersProps)
             type="date"
           />
         </div>
+        </fieldset>
 
-        <div className="sm:col-span-2 lg:col-span-4">
-          <p className="text-sm font-medium text-neutral-700">{t('filter_compare_section')}</p>
-          <p className="mt-1 text-sm text-neutral-600">
+        <fieldset className="grid gap-4 rounded-xl border border-dashed border-neutral-300 bg-white p-4 sm:col-span-2 lg:col-span-4 sm:grid-cols-2">
+          <legend className="px-1 text-sm font-semibold text-neutral-800">{t('filter_compare_section_title')}</legend>
+          <p className="text-sm text-neutral-600 sm:col-span-2">{t('filter_compare_section_desc')}</p>
+          <p className="text-sm text-neutral-600 sm:col-span-2">
             {props.comparisonMode === 'custom'
               ? t('filter_compare_custom_active')
               : t('filter_compare_auto_hint')}
           </p>
-        </div>
 
         <div>
           <label
@@ -136,6 +141,7 @@ export async function AnalyticsPeriodFilters(props: AnalyticsPeriodFiltersProps)
             type="date"
           />
         </div>
+        </fieldset>
 
         <div className="flex items-end sm:col-span-2 lg:col-span-2">
           <button

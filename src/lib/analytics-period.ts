@@ -1,13 +1,12 @@
+import { formatBrasiliaDateOnly } from '@/lib/app-datetime';
+
 /**
- * Resolves inclusive UTC date range from filter strings or defaults to last 30 days.
+ * Resolves inclusive UTC date range from filter strings or defaults to current month (day 1 → today, Brasília).
  */
 export function resolveAnalyticsPeriod(filters: { dateFrom?: string; dateTo?: string }) {
-  const today = new Date();
-  const defaultTo = formatDateOnly(today);
-  const defaultFrom = formatDateOnly(addDays(today, -29));
-
-  const dateFrom = filters.dateFrom?.trim() || defaultFrom;
-  const dateTo = filters.dateTo?.trim() || defaultTo;
+  const defaultRange = currentMonthToDateRange();
+  const dateFrom = filters.dateFrom?.trim() || defaultRange.dateFrom;
+  const dateTo = filters.dateTo?.trim() || defaultRange.dateTo;
 
   return {
     dateFrom,
@@ -75,6 +74,37 @@ export function currentCalendarMonthRange(reference = new Date()) {
 }
 
 /**
+ * Returns day 1 of the current calendar month through today (America/Sao_Paulo).
+ */
+export function currentMonthToDateRange(reference = new Date()) {
+  const dateTo = formatBrasiliaDateOnly(reference);
+  const dateFrom = `${dateTo.slice(0, 7)}-01`;
+  return { dateFrom, dateTo };
+}
+
+/**
+ * Same day span as {@link currentMonthToDateRange} in the previous calendar month (America/Sao_Paulo).
+ */
+export function previousMonthToDateRange(reference = new Date()) {
+  const { dateFrom: currentFrom, dateTo: currentTo } = currentMonthToDateRange(reference);
+  const [, month, day] = currentTo.split('-').map(Number);
+  const year = Number(currentFrom.slice(0, 4));
+  let prevYear = year;
+  let prevMonth = month - 1;
+  if (prevMonth < 1) {
+    prevMonth = 12;
+    prevYear -= 1;
+  }
+  const lastDayPrevMonth = new Date(Date.UTC(prevYear, prevMonth, 0)).getUTCDate();
+  const compareDay = Math.min(day, lastDayPrevMonth);
+  const pad = (value: number) => String(value).padStart(2, '0');
+  return {
+    dateFrom: `${prevYear}-${pad(prevMonth)}-01`,
+    dateTo: `${prevYear}-${pad(prevMonth)}-${pad(compareDay)}`,
+  };
+}
+
+/**
  * Returns the calendar month immediately before the month of `reference`.
  */
 export function previousCalendarMonthRange(reference = new Date()) {
@@ -133,12 +163,6 @@ export function buildAnalyticsFilterQuery(filters: {
 
 function formatDateOnly(date: Date) {
   return date.toISOString().slice(0, 10);
-}
-
-function addDays(date: Date, days: number) {
-  const next = new Date(date);
-  next.setUTCDate(next.getUTCDate() + days);
-  return next;
 }
 
 function startOfDayUtc(dateStr: string) {

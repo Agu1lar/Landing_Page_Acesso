@@ -2,17 +2,21 @@ import { describe, expect, it } from 'vitest';
 import {
   calendarMonthRange,
   currentCalendarMonthRange,
+  currentMonthToDateRange,
   previousCalendarMonthRange,
+  previousMonthToDateRange,
   previousPeriodRange,
   resolveAnalyticsPeriod,
   resolveComparisonPeriod,
 } from '@/lib/analytics-period';
 
 describe('resolve analytics period', () => {
-  it('defaults to last 30 days when filters are empty', () => {
+  it('defaults to current month through today (Brasília) when filters are empty', () => {
     const period = resolveAnalyticsPeriod({});
-    expect(period.dateFrom).toMatch(/^\d{4}-\d{2}-\d{2}$/u);
-    expect(period.dateTo).toMatch(/^\d{4}-\d{2}-\d{2}$/u);
+    const expected = currentMonthToDateRange();
+
+    expect(period.dateFrom).toBe(expected.dateFrom);
+    expect(period.dateTo).toBe(expected.dateTo);
     expect(period.from.getTime()).toBeLessThanOrEqual(period.to.getTime());
   });
 
@@ -77,5 +81,17 @@ describe('calendar month range', () => {
     const reference = new Date('2026-06-15T12:00:00.000Z');
     expect(currentCalendarMonthRange(reference).dateFrom).toBe('2026-06-01');
     expect(previousCalendarMonthRange(reference).dateTo).toBe('2026-05-31');
+  });
+
+  it('returns month-to-date and matching previous month span', () => {
+    const reference = new Date('2026-07-02T15:00:00.000Z');
+    expect(currentMonthToDateRange(reference)).toEqual({
+      dateFrom: '2026-07-01',
+      dateTo: '2026-07-02',
+    });
+    expect(previousMonthToDateRange(reference)).toEqual({
+      dateFrom: '2026-06-01',
+      dateTo: '2026-06-02',
+    });
   });
 });

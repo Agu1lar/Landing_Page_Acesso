@@ -24,6 +24,20 @@ const exportDateTimeFormatter = new Intl.DateTimeFormat('sv-SE', {
   hourCycle: 'h23',
 });
 
+const dateOnlyFormatter = new Intl.DateTimeFormat('sv-SE', {
+  timeZone: APP_TIMEZONE,
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+});
+
+/**
+ * Formats an instant as YYYY-MM-DD in America/Sao_Paulo (filters and presets).
+ */
+export function formatBrasiliaDateOnly(reference: Date = new Date()) {
+  return dateOnlyFormatter.format(reference);
+}
+
 /**
  * UTC instant for 00:00:00 on a YYYY-MM-DD calendar day in America/Sao_Paulo.
  */
