@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from 'react';
 import { captureAddToQuote, captureRemoveFromQuote } from '@/lib/posthog-events';
+import { persistAnalyticsEvent } from '@/lib/track-analytics-event';
 import { QUOTE_CART_MAX_QUANTITY, QUOTE_CART_MIN_QUANTITY } from '@/types/quote-cart';
 import type { QuoteCartItem } from '@/types/quote-cart';
 
@@ -126,6 +127,12 @@ export function QuoteCartProvider(props: { children: React.ReactNode }) {
             cartLineCount: next.length,
             cartTotalUnits: totalUnits(next),
           });
+          persistAnalyticsEvent({
+            eventType: 'add_to_quote',
+            origin: 'add_to_quote',
+            equipmentSlug: line.slug,
+            equipmentName: line.name,
+          });
         }
 
         return next;
@@ -142,6 +149,12 @@ export function QuoteCartProvider(props: { children: React.ReactNode }) {
               name: removed.name,
               kind: removed.kind,
             });
+            persistAnalyticsEvent({
+              eventType: 'remove_from_quote',
+              origin: 'remove_from_quote',
+              equipmentSlug: removed.slug,
+              equipmentName: removed.name,
+            });
           }
           return current.filter((entry) => entry.slug !== slug);
         }
@@ -156,6 +169,12 @@ export function QuoteCartProvider(props: { children: React.ReactNode }) {
             slug: removed.slug,
             name: removed.name,
             kind: removed.kind,
+          });
+          persistAnalyticsEvent({
+            eventType: 'remove_from_quote',
+            origin: 'remove_from_quote',
+            equipmentSlug: removed.slug,
+            equipmentName: removed.name,
           });
         }
         return current.filter((entry) => entry.slug !== slug);

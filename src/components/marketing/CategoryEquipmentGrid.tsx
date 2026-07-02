@@ -12,6 +12,20 @@ import {
   type PlatformKindFilter,
 } from '@/lib/platform-kind';
 import type { Equipment } from '@/types/equipment';
+import { persistAnalyticsEvent } from '@/lib/track-analytics-event';
+
+function trackCategoryFilter(filterId: string, label: string) {
+  if (filterId === 'all') {
+    return;
+  }
+
+  persistAnalyticsEvent({
+    eventType: 'category_filter',
+    origin: 'category_filter',
+    equipmentSlug: filterId,
+    equipmentName: label,
+  });
+}
 
 type CategoryEquipmentGridProps = {
   equipment: Equipment[];
@@ -130,7 +144,10 @@ export function CategoryEquipmentGrid(props: CategoryEquipmentGridProps) {
                 id: kind,
                 active: platformKind === kind,
                 label: filterLabel[kind],
-                onClick: () => setPlatformKind(kind),
+                onClick: () => {
+                  setPlatformKind(kind);
+                  trackCategoryFilter(kind, filterLabel[kind]);
+                },
               }))}
               groupLabel={t('filter_platform_kind_label')}
             />
@@ -139,7 +156,10 @@ export function CategoryEquipmentGrid(props: CategoryEquipmentGridProps) {
                 id: height,
                 active: platformHeight === height,
                 label: heightFilterLabel[height],
-                onClick: () => setPlatformHeight(height),
+                onClick: () => {
+                  setPlatformHeight(height);
+                  trackCategoryFilter(height, heightFilterLabel[height]);
+                },
               }))}
               groupLabel={t('filter_platform_height_label')}
             />

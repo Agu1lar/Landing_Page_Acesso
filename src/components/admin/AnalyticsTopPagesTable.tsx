@@ -1,9 +1,13 @@
-import { AdminCard } from '@/components/admin/AdminCard';
+import { AnalyticsMetricSection } from '@/components/admin/AnalyticsMetricSection';
+import type { AnalyticsDataType } from '@/lib/analytics-sections';
 
 type AnalyticsTopPagesTableProps = {
   title: string;
-  hint?: string;
-  helpLabel?: string;
+  meaning: string;
+  dataType: AnalyticsDataType;
+  dataTypeLabel: string;
+  meaningToggleLabel: string;
+  meaningHideLabel: string;
   emptyLabel: string;
   colPage: string;
   colViews: string;
@@ -31,7 +35,14 @@ function formatDuration(seconds: number) {
  */
 export function AnalyticsTopPagesTable(props: AnalyticsTopPagesTableProps) {
   return (
-    <AdminCard helpLabel={props.helpLabel} helpText={props.hint} title={props.title}>
+    <AnalyticsMetricSection
+      dataType={props.dataType}
+      dataTypeLabel={props.dataTypeLabel}
+      meaning={props.meaning}
+      meaningHideLabel={props.meaningHideLabel}
+      meaningToggleLabel={props.meaningToggleLabel}
+      title={props.title}
+    >
       {props.rows.length === 0 ? (
         <p className="text-sm text-neutral-500">{props.emptyLabel}</p>
       ) : (
@@ -63,6 +74,6 @@ export function AnalyticsTopPagesTable(props: AnalyticsTopPagesTableProps) {
           </table>
         </div>
       )}
-    </AdminCard>
+    </AnalyticsMetricSection>
   );
 }

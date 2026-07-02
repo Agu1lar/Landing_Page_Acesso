@@ -9,6 +9,7 @@ import { GoogleAnalyticsScripts } from '@/components/analytics/GoogleAnalyticsSc
 import { PostHogAttributionSync } from '@/components/analytics/PostHogAttributionSync';
 import { PageEngagementTracker } from '@/components/analytics/PageEngagementTracker';
 import { PostHogPageView } from '@/components/analytics/PostHogPageView';
+import { ScrollDepthTracker } from '@/components/analytics/ScrollDepthTracker';
 import { COOKIE_CONSENT_STORAGE_KEY, parseConsentValue } from '@/lib/cookie-consent';
 import type { CookieConsentStatus, CookieConsentValue } from '@/lib/cookie-consent';
 import {
@@ -98,6 +99,7 @@ export function AnalyticsConsentProvider(props: AnalyticsConsentProviderProps) {
           <Suspense fallback={null}>
             <GaPageView />
             <PageEngagementTracker />
+            <ScrollDepthTracker />
             <PostHogPageView />
           </Suspense>
         </>

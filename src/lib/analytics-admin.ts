@@ -1,5 +1,15 @@
 import { and, count, desc, eq, gte, lte, sql } from 'drizzle-orm';
+import {
+  getExecutiveSummary,
+  type ExecutiveSummary,
+} from '@/lib/analytics-executive';
 import { sumAnalyticsDailyForPeriod } from '@/lib/analytics-daily';
+import {
+  buildConversionFunnel,
+  summarizeQuoteAbandon,
+  type ConversionFunnelStep,
+  type QuoteAbandonSummary,
+} from '@/lib/analytics-funnel';
 import { isInternalAnalyticsPath } from '@/lib/analytics-internal-paths';
 import { runAnalyticsDashboardStep, parseAnalyticsDashboardFailure } from '@/lib/analytics-dashboard-errors';
 import { isAnalyticsSchemaMissingError, withAnalyticsSchema } from '@/lib/analytics-schema';
@@ -73,6 +83,13 @@ export type OperationalDashboard = {
   equipmentConversion: EquipmentConversionRow[];
   landingPages: CountRow[];
   deviceSplit: CountRow[];
+  conversionFunnel: ConversionFunnelStep[];
+  quoteAbandon: QuoteAbandonSummary;
+  topSearchTerms: CountRow[];
+  scrollDepth: CountRow[];
+  topEquipmentViews: CountRow[];
+  topCategoryFilters: CountRow[];
+  executive: ExecutiveSummary;
   posthogHint: boolean;
   /** True when some analytics tables/columns were missing and fallbacks were used. */
   schemaIncomplete?: boolean;
@@ -292,6 +309,96 @@ async function deviceSplit(from: Date, to: Date) {
     )
     .groupBy(analyticsEventsSchema.device)
     .orderBy(desc(count()));
+
+  return rows.map((row) => ({ label: row.label, count: row.count }));
+}
+
+async function topTermsByEvent(eventType: string, from: Date, to: Date, limit = 8) {
+  const rows = await db
+    .select({
+      label: sql<string>`coalesce(${analyticsEventsSchema.equipmentName}, '—')`,
+      count: count(),
+    })
+    .from(analyticsEventsSchema)
+    .where(
+      and(
+        eq(analyticsEventsSchema.eventType, eventType),
+        gte(analyticsEventsSchema.createdAt, from),
+        lte(analyticsEventsSchema.createdAt, to),
+        sql`${analyticsEventsSchema.equipmentName} is not null`,
+      ),
+    )
+    .groupBy(analyticsEventsSchema.equipmentName)
+    .orderBy(desc(count()))
+    .limit(limit);
+
+  return rows.map((row) => ({ label: row.label, count: row.count }));
+}
+
+async function topEquipmentViews(from: Date, to: Date) {
+  const rows = await db
+    .select({
+      label: sql<string>`coalesce(${analyticsEventsSchema.equipmentName}, ${analyticsEventsSchema.equipmentSlug}, '—')`,
+      count: count(),
+    })
+    .from(analyticsEventsSchema)
+    .where(
+      and(
+        eq(analyticsEventsSchema.eventType, 'equipment_view'),
+        gte(analyticsEventsSchema.createdAt, from),
+        lte(analyticsEventsSchema.createdAt, to),
+      ),
+    )
+    .groupBy(
+      sql`coalesce(${analyticsEventsSchema.equipmentName}, ${analyticsEventsSchema.equipmentSlug}, '—')`,
+    )
+    .orderBy(desc(count()))
+    .limit(8);
+
+  return rows.map((row) => ({ label: row.label, count: row.count }));
+}
+
+async function scrollDepthBreakdown(from: Date, to: Date) {
+  const rows = await db
+    .select({
+      label: analyticsEventsSchema.origin,
+      count: count(),
+    })
+    .from(analyticsEventsSchema)
+    .where(
+      and(
+        eq(analyticsEventsSchema.eventType, 'scroll_depth'),
+        gte(analyticsEventsSchema.createdAt, from),
+        lte(analyticsEventsSchema.createdAt, to),
+      ),
+    )
+    .groupBy(analyticsEventsSchema.origin)
+    .orderBy(desc(count()));
+
+  return rows
+    .filter((row) => row.label)
+    .map((row) => ({ label: row.label!, count: row.count }));
+}
+
+async function topCategoryFilters(from: Date, to: Date) {
+  const rows = await db
+    .select({
+      label: sql<string>`coalesce(${analyticsEventsSchema.equipmentName}, ${analyticsEventsSchema.equipmentSlug}, '—')`,
+      count: count(),
+    })
+    .from(analyticsEventsSchema)
+    .where(
+      and(
+        eq(analyticsEventsSchema.eventType, 'category_filter'),
+        gte(analyticsEventsSchema.createdAt, from),
+        lte(analyticsEventsSchema.createdAt, to),
+      ),
+    )
+    .groupBy(
+      sql`coalesce(${analyticsEventsSchema.equipmentName}, ${analyticsEventsSchema.equipmentSlug}, '—')`,
+    )
+    .orderBy(desc(count()))
+    .limit(8);
 
   return rows.map((row) => ({ label: row.label, count: row.count }));
 }
@@ -518,6 +625,28 @@ function buildEmptyOperationalDashboard(
     equipmentConversion: [],
     landingPages: [],
     deviceSplit: [],
+    conversionFunnel: buildConversionFunnel({
+      visits: 0,
+      equipmentViews: 0,
+      addToQuote: 0,
+      quoteSubmits: 0,
+      whatsappClicks: 0,
+    }),
+    quoteAbandon: summarizeQuoteAbandon({
+      addToQuote: 0,
+      quoteSubmits: 0,
+      quoteAbandons: 0,
+    }),
+    topSearchTerms: [],
+    scrollDepth: [],
+    topEquipmentViews: [],
+    topCategoryFilters: [],
+    executive: {
+      dailySeries: [],
+      leadsByCity: [],
+      topQuotedEquipment: [],
+      topCategories: [],
+    },
     posthogHint: Boolean(process.env.NEXT_PUBLIC_POSTHOG_KEY),
     schemaIncomplete,
   };
@@ -552,6 +681,14 @@ async function loadOperationalDashboard(
     equipmentConversionRows,
     landingPages,
     deviceSplitRows,
+    equipmentViewsCount,
+    addToQuoteCount,
+    quoteAbandonCount,
+    topSearchTermsRows,
+    scrollDepthRows,
+    topEquipmentViewsRows,
+    topCategoryFiltersRows,
+    executiveSummary,
   ] = await Promise.all([
     runAnalyticsDashboardStep('daily_current', 'Agregados diários (período)', () =>
       withAnalyticsSchema(EMPTY_DAILY_SUM, () => sumAnalyticsDailyForPeriod(period.dateFrom, period.dateTo)),
@@ -625,6 +762,38 @@ async function loadOperationalDashboard(
     runAnalyticsDashboardStep('device_split', 'Dispositivos', () =>
       withAnalyticsSchema([], () => deviceSplit(period.from, period.to)),
     ),
+    runAnalyticsDashboardStep('equipment_views', 'Visualizações de ficha', () =>
+      withAnalyticsSchema(0, () => countEvents('equipment_view', period.from, period.to)),
+    ),
+    runAnalyticsDashboardStep('add_to_quote', 'Itens no carrinho', () =>
+      withAnalyticsSchema(0, () => countEvents('add_to_quote', period.from, period.to)),
+    ),
+    runAnalyticsDashboardStep('quote_abandon', 'Abandono de orçamento', () =>
+      withAnalyticsSchema(0, () => countEvents('quote_abandon', period.from, period.to)),
+    ),
+    runAnalyticsDashboardStep('top_search_terms', 'Termos de busca', () =>
+      withAnalyticsSchema([], () => topTermsByEvent('search', period.from, period.to)),
+    ),
+    runAnalyticsDashboardStep('scroll_depth', 'Profundidade de rolagem', () =>
+      withAnalyticsSchema([], () => scrollDepthBreakdown(period.from, period.to)),
+    ),
+    runAnalyticsDashboardStep('top_equipment_views', 'Equipamentos visualizados', () =>
+      withAnalyticsSchema([], () => topEquipmentViews(period.from, period.to)),
+    ),
+    runAnalyticsDashboardStep('top_category_filters', 'Filtros de categoria', () =>
+      withAnalyticsSchema([], () => topCategoryFilters(period.from, period.to)),
+    ),
+    runAnalyticsDashboardStep('executive_summary', 'Resumo executivo', () =>
+      withAnalyticsSchema(
+        {
+          dailySeries: [],
+          leadsByCity: [],
+          topQuotedEquipment: [],
+          topCategories: [],
+        },
+        () => getExecutiveSummary(period.from, period.to),
+      ),
+    ),
   ]);
 
   const pageViews = engagementCurrent.views || dailyCurrent.pageViews;
@@ -678,6 +847,25 @@ async function loadOperationalDashboard(
     equipmentConversion: equipmentConversionRows,
     landingPages: humanizeCountRows(landingPages, formatSitePath),
     deviceSplit: humanizeCountRows(deviceSplitRows, formatDevice),
+    conversionFunnel: buildConversionFunnel({
+      visits: pageViews,
+      equipmentViews: equipmentViewsCount,
+      addToQuote: addToQuoteCount,
+      quoteSubmits,
+      whatsappClicks,
+    }),
+    quoteAbandon: summarizeQuoteAbandon({
+      addToQuote: addToQuoteCount,
+      quoteSubmits,
+      quoteAbandons: quoteAbandonCount,
+    }),
+    topSearchTerms: topSearchTermsRows,
+    scrollDepth: humanizeCountRows(scrollDepthRows, (label) =>
+      label.replace(/^scroll_/u, '').concat('%'),
+    ),
+    topEquipmentViews: topEquipmentViewsRows,
+    topCategoryFilters: topCategoryFiltersRows,
+    executive: executiveSummary,
     posthogHint: Boolean(process.env.NEXT_PUBLIC_POSTHOG_KEY),
     schemaIncomplete: false,
   };

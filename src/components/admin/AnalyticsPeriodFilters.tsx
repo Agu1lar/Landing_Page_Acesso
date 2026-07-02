@@ -14,6 +14,7 @@ type AnalyticsPeriodFiltersProps = {
   compareDateFrom?: string;
   compareDateTo?: string;
   comparisonMode?: 'auto' | 'custom';
+  section?: string;
 };
 
 /**
@@ -28,17 +29,22 @@ export async function AnalyticsPeriodFilters(props: AnalyticsPeriodFiltersProps)
   const thisWeek = currentWeekRange();
   const lastWeek = previousWeekRange();
 
-  const href7 = `/dashboard/analytics${buildAnalyticsFilterQuery(range7)}`;
-  const href30 = `/dashboard/analytics${buildAnalyticsFilterQuery(range30)}`;
+  const section = props.section?.trim();
+  const sectionQuery = section ? { section } : {};
+
+  const href7 = `/dashboard/analytics${buildAnalyticsFilterQuery({ ...range7, ...sectionQuery })}`;
+  const href30 = `/dashboard/analytics${buildAnalyticsFilterQuery({ ...range30, ...sectionQuery })}`;
   const hrefMonthCompare = `/dashboard/analytics${buildAnalyticsFilterQuery({
     ...thisMonth,
     compareDateFrom: lastMonth.dateFrom,
     compareDateTo: lastMonth.dateTo,
+    ...sectionQuery,
   })}`;
   const hrefWeekCompare = `/dashboard/analytics${buildAnalyticsFilterQuery({
     ...thisWeek,
     compareDateFrom: lastWeek.dateFrom,
     compareDateTo: lastWeek.dateTo,
+    ...sectionQuery,
   })}`;
 
   const presetClassName =
@@ -47,6 +53,7 @@ export async function AnalyticsPeriodFilters(props: AnalyticsPeriodFiltersProps)
   return (
     <AdminFilterPanel>
       <form className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4" method="get">
+        {section ? <input name="section" type="hidden" value={section} /> : null}
         <div className="flex flex-wrap items-center gap-2 sm:col-span-2 lg:col-span-4">
           <span className="text-sm font-medium text-neutral-600">{t('filter_period_label')}</span>
           <Link className={presetClassName} href={href7}>

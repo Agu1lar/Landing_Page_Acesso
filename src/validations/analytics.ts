@@ -1,8 +1,8 @@
 import * as z from 'zod';
 import { AttributionSchema } from '@/lib/attribution';
 
-const AnalyticsEventBaseSchema = z.object({
-  origin: z.string().min(1).max(80),
+const AnalyticsEventFieldsSchema = z.object({
+  origin: z.string().min(1).max(80).optional(),
   equipmentSlug: z.string().max(120).optional(),
   equipmentName: z.string().max(300).optional(),
   pathname: z.string().max(500).optional(),
@@ -10,13 +10,28 @@ const AnalyticsEventBaseSchema = z.object({
   attribution: AttributionSchema.optional(),
 });
 
-export const AnalyticsEventSchema = z.discriminatedUnion('eventType', [
-  AnalyticsEventBaseSchema.extend({
+const ConversionEventSchema = AnalyticsEventFieldsSchema.extend({
+  eventType: z.enum([
+    'equipment_view',
+    'add_to_quote',
+    'remove_from_quote',
+    'quote_abandon',
+    'category_filter',
+    'search',
+    'scroll_depth',
+  ]),
+});
+
+export const AnalyticsEventSchema = z.union([
+  AnalyticsEventFieldsSchema.extend({
     eventType: z.literal('whatsapp_click'),
+    origin: z.string().min(1).max(80),
   }),
-  AnalyticsEventBaseSchema.extend({
+  AnalyticsEventFieldsSchema.extend({
     eventType: z.literal('phone_click'),
+    origin: z.string().min(1).max(80),
   }),
+  ConversionEventSchema,
 ]);
 
 export type AnalyticsEventInput = z.infer<typeof AnalyticsEventSchema>;

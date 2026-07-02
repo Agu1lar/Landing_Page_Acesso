@@ -1,23 +1,21 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { CampaignPerformanceSection } from '@/components/admin/CampaignPerformanceSection';
+import { Suspense } from 'react';
+import { AnalyticsDashboard } from '@/components/admin/AnalyticsDashboard';
+import type { AnalyticsDashboardLabels } from '@/components/admin/AnalyticsDashboard';
 import { AnalyticsLoadFailure } from '@/components/admin/AnalyticsLoadFailure';
-import { AnalyticsBarTable } from '@/components/admin/AnalyticsBarTable';
-import { AnalyticsEquipmentConversionTable } from '@/components/admin/AnalyticsEquipmentConversionTable';
 import { AnalyticsPeriodFilters } from '@/components/admin/AnalyticsPeriodFilters';
-import { AnalyticsTopPagesTable } from '@/components/admin/AnalyticsTopPagesTable';
-import { AnalyticsWhatsappHero } from '@/components/admin/AnalyticsWhatsappHero';
-import { AdminCallout } from '@/components/admin/AdminCallout';
-import { AdminKpiCard } from '@/components/admin/AdminKpiCard';
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
-import { getOperationalDashboard, percentChange, probeAnalyticsDashboard } from '@/lib/analytics-admin';
+import { getOperationalDashboard, probeAnalyticsDashboard } from '@/lib/analytics-admin';
 import { parseAnalyticsDashboardFailure } from '@/lib/analytics-dashboard-errors';
+import { parseAnalyticsSection } from '@/lib/analytics-sections';
 import { resolveAppLocale } from '@/utils/locale';
 import { logger } from '@/libs/Logger';
 
 type AnalyticsPageProps = {
   params: Promise<{ locale: string }>;
   searchParams: Promise<{
+    section?: string;
     dateFrom?: string;
     dateTo?: string;
     compareDateFrom?: string;
@@ -39,6 +37,150 @@ export async function generateMetadata(props: AnalyticsPageProps): Promise<Metad
   };
 }
 
+async function buildDashboardLabels(locale: string): Promise<AnalyticsDashboardLabels> {
+  const t = await getTranslations({
+    locale: resolveAppLocale(locale),
+    namespace: 'AnalyticsAdminPage',
+  });
+
+  return {
+    sections: {
+      'visao-geral': t('section_overview'),
+      conversao: t('section_conversion'),
+      campanhas: t('section_campaigns'),
+      catalogo: t('section_catalog'),
+      trafego: t('section_traffic'),
+      comportamento: t('section_behavior'),
+      executivo: t('section_executive'),
+    },
+    section_intros: {
+      'visao-geral': t('section_overview_intro'),
+      conversao: t('section_conversion_intro'),
+      campanhas: t('section_campaigns_intro'),
+      catalogo: t('section_catalog_intro'),
+      trafego: t('section_traffic_intro'),
+      comportamento: t('section_behavior_intro'),
+      executivo: t('section_executive_intro'),
+    },
+    meaning_toggle: t('meaning_toggle'),
+    meaning_hide: t('meaning_hide'),
+    data_types: {
+      count: t('data_type_count'),
+      rate: t('data_type_rate'),
+      ranking: t('data_type_ranking'),
+      funnel: t('data_type_funnel'),
+      timeseries: t('data_type_timeseries'),
+      breakdown: t('data_type_breakdown'),
+      table: t('data_type_table'),
+    },
+    notes_title: t('notes_title'),
+    posthog_visits_hint: t('posthog_visits_hint'),
+    sprint12_posthog_hint: t('sprint12_posthog_hint'),
+    page_time_hint: t('page_time_hint'),
+    whatsapp_tracking_hint: t('whatsapp_tracking_hint'),
+    schema_pending_hint: t('schema_pending_hint'),
+    empty_data: t('empty_data'),
+    delta_vs_custom_period: t('delta_vs_custom_period'),
+    delta_vs_auto_previous: t('delta_vs_auto_previous'),
+    whatsapp_hero_title: t('whatsapp_hero_title'),
+    whatsapp_hero_period: t('whatsapp_hero_period'),
+    whatsapp_hero_clicks_label: t('whatsapp_hero_clicks_label'),
+    whatsapp_hero_empty_hint: t('whatsapp_hero_empty_hint'),
+    whatsapp_hero_rate: t('whatsapp_hero_rate'),
+    whatsapp_hero_previous_period: t('whatsapp_hero_previous_period'),
+    hint_kpi_whatsapp: t('hint_kpi_whatsapp'),
+    kpi_page_views: t('kpi_page_views'),
+    hint_kpi_page_views: t('hint_kpi_page_views'),
+    kpi_active_time: t('kpi_active_time'),
+    hint_kpi_active_time: t('hint_kpi_active_time'),
+    kpi_whatsapp: t('kpi_whatsapp'),
+    kpi_leads: t('kpi_leads'),
+    hint_kpi_leads: t('hint_kpi_leads'),
+    kpi_phone: t('kpi_phone'),
+    hint_kpi_phone: t('hint_kpi_phone'),
+    kpi_cookie_consent_leads: t('kpi_cookie_consent_leads'),
+    kpi_whatsapp_rate: t('kpi_whatsapp_rate'),
+    chart_conversion_funnel: t('chart_conversion_funnel'),
+    hint_chart_conversion_funnel: t('hint_chart_conversion_funnel'),
+    funnel_step_visits: t('funnel_step_visits'),
+    funnel_step_equipment_views: t('funnel_step_equipment_views'),
+    funnel_step_add_to_quote: t('funnel_step_add_to_quote'),
+    funnel_step_quote_submits: t('funnel_step_quote_submits'),
+    funnel_step_whatsapp_clicks: t('funnel_step_whatsapp_clicks'),
+    funnel_rate_from_top: t('funnel_rate_from_top'),
+    funnel_rate_from_previous: t('funnel_rate_from_previous'),
+    quote_abandon_summary: t('quote_abandon_summary'),
+    chart_quote_abandon: t('chart_quote_abandon'),
+    chart_campaign_performance: t('chart_campaign_performance'),
+    hint_chart_campaign_performance: t('hint_chart_campaign_performance'),
+    chart_campaign_daily: t('chart_campaign_daily'),
+    hint_chart_campaign_daily: t('hint_chart_campaign_daily'),
+    col_campaign: t('col_campaign'),
+    col_source: t('col_source'),
+    col_medium: t('col_medium'),
+    col_whatsapp: t('col_whatsapp'),
+    col_total_leads: t('col_total_leads'),
+    col_quote_leads: t('col_quote_leads'),
+    col_google_leads: t('col_google_leads'),
+    col_gclid: t('col_gclid'),
+    col_date: t('col_date'),
+    col_leads: t('col_leads'),
+    view_campaign_leads: t('view_campaign_leads'),
+    campaign_compare_previous: t('campaign_compare_previous'),
+    status_new_short: t('status_new_short'),
+    status_contacted_short: t('status_contacted_short'),
+    status_quoted_short: t('status_quoted_short'),
+    status_won_short: t('status_won_short'),
+    status_lost_short: t('status_lost_short'),
+    status_archived_short: t('status_archived_short'),
+    status_other_short: t('status_other_short'),
+    chart_top_pages: t('chart_top_pages'),
+    hint_chart_top_pages: t('hint_chart_top_pages'),
+    col_page: t('col_page'),
+    col_views: t('col_views'),
+    col_avg_active_time: t('col_avg_active_time'),
+    chart_equipment_conversion: t('chart_equipment_conversion'),
+    chart_equipment_conversion_hint: t('chart_equipment_conversion_hint'),
+    col_equipment: t('col_equipment'),
+    col_lead_rate: t('col_lead_rate'),
+    col_engagement_rate: t('col_engagement_rate'),
+    chart_top_equipment_views: t('chart_top_equipment_views'),
+    hint_chart_top_equipment_views: t('hint_chart_top_equipment_views'),
+    chart_search_terms: t('chart_search_terms'),
+    hint_chart_search_terms: t('hint_chart_search_terms'),
+    chart_scroll_depth: t('chart_scroll_depth'),
+    hint_chart_scroll_depth: t('hint_chart_scroll_depth'),
+    chart_category_filters: t('chart_category_filters'),
+    hint_chart_category_filters: t('hint_chart_category_filters'),
+    chart_whatsapp_origin: t('chart_whatsapp_origin'),
+    hint_chart_whatsapp_origin: t('hint_chart_whatsapp_origin'),
+    chart_phone_origin: t('chart_phone_origin'),
+    hint_chart_phone_origin: t('hint_chart_phone_origin'),
+    chart_traffic_source: t('chart_traffic_source'),
+    hint_chart_traffic_source: t('hint_chart_traffic_source'),
+    chart_top_equipment_whatsapp: t('chart_top_equipment_whatsapp'),
+    hint_chart_top_equipment_whatsapp: t('hint_chart_top_equipment_whatsapp'),
+    chart_top_equipment_leads: t('chart_top_equipment_leads'),
+    hint_chart_top_equipment_leads: t('hint_chart_top_equipment_leads'),
+    chart_landing_pages: t('chart_landing_pages'),
+    hint_chart_landing_pages: t('hint_chart_landing_pages'),
+    chart_device: t('chart_device'),
+    hint_chart_device: t('hint_chart_device'),
+    chart_daily_series: t('chart_daily_series'),
+    hint_chart_daily_series: t('hint_chart_daily_series'),
+    col_page_views_short: t('col_page_views_short'),
+    chart_leads_by_city: t('chart_leads_by_city'),
+    hint_chart_leads_by_city: t('hint_chart_leads_by_city'),
+    chart_top_quoted_equipment: t('chart_top_quoted_equipment'),
+    hint_chart_top_quoted_equipment: t('hint_chart_top_quoted_equipment'),
+    chart_top_categories: t('chart_top_categories'),
+    hint_chart_top_categories: t('hint_chart_top_categories'),
+    executive_export_title: t('executive_export_title'),
+    executive_export_body: t('executive_export_body'),
+    executive_export_button: t('executive_export_button'),
+  };
+}
+
 export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
   const { locale } = await props.params;
   const searchParams = await props.searchParams;
@@ -48,6 +190,7 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
     namespace: 'AnalyticsAdminPage',
   });
 
+  const activeSection = parseAnalyticsSection(searchParams.section);
   const filters = {
     dateFrom: searchParams.dateFrom,
     dateTo: searchParams.dateTo,
@@ -90,32 +233,6 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
     );
   }
 
-  const visitsDelta = percentChange(dashboard.pageViews, dashboard.pageViewsPrevious);
-  const whatsappDelta = percentChange(
-    dashboard.whatsappClicks,
-    dashboard.whatsappClicksPrevious,
-  );
-  const phoneDelta = percentChange(dashboard.phoneClicks, dashboard.phoneClicksPrevious);
-  const leadsDelta = percentChange(dashboard.quoteSubmits, dashboard.quoteSubmitsPrevious);
-  const activeTimeDelta = percentChange(
-    dashboard.totalActiveSeconds,
-    dashboard.totalActiveSecondsPrevious,
-  );
-  const whatsappRate =
-    dashboard.pageViews > 0
-      ? Math.round((dashboard.whatsappClicks / dashboard.pageViews) * 100)
-      : 0;
-  const helpLabel = t('help_button_label');
-  const deltaLabel =
-    dashboard.comparisonMode === 'custom'
-      ? t('delta_vs_custom_period', {
-          from: dashboard.comparisonPeriod.dateFrom,
-          to: dashboard.comparisonPeriod.dateTo,
-        })
-      : t('delta_vs_auto_previous', {
-          from: dashboard.comparisonPeriod.dateFrom,
-          to: dashboard.comparisonPeriod.dateTo,
-        });
   const headerDescription =
     dashboard.comparisonMode === 'custom'
       ? t('period_comparison_summary', {
@@ -131,21 +248,15 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
           compareTo: dashboard.comparisonPeriod.dateTo,
         });
 
+  const exportParams = new URLSearchParams();
+  exportParams.set('dateFrom', dashboard.period.dateFrom);
+  exportParams.set('dateTo', dashboard.period.dateTo);
+  const exportHref = `/api/admin/leads/export?${exportParams.toString()}`;
+  const labels = await buildDashboardLabels(locale);
+
   return (
     <div className="space-y-8">
       <AdminPageHeader description={headerDescription} title={t('title')} />
-
-      {dashboard.schemaIncomplete ? (
-        <AdminCallout variant="warning">{t('schema_pending_hint')}</AdminCallout>
-      ) : null}
-
-      <div className="space-y-3">
-        {dashboard.posthogHint ? <AdminCallout>{t('posthog_visits_hint')}</AdminCallout> : null}
-        <AdminCallout variant="tip">{t('page_time_hint')}</AdminCallout>
-        {dashboard.whatsappClicks === 0 ? (
-          <AdminCallout variant="tip">{t('whatsapp_tracking_hint')}</AdminCallout>
-        ) : null}
-      </div>
 
       <AnalyticsPeriodFilters
         compareDateFrom={searchParams.compareDateFrom}
@@ -153,200 +264,17 @@ export default async function AnalyticsAdminPage(props: AnalyticsPageProps) {
         comparisonMode={dashboard.comparisonMode}
         dateFrom={searchParams.dateFrom ?? dashboard.period.dateFrom}
         dateTo={searchParams.dateTo ?? dashboard.period.dateTo}
+        section={activeSection}
       />
 
-      <AnalyticsWhatsappHero
-        clicks={dashboard.whatsappClicks}
-        clicksLabel={t('whatsapp_hero_clicks_label', { count: dashboard.whatsappClicks })}
-        clicksPrevious={dashboard.whatsappClicksPrevious}
-        delta={whatsappDelta}
-        deltaLabel={deltaLabel}
-        emptyHint={t('whatsapp_hero_empty_hint')}
-        helpLabel={helpLabel}
-        helpText={t('hint_kpi_whatsapp')}
-        pageViews={dashboard.pageViews}
-        periodLabel={t('whatsapp_hero_period', {
-          from: dashboard.period.dateFrom,
-          to: dashboard.period.dateTo,
-        })}
-        previousPeriodLabel={t('whatsapp_hero_previous_period', {
-          count: dashboard.whatsappClicksPrevious,
-        })}
-        rateLabel={
-          dashboard.pageViews > 0
-            ? t('whatsapp_hero_rate', { rate: whatsappRate })
-            : undefined
-        }
-        title={t('whatsapp_hero_title')}
-      />
-
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <AdminKpiCard
-          delta={visitsDelta}
-          deltaLabel={deltaLabel}
-          helpLabel={helpLabel}
-          helpText={t('hint_kpi_page_views')}
-          label={t('kpi_page_views')}
-          value={dashboard.pageViews}
+      <Suspense fallback={null}>
+        <AnalyticsDashboard
+          activeSection={activeSection}
+          dashboard={dashboard}
+          exportHref={exportHref}
+          labels={labels}
         />
-        <AdminKpiCard
-          accent="neutral"
-          delta={activeTimeDelta}
-          deltaLabel={deltaLabel}
-          helpLabel={helpLabel}
-          helpText={t('hint_kpi_active_time')}
-          label={t('kpi_active_time')}
-          value={dashboard.totalActiveSeconds}
-        />
-        <AdminKpiCard
-          accent="whatsapp"
-          delta={whatsappDelta}
-          deltaLabel={deltaLabel}
-          helpLabel={helpLabel}
-          helpText={t('hint_kpi_whatsapp')}
-          label={t('kpi_whatsapp')}
-          value={dashboard.whatsappClicks}
-        />
-        <AdminKpiCard
-          accent="primary"
-          delta={leadsDelta}
-          deltaLabel={deltaLabel}
-          helpLabel={helpLabel}
-          helpText={t('hint_kpi_leads')}
-          label={t('kpi_leads')}
-          value={dashboard.quoteSubmits}
-        />
-        <AdminKpiCard
-          accent="neutral"
-          delta={phoneDelta}
-          deltaLabel={deltaLabel}
-          helpLabel={helpLabel}
-          helpText={t('hint_kpi_phone')}
-          label={t('kpi_phone')}
-          value={dashboard.phoneClicks}
-        />
-      </div>
-
-      {(dashboard.cookieConsentLeads > 0 || dashboard.pageViews > 0) && (
-        <div className="flex flex-wrap gap-4 text-sm text-neutral-600">
-          {dashboard.cookieConsentLeads > 0 ? (
-            <span>{t('kpi_cookie_consent_leads', { count: dashboard.cookieConsentLeads })}</span>
-          ) : null}
-          {dashboard.pageViews > 0 ? (
-            <span>{t('kpi_whatsapp_rate', { rate: whatsappRate })}</span>
-          ) : null}
-        </div>
-      )}
-
-      <CampaignPerformanceSection
-        campaigns={dashboard.campaignPerformance}
-        dailyLeads={dashboard.campaignDailyLeads}
-        dateFrom={dashboard.period.dateFrom}
-        dateTo={dashboard.period.dateTo}
-        labels={{
-          title: t('chart_campaign_performance'),
-          hint: t('hint_chart_campaign_performance'),
-          dailyTitle: t('chart_campaign_daily'),
-          dailyHint: t('hint_chart_campaign_daily'),
-          empty: t('empty_data'),
-          colCampaign: t('col_campaign'),
-          colSource: t('col_source'),
-          colMedium: t('col_medium'),
-          colWhatsapp: t('col_whatsapp'),
-          colTotalLeads: t('col_total_leads'),
-          colQuoteLeads: t('col_quote_leads'),
-          colGoogleLeads: t('col_google_leads'),
-          colGclid: t('col_gclid'),
-          colDate: t('col_date'),
-          colLeads: t('col_leads'),
-          viewLeads: t('view_campaign_leads'),
-          comparePrevious: t('campaign_compare_previous'),
-          statusNew: t('status_new_short'),
-          statusContacted: t('status_contacted_short'),
-          statusQuoted: t('status_quoted_short'),
-          statusWon: t('status_won_short'),
-          statusLost: t('status_lost_short'),
-          statusArchived: t('status_archived_short'),
-          statusOther: t('status_other_short'),
-        }}
-      />
-
-      <AnalyticsTopPagesTable
-        colAvgTime={t('col_avg_active_time')}
-        colPage={t('col_page')}
-        colViews={t('col_views')}
-        emptyLabel={t('empty_data')}
-        helpLabel={helpLabel}
-        hint={t('hint_chart_top_pages')}
-        rows={dashboard.topPages}
-        title={t('chart_top_pages')}
-      />
-
-      <AnalyticsEquipmentConversionTable
-        colEngagementRate={t('col_engagement_rate')}
-        colEquipment={t('col_equipment')}
-        colLeadRate={t('col_lead_rate')}
-        colLeads={t('col_leads')}
-        colViews={t('col_views')}
-        colWhatsapp={t('col_whatsapp')}
-        emptyLabel={t('empty_data')}
-        helpLabel={helpLabel}
-        hint={t('chart_equipment_conversion_hint')}
-        rows={dashboard.equipmentConversion}
-        title={t('chart_equipment_conversion')}
-      />
-
-      <div className="grid gap-4 lg:grid-cols-2">
-        <AnalyticsBarTable
-          emptyLabel={t('empty_data')}
-          helpLabel={helpLabel}
-          hint={t('hint_chart_whatsapp_origin')}
-          rows={dashboard.whatsappByOrigin}
-          title={t('chart_whatsapp_origin')}
-        />
-        <AnalyticsBarTable
-          emptyLabel={t('empty_data')}
-          helpLabel={helpLabel}
-          hint={t('hint_chart_phone_origin')}
-          rows={dashboard.phoneByOrigin}
-          title={t('chart_phone_origin')}
-        />
-        <AnalyticsBarTable
-          emptyLabel={t('empty_data')}
-          helpLabel={helpLabel}
-          hint={t('hint_chart_traffic_source')}
-          rows={dashboard.trafficBySource}
-          title={t('chart_traffic_source')}
-        />
-        <AnalyticsBarTable
-          emptyLabel={t('empty_data')}
-          helpLabel={helpLabel}
-          hint={t('hint_chart_top_equipment_whatsapp')}
-          rows={dashboard.topEquipmentWhatsapp}
-          title={t('chart_top_equipment_whatsapp')}
-        />
-        <AnalyticsBarTable
-          emptyLabel={t('empty_data')}
-          helpLabel={helpLabel}
-          hint={t('hint_chart_top_equipment_leads')}
-          rows={dashboard.topEquipmentLeads}
-          title={t('chart_top_equipment_leads')}
-        />
-        <AnalyticsBarTable
-          emptyLabel={t('empty_data')}
-          helpLabel={helpLabel}
-          hint={t('hint_chart_landing_pages')}
-          rows={dashboard.landingPages}
-          title={t('chart_landing_pages')}
-        />
-        <AnalyticsBarTable
-          emptyLabel={t('empty_data')}
-          helpLabel={helpLabel}
-          hint={t('hint_chart_device')}
-          rows={dashboard.deviceSplit}
-          title={t('chart_device')}
-        />
-      </div>
+      </Suspense>
     </div>
   );
 }

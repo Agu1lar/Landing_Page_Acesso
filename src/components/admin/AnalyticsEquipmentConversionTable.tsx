@@ -1,10 +1,14 @@
-import { AdminCard } from '@/components/admin/AdminCard';
+import { AnalyticsMetricSection } from '@/components/admin/AnalyticsMetricSection';
 import type { EquipmentConversionRow } from '@/lib/equipment-conversion-analytics';
+import type { AnalyticsDataType } from '@/lib/analytics-sections';
 
 type AnalyticsEquipmentConversionTableProps = {
   title: string;
-  hint: string;
-  helpLabel?: string;
+  meaning: string;
+  dataType: AnalyticsDataType;
+  dataTypeLabel: string;
+  meaningToggleLabel: string;
+  meaningHideLabel: string;
   emptyLabel: string;
   colEquipment: string;
   colViews: string;
@@ -20,7 +24,14 @@ type AnalyticsEquipmentConversionTableProps = {
  */
 export function AnalyticsEquipmentConversionTable(props: AnalyticsEquipmentConversionTableProps) {
   return (
-    <AdminCard helpLabel={props.helpLabel} helpText={props.hint} title={props.title}>
+    <AnalyticsMetricSection
+      dataType={props.dataType}
+      dataTypeLabel={props.dataTypeLabel}
+      meaning={props.meaning}
+      meaningHideLabel={props.meaningHideLabel}
+      meaningToggleLabel={props.meaningToggleLabel}
+      title={props.title}
+    >
       {props.rows.length === 0 ? (
         <p className="text-sm text-neutral-500">{props.emptyLabel}</p>
       ) : (
@@ -58,6 +69,6 @@ export function AnalyticsEquipmentConversionTable(props: AnalyticsEquipmentConve
           </table>
         </div>
       )}
-    </AdminCard>
+    </AnalyticsMetricSection>
   );
 }

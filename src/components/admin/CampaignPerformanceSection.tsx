@@ -9,6 +9,7 @@ type CampaignPerformanceSectionProps = {
   dailyLeads: CampaignDailyLeadsRow[];
   dateFrom: string;
   dateTo: string;
+  bare?: boolean;
   labels: {
     title: string;
     hint: string;
@@ -92,16 +93,18 @@ function CampaignCompareCell(props: {
 }
 
 export function CampaignPerformanceSection(props: CampaignPerformanceSectionProps) {
-  const { campaigns, dailyLeads, dateFrom, dateTo, labels } = props;
+  const { campaigns, dailyLeads, dateFrom, dateTo, labels, bare = false } = props;
   const compareLabel = labels.comparePrevious;
 
   return (
     <div className="space-y-6">
-      <section className="rounded-xl border border-neutral-200 bg-white p-5 shadow-sm">
-        <div className="mb-4">
-          <h2 className="font-heading text-lg font-bold text-neutral-900">{labels.title}</h2>
-          <p className="mt-1 text-sm text-neutral-600">{labels.hint}</p>
-        </div>
+      <section className={bare ? undefined : 'rounded-xl border border-neutral-200 bg-white p-5 shadow-sm'}>
+        {!bare ? (
+          <div className="mb-4">
+            <h2 className="font-heading text-lg font-bold text-neutral-900">{labels.title}</h2>
+            <p className="mt-1 text-sm text-neutral-600">{labels.hint}</p>
+          </div>
+        ) : null}
 
         {campaigns.length === 0 ? (
           <p className="text-sm text-neutral-500">{labels.empty}</p>
@@ -176,11 +179,13 @@ export function CampaignPerformanceSection(props: CampaignPerformanceSectionProp
         )}
       </section>
 
-      <section className="rounded-xl border border-neutral-200 bg-white p-5 shadow-sm">
-        <div className="mb-4">
-          <h2 className="font-heading text-lg font-bold text-neutral-900">{labels.dailyTitle}</h2>
-          <p className="mt-1 text-sm text-neutral-600">{labels.dailyHint}</p>
-        </div>
+      <section className={bare ? undefined : 'rounded-xl border border-neutral-200 bg-white p-5 shadow-sm'}>
+        {!bare ? (
+          <div className="mb-4">
+            <h2 className="font-heading text-lg font-bold text-neutral-900">{labels.dailyTitle}</h2>
+            <p className="mt-1 text-sm text-neutral-600">{labels.dailyHint}</p>
+          </div>
+        ) : null}
 
         {dailyLeads.length === 0 ? (
           <p className="text-sm text-neutral-500">{labels.empty}</p>

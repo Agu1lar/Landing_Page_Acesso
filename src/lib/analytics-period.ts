@@ -109,8 +109,12 @@ export function buildAnalyticsFilterQuery(filters: {
   dateTo?: string;
   compareDateFrom?: string;
   compareDateTo?: string;
+  section?: string;
 }) {
   const params = new URLSearchParams();
+  if (filters.section?.trim()) {
+    params.set('section', filters.section.trim());
+  }
   if (filters.dateFrom?.trim()) {
     params.set('dateFrom', filters.dateFrom.trim());
   }

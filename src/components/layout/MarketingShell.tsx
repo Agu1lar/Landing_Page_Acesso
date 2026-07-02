@@ -1,4 +1,5 @@
 import { AnalyticsConsentProvider } from '@/components/analytics/AnalyticsConsentProvider';
+import { QuoteAbandonTracker } from '@/components/analytics/QuoteAbandonTracker';
 import { SiteFooter } from '@/components/layout/SiteFooter';
 import { SiteHeader } from '@/components/layout/SiteHeader';
 import { WhatsAppButton } from '@/components/layout/WhatsAppButton';
@@ -24,6 +25,7 @@ export async function MarketingShell(props: MarketingShellProps) {
         <AttributionCapture />
         <MobileDockConfigProvider>
           <QuoteCartProvider>
+            <QuoteAbandonTracker />
             <SiteHeader searchIndex={searchIndex} />
             <main className="flex-1 pb-28 md:pb-0" id="main-content">
               {props.children}

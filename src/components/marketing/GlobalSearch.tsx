@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { captureSearch } from '@/lib/posthog-events';
+import { persistAnalyticsEvent } from '@/lib/track-analytics-event';
 import { filterSearchItems } from '@/lib/search';
 import { useRouter } from '@/libs/I18nNavigation';
 import { CATEGORY_LABELS } from '@/types/equipment';
@@ -41,6 +42,11 @@ export function GlobalSearch({ index, className = '', id, compact = false }: Glo
     }
     const timer = window.setTimeout(() => {
       captureSearch({ query: trimmed, resultsCount: results.length });
+      persistAnalyticsEvent({
+        eventType: 'search',
+        origin: 'search',
+        equipmentName: trimmed,
+      });
     }, 600);
     return () => {
       window.clearTimeout(timer);

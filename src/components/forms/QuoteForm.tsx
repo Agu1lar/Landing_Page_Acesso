@@ -13,6 +13,7 @@ import { Textarea } from '@/components/ui/Textarea';
 import { readStoredAttribution } from '@/lib/attribution';
 import { brand } from '@/lib/brand';
 import { captureQuoteSubmit } from '@/lib/posthog-events';
+import { markQuoteSubmitted } from '@/components/analytics/QuoteAbandonTracker';
 import { buildQuoteWhatsAppUrl } from '@/lib/quote-whatsapp';
 import { TrackedPhoneLink } from '@/components/TrackedPhoneLink';
 import { QuoteFormSchema, rentalPeriodOptions, summarizeCartEquipment } from '@/validations/quote';
@@ -145,6 +146,7 @@ export function QuoteForm(props: QuoteFormProps) {
     window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
 
     cart.clearCart();
+    markQuoteSubmitted();
     setSubmitted(true);
     setIsSubmitting(false);
     props.onSuccess?.();
