@@ -1,6 +1,6 @@
 import { AdminCallout } from '@/components/admin/AdminCallout';
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
-import type { AnalyticsDashboardProbeResult } from '@/lib/analytics-admin';
+import type { AnalyticsDashboardProbeResult } from '@/lib/analytics-admin-types';
 import type { AnalyticsDashboardFailure } from '@/lib/analytics-dashboard-errors';
 
 type AnalyticsLoadFailureProps = {

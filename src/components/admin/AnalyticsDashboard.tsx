@@ -12,8 +12,8 @@ import { AnalyticsTopPagesTable } from '@/components/admin/AnalyticsTopPagesTabl
 import { AnalyticsWhatsappHero } from '@/components/admin/AnalyticsWhatsappHero';
 import { AdminCallout } from '@/components/admin/AdminCallout';
 import { AdminKpiCard } from '@/components/admin/AdminKpiCard';
-import type { OperationalDashboard } from '@/lib/analytics-admin';
-import { percentChange } from '@/lib/analytics-admin';
+import type { OperationalDashboard } from '@/lib/analytics-admin-types';
+import { percentChange } from '@/lib/analytics-percent';
 import type { AnalyticsSectionId } from '@/lib/analytics-sections';
 
 export type AnalyticsDashboardLabels = {

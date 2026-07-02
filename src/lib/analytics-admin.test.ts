@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { percentChange } from '@/lib/analytics-admin';
+import { percentChange } from '@/lib/analytics-percent';
 
 describe('percent change', () => {
   it('returns 100 when previous is zero and current is positive', () => {

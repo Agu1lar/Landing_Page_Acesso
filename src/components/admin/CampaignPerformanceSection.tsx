@@ -1,7 +1,7 @@
 import { Link } from '@/libs/I18nNavigation';
-import { percentChange } from '@/lib/analytics-admin';
+import { percentChange } from '@/lib/analytics-percent';
+import { buildLeadsFilterQuery } from '@/lib/leads-filter-query';
 import type { CampaignDailyLeadsRow, CampaignPerformanceRow } from '@/lib/campaign-analytics';
-import { buildLeadsFilterQuery } from '@/lib/leads-admin';
 import type { LeadStatus } from '@/lib/lead-status';
 
 type CampaignPerformanceSectionProps = {

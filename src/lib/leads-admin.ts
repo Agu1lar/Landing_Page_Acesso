@@ -538,38 +538,4 @@ export async function listLeadsForExport(filters: LeadListFilters, maxRows = 500
     .limit(maxRows);
 }
 
-/**
- * Builds query string for list filters (export link and pagination).
- *
- * @param filters - Active list filters.
- * @returns Query string including leading `?` when non-empty.
- */
-export function buildLeadsFilterQuery(filters: LeadListFilters) {
-  const params = new URLSearchParams();
-  if (filters.dateFrom) {
-    params.set('dateFrom', filters.dateFrom);
-  }
-  if (filters.dateTo) {
-    params.set('dateTo', filters.dateTo);
-  }
-  if (filters.status) {
-    params.set('status', filters.status);
-  }
-  if (filters.city) {
-    params.set('city', filters.city);
-  }
-  if (filters.origin) {
-    params.set('origin', filters.origin);
-  }
-  if (filters.campaignKey) {
-    params.set('campaignKey', filters.campaignKey);
-  }
-  if (filters.q) {
-    params.set('q', filters.q);
-  }
-  if (filters.page && filters.page > 1) {
-    params.set('page', String(filters.page));
-  }
-  const query = params.toString();
-  return query ? `?${query}` : '';
-}
+export { buildLeadsFilterQuery } from '@/lib/leads-filter-query';

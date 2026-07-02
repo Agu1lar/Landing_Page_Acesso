@@ -1,14 +1,11 @@
 import { and, count, desc, eq, gte, lte, sql } from 'drizzle-orm';
 import {
   getExecutiveSummary,
-  type ExecutiveSummary,
 } from '@/lib/analytics-executive';
 import { sumAnalyticsDailyForPeriod } from '@/lib/analytics-daily';
 import {
   buildConversionFunnel,
   summarizeQuoteAbandon,
-  type ConversionFunnelStep,
-  type QuoteAbandonSummary,
 } from '@/lib/analytics-funnel';
 import { isInternalAnalyticsPath } from '@/lib/analytics-internal-paths';
 import { runAnalyticsDashboardStep, parseAnalyticsDashboardFailure } from '@/lib/analytics-dashboard-errors';
@@ -25,83 +22,30 @@ import { resolveAnalyticsPeriod, resolveComparisonPeriod } from '@/lib/analytics
 import {
   getCampaignPerformanceReport,
   mergeCampaignPerformanceComparison,
-  type CampaignDailyLeadsRow,
-  type CampaignPerformanceRow,
 } from '@/lib/campaign-analytics';
 import {
   mergeEquipmentConversionRows,
-  type EquipmentConversionRow,
 } from '@/lib/equipment-conversion-analytics';
+import type {
+  AnalyticsDashboardFilters,
+  AnalyticsDashboardProbeResult,
+  AnalyticsDashboardProbeStep,
+  OperationalDashboard,
+} from '@/lib/analytics-admin-types';
 import { db } from '@/libs/DB';
 import { analyticsEventsSchema, leadsSchema, pageEngagementEventsSchema } from '@/models/Schema';
 
-export type AnalyticsDashboardFilters = {
-  dateFrom?: string;
-  dateTo?: string;
-  compareDateFrom?: string;
-  compareDateTo?: string;
-};
+export type {
+  AnalyticsDashboardFilters,
+  AnalyticsDashboardProbeResult,
+  AnalyticsDashboardProbeStep,
+  OperationalDashboard,
+  PageEngagementRow,
+} from '@/lib/analytics-admin-types';
+
+export { percentChange } from '@/lib/analytics-percent';
 
 type CountRow = { label: string; count: number };
-
-export type PageEngagementRow = {
-  pathname: string;
-  /** Original URL when the display label differs (tooltip). */
-  pathnameDetail?: string;
-  views: number;
-  totalActiveSeconds: number;
-  avgActiveSeconds: number;
-};
-
-export type OperationalDashboard = {
-  period: { dateFrom: string; dateTo: string };
-  comparisonPeriod: { dateFrom: string; dateTo: string };
-  comparisonMode: 'auto' | 'custom';
-  /** @deprecated Use comparisonPeriod — kept for compatibility. */
-  previousPeriod: { dateFrom: string; dateTo: string };
-  pageViews: number;
-  uniqueSessions: number;
-  pageViewsPrevious: number;
-  uniqueSessionsPrevious: number;
-  totalActiveSeconds: number;
-  totalActiveSecondsPrevious: number;
-  whatsappClicks: number;
-  quoteSubmits: number;
-  cookieConsentLeads: number;
-  whatsappClicksPrevious: number;
-  quoteSubmitsPrevious: number;
-  phoneClicks: number;
-  phoneClicksPrevious: number;
-  whatsappByOrigin: CountRow[];
-  phoneByOrigin: CountRow[];
-  trafficBySource: CountRow[];
-  campaignPerformance: CampaignPerformanceRow[];
-  campaignDailyLeads: CampaignDailyLeadsRow[];
-  topEquipmentWhatsapp: CountRow[];
-  topEquipmentLeads: CountRow[];
-  topPages: PageEngagementRow[];
-  equipmentConversion: EquipmentConversionRow[];
-  landingPages: CountRow[];
-  deviceSplit: CountRow[];
-  conversionFunnel: ConversionFunnelStep[];
-  quoteAbandon: QuoteAbandonSummary;
-  topSearchTerms: CountRow[];
-  scrollDepth: CountRow[];
-  topEquipmentViews: CountRow[];
-  topCategoryFilters: CountRow[];
-  executive: ExecutiveSummary;
-  posthogHint: boolean;
-  /** True when some analytics tables/columns were missing and fallbacks were used. */
-  schemaIncomplete?: boolean;
-};
-
-function percentChange(current: number, previous: number) {
-  if (previous === 0) {
-    return current > 0 ? 100 : 0;
-  }
-
-  return Math.round(((current - previous) / previous) * 100);
-}
 
 function humanizeCountRows(
   rows: CountRow[],
@@ -870,23 +814,6 @@ async function loadOperationalDashboard(
     schemaIncomplete: false,
   };
 }
-
-export { percentChange };
-
-export type AnalyticsDashboardProbeStep = {
-  id: string;
-  label: string;
-  status: 'ok' | 'error';
-  durationMs: number;
-  error?: string;
-  cause?: string;
-};
-
-export type AnalyticsDashboardProbeResult = {
-  ok: boolean;
-  failedStepId?: string;
-  steps: AnalyticsDashboardProbeStep[];
-};
 
 /**
  * Runs each analytics dashboard query in order and reports the first failing step.
