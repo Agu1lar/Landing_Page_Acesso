@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { and, asc, count, desc, eq, ilike, or, sql } from 'drizzle-orm';
+import { and, asc, count, desc, eq, ilike, inArray, or, sql } from 'drizzle-orm';
 import type { InferSelectModel } from 'drizzle-orm';
 import { clientSortKey, tokenizeClientSearchQuery } from '@/lib/client-identity';
 import { ensureClientsBackfilled } from '@/lib/clients';
@@ -67,29 +67,54 @@ function buildClientSearchWhere(query: string | undefined) {
   return or(...clauses);
 }
 
+type ClientLeadCounts = {
+  leadCount: number;
+  quoteCount: number;
+  cookieConsentCount: number;
+};
+
+/** Aggregates lead counts per client (avoids broken correlated subqueries in Drizzle). */
+async function fetchLeadCountsByClientIds(clientIds: number[]) {
+  const empty = new Map<number, ClientLeadCounts>();
+  if (clientIds.length === 0) {
+    return empty;
+  }
+
+  const rows = await db
+    .select({
+      clientId: leadsSchema.clientId,
+      leadCount: count(),
+      quoteCount: sql<number>`count(*) filter (where ${leadsSchema.leadKind} = 'quote')`,
+      cookieConsentCount: sql<number>`count(*) filter (where ${leadsSchema.leadKind} = 'cookie_consent')`,
+    })
+    .from(leadsSchema)
+    .where(inArray(leadsSchema.clientId, clientIds))
+    .groupBy(leadsSchema.clientId);
+
+  for (const id of clientIds) {
+    empty.set(id, { leadCount: 0, quoteCount: 0, cookieConsentCount: 0 });
+  }
+
+  for (const row of rows) {
+    if (row.clientId == null) {
+      continue;
+    }
+    empty.set(row.clientId, {
+      leadCount: Number(row.leadCount),
+      quoteCount: Number(row.quoteCount),
+      cookieConsentCount: Number(row.cookieConsentCount),
+    });
+  }
+
+  return empty;
+}
+
 export async function listClients(filters: ClientListFilters = {}) {
   await ensureClientsBackfilled();
 
   const page = Math.max(1, filters.page ?? 1);
   const pageSize = filters.pageSize ?? DEFAULT_PAGE_SIZE;
   const where = buildClientSearchWhere(filters.q);
-
-  const leadCountSql = sql<number>`(
-    select count(*)::int from ${leadsSchema}
-    where ${leadsSchema.clientId} = ${clientsSchema.id}
-  )`;
-
-  const quoteCountSql = sql<number>`(
-    select count(*)::int from ${leadsSchema}
-    where ${leadsSchema.clientId} = ${clientsSchema.id}
-      and ${leadsSchema.leadKind} = 'quote'
-  )`;
-
-  const cookieCountSql = sql<number>`(
-    select count(*)::int from ${leadsSchema}
-    where ${leadsSchema.clientId} = ${clientsSchema.id}
-      and ${leadsSchema.leadKind} = 'cookie_consent'
-  )`;
 
   const baseQuery = db
     .select({
@@ -104,9 +129,6 @@ export async function listClients(filters: ClientListFilters = {}) {
       lastActivityAt: clientsSchema.lastActivityAt,
       createdAt: clientsSchema.createdAt,
       updatedAt: clientsSchema.updatedAt,
-      leadCount: leadCountSql,
-      quoteCount: quoteCountSql,
-      cookieConsentCount: cookieCountSql,
     })
     .from(clientsSchema)
     .$dynamic();
@@ -118,13 +140,20 @@ export async function listClients(filters: ClientListFilters = {}) {
     .limit(pageSize)
     .offset((page - 1) * pageSize);
 
+  const countsByClient = await fetchLeadCountsByClientIds(rows.map((row) => row.id));
+
   const clients = rows
-    .map((row) => ({
-      ...row,
-      leadCount: Number(row.leadCount),
-      quoteCount: Number(row.quoteCount),
-      cookieConsentCount: Number(row.cookieConsentCount),
-    }))
+    .map((row) => {
+      const counts = countsByClient.get(row.id) ?? {
+        leadCount: 0,
+        quoteCount: 0,
+        cookieConsentCount: 0,
+      };
+      return {
+        ...row,
+        ...counts,
+      };
+    })
     .sort((a, b) => clientSortKey(a.displayName).localeCompare(clientSortKey(b.displayName), 'pt-BR'));
 
   const countQuery = where

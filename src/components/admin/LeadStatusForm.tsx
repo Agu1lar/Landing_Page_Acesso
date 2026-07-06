@@ -13,10 +13,12 @@ type LeadStatusFormProps = {
   fieldLabel: string;
   saveLabel: string;
   errorMessage: string;
+  compact?: boolean;
 };
 
 export function LeadStatusForm(props: LeadStatusFormProps) {
   const router = useRouter();
+  const selectId = `lead-status-${props.leadId}`;
   const [status, setStatus] = useState(
     LEAD_STATUSES.includes(props.currentStatus as LeadStatus)
       ? (props.currentStatus as LeadStatus)
@@ -27,7 +29,11 @@ export function LeadStatusForm(props: LeadStatusFormProps) {
 
   return (
     <form
-      className="mt-3 flex flex-wrap items-end gap-3"
+      className={
+        props.compact
+          ? 'flex flex-wrap items-end gap-2'
+          : 'mt-3 flex flex-wrap items-end gap-3'
+      }
       onSubmit={async (event) => {
         event.preventDefault();
         setError(null);
@@ -52,13 +58,20 @@ export function LeadStatusForm(props: LeadStatusFormProps) {
       }}
     >
       <div>
-        <label className="mb-1 block text-sm font-medium text-neutral-700" htmlFor="leadStatus">
+        <label
+          className={
+            props.compact
+              ? 'sr-only'
+              : 'mb-1 block text-sm font-medium text-neutral-700'
+          }
+          htmlFor={selectId}
+        >
           {props.fieldLabel}
         </label>
         <select
           className="rounded-lg border border-neutral-200 bg-surface px-3 py-2 text-sm"
           disabled={isSaving}
-          id="leadStatus"
+          id={selectId}
           onChange={(event) => {
             setStatus(event.target.value as LeadStatus);
           }}

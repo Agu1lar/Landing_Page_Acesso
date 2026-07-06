@@ -190,7 +190,7 @@ export async function relinkLeadsForClient(clientId: number) {
 
   const conditions = [];
   if (client.email) {
-    conditions.push(eq(leadsSchema.email, client.email));
+    conditions.push(sql`lower(trim(${leadsSchema.email})) = ${client.email}`);
   }
   if (client.phoneNormalized) {
     conditions.push(

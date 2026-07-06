@@ -372,7 +372,7 @@
     "detail_summary": "{count, plural, =0 {Sem interações registradas} one {# interação no histórico} other {# interações no histórico}}",
     "section_profile": "Dados do cliente",
     "section_history": "Histórico completo",
-    "history_hint": "Orçamentos enviados e visitas identificadas (inclui login Google após aceitar cookies).",
+    "history_hint": "Orçamentos enviados e visitas identificadas (inclui login Google após aceitar cookies). Atualize o status de cada interação conforme o comercial avança.",
     "history_empty": "Ainda não há interações vinculadas a este cliente.",
     "field_email": "E-mail",
     "field_phone": "Telefone",

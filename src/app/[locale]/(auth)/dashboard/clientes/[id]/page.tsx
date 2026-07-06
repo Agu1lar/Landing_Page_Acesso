@@ -133,6 +133,9 @@ export default async function ClientDetailPage(props: ClientDetailPageProps) {
           viewLead: tLeads('view_detail'),
           empty: t('history_empty'),
           statusLabels,
+          statusFieldLabel: tLeads('field_status'),
+          statusSaveLabel: tLeads('status_save'),
+          statusErrorMessage: tLeads('status_update_error'),
         }}
       />
     </div>
