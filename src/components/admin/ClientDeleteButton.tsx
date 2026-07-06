@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { ClientsMergeDialog } from '@/components/admin/ClientsMergeDialog';
 
@@ -9,17 +10,10 @@ type ClientDeleteButtonProps = {
   displayName: string;
   email: string | null;
   phone: string | null;
-  labels: {
-    deleteButton: string;
-    deleteConfirmTitle: string;
-    deleteConfirmBody: string;
-    deleteConfirmButton: string;
-    mergeCancelButton: string;
-    deleteError: string;
-  };
 };
 
 export function ClientDeleteButton(props: ClientDeleteButtonProps) {
+  const t = useTranslations('ClientsPage');
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -55,7 +49,7 @@ export function ClientDeleteButton(props: ClientDeleteButtonProps) {
     const body = (await response.json()) as { error?: string };
 
     if (!response.ok) {
-      setError(body.error ?? props.labels.deleteError);
+      setError(body.error ?? t('delete_error'));
       setIsDeleting(false);
       return;
     }
@@ -75,14 +69,14 @@ export function ClientDeleteButton(props: ClientDeleteButtonProps) {
         }}
         type="button"
       >
-        {props.labels.deleteButton}
+        {t('delete_button')}
       </button>
       <ClientsMergeDialog
-        cancelLabel={props.labels.mergeCancelButton}
+        cancelLabel={t('merge_cancel_button')}
         clients={[clientPreview]}
-        confirmLabel={props.labels.deleteConfirmButton}
+        confirmLabel={t('delete_confirm_button')}
         confirmVariant="danger"
-        description={props.labels.deleteConfirmBody}
+        description={t('delete_confirm_body')}
         error={error}
         isBusy={isDeleting}
         onClose={() => {
@@ -92,7 +86,7 @@ export function ClientDeleteButton(props: ClientDeleteButtonProps) {
         }}
         onConfirm={runDelete}
         open={open}
-        title={props.labels.deleteConfirmTitle}
+        title={t('delete_confirm_title')}
       />
     </>
   );

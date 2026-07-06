@@ -64,39 +64,7 @@ export default async function ClientsPage(props: ClientsPageProps) {
         submitLabel={t('search_submit')}
       />
 
-      <ClientsTableWithMerge
-        canManage={canManage}
-        clients={clients}
-        labels={{
-          empty: t('empty'),
-          colName: t('col_name'),
-          colContact: t('col_contact'),
-          colCompany: t('col_company'),
-          colHistory: t('col_history'),
-          colLastActivity: t('col_last_activity'),
-          colFirstSeen: t('col_first_seen'),
-          colSelect: t('col_select'),
-          viewDetail: t('view_detail'),
-          formatLeadCount: (count) => t('lead_count', { count }),
-          googleAccount: t('google_account'),
-          mergeSelectAll: t('merge_select_all'),
-          mergeSelectedCount: (count) => t('merge_selected_count', { count }),
-          mergeButton: t('merge_button'),
-          mergeConfirmTitle: t('merge_confirm_title'),
-          mergeConfirmBody: t('merge_confirm_body'),
-          mergeConfirmButton: t('merge_confirm_button'),
-          mergeCancelButton: t('merge_cancel_button'),
-          mergeSuccess: t('merge_success'),
-          mergeError: t('merge_error'),
-          mergeViewResult: t('merge_view_result'),
-          deleteButton: t('delete_button'),
-          deleteConfirmTitle: t('delete_confirm_title'),
-          deleteConfirmBody: t('delete_confirm_body'),
-          deleteConfirmButton: t('delete_confirm_button'),
-          deleteSuccess: (count) => t('delete_success', { count }),
-          deleteError: t('delete_error'),
-        }}
-      />
+      <ClientsTableWithMerge canManage={canManage} clients={clients} />
 
       {totalPages > 1 ? (
         <nav

@@ -78,14 +78,6 @@ export default async function ClientDetailPage(props: ClientDetailPageProps) {
             clientId={client.id}
             displayName={client.displayName}
             email={client.email}
-            labels={{
-              deleteButton: t('delete_button'),
-              deleteConfirmTitle: t('delete_confirm_title'),
-              deleteConfirmBody: t('delete_confirm_body'),
-              deleteConfirmButton: t('delete_confirm_button'),
-              mergeCancelButton: t('merge_cancel_button'),
-              deleteError: t('delete_error'),
-            }}
             phone={client.phone}
           />
         ) : null}
