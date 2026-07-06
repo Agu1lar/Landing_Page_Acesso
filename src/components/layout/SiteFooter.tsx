@@ -13,12 +13,12 @@ export async function SiteFooter() {
 
   return (
     <footer className="border-t border-neutral-200 bg-neutral-900 text-neutral-300">
-      <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-2 lg:grid-cols-5 lg:px-8">
-        <div>
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-12 sm:grid-cols-2 sm:px-6 lg:grid-cols-3 lg:px-8 xl:grid-cols-5">
+        <div className="min-w-0">
           <p className="font-heading text-lg font-semibold text-white">{AppConfig.name}</p>
           <p className="mt-2 text-sm leading-relaxed">{brand.footerTagline}</p>
         </div>
-        <div>
+        <div className="min-w-0">
           <p className="font-semibold text-white">{t('links')}</p>
           <ul className="mt-3 space-y-2 text-sm">
             <li>
@@ -66,7 +66,7 @@ export async function SiteFooter() {
             </li>
           </ul>
         </div>
-        <div>
+        <div className="min-w-0">
           <p className="font-semibold text-white">{t('contact')}</p>
           <ul className="mt-3 space-y-3 text-sm">
             <li>
@@ -86,8 +86,11 @@ export async function SiteFooter() {
                 {brand.whatsappDisplay}
               </TrackedWhatsAppLink>
             </li>
-            <li>
-              <a className="hover:text-white" href={`mailto:${brand.email}`}>
+            <li className="min-w-0">
+              <a
+                className="block max-w-full break-words hover:text-white"
+                href={`mailto:${brand.email}`}
+              >
                 {brand.email}
               </a>
             </li>
@@ -115,16 +118,19 @@ export async function SiteFooter() {
             </li>
           </ul>
         </div>
-        <div>
+        <div className="min-w-0">
           <p className="font-semibold text-white">{t('address')}</p>
           <p className="mt-3 text-sm leading-relaxed">{brand.address.full}</p>
           <p className="mt-4 font-semibold text-white">{t('hours')}</p>
           <p className="mt-1 text-sm">{brand.hours}</p>
         </div>
-        <div>
+        <div className="min-w-0">
           <p className="font-semibold text-white">{t('support_title')}</p>
           <p className="mt-3 text-sm leading-relaxed">{t('support_body')}</p>
-          <a className="mt-2 inline-block text-sm font-medium text-white hover:underline" href={`mailto:${brand.techSupportEmail}`}>
+          <a
+            className="mt-2 inline-block max-w-full break-words text-sm font-medium text-white hover:underline"
+            href={`mailto:${brand.techSupportEmail}`}
+          >
             {brand.techSupportEmail}
           </a>
           <p className="mt-4 text-xs leading-relaxed text-neutral-500">{t('developed_by')}</p>
