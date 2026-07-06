@@ -1,78 +1,72 @@
 type LogoAcessoProps = {
-  /** `header` — compacto para navegação; `full` — inclui linha de serviços */
+  /** `header` — sem tagline (barra compacta); `full` — com linha de serviços */
   variant?: 'header' | 'full';
   className?: string;
 };
 
-const BRAND_RED = '#C41E24';
+const BRAND_RED = '#A51C1C';
 
 /**
- * Logo vetorial — sem margem extra (o PNG 200×200 deixava o desenho minúsculo no header).
+ * Logo vetorial oficial — fundo transparente, proporção horizontal (470×158).
  */
 export function LogoAcesso({ variant = 'header', className = '' }: LogoAcessoProps) {
-  const viewBox = variant === 'full' ? '0 0 340 96' : '0 0 340 72';
+  const viewBox = variant === 'full' ? '0 0 470 158' : '0 0 380 108';
 
   return (
     <svg
-      aria-hidden={false}
+      aria-label="Acesso Equipamentos"
       className={className}
       fill="none"
       role="img"
       viewBox={viewBox}
       xmlns="http://www.w3.org/2000/svg"
     >
-      <title>Acesso Equipamentos</title>
-      {/* Ícone: círculo + triângulo */}
-      <circle cx="36" cy="36" fill={BRAND_RED} r="34" />
+      <circle cx="52" cy="54" fill={BRAND_RED} r="48" />
       <path
-        d="M36 14 L56 54 H16 Z"
+        d="M52 18 L82 78 H22 Z"
         fill="white"
         stroke="white"
         strokeLinejoin="round"
-        strokeWidth="2"
+        strokeWidth="2.5"
       />
-      <path d="M28 54 H44" stroke={BRAND_RED} strokeLinecap="round" strokeWidth="3" />
 
-      {/* ACESSO */}
       <text
-        fill="#0F172A"
-        fontFamily="var(--font-heading), 'Plus Jakarta Sans', Arial Black, sans-serif"
-        fontSize="32"
+        fill="#000000"
+        fontFamily="var(--font-heading), 'Arial Black', Helvetica, sans-serif"
+        fontSize="44"
         fontWeight="700"
         letterSpacing="-0.02em"
-        x="82"
-        y="42"
+        x="118"
+        y="50"
       >
         ACESSO
       </text>
 
-      {/* Faixa equipamentos */}
-      <rect fill={BRAND_RED} height="26" rx="2" width="168" x="82" y="48" />
+      <rect fill={BRAND_RED} height="36" rx="2" width="248" x="118" y="60" />
       <text
-        fill="white"
-        fontFamily="var(--font-body), Inter, Arial, sans-serif"
-        fontSize="15"
+        fill="#FFFFFF"
+        fontFamily="var(--font-body), Arial, Helvetica, sans-serif"
+        fontSize="22"
         fontWeight="500"
-        letterSpacing="0.02em"
-        x="92"
-        y="66"
+        x="130"
+        y="85"
       >
         equipamentos
       </text>
 
-      {variant === 'full' && (
+      {variant === 'full' ? (
         <text
-          fill="#475569"
-          fontFamily="var(--font-body), Inter, Arial, sans-serif"
-          fontSize="9.5"
+          fill="#000000"
+          fontFamily="var(--font-body), Arial, Helvetica, sans-serif"
+          fontSize="13"
           fontWeight="600"
-          letterSpacing="0.12em"
-          x="82"
-          y="88"
+          letterSpacing="0.08em"
+          x="118"
+          y="124"
         >
-          PLATAFORMAS ELEVATÓRIAS • ANDAIMES • MÁQUINAS
+          PLATAFORMAS AÉREAS • ANDAIMES • MÁQUINAS
         </text>
-      )}
+      ) : null}
     </svg>
   );
 }

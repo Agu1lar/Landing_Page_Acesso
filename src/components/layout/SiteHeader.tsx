@@ -161,7 +161,7 @@ export function SiteHeader({ searchIndex }: SiteHeaderProps) {
           >
             <div
               className="flex items-center overflow-hidden transition-[height] duration-300 ease-out"
-              style={{ height: compact ? 44 : undefined, minHeight: compact ? 44 : 72 }}
+              style={{ height: compact ? 40 : undefined, minHeight: compact ? 40 : 56 }}
             >
               <BrandLogo compact={compact} />
             </div>
