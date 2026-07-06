@@ -98,6 +98,9 @@ export function AdminHelpLauncher(props: AdminHelpLauncherProps) {
         { title: t('clients_dedup_title'), body: t('clients_dedup_body') },
         { title: t('clients_search_title'), body: t('clients_search_body') },
         { title: t('clients_history_title'), body: t('clients_history_body') },
+        ...(props.role === 'admin'
+          ? [{ title: t('clients_merge_title'), body: t('clients_merge_body') }]
+          : []),
       ],
     },
     {

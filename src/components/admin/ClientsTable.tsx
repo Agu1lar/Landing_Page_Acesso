@@ -4,6 +4,11 @@ import { Link } from '@/libs/I18nNavigation';
 
 type ClientsTableProps = {
   clients: ClientListItem[];
+  canMerge?: boolean;
+  selectedIds?: number[];
+  allSelected?: boolean;
+  onToggleOne?: (clientId: number, checked: boolean) => void;
+  onToggleAll?: (checked: boolean) => void;
   labels: {
     empty: string;
     colName: string;
@@ -12,6 +17,8 @@ type ClientsTableProps = {
     colHistory: string;
     colLastActivity: string;
     colFirstSeen: string;
+    colSelect?: string;
+    mergeSelectAll?: string;
     viewDetail: string;
     formatLeadCount: (count: number) => string;
     googleAccount: string;
@@ -19,7 +26,15 @@ type ClientsTableProps = {
 };
 
 export function ClientsTable(props: ClientsTableProps) {
-  const { clients, labels } = props;
+  const {
+    clients,
+    labels,
+    canMerge = false,
+    selectedIds = [],
+    allSelected = false,
+    onToggleOne,
+    onToggleAll,
+  } = props;
 
   if (clients.length === 0) {
     return (
@@ -34,6 +49,17 @@ export function ClientsTable(props: ClientsTableProps) {
       <table className="min-w-full text-left text-sm">
         <thead className="border-b border-neutral-200 bg-neutral-50 text-xs font-semibold tracking-wide text-neutral-600 uppercase">
           <tr>
+            {canMerge ? (
+              <th className="px-4 py-3">
+                <input
+                  aria-label={labels.mergeSelectAll ?? labels.colSelect}
+                  checked={allSelected}
+                  className="h-4 w-4 rounded border-neutral-300"
+                  onChange={(event) => onToggleAll?.(event.target.checked)}
+                  type="checkbox"
+                />
+              </th>
+            ) : null}
             <th className="px-4 py-3">{labels.colName}</th>
             <th className="px-4 py-3">{labels.colContact}</th>
             <th className="px-4 py-3">{labels.colCompany}</th>
@@ -45,6 +71,17 @@ export function ClientsTable(props: ClientsTableProps) {
         <tbody className="divide-y divide-neutral-100">
           {clients.map((client) => (
             <tr className="hover:bg-background-muted/60" key={client.id}>
+              {canMerge ? (
+                <td className="px-4 py-3">
+                  <input
+                    aria-label={`${labels.colSelect ?? 'Selecionar'} ${client.displayName}`}
+                    checked={selectedIds.includes(client.id)}
+                    className="h-4 w-4 rounded border-neutral-300"
+                    onChange={(event) => onToggleOne?.(client.id, event.target.checked)}
+                    type="checkbox"
+                  />
+                </td>
+              ) : null}
               <td className="px-4 py-3 font-medium text-neutral-900">{client.displayName}</td>
               <td className="px-4 py-3 text-neutral-700">
                 <div className="space-y-0.5">

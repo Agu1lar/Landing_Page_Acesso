@@ -1,4 +1,4 @@
-import { boolean, date, integer, jsonb, pgTable, serial, text, timestamp, varchar } from 'drizzle-orm/pg-core';
+import { boolean, date, integer, jsonb, pgTable, serial, text, timestamp, uniqueIndex, varchar } from 'drizzle-orm/pg-core';
 import type { EquipmentSpec } from '@/types/equipment';
 
 // This file defines the structure of your database tables using the Drizzle ORM.
@@ -76,6 +76,19 @@ export const clientsSchema = pgTable('clients', {
     .$onUpdate(() => new Date())
     .notNull(),
 });
+
+/** Secondary identifiers after manual client merge (e-mail, phone, Google). */
+export const clientAliasesSchema = pgTable(
+  'client_aliases',
+  {
+    id: serial('id').primaryKey(),
+    clientId: integer('client_id').notNull(),
+    kind: varchar('kind', { length: 20 }).notNull(),
+    value: varchar('value', { length: 320 }).notNull(),
+    createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
+  },
+  (table) => [uniqueIndex('client_aliases_kind_value_uidx').on(table.kind, table.value)],
+);
 
 /** Conversion events for admin dashboard — Sprint 11.5 */
 export const analyticsEventsSchema = pgTable('analytics_events', {

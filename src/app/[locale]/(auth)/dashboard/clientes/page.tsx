@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { ClientsSearchForm } from '@/components/admin/ClientsSearchForm';
-import { ClientsTable } from '@/components/admin/ClientsTable';
+import { ClientsTableWithMerge } from '@/components/admin/ClientsTableWithMerge';
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
 import { buildClientsFilterQuery, listClients } from '@/lib/clients-admin';
+import { requireDashboardAccess } from '@/lib/auth-roles';
 import { Link } from '@/libs/I18nNavigation';
 import { resolveAppLocale } from '@/utils/locale';
 
@@ -41,6 +42,8 @@ export default async function ClientsPage(props: ClientsPageProps) {
   };
 
   const { clients, total, totalPages } = await listClients(filters);
+  const access = await requireDashboardAccess();
+  const canMerge = access.ok && access.role === 'admin';
   const basePath = '/dashboard/clientes';
   const prevQuery =
     filters.page > 1 ? buildClientsFilterQuery({ ...filters, page: filters.page - 1 }) : null;
@@ -61,7 +64,8 @@ export default async function ClientsPage(props: ClientsPageProps) {
         submitLabel={t('search_submit')}
       />
 
-      <ClientsTable
+      <ClientsTableWithMerge
+        canMerge={canMerge}
         clients={clients}
         labels={{
           empty: t('empty'),
@@ -71,9 +75,20 @@ export default async function ClientsPage(props: ClientsPageProps) {
           colHistory: t('col_history'),
           colLastActivity: t('col_last_activity'),
           colFirstSeen: t('col_first_seen'),
+          colSelect: t('col_select'),
           viewDetail: t('view_detail'),
           formatLeadCount: (count) => t('lead_count', { count }),
           googleAccount: t('google_account'),
+          mergeSelectAll: t('merge_select_all'),
+          mergeSelectedCount: (count) => t('merge_selected_count', { count }),
+          mergeButton: t('merge_button'),
+          mergeConfirmTitle: t('merge_confirm_title'),
+          mergeConfirmBody: t('merge_confirm_body'),
+          mergeConfirmButton: t('merge_confirm_button'),
+          mergeCancelButton: t('merge_cancel_button'),
+          mergeSuccess: t('merge_success'),
+          mergeError: t('merge_error'),
+          mergeViewResult: t('merge_view_result'),
         }}
       />
 

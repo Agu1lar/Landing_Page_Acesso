@@ -379,7 +379,18 @@
     "field_company": "Empresa",
     "field_google": "Google",
     "field_first_seen": "Primeiro contato",
-    "field_last_activity": "Última atividade"
+    "field_last_activity": "Última atividade",
+    "col_select": "Selecionar cliente",
+    "merge_select_all": "Selecionar todos desta página",
+    "merge_selected_count": "{count, plural, one {# cliente selecionado} other {# clientes selecionados}}",
+    "merge_button": "Mesclar dados",
+    "merge_confirm_title": "Mesclar clientes selecionados?",
+    "merge_confirm_body": "Os históricos serão unidos no cliente mais antigo. Campos vazios serão preenchidos com a informação mais completa. E-mails e telefones extras ficam vinculados para evitar duplicatas futuras. Esta ação não pode ser desfeita.",
+    "merge_confirm_button": "Confirmar mesclagem",
+    "merge_cancel_button": "Cancelar",
+    "merge_success": "Clientes mesclados com sucesso.",
+    "merge_error": "Não foi possível mesclar os clientes.",
+    "merge_view_result": "Ver ficha do cliente unificado"
   },
   "AdminHelp": {
     "trigger_label": "Ajuda do painel",
@@ -416,6 +427,8 @@
     "clients_search_body": "Pesquise por nome, e-mail, telefone ou cidade. A lista fica em ordem alfabética pelo nome de exibição.",
     "clients_history_title": "Linha do tempo",
     "clients_history_body": "Na ficha do cliente você vê todos os leads vinculados (orçamentos, consentimento, etc.) em ordem cronológica.",
+    "clients_merge_title": "Mesclar clientes (admin)",
+    "clients_merge_body": "Na lista de Clientes, marque duas ou mais fichas da mesma pessoa (ex.: e-mails diferentes) e use Mesclar dados. O histórico une no registro mais antigo; identificadores extras ficam salvos para não criar duplicata depois.",
     "section_analytics_title": "Métricas — o que significa",
     "metric_page_views_title": "Visualizações de página",
     "metric_page_views_body": "Quantas vezes uma página do site foi aberta no período (após o visitante aceitar cookies de analytics).",

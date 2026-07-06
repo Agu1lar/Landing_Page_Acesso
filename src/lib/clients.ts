@@ -1,20 +1,23 @@
-import { eq, isNull, or, sql } from 'drizzle-orm';
+import { and, eq, inArray, isNull, or, sql } from 'drizzle-orm';
 import type { InferSelectModel } from 'drizzle-orm';
 import {
+  collectClientAliasInserts,
   hasClientIdentityKey,
+  mergeClientFields,
   normalizeClientIdentity,
   pickClientDisplayName,
   type ClientIdentityInput,
 } from '@/lib/client-identity';
 import { db } from '@/libs/DB';
 import { logger } from '@/libs/Logger';
-import { clientsSchema, leadsSchema } from '@/models/Schema';
+import { clientAliasesSchema, clientsSchema, leadsSchema } from '@/models/Schema';
 
 export type ClientRecord = InferSelectModel<typeof clientsSchema>;
 
 const BACKFILL_BATCH = 250;
+const MAX_MANUAL_MERGE = 20;
 
-function buildMatchConditions(identity: ReturnType<typeof normalizeClientIdentity>) {
+function buildClientMatchConditions(identity: ReturnType<typeof normalizeClientIdentity>) {
   const conditions = [];
 
   if (identity.googleSub) {
@@ -30,47 +33,130 @@ function buildMatchConditions(identity: ReturnType<typeof normalizeClientIdentit
   return conditions;
 }
 
+async function findClientsByIdentity(identity: ReturnType<typeof normalizeClientIdentity>) {
+  const directConditions = buildClientMatchConditions(identity);
+  const directMatches =
+    directConditions.length > 0
+      ? await db.select().from(clientsSchema).where(or(...directConditions))
+      : [];
+
+  const aliasConditions = [];
+  if (identity.googleSub) {
+    aliasConditions.push(
+      and(eq(clientAliasesSchema.kind, 'google_sub'), eq(clientAliasesSchema.value, identity.googleSub))!,
+    );
+  }
+  if (identity.email) {
+    aliasConditions.push(
+      and(eq(clientAliasesSchema.kind, 'email'), eq(clientAliasesSchema.value, identity.email))!,
+    );
+  }
+  if (identity.phoneNormalized) {
+    aliasConditions.push(
+      and(eq(clientAliasesSchema.kind, 'phone'), eq(clientAliasesSchema.value, identity.phoneNormalized))!,
+    );
+  }
+
+  const aliasMatches =
+    aliasConditions.length > 0
+      ? await db
+          .select({ client: clientsSchema })
+          .from(clientAliasesSchema)
+          .innerJoin(clientsSchema, eq(clientAliasesSchema.clientId, clientsSchema.id))
+          .where(or(...aliasConditions))
+      : [];
+
+  const byId = new Map<number, ClientRecord>();
+  for (const row of directMatches) {
+    byId.set(row.id, row);
+  }
+  for (const row of aliasMatches) {
+    byId.set(row.client.id, row.client);
+  }
+
+  return [...byId.values()];
+}
+
 async function mergeDuplicateClients(matches: ClientRecord[]) {
   if (matches.length <= 1) {
     return matches[0] ?? null;
   }
 
-  const sorted = [...matches].sort((a, b) => a.id - b.id);
-  const primary = sorted[0];
-  if (!primary) {
-    return null;
+  const ids = matches.map((row) => row.id);
+  const result = await mergeClientsByIds(ids);
+  return result.client;
+}
+
+/**
+ * Manually merges 2–20 client rows into the oldest id (admin action).
+ */
+export async function mergeClientsByIds(clientIds: number[]) {
+  const uniqueIds = [...new Set(clientIds)].sort((a, b) => a - b);
+  if (uniqueIds.length < 2) {
+    throw new Error('Selecione pelo menos dois clientes para mesclar.');
   }
-  const duplicates = sorted.slice(1);
-
-  for (const duplicate of duplicates) {
-    await db
-      .update(leadsSchema)
-      .set({ clientId: primary.id })
-      .where(eq(leadsSchema.clientId, duplicate.id));
-
-    await db.delete(clientsSchema).where(eq(clientsSchema.id, duplicate.id));
+  if (uniqueIds.length > MAX_MANUAL_MERGE) {
+    throw new Error(`É possível mesclar no máximo ${MAX_MANUAL_MERGE} clientes por vez.`);
   }
 
-  const merged = duplicates.reduce<ClientRecord>(
-    (acc, row) => ({
-      ...acc,
-      displayName: pickClientDisplayName(acc.displayName, row.displayName),
-      email: acc.email ?? row.email,
-      phone: acc.phone ?? row.phone,
-      phoneNormalized: acc.phoneNormalized ?? row.phoneNormalized,
-      googleSub: acc.googleSub ?? row.googleSub,
-      company: acc.company ?? row.company,
-      firstSeenAt:
-        row.firstSeenAt.getTime() < acc.firstSeenAt.getTime() ? row.firstSeenAt : acc.firstSeenAt,
-    }),
-    primary,
-  );
+  const records = await db.select().from(clientsSchema).where(inArray(clientsSchema.id, uniqueIds));
+  if (records.length !== uniqueIds.length) {
+    throw new Error('Um ou mais clientes selecionados não foram encontrados.');
+  }
+
+  const primaryId = uniqueIds[0]!;
+  const duplicateIds = uniqueIds.slice(1);
+  const merged = mergeClientFields(records);
+  const aliasRows = collectClientAliasInserts(merged, records, primaryId);
+
+  await db.transaction(async (tx) => {
+    for (const duplicateId of duplicateIds) {
+      await tx
+        .update(leadsSchema)
+        .set({ clientId: primaryId })
+        .where(eq(leadsSchema.clientId, duplicateId));
+    }
+
+    await tx
+      .update(clientsSchema)
+      .set({
+        displayName: merged.displayName,
+        email: merged.email,
+        phone: merged.phone,
+        phoneNormalized: merged.phoneNormalized,
+        googleSub: merged.googleSub,
+        company: merged.company,
+        firstSeenAt: merged.firstSeenAt,
+        lastActivityAt: merged.lastActivityAt,
+      })
+      .where(eq(clientsSchema.id, primaryId));
+
+    if (aliasRows.length > 0) {
+      await tx
+        .insert(clientAliasesSchema)
+        .values(aliasRows)
+        .onConflictDoNothing({ target: [clientAliasesSchema.kind, clientAliasesSchema.value] });
+    }
+
+    await tx.delete(clientsSchema).where(inArray(clientsSchema.id, duplicateIds));
+  });
 
   logger.info(
-    `Merged ${duplicates.length} duplicate client(s) into #${primary.id} (${merged.email ?? merged.phoneNormalized ?? merged.googleSub ?? 'unknown'})`,
+    `Manually merged ${duplicateIds.length} client(s) into #${primaryId} (${merged.email ?? merged.phoneNormalized ?? merged.googleSub ?? 'unknown'})`,
   );
 
-  return merged;
+  const [client] = await db.select().from(clientsSchema).where(eq(clientsSchema.id, primaryId)).limit(1);
+  if (!client) {
+    throw new Error('Falha ao carregar o cliente após mesclagem.');
+  }
+
+  await relinkLeadsForClient(primaryId);
+
+  return {
+    client,
+    primaryClientId: primaryId,
+    mergedCount: duplicateIds.length,
+  };
 }
 
 /**
@@ -85,11 +171,7 @@ export async function resolveOrCreateClient(
     return null;
   }
 
-  const conditions = buildMatchConditions(identity);
-  const matches = await db
-    .select()
-    .from(clientsSchema)
-    .where(or(...conditions));
+  const matches = await findClientsByIdentity(identity);
 
   const primary = await mergeDuplicateClients(matches);
   const now = activityAt;
@@ -181,6 +263,29 @@ export async function ensureClientsBackfilled() {
   }
 }
 
+async function loadClientAliasValues(clientId: number) {
+  const rows = await db
+    .select()
+    .from(clientAliasesSchema)
+    .where(eq(clientAliasesSchema.clientId, clientId));
+
+  const emails: string[] = [];
+  const phones: string[] = [];
+  const googleSubs: string[] = [];
+
+  for (const row of rows) {
+    if (row.kind === 'email') {
+      emails.push(row.value);
+    } else if (row.kind === 'phone') {
+      phones.push(row.value);
+    } else if (row.kind === 'google_sub') {
+      googleSubs.push(row.value);
+    }
+  }
+
+  return { emails, phones, googleSubs };
+}
+
 /** Re-links leads that share contact data but were attached to different clients. */
 export async function relinkLeadsForClient(clientId: number) {
   const [client] = await db.select().from(clientsSchema).where(eq(clientsSchema.id, clientId)).limit(1);
@@ -188,17 +293,30 @@ export async function relinkLeadsForClient(clientId: number) {
     return;
   }
 
+  const aliases = await loadClientAliasValues(clientId);
   const conditions = [];
+
   if (client.email) {
     conditions.push(sql`lower(trim(${leadsSchema.email})) = ${client.email}`);
   }
+  for (const email of aliases.emails) {
+    conditions.push(sql`lower(trim(${leadsSchema.email})) = ${email}`);
+  }
+
   if (client.phoneNormalized) {
     conditions.push(
       sql`regexp_replace(${leadsSchema.phone}, '\\D', '', 'g') = ${client.phoneNormalized}`,
     );
   }
+  for (const phone of aliases.phones) {
+    conditions.push(sql`regexp_replace(${leadsSchema.phone}, '\\D', '', 'g') = ${phone}`);
+  }
+
   if (client.googleSub) {
     conditions.push(eq(leadsSchema.googleSub, client.googleSub));
+  }
+  for (const googleSub of aliases.googleSubs) {
+    conditions.push(eq(leadsSchema.googleSub, googleSub));
   }
 
   if (conditions.length === 0) {
