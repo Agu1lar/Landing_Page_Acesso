@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { brand } from '@/lib/brand';
 
 type AdminHelpLauncherProps = {
   role: 'admin' | 'comercial';
@@ -121,6 +122,14 @@ export function AdminHelpLauncher(props: AdminHelpLauncherProps) {
           } satisfies HelpSection,
         ]
       : []),
+    {
+      id: 'support',
+      title: t('section_support_title'),
+      items: [
+        { title: t('support_site_title'), body: t('support_site_body') },
+        { title: t('developed_by_title'), body: t('developed_by_body') },
+      ],
+    },
   ];
 
   return (
@@ -196,8 +205,15 @@ export function AdminHelpLauncher(props: AdminHelpLauncherProps) {
             </div>
 
             <div className="border-t border-neutral-100 px-5 py-3 sm:px-6">
+              <p className="text-xs text-neutral-500">{t('support_email_label')}</p>
+              <a
+                className="mt-1 inline-block text-sm font-semibold text-primary hover:underline"
+                href={`mailto:${brand.techSupportEmail}`}
+              >
+                {brand.techSupportEmail}
+              </a>
               <button
-                className="w-full rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-hover"
+                className="mt-3 w-full rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-hover"
                 onClick={close}
                 type="button"
               >

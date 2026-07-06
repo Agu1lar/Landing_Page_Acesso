@@ -183,6 +183,9 @@
     "privacy_link": "Privacidade",
     "ai_discovery_link": "Guia para IAs (llms.txt)",
     "admin_area_link": "Área restrita",
+    "support_title": "Suporte técnico",
+    "support_body": "Dúvidas sobre o site, painel ou integrações:",
+    "developed_by": "Site desenvolvido pela área de tecnologia da Acesso Equipamentos.",
     "rights": "© {year} {name}. Todos os direitos reservados."
   },
   "CookieConsent": {
@@ -293,7 +296,10 @@
     "equipment_card_title": "Catálogo de equipamentos",
     "equipment_card_description": "Cadastre, edite e publique itens no site sem alterar JSON.",
     "user_profile_link": "Perfil",
-    "sign_out": "Sair"
+    "sign_out": "Sair",
+    "support_title": "Suporte técnico",
+    "support_hint": "Site, painel e integrações",
+    "developed_by": "Desenvolvido pela área de tecnologia"
   },
   "AccessAdminPage": {
     "meta_title": "Acesso ao painel",
@@ -397,7 +403,13 @@
     "equipment_photos_title": "Fotos",
     "equipment_photos_body": "Envie JPG, PNG ou WebP. A foto principal aparece nos cards e na ficha do equipamento.",
     "equipment_publish_title": "Publicado / disponível / destaque",
-    "equipment_publish_body": "Publicado exibe no site; disponível controla visibilidade no catálogo; destaque coloca na home. Não é controle de estoque físico."
+    "equipment_publish_body": "Publicado exibe no site; disponível controla visibilidade no catálogo; destaque coloca na home. Não é controle de estoque físico.",
+    "section_support_title": "Suporte técnico",
+    "support_site_title": "Problemas no site ou no painel",
+    "support_site_body": "Para erros, dúvidas sobre métricas, catálogo, integrações (Google Analytics, WhatsApp, e-mail) ou melhorias no sistema, fale com a área de tecnologia.",
+    "support_email_label": "E-mail de suporte",
+    "developed_by_title": "Desenvolvimento",
+    "developed_by_body": "Site e painel administrativo desenvolvidos e mantidos pela área de tecnologia da Acesso Equipamentos."
   },
   "LeadsAdminPage": {
     "meta_title": "Leads de orçamento",

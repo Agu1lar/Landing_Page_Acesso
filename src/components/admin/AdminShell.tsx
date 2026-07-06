@@ -2,6 +2,7 @@ import { SignOutButton } from '@clerk/nextjs';
 import { getTranslations } from 'next-intl/server';
 import { AdminHelpLauncher } from '@/components/admin/AdminHelpLauncher';
 import { AdminNavLink } from '@/components/admin/AdminNavLink';
+import { brand } from '@/lib/brand';
 
 type AdminShellProps = {
   children: React.ReactNode;
@@ -105,6 +106,19 @@ export async function AdminShell(props: AdminShellProps) {
         </nav>
 
         <div className="border-t border-white/10 p-4">
+          <div className="mb-4 rounded-lg border border-white/10 bg-white/5 px-3 py-3">
+            <p className="text-[11px] font-semibold tracking-wide text-slate-300 uppercase">
+              {t('support_title')}
+            </p>
+            <p className="mt-1 text-xs text-slate-400">{t('support_hint')}</p>
+            <a
+              className="mt-2 block truncate text-sm font-medium text-white hover:underline"
+              href={`mailto:${brand.techSupportEmail}`}
+            >
+              {brand.techSupportEmail}
+            </a>
+            <p className="mt-2 text-[11px] leading-relaxed text-slate-500">{t('developed_by')}</p>
+          </div>
           <SignOutButton>
             <button
               className="w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2.5 text-sm font-medium text-slate-200 transition-colors hover:bg-white/10 hover:text-white"

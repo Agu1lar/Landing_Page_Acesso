@@ -8,6 +8,7 @@ export const brand = {
   whatsapp: '5531994700201',
   whatsappDisplay: '(31) 99470-0201',
   email: 'comercial@acessoequipamentos.com.br',
+  techSupportEmail: 'tecnologia@acessoequipamentos.com.br',
   /** Canonical public site URL (go-live domain). */
   officialSiteUrl: 'https://acessoequipamentos.com.br',
   instagram: 'acessoequipamentos',
