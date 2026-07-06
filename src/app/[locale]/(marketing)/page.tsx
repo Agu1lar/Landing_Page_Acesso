@@ -59,7 +59,7 @@ export default async function HomePage(props: IndexPageProps) {
 
   return (
     <>
-      <section className="relative flex min-h-[clamp(280px,42vw,520px)] items-center overflow-hidden border-b border-neutral-200">
+      <section className="relative flex min-h-[clamp(360px,54vw,660px)] items-center overflow-hidden border-b border-neutral-200">
         <Image
           alt=""
           aria-hidden
@@ -73,7 +73,7 @@ export default async function HomePage(props: IndexPageProps) {
           aria-hidden
           className="absolute inset-0 bg-gradient-to-b from-neutral-900/60 via-neutral-900/45 to-neutral-900/70"
         />
-        <div className="relative mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 sm:py-12 lg:px-8">
+        <div className="relative mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 sm:py-14 lg:px-8 lg:py-16">
           <div className="mx-auto max-w-4xl text-center">
             <h1 className="font-heading text-2xl leading-snug font-bold tracking-tight text-white sm:text-3xl lg:text-4xl">
               {t('hero_title')}
