@@ -1,0 +1,82 @@
+{
+  "updatedAt": "2026-07-06",
+  "purpose": "Sugestões para a agência configurar no Google Ads (força do anúncio RSA). Não entra automaticamente no Ads — copiar no painel.",
+  "siteBaseUrl": "https://acessoequipamentos.com.br",
+  "notes": [
+    "Itens 1–3 do alerta (títulos, palavras-chave, títulos exclusivos) são configurados só no Google Ads.",
+    "Itens 4 (sitelinks): use as URLs abaixo — todas existem no site novo após go-live.",
+    "Campanha Display com fornecedoresdaindustria.com.br deve ser corrigida no Ads."
+  ],
+  "sitelinks": [
+    {
+      "linkText": "Plataformas elevatórias",
+      "url": "/categorias/plataformas-elevatorias",
+      "description1": "Tesoura, articulada e telescópica",
+      "description2": "Locação em BH e todo o Brasil"
+    },
+    {
+      "linkText": "Solicitar orçamento",
+      "url": "/orcamento",
+      "description1": "Formulário rápido no site",
+      "description2": "Resposta em horário comercial"
+    },
+    {
+      "linkText": "Catálogo completo",
+      "url": "/equipamentos",
+      "description1": "Mais de 110 equipamentos",
+      "description2": "Filtros por categoria e tipo"
+    },
+    {
+      "linkText": "Guindaste industrial",
+      "url": "/categorias/guindaste-industrial",
+      "description1": "Remoção técnica de cargas",
+      "description2": "BH, MG e nacional"
+    },
+    {
+      "linkText": "Andaimes para obra",
+      "url": "/categorias/andaimes",
+      "description1": "Tubos, pisos e acessórios",
+      "description2": "Orçamento sob consulta"
+    },
+    {
+      "linkText": "Treinamento NR-18",
+      "url": "/treinamento-plataformas-aereas",
+      "description1": "Operação segura em altura",
+      "description2": "Plataformas elevatórias"
+    },
+    {
+      "linkText": "Fale no WhatsApp",
+      "url": "/contato",
+      "description1": "Atendimento comercial",
+      "description2": "Seg a sex, horário útil"
+    },
+    {
+      "linkText": "Manipulador telescópico",
+      "url": "/categorias/manipuladores-telescopicos",
+      "description1": "Telehandler para obra",
+      "description2": "Locação em Minas Gerais"
+    }
+  ],
+  "headlineSuggestions": [
+    "Locação de plataforma elevatória BH",
+    "Aluguel de plataforma aérea em BH",
+    "Plataformas elevatórias para obra",
+    "Locação de equipamentos em BH",
+    "Guindaste industrial para locação",
+    "Andaimes para construção civil",
+    "Manipulador telescópico MG",
+    "Martelete e ferramentas elétricas",
+    "Orçamento rápido pelo site",
+    "Frota revisada desde 2013",
+    "Atendemos BH e todo o Brasil",
+    "Locação com entrega na obra",
+    "Plataforma tesoura e articulada",
+    "Equipamentos para indústria",
+    "Solicite orçamento online"
+  ],
+  "descriptionSuggestions": [
+    "Locação de plataformas, guindastes, andaimes e ferramentas. BH, MG e Brasil. Orçamento pelo site ou WhatsApp.",
+    "Mais de 110 equipamentos para obra e indústria. Frota revisada. Atendimento comercial em horário útil.",
+    "Aluguel de plataforma elevatória, manipulador e guindaste. Solicite proposta sem compromisso."
+  ]
+}
