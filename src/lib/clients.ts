@@ -16,6 +16,7 @@ export type ClientRecord = InferSelectModel<typeof clientsSchema>;
 
 const BACKFILL_BATCH = 250;
 const MAX_MANUAL_MERGE = 20;
+const MAX_BULK_DELETE = 20;
 
 function buildClientMatchConditions(identity: ReturnType<typeof normalizeClientIdentity>) {
   const conditions = [];
@@ -157,6 +158,30 @@ export async function mergeClientsByIds(clientIds: number[]) {
     primaryClientId: primaryId,
     mergedCount: duplicateIds.length,
   };
+}
+
+/**
+ * Deletes client rows (admin). Leads keep their data; client_id is cleared via FK.
+ */
+export async function deleteClientsByIds(clientIds: number[]) {
+  const uniqueIds = [...new Set(clientIds)].sort((a, b) => a - b);
+  if (uniqueIds.length === 0) {
+    throw new Error('Selecione pelo menos um cliente para excluir.');
+  }
+  if (uniqueIds.length > MAX_BULK_DELETE) {
+    throw new Error(`É possível excluir no máximo ${MAX_BULK_DELETE} clientes por vez.`);
+  }
+
+  const records = await db.select().from(clientsSchema).where(inArray(clientsSchema.id, uniqueIds));
+  if (records.length !== uniqueIds.length) {
+    throw new Error('Um ou mais clientes selecionados não foram encontrados.');
+  }
+
+  await db.delete(clientsSchema).where(inArray(clientsSchema.id, uniqueIds));
+
+  logger.info(`Deleted ${uniqueIds.length} client(s): #${uniqueIds.join(', #')}`);
+
+  return { deletedCount: uniqueIds.length };
 }
 
 /**

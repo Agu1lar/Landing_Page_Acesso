@@ -1,12 +1,14 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { ClientDeleteButton } from '@/components/admin/ClientDeleteButton';
 import { ClientHistoryTimeline } from '@/components/admin/ClientHistoryTimeline';
 import { AdminCard } from '@/components/admin/AdminCard';
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
 import { Button } from '@/components/ui/Button';
 import { formatDateTimeBrasilia } from '@/lib/app-datetime';
 import { getClientById } from '@/lib/clients-admin';
+import { requireDashboardAccess } from '@/lib/auth-roles';
 import { LEAD_STATUSES } from '@/lib/lead-status';
 import { resolveAppLocale } from '@/utils/locale';
 
@@ -62,6 +64,8 @@ export default async function ClientDetailPage(props: ClientDetailPageProps) {
   statusLabels.new = tLeads('status_new');
 
   const { client, leads } = data;
+  const access = await requireDashboardAccess();
+  const canManage = access.ok && access.role === 'admin';
 
   return (
     <div className="space-y-8">
@@ -69,6 +73,22 @@ export default async function ClientDetailPage(props: ClientDetailPageProps) {
         <Button href="/dashboard/clientes" size="sm" variant="outline">
           {t('back_to_list')}
         </Button>
+        {canManage ? (
+          <ClientDeleteButton
+            clientId={client.id}
+            displayName={client.displayName}
+            email={client.email}
+            labels={{
+              deleteButton: t('delete_button'),
+              deleteConfirmTitle: t('delete_confirm_title'),
+              deleteConfirmBody: t('delete_confirm_body'),
+              deleteConfirmButton: t('delete_confirm_button'),
+              mergeCancelButton: t('merge_cancel_button'),
+              deleteError: t('delete_error'),
+            }}
+            phone={client.phone}
+          />
+        ) : null}
       </div>
 
       <AdminPageHeader

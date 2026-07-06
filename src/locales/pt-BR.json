@@ -390,7 +390,13 @@
     "merge_cancel_button": "Cancelar",
     "merge_success": "Clientes mesclados com sucesso.",
     "merge_error": "Não foi possível mesclar os clientes.",
-    "merge_view_result": "Ver ficha do cliente unificado"
+    "merge_view_result": "Ver ficha do cliente unificado",
+    "delete_button": "Excluir",
+    "delete_confirm_title": "Excluir cliente(s) selecionado(s)?",
+    "delete_confirm_body": "A ficha do cliente será removida. Os leads e orçamentos no sistema não são apagados — apenas deixam de estar vinculados a este cliente. Esta ação não pode ser desfeita.",
+    "delete_confirm_button": "Confirmar exclusão",
+    "delete_success": "{count, plural, one {# cliente excluído.} other {# clientes excluídos.}}",
+    "delete_error": "Não foi possível excluir o(s) cliente(s)."
   },
   "AdminHelp": {
     "trigger_label": "Ajuda do painel",
@@ -429,6 +435,8 @@
     "clients_history_body": "Na ficha do cliente você vê todos os leads vinculados (orçamentos, consentimento, etc.) em ordem cronológica.",
     "clients_merge_title": "Mesclar clientes (admin)",
     "clients_merge_body": "Na lista de Clientes, marque duas ou mais fichas da mesma pessoa (ex.: e-mails diferentes) e use Mesclar dados. O histórico une no registro mais antigo; identificadores extras ficam salvos para não criar duplicata depois.",
+    "clients_delete_title": "Excluir cliente (admin)",
+    "clients_delete_body": "Marque um ou mais clientes e use Excluir, ou exclua na ficha individual. Os leads permanecem no sistema; só o vínculo com a ficha do cliente é removido.",
     "section_analytics_title": "Métricas — o que significa",
     "metric_page_views_title": "Visualizações de página",
     "metric_page_views_body": "Quantas vezes uma página do site foi aberta no período (após o visitante aceitar cookies de analytics).",

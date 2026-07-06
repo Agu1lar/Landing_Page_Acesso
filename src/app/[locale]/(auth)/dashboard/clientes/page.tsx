@@ -43,7 +43,7 @@ export default async function ClientsPage(props: ClientsPageProps) {
 
   const { clients, total, totalPages } = await listClients(filters);
   const access = await requireDashboardAccess();
-  const canMerge = access.ok && access.role === 'admin';
+  const canManage = access.ok && access.role === 'admin';
   const basePath = '/dashboard/clientes';
   const prevQuery =
     filters.page > 1 ? buildClientsFilterQuery({ ...filters, page: filters.page - 1 }) : null;
@@ -65,7 +65,7 @@ export default async function ClientsPage(props: ClientsPageProps) {
       />
 
       <ClientsTableWithMerge
-        canMerge={canMerge}
+        canManage={canManage}
         clients={clients}
         labels={{
           empty: t('empty'),
@@ -89,6 +89,12 @@ export default async function ClientsPage(props: ClientsPageProps) {
           mergeSuccess: t('merge_success'),
           mergeError: t('merge_error'),
           mergeViewResult: t('merge_view_result'),
+          deleteButton: t('delete_button'),
+          deleteConfirmTitle: t('delete_confirm_title'),
+          deleteConfirmBody: t('delete_confirm_body'),
+          deleteConfirmButton: t('delete_confirm_button'),
+          deleteSuccess: (count) => t('delete_success', { count }),
+          deleteError: t('delete_error'),
         }}
       />
 

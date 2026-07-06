@@ -10,7 +10,8 @@ type ClientsMergeDialogProps = {
   confirmLabel: string;
   cancelLabel: string;
   clients: ClientListItem[];
-  isMerging: boolean;
+  isBusy: boolean;
+  confirmVariant?: 'primary' | 'danger';
   error: string | null;
   onClose: () => void;
   onConfirm: () => void;
@@ -18,6 +19,10 @@ type ClientsMergeDialogProps = {
 
 export function ClientsMergeDialog(props: ClientsMergeDialogProps) {
   const panelRef = useRef<HTMLDivElement>(null);
+  const confirmClass =
+    props.confirmVariant === 'danger'
+      ? 'rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-50'
+      : 'rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90 disabled:opacity-50';
 
   useEffect(() => {
     if (!props.open) {
@@ -25,7 +30,7 @@ export function ClientsMergeDialog(props: ClientsMergeDialogProps) {
     }
 
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && !props.isMerging) {
+      if (event.key === 'Escape' && !props.isBusy) {
         props.onClose();
       }
     };
@@ -37,7 +42,7 @@ export function ClientsMergeDialog(props: ClientsMergeDialogProps) {
       document.removeEventListener('keydown', onKeyDown);
       document.body.style.overflow = '';
     };
-  }, [props.open, props.isMerging, props.onClose]);
+  }, [props.open, props.isBusy, props.onClose]);
 
   if (!props.open) {
     return null;
@@ -74,19 +79,19 @@ export function ClientsMergeDialog(props: ClientsMergeDialogProps) {
         <div className="mt-6 flex flex-wrap justify-end gap-2">
           <button
             className="rounded-lg border border-neutral-200 px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 disabled:opacity-50"
-            disabled={props.isMerging}
+            disabled={props.isBusy}
             onClick={props.onClose}
             type="button"
           >
             {props.cancelLabel}
           </button>
           <button
-            className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90 disabled:opacity-50"
-            disabled={props.isMerging}
+            className={confirmClass}
+            disabled={props.isBusy}
             onClick={props.onConfirm}
             type="button"
           >
-            {props.isMerging ? '…' : props.confirmLabel}
+            {props.isBusy ? '…' : props.confirmLabel}
           </button>
         </div>
       </div>

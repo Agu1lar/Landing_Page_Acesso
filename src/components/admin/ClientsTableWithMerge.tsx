@@ -3,13 +3,13 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import type { ClientListItem } from '@/lib/clients-admin';
+import { ClientsAdminToolbar } from '@/components/admin/ClientsAdminToolbar';
 import { ClientsMergeDialog } from '@/components/admin/ClientsMergeDialog';
-import { ClientsMergeToolbar } from '@/components/admin/ClientsMergeToolbar';
 import { ClientsTable } from '@/components/admin/ClientsTable';
 
 type ClientsTableWithMergeProps = {
   clients: ClientListItem[];
-  canMerge: boolean;
+  canManage: boolean;
   labels: {
     empty: string;
     colName: string;
@@ -32,35 +32,45 @@ type ClientsTableWithMergeProps = {
     mergeSuccess: string;
     mergeError: string;
     mergeViewResult: string;
+    deleteButton: string;
+    deleteConfirmTitle: string;
+    deleteConfirmBody: string;
+    deleteConfirmButton: string;
+    deleteSuccess: (count: number) => string;
+    deleteError: string;
   };
 };
 
 export function ClientsTableWithMerge(props: ClientsTableWithMergeProps) {
-  const { clients, canMerge, labels } = props;
+  const { clients, canManage, labels } = props;
   const router = useRouter();
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const [mergeDialogOpen, setMergeDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [isMerging, setIsMerging] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<{ primaryClientId: number; mergedCount: number } | null>(
-    null,
-  );
+  const [mergeSuccess, setMergeSuccess] = useState<{ primaryClientId: number } | null>(null);
+  const [deleteSuccess, setDeleteSuccess] = useState<number | null>(null);
 
   const selectedClients = clients.filter((client) => selectedIds.includes(client.id));
   const allSelected = clients.length > 0 && selectedIds.length === clients.length;
+  const isBusy = isMerging || isDeleting;
 
   const toggleOne = (clientId: number, checked: boolean) => {
     setSelectedIds((current) =>
       checked ? [...new Set([...current, clientId])] : current.filter((id) => id !== clientId),
     );
     setError(null);
-    setSuccess(null);
+    setMergeSuccess(null);
+    setDeleteSuccess(null);
   };
 
   const toggleAll = (checked: boolean) => {
     setSelectedIds(checked ? clients.map((client) => client.id) : []);
     setError(null);
-    setSuccess(null);
+    setMergeSuccess(null);
+    setDeleteSuccess(null);
   };
 
   const runMerge = async () => {
@@ -76,7 +86,6 @@ export function ClientsTableWithMerge(props: ClientsTableWithMergeProps) {
     const body = (await response.json()) as {
       error?: string;
       primaryClientId?: number;
-      mergedCount?: number;
     };
 
     if (!response.ok) {
@@ -85,40 +94,75 @@ export function ClientsTableWithMerge(props: ClientsTableWithMergeProps) {
       return;
     }
 
-    setDialogOpen(false);
+    setMergeDialogOpen(false);
     setSelectedIds([]);
-    setSuccess({
-      primaryClientId: body.primaryClientId!,
-      mergedCount: body.mergedCount ?? 0,
-    });
+    setMergeSuccess({ primaryClientId: body.primaryClientId! });
+    setDeleteSuccess(null);
     setIsMerging(false);
+    router.refresh();
+  };
+
+  const runDelete = async () => {
+    setIsDeleting(true);
+    setError(null);
+
+    const response = await fetch('/api/admin/clients/delete', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ clientIds: selectedIds }),
+    });
+
+    const body = (await response.json()) as { error?: string; deletedCount?: number };
+
+    if (!response.ok) {
+      setError(body.error ?? labels.deleteError);
+      setIsDeleting(false);
+      return;
+    }
+
+    setDeleteDialogOpen(false);
+    setSelectedIds([]);
+    setDeleteSuccess(body.deletedCount ?? selectedIds.length);
+    setMergeSuccess(null);
+    setIsDeleting(false);
     router.refresh();
   };
 
   return (
     <div className="space-y-4">
-      {canMerge && selectedIds.length >= 2 ? (
-        <ClientsMergeToolbar
-          count={selectedIds.length}
+      {canManage && selectedIds.length >= 1 ? (
+        <ClientsAdminToolbar
+          canMerge={selectedIds.length >= 2}
+          deleteLabel={labels.deleteButton}
           label={labels.mergeSelectedCount(selectedIds.length)}
           mergeLabel={labels.mergeButton}
+          onDelete={() => {
+            setDeleteDialogOpen(true);
+            setError(null);
+          }}
           onMerge={() => {
-            setDialogOpen(true);
+            setMergeDialogOpen(true);
             setError(null);
           }}
         />
       ) : null}
 
-      {success ? (
+      {mergeSuccess ? (
         <div className="rounded-[var(--radius-card)] border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-900">
           <p>{labels.mergeSuccess}</p>
           <button
             className="mt-1 font-medium text-primary hover:underline"
-            onClick={() => router.push(`/dashboard/clientes/${success.primaryClientId}`)}
+            onClick={() => router.push(`/dashboard/clientes/${mergeSuccess.primaryClientId}`)}
             type="button"
           >
             {labels.mergeViewResult}
           </button>
+        </div>
+      ) : null}
+
+      {deleteSuccess !== null ? (
+        <div className="rounded-[var(--radius-card)] border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-900">
+          {labels.deleteSuccess(deleteSuccess)}
         </div>
       ) : null}
 
@@ -130,7 +174,7 @@ export function ClientsTableWithMerge(props: ClientsTableWithMergeProps) {
 
       <ClientsTable
         allSelected={allSelected}
-        canMerge={canMerge}
+        canMerge={canManage}
         clients={clients}
         labels={labels}
         onToggleAll={toggleAll}
@@ -138,23 +182,42 @@ export function ClientsTableWithMerge(props: ClientsTableWithMergeProps) {
         selectedIds={selectedIds}
       />
 
-      {canMerge ? (
-        <ClientsMergeDialog
-          clients={selectedClients}
-          confirmLabel={labels.mergeConfirmButton}
-          cancelLabel={labels.mergeCancelButton}
-          description={labels.mergeConfirmBody}
-          error={error}
-          isMerging={isMerging}
-          onClose={() => {
-            if (!isMerging) {
-              setDialogOpen(false);
-            }
-          }}
-          onConfirm={runMerge}
-          open={dialogOpen}
-          title={labels.mergeConfirmTitle}
-        />
+      {canManage ? (
+        <>
+          <ClientsMergeDialog
+            cancelLabel={labels.mergeCancelButton}
+            clients={selectedClients}
+            confirmLabel={labels.mergeConfirmButton}
+            description={labels.mergeConfirmBody}
+            error={mergeDialogOpen ? error : null}
+            isBusy={isMerging}
+            onClose={() => {
+              if (!isBusy) {
+                setMergeDialogOpen(false);
+              }
+            }}
+            onConfirm={runMerge}
+            open={mergeDialogOpen}
+            title={labels.mergeConfirmTitle}
+          />
+          <ClientsMergeDialog
+            cancelLabel={labels.mergeCancelButton}
+            clients={selectedClients}
+            confirmLabel={labels.deleteConfirmButton}
+            confirmVariant="danger"
+            description={labels.deleteConfirmBody}
+            error={deleteDialogOpen ? error : null}
+            isBusy={isDeleting}
+            onClose={() => {
+              if (!isBusy) {
+                setDeleteDialogOpen(false);
+              }
+            }}
+            onConfirm={runDelete}
+            open={deleteDialogOpen}
+            title={labels.deleteConfirmTitle}
+          />
+        </>
       ) : null}
     </div>
   );
