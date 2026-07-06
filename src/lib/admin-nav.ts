@@ -26,6 +26,14 @@ export function isAdminNavActive(pathname: string | null, href: string) {
     return path === '/dashboard/leads/consulta' || path.startsWith('/dashboard/leads/consulta?');
   }
 
+  if (href === '/dashboard/clientes') {
+    return (
+      path === '/dashboard/clientes'
+      || path.startsWith('/dashboard/clientes?')
+      || (path.startsWith('/dashboard/clientes/') && !path.endsWith('/clientes'))
+    );
+  }
+
   if (href === '/dashboard/acesso') {
     return path === '/dashboard/acesso';
   }

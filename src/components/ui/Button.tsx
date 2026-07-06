@@ -22,7 +22,7 @@ const variantClasses: Record<ButtonVariant, string> = {
   secondary: 'bg-neutral-900 text-white hover:bg-neutral-800',
   outline:
     'border border-neutral-200 bg-surface text-neutral-800 hover:border-neutral-400 hover:bg-background-muted',
-  whatsapp: 'bg-cta-whatsapp text-white shadow-md hover:bg-cta-whatsapp-hover hover:shadow-lg',
+  whatsapp: 'bg-cta-whatsapp text-white font-bold shadow-md hover:bg-cta-whatsapp-hover hover:shadow-lg',
   ghost: 'text-neutral-700 hover:bg-neutral-100',
 };
 

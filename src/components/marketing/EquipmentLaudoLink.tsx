@@ -18,7 +18,7 @@ export function EquipmentLaudoLink(props: EquipmentLaudoLinkProps) {
       >
         {props.label}
       </a>
-      <span className="mt-1 block text-xs text-neutral-500">{props.downloadHint}</span>
+      <span className="mt-1 block text-xs text-muted">{props.downloadHint}</span>
     </p>
   );
 }

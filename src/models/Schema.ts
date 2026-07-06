@@ -55,7 +55,26 @@ export const leadsSchema = pgTable('leads', {
   geoRegion: varchar('geo_region', { length: 120 }),
   internalNotes: text('internal_notes'),
   lastActivityAt: timestamp('last_activity_at', { mode: 'date' }),
+  clientId: integer('client_id'),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
+});
+
+/** Unique contacts (deduplicated by e-mail, phone or Google account). */
+export const clientsSchema = pgTable('clients', {
+  id: serial('id').primaryKey(),
+  displayName: varchar('display_name', { length: 200 }).notNull(),
+  email: varchar('email', { length: 320 }),
+  phone: varchar('phone', { length: 40 }),
+  phoneNormalized: varchar('phone_normalized', { length: 20 }),
+  googleSub: varchar('google_sub', { length: 255 }),
+  company: varchar('company', { length: 200 }),
+  firstSeenAt: timestamp('first_seen_at', { mode: 'date' }).defaultNow().notNull(),
+  lastActivityAt: timestamp('last_activity_at', { mode: 'date' }).defaultNow().notNull(),
+  createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
+  updatedAt: timestamp('updated_at', { mode: 'date' })
+    .defaultNow()
+    .$onUpdate(() => new Date())
+    .notNull(),
 });
 
 /** Conversion events for admin dashboard — Sprint 11.5 */

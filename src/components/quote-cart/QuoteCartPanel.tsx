@@ -66,7 +66,7 @@ export function QuoteCartPanel(props: QuoteCartPanelProps) {
           >
             <div className="min-w-0 flex-1">
               <p className="font-medium text-neutral-900">{item.name}</p>
-              <p className="text-xs text-neutral-500 capitalize">
+              <p className="text-xs text-muted capitalize">
                 {item.kind === 'accessory' ? 'Acessório' : 'Equipamento'}
               </p>
             </div>
@@ -89,7 +89,7 @@ export function QuoteCartPanel(props: QuoteCartPanelProps) {
         ))}
       </ul>
       {props.showCheckoutHint ? (
-        <p className="mt-4 text-xs text-neutral-500">
+        <p className="mt-4 text-xs text-muted">
           Os valores serão enviados pelo comercial após análise do pedido.
         </p>
       ) : null}

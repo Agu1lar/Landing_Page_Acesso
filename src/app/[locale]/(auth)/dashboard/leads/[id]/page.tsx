@@ -79,6 +79,11 @@ export default async function LeadDetailPage(props: LeadDetailPageProps) {
         <Button href="/dashboard/leads" size="sm" variant="outline">
           {t('back_to_list')}
         </Button>
+        {lead.clientId ? (
+          <Button href={`/dashboard/clientes/${lead.clientId}`} size="sm" variant="outline">
+            {t('view_client')}
+          </Button>
+        ) : null}
         <p className="text-sm text-neutral-500">
           {t('detail_id', { id: lead.id })} · {formatDateTimeBrasilia(activityAt, 'full')}
           {lead.lastActivityAt ? ` (${t('last_activity_label')})` : null}

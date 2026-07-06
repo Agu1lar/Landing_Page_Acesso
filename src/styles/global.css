@@ -12,16 +12,20 @@
 
   --color-neutral-900: #0f172a;
   --color-neutral-800: #1e293b;
+  --color-neutral-700: #334155;
   --color-neutral-600: #475569;
+  --color-neutral-500: #64748b;
   --color-neutral-400: #94a3b8;
+  --color-neutral-300: #cbd5e1;
   --color-neutral-200: #e2e8f0;
   --color-neutral-100: #f1f5f9;
   --color-neutral-50: #f8fafc;
   --color-surface: #ffffff;
 
   --color-accent: #1ea0c3;
-  --color-cta-whatsapp: #25d366;
-  --color-cta-whatsapp-hover: #20bd5a;
+  /* WCAG AA with white text (≥4.5:1) */
+  --color-cta-whatsapp: #157a3a;
+  --color-cta-whatsapp-hover: #126432;
 
   --font-heading: var(--font-plus-jakarta), system-ui, sans-serif;
   --font-body: var(--font-inter), system-ui, sans-serif;
@@ -52,5 +56,15 @@
   .cv-auto {
     content-visibility: auto;
     contain-intrinsic-size: auto 32rem;
+  }
+
+  /** Muted copy on light surfaces — meets WCAG AA vs white/surface */
+  .text-muted {
+    color: var(--color-neutral-600);
+  }
+
+  /** Muted copy on dark surfaces (footer, cookie banner, dark sections) */
+  .text-muted-inverse {
+    color: var(--color-neutral-400);
   }
 }

@@ -35,6 +35,7 @@ export function SiteHeader({ searchIndex }: SiteHeaderProps) {
   const [spacerHeight, setSpacerHeight] = useState(0);
 
   const headerRef = useRef<HTMLElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
   const compactRef = useRef(false);
   const heightsRef = useRef({ expanded: 0, compact: 0 });
   const lockedUntilRef = useRef(0);
@@ -132,6 +133,24 @@ export function SiteHeader({ searchIndex }: SiteHeaderProps) {
     }
   }, [compact]);
 
+  useEffect(() => {
+    if (!mobileOpen) {
+      return;
+    }
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setMobileOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [mobileOpen]);
+
   return (
     <>
       <div
@@ -210,6 +229,7 @@ export function SiteHeader({ searchIndex }: SiteHeaderProps) {
             </div>
 
             <button
+              aria-controls="site-mobile-nav"
               aria-expanded={mobileOpen}
               aria-label="Menu"
               className={`rounded-lg p-2 text-neutral-700 hover:bg-neutral-100 ${
@@ -218,6 +238,7 @@ export function SiteHeader({ searchIndex }: SiteHeaderProps) {
               onClick={() => {
                 setMobileOpen((o) => !o);
               }}
+              ref={menuButtonRef}
               type="button"
             >
               <MenuIcon open={mobileOpen} />
@@ -226,7 +247,7 @@ export function SiteHeader({ searchIndex }: SiteHeaderProps) {
         </div>
 
         {mobileOpen && (
-          <nav className="border-t border-neutral-100 px-4 py-3 xl:hidden">
+          <nav className="border-t border-neutral-100 px-4 py-3 xl:hidden" id="site-mobile-nav">
             <ul className="flex flex-col gap-2">
               {navLinks.map((link) => (
                 <li key={link.href}>

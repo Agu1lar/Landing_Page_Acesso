@@ -58,7 +58,7 @@ export default async function FaqPage(props: FaqPageProps) {
             whatsappLabel={t('cta_whatsapp')}
             whatsappOrigin="site-faq"
           />
-          <p className="mt-4 text-xs text-neutral-500">
+          <p className="mt-4 text-xs text-muted">
             {brand.hours} · {brand.phoneDisplay}
           </p>
         </aside>

@@ -53,6 +53,9 @@ export async function AdminShell(props: AdminShellProps) {
               />
             </li>
             <li>
+              <AdminNavLink href="/dashboard/clientes" icon="clients" label={t('clients_link')} />
+            </li>
+            <li>
               <AdminNavLink
                 href="/dashboard/analytics"
                 icon="analytics"

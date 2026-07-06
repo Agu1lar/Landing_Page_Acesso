@@ -247,7 +247,7 @@ export default async function SobrePage(props: PageProps) {
             whatsappLabel="Falar no WhatsApp"
             whatsappOrigin="site-sobre"
           />
-          <p className="mt-6 text-sm text-neutral-500">
+          <p className="mt-6 text-sm text-muted">
             <Link className="text-primary hover:underline" href="/contato">
               Página de contato completa →
             </Link>

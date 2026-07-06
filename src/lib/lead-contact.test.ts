@@ -9,8 +9,6 @@ import type { LeadRecord } from '@/lib/leads-admin';
 
 function lead(partial: Partial<LeadRecord> & Pick<LeadRecord, 'id' | 'email'>): LeadRecord {
   return {
-    id: partial.id,
-    email: partial.email,
     phone: partial.phone ?? null,
     name: partial.name ?? 'Test',
     company: null,
@@ -35,6 +33,9 @@ function lead(partial: Partial<LeadRecord> & Pick<LeadRecord, 'id' | 'email'>): 
     referrer: null,
     landingPage: null,
     internalNotes: null,
+    geoCity: null,
+    geoRegion: null,
+    clientId: null,
     createdAt: new Date('2026-06-01T12:00:00.000Z'),
     lastActivityAt: partial.lastActivityAt ?? null,
     ...partial,

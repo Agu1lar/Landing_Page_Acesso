@@ -133,10 +133,10 @@ export async function SiteFooter() {
           >
             {brand.techSupportEmail}
           </a>
-          <p className="mt-4 text-xs leading-relaxed text-neutral-500">{t('developed_by')}</p>
+          <p className="mt-4 text-xs leading-relaxed text-muted-inverse">{t('developed_by')}</p>
         </div>
       </div>
-      <div className="border-t border-neutral-800 py-4 text-center text-xs text-neutral-500">
+      <div className="border-t border-neutral-800 py-4 text-center text-xs text-muted-inverse">
         {t('rights', { year: new Date().getFullYear(), name: AppConfig.name })}
       </div>
     </footer>

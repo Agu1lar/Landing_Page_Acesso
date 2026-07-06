@@ -72,6 +72,7 @@ export function AdminHelpLauncher(props: AdminHelpLauncherProps) {
       title: t('section_navigation_title'),
       items: [
         { title: t('nav_leads_title'), body: t('nav_leads_body') },
+        { title: t('nav_clients_title'), body: t('nav_clients_body') },
         { title: t('nav_analytics_title'), body: t('nav_analytics_body') },
         ...(props.role === 'admin'
           ? [{ title: t('nav_equipment_title'), body: t('nav_equipment_body') }]
@@ -88,6 +89,15 @@ export function AdminHelpLauncher(props: AdminHelpLauncherProps) {
         { title: t('leads_status_title'), body: t('leads_status_body') },
         { title: t('leads_export_title'), body: t('leads_export_body') },
         { title: t('leads_attribution_title'), body: t('leads_attribution_body') },
+      ],
+    },
+    {
+      id: 'clients',
+      title: t('section_clients_title'),
+      items: [
+        { title: t('clients_dedup_title'), body: t('clients_dedup_body') },
+        { title: t('clients_search_title'), body: t('clients_search_body') },
+        { title: t('clients_history_title'), body: t('clients_history_body') },
       ],
     },
     {

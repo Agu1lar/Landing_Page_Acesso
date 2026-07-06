@@ -85,6 +85,10 @@ describe('build leads csv', () => {
         referrer: null,
         landingPage: '/orcamento',
         internalNotes: 'Ligou pela manhã',
+        geoCity: null,
+        geoRegion: null,
+        lastActivityAt: null,
+        clientId: null,
         createdAt: new Date('2026-05-20T12:00:00.000Z'),
       },
     ]);

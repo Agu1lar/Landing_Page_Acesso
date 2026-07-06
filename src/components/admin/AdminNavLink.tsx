@@ -5,6 +5,7 @@ import {
   IconAccess,
   IconAnalytics,
   IconBlog,
+  IconClients,
   IconEquipment,
   IconLeads,
   IconPlus,
@@ -13,10 +14,11 @@ import {
 import { isAdminNavActive } from '@/lib/admin-nav';
 import { Link } from '@/libs/I18nNavigation';
 
-export type AdminNavIcon = 'leads' | 'analytics' | 'equipment' | 'blog' | 'plus' | 'access' | 'search';
+export type AdminNavIcon = 'leads' | 'clients' | 'analytics' | 'equipment' | 'blog' | 'plus' | 'access' | 'search';
 
 const navIcons = {
   leads: IconLeads,
+  clients: IconClients,
   analytics: IconAnalytics,
   equipment: IconEquipment,
   blog: IconBlog,

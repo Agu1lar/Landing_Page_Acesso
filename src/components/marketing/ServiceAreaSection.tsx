@@ -70,7 +70,7 @@ export function ServiceAreaSection(props: ServiceAreaSectionProps) {
                     {isPrimary ? <MapPinIcon /> : null}
                     <span>{city}</span>
                     {isPrimary ? (
-                      <span className="rounded-full bg-white/20 px-1.5 py-0.5 text-[10px] font-bold tracking-wide uppercase">
+                      <span className="rounded-full border border-white/70 px-1.5 py-0.5 text-[10px] font-bold tracking-wide uppercase">
                         {props.primaryLabel}
                       </span>
                     ) : null}

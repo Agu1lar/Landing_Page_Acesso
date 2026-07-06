@@ -34,7 +34,7 @@ export function BusinessHoursBadge({ className = '' }: BusinessHoursBadgeProps) 
       />
       <span>
         {open ? t('open_now') : t('closed')}{' '}
-        <span className="text-neutral-500">· {COMMERCIAL_HOURS.scheduleLabel}</span>
+        <span className="text-neutral-600">· {COMMERCIAL_HOURS.scheduleLabel}</span>
       </span>
     </p>
   );

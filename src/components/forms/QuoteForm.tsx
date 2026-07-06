@@ -290,7 +290,7 @@ export function QuoteForm(props: QuoteFormProps) {
         </p>
       ) : null}
 
-      <p className="text-xs text-neutral-500">
+      <p className="text-xs text-muted">
         Ao continuar, sua solicitação é registrada para a equipe (e-mail interno) e você envia o
         orçamento pelo WhatsApp em seu nome. Dados tratados conforme LGPD.
       </p>

@@ -1,6 +1,7 @@
 import { and, eq, sql } from 'drizzle-orm';
 import { recordAnalyticsEvent } from '@/lib/analytics-events';
 import type { AttributionInput } from '@/lib/attribution';
+import { linkLeadToClient } from '@/lib/clients';
 import type { VisitorGeoInput } from '@/lib/visitor-geo';
 import type { GoogleIdTokenPayload } from '@/lib/google-id-token';
 import { db } from '@/libs/DB';
@@ -156,6 +157,17 @@ export async function createLead(input: CreateLeadInput) {
   );
 
   if (lead) {
+    await linkLeadToClient(
+      lead.id,
+      {
+        displayName: lead.name,
+        email: lead.email,
+        phone: lead.phone,
+        company: lead.company,
+      },
+      lead.lastActivityAt ?? lead.createdAt,
+    );
+
     await recordAnalyticsEvent({
       eventType: 'quote_submit',
       origin: lead.origin,
@@ -228,7 +240,19 @@ export async function createCookieConsentLead(input: CreateCookieConsentLeadInpu
       existingCookieLead,
     );
     logger.info(`Lead cookie-consent #${existingCookieLead.id} revisit email=${email}`);
-    return { lead: updated ?? existingCookieLead, reason: 'updated' as const };
+    const touched = updated ?? existingCookieLead;
+    await linkLeadToClient(
+      touched.id,
+      {
+        displayName: touched.name,
+        email: touched.email,
+        phone: touched.phone,
+        googleSub: touched.googleSub,
+        company: touched.company,
+      },
+      touched.lastActivityAt ?? touched.createdAt,
+    );
+    return { lead: touched, reason: 'updated' as const };
   }
 
   const attribution = input.attribution;
@@ -260,6 +284,17 @@ export async function createCookieConsentLead(input: CreateCookieConsentLeadInpu
 
   if (lead) {
     logger.info(`Lead cookie-consent #${lead.id} email=${lead.email}`);
+    await linkLeadToClient(
+      lead.id,
+      {
+        displayName: lead.name,
+        email: lead.email,
+        phone: lead.phone,
+        googleSub: lead.googleSub,
+        company: lead.company,
+      },
+      lead.lastActivityAt ?? lead.createdAt,
+    );
   }
 
   return { lead: lead ?? null, reason: 'created' as const };
@@ -305,6 +340,17 @@ export async function updateCookieConsentLeadPhone(input: {
 
   if (updated) {
     logger.info(`Lead cookie-consent #${updated.id} phone added email=${email}`);
+    await linkLeadToClient(
+      updated.id,
+      {
+        displayName: updated.name,
+        email: updated.email,
+        phone: updated.phone,
+        googleSub: updated.googleSub,
+        company: updated.company,
+      },
+      updated.lastActivityAt ?? updated.createdAt,
+    );
   }
 
   return { lead: updated ?? existing, reason: 'updated' as const };

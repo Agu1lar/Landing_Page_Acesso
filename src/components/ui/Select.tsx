@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef } from 'react';
+import { useId, type ComponentPropsWithoutRef } from 'react';
 
 type SelectProps = ComponentPropsWithoutRef<'select'> & {
   label: string;
@@ -6,7 +6,9 @@ type SelectProps = ComponentPropsWithoutRef<'select'> & {
 };
 
 export function Select({ label, error, className = '', id, children, ...props }: SelectProps) {
-  const selectId = id ?? props.name;
+  const generatedId = useId();
+  const selectId = id ?? props.name ?? generatedId;
+  const errorId = `${selectId}-error`;
 
   return (
     <div className="w-full">
@@ -14,6 +16,8 @@ export function Select({ label, error, className = '', id, children, ...props }:
         {label}
       </label>
       <select
+        aria-describedby={error ? errorId : undefined}
+        aria-invalid={error ? true : undefined}
         className={`w-full rounded-lg border bg-surface px-3 py-2 text-sm text-neutral-900 transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none ${
           error ? 'border-red-500' : 'border-neutral-200'
         } ${className}`}
@@ -22,7 +26,11 @@ export function Select({ label, error, className = '', id, children, ...props }:
       >
         {children}
       </select>
-      {error ? <p className="mt-1 text-xs text-red-600">{error}</p> : null}
+      {error ? (
+        <p className="mt-1 text-xs text-red-600" id={errorId} role="alert">
+          {error}
+        </p>
+      ) : null}
     </div>
   );
 }

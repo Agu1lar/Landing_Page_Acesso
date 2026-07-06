@@ -37,6 +37,10 @@ const sampleLead = {
   referrer: null,
   landingPage: null,
   internalNotes: null,
+  geoCity: null,
+  geoRegion: null,
+  lastActivityAt: null,
+  clientId: null,
   createdAt: new Date('2026-05-19'),
 };
 

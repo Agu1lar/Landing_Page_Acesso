@@ -131,7 +131,14 @@ export function GlobalSearch({ index, className = '', id, compact = false }: Glo
         </span>
         <input
           ref={inputRef}
-          className={`w-full rounded-lg border border-neutral-200 bg-background-muted text-neutral-900 transition-colors placeholder:text-neutral-400 focus:border-primary focus:bg-surface focus:ring-2 focus:ring-primary/20 focus:outline-none ${
+          aria-activedescendant={
+            open && results[activeIndex] ? `${listId}-option-${activeIndex}` : undefined
+          }
+          aria-autocomplete="list"
+          aria-controls={listId}
+          aria-expanded={open && query.trim().length > 0}
+          autoComplete="off"
+          className={`w-full rounded-lg border border-neutral-200 bg-background-muted text-neutral-900 transition-colors placeholder:text-neutral-500 focus:border-primary focus:bg-surface focus:ring-2 focus:ring-primary/20 focus:outline-none ${
             compact ? 'py-1.5 pr-10 pl-9 text-sm' : 'py-2 pr-16 pl-10 text-sm'
           }`}
           id={id}
@@ -145,15 +152,12 @@ export function GlobalSearch({ index, className = '', id, compact = false }: Glo
           }}
           onKeyDown={onKeyDown}
           placeholder={t('placeholder')}
+          role="combobox"
           type="search"
           value={query}
-          autoComplete="off"
-          aria-expanded={open && query.trim().length > 0}
-          aria-controls={listId}
-          aria-autocomplete="list"
         />
         {!compact && (
-          <kbd className="pointer-events-none absolute top-1/2 right-3 hidden -translate-y-1/2 rounded border border-neutral-200 bg-surface px-1.5 py-0.5 font-mono text-[10px] text-neutral-400 sm:inline">
+          <kbd className="pointer-events-none absolute top-1/2 right-3 hidden -translate-y-1/2 rounded border border-neutral-200 bg-surface px-1.5 py-0.5 font-mono text-[10px] text-neutral-600 sm:inline">
             ⌘K
           </kbd>
         )}
@@ -169,7 +173,12 @@ export function GlobalSearch({ index, className = '', id, compact = false }: Glo
             <li className="px-4 py-3 text-sm text-neutral-600">{t('no_results')}</li>
           ) : (
             results.map((item, i) => (
-              <li key={item.slug} role="option" aria-selected={i === activeIndex}>
+              <li
+                aria-selected={i === activeIndex}
+                id={`${listId}-option-${i}`}
+                key={item.slug}
+                role="option"
+              >
                 <button
                   className={`flex w-full flex-col gap-0.5 px-4 py-2.5 text-left text-sm transition-colors hover:bg-background-muted ${i === activeIndex ? 'bg-primary-light' : ''}`}
                   onMouseDown={(e) => {
@@ -181,7 +190,7 @@ export function GlobalSearch({ index, className = '', id, compact = false }: Glo
                   type="button"
                 >
                   <span className="font-medium text-neutral-900">{item.name}</span>
-                  <span className="text-xs text-neutral-500">{CATEGORY_LABELS[item.category]}</span>
+                  <span className="text-xs text-neutral-600">{CATEGORY_LABELS[item.category]}</span>
                 </button>
               </li>
             ))
