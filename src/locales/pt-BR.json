@@ -393,10 +393,10 @@
     "merge_view_result": "Ver ficha do cliente unificado",
     "delete_button": "Excluir",
     "delete_confirm_title": "Excluir cliente(s) selecionado(s)?",
-    "delete_confirm_body": "A ficha do cliente será removida. Os leads e orçamentos no sistema não são apagados — apenas deixam de estar vinculados a este cliente. Esta ação não pode ser desfeita.",
+    "delete_confirm_body": "O cliente some da lista nesta sessão do navegador. Os leads no sistema não são apagados — só deixam de aparecer agrupados aqui. A exclusão no banco é tentada em segundo plano.",
     "delete_confirm_button": "Confirmar exclusão",
-    "delete_success": "{count, plural, one {# cliente excluído.} other {# clientes excluídos.}}",
-    "delete_error": "Não foi possível excluir o(s) cliente(s)."
+    "delete_success": "{count, plural, one {# cliente removido da lista.} other {# clientes removidos da lista.}}",
+    "delete_error": "Não foi possível remover o(s) cliente(s) da lista."
   },
   "AdminHelp": {
     "trigger_label": "Ajuda do painel",

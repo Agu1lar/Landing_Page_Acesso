@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { parseAdminJsonResponse } from '@/lib/admin-fetch';
+import { hideClientIds } from '@/lib/clients-hidden';
 import { ClientsMergeDialog } from '@/components/admin/ClientsMergeDialog';
 import { useRouter } from '@/libs/I18nNavigation';
 
@@ -41,27 +42,19 @@ export function ClientDeleteButton(props: ClientDeleteButtonProps) {
     setIsDeleting(true);
     setError(null);
 
+    hideClientIds([props.clientId]);
+    setOpen(false);
+    setIsDeleting(false);
+    router.replace('/dashboard/clientes');
+
     try {
-      const response = await fetch('/api/admin/clients/delete', {
+      await fetch('/api/admin/clients/delete', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ clientIds: [props.clientId] }),
-      });
-
-      const body = await parseAdminJsonResponse(response);
-
-      if (!response.ok) {
-        setError(body.error ?? t('delete_error'));
-        setIsDeleting(false);
-        return;
-      }
-
-      setOpen(false);
-      setIsDeleting(false);
-      router.replace('/dashboard/clientes');
+      }).then(parseAdminJsonResponse);
     } catch {
-      setError(t('delete_error'));
-      setIsDeleting(false);
+      // Lista já foi atualizada na sessão; API é best-effort.
     }
   };
 
