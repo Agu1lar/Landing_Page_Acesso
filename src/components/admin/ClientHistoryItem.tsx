@@ -1,13 +1,24 @@
 'use client';
 
 import { formatDateTimeBrasilia } from '@/lib/app-datetime';
+import { formatLeadCartItems } from '@/lib/lead-cart';
 import { LEAD_STATUSES, type LeadStatus } from '@/lib/lead-status';
-import { formatLeadCartItems, type LeadRecord } from '@/lib/leads-admin';
 import { LeadStatusForm } from '@/components/admin/LeadStatusForm';
 import { Link } from '@/libs/I18nNavigation';
 
+type ClientHistoryLead = {
+  id: number;
+  status: string;
+  leadKind: string;
+  origin: string;
+  itemsJson: string | null;
+  equipmentName: string | null;
+  lastActivityAt: Date | null;
+  createdAt: Date;
+};
+
 type ClientHistoryItemProps = {
-  lead: LeadRecord;
+  lead: ClientHistoryLead;
   labels: {
     kindQuote: string;
     kindCookie: string;
@@ -19,7 +30,7 @@ type ClientHistoryItemProps = {
   };
 };
 
-function activityDate(lead: LeadRecord) {
+function activityDate(lead: ClientHistoryLead) {
   return lead.lastActivityAt ?? lead.createdAt;
 }
 
