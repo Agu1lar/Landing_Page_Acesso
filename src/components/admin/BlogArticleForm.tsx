@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { useMemo, useState } from 'react';
 import { BlogCoverUpload } from '@/components/admin/BlogCoverUpload';
-import { BlogTiptapEditor } from '@/components/admin/BlogTiptapEditor';
+import { BlogTagEditor } from '@/components/admin/BlogTagEditor';
 import { AdminPendingButton } from '@/components/admin/AdminPendingButton';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -164,7 +164,7 @@ export function BlogArticleForm(props: BlogArticleFormProps) {
 
       <section className="space-y-4 rounded-lg border border-neutral-200 bg-surface p-5">
         <h2 className="font-heading text-lg font-semibold text-neutral-900">{t('section_content')}</h2>
-        <BlogTiptapEditor content={content} onChange={setContent} uploadSlug={slug || 'rascunho'} />
+        <BlogTagEditor content={content} onChange={setContent} uploadSlug={slug || 'rascunho'} />
       </section>
 
       <section className="space-y-4 rounded-lg border border-neutral-200 bg-surface p-5">
