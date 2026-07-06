@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { parseAdminJsonResponse } from '@/lib/admin-fetch';
-import { hideClientIds } from '@/lib/clients-hidden';
+import { hideClients } from '@/lib/clients-hidden';
 import { ClientsMergeDialog } from '@/components/admin/ClientsMergeDialog';
 import { useRouter } from '@/libs/I18nNavigation';
 
@@ -12,6 +12,7 @@ type ClientDeleteButtonProps = {
   displayName: string;
   email: string | null;
   phone: string | null;
+  googleSub?: string | null;
 };
 
 export function ClientDeleteButton(props: ClientDeleteButtonProps) {
@@ -27,7 +28,7 @@ export function ClientDeleteButton(props: ClientDeleteButtonProps) {
     email: props.email,
     phone: props.phone,
     phoneNormalized: null,
-    googleSub: null,
+    googleSub: props.googleSub ?? null,
     company: null,
     firstSeenAt: new Date(),
     lastActivityAt: new Date(),
@@ -42,7 +43,7 @@ export function ClientDeleteButton(props: ClientDeleteButtonProps) {
     setIsDeleting(true);
     setError(null);
 
-    hideClientIds([props.clientId]);
+    hideClients([clientPreview]);
     setOpen(false);
     setIsDeleting(false);
     router.replace('/dashboard/clientes');
@@ -54,7 +55,7 @@ export function ClientDeleteButton(props: ClientDeleteButtonProps) {
         body: JSON.stringify({ clientIds: [props.clientId] }),
       }).then(parseAdminJsonResponse);
     } catch {
-      // Lista já foi atualizada na sessão; API é best-effort.
+      // Lista já foi atualizada no navegador; API é best-effort.
     }
   };
 

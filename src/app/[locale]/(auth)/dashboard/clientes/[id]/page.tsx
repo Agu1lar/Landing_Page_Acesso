@@ -78,6 +78,7 @@ export default async function ClientDetailPage(props: ClientDetailPageProps) {
             clientId={client.id}
             displayName={client.displayName}
             email={client.email}
+            googleSub={client.googleSub}
             phone={client.phone}
           />
         ) : null}

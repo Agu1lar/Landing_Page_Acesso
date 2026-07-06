@@ -4,7 +4,12 @@ import { useTranslations } from 'next-intl';
 import { useEffect, useMemo, useState } from 'react';
 import type { ClientListItem } from '@/lib/clients-admin';
 import { parseAdminJsonResponse } from '@/lib/admin-fetch';
-import { hideClientIds, loadHiddenClientIds } from '@/lib/clients-hidden';
+import {
+  hideClients,
+  isClientHidden,
+  loadHiddenClientStore,
+  type HideableClient,
+} from '@/lib/clients-hidden';
 import { ClientsAdminToolbar } from '@/components/admin/ClientsAdminToolbar';
 import { ClientsMergeDialog } from '@/components/admin/ClientsMergeDialog';
 import { ClientsTable } from '@/components/admin/ClientsTable';
@@ -19,7 +24,7 @@ export function ClientsTableWithMerge(props: ClientsTableWithMergeProps) {
   const { clients, canManage } = props;
   const t = useTranslations('ClientsPage');
   const router = useRouter();
-  const [hiddenIds, setHiddenIds] = useState<number[]>([]);
+  const [hiddenVersion, setHiddenVersion] = useState(0);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [mergeDialogOpen, setMergeDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -32,13 +37,14 @@ export function ClientsTableWithMerge(props: ClientsTableWithMergeProps) {
   const [deleteSuccess, setDeleteSuccess] = useState<number | null>(null);
 
   useEffect(() => {
-    setHiddenIds(loadHiddenClientIds());
+    loadHiddenClientStore();
+    setHiddenVersion((value) => value + 1);
   }, []);
 
-  const hiddenSet = useMemo(() => new Set(hiddenIds), [hiddenIds]);
+  const hiddenStore = useMemo(() => loadHiddenClientStore(), [hiddenVersion]);
   const visibleClients = useMemo(
-    () => clients.filter((client) => !hiddenSet.has(client.id)),
-    [clients, hiddenSet],
+    () => clients.filter((client) => !isClientHidden(client, hiddenStore)),
+    [clients, hiddenStore],
   );
 
   const selectedClients = visibleClients.filter((client) => selectedIds.includes(client.id));
@@ -50,12 +56,12 @@ export function ClientsTableWithMerge(props: ClientsTableWithMergeProps) {
     setSelectedIds((current) => current.filter((id) => visibleIds.has(id)));
   }, [visibleClients]);
 
-  const dismissFromList = (ids: number[]) => {
-    if (ids.length === 0) {
+  const dismissFromList = (clientsToHide: HideableClient[]) => {
+    if (clientsToHide.length === 0) {
       return;
     }
-    hideClientIds(ids);
-    setHiddenIds((current) => [...new Set([...current, ...ids])]);
+    hideClients(clientsToHide);
+    setHiddenVersion((value) => value + 1);
   };
 
   const toggleOne = (clientId: number, checked: boolean) => {
@@ -99,8 +105,8 @@ export function ClientsTableWithMerge(props: ClientsTableWithMergeProps) {
         return;
       }
 
-      const duplicateIds = ids.filter((id) => id !== body.primaryClientId);
-      dismissFromList(duplicateIds);
+      const duplicateClients = mergeTargets.filter((client) => client.id !== body.primaryClientId);
+      dismissFromList(duplicateClients);
 
       setMergeDialogOpen(false);
       setSelectedIds([]);
@@ -115,8 +121,7 @@ export function ClientsTableWithMerge(props: ClientsTableWithMergeProps) {
   };
 
   const runDelete = async () => {
-    const ids = deleteTargets.map((client) => client.id);
-    if (ids.length === 0) {
+    if (deleteTargets.length === 0) {
       setError(t('delete_error'));
       return;
     }
@@ -124,10 +129,10 @@ export function ClientsTableWithMerge(props: ClientsTableWithMergeProps) {
     setIsDeleting(true);
     setError(null);
 
-    dismissFromList(ids);
+    dismissFromList(deleteTargets);
     setDeleteDialogOpen(false);
     setSelectedIds([]);
-    setDeleteSuccess(ids.length);
+    setDeleteSuccess(deleteTargets.length);
     setMergeSuccess(null);
     setIsDeleting(false);
 
@@ -135,7 +140,7 @@ export function ClientsTableWithMerge(props: ClientsTableWithMergeProps) {
       const response = await fetch('/api/admin/clients/delete', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ clientIds: ids }),
+        body: JSON.stringify({ clientIds: deleteTargets.map((client) => client.id) }),
       });
 
       const body = await parseAdminJsonResponse(response);
@@ -143,10 +148,8 @@ export function ClientsTableWithMerge(props: ClientsTableWithMergeProps) {
       if (!response.ok && response.status !== 404) {
         setError(body.error ?? t('delete_error'));
       }
-
-      router.refresh();
     } catch {
-      // Mantém oculto na lista mesmo se a API falhar — pedido do usuário.
+      // Mantém oculto na lista mesmo se a API falhar.
     }
   };
 
