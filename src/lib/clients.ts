@@ -110,6 +110,21 @@ export async function mergeClientsByIds(clientIds: number[]) {
   const merged = mergeClientFields(records);
   const aliasRows = collectClientAliasInserts(merged, records, primaryId);
 
+  const existingAliases = await db
+    .select()
+    .from(clientAliasesSchema)
+    .where(inArray(clientAliasesSchema.clientId, uniqueIds));
+
+  const aliasKeys = new Set(aliasRows.map((row) => `${row.kind}:${row.value}`));
+  for (const row of existingAliases) {
+    const key = `${row.kind}:${row.value}`;
+    if (aliasKeys.has(key)) {
+      continue;
+    }
+    aliasKeys.add(key);
+    aliasRows.push({ clientId: primaryId, kind: row.kind as 'email' | 'phone' | 'google_sub', value: row.value });
+  }
+
   await db.transaction(async (tx) => {
     for (const duplicateId of duplicateIds) {
       await tx
@@ -117,6 +132,9 @@ export async function mergeClientsByIds(clientIds: number[]) {
         .set({ clientId: primaryId })
         .where(eq(leadsSchema.clientId, duplicateId));
     }
+
+    // Remove duplicates before updating unique fields on the primary row.
+    await tx.delete(clientsSchema).where(inArray(clientsSchema.id, duplicateIds));
 
     await tx
       .update(clientsSchema)
@@ -138,8 +156,6 @@ export async function mergeClientsByIds(clientIds: number[]) {
         .values(aliasRows)
         .onConflictDoNothing({ target: [clientAliasesSchema.kind, clientAliasesSchema.value] });
     }
-
-    await tx.delete(clientsSchema).where(inArray(clientsSchema.id, duplicateIds));
   });
 
   logger.info(
