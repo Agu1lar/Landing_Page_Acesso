@@ -1,9 +1,10 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
+import { parseAdminJsonResponse } from '@/lib/admin-fetch';
 import { ClientsMergeDialog } from '@/components/admin/ClientsMergeDialog';
+import { useRouter } from '@/libs/I18nNavigation';
 
 type ClientDeleteButtonProps = {
   clientId: number;
@@ -40,23 +41,28 @@ export function ClientDeleteButton(props: ClientDeleteButtonProps) {
     setIsDeleting(true);
     setError(null);
 
-    const response = await fetch('/api/admin/clients/delete', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ clientIds: [props.clientId] }),
-    });
+    try {
+      const response = await fetch('/api/admin/clients/delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ clientIds: [props.clientId] }),
+      });
 
-    const body = (await response.json()) as { error?: string };
+      const body = await parseAdminJsonResponse(response);
 
-    if (!response.ok) {
-      setError(body.error ?? t('delete_error'));
+      if (!response.ok) {
+        setError(body.error ?? t('delete_error'));
+        setIsDeleting(false);
+        return;
+      }
+
+      setOpen(false);
       setIsDeleting(false);
-      return;
+      router.replace('/dashboard/clientes');
+    } catch {
+      setError(t('delete_error'));
+      setIsDeleting(false);
     }
-
-    setOpen(false);
-    router.push('/dashboard/clientes');
-    router.refresh();
   };
 
   return (

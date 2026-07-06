@@ -5,6 +5,14 @@ import { formatDateTimeBrasilia } from '@/lib/app-datetime';
 import type { ClientListItem } from '@/lib/clients-admin';
 import { Link } from '@/libs/I18nNavigation';
 
+function formatClientDate(value: Date | string) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) {
+    return '—';
+  }
+  return formatDateTimeBrasilia(date);
+}
+
 type ClientsTableProps = {
   clients: ClientListItem[];
   canManage?: boolean;
@@ -86,9 +94,9 @@ export function ClientsTable(props: ClientsTableProps) {
                 {t('lead_count', { count: client.leadCount })}
               </td>
               <td className="px-4 py-3 text-neutral-600">
-                <p>{formatDateTimeBrasilia(new Date(client.lastActivityAt))}</p>
+                <p>{formatClientDate(client.lastActivityAt)}</p>
                 <p className="text-xs text-neutral-500">
-                  {t('col_first_seen')}: {formatDateTimeBrasilia(new Date(client.firstSeenAt))}
+                  {t('col_first_seen')}: {formatClientDate(client.firstSeenAt)}
                 </p>
               </td>
               <td className="px-4 py-3 text-right">

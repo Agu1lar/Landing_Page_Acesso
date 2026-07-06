@@ -1,12 +1,13 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import type { ClientListItem } from '@/lib/clients-admin';
+import { parseAdminJsonResponse } from '@/lib/admin-fetch';
 import { ClientsAdminToolbar } from '@/components/admin/ClientsAdminToolbar';
 import { ClientsMergeDialog } from '@/components/admin/ClientsMergeDialog';
 import { ClientsTable } from '@/components/admin/ClientsTable';
+import { useRouter } from '@/libs/I18nNavigation';
 
 type ClientsTableWithMergeProps = {
   clients: ClientListItem[];
@@ -50,55 +51,63 @@ export function ClientsTableWithMerge(props: ClientsTableWithMergeProps) {
     setIsMerging(true);
     setError(null);
 
-    const response = await fetch('/api/admin/clients/merge', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ clientIds: selectedIds }),
-    });
+    try {
+      const response = await fetch('/api/admin/clients/merge', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ clientIds: selectedIds }),
+      });
 
-    const body = (await response.json()) as {
-      error?: string;
-      primaryClientId?: number;
-    };
+      const body = await parseAdminJsonResponse(response);
 
-    if (!response.ok) {
-      setError(body.error ?? t('merge_error'));
+      if (!response.ok) {
+        setError(body.error ?? t('merge_error'));
+        setIsMerging(false);
+        return;
+      }
+
+      setMergeDialogOpen(false);
+      setSelectedIds([]);
+      setMergeSuccess({ primaryClientId: body.primaryClientId! });
+      setDeleteSuccess(null);
       setIsMerging(false);
-      return;
+      router.refresh();
+    } catch {
+      setError(t('merge_error'));
+      setIsMerging(false);
     }
-
-    setMergeDialogOpen(false);
-    setSelectedIds([]);
-    setMergeSuccess({ primaryClientId: body.primaryClientId! });
-    setDeleteSuccess(null);
-    setIsMerging(false);
-    router.refresh();
   };
 
   const runDelete = async () => {
     setIsDeleting(true);
     setError(null);
+    const deletedCountFallback = selectedIds.length;
 
-    const response = await fetch('/api/admin/clients/delete', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ clientIds: selectedIds }),
-    });
+    try {
+      const response = await fetch('/api/admin/clients/delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ clientIds: selectedIds }),
+      });
 
-    const body = (await response.json()) as { error?: string; deletedCount?: number };
+      const body = await parseAdminJsonResponse(response);
 
-    if (!response.ok) {
-      setError(body.error ?? t('delete_error'));
+      if (!response.ok) {
+        setError(body.error ?? t('delete_error'));
+        setIsDeleting(false);
+        return;
+      }
+
+      setDeleteDialogOpen(false);
+      setSelectedIds([]);
+      setDeleteSuccess(body.deletedCount ?? deletedCountFallback);
+      setMergeSuccess(null);
       setIsDeleting(false);
-      return;
+      router.refresh();
+    } catch {
+      setError(t('delete_error'));
+      setIsDeleting(false);
     }
-
-    setDeleteDialogOpen(false);
-    setSelectedIds([]);
-    setDeleteSuccess(body.deletedCount ?? selectedIds.length);
-    setMergeSuccess(null);
-    setIsDeleting(false);
-    router.refresh();
   };
 
   return (

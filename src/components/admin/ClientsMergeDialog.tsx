@@ -42,7 +42,7 @@ export function ClientsMergeDialog(props: ClientsMergeDialogProps) {
       document.removeEventListener('keydown', onKeyDown);
       document.body.style.overflow = '';
     };
-  }, [props.open, props.isBusy, props.onClose]);
+  }, [props.open, props.isBusy]);
 
   if (!props.open) {
     return null;
