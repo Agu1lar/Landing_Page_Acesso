@@ -9,7 +9,7 @@ export default async function DashboardPage(props: { params: Promise<{ locale: s
   const access = await requireDashboardAccess();
 
   if (!access.ok) {
-    redirect('/sign-in');
+    redirect(access.status === 403 ? '/unauthorized' : '/sign-in');
   }
 
   redirect('/dashboard/leads');

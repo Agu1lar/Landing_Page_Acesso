@@ -14,7 +14,7 @@ export default async function AuthLayout(props: {
   const clerkLocale =
     ClerkLocalizations.supportedLocales[locale] ?? ClerkLocalizations.defaultLocale;
   let signInUrl = '/sign-in';
-  let dashboardUrl = '/dashboard';
+  let dashboardUrl = '/dashboard/leads';
   let afterSignOutUrl = '/';
 
   if (locale !== routing.defaultLocale) {

@@ -111,3 +111,12 @@ No Clerk **Production**, o Google **exige credenciais próprias** (não usa as c
 | Leads “Google (cookies)” | `NEXT_PUBLIC_GOOGLE_CLIENT_ID` na Vercel — ver `docs/GOOGLE-ONE-TAP.md` |
 
 Pode ser o **mesmo** OAuth Client ID no Google Cloud, desde que tenha **origens** e **redirect** corretos nos dois campos.
+
+### Carregamento infinito após “Continuar com Google”
+
+1. **Mesmo e-mail no Clerk** — em Production → **Users**, o usuário deve existir **antes** do login Google, com o **mesmo e-mail** da conta Google.
+2. **Papel no metadata** — nesse usuário: `{ "role": "admin" }` ou `"comercial"`.
+3. **Lista de acesso** — se há e-mails em `/dashboard/acesso`, o seu e-mail Google precisa estar na lista (ou ser `admin` no Clerk).
+4. **Cadastro via Google** — com **Restrictions → Restricted**, desligue **Enable for sign-up and sign-in** no Google e use só contas já criadas no Clerk; ou crie o usuário manualmente antes.
+5. **Client ID completo** — no Clerk, confira se termina em `.apps.googleusercontent.com` (sem corte ao colar).
+6. Após login, se não tiver permissão, deve ir para `/unauthorized` (não ficar girando).
