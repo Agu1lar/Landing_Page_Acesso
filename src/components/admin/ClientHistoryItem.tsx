@@ -31,7 +31,8 @@ type ClientHistoryItemProps = {
 };
 
 function activityDate(lead: ClientHistoryLead) {
-  return lead.lastActivityAt ?? lead.createdAt;
+  const value = lead.lastActivityAt ?? lead.createdAt;
+  return value instanceof Date ? value : new Date(value);
 }
 
 export function ClientHistoryItem(props: ClientHistoryItemProps) {

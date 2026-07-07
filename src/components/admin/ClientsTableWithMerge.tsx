@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from 'react';
 import type { ClientListItem } from '@/types/client-admin';
 import { parseAdminJsonResponse } from '@/lib/admin-fetch';
 import {
+  EMPTY_HIDDEN_CLIENT_STORE,
   hideClients,
   isClientHidden,
   loadHiddenClientStore,
@@ -25,6 +26,7 @@ export function ClientsTableWithMerge(props: ClientsTableWithMergeProps) {
   const t = useTranslations('ClientsPage');
   const router = useRouter();
   const [hiddenVersion, setHiddenVersion] = useState(0);
+  const [storageReady, setStorageReady] = useState(false);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [mergeDialogOpen, setMergeDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -38,10 +40,16 @@ export function ClientsTableWithMerge(props: ClientsTableWithMergeProps) {
 
   useEffect(() => {
     loadHiddenClientStore();
+    setStorageReady(true);
     setHiddenVersion((value) => value + 1);
   }, []);
 
-  const hiddenStore = useMemo(() => loadHiddenClientStore(), [hiddenVersion]);
+  const hiddenStore = useMemo(() => {
+    if (!storageReady) {
+      return EMPTY_HIDDEN_CLIENT_STORE;
+    }
+    return loadHiddenClientStore();
+  }, [hiddenVersion, storageReady]);
   const visibleClients = useMemo(
     () => clients.filter((client) => !isClientHidden(client, hiddenStore)),
     [clients, hiddenStore],

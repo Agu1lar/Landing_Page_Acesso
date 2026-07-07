@@ -44,6 +44,8 @@ function emptyStore(): HiddenClientStore {
   return { ids: [], identityKeys: [] };
 }
 
+export const EMPTY_HIDDEN_CLIENT_STORE = emptyStore();
+
 function mergeStores(...stores: HiddenClientStore[]): HiddenClientStore {
   return {
     ids: [...new Set(stores.flatMap((store) => store.ids))],

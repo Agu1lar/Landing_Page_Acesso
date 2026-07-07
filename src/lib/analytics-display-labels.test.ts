@@ -3,6 +3,7 @@ import {
   formatCampaignName,
   formatDevice,
   formatEquipmentAnalyticsLabel,
+  formatOriginForOutgoingMessage,
   formatSitePath,
   formatTrafficSource,
   formatWhatsAppOrigin,
@@ -12,6 +13,13 @@ describe('analytics display labels', () => {
   it('maps whatsapp origin codes to plain language', () => {
     expect(formatWhatsAppOrigin('site-header')).toBe('Topo do site (menu principal)');
     expect(formatWhatsAppOrigin('site-flutuante')).toBe('Botão flutuante (canto da tela)');
+  });
+
+  it('simplifies origins in outgoing messages', () => {
+    expect(formatOriginForOutgoingMessage('site-header')).toBe('site');
+    expect(formatOriginForOutgoingMessage('site-orcamento')).toBe('site');
+    expect(formatOriginForOutgoingMessage('site')).toBe('site');
+    expect(formatOriginForOutgoingMessage('')).toBe('site');
   });
 
   it('humanizes unknown site-* origins', () => {

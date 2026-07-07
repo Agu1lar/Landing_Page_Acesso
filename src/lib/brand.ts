@@ -1,3 +1,5 @@
+import { formatOriginForOutgoingMessage } from '@/lib/analytics-display-labels';
+
 /** Brand & contact constants — Acesso Equipamentos */
 export const brand = {
   name: 'Acesso Equipamentos',
@@ -82,7 +84,7 @@ export function buildWhatsAppMessage(
     item = ` sobre ${options.topic}`;
   }
   const ref = options.equipmentSlug ? ` Ref.: ${options.equipmentSlug}.` : '';
-  const origin = options.origin ?? 'site';
+  const origin = formatOriginForOutgoingMessage(options.origin ?? 'site');
 
   return `Olá! Tenho interesse${item} na ${brand.seoRegion}.${ref} Origem: ${origin}. Poderiam enviar um orçamento?`;
 }

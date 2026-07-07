@@ -63,6 +63,19 @@ function formatUnknownWhatsAppOrigin(origin: string) {
   return origin;
 }
 
+/** Plain label for WhatsApp/e-mail text (not internal analytics ids like site-header). */
+export function formatOriginForOutgoingMessage(origin: string): string {
+  if (!origin || origin === '—') {
+    return 'site';
+  }
+
+  if (origin === 'site' || origin.startsWith('site-')) {
+    return 'site';
+  }
+
+  return origin;
+}
+
 /** Turns internal tracking ids (e.g. site-header) into plain-language labels. */
 export function formatWhatsAppOrigin(origin: string): string {
   if (!origin || origin === '—') {

@@ -1,4 +1,5 @@
 import type { InferSelectModel } from 'drizzle-orm';
+import { formatOriginForOutgoingMessage } from '@/lib/analytics-display-labels';
 import { brand } from '@/lib/brand';
 import { Env } from '@/libs/Env';
 import { logger } from '@/libs/Logger';
@@ -104,7 +105,7 @@ export async function notifyLeadByEmail(lead: LeadRecord) {
     cartLines ? '' : `Equipamento: ${lead.equipmentName ?? '—'}`,
     cartLines ? '' : `Slug: ${lead.equipmentSlug ?? '—'}`,
     `Período: ${period}`,
-    `Origem: ${lead.origin}`,
+    `Origem: ${formatOriginForOutgoingMessage(lead.origin)}`,
     ...formatAttributionForEmail(lead),
     '',
     lead.message ? `Mensagem:\n${lead.message}` : '',

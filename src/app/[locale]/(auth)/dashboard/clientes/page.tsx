@@ -41,7 +41,24 @@ export default async function ClientsPage(props: ClientsPageProps) {
     page: Number.isNaN(page) ? 1 : page,
   };
 
-  const { clients, total, totalPages } = await listClients(filters);
+  const listResult = await listClients(filters).catch((error: unknown) => {
+    console.error('Clients page load failed', error);
+    return null;
+  });
+
+  if (!listResult) {
+    return (
+      <div className="space-y-8">
+        <AdminPageHeader description={t('summary', { count: 0 })} title={t('title')} />
+        <div className="rounded-[var(--radius-card)] border border-amber-200 bg-amber-50 px-4 py-4 text-sm text-amber-950">
+          <p className="font-medium">{t('load_error_title')}</p>
+          <p className="mt-2">{t('load_error_body')}</p>
+        </div>
+      </div>
+    );
+  }
+
+  const { clients, total, totalPages } = listResult;
   const access = await requireDashboardAccess();
   const canManage = access.ok && access.role === 'admin';
   const basePath = '/dashboard/clientes';

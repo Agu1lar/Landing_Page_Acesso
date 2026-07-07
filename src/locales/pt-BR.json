@@ -300,7 +300,12 @@
     "sign_out": "Sair",
     "support_title": "Suporte técnico",
     "support_hint": "Site, painel e integrações",
-    "developed_by": "Desenvolvido pela área de tecnologia"
+    "developed_by": "Desenvolvido pela área de tecnologia",
+    "error_title": "Não foi possível carregar o painel",
+    "error_body": "Ocorreu um erro ao abrir esta página. Tente novamente em alguns segundos.",
+    "error_migration_hint": "Se o problema começou após um deploy recente, confirme que as migrações do banco (0028 clientes, 0029 aliases, 0030 WhatsApp) foram aplicadas no Neon.",
+    "error_debug_toggle": "Detalhes técnicos",
+    "error_retry_button": "Tentar novamente"
   },
   "AccessAdminPage": {
     "meta_title": "Acesso ao painel",
@@ -396,7 +401,9 @@
     "delete_confirm_body": "O cliente some da lista neste navegador (por e-mail, telefone ou conta Google). Os leads no sistema não são apagados. A exclusão no banco é tentada em segundo plano.",
     "delete_confirm_button": "Confirmar exclusão",
     "delete_success": "{count, plural, one {# cliente removido da lista.} other {# clientes removidos da lista.}}",
-    "delete_error": "Não foi possível remover o(s) cliente(s) da lista."
+    "delete_error": "Não foi possível remover o(s) cliente(s) da lista.",
+    "load_error_title": "Não foi possível carregar a lista de clientes",
+    "load_error_body": "O banco pode estar aguardando migração (tabelas clients / client_aliases). Rode o deploy com npm run build ou execute npm run db:migrate no ambiente de produção."
   },
   "AdminHelp": {
     "trigger_label": "Ajuda do painel",
