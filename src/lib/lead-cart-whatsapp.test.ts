@@ -21,7 +21,6 @@ describe('buildLeadCartItemDisplay', () => {
     expect(display.subtitle).toContain('Andaimes');
     expect(display.subtitle).not.toContain('diagonal-1-00');
     expect(display.catalogNameNote).toBe('Diagonal 1,00');
-    expect(display.reference).toBe('Diagonal 1 00');
   });
 });
 

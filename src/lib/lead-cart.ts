@@ -6,15 +6,7 @@ import { CATEGORY_LABELS, isEquipmentCategory } from '@/types/equipment';
 export type LeadCartItemDisplay = {
   subtitle: string;
   catalogNameNote?: string;
-  reference: string;
 };
-
-function formatSlugReference(slug: string) {
-  return slug
-    .split('-')
-    .map((word) => (word ? word.charAt(0).toUpperCase() + word.slice(1) : ''))
-    .join(' ');
-}
 
 /** Builds admin-friendly cart line labels (category + specs, not raw slug). */
 export function buildLeadCartItemDisplay(
@@ -43,7 +35,6 @@ export function buildLeadCartItemDisplay(
   return {
     subtitle: parts.join(' · '),
     catalogNameNote,
-    reference: formatSlugReference(item.slug),
   };
 }
 

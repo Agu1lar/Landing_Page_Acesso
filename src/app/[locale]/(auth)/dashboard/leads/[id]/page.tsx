@@ -204,7 +204,6 @@ export default async function LeadDetailPage(props: LeadDetailPageProps) {
             catalogNameNoteLabel={(name) => t('cart_catalog_name_note', { name })}
             itemsJson={lead.itemsJson}
             quantityLabel={(count) => t('quantity_label', { count })}
-            referenceLabel={(reference) => t('cart_reference', { reference })}
           />
         </AdminCard>
       ) : (

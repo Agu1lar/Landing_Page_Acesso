@@ -586,7 +586,6 @@
     "kind_accessory": "Acessório",
     "quantity_label": "Qtd. {count}",
     "cart_catalog_name_note": "Nome atual no catálogo: {name} (o cliente viu outro título ao pedir)",
-    "cart_reference": "Referência no site: {reference}",
     "field_whatsapp": "WhatsApp no envio",
     "whatsapp_status_opened": "WhatsApp aberto",
     "whatsapp_status_blocked": "WhatsApp não abriu",

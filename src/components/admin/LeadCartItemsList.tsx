@@ -6,7 +6,6 @@ type LeadCartItemsListProps = {
   itemsJson: string | null | undefined;
   quantityLabel: (count: number) => string;
   catalogNameNoteLabel: (name: string) => string;
-  referenceLabel: (reference: string) => string;
 };
 
 /**
@@ -43,9 +42,6 @@ export async function LeadCartItemsList(props: LeadCartItemsListProps) {
                 {props.catalogNameNoteLabel(display.catalogNameNote)}
               </p>
             ) : null}
-            <p className="mt-1 font-mono text-[11px] text-neutral-400">
-              {props.referenceLabel(display.reference)}
-            </p>
           </div>
           <span className="shrink-0 font-medium text-neutral-800">
             {props.quantityLabel(item.quantity)}
