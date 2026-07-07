@@ -48,10 +48,25 @@ Se você já tinha conta **sem** `role`, após o deploy verá `/unauthorized`. E
 
 ## 5. Ambientes Clerk (Development vs Production)
 
-| Ambiente Clerk | Chaves | Uso atual |
-|----------------|--------|-----------|
-| **Development** | `pk_test_` / `sk_test_` | Preview Vercel (`landing-page-acesso.vercel.app`) e testes locais |
-| **Production** | `pk_live_` / `sk_live_` | Obrigatório no domínio oficial |
+| Ambiente Clerk | Chaves | Usuários |
+|----------------|--------|----------|
+| **Development** | `pk_test_` / `sk_test_` | Contas criadas no ambiente **Development** |
+| **Production** | `pk_live_` / `sk_live_` | Contas **separadas** — não copiam do Development |
+
+> Trocar só as chaves na Vercel **não migra usuários**. Quem logava com `pk_test_` precisa existir de novo no Clerk **Production** (mesmo e-mail, metadata com `role`).
+
+### Checklist se o painel não carrega após go-live
+
+1. **Vercel Production** — `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` = `pk_live_…`, `CLERK_SECRET_KEY` = `sk_live_…` → **Redeploy** após salvar.
+2. Confirme: `curl -s https://acessoequipamentos.com.br/api/health` → `"clerk":{"mode":"live","productionMismatch":false}`.
+3. **Clerk Production** → **Developers** → **Domains** — domínio `acessoequipamentos.com.br` **Valid**.
+4. **Users (Production)** — criar/convidar seu e-mail + `{ "role": "admin" }` em Public metadata.
+5. **Developers** → **Paths** — Sign-in `/sign-in`, After sign-in `/dashboard` ou `/dashboard/leads`.
+6. **Google SSO** — em Production exige Client ID + Secret próprios; redirect em **URIs de redirecionamento** no Google Cloud (ver §8).
+7. **DNS no PC** — `nslookup clerk.acessoequipamentos.com.br` deve resolver (não falhar). Se o site antigo ainda aparece, troque DNS do PC/roteador para `8.8.8.8`.
+8. Teste **e-mail + senha** em `/sign-in` antes do Google, para isolar problema de OAuth.
+
+Preview na Vercel pode manter chaves `pk_test_` no escopo **Preview**, separado de Production.
 
 Papéis (`publicMetadata.role`) vivem no Clerk **por ambiente**. Usuário criado só em Development não entra automaticamente em Production.
 
