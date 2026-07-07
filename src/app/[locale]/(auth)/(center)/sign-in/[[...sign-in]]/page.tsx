@@ -25,5 +25,19 @@ export default async function SignInPage(props: SignInPageProps) {
   const { locale } = await props.params;
   setRequestLocale(resolveAppLocale(locale));
 
-  return <SignIn path={getI18nPath('/sign-in', locale)} />;
+  const signInPath = getI18nPath('/sign-in', locale);
+
+  return (
+    <SignIn
+      appearance={{
+        elements: {
+          dividerRow: { display: 'none' },
+          socialButtonsRoot: { display: 'none' },
+        },
+      }}
+      path={signInPath}
+      routing="path"
+      signUpUrl={signInPath}
+    />
+  );
 }

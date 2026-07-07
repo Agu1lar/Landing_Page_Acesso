@@ -7,9 +7,11 @@ export default async function UserProfilePage(props: { params: Promise<{ locale:
   const { locale } = await props.params;
   setRequestLocale(resolveAppLocale(locale));
 
+  const profilePath = getI18nPath('/dashboard/user-profile', locale);
+
   return (
     <div className="my-6 lg:-ml-12">
-      <UserProfile path={getI18nPath('/dashboard/user-profile', locale)} />
+      <UserProfile path={profilePath} routing="path" />
     </div>
   );
 }
