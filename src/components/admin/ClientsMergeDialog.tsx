@@ -1,7 +1,13 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import type { ClientListItem } from '@/types/client-admin';
+
+export type MergeDialogClient = {
+  id: number;
+  displayName: string;
+  email: string | null;
+  phone: string | null;
+};
 
 type ClientsMergeDialogProps = {
   open: boolean;
@@ -9,7 +15,7 @@ type ClientsMergeDialogProps = {
   description: string;
   confirmLabel: string;
   cancelLabel: string;
-  clients: ClientListItem[];
+  clients: MergeDialogClient[];
   isBusy: boolean;
   confirmVariant?: 'primary' | 'danger';
   error: string | null;

@@ -11,7 +11,7 @@ import {
   type HideableClient,
 } from '@/lib/clients-hidden';
 import { ClientsAdminToolbar } from '@/components/admin/ClientsAdminToolbar';
-import { ClientsMergeDialog } from '@/components/admin/ClientsMergeDialog';
+import { ClientsMergeDialog } from './ClientsMergeDialog';
 import { ClientsTable } from '@/components/admin/ClientsTable';
 import { useRouter } from '@/libs/I18nNavigation';
 

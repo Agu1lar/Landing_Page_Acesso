@@ -1,5 +1,6 @@
 import 'server-only';
 
+import type { InferSelectModel } from 'drizzle-orm';
 import { and, asc, count, desc, eq, ilike, inArray, or, sql } from 'drizzle-orm';
 import { clientSortKey, tokenizeClientSearchQuery } from '@/lib/client-identity';
 import { ensureClientsBackfilled } from '@/lib/clients';
@@ -8,7 +9,9 @@ import { db } from '@/libs/DB';
 import { clientsSchema, leadsSchema } from '@/models/Schema';
 import type { ClientListFilters } from '@/types/client-admin';
 
-export type { ClientLeadRecord, ClientListFilters, ClientListItem, ClientRecord } from '@/types/client-admin';
+export type { ClientListFilters, ClientListItem, ClientRecord } from '@/types/client-admin';
+
+export type ClientLeadRecord = InferSelectModel<typeof leadsSchema>;
 
 const DEFAULT_PAGE_SIZE = 30;
 const leadActivityOrder = sql`coalesce(${leadsSchema.lastActivityAt}, ${leadsSchema.createdAt})`;

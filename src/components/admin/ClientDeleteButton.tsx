@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { parseAdminJsonResponse } from '@/lib/admin-fetch';
 import { hideClients } from '@/lib/clients-hidden';
-import { ClientsMergeDialog } from '@/components/admin/ClientsMergeDialog';
+import { ClientsMergeDialog } from './ClientsMergeDialog';
 import { useRouter } from '@/libs/I18nNavigation';
 
 type ClientDeleteButtonProps = {

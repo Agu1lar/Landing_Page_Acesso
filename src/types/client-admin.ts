@@ -1,8 +1,16 @@
-import type { InferSelectModel } from 'drizzle-orm';
-import type { clientsSchema, leadsSchema } from '@/models/Schema';
-
-export type ClientRecord = InferSelectModel<typeof clientsSchema>;
-export type ClientLeadRecord = InferSelectModel<typeof leadsSchema>;
+export type ClientRecord = {
+  id: number;
+  displayName: string;
+  email: string | null;
+  phone: string | null;
+  phoneNormalized: string | null;
+  googleSub: string | null;
+  company: string | null;
+  firstSeenAt: Date;
+  lastActivityAt: Date;
+  createdAt: Date;
+  updatedAt: Date;
+};
 
 export type ClientListItem = ClientRecord & {
   leadCount: number;
