@@ -2,32 +2,14 @@ import { describe, expect, it } from 'vitest';
 import {
   isAdminOnlyDashboardPath,
   isDeferredDashboardPath,
-  parseDashboardRoleFromMetadata,
-  parseDashboardRoleFromSessionClaims,
 } from '@/lib/auth-roles';
+import { hashDashboardPassword, verifyDashboardPassword } from '@/lib/dashboard-password';
 
-describe('parse dashboard role from metadata', () => {
-  it('accepts admin role', () => {
-    expect(parseDashboardRoleFromMetadata({ role: 'admin' })).toBe('admin');
-  });
-
-  it('accepts comercial role', () => {
-    expect(parseDashboardRoleFromMetadata({ role: 'comercial' })).toBe('comercial');
-  });
-
-  it('rejects missing or invalid role', () => {
-    expect(parseDashboardRoleFromMetadata({})).toBeUndefined();
-    expect(parseDashboardRoleFromMetadata({ role: 'guest' })).toBeUndefined();
-  });
-});
-
-describe('parse dashboard role from session claims', () => {
-  it('reads role from publicMetadata on claims', () => {
-    expect(
-      parseDashboardRoleFromSessionClaims({
-        publicMetadata: { role: 'comercial' },
-      }),
-    ).toBe('comercial');
+describe('dashboard password hashing', () => {
+  it('verifies a hashed password', () => {
+    const hash = hashDashboardPassword('TecnoAcesso123');
+    expect(verifyDashboardPassword('TecnoAcesso123', hash)).toBe(true);
+    expect(verifyDashboardPassword('wrong', hash)).toBe(false);
   });
 });
 

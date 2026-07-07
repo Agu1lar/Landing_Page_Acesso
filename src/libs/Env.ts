@@ -4,7 +4,7 @@ import * as z from 'zod';
 export const Env = createEnv({
   emptyStringAsUndefined: true,
   server: {
-    CLERK_SECRET_KEY: z.string().min(1),
+    DASHBOARD_SESSION_SECRET: z.string().min(32).optional(),
     DATABASE_URL: z.string().min(1),
     RESEND_API_KEY: z.string().startsWith('re_').optional(),
     RESEND_FROM_EMAIL: z.string().min(3).optional(),
@@ -20,7 +20,6 @@ export const Env = createEnv({
   },
   client: {
     NEXT_PUBLIC_APP_URL: z.string().optional(),
-    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string().min(1),
     NEXT_PUBLIC_GOOGLE_CLIENT_ID: z.string().min(1).optional(),
     NEXT_PUBLIC_LOGGING_LEVEL: z
       .enum(['error', 'info', 'debug', 'warning', 'trace', 'fatal'])
@@ -33,9 +32,8 @@ export const Env = createEnv({
   shared: {
     NODE_ENV: z.enum(['test', 'development', 'production']).optional(),
   },
-  // You need to destructure all the keys manually
   runtimeEnv: {
-    CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
+    DASHBOARD_SESSION_SECRET: process.env.DASHBOARD_SESSION_SECRET,
     DATABASE_URL: process.env.DATABASE_URL,
     RESEND_API_KEY: process.env.RESEND_API_KEY,
     RESEND_FROM_EMAIL: process.env.RESEND_FROM_EMAIL,
@@ -49,7 +47,6 @@ export const Env = createEnv({
     WHATSAPPOS_API_URL: process.env.WHATSAPPOS_API_URL,
     WHATSAPPOS_WIDGET_KEY: process.env.WHATSAPPOS_WIDGET_KEY,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
-    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
     NEXT_PUBLIC_GOOGLE_CLIENT_ID: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
     NEXT_PUBLIC_LOGGING_LEVEL: process.env.NEXT_PUBLIC_LOGGING_LEVEL,
     NEXT_PUBLIC_BETTER_STACK_SOURCE_TOKEN: process.env.NEXT_PUBLIC_BETTER_STACK_SOURCE_TOKEN,

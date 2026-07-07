@@ -1,6 +1,7 @@
-import { asc, count, eq } from 'drizzle-orm';
+import { asc, count, eq, isNotNull } from 'drizzle-orm';
 import type { InferSelectModel } from 'drizzle-orm';
 import type { DashboardRole } from '@/lib/auth-roles';
+import { hashDashboardPassword, verifyDashboardPassword } from '@/lib/dashboard-password';
 import { normalizeAllowlistEmail } from '@/lib/dashboard-allowlist-email';
 import { db } from '@/libs/DB';
 import { dashboardAllowlistSchema } from '@/models/Schema';
@@ -10,6 +11,15 @@ export { isAllowedDashboardEmail, normalizeAllowlistEmail } from '@/lib/dashboar
 
 export type AllowlistRecord = InferSelectModel<typeof dashboardAllowlistSchema>;
 
+export type DashboardUserListItem = {
+  id: number;
+  email: string;
+  role: DashboardRole;
+  addedByEmail: string | null;
+  createdAt: Date;
+  hasPassword: boolean;
+};
+
 function parseAllowlistRole(role: string | null | undefined): DashboardRole | undefined {
   if (role === 'admin' || role === 'comercial') {
     return role;
@@ -17,15 +27,31 @@ function parseAllowlistRole(role: string | null | undefined): DashboardRole | un
   return undefined;
 }
 
-/** Total rows in the allowlist table. */
+function toListItem(row: AllowlistRecord): DashboardUserListItem {
+  return {
+    id: row.id,
+    email: row.email,
+    role: row.role as DashboardRole,
+    addedByEmail: row.addedByEmail,
+    createdAt: row.createdAt,
+    hasPassword: Boolean(row.passwordHash),
+  };
+}
+
+/** Total rows in the dashboard users table. */
 export async function countAllowlistEntries() {
   const [row] = await db.select({ count: count() }).from(dashboardAllowlistSchema);
   return row?.count ?? 0;
 }
 
-/** Lists authorized e-mails ordered by creation date. */
-export async function listAllowlistEntries() {
-  return db.select().from(dashboardAllowlistSchema).orderBy(asc(dashboardAllowlistSchema.createdAt));
+/** Lists dashboard users ordered by creation date. */
+export async function listAllowlistEntries(): Promise<DashboardUserListItem[]> {
+  const rows = await db
+    .select()
+    .from(dashboardAllowlistSchema)
+    .orderBy(asc(dashboardAllowlistSchema.createdAt));
+
+  return rows.map(toListItem);
 }
 
 /** Resolves dashboard role for a signed-in user's e-mail. */
@@ -40,9 +66,31 @@ export async function getAllowlistRoleByEmail(email: string) {
   return parseAllowlistRole(row?.role);
 }
 
+/** Authenticates e-mail + password against dashboard users. */
+export async function authenticateDashboardUser(email: string, password: string) {
+  const normalized = normalizeAllowlistEmail(email);
+  const [row] = await db
+    .select()
+    .from(dashboardAllowlistSchema)
+    .where(eq(dashboardAllowlistSchema.email, normalized))
+    .limit(1);
+
+  if (!row?.passwordHash) {
+    return null;
+  }
+
+  const role = parseAllowlistRole(row.role);
+  if (!role || !verifyDashboardPassword(password, row.passwordHash)) {
+    return null;
+  }
+
+  return { id: row.id, email: row.email, role };
+}
+
 export type AddAllowlistEntryInput = {
   email: string;
   role: DashboardRole;
+  password: string;
   addedByEmail?: string;
 };
 
@@ -64,11 +112,35 @@ export async function addAllowlistEntry(input: AddAllowlistEntryInput) {
     .values({
       email,
       role: input.role,
+      passwordHash: hashDashboardPassword(input.password),
       addedByEmail: input.addedByEmail ? normalizeAllowlistEmail(input.addedByEmail) : null,
     })
     .returning();
 
-  return { ok: true as const, entry: row };
+  if (!row) {
+    return { ok: false as const, reason: 'duplicate' as const };
+  }
+
+  return { ok: true as const, entry: toListItem(row) };
+}
+
+export type UpdateAllowlistPasswordInput = {
+  id: number;
+  password: string;
+};
+
+export async function updateAllowlistPassword(input: UpdateAllowlistPasswordInput) {
+  const [row] = await db
+    .update(dashboardAllowlistSchema)
+    .set({ passwordHash: hashDashboardPassword(input.password) })
+    .where(eq(dashboardAllowlistSchema.id, input.id))
+    .returning();
+
+  if (!row) {
+    return { ok: false as const, reason: 'not_found' as const };
+  }
+
+  return { ok: true as const, entry: toListItem(row) };
 }
 
 export type RemoveAllowlistEntryInput = {
@@ -109,7 +181,7 @@ export async function removeAllowlistEntry(input: RemoveAllowlistEntryInput) {
   return { ok: true as const, email: target.email };
 }
 
-/** Counts admins in the allowlist — used for guard rails. */
+/** Counts admins — used for guard rails. */
 export async function countAllowlistAdmins() {
   const [row] = await db
     .select({ count: count() })
@@ -118,7 +190,11 @@ export async function countAllowlistAdmins() {
   return row?.count ?? 0;
 }
 
-/** True when allowlist mode is active (at least one e-mail registered). */
+/** True when at least one dashboard user has a password set. */
 export async function isAllowlistEnforced() {
-  return (await countAllowlistEntries()) > 0;
+  const [row] = await db
+    .select({ count: count() })
+    .from(dashboardAllowlistSchema)
+    .where(isNotNull(dashboardAllowlistSchema.passwordHash));
+  return (row?.count ?? 0) > 0;
 }

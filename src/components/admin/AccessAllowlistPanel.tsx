@@ -4,22 +4,24 @@ import { useState } from 'react';
 import {
   addAllowlistEmailAction,
   removeAllowlistEmailAction,
+  updateAllowlistPasswordAction,
 } from '@/app/actions/access-admin';
-import type { AllowlistEntry } from '@/lib/dashboard-allowlist-email';
+import type { DashboardUserListItem } from '@/lib/dashboard-allowlist';
 import { normalizeAllowlistEmail } from '@/lib/dashboard-allowlist-email';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 
 type AccessAllowlistPanelProps = {
-  entries: AllowlistEntry[];
-  allowlistEnforced: boolean;
+  entries: DashboardUserListItem[];
   currentEmail: string;
   labels: {
     addTitle: string;
     addHint: string;
     emailLabel: string;
     emailPlaceholder: string;
+    passwordLabel: string;
+    passwordPlaceholder: string;
     roleLabel: string;
     roleAdmin: string;
     roleComercial: string;
@@ -28,18 +30,21 @@ type AccessAllowlistPanelProps = {
     emptyList: string;
     colEmail: string;
     colRole: string;
+    colPassword: string;
     colAdded: string;
     colActions: string;
     removeButton: string;
+    resetPasswordButton: string;
+    passwordMissingBadge: string;
     youBadge: string;
     errorInvalid: string;
     errorDuplicate: string;
     errorLastAdmin: string;
     errorGeneric: string;
     errorNetwork: string;
-    legacyModeHint: string;
     addingLabel: string;
     successAdded: string;
+    successPasswordReset: string;
   };
 };
 
@@ -68,25 +73,22 @@ function mapAllowlistError(
 
 export function AccessAllowlistPanel(props: AccessAllowlistPanelProps) {
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [role, setRole] = useState<'admin' | 'comercial'>('comercial');
   const [isAdding, setIsAdding] = useState(false);
   const [removingId, setRemovingId] = useState<number | null>(null);
+  const [resettingId, setResettingId] = useState<number | null>(null);
+  const [resetPassword, setResetPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
   return (
     <div className="space-y-8">
-      {!props.allowlistEnforced ? (
-        <p className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-          {props.labels.legacyModeHint}
-        </p>
-      ) : null}
-
       <section className="rounded-xl border border-neutral-200 bg-white p-5 shadow-sm">
         <h2 className="font-heading text-lg font-bold text-neutral-900">{props.labels.addTitle}</h2>
         <p className="mt-1 text-sm text-neutral-600">{props.labels.addHint}</p>
         <form
-          className="mt-4 grid gap-4 sm:grid-cols-[1fr_auto_auto]"
+          className="mt-4 grid gap-4 sm:grid-cols-2"
           onSubmit={async (event) => {
             event.preventDefault();
             setError(null);
@@ -99,6 +101,7 @@ export function AccessAllowlistPanel(props: AccessAllowlistPanelProps) {
               const result = await addAllowlistEmailAction({
                 email: normalizedEmail,
                 role,
+                password,
               });
 
               if (!result.ok) {
@@ -107,6 +110,7 @@ export function AccessAllowlistPanel(props: AccessAllowlistPanelProps) {
               }
 
               setEmail('');
+              setPassword('');
               setRole('comercial');
               setSuccess(
                 props.labels.successAdded.replace('{email}', result.email ?? normalizedEmail),
@@ -127,11 +131,24 @@ export function AccessAllowlistPanel(props: AccessAllowlistPanelProps) {
             }}
             placeholder={props.labels.emailPlaceholder}
             required
-            type="text"
-            inputMode="email"
-            autoComplete="email"
+            type="email"
+            autoComplete="off"
             spellCheck={false}
             value={email}
+          />
+          <Input
+            disabled={isAdding}
+            label={props.labels.passwordLabel}
+            minLength={8}
+            name="allowlistPassword"
+            onChange={(event) => {
+              setPassword(event.target.value);
+            }}
+            placeholder={props.labels.passwordPlaceholder}
+            required
+            type="password"
+            autoComplete="new-password"
+            value={password}
           />
           <Select
             disabled={isAdding}
@@ -145,7 +162,7 @@ export function AccessAllowlistPanel(props: AccessAllowlistPanelProps) {
             <option value="comercial">{props.labels.roleComercial}</option>
             <option value="admin">{props.labels.roleAdmin}</option>
           </Select>
-          <div className="flex items-end">
+          <div className="flex items-end sm:col-span-2">
             <Button disabled={isAdding} type="submit">
               {isAdding ? props.labels.addingLabel : props.labels.addButton}
             </Button>
@@ -168,6 +185,7 @@ export function AccessAllowlistPanel(props: AccessAllowlistPanelProps) {
                 <tr>
                   <th className="px-4 py-3 font-semibold">{props.labels.colEmail}</th>
                   <th className="px-4 py-3 font-semibold">{props.labels.colRole}</th>
+                  <th className="px-4 py-3 font-semibold">{props.labels.colPassword}</th>
                   <th className="px-4 py-3 font-semibold">{props.labels.colAdded}</th>
                   <th className="px-4 py-3 font-semibold">{props.labels.colActions}</th>
                 </tr>
@@ -177,6 +195,7 @@ export function AccessAllowlistPanel(props: AccessAllowlistPanelProps) {
                   const isSelf = entry.email === props.currentEmail;
                   const roleLabel =
                     entry.role === 'admin' ? props.labels.roleAdmin : props.labels.roleComercial;
+                  const isResetting = resettingId === entry.id;
 
                   return (
                     <tr className="hover:bg-neutral-50/80" key={entry.id}>
@@ -189,36 +208,118 @@ export function AccessAllowlistPanel(props: AccessAllowlistPanelProps) {
                         ) : null}
                       </td>
                       <td className="px-4 py-3 text-neutral-700">{roleLabel}</td>
+                      <td className="px-4 py-3 text-neutral-700">
+                        {entry.hasPassword ? (
+                          <span className="text-green-700">OK</span>
+                        ) : (
+                          <span className="text-amber-700">{props.labels.passwordMissingBadge}</span>
+                        )}
+                      </td>
                       <td className="px-4 py-3 whitespace-nowrap text-neutral-600">
                         {formatDateTime(entry.createdAt)}
                       </td>
                       <td className="px-4 py-3">
-                        <Button
-                          disabled={removingId === entry.id}
-                          onClick={async () => {
-                            setError(null);
-                            setSuccess(null);
-                            setRemovingId(entry.id);
+                        <div className="flex flex-wrap gap-2">
+                          {isResetting ? (
+                            <form
+                              className="flex flex-wrap items-end gap-2"
+                              onSubmit={async (event) => {
+                                event.preventDefault();
+                                setError(null);
+                                setSuccess(null);
 
-                            try {
-                              const result = await removeAllowlistEmailAction(entry.id);
+                                try {
+                                  const result = await updateAllowlistPasswordAction({
+                                    id: entry.id,
+                                    password: resetPassword,
+                                  });
 
-                              if (!result.ok) {
-                                setError(mapAllowlistError(result.code, props.labels));
-                                return;
-                              }
-                            } catch {
-                              setError(props.labels.errorNetwork);
-                            } finally {
-                              setRemovingId(null);
-                            }
-                          }}
-                          size="sm"
-                          type="button"
-                          variant="outline"
-                        >
-                          {props.labels.removeButton}
-                        </Button>
+                                  if (!result.ok) {
+                                    setError(mapAllowlistError(result.code, props.labels));
+                                    return;
+                                  }
+
+                                  setResettingId(null);
+                                  setResetPassword('');
+                                  setSuccess(
+                                    props.labels.successPasswordReset.replace(
+                                      '{email}',
+                                      result.email ?? entry.email,
+                                    ),
+                                  );
+                                } catch {
+                                  setError(props.labels.errorNetwork);
+                                }
+                              }}
+                            >
+                              <Input
+                                label={props.labels.passwordLabel}
+                                minLength={8}
+                                name={`reset-${entry.id}`}
+                                onChange={(event) => {
+                                  setResetPassword(event.target.value);
+                                }}
+                                required
+                                type="password"
+                                value={resetPassword}
+                              />
+                              <Button size="sm" type="submit">
+                                {props.labels.resetPasswordButton}
+                              </Button>
+                              <Button
+                                onClick={() => {
+                                  setResettingId(null);
+                                  setResetPassword('');
+                                }}
+                                size="sm"
+                                type="button"
+                                variant="outline"
+                              >
+                                Cancelar
+                              </Button>
+                            </form>
+                          ) : (
+                            <>
+                              <Button
+                                onClick={() => {
+                                  setResettingId(entry.id);
+                                  setResetPassword('');
+                                }}
+                                size="sm"
+                                type="button"
+                                variant="outline"
+                              >
+                                {props.labels.resetPasswordButton}
+                              </Button>
+                              <Button
+                                disabled={removingId === entry.id}
+                                onClick={async () => {
+                                  setError(null);
+                                  setSuccess(null);
+                                  setRemovingId(entry.id);
+
+                                  try {
+                                    const result = await removeAllowlistEmailAction(entry.id);
+
+                                    if (!result.ok) {
+                                      setError(mapAllowlistError(result.code, props.labels));
+                                      return;
+                                    }
+                                  } catch {
+                                    setError(props.labels.errorNetwork);
+                                  } finally {
+                                    setRemovingId(null);
+                                  }
+                                }}
+                                size="sm"
+                                type="button"
+                                variant="outline"
+                              >
+                                {props.labels.removeButton}
+                              </Button>
+                            </>
+                          )}
+                        </div>
                       </td>
                     </tr>
                   );

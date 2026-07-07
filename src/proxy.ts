@@ -1,105 +1,78 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 import createMiddleware from 'next-intl/middleware';
 import type { NextFetchEvent, NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import {
   isAdminOnlyDashboardPath,
   isDeferredDashboardPath,
-  resolveDashboardRole,
+  requireDashboardAccessFromRequest,
 } from '@/lib/auth-roles';
 import { resolveLegacyRedirect } from '@/lib/legacy-redirects';
 import { routing } from './libs/I18nRouting';
 
 const handleI18nRouting = createMiddleware(routing);
 
-const isProtectedRoute = createRouteMatcher(['/dashboard(.*)', '/:locale/dashboard(.*)']);
+const isProtectedRoute = (pathname: string) =>
+  /\/dashboard(?:\/|$)/u.test(pathname) || /^\/[a-z]{2}(?:-[A-Z]{2})?\/dashboard(?:\/|$)/u.test(pathname);
 
-const isSignUpPage = createRouteMatcher(['/sign-up(.*)', '/:locale/sign-up(.*)']);
+const isSignUpPage = (pathname: string) =>
+  /\/sign-up(?:\/|$)/u.test(pathname) || /^\/[a-z]{2}(?:-[A-Z]{2})?\/sign-up(?:\/|$)/u.test(pathname);
 
-const isAuthPage = createRouteMatcher([
-  '/sign-in(.*)',
-  '/:locale/sign-in(.*)',
-  '/sign-up(.*)',
-  '/:locale/sign-up(.*)',
-  '/unauthorized(.*)',
-  '/:locale/unauthorized(.*)',
-]);
-
-const isAdminApiRoute = createRouteMatcher(['/api/admin/(.*)']);
+const isSignInPage = (pathname: string) =>
+  /\/sign-in(?:\/|$)/u.test(pathname) || /^\/[a-z]{2}(?:-[A-Z]{2})?\/sign-in(?:\/|$)/u.test(pathname);
 
 function localePrefixFromPath(pathname: string) {
   return pathname.match(/(\/.*)\/(?:dashboard|sign-in|sign-up|unauthorized)/u)?.at(1) ?? '';
 }
 
-export default async function proxy(request: NextRequest, event: NextFetchEvent) {
+export default async function proxy(request: NextRequest, _event: NextFetchEvent) {
   const legacyDestination = resolveLegacyRedirect(request.nextUrl.pathname);
   if (legacyDestination) {
     return NextResponse.redirect(new URL(legacyDestination, request.url), 301);
   }
 
-  if (isSignUpPage(request)) {
-    const locale = localePrefixFromPath(request.nextUrl.pathname);
+  const { pathname } = request.nextUrl;
+
+  if (isSignUpPage(pathname)) {
+    const locale = localePrefixFromPath(pathname);
     return NextResponse.redirect(new URL(`${locale}/sign-in`, request.url));
   }
 
-  if (isAdminApiRoute(request)) {
-    return clerkMiddleware()(request, event);
-  }
-
-  if (request.nextUrl.pathname.startsWith('/api/')) {
+  if (pathname.startsWith('/api/')) {
     return NextResponse.next();
   }
 
-  // Clerk keyless mode doesn't work with i18n, this is why we need to run the middleware conditionally
-  if (isAuthPage(request) || isProtectedRoute(request)) {
-    return await clerkMiddleware(async (auth, req) => {
-      if (isProtectedRoute(req)) {
-        const locale = localePrefixFromPath(req.nextUrl.pathname);
-        const signInUrl = new URL(`${locale}/sign-in`, req.url);
-        const unauthorizedUrl = new URL(`${locale}/unauthorized`, req.url);
+  if (isSignInPage(pathname)) {
+    const access = requireDashboardAccessFromRequest(request);
+    if (access.ok) {
+      const locale = localePrefixFromPath(pathname);
+      return NextResponse.redirect(new URL(`${locale}/dashboard/leads`, request.url));
+    }
+  }
 
-        const { userId, sessionClaims } = await auth();
-        if (!userId) {
-          return NextResponse.redirect(signInUrl);
-        }
+  if (isProtectedRoute(pathname)) {
+    const locale = localePrefixFromPath(pathname);
+    const signInUrl = new URL(`${locale}/sign-in`, request.url);
+    const unauthorizedUrl = new URL(`${locale}/unauthorized`, request.url);
 
-        let role;
-        try {
-          role = await resolveDashboardRole(
-            userId,
-            sessionClaims as Record<string, unknown> | null,
-          );
-        } catch {
-          return NextResponse.redirect(unauthorizedUrl);
-        }
+    const access = requireDashboardAccessFromRequest(request);
+    if (!access.ok) {
+      return NextResponse.redirect(signInUrl);
+    }
 
-        if (!role) {
-          return NextResponse.redirect(unauthorizedUrl);
-        }
+    if (isAdminOnlyDashboardPath(pathname) && access.role !== 'admin') {
+      return NextResponse.redirect(unauthorizedUrl);
+    }
 
-        const pathname = req.nextUrl.pathname;
-
-        if (isAdminOnlyDashboardPath(pathname) && role !== 'admin') {
-          return NextResponse.redirect(unauthorizedUrl);
-        }
-
-        if (isDeferredDashboardPath(pathname)) {
-          const target =
-            role === 'admin' ? `${locale}/dashboard/equipamentos` : `${locale}/dashboard/leads`;
-          return NextResponse.redirect(new URL(target, req.url));
-        }
-      }
-
-      return handleI18nRouting(req);
-    })(request, event);
+    if (isDeferredDashboardPath(pathname)) {
+      const target =
+        access.role === 'admin' ? `${locale}/dashboard/equipamentos` : `${locale}/dashboard/leads`;
+      return NextResponse.redirect(new URL(target, request.url));
+    }
   }
 
   return handleI18nRouting(request);
 }
 
 export const config = {
-  // Match all pathnames except for
-  // - … if they start with `/_next`, `/_vercel` or `monitoring`
-  // - … the ones containing a dot (e.g. `favicon.ico`)
   matcher: '/((?!_next|_vercel|monitoring|.*\\..*).*)',
 };

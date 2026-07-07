@@ -1,128 +1,51 @@
-import { auth, clerkClient } from '@clerk/nextjs/server';
+import type { NextRequest } from 'next/server';
 import {
-  countAllowlistEntries,
-  getAllowlistRoleByEmail,
-} from '@/lib/dashboard-allowlist';
-import { normalizeAllowlistEmail } from '@/lib/dashboard-allowlist-email';
+  getDashboardSession,
+  getDashboardSessionFromRequest,
+} from '@/lib/dashboard-session';
 
 const DASHBOARD_ROLES = ['admin', 'comercial'] as const;
 
 export type DashboardRole = (typeof DASHBOARD_ROLES)[number];
 
-type PublicMetadata = {
-  role?: unknown;
-};
-
-/**
- * Reads dashboard role from Clerk public metadata.
- *
- * @param metadata - Clerk user public metadata object.
- * @returns Valid dashboard role or undefined.
- */
-export function parseDashboardRoleFromMetadata(
-  metadata: PublicMetadata | null | undefined,
-): DashboardRole | undefined {
-  const role = metadata?.role;
-  if (role === 'admin' || role === 'comercial') {
-    return role;
-  }
-  return undefined;
-}
-
-/**
- * Reads dashboard role from JWT session claims when present.
- *
- * @param sessionClaims - Clerk session JWT claims.
- * @returns Valid dashboard role or undefined.
- */
-export function parseDashboardRoleFromSessionClaims(
-  sessionClaims: Record<string, unknown> | null | undefined,
-): DashboardRole | undefined {
-  if (!sessionClaims) {
-    return undefined;
-  }
-  const { publicMetadata } = sessionClaims;
-  if (publicMetadata && typeof publicMetadata === 'object') {
-    return parseDashboardRoleFromMetadata(publicMetadata as PublicMetadata);
-  }
-  return undefined;
-}
-
-/**
- * Reads the primary e-mail from a Clerk user record.
- */
-export async function getClerkUserEmail(userId: string) {
-  const client = await clerkClient();
-  const user = await client.users.getUser(userId);
-  const email =
-    user.primaryEmailAddress?.emailAddress ?? user.emailAddresses[0]?.emailAddress ?? undefined;
-  return email ? normalizeAllowlistEmail(email) : undefined;
-}
-
-/**
- * Resolves role from session claims, falling back to Clerk user public metadata.
- *
- * When the allowlist table has entries, only listed e-mails may access the dashboard.
- * Clerk admins (publicMetadata.role = admin) keep access to manage the allowlist.
- *
- * @param userId - Clerk user id.
- * @param sessionClaims - Clerk session JWT claims.
- * @returns Valid dashboard role or undefined.
- */
-export async function resolveDashboardRole(
-  userId: string,
-  sessionClaims: Record<string, unknown> | null | undefined,
-) {
-  const fromClaims = parseDashboardRoleFromSessionClaims(sessionClaims);
-  const client = await clerkClient();
-  const user = await client.users.getUser(userId);
-  const clerkRole =
-    fromClaims ?? parseDashboardRoleFromMetadata(user.publicMetadata as PublicMetadata);
-  const rawEmail =
-    user.primaryEmailAddress?.emailAddress ?? user.emailAddresses[0]?.emailAddress ?? undefined;
-  const email = rawEmail ? normalizeAllowlistEmail(rawEmail) : undefined;
-
-  const allowlistActive = (await countAllowlistEntries()) > 0;
-
-  if (allowlistActive) {
-    if (email) {
-      const fromAllowlist = await getAllowlistRoleByEmail(email);
-      if (fromAllowlist) {
-        return fromAllowlist;
-      }
-    }
-
-    if (clerkRole === 'admin') {
-      return 'admin';
-    }
-
-    return undefined;
-  }
-
-  return clerkRole;
-}
-
 type DashboardAccessResult =
-  | { ok: true; userId: string; role: DashboardRole }
+  | { ok: true; userId: string; role: DashboardRole; email: string }
   | { ok: false; status: 401 | 403 };
 
 /**
- * Ensures the request is from an authenticated user with a dashboard role.
- *
- * @returns Access result with role or HTTP status to return.
+ * Ensures the request is from an authenticated dashboard user.
  */
 export async function requireDashboardAccess(): Promise<DashboardAccessResult> {
-  const { userId, sessionClaims } = await auth();
-  if (!userId) {
+  const session = await getDashboardSession();
+  if (!session) {
     return { ok: false, status: 401 };
   }
 
-  const role = await resolveDashboardRole(userId, sessionClaims as Record<string, unknown> | null);
-  if (!role) {
-    return { ok: false, status: 403 };
+  return {
+    ok: true,
+    userId: String(session.userId),
+    role: session.role,
+    email: session.email,
+  };
+}
+
+/**
+ * Ensures the request is from an authenticated dashboard user (middleware).
+ */
+export function requireDashboardAccessFromRequest(
+  request: NextRequest,
+): DashboardAccessResult {
+  const session = getDashboardSessionFromRequest(request);
+  if (!session) {
+    return { ok: false, status: 401 };
   }
 
-  return { ok: true, userId, role };
+  return {
+    ok: true,
+    userId: String(session.userId),
+    role: session.role,
+    email: session.email,
+  };
 }
 
 /**
@@ -137,6 +60,15 @@ export async function requireAdminAccess(): Promise<DashboardAccessResult> {
     return { ok: false, status: 403 };
   }
   return access;
+}
+
+/** Returns the signed-in dashboard user's e-mail. */
+export async function getDashboardUserEmail(userId: string) {
+  const session = await getDashboardSession();
+  if (session && String(session.userId) === userId) {
+    return session.email;
+  }
+  return undefined;
 }
 
 /**

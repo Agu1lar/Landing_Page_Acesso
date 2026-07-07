@@ -32,5 +32,35 @@ export default async function DashboardLayout(props: DashboardLayoutProps) {
     redirect(access.status === 403 ? '/unauthorized' : '/sign-in');
   }
 
-  return <AdminShell role={access.role}>{props.children}</AdminShell>;
+  const t = await getTranslations('DashboardLayout');
+
+  return (
+    <AdminShell
+      labels={{
+        roleAdmin: t('role_admin'),
+        roleComercial: t('role_comercial'),
+        adminPanelLabel: t('admin_panel_label'),
+        adminNavLabel: t('admin_nav_label'),
+        navGroupCommercial: t('nav_group_commercial'),
+        navGroupCatalog: t('nav_group_catalog'),
+        navGroupSettings: t('nav_group_settings'),
+        leadsLink: t('leads_link'),
+        leadsConsultaLink: t('leads_consulta_link'),
+        clientsLink: t('clients_link'),
+        analyticsLink: t('analytics_link'),
+        blogLink: t('blog_link'),
+        blogNewLink: t('blog_new_link'),
+        equipmentLink: t('equipment_link'),
+        equipmentNewLink: t('equipment_new_link'),
+        accessLink: t('access_link'),
+        supportTitle: t('support_title'),
+        supportHint: t('support_hint'),
+        developedBy: t('developed_by'),
+        signOut: t('sign_out'),
+      }}
+      role={access.role}
+    >
+      {props.children}
+    </AdminShell>
+  );
 }

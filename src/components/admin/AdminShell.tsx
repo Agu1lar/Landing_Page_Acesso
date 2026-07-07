@@ -1,5 +1,6 @@
-import { SignOutButton } from '@clerk/nextjs';
-import { getTranslations } from 'next-intl/server';
+'use client';
+
+import { useRouter } from 'next/navigation';
 import { AdminHelpLauncher } from '@/components/admin/AdminHelpLauncher';
 import { AdminNavLink } from '@/components/admin/AdminNavLink';
 import { brand } from '@/lib/brand';
@@ -7,14 +8,36 @@ import { brand } from '@/lib/brand';
 type AdminShellProps = {
   children: React.ReactNode;
   role: 'admin' | 'comercial';
+  labels: {
+    roleAdmin: string;
+    roleComercial: string;
+    adminPanelLabel: string;
+    adminNavLabel: string;
+    navGroupCommercial: string;
+    navGroupCatalog: string;
+    navGroupSettings: string;
+    leadsLink: string;
+    leadsConsultaLink: string;
+    clientsLink: string;
+    analyticsLink: string;
+    blogLink: string;
+    blogNewLink: string;
+    equipmentLink: string;
+    equipmentNewLink: string;
+    accessLink: string;
+    supportTitle: string;
+    supportHint: string;
+    developedBy: string;
+    signOut: string;
+  };
 };
 
 /**
  * Corporate sidebar layout for dashboard admin modules.
  */
-export async function AdminShell(props: AdminShellProps) {
-  const t = await getTranslations('DashboardLayout');
-  const roleLabel = props.role === 'admin' ? t('role_admin') : t('role_comercial');
+export function AdminShell(props: AdminShellProps) {
+  const router = useRouter();
+  const roleLabel = props.role === 'admin' ? props.labels.roleAdmin : props.labels.roleComercial;
 
   return (
     <div className="min-h-screen bg-[#f1f4f8] lg:flex">
@@ -29,7 +52,7 @@ export async function AdminShell(props: AdminShellProps) {
             </div>
             <div className="min-w-0">
               <p className="truncate font-heading text-base font-bold leading-tight">Acesso</p>
-              <p className="truncate text-xs text-slate-400">{t('admin_panel_label')}</p>
+              <p className="truncate text-xs text-slate-400">{props.labels.adminPanelLabel}</p>
             </div>
           </div>
           <span className="mt-4 inline-flex rounded-full bg-white/10 px-2.5 py-1 text-xs font-medium text-slate-200 ring-1 ring-white/10">
@@ -37,70 +60,70 @@ export async function AdminShell(props: AdminShellProps) {
           </span>
         </div>
 
-        <nav aria-label={t('admin_nav_label')} className="flex-1 overflow-y-auto px-3 py-4">
+        <nav aria-label={props.labels.adminNavLabel} className="flex-1 overflow-y-auto px-3 py-4">
           <p className="px-3 pb-2 text-[11px] font-semibold tracking-wider text-slate-500 uppercase">
-            {t('nav_group_commercial')}
+            {props.labels.navGroupCommercial}
           </p>
           <ul className="space-y-1">
             <li>
-              <AdminNavLink href="/dashboard/leads" icon="leads" label={t('leads_link')} />
+              <AdminNavLink href="/dashboard/leads" icon="leads" label={props.labels.leadsLink} />
             </li>
             <li>
               <AdminNavLink
                 href="/dashboard/leads/consulta"
                 icon="search"
-                label={t('leads_consulta_link')}
+                label={props.labels.leadsConsultaLink}
               />
             </li>
             <li>
-              <AdminNavLink href="/dashboard/clientes" icon="clients" label={t('clients_link')} />
+              <AdminNavLink href="/dashboard/clientes" icon="clients" label={props.labels.clientsLink} />
             </li>
             <li>
               <AdminNavLink
                 href="/dashboard/analytics"
                 icon="analytics"
-                label={t('analytics_link')}
+                label={props.labels.analyticsLink}
               />
             </li>
             <li>
-              <AdminNavLink href="/dashboard/dicas" icon="blog" label={t('blog_link')} />
+              <AdminNavLink href="/dashboard/dicas" icon="blog" label={props.labels.blogLink} />
             </li>
             <li>
-              <AdminNavLink href="/dashboard/dicas/new" icon="plus" label={t('blog_new_link')} />
+              <AdminNavLink href="/dashboard/dicas/new" icon="plus" label={props.labels.blogNewLink} />
             </li>
           </ul>
 
           {props.role === 'admin' ? (
             <>
               <p className="mt-6 px-3 pb-2 text-[11px] font-semibold tracking-wider text-slate-500 uppercase">
-                {t('nav_group_catalog')}
+                {props.labels.navGroupCatalog}
               </p>
               <ul className="space-y-1">
                 <li>
                   <AdminNavLink
                     href="/dashboard/equipamentos"
                     icon="equipment"
-                    label={t('equipment_link')}
+                    label={props.labels.equipmentLink}
                   />
                 </li>
                 <li>
                   <AdminNavLink
                     href="/dashboard/equipamentos/new"
                     icon="plus"
-                    label={t('equipment_new_link')}
+                    label={props.labels.equipmentNewLink}
                   />
                 </li>
               </ul>
 
               <p className="mt-6 px-3 pb-2 text-[11px] font-semibold tracking-wider text-slate-500 uppercase">
-                {t('nav_group_settings')}
+                {props.labels.navGroupSettings}
               </p>
               <ul className="space-y-1">
                 <li>
                   <AdminNavLink
                     href="/dashboard/acesso"
                     icon="access"
-                    label={t('access_link')}
+                    label={props.labels.accessLink}
                   />
                 </li>
               </ul>
@@ -111,25 +134,28 @@ export async function AdminShell(props: AdminShellProps) {
         <div className="border-t border-white/10 p-4">
           <div className="mb-4 rounded-lg border border-white/10 bg-white/5 px-3 py-3">
             <p className="text-[11px] font-semibold tracking-wide text-slate-300 uppercase">
-              {t('support_title')}
+              {props.labels.supportTitle}
             </p>
-            <p className="mt-1 text-xs text-slate-400">{t('support_hint')}</p>
+            <p className="mt-1 text-xs text-slate-400">{props.labels.supportHint}</p>
             <a
               className="mt-2 block truncate text-sm font-medium text-white hover:underline"
               href={`mailto:${brand.techSupportEmail}`}
             >
               {brand.techSupportEmail}
             </a>
-            <p className="mt-2 text-[11px] leading-relaxed text-slate-500">{t('developed_by')}</p>
+            <p className="mt-2 text-[11px] leading-relaxed text-slate-500">{props.labels.developedBy}</p>
           </div>
-          <SignOutButton>
-            <button
-              className="w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2.5 text-sm font-medium text-slate-200 transition-colors hover:bg-white/10 hover:text-white"
-              type="button"
-            >
-              {t('sign_out')}
-            </button>
-          </SignOutButton>
+          <button
+            className="w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2.5 text-sm font-medium text-slate-200 transition-colors hover:bg-white/10 hover:text-white"
+            onClick={async () => {
+              await fetch('/api/auth/logout', { method: 'POST' });
+              router.push('/sign-in');
+              router.refresh();
+            }}
+            type="button"
+          >
+            {props.labels.signOut}
+          </button>
         </div>
       </aside>
 

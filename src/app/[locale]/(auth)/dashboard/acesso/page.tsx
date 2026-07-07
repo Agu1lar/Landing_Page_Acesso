@@ -3,8 +3,8 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { redirect } from 'next/navigation';
 import { AccessAllowlistPanel } from '@/components/admin/AccessAllowlistPanel';
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
-import { getClerkUserEmail, requireAdminAccess } from '@/lib/auth-roles';
-import { isAllowlistEnforced, listAllowlistEntries } from '@/lib/dashboard-allowlist';
+import { getDashboardUserEmail, requireAdminAccess } from '@/lib/auth-roles';
+import { listAllowlistEntries } from '@/lib/dashboard-allowlist';
 import { resolveAppLocale } from '@/utils/locale';
 
 type AccessAdminPageProps = {
@@ -36,10 +36,9 @@ export default async function AccessAdminPage(props: AccessAdminPageProps) {
     redirect('/unauthorized');
   }
 
-  const [entries, allowlistEnforced, currentEmail] = await Promise.all([
+  const [entries, currentEmail] = await Promise.all([
     listAllowlistEntries(),
-    isAllowlistEnforced(),
-    getClerkUserEmail(access.userId),
+    getDashboardUserEmail(access.userId),
   ]);
 
   return (
@@ -47,7 +46,6 @@ export default async function AccessAdminPage(props: AccessAdminPageProps) {
       <AdminPageHeader description={t('description')} title={t('title')} />
 
       <AccessAllowlistPanel
-        allowlistEnforced={allowlistEnforced}
         currentEmail={currentEmail ?? ''}
         entries={entries}
         labels={{
@@ -55,6 +53,8 @@ export default async function AccessAdminPage(props: AccessAdminPageProps) {
           addHint: t('add_hint'),
           emailLabel: t('field_email'),
           emailPlaceholder: t('email_placeholder'),
+          passwordLabel: t('field_password'),
+          passwordPlaceholder: t('password_placeholder'),
           roleLabel: t('field_role'),
           roleAdmin: t('role_admin'),
           roleComercial: t('role_comercial'),
@@ -63,18 +63,21 @@ export default async function AccessAdminPage(props: AccessAdminPageProps) {
           emptyList: t('empty_list'),
           colEmail: t('col_email'),
           colRole: t('col_role'),
+          colPassword: t('col_password'),
           colAdded: t('col_added'),
           colActions: t('col_actions'),
           removeButton: t('remove_button'),
+          resetPasswordButton: t('reset_password_button'),
+          passwordMissingBadge: t('password_missing_badge'),
           youBadge: t('you_badge'),
           errorInvalid: t('error_invalid'),
           errorDuplicate: t('error_duplicate'),
           errorLastAdmin: t('error_last_admin'),
           errorGeneric: t('error_generic'),
           errorNetwork: t('error_network'),
-          legacyModeHint: t('legacy_mode_hint'),
           addingLabel: t('adding_label'),
           successAdded: t('success_added'),
+          successPasswordReset: t('success_password_reset'),
         }}
       />
     </div>

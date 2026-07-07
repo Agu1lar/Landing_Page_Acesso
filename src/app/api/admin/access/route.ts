@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import * as z from 'zod';
 import { logAdminActivity } from '@/lib/admin-activity';
-import { getClerkUserEmail, requireAdminAccess } from '@/lib/auth-roles';
+import { getDashboardUserEmail, requireAdminAccess } from '@/lib/auth-roles';
 import { addAllowlistEntry } from '@/lib/dashboard-allowlist';
 import { isAllowedDashboardEmail, normalizeAllowlistEmail } from '@/lib/dashboard-allowlist-email';
 import { logger } from '@/libs/Logger';
@@ -14,6 +14,7 @@ const BodySchema = z.object({
     .transform(normalizeAllowlistEmail)
     .refine(isAllowedDashboardEmail, { message: 'E-mail inválido' }),
   role: z.enum(['admin', 'comercial']),
+  password: z.string().min(8).max(200),
 });
 
 export async function POST(request: Request) {
@@ -29,18 +30,19 @@ export async function POST(request: Request) {
     const json: unknown = await request.json();
     const parsed = BodySchema.safeParse(json);
     if (!parsed.success) {
-      return NextResponse.json({ error: 'Informe um e-mail válido' }, { status: 422 });
+      return NextResponse.json({ error: 'Informe e-mail e senha válidos (mín. 8 caracteres)' }, { status: 422 });
     }
 
-    const actorEmail = await getClerkUserEmail(access.userId);
+    const actorEmail = await getDashboardUserEmail(access.userId);
     const result = await addAllowlistEntry({
       email: parsed.data.email,
       role: parsed.data.role,
+      password: parsed.data.password,
       addedByEmail: actorEmail,
     });
 
     if (!result.ok) {
-      return NextResponse.json({ error: 'E-mail já autorizado' }, { status: 409 });
+      return NextResponse.json({ error: 'E-mail já cadastrado' }, { status: 409 });
     }
 
     try {
@@ -51,7 +53,7 @@ export async function POST(request: Request) {
         details: `${result.entry?.email} (${result.entry?.role})`,
       });
     } catch (auditError) {
-      logger.warn('Allowlist entry saved but audit log failed', {
+      logger.warn('Dashboard user saved but audit log failed', {
         message: auditError instanceof Error ? auditError.message : String(auditError),
       });
     }
@@ -59,18 +61,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true, entry: result.entry });
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    logger.error('Failed to add dashboard allowlist entry', { message });
-
-    const missingTable =
-      /dashboard_allowlist/u.test(message) &&
-      (/does not exist|relation/u.test(message) || /42P01/u.test(message));
+    logger.error('Failed to add dashboard user', { message });
 
     return NextResponse.json(
-      {
-        error: missingTable
-          ? 'Erro ao salvar e-mail. Verifique se a migração 0012 foi aplicada no banco.'
-          : 'Erro ao salvar e-mail. Tente de novo em instantes.',
-      },
+      { error: 'Erro ao salvar usuário. Tente de novo em instantes.' },
       { status: 500 },
     );
   }

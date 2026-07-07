@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { logAdminActivity } from '@/lib/admin-activity';
-import { getClerkUserEmail, requireAdminAccess } from '@/lib/auth-roles';
+import { getDashboardUserEmail, requireAdminAccess } from '@/lib/auth-roles';
 import { removeAllowlistEntry } from '@/lib/dashboard-allowlist';
 import { logger } from '@/libs/Logger';
 
@@ -24,7 +24,7 @@ export async function DELETE(_request: Request, context: RouteContext) {
       return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
     }
 
-    const actorEmail = await getClerkUserEmail(access.userId);
+    const actorEmail = await getDashboardUserEmail(access.userId);
     if (!actorEmail) {
       return NextResponse.json({ error: 'Conta sem e-mail' }, { status: 422 });
     }

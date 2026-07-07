@@ -171,11 +171,12 @@ export const adminActivitySchema = pgTable('admin_activity', {
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
 });
 
-/** E-mails autorizados a entrar no painel — gerenciado em /dashboard/acesso */
+/** E-mails e credenciais do painel — gerenciado em /dashboard/acesso */
 export const dashboardAllowlistSchema = pgTable('dashboard_allowlist', {
   id: serial('id').primaryKey(),
   email: varchar('email', { length: 320 }).notNull().unique(),
   role: varchar('role', { length: 40 }).notNull().default('comercial'),
+  passwordHash: varchar('password_hash', { length: 255 }),
   addedByEmail: varchar('added_by_email', { length: 320 }),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
 });
