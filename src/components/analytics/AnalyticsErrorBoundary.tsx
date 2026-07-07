@@ -17,17 +17,17 @@ export class AnalyticsErrorBoundary extends Component<
   AnalyticsErrorBoundaryProps,
   AnalyticsErrorBoundaryState
 > {
-  state: AnalyticsErrorBoundaryState = { hasError: false };
+  override state: AnalyticsErrorBoundaryState = { hasError: false };
 
   static getDerivedStateFromError() {
     return { hasError: true };
   }
 
-  componentDidCatch(error: Error, info: ErrorInfo) {
+  override componentDidCatch(error: Error, info: ErrorInfo) {
     console.debug('Analytics bundle error:', error.message, info.componentStack);
   }
 
-  render() {
+  override render() {
     if (this.state.hasError) {
       return null;
     }
