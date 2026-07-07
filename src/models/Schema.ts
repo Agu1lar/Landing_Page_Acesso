@@ -54,6 +54,7 @@ export const leadsSchema = pgTable('leads', {
   geoCity: varchar('geo_city', { length: 120 }),
   geoRegion: varchar('geo_region', { length: 120 }),
   internalNotes: text('internal_notes'),
+  whatsappOpened: boolean('whatsapp_opened'),
   lastActivityAt: timestamp('last_activity_at', { mode: 'date' }),
   clientId: integer('client_id'),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),

@@ -18,6 +18,7 @@ const WHATSAPP_ORIGIN_LABELS: Record<string, string> = {
   'site-faq': 'Perguntas frequentes',
   'site-dica': 'Artigo de dicas',
   'site-orcamento': 'Formulário de orçamento',
+  'site-orcamento-envio': 'Envio do formulário de orçamento (abriu WhatsApp)',
   'site-footer': 'Rodapé do site',
   'site-catalogo': 'Catálogo de equipamentos',
   'site-carrinho-mobile': 'Carrinho de orçamento (celular)',

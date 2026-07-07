@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { formatDateTimeBrasilia } from '@/lib/app-datetime';
-import type { ClientListItem } from '@/lib/clients-admin';
+import type { ClientListItem } from '@/types/client-admin';
 import { Link } from '@/libs/I18nNavigation';
 
 function formatClientDate(value: Date | string) {

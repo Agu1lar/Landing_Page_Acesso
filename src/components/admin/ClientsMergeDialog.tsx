@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import type { ClientListItem } from '@/lib/clients-admin';
+import type { ClientListItem } from '@/types/client-admin';
 
 type ClientsMergeDialogProps = {
   open: boolean;

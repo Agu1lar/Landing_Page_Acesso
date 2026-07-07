@@ -16,6 +16,7 @@ import { brand } from '@/lib/brand';
 import { captureQuoteSubmit } from '@/lib/posthog-events';
 import { markQuoteSubmitted } from '@/components/analytics/QuoteAbandonTracker';
 import { buildQuoteWhatsAppUrl } from '@/lib/quote-whatsapp';
+import { trackWhatsAppClick } from '@/lib/track-whatsapp-click';
 import { TrackedPhoneLink } from '@/components/TrackedPhoneLink';
 import { QuoteFormSchema, rentalPeriodOptions, summarizeCartEquipment } from '@/validations/quote';
 
@@ -145,8 +146,24 @@ export function QuoteForm(props: QuoteFormProps) {
         origin,
       });
 
+    const whatsappPopup = window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    const whatsappOpened = whatsappPopup !== null;
+
+    if (whatsappOpened) {
+      trackWhatsAppClick({
+        origin: 'site-orcamento-envio',
+        equipmentSlug: equipmentSummary.equipmentSlug ?? data.equipmentSlug,
+        equipmentName: equipmentSummary.equipmentName ?? data.equipmentName,
+      });
+    }
+
+    void fetch('/api/leads', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ leadId: body.id, whatsappOpened }),
+    }).catch(() => undefined);
+
     setWhatsappRetryUrl(whatsappUrl);
-    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
 
     cart.clearCart();
     markQuoteSubmitted();

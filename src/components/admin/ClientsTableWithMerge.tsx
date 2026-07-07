@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { useEffect, useMemo, useState } from 'react';
-import type { ClientListItem } from '@/lib/clients-admin';
+import type { ClientListItem } from '@/types/client-admin';
 import { parseAdminJsonResponse } from '@/lib/admin-fetch';
 import {
   hideClients,

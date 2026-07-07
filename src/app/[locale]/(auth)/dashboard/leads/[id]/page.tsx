@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
+import { LeadCartItemsList } from '@/components/admin/LeadCartItemsList';
 import { LeadContactHistory } from '@/components/admin/LeadContactHistory';
+import { LeadWhatsAppBadge } from '@/components/admin/LeadWhatsAppBadge';
 import { LeadNotesForm } from '@/components/admin/LeadNotesForm';
 import { LeadPriorityBadge } from '@/components/admin/LeadPriorityBadge';
 import { LeadRecurringBadge } from '@/components/admin/LeadRecurringBadge';
@@ -11,10 +13,10 @@ import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
 import { Button } from '@/components/ui/Button';
 import { LEAD_STATUSES } from '@/lib/lead-status';
 import type { LeadStatus } from '@/lib/lead-status';
+import { resolveLeadWhatsAppStatus } from '@/lib/lead-whatsapp-status';
 import { scoreLeadIntent } from '@/lib/lead-intent-score';
 import { formatDateTimeBrasilia } from '@/lib/app-datetime';
 import { formatLeadCartItems, getLeadById, listRelatedLeads, parseLeadCartItems } from '@/lib/leads-admin';
-import { Link } from '@/libs/I18nNavigation';
 import { resolveAppLocale } from '@/utils/locale';
 
 type LeadDetailPageProps = {
@@ -60,6 +62,15 @@ export default async function LeadDetailPage(props: LeadDetailPageProps) {
   ) as Record<LeadStatus, string>;
   const displayStatus = statusLabels[lead.status as LeadStatus] ?? lead.status;
   const intent = scoreLeadIntent(lead);
+  const whatsappStatus = resolveLeadWhatsAppStatus(lead);
+  const whatsappStatusLabel =
+    whatsappStatus === 'opened'
+      ? t('whatsapp_status_opened')
+      : whatsappStatus === 'blocked'
+        ? t('whatsapp_status_blocked')
+        : whatsappStatus === 'not_applicable'
+          ? t('whatsapp_status_not_applicable')
+          : t('whatsapp_status_unknown');
   const priorityKey =
     intent.tier === 'hot' ? 'priority_hot' : intent.tier === 'warm' ? 'priority_warm' : 'priority_cold';
   let rentalLabel = lead.rentalPeriod ?? '—';
@@ -99,6 +110,7 @@ export default async function LeadDetailPage(props: LeadDetailPageProps) {
               label={t('recurring_badge', { count: contactCount })}
             />
             <LeadPriorityBadge label={t(priorityKey)} score={intent.score} tier={intent.tier} />
+            <LeadWhatsAppBadge label={whatsappStatusLabel} status={whatsappStatus} />
           </span>
         }
       />
@@ -146,6 +158,13 @@ export default async function LeadDetailPage(props: LeadDetailPageProps) {
               <dd>{rentalLabel}</dd>
             </div>
             <div>
+              <dt className="text-neutral-500">{t('field_whatsapp')}</dt>
+              <dd className="mt-1">
+                <LeadWhatsAppBadge label={whatsappStatusLabel} status={whatsappStatus} />
+                <p className="mt-1 text-xs text-neutral-500">{t(`whatsapp_status_hint_${whatsappStatus}`)}</p>
+              </dd>
+            </div>
+            <div>
               <dt className="text-neutral-500">{t('field_origin')}</dt>
               <dd>{lead.origin}</dd>
             </div>
@@ -181,30 +200,12 @@ export default async function LeadDetailPage(props: LeadDetailPageProps) {
 
       {cartItems.length > 0 ? (
         <AdminCard title={t('section_cart')}>
-          <ul className="divide-y divide-neutral-100 text-sm">
-            {cartItems.map((item) => (
-              <li
-                className="flex flex-wrap items-center justify-between gap-2 py-2"
-                key={item.slug}
-              >
-                <div>
-                  <Link
-                    className="font-medium text-primary hover:underline"
-                    href={`/equipamentos/${item.slug}`}
-                  >
-                    {item.name}
-                  </Link>
-                  <p className="text-xs text-neutral-500">
-                    {item.kind === 'accessory' ? t('kind_accessory') : t('kind_equipment')} ·{' '}
-                    {item.slug}
-                  </p>
-                </div>
-                <span className="font-medium text-neutral-800">
-                  {t('quantity_label', { count: item.quantity })}
-                </span>
-              </li>
-            ))}
-          </ul>
+          <LeadCartItemsList
+            catalogNameNoteLabel={(name) => t('cart_catalog_name_note', { name })}
+            itemsJson={lead.itemsJson}
+            quantityLabel={(count) => t('quantity_label', { count })}
+            referenceLabel={(reference) => t('cart_reference', { reference })}
+          />
         </AdminCard>
       ) : (
         <AdminCard title={t('section_cart')}>

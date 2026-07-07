@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { eq } from 'drizzle-orm';
 import * as z from 'zod';
 import { notifyLeadByEmail } from '@/lib/email';
 import { createLead } from '@/lib/leads';
@@ -9,7 +10,9 @@ import {
 import { buildQuoteWhatsAppMessage, buildQuoteWhatsAppUrl } from '@/lib/quote-whatsapp';
 import { allowQuoteLeadRequest } from '@/lib/quote-lead-rate-limit';
 import { logger } from '@/libs/Logger';
+import { db } from '@/libs/DB';
 import { Env } from '@/libs/Env';
+import { leadsSchema } from '@/models/Schema';
 import { normalizeQuotePayload, QuoteFormSchema } from '@/validations/quote';
 
 export const POST = async (request: Request) => {
@@ -122,5 +125,37 @@ export const POST = async (request: Request) => {
       { error: 'Não foi possível enviar agora. Tente o WhatsApp ou telefone.' },
       { status: 500 },
     );
+  }
+};
+
+const WhatsAppOpenedPatchSchema = z.object({
+  leadId: z.number().int().positive(),
+  whatsappOpened: z.boolean(),
+});
+
+export const PATCH = async (request: Request) => {
+  try {
+    const allowed = await allowQuoteLeadRequest(request);
+    if (!allowed) {
+      return NextResponse.json({ error: 'Muitas tentativas.' }, { status: 429 });
+    }
+
+    const json = await request.json();
+    const parsed = WhatsAppOpenedPatchSchema.safeParse(json);
+    if (!parsed.success) {
+      return NextResponse.json({ error: 'Dados inválidos' }, { status: 422 });
+    }
+
+    await db
+      .update(leadsSchema)
+      .set({ whatsappOpened: parsed.data.whatsappOpened })
+      .where(eq(leadsSchema.id, parsed.data.leadId));
+
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    logger.error('Falha ao atualizar WhatsApp do lead', {
+      message: error instanceof Error ? error.message : String(error),
+    });
+    return NextResponse.json({ error: 'Não foi possível atualizar.' }, { status: 500 });
   }
 };

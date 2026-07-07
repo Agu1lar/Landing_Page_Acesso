@@ -1,6 +1,51 @@
 import * as z from 'zod';
 import { QuoteCartItemSchema } from '@/validations/quote';
 import type { QuoteCartItemInput } from '@/validations/quote';
+import { CATEGORY_LABELS, isEquipmentCategory } from '@/types/equipment';
+
+export type LeadCartItemDisplay = {
+  subtitle: string;
+  catalogNameNote?: string;
+  reference: string;
+};
+
+function formatSlugReference(slug: string) {
+  return slug
+    .split('-')
+    .map((word) => (word ? word.charAt(0).toUpperCase() + word.slice(1) : ''))
+    .join(' ');
+}
+
+/** Builds admin-friendly cart line labels (category + specs, not raw slug). */
+export function buildLeadCartItemDisplay(
+  item: QuoteCartItemInput,
+  catalog?: { name: string; category: string; shortDescription?: string } | null,
+): LeadCartItemDisplay {
+  const kindLabel = item.kind === 'accessory' ? 'Acessório' : 'Equipamento';
+  const parts = [kindLabel];
+
+  if (catalog?.category && isEquipmentCategory(catalog.category)) {
+    parts.push(CATEGORY_LABELS[catalog.category]);
+  }
+
+  if (item.specsSummary?.trim()) {
+    parts.push(item.specsSummary.trim());
+  } else if (catalog?.shortDescription?.trim()) {
+    const short = catalog.shortDescription.trim();
+    parts.push(short.length > 120 ? `${short.slice(0, 117)}…` : short);
+  }
+
+  const catalogNameNote =
+    catalog?.name && catalog.name.trim().toLowerCase() !== item.name.trim().toLowerCase()
+      ? catalog.name.trim()
+      : undefined;
+
+  return {
+    subtitle: parts.join(' · '),
+    catalogNameNote,
+    reference: formatSlugReference(item.slug),
+  };
+}
 
 /**
  * Parses cart line items stored on a lead row.

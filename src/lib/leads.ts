@@ -134,6 +134,7 @@ export async function createLead(input: CreateLeadInput) {
       message: enriched.message ?? null,
       itemsJson: enriched.itemsJson ?? null,
       origin: enriched.origin || 'site-orcamento',
+      whatsappOpened: enriched.whatsappOpened ?? null,
       leadKind: 'quote',
       status: 'new',
       utmSource: input.utmSource ?? null,

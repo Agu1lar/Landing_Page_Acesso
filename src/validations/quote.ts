@@ -34,6 +34,8 @@ export const QuoteFormSchema = z.object({
   visitorGeo: VisitorGeoSchema.optional(),
   /** Honeypot — deve permanecer vazio; bots que preenchem são ignorados na API */
   website: z.string().max(200).optional().or(z.literal('')),
+  /** True quando o navegador abriu o WhatsApp após enviar o orçamento. */
+  whatsappOpened: z.boolean().optional(),
 });
 
 export type QuoteFormInput = z.infer<typeof QuoteFormSchema>;
@@ -117,6 +119,7 @@ export function normalizeQuotePayload(data: QuoteFormInput) {
     message: data.message?.trim() ?? undefined,
     itemsJson: cartItems ? JSON.stringify(cartItems) : undefined,
     origin: data.origin?.trim() || 'site-orcamento',
+    whatsappOpened: data.whatsappOpened,
     utmSource: data.attribution?.utmSource,
     utmMedium: data.attribution?.utmMedium,
     utmCampaign: data.attribution?.utmCampaign,

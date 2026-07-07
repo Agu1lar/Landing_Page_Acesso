@@ -9,7 +9,9 @@ import { leadActivityTimestamp } from '@/lib/lead-contact';
 import { AdminCard } from '@/components/admin/AdminCard';
 import { LeadPriorityBadge } from '@/components/admin/LeadPriorityBadge';
 import { LeadRecurringBadge } from '@/components/admin/LeadRecurringBadge';
+import { LeadWhatsAppBadge } from '@/components/admin/LeadWhatsAppBadge';
 import { Link } from '@/libs/I18nNavigation';
+import { resolveLeadWhatsAppStatus } from '@/lib/lead-whatsapp-status';
 
 type LeadsTableProps = {
   leads: LeadRecord[];
@@ -38,6 +40,7 @@ export async function LeadsTable(props: LeadsTableProps) {
               <th className="px-4 py-3 font-semibold">{t('col_priority')}</th>
               <th className="px-4 py-3 font-semibold">{t('col_city')}</th>
               <th className="px-4 py-3 font-semibold">{t('col_items')}</th>
+              <th className="px-4 py-3 font-semibold">{t('col_whatsapp')}</th>
               <th className="px-4 py-3 font-semibold">{t('col_origin')}</th>
               <th className="px-4 py-3 font-semibold">{t('col_kind')}</th>
               <th className="px-4 py-3 font-semibold">{t('col_status')}</th>
@@ -63,6 +66,15 @@ export async function LeadsTable(props: LeadsTableProps) {
                     : 'priority_cold';
               const contactCount = contactOrderCounts.get(lead.id) ?? 1;
               const activityAt = new Date(leadActivityTimestamp(lead));
+              const whatsappStatus = resolveLeadWhatsAppStatus(lead);
+              const whatsappLabel =
+                whatsappStatus === 'opened'
+                  ? t('whatsapp_status_opened')
+                  : whatsappStatus === 'blocked'
+                    ? t('whatsapp_status_blocked')
+                    : whatsappStatus === 'not_applicable'
+                      ? t('whatsapp_status_not_applicable')
+                      : t('whatsapp_status_unknown');
               return (
                 <tr className="transition-colors hover:bg-neutral-50/80" key={lead.id}>
                   <td className="px-4 py-3 whitespace-nowrap text-neutral-600">
@@ -88,6 +100,9 @@ export async function LeadsTable(props: LeadsTableProps) {
                   <td className="px-4 py-3 text-neutral-700">{lead.city ?? '—'}</td>
                   <td className="max-w-xs truncate px-4 py-3 text-neutral-700" title={itemsSummary}>
                     {itemsSummary}
+                  </td>
+                  <td className="px-4 py-3">
+                    <LeadWhatsAppBadge compact label={whatsappLabel} status={whatsappStatus} />
                   </td>
                   <td className="px-4 py-3 text-xs">
                     <p className="text-neutral-700">{lead.origin}</p>
