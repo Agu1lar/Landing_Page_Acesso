@@ -1,0 +1,37 @@
+'use client';
+
+import { Component, type ErrorInfo, type ReactNode } from 'react';
+
+type AnalyticsErrorBoundaryProps = {
+  children: ReactNode;
+};
+
+type AnalyticsErrorBoundaryState = {
+  hasError: boolean;
+};
+
+/**
+ * Prevents analytics failures (PostHog, One Tap, trackers) from breaking the page.
+ */
+export class AnalyticsErrorBoundary extends Component<
+  AnalyticsErrorBoundaryProps,
+  AnalyticsErrorBoundaryState
+> {
+  state: AnalyticsErrorBoundaryState = { hasError: false };
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error, info: ErrorInfo) {
+    console.debug('Analytics bundle error:', error.message, info.componentStack);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return null;
+    }
+
+    return this.props.children;
+  }
+}

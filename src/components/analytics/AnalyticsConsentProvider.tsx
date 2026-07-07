@@ -2,6 +2,7 @@
 
 import { Suspense, useEffect, useState } from 'react';
 import { AnalyticsConsentContext } from '@/components/analytics/AnalyticsConsentContext';
+import { AnalyticsErrorBoundary } from '@/components/analytics/AnalyticsErrorBoundary';
 import { CookieConsentBanner } from '@/components/analytics/CookieConsentBanner';
 import { GoogleOneTapManager } from '@/components/analytics/GoogleOneTapManager';
 import { GaPageView } from '@/components/analytics/GaPageView';
@@ -96,7 +97,7 @@ export function AnalyticsConsentProvider(props: AnalyticsConsentProviderProps) {
       {props.children}
       {showBanner ? <CookieConsentBanner /> : null}
       {analyticsOn ? (
-        <>
+        <AnalyticsErrorBoundary>
           <GoogleOneTapManager />
           <PostHogAttributionSync />
           <Suspense fallback={null}>
@@ -105,7 +106,7 @@ export function AnalyticsConsentProvider(props: AnalyticsConsentProviderProps) {
             <ScrollDepthTracker />
             <PostHogPageView />
           </Suspense>
-        </>
+        </AnalyticsErrorBoundary>
       ) : null}
     </AnalyticsConsentContext>
   );

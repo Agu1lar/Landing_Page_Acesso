@@ -15,17 +15,21 @@ export function initPostHog() {
     return;
   }
 
-  posthog.init(key, {
-    api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST ?? 'https://us.i.posthog.com',
-    person_profiles: 'identified_only',
-    capture_pageview: false,
-    capture_pageleave: true,
-    session_recording: {
-      maskAllInputs: true,
-    },
-  });
+  try {
+    posthog.init(key, {
+      api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST ?? 'https://us.i.posthog.com',
+      person_profiles: 'identified_only',
+      capture_pageview: false,
+      capture_pageleave: true,
+      session_recording: {
+        maskAllInputs: true,
+      },
+    });
 
-  initialized = true;
+    initialized = true;
+  } catch (error) {
+    console.debug('PostHog init failed:', error instanceof Error ? error.message : error);
+  }
 }
 
 /**
