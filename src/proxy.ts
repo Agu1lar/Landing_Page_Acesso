@@ -58,19 +58,21 @@ export default async function proxy(request: NextRequest, event: NextFetchEvent)
         const signInUrl = new URL(`${locale}/sign-in`, req.url);
         const unauthorizedUrl = new URL(`${locale}/unauthorized`, req.url);
 
-        await auth.protect({
-          unauthenticatedUrl: signInUrl.toString(),
-        });
-
         const { userId, sessionClaims } = await auth();
         if (!userId) {
           return NextResponse.redirect(signInUrl);
         }
 
-        const role = await resolveDashboardRole(
-          userId,
-          sessionClaims as Record<string, unknown> | null,
-        );
+        let role;
+        try {
+          role = await resolveDashboardRole(
+            userId,
+            sessionClaims as Record<string, unknown> | null,
+          );
+        } catch {
+          return NextResponse.redirect(unauthorizedUrl);
+        }
+
         if (!role) {
           return NextResponse.redirect(unauthorizedUrl);
         }

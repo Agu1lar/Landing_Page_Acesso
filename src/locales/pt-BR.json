@@ -251,7 +251,7 @@
     "meta_description": "Sua conta não tem permissão para o painel administrativo.",
     "title": "Acesso não autorizado",
     "description": "Esta conta não está habilitada para o painel. Peça ao administrador para liberar o acesso.",
-    "hint": "O cadastro público está desativado. Peça a um administrador para incluir seu e-mail em Painel → Acesso ao painel, ou configure o papel no Clerk enquanto a lista estiver vazia.",
+    "hint": "O cadastro público está desativado. No Clerk (ambiente Production), abra seu usuário → Public metadata e adicione: { \"role\": \"admin\" } ou \"comercial\". Se existir lista de e-mails no painel, o seu também precisa estar autorizado em Painel → Acesso.",
     "back_home": "Voltar ao site",
     "sign_in_again": "Tentar outra conta"
   },
