@@ -112,12 +112,18 @@ export async function updateAllowlistPasswordAction(input: {
       return { ok: false, code: 'not_found' };
     }
 
-    await logAdminActivity({
-      userId: access.userId,
-      action: 'allowlist_password_reset',
-      entityType: 'dashboard_allowlist',
-      details: result.entry.email,
-    });
+    try {
+      await logAdminActivity({
+        userId: access.userId,
+        action: 'allowlist_password_reset',
+        entityType: 'dashboard_allowlist',
+        details: result.entry.email,
+      });
+    } catch (auditError) {
+      logger.warn('Password updated but audit log failed', {
+        message: auditError instanceof Error ? auditError.message : String(auditError),
+      });
+    }
 
     revalidateAccessPage();
     return { ok: true, email: result.entry.email };

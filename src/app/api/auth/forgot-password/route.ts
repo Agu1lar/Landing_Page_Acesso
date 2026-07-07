@@ -1,13 +1,11 @@
 import { NextResponse } from 'next/server';
 import * as z from 'zod';
-import { authenticateDashboardUser } from '@/lib/dashboard-allowlist';
 import {
-  AUTH_LOGIN_RATE_LIMIT,
+  AUTH_FORGOT_PASSWORD_RATE_LIMIT,
   enforceAuthRateLimits,
 } from '@/lib/dashboard-auth-rate-limit';
 import { isAllowedDashboardEmail, normalizeAllowlistEmail } from '@/lib/dashboard-allowlist-email';
-import { validateDashboardPassword } from '@/lib/dashboard-password-policy';
-import { setDashboardSessionCookie } from '@/lib/dashboard-session';
+import { requestDashboardPasswordReset } from '@/lib/dashboard-password-reset';
 
 const BodySchema = z.object({
   email: z
@@ -16,7 +14,6 @@ const BodySchema = z.object({
     .max(320)
     .transform(normalizeAllowlistEmail)
     .refine(isAllowedDashboardEmail, { message: 'invalid_email' }),
-  password: z.string().min(1).max(200),
 });
 
 export async function POST(request: Request) {
@@ -27,31 +24,23 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'invalid_email' }, { status: 422 });
   }
 
-  const passwordIssue = validateDashboardPassword(parsed.data.password);
-  if (passwordIssue === 'too_short') {
-    return NextResponse.json({ error: 'password_too_short' }, { status: 422 });
-  }
-
   const allowed = await enforceAuthRateLimits(
     request,
-    AUTH_LOGIN_RATE_LIMIT,
+    AUTH_FORGOT_PASSWORD_RATE_LIMIT,
     parsed.data.email,
   );
   if (!allowed) {
     return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }
 
-  const user = await authenticateDashboardUser(parsed.data.email, parsed.data.password);
-  if (!user) {
-    return NextResponse.json({ error: 'invalid_credentials' }, { status: 401 });
+  const result = await requestDashboardPasswordReset(parsed.data.email);
+
+  if (!result.ok) {
+    if (result.reason === 'user_not_found') {
+      return NextResponse.json({ error: 'user_not_found' }, { status: 404 });
+    }
+    return NextResponse.json({ error: 'email_send_failed' }, { status: 503 });
   }
 
-  const response = NextResponse.json({ ok: true });
-  setDashboardSessionCookie(response, {
-    userId: user.id,
-    email: user.email,
-    role: user.role,
-  });
-
-  return response;
+  return NextResponse.json({ ok: true });
 }

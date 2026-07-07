@@ -7,9 +7,11 @@ import {
   updateAllowlistPasswordAction,
 } from '@/app/actions/access-admin';
 import type { DashboardUserListItem } from '@/lib/dashboard-allowlist';
+import { validatePasswordField } from '@/lib/dashboard-auth-errors';
 import { normalizeAllowlistEmail } from '@/lib/dashboard-allowlist-email';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
+import { PasswordField } from '@/components/ui/PasswordField';
 import { Select } from '@/components/ui/Select';
 
 type AccessAllowlistPanelProps = {
@@ -22,6 +24,11 @@ type AccessAllowlistPanelProps = {
     emailPlaceholder: string;
     passwordLabel: string;
     passwordPlaceholder: string;
+    passwordHint: string;
+    showPassword: string;
+    hidePassword: string;
+    errorPasswordTooShort: string;
+    errorPasswordTooLong: string;
     roleLabel: string;
     roleAdmin: string;
     roleComercial: string;
@@ -74,6 +81,8 @@ function mapAllowlistError(
 export function AccessAllowlistPanel(props: AccessAllowlistPanelProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [resetPasswordError, setResetPasswordError] = useState<string | null>(null);
   const [role, setRole] = useState<'admin' | 'comercial'>('comercial');
   const [isAdding, setIsAdding] = useState(false);
   const [removingId, setRemovingId] = useState<number | null>(null);
@@ -93,9 +102,24 @@ export function AccessAllowlistPanel(props: AccessAllowlistPanelProps) {
             event.preventDefault();
             setError(null);
             setSuccess(null);
-            setIsAdding(true);
+            setPasswordError(null);
 
             const normalizedEmail = normalizeAllowlistEmail(email);
+            if (!normalizedEmail) {
+              setError(props.labels.errorInvalid);
+              return;
+            }
+
+            const nextPasswordError = validatePasswordField(password, {
+              passwordTooShort: props.labels.errorPasswordTooShort,
+              passwordTooLong: props.labels.errorPasswordTooLong,
+            });
+            if (nextPasswordError) {
+              setPasswordError(nextPasswordError);
+              return;
+            }
+
+            setIsAdding(true);
 
             try {
               const result = await addAllowlistEmailAction({
@@ -136,18 +160,22 @@ export function AccessAllowlistPanel(props: AccessAllowlistPanelProps) {
             spellCheck={false}
             value={email}
           />
-          <Input
+          <PasswordField
             disabled={isAdding}
+            error={passwordError ?? undefined}
+            hideLabel={props.labels.hidePassword}
+            hint={props.labels.passwordHint}
             label={props.labels.passwordLabel}
             minLength={8}
             name="allowlistPassword"
             onChange={(event) => {
               setPassword(event.target.value);
+              setPasswordError(null);
             }}
             placeholder={props.labels.passwordPlaceholder}
             required
-            type="password"
             autoComplete="new-password"
+            showLabel={props.labels.showPassword}
             value={password}
           />
           <Select
@@ -227,6 +255,16 @@ export function AccessAllowlistPanel(props: AccessAllowlistPanelProps) {
                                 event.preventDefault();
                                 setError(null);
                                 setSuccess(null);
+                                setResetPasswordError(null);
+
+                                const nextResetPasswordError = validatePasswordField(resetPassword, {
+                                  passwordTooShort: props.labels.errorPasswordTooShort,
+                                  passwordTooLong: props.labels.errorPasswordTooLong,
+                                });
+                                if (nextResetPasswordError) {
+                                  setResetPasswordError(nextResetPasswordError);
+                                  return;
+                                }
 
                                 try {
                                   const result = await updateAllowlistPasswordAction({
@@ -252,15 +290,18 @@ export function AccessAllowlistPanel(props: AccessAllowlistPanelProps) {
                                 }
                               }}
                             >
-                              <Input
+                              <PasswordField
+                                error={resetPasswordError ?? undefined}
+                                hideLabel={props.labels.hidePassword}
                                 label={props.labels.passwordLabel}
                                 minLength={8}
                                 name={`reset-${entry.id}`}
                                 onChange={(event) => {
                                   setResetPassword(event.target.value);
+                                  setResetPasswordError(null);
                                 }}
                                 required
-                                type="password"
+                                showLabel={props.labels.showPassword}
                                 value={resetPassword}
                               />
                               <Button size="sm" type="submit">
@@ -284,6 +325,7 @@ export function AccessAllowlistPanel(props: AccessAllowlistPanelProps) {
                                 onClick={() => {
                                   setResettingId(entry.id);
                                   setResetPassword('');
+                                  setResetPasswordError(null);
                                 }}
                                 size="sm"
                                 type="button"

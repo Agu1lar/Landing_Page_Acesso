@@ -1,13 +1,16 @@
 import { NextResponse } from 'next/server';
 import * as z from 'zod';
-import { authenticateDashboardUser } from '@/lib/dashboard-allowlist';
 import {
-  AUTH_LOGIN_RATE_LIMIT,
+  AUTH_RESET_PASSWORD_RATE_LIMIT,
   enforceAuthRateLimits,
 } from '@/lib/dashboard-auth-rate-limit';
 import { isAllowedDashboardEmail, normalizeAllowlistEmail } from '@/lib/dashboard-allowlist-email';
-import { validateDashboardPassword } from '@/lib/dashboard-password-policy';
-import { setDashboardSessionCookie } from '@/lib/dashboard-session';
+import {
+  isValidResetCodeFormat,
+  normalizeResetCode,
+  validateDashboardPassword,
+} from '@/lib/dashboard-password-policy';
+import { completeDashboardPasswordReset } from '@/lib/dashboard-password-reset';
 
 const BodySchema = z.object({
   email: z
@@ -16,6 +19,9 @@ const BodySchema = z.object({
     .max(320)
     .transform(normalizeAllowlistEmail)
     .refine(isAllowedDashboardEmail, { message: 'invalid_email' }),
+  code: z.string().transform(normalizeResetCode).refine(isValidResetCodeFormat, {
+    message: 'invalid_code',
+  }),
   password: z.string().min(1).max(200),
 });
 
@@ -24,6 +30,10 @@ export async function POST(request: Request) {
   const parsed = BodySchema.safeParse(json);
 
   if (!parsed.success) {
+    const issue = parsed.error.issues[0]?.message;
+    if (issue === 'invalid_code') {
+      return NextResponse.json({ error: 'invalid_code' }, { status: 422 });
+    }
     return NextResponse.json({ error: 'invalid_email' }, { status: 422 });
   }
 
@@ -31,27 +41,34 @@ export async function POST(request: Request) {
   if (passwordIssue === 'too_short') {
     return NextResponse.json({ error: 'password_too_short' }, { status: 422 });
   }
+  if (passwordIssue === 'too_long') {
+    return NextResponse.json({ error: 'password_too_long' }, { status: 422 });
+  }
 
   const allowed = await enforceAuthRateLimits(
     request,
-    AUTH_LOGIN_RATE_LIMIT,
+    AUTH_RESET_PASSWORD_RATE_LIMIT,
     parsed.data.email,
   );
   if (!allowed) {
     return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }
 
-  const user = await authenticateDashboardUser(parsed.data.email, parsed.data.password);
-  if (!user) {
-    return NextResponse.json({ error: 'invalid_credentials' }, { status: 401 });
+  const result = await completeDashboardPasswordReset(
+    parsed.data.email,
+    parsed.data.code,
+    parsed.data.password,
+  );
+
+  if (!result.ok) {
+    const status =
+      result.reason === 'user_not_found'
+        ? 404
+        : result.reason === 'too_many_attempts'
+          ? 429
+          : 400;
+    return NextResponse.json({ error: result.reason }, { status });
   }
 
-  const response = NextResponse.json({ ok: true });
-  setDashboardSessionCookie(response, {
-    userId: user.id,
-    email: user.email,
-    role: user.role,
-  });
-
-  return response;
+  return NextResponse.json({ ok: true });
 }

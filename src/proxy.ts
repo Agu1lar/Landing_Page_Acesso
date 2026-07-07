@@ -20,8 +20,14 @@ const isSignUpPage = (pathname: string) =>
 const isSignInPage = (pathname: string) =>
   /\/sign-in(?:\/|$)/u.test(pathname) || /^\/[a-z]{2}(?:-[A-Z]{2})?\/sign-in(?:\/|$)/u.test(pathname);
 
+const isForgotPasswordPage = (pathname: string) =>
+  /\/forgot-password(?:\/|$)/u.test(pathname)
+  || /^\/[a-z]{2}(?:-[A-Z]{2})?\/forgot-password(?:\/|$)/u.test(pathname);
+
 function localePrefixFromPath(pathname: string) {
-  return pathname.match(/(\/.*)\/(?:dashboard|sign-in|sign-up|unauthorized)/u)?.at(1) ?? '';
+  return (
+    pathname.match(/(\/.*)\/(?:dashboard|sign-in|sign-up|unauthorized|forgot-password)/u)?.at(1) ?? ''
+  );
 }
 
 export default async function proxy(request: NextRequest, _event: NextFetchEvent) {
@@ -41,7 +47,7 @@ export default async function proxy(request: NextRequest, _event: NextFetchEvent
     return NextResponse.next();
   }
 
-  if (isSignInPage(pathname)) {
+  if (isSignInPage(pathname) || isForgotPasswordPage(pathname)) {
     const access = requireDashboardAccessFromRequest(request);
     if (access.ok) {
       const locale = localePrefixFromPath(pathname);

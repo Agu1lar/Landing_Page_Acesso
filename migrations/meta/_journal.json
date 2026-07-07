@@ -204,6 +204,13 @@
       "when": 1781800000000,
       "tag": "0031_dashboard_password_auth",
       "breakpoints": true
+    },
+    {
+      "idx": 29,
+      "version": "7",
+      "when": 1781900000000,
+      "tag": "0032_dashboard_password_reset",
+      "breakpoints": true
     }
   ]
 }

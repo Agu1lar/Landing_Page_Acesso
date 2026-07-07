@@ -5,6 +5,7 @@ import { AccessAllowlistPanel } from '@/components/admin/AccessAllowlistPanel';
 import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
 import { getDashboardUserEmail, requireAdminAccess } from '@/lib/auth-roles';
 import { listAllowlistEntries } from '@/lib/dashboard-allowlist';
+import { DASHBOARD_PASSWORD_MIN_LENGTH } from '@/lib/dashboard-password-policy';
 import { resolveAppLocale } from '@/utils/locale';
 
 type AccessAdminPageProps = {
@@ -55,6 +56,11 @@ export default async function AccessAdminPage(props: AccessAdminPageProps) {
           emailPlaceholder: t('email_placeholder'),
           passwordLabel: t('field_password'),
           passwordPlaceholder: t('password_placeholder'),
+          passwordHint: t('password_hint', { min: DASHBOARD_PASSWORD_MIN_LENGTH }),
+          showPassword: t('show_password'),
+          hidePassword: t('hide_password'),
+          errorPasswordTooShort: t('error_password_too_short', { min: DASHBOARD_PASSWORD_MIN_LENGTH }),
+          errorPasswordTooLong: t('error_password_too_long'),
           roleLabel: t('field_role'),
           roleAdmin: t('role_admin'),
           roleComercial: t('role_comercial'),

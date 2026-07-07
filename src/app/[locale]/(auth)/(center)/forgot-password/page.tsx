@@ -1,20 +1,20 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { redirect } from 'next/navigation';
-import { LoginForm } from '@/components/auth/LoginForm';
+import { ForgotPasswordForm } from '@/components/auth/ForgotPasswordForm';
 import { getDashboardSession } from '@/lib/dashboard-session';
 import { getI18nPath } from '@/utils/Helpers';
 import { resolveAppLocale } from '@/utils/locale';
 
-type SignInPageProps = {
+type ForgotPasswordPageProps = {
   params: Promise<{ locale: string }>;
 };
 
-export async function generateMetadata(props: SignInPageProps): Promise<Metadata> {
+export async function generateMetadata(props: ForgotPasswordPageProps): Promise<Metadata> {
   const { locale } = await props.params;
   const t = await getTranslations({
     locale: resolveAppLocale(locale),
-    namespace: 'SignIn',
+    namespace: 'ForgotPassword',
   });
 
   return {
@@ -23,17 +23,17 @@ export async function generateMetadata(props: SignInPageProps): Promise<Metadata
   };
 }
 
-export default async function SignInPage(props: SignInPageProps) {
+export default async function ForgotPasswordPage(props: ForgotPasswordPageProps) {
   const { locale } = await props.params;
   setRequestLocale(resolveAppLocale(locale));
 
-  const forgotPasswordUrl = getI18nPath('/forgot-password', locale);
   const dashboardRedirectUrl = getI18nPath('/dashboard/leads', locale);
+  const signInUrl = getI18nPath('/sign-in', locale);
   const session = await getDashboardSession();
 
   if (session) {
     redirect(dashboardRedirectUrl);
   }
 
-  return <LoginForm forgotPasswordUrl={forgotPasswordUrl} redirectUrl={dashboardRedirectUrl} />;
+  return <ForgotPasswordForm signInUrl={signInUrl} />;
 }

@@ -181,6 +181,16 @@ export const dashboardAllowlistSchema = pgTable('dashboard_allowlist', {
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
 });
 
+/** Códigos temporários de redefinição de senha do painel */
+export const dashboardPasswordResetSchema = pgTable('dashboard_password_reset', {
+  id: serial('id').primaryKey(),
+  email: varchar('email', { length: 320 }).notNull(),
+  codeHash: varchar('code_hash', { length: 255 }).notNull(),
+  expiresAt: timestamp('expires_at', { mode: 'date' }).notNull(),
+  attemptCount: integer('attempt_count').notNull().default(0),
+  createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
+});
+
 /** Agregados diários para o painel — Sprint 11.6 */
 export const analyticsDailySchema = pgTable('analytics_daily', {
   date: date('date').primaryKey(),
