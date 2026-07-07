@@ -77,3 +77,37 @@ Preview na Vercel pode manter chaves `pk_test_` no escopo **Preview**, separado 
 - **Production (domínio oficial):** chaves **live**.
 - **Preview:** pode usar chaves **test** (Development).
 - **Local (`.env.local`):** em geral `pk_test_` alinhado ao Development do Clerk.
+
+## 8. Login com Google (SSO) no painel — Production
+
+No Clerk **Production**, o Google **exige credenciais próprias** (não usa as credenciais compartilhadas do Development).
+
+### Clerk
+
+1. **User & authentication** → **SSO connections** → **Google**
+2. **Enabled**
+3. **Use custom credentials** → cole **Client ID** e **Client Secret** do Google Cloud
+4. **Enable for sign-up and sign-in** — ligado
+5. Copie o **Authorized Redirect URI** que o Clerk mostra (ex.: `https://clerk.acessoequipamentos.com.br/v1/oauth_callback`)
+
+### Google Cloud Console
+
+1. **APIs e serviços** → **Credenciais** → OAuth **Aplicativo da Web**
+2. **Origens JavaScript autorizadas** — só domínio, **sem caminho**:
+   - `https://acessoequipamentos.com.br`
+   - `https://www.acessoequipamentos.com.br`
+   - `https://clerk.acessoequipamentos.com.br`
+3. **URIs de redirecionamento autorizados** — **aqui** vai a URL completa do Clerk:
+   - `https://clerk.acessoequipamentos.com.br/v1/oauth_callback`
+4. Salvar
+
+> **Erro comum:** colocar `/v1/oauth_callback` em *Origens JavaScript* → Google rejeita e o login quebra (400 / tela branca).
+
+### Separado do One Tap (leads no site)
+
+| Uso | Onde configura |
+|-----|----------------|
+| Login `/sign-in` | Clerk SSO + redirect URI acima |
+| Leads “Google (cookies)” | `NEXT_PUBLIC_GOOGLE_CLIENT_ID` na Vercel — ver `docs/GOOGLE-ONE-TAP.md` |
+
+Pode ser o **mesmo** OAuth Client ID no Google Cloud, desde que tenha **origens** e **redirect** corretos nos dois campos.
