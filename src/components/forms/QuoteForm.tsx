@@ -15,6 +15,11 @@ import { readStoredVisitorGeo } from '@/lib/visitor-geo';
 import { brand } from '@/lib/brand';
 import { captureQuoteSubmit } from '@/lib/posthog-events';
 import { markQuoteSubmitted } from '@/components/analytics/QuoteAbandonTracker';
+import {
+  closeWhatsAppPopup,
+  navigateWhatsAppPopup,
+  openBlankTabForWhatsApp,
+} from '@/lib/open-whatsapp-popup';
 import { buildQuoteWhatsAppUrl } from '@/lib/quote-whatsapp';
 import { trackWhatsAppClick } from '@/lib/track-whatsapp-click';
 import { TrackedPhoneLink } from '@/components/TrackedPhoneLink';
@@ -40,6 +45,7 @@ export function QuoteForm(props: QuoteFormProps) {
   const origin = props.origin ?? 'site-orcamento';
   const cart = useQuoteCart();
   const [submitted, setSubmitted] = useState(false);
+  const [whatsappOpened, setWhatsappOpened] = useState(false);
   const [whatsappRetryUrl, setWhatsappRetryUrl] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
@@ -94,19 +100,31 @@ export function QuoteForm(props: QuoteFormProps) {
       return;
     }
 
+    // Open blank tab in the same user-gesture stack (before await), so browsers
+    // do not treat WhatsApp as a blocked popup after the lead API returns.
+    const whatsappPopup = openBlankTabForWhatsApp();
+
     const attribution = readStoredAttribution();
     const visitorGeo = readStoredVisitorGeo();
 
-    const response = await fetch('/api/leads', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        ...data,
-        cartItems,
-        attribution: attribution ?? undefined,
-        visitorGeo: visitorGeo ?? undefined,
-      }),
-    });
+    let response: Response;
+    try {
+      response = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...data,
+          cartItems,
+          attribution: attribution ?? undefined,
+          visitorGeo: visitorGeo ?? undefined,
+        }),
+      });
+    } catch {
+      closeWhatsAppPopup(whatsappPopup);
+      setServerError('Falha de conexão. Tente novamente.');
+      setIsSubmitting(false);
+      return;
+    }
 
     const body = (await response.json()) as {
       error?: string;
@@ -116,6 +134,7 @@ export function QuoteForm(props: QuoteFormProps) {
     };
 
     if (!response.ok) {
+      closeWhatsAppPopup(whatsappPopup);
       setServerError(body.error ?? 'Não foi possível registrar. Tente novamente.');
       setIsSubmitting(false);
       return;
@@ -146,10 +165,10 @@ export function QuoteForm(props: QuoteFormProps) {
         origin,
       });
 
-    const whatsappPopup = window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
-    const whatsappOpened = whatsappPopup !== null;
+    const opened = navigateWhatsAppPopup(whatsappPopup, whatsappUrl);
+    setWhatsappOpened(opened);
 
-    if (whatsappOpened) {
+    if (opened) {
       trackWhatsAppClick({
         origin: 'site-orcamento-envio',
         equipmentSlug: equipmentSummary.equipmentSlug ?? data.equipmentSlug,
@@ -157,11 +176,13 @@ export function QuoteForm(props: QuoteFormProps) {
       });
     }
 
-    void fetch('/api/leads', {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ leadId: body.id, whatsappOpened }),
-    }).catch(() => undefined);
+    if (body.id) {
+      void fetch('/api/leads', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ leadId: body.id, whatsappOpened: opened }),
+      }).catch(() => undefined);
+    }
 
     setWhatsappRetryUrl(whatsappUrl);
 
@@ -178,11 +199,22 @@ export function QuoteForm(props: QuoteFormProps) {
         className="rounded-[var(--radius-card)] border border-green-200 bg-green-50 p-6"
         role="status"
       >
-        <p className="font-heading text-lg font-semibold text-neutral-900">Quase pronto!</p>
+        <p className="font-heading text-lg font-semibold text-neutral-900">
+          {whatsappOpened ? 'Quase pronto!' : 'Solicitação registrada'}
+        </p>
         <p className="mt-2 text-sm text-neutral-600">
-          O WhatsApp comercial deve ter aberto com sua mensagem em seu nome. Toque em{' '}
-          <strong>Enviar</strong> no WhatsApp para concluir — a equipe recebe pelo atendimento
-          automático do canal.
+          {whatsappOpened ? (
+            <>
+              O WhatsApp comercial deve ter aberto com sua mensagem em seu nome. Toque em{' '}
+              <strong>Enviar</strong> no WhatsApp para concluir — a equipe recebe pelo atendimento
+              automático do canal.
+            </>
+          ) : (
+            <>
+              Registramos sua solicitação. O navegador bloqueou a abertura automática do WhatsApp —
+              use o link abaixo para enviar a mensagem.
+            </>
+          )}
         </p>
         <p className="mt-2 text-sm text-neutral-600">
           Também registramos sua solicitação internamente para controle da {brand.name}. Retorno em
@@ -190,7 +222,7 @@ export function QuoteForm(props: QuoteFormProps) {
         </p>
         {whatsappRetryUrl ? (
           <p className="mt-4 text-sm text-neutral-600">
-            O WhatsApp não abriu?{' '}
+            {whatsappOpened ? 'WhatsApp não apareceu?' : 'Abrir WhatsApp agora:'}{' '}
             <a
               className="font-medium text-primary hover:underline"
               href={whatsappRetryUrl}
