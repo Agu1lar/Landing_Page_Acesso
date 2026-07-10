@@ -8,7 +8,8 @@ export const Env = createEnv({
     DATABASE_URL: z.string().min(1),
     RESEND_API_KEY: z.string().startsWith('re_').optional(),
     RESEND_FROM_EMAIL: z.string().min(3).optional(),
-    LEADS_NOTIFY_EMAIL: z.email().optional(),
+    /** Um e-mail ou vários separados por vírgula (ex.: comercial@…,tech@…). */
+    LEADS_NOTIFY_EMAIL: z.string().min(3).optional(),
     BLOB_READ_WRITE_TOKEN: z.string().min(1).optional(),
     BLOB_STORE_ID: z.string().min(1).optional(),
     BLOB_ACCESS: z.enum(['public', 'private']).default('public'),

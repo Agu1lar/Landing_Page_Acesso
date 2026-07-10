@@ -71,14 +71,38 @@ function formatCartItemsForEmail(itemsJson: string | null) {
   }
 }
 
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/u;
+
+/**
+ * Resolves lead notification recipients: LEADS_NOTIFY_EMAIL (comma-separated) plus brand.email.
+ */
+export function resolveLeadNotifyEmails() {
+  const recipients = new Set<string>();
+
+  const configured = Env.LEADS_NOTIFY_EMAIL ?? '';
+  for (const part of configured.split(/[,;]/u)) {
+    const email = part.trim().toLowerCase();
+    if (EMAIL_PATTERN.test(email)) {
+      recipients.add(email);
+    }
+  }
+
+  const commercial = brand.email.trim().toLowerCase();
+  if (EMAIL_PATTERN.test(commercial)) {
+    recipients.add(commercial);
+  }
+
+  return [...recipients];
+}
+
 /**
  * Sends a new-lead notification e-mail via Resend when configured.
  */
 export async function notifyLeadByEmail(lead: LeadRecord) {
   const apiKey = Env.RESEND_API_KEY;
-  const to = Env.LEADS_NOTIFY_EMAIL;
+  const to = resolveLeadNotifyEmails();
 
-  if (!apiKey?.startsWith('re_') || !to) {
+  if (!apiKey?.startsWith('re_') || to.length === 0) {
     logger.warn(
       'Notificação de lead por e-mail ignorada: configure RESEND_API_KEY e LEADS_NOTIFY_EMAIL no Vercel (Production e Preview).',
     );
@@ -124,7 +148,7 @@ export async function notifyLeadByEmail(lead: LeadRecord) {
     },
     body: JSON.stringify({
       from,
-      to: [to],
+      to,
       reply_to: [lead.email],
       subject,
       text,
@@ -160,5 +184,5 @@ export async function notifyLeadByEmail(lead: LeadRecord) {
     throw new Error(`Resend: ${detail}`);
   }
 
-  logger.info(`E-mail de lead #${lead.id} enviado para ${to}`);
+  logger.info(`E-mail de lead #${lead.id} enviado para ${to.join(', ')}`);
 }

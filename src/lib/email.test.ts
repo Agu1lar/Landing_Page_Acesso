@@ -8,7 +8,7 @@ vi.mock('@/libs/Env', () => ({
   },
 }));
 
-import { notifyLeadByEmail } from '@/lib/email';
+import { notifyLeadByEmail, resolveLeadNotifyEmails } from '@/lib/email';
 
 const sampleLead = {
   id: 1,
@@ -43,6 +43,14 @@ const sampleLead = {
   clientId: null,
   createdAt: new Date('2026-05-19'),
 };
+
+describe('resolveLeadNotifyEmails', () => {
+  it('always includes brand commercial email plus configured recipients', () => {
+    const recipients = resolveLeadNotifyEmails();
+    expect(recipients).toContain('comercial@acessoequipamentos.com.br');
+    expect(recipients).toContain('comercial@example.com');
+  });
+});
 
 describe('notify lead by email', () => {
   afterEach(() => {
