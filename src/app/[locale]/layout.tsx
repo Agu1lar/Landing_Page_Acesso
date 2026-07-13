@@ -35,11 +35,11 @@ export const metadata: Metadata = withSiteOpenGraph({
   robots: getMarketingRobotsMetadata(),
   icons: {
     icon: [
-      { url: '/favicon.svg', type: 'image/svg+xml' },
-      { url: '/favicon.png', type: 'image/png', sizes: '32x32' },
-      { url: '/assets/brand/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.svg?v=3', type: 'image/svg+xml' },
+      { url: '/favicon.png?v=3', type: 'image/png', sizes: '32x32' },
+      { url: '/assets/brand/favicon.svg?v=3', type: 'image/svg+xml' },
     ],
-    apple: [{ url: '/favicon.png', sizes: '32x32', type: 'image/png' }],
+    apple: [{ url: '/favicon.png?v=3', sizes: '32x32', type: 'image/png' }],
   },
 });
 

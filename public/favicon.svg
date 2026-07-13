@@ -1,12 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Acesso Equipamentos">
+  <!-- Marca oficial: círculo + triângulo contornado com abertura intencional no vértice inferior esquerdo -->
   <circle cx="32" cy="32" r="32" fill="#A51C1C"/>
   <path
-    fill="#FFFFFF"
-    fill-rule="evenodd"
-    d="M32 8 L54 52 H10 Z M32 20 L46 46 H18 Z"
+    d="M17 41 L32 11 L51 49 L21 49"
+    fill="none"
+    stroke="#FFFFFF"
+    stroke-width="6"
+    stroke-linecap="butt"
+    stroke-linejoin="miter"
+    stroke-miterlimit="8"
   />
-  <!-- Tampões nos vértices para o contorno fechar nítido em favicon pequeno -->
-  <circle cx="32" cy="8" fill="#FFFFFF" r="3.2"/>
-  <circle cx="54" cy="52" fill="#FFFFFF" r="3.2"/>
-  <circle cx="10" cy="52" fill="#FFFFFF" r="3.2"/>
 </svg>
