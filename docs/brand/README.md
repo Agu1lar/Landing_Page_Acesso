@@ -19,4 +19,4 @@
 ## Próximos (opcional)
 
 - `logo-acesso.svg` — versão vetorial, se o cliente enviar
-- `favicon.ico` — gerado a partir do ícone circular vermelho
+- ~~`favicon.ico`~~ — ícone da aba gerado em `src/app/icon.tsx` (+ `apple-icon.tsx`) a partir do círculo vermelho oficial; SVG de referência em `public/assets/brand/favicon.svg`
