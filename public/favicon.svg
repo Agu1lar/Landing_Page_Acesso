@@ -1,13 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Acesso Equipamentos">
-  <!-- Marca oficial: círculo + triângulo contornado com abertura intencional no vértice inferior esquerdo -->
-  <circle cx="32" cy="32" r="32" fill="#A51C1C"/>
-  <path
-    d="M17 41 L32 11 L51 49 L21 49"
-    fill="none"
-    stroke="#FFFFFF"
-    stroke-width="6"
-    stroke-linecap="butt"
-    stroke-linejoin="miter"
-    stroke-miterlimit="8"
-  />
+  <!-- Base horizontal esticada até a tangência com o círculo; abertura só no vértice inferior esquerdo -->
+  <defs>
+    <clipPath id="disc"><circle cx="32" cy="32" r="32"/></clipPath>
+  </defs>
+  <g clip-path="url(#disc)">
+    <circle cx="32" cy="32" r="32" fill="#A51C1C"/>
+    <path
+      d="M17 41 L32 11 L51 49 L4.9 49"
+      fill="none"
+      stroke="#FFFFFF"
+      stroke-width="6"
+      stroke-linecap="butt"
+      stroke-linejoin="miter"
+      stroke-miterlimit="8"
+    />
+  </g>
 </svg>
