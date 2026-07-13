@@ -59,6 +59,11 @@ export default async function proxy(request: NextRequest, _event: NextFetchEvent
     || pathname === '/apple-icon'
     || pathname === '/favicon.ico'
     || pathname === '/favicon.svg'
+    || pathname === '/favicon.png'
+    || pathname === '/favicon-32.png'
+    || pathname === '/favicon-48.png'
+    || pathname === '/favicon-96.png'
+    || pathname === '/apple-touch-icon.png'
   ) {
     return NextResponse.next();
   }
