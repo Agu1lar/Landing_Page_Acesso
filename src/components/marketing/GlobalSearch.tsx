@@ -1,7 +1,16 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+} from 'react';
 import { captureSearch } from '@/lib/posthog-events';
 import { persistAnalyticsEvent } from '@/lib/track-analytics-event';
 import { filterSearchItems } from '@/lib/search';
@@ -23,6 +32,8 @@ type GlobalSearchProps = {
   compact?: boolean;
 };
 
+const MOBILE_PANEL_MQ = '(max-width: 639px)';
+
 export function GlobalSearch({ index, className = '', id, compact = false }: GlobalSearchProps) {
   const t = useTranslations('Search');
   const router = useRouter();
@@ -32,8 +43,10 @@ export function GlobalSearch({ index, className = '', id, compact = false }: Glo
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [panelStyle, setPanelStyle] = useState<CSSProperties | undefined>();
 
   const results = useMemo(() => filterSearchItems(index, query, 8), [index, query]);
+  const showPanel = open && query.trim().length > 0;
 
   useEffect(() => {
     const trimmed = query.trim();
@@ -100,6 +113,43 @@ export function GlobalSearch({ index, className = '', id, compact = false }: Glo
     };
   }, []);
 
+  /** On mobile the header search column is narrow — pin suggestions to the viewport. */
+  useLayoutEffect(() => {
+    if (!showPanel || !inputRef.current) {
+      setPanelStyle(undefined);
+      return;
+    }
+
+    const update = () => {
+      const input = inputRef.current;
+      if (!input) {
+        return;
+      }
+      const narrow = window.matchMedia(MOBILE_PANEL_MQ).matches;
+      if (!narrow) {
+        setPanelStyle(undefined);
+        return;
+      }
+      const rect = input.getBoundingClientRect();
+      setPanelStyle({
+        position: 'fixed',
+        left: 8,
+        right: 8,
+        top: Math.round(rect.bottom + 4),
+        width: 'auto',
+        maxHeight: 'min(20rem, 70dvh)',
+      });
+    };
+
+    update();
+    window.addEventListener('resize', update);
+    window.addEventListener('scroll', update, true);
+    return () => {
+      window.removeEventListener('resize', update);
+      window.removeEventListener('scroll', update, true);
+    };
+  }, [showPanel, compact, query]);
+
   const onKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'ArrowDown') {
       e.preventDefault();
@@ -136,7 +186,7 @@ export function GlobalSearch({ index, className = '', id, compact = false }: Glo
           }
           aria-autocomplete="list"
           aria-controls={listId}
-          aria-expanded={open && query.trim().length > 0}
+          aria-expanded={showPanel}
           autoComplete="off"
           className={`w-full rounded-lg border border-neutral-200 bg-background-muted text-neutral-900 transition-colors placeholder:text-neutral-500 focus:border-primary focus:bg-surface focus:ring-2 focus:ring-primary/20 focus:outline-none ${
             compact ? 'py-1.5 pr-10 pl-9 text-sm' : 'py-2 pr-16 pl-10 text-sm'
@@ -163,11 +213,12 @@ export function GlobalSearch({ index, className = '', id, compact = false }: Glo
         )}
       </div>
 
-      {open && query.trim() ? (
+      {showPanel ? (
         <ul
-          className="absolute z-[100] mt-1 max-h-80 w-full overflow-auto rounded-lg border border-neutral-200 bg-surface py-1 shadow-lg"
+          className="absolute z-[100] mt-1 max-h-80 w-full overflow-auto rounded-lg border border-neutral-200 bg-surface py-1 shadow-lg sm:left-0 sm:right-auto sm:w-full"
           id={listId}
           role="listbox"
+          style={panelStyle}
         >
           {results.length === 0 ? (
             <li className="px-4 py-3 text-sm text-neutral-600">{t('no_results')}</li>
@@ -189,7 +240,7 @@ export function GlobalSearch({ index, className = '', id, compact = false }: Glo
                   }}
                   type="button"
                 >
-                  <span className="font-medium text-neutral-900">{item.name}</span>
+                  <span className="break-words font-medium text-neutral-900">{item.name}</span>
                   <span className="text-xs text-neutral-600">{CATEGORY_LABELS[item.category]}</span>
                 </button>
               </li>
