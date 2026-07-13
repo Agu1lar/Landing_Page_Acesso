@@ -22,7 +22,7 @@ export default function AppleIcon() {
       >
         <svg height="140" viewBox="0 0 64 64" width="140">
           <path
-            d="M17 41 L32 11 L51 49 L4.9 49"
+            d="M17 41 L32 11 L51 49 L13 49"
             fill="none"
             stroke="#FFFFFF"
             strokeLinecap="butt"

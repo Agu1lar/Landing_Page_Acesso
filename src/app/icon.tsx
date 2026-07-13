@@ -21,7 +21,7 @@ export default function Icon() {
         <svg height="32" viewBox="0 0 64 64" width="32">
           <circle cx="32" cy="32" fill="#A51C1C" r="32" />
           <path
-            d="M17 41 L32 11 L51 49 L4.9 49"
+            d="M17 41 L32 11 L51 49 L13 49"
             fill="none"
             stroke="#FFFFFF"
             strokeLinecap="butt"
