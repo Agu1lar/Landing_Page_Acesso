@@ -7,6 +7,7 @@ import {
   requireDashboardAccessFromRequest,
 } from '@/lib/auth-roles';
 import { resolveLegacyRedirect } from '@/lib/legacy-redirects';
+import { getBlogSlugRedirectTarget } from '@/lib/blog-slug-redirects';
 import { routing } from './libs/I18nRouting';
 
 const handleI18nRouting = createMiddleware(routing);
@@ -26,8 +27,13 @@ const isForgotPasswordPage = (pathname: string) =>
 
 function localePrefixFromPath(pathname: string) {
   return (
-    pathname.match(/(\/.*)\/(?:dashboard|sign-in|sign-up|unauthorized|forgot-password)/u)?.at(1) ?? ''
+    pathname.match(/(\/.*)\/(?:dashboard|sign-in|sign-up|unauthorized|forgot-password|dicas)/u)?.at(1) ?? ''
   );
+}
+
+function blogArticleSlugFromPath(pathname: string) {
+  const match = pathname.match(/\/dicas\/([a-z0-9]+(?:-[a-z0-9]+)*)$/u);
+  return match?.[1] ?? null;
 }
 
 export default async function proxy(request: NextRequest, _event: NextFetchEvent) {
@@ -36,7 +42,26 @@ export default async function proxy(request: NextRequest, _event: NextFetchEvent
     return NextResponse.redirect(new URL(legacyDestination, request.url), 301);
   }
 
+  const blogSlug = blogArticleSlugFromPath(request.nextUrl.pathname);
+  if (blogSlug) {
+    const redirectSlug = await getBlogSlugRedirectTarget(blogSlug);
+    if (redirectSlug) {
+      const prefix = request.nextUrl.pathname.replace(/\/dicas\/[^/]+$/u, '');
+      return NextResponse.redirect(new URL(`${prefix}/dicas/${redirectSlug}`, request.url), 301);
+    }
+  }
+
   const { pathname } = request.nextUrl;
+
+  // Favicons / app icons must bypass i18n (no locale prefix).
+  if (
+    pathname === '/icon'
+    || pathname === '/apple-icon'
+    || pathname === '/favicon.ico'
+    || pathname === '/favicon.svg'
+  ) {
+    return NextResponse.next();
+  }
 
   if (isSignUpPage(pathname)) {
     const locale = localePrefixFromPath(pathname);

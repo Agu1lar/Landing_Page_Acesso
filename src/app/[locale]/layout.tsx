@@ -33,6 +33,14 @@ export const metadata: Metadata = withSiteOpenGraph({
   description:
     'Locação de plataformas elevatórias, andaimes e equipamentos para construção civil na região metropolitana de BH.',
   robots: getMarketingRobotsMetadata(),
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.png', type: 'image/png', sizes: '32x32' },
+      { url: '/assets/brand/favicon.svg', type: 'image/svg+xml' },
+    ],
+    apple: [{ url: '/favicon.png', sizes: '32x32', type: 'image/png' }],
+  },
 });
 
 export const viewport: Viewport = {
