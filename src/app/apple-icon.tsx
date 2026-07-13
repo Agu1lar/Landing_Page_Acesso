@@ -4,7 +4,7 @@ export const size = { width: 180, height: 180 };
 export const contentType = 'image/png';
 
 /**
- * Ícone para iOS / “Adicionar à tela de início”.
+ * Ícone Apple — contorno fechado com tampões nos vértices.
  */
 export default function AppleIcon() {
   return new ImageResponse(
@@ -21,14 +21,10 @@ export default function AppleIcon() {
         }}
       >
         <svg height="140" viewBox="0 0 64 64" width="140">
-          <path
-            d="M32 10 L52 50 H12 Z"
-            fill="none"
-            stroke="#FFFFFF"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="5.5"
-          />
+          <path d="M32 8 L54 52 H10 Z M32 20 L46 46 H18 Z" fill="#FFFFFF" fillRule="evenodd" />
+          <circle cx="32" cy="8" fill="#FFFFFF" r="3.2" />
+          <circle cx="54" cy="52" fill="#FFFFFF" r="3.2" />
+          <circle cx="10" cy="52" fill="#FFFFFF" r="3.2" />
         </svg>
       </div>
     ),
