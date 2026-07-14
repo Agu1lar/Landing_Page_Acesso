@@ -57,7 +57,7 @@ const KEY_MARKETING_ROUTES = [
   { path: '/contato', label: 'Contato comercial' },
   { path: '/treinamento-plataformas-aereas', label: 'Treinamento NR-18 / plataformas elevatórias' },
   { path: '/faq', label: 'Perguntas frequentes sobre locação' },
-  { path: '/dicas', label: 'Dicas técnicas para obra' },
+  { path: '/dicas', label: 'Blog técnico para obra' },
   { path: '/sobre', label: 'Sobre a Acesso Equipamentos (desde 2013)' },
 ] as const;
 

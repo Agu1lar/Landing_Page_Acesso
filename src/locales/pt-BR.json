@@ -8,6 +8,7 @@
     "home_link": "Início",
     "equipamentos_link": "Equipamentos",
     "treinamento_link": "Treinamento",
+    "blog_link": "Blog",
     "sobre_link": "Sobre",
     "contato_link": "Contato",
     "orcamento_link": "Orçamento",
@@ -85,18 +86,18 @@
     "testimonials_view_all": "Ver no Google Maps"
   },
   "DicasPage": {
-    "meta_title": "Dicas de locação de equipamentos para obra em BH | Acesso Equipamentos",
-    "meta_description": "Guias sobre plataformas elevatórias, betoneiras, andaimes e segurança em obras em Belo Horizonte e região metropolitana.",
-    "title": "Dicas para sua obra",
-    "intro": "Conteúdo prático sobre locação de equipamentos, segurança e escolha de máquinas para construção civil em Minas Gerais.",
+    "meta_title": "Blog: locação de equipamentos e obra em BH | Acesso Equipamentos",
+    "meta_description": "Artigos e guias sobre plataformas elevatórias, betoneiras, andaimes, segurança e inovação em obras em Belo Horizonte e região metropolitana.",
+    "title": "Blog",
+    "intro": "Conteúdo prático sobre locação de equipamentos, segurança, tecnologia e escolha de máquinas para construção civil em Minas Gerais.",
     "reading_time": "{minutes} min de leitura",
     "read_more": "Ler artigo →",
     "breadcrumb_home": "Início",
-    "breadcrumb_dicas": "Dicas",
+    "breadcrumb_dicas": "Blog",
     "related_title": "Links úteis",
     "cta_quote": "Solicitar orçamento",
     "cta_whatsapp": "Falar no WhatsApp",
-    "back_to_list": "Voltar para todas as dicas"
+    "back_to_list": "Voltar para o blog"
   },
   "Faq": {
     "meta_title": "Perguntas frequentes — locação de equipamentos | Acesso Equipamentos",
@@ -176,7 +177,7 @@
   },
   "Footer": {
     "links": "Links",
-    "dicas_link": "Dicas para obra",
+    "dicas_link": "Blog",
     "contact": "Contato",
     "address": "Endereço",
     "hours": "Horário",

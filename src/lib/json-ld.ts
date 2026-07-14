@@ -394,7 +394,7 @@ export function buildDicaArticleJsonLd(article: BlogArticle) {
       blogPosting,
       buildBreadcrumbListJsonLd([
         { name: 'Início', path: '/' },
-        { name: 'Dicas', path: '/dicas' },
+        { name: 'Blog', path: '/dicas' },
         { name: article.title, path },
       ]),
     ],
@@ -415,16 +415,16 @@ export function buildDicasIndexJsonLd(articles: BlogArticle[]) {
       {
         '@type': 'CollectionPage',
         '@id': `${url}#collection`,
-        name: 'Dicas para locação de equipamentos',
+        name: 'Blog — locação de equipamentos',
         description:
-          'Artigos sobre plataformas elevatórias, concretagem, andaimes e segurança em obras em Belo Horizonte.',
+          'Artigos sobre plataformas elevatórias, concretagem, andaimes, segurança e inovação em obras em Belo Horizonte.',
         url,
         inLanguage: 'pt-BR',
         isPartOf: { '@id': `${baseUrl}/#website` },
       },
       buildBreadcrumbListJsonLd([
         { name: 'Início', path: '/' },
-        { name: 'Dicas', path },
+        { name: 'Blog', path },
       ]),
       {
         '@type': 'ItemList',
