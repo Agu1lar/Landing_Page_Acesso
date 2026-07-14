@@ -162,6 +162,15 @@ export const equipmentImagesSchema = pgTable('equipment_images', {
   isPrimary: boolean('is_primary').notNull().default(false),
 });
 
+/** Redirects permanentes quando o slug de um equipamento muda no painel */
+export const equipmentSlugRedirectsSchema = pgTable('equipment_slug_redirects', {
+  id: serial('id').primaryKey(),
+  fromSlug: varchar('from_slug', { length: 120 }).notNull().unique(),
+  toSlug: varchar('to_slug', { length: 120 }).notNull(),
+  equipmentId: integer('equipment_id'),
+  createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
+});
+
 /** Auditoria de alterações no admin — Sprint 11.7 */
 export const adminActivitySchema = pgTable('admin_activity', {
   id: serial('id').primaryKey(),
@@ -229,6 +238,15 @@ export const blogArticlesSchema = pgTable('blog_articles', {
     .$onUpdate(() => new Date())
     .notNull(),
   updatedBy: varchar('updated_by', { length: 320 }),
+});
+
+/** Redirects permanentes quando o slug de um artigo publicado muda */
+export const blogSlugRedirectsSchema = pgTable('blog_slug_redirects', {
+  id: serial('id').primaryKey(),
+  fromSlug: varchar('from_slug', { length: 120 }).notNull().unique(),
+  toSlug: varchar('to_slug', { length: 120 }).notNull(),
+  articleId: integer('article_id'),
+  createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
 });
 
 /** Fixed-window rate limit counters (e.g. POST /api/leads per IP). */

@@ -218,6 +218,13 @@
       "when": 1782100000000,
       "tag": "0034_leads_whatsapp_replied",
       "breakpoints": true
+    },
+    {
+      "idx": 31,
+      "version": "7",
+      "when": 1782200000000,
+      "tag": "0035_equipment_slug_tubo_bracadeira",
+      "breakpoints": true
     }
   ]
 }

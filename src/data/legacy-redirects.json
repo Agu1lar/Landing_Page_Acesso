@@ -128,6 +128,11 @@
       "note": "Equipamento bateria removido do catálogo"
     },
     {
+      "source": "/equipamentos/diagonal-1-00",
+      "destination": "/equipamentos/andaime-tipo-tubo-e-bracadeira",
+      "note": "Slug legado (diagonal 1,00) → andaime tubo e braçadeira"
+    },
+    {
       "source": "/equipamentos/carregador",
       "destination": "/categorias/ferramentas-eletricas",
       "note": "Equipamento carregador removido do catálogo"

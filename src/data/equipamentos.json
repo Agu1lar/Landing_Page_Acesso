@@ -1793,27 +1793,23 @@
     "available": true
   },
   {
-    "slug": "diagonal-1-00",
-    "name": "Diagonal 1,00",
+    "slug": "andaime-tipo-tubo-e-bracadeira",
+    "name": "ANDAIME TIPO TUBO E BRAÇADEIRA",
     "category": "andaimes",
-    "shortDescription": "Locação de diagonal 1,00 para andaimes e acesso temporário.",
-    "longDescription": "Diagonal 1,00 utilizado em sistemas de andaime para montagem, travamento, acesso, apoio ou acabamento da estrutura temporária, conforme projeto e configuração da obra. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
+    "shortDescription": "Locação de andaime tipo tubo e braçadeira.",
+    "longDescription": "O andaime tubo e braçadeira é a solução ideal para obras e manutenções que exigem total flexibilidade de montagem. Seu sistema permite criar estruturas personalizadas, adaptando-se facilmente a equipamentos, tubulações, fachadas e locais com geometrias complexas, onde os sistemas convencionais não atendem com eficiência. Locação com entrega e retirada na região metropolitana de Belo Horizonte e operações sob consulta em todo o território nacional. Período mínimo, disponibilidade e valores sob consulta com a Acesso Equipamentos.",
     "specs": [
       {
         "label": "Aplicação",
-        "value": "Componente ou acessório para montagem de andaimes"
-      },
-      {
-        "label": "Sistema",
-        "value": "Andaime e estrutura temporária"
+        "value": "Acesso e estrutura temporária"
       },
       {
         "label": "Montagem",
-        "value": "Conforme avaliação técnica e normas aplicáveis"
+        "value": "Sob consulta técnica"
       },
       {
         "label": "Entrega",
-        "value": "Região metropolitana de BH e operações nacionais sob consulta"
+        "value": "Região metropolitana de BH"
       }
     ],
     "tags": [

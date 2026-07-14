@@ -8,6 +8,7 @@ import {
 } from '@/lib/auth-roles';
 import { resolveLegacyRedirect } from '@/lib/legacy-redirects';
 import { getBlogSlugRedirectTarget } from '@/lib/blog-slug-redirects';
+import { getEquipmentSlugRedirectTarget } from '@/lib/equipment-slug-redirects';
 import { routing } from './libs/I18nRouting';
 
 const handleI18nRouting = createMiddleware(routing);
@@ -36,6 +37,11 @@ function blogArticleSlugFromPath(pathname: string) {
   return match?.[1] ?? null;
 }
 
+function equipmentSlugFromPath(pathname: string) {
+  const match = pathname.match(/\/equipamentos\/([a-z0-9]+(?:-[a-z0-9]+)*)$/u);
+  return match?.[1] ?? null;
+}
+
 export default async function proxy(request: NextRequest, _event: NextFetchEvent) {
   const legacyDestination = resolveLegacyRedirect(request.nextUrl.pathname);
   if (legacyDestination) {
@@ -48,6 +54,15 @@ export default async function proxy(request: NextRequest, _event: NextFetchEvent
     if (redirectSlug) {
       const prefix = request.nextUrl.pathname.replace(/\/dicas\/[^/]+$/u, '');
       return NextResponse.redirect(new URL(`${prefix}/dicas/${redirectSlug}`, request.url), 301);
+    }
+  }
+
+  const equipmentSlug = equipmentSlugFromPath(request.nextUrl.pathname);
+  if (equipmentSlug) {
+    const redirectSlug = await getEquipmentSlugRedirectTarget(equipmentSlug);
+    if (redirectSlug) {
+      const prefix = request.nextUrl.pathname.replace(/\/equipamentos\/[^/]+$/u, '');
+      return NextResponse.redirect(new URL(`${prefix}/equipamentos/${redirectSlug}`, request.url), 301);
     }
   }
 

@@ -5,6 +5,7 @@ import type { InferSelectModel } from 'drizzle-orm';
 import equipmentJson from '@/data/equipamentos.json';
 import { defaultEquipmentImageUrl } from '@/lib/admin-gallery-image';
 import { formatEquipmentName } from '@/lib/equipment-name';
+import { registerEquipmentSlugRedirect } from '@/lib/equipment-slug-redirects';
 import { db } from '@/libs/DB';
 import { equipmentImagesSchema, equipmentSchema } from '@/models/Schema';
 import type { Equipment, EquipmentCategory, EquipmentSpec } from '@/types/equipment';
@@ -326,8 +327,22 @@ export async function saveEquipmentWithImages(options: {
   let equipmentId = options.existingId;
 
   if (equipmentId) {
+    const [previous] = await db
+      .select({ slug: equipmentSchema.slug })
+      .from(equipmentSchema)
+      .where(eq(equipmentSchema.id, equipmentId))
+      .limit(1);
+
     await db.update(equipmentSchema).set(values).where(eq(equipmentSchema.id, equipmentId));
     await db.delete(equipmentImagesSchema).where(eq(equipmentImagesSchema.equipmentId, equipmentId));
+
+    if (previous?.slug && previous.slug !== values.slug) {
+      await registerEquipmentSlugRedirect({
+        fromSlug: previous.slug,
+        toSlug: values.slug,
+        equipmentId,
+      });
+    }
   } else {
     const [row] = await db.insert(equipmentSchema).values(values).returning({ id: equipmentSchema.id });
     equipmentId = row?.id;
