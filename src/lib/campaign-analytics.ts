@@ -21,6 +21,8 @@ export type CampaignPerformanceRow = {
   utmSource: string;
   utmMedium: string;
   whatsappClicks: number;
+  /** Quote leads with ChatPro inbound reply in the campaign bucket. */
+  whatsappReplied: number;
   totalLeads: number;
   quoteLeads: number;
   cookieLeads: number;
@@ -28,6 +30,7 @@ export type CampaignPerformanceRow = {
   statusCounts: CampaignStatusCounts;
   totalLeadsPrevious: number;
   whatsappClicksPrevious: number;
+  whatsappRepliedPrevious: number;
   quoteLeadsPrevious: number;
 };
 
@@ -50,6 +53,7 @@ type LeadAggregateRow = {
   status: string;
   leadKind: string;
   gclidCount: number;
+  repliedCount: number;
   count: number;
 };
 
@@ -151,6 +155,7 @@ export function mergeCampaignLeadAggregates(rows: LeadAggregateRow[]): CampaignP
       utmSource: '—',
       utmMedium: '—',
       whatsappClicks: 0,
+      whatsappReplied: 0,
       totalLeads: 0,
       quoteLeads: 0,
       cookieLeads: 0,
@@ -158,6 +163,7 @@ export function mergeCampaignLeadAggregates(rows: LeadAggregateRow[]): CampaignP
       statusCounts: emptyStatusCounts(),
       totalLeadsPrevious: 0,
       whatsappClicksPrevious: 0,
+      whatsappRepliedPrevious: 0,
       quoteLeadsPrevious: 0,
       sourceCounts: new Map<string, number>(),
       mediumCounts: new Map<string, number>(),
@@ -168,6 +174,7 @@ export function mergeCampaignLeadAggregates(rows: LeadAggregateRow[]): CampaignP
       existing.cookieLeads += row.count;
     } else {
       existing.quoteLeads += row.count;
+      existing.whatsappReplied += row.repliedCount;
     }
     existing.withGclid += row.gclidCount;
     incrementStatus(existing.statusCounts, row.status, row.count);
@@ -194,6 +201,7 @@ export function mergeCampaignLeadAggregates(rows: LeadAggregateRow[]): CampaignP
         utmMedium: topMedium ?? '—',
         totalLeadsPrevious: 0,
         whatsappClicksPrevious: 0,
+        whatsappRepliedPrevious: 0,
         quoteLeadsPrevious: 0,
       };
     })
@@ -215,6 +223,7 @@ export function mergeCampaignPerformanceComparison(
       ...row,
       totalLeadsPrevious: prev?.totalLeads ?? 0,
       whatsappClicksPrevious: prev?.whatsappClicks ?? 0,
+      whatsappRepliedPrevious: prev?.whatsappReplied ?? 0,
       quoteLeadsPrevious: prev?.quoteLeads ?? 0,
     };
   });
@@ -239,6 +248,7 @@ async function leadAggregatesByCampaign(from: Date, to: Date) {
       status: leadsSchema.status,
       leadKind: leadsSchema.leadKind,
       gclidCount: sql<number>`count(*) filter (where nullif(trim(${leadsSchema.gclid}), '') is not null)`,
+      repliedCount: sql<number>`count(*) filter (where ${leadsSchema.whatsappRepliedAt} is not null)`,
       count: count(),
     })
     .from(leadsSchema)
@@ -252,6 +262,7 @@ async function leadAggregatesByCampaign(from: Date, to: Date) {
     status: row.status,
     leadKind: row.leadKind,
     gclidCount: Number(row.gclidCount),
+    repliedCount: Number(row.repliedCount),
     count: row.count,
   }));
 }
@@ -321,6 +332,7 @@ export async function getCampaignPerformanceReport(from: Date, to: Date): Promis
       utmSource: '—',
       utmMedium: '—',
       whatsappClicks,
+      whatsappReplied: 0,
       totalLeads: 0,
       quoteLeads: 0,
       cookieLeads: 0,
@@ -328,6 +340,7 @@ export async function getCampaignPerformanceReport(from: Date, to: Date): Promis
       statusCounts: emptyStatusCounts(),
       totalLeadsPrevious: 0,
       whatsappClicksPrevious: 0,
+      whatsappRepliedPrevious: 0,
       quoteLeadsPrevious: 0,
     });
   }

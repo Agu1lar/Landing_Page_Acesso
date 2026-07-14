@@ -58,11 +58,16 @@ export type AnalyticsDashboardLabels = {
   kpi_whatsapp_rate: string;
   chart_conversion_funnel: string;
   hint_chart_conversion_funnel: string;
+  chart_lead_reply_funnel: string;
+  hint_chart_lead_reply_funnel: string;
   funnel_step_visits: string;
   funnel_step_equipment_views: string;
   funnel_step_add_to_quote: string;
   funnel_step_quote_submits: string;
   funnel_step_whatsapp_clicks: string;
+  funnel_step_leads: string;
+  funnel_step_whatsapp_replied: string;
+  funnel_step_won: string;
   funnel_rate_from_top: string;
   funnel_rate_from_previous: string;
   quote_abandon_summary: string;
@@ -75,6 +80,7 @@ export type AnalyticsDashboardLabels = {
   col_source: string;
   col_medium: string;
   col_whatsapp: string;
+  col_whatsapp_replied: string;
   col_total_leads: string;
   col_quote_leads: string;
   col_google_leads: string;
@@ -301,6 +307,23 @@ export function AnalyticsDashboard(props: AnalyticsDashboardProps) {
             {...metricUi}
           />
 
+          <AnalyticsConversionFunnel
+            dataType="funnel"
+            dataTypeLabel={dataTypes.funnel}
+            emptyLabel={t.empty_data}
+            meaning={t.hint_chart_lead_reply_funnel}
+            rateFromPreviousLabel={t.funnel_rate_from_previous}
+            rateFromTopLabel={t.funnel_rate_from_top}
+            stepLabels={{
+              leads: t.funnel_step_leads,
+              whatsapp_replied: t.funnel_step_whatsapp_replied,
+              won: t.funnel_step_won,
+            }}
+            steps={d.leadReplyFunnel}
+            title={t.chart_lead_reply_funnel}
+            {...metricUi}
+          />
+
           <AnalyticsMetricSection
             dataType="rate"
             dataTypeLabel={dataTypes.rate}
@@ -381,6 +404,7 @@ export function AnalyticsDashboard(props: AnalyticsDashboardProps) {
                 colSource: t.col_source,
                 colMedium: t.col_medium,
                 colWhatsapp: t.col_whatsapp,
+                colWhatsappReplied: t.col_whatsapp_replied,
                 colTotalLeads: t.col_total_leads,
                 colQuoteLeads: t.col_quote_leads,
                 colGoogleLeads: t.col_google_leads,

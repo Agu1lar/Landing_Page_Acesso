@@ -31,6 +31,7 @@ describe('mergeCampaignLeadAggregates', () => {
         status: 'new',
         leadKind: 'quote',
         gclidCount: 2,
+        repliedCount: 1,
         count: 2,
       },
       {
@@ -40,6 +41,7 @@ describe('mergeCampaignLeadAggregates', () => {
         status: 'won',
         leadKind: 'quote',
         gclidCount: 1,
+        repliedCount: 1,
         count: 1,
       },
       {
@@ -49,6 +51,7 @@ describe('mergeCampaignLeadAggregates', () => {
         status: 'new',
         leadKind: 'cookie_consent',
         gclidCount: 0,
+        repliedCount: 0,
         count: 1,
       },
     ]);
@@ -57,6 +60,7 @@ describe('mergeCampaignLeadAggregates', () => {
     expect(rows[0]?.totalLeads).toBe(4);
     expect(rows[0]?.quoteLeads).toBe(3);
     expect(rows[0]?.cookieLeads).toBe(1);
+    expect(rows[0]?.whatsappReplied).toBe(2);
     expect(rows[0]?.statusCounts.new).toBe(3);
     expect(rows[0]?.statusCounts.won).toBe(1);
     expect(rows[0]?.withGclid).toBe(3);
@@ -80,6 +84,7 @@ describe('mergeCampaignPerformanceComparison', () => {
         status: 'new',
         leadKind: 'quote',
         gclidCount: 1,
+        repliedCount: 0,
         count: 2,
       },
     ]).map((row) => ({ ...row, whatsappClicks: 5 }));
@@ -92,6 +97,7 @@ describe('mergeCampaignPerformanceComparison', () => {
         status: 'new',
         leadKind: 'quote',
         gclidCount: 0,
+        repliedCount: 1,
         count: 1,
       },
     ]).map((row) => ({ ...row, whatsappClicks: 3 }));
@@ -101,6 +107,7 @@ describe('mergeCampaignPerformanceComparison', () => {
     expect(merged).toHaveLength(1);
     expect(merged[0]?.totalLeadsPrevious).toBe(1);
     expect(merged[0]?.whatsappClicksPrevious).toBe(3);
+    expect(merged[0]?.whatsappRepliedPrevious).toBe(1);
     expect(merged[0]?.quoteLeadsPrevious).toBe(1);
   });
 });

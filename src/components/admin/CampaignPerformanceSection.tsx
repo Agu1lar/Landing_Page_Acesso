@@ -20,6 +20,7 @@ type CampaignPerformanceSectionProps = {
     colSource: string;
     colMedium: string;
     colWhatsapp: string;
+    colWhatsappReplied: string;
     colTotalLeads: string;
     colQuoteLeads: string;
     colGoogleLeads: string;
@@ -117,6 +118,7 @@ export function CampaignPerformanceSection(props: CampaignPerformanceSectionProp
                   <th className="py-2.5 pr-4 font-medium">{labels.colSource}</th>
                   <th className="py-2.5 pr-4 font-medium">{labels.colMedium}</th>
                   <th className="py-2.5 pr-4 font-medium">{labels.colWhatsapp}</th>
+                  <th className="py-2.5 pr-4 font-medium">{labels.colWhatsappReplied}</th>
                   <th className="py-2.5 pr-4 font-medium">{labels.colTotalLeads}</th>
                   <th className="py-2.5 pr-4 font-medium">{labels.colQuoteLeads}</th>
                   <th className="py-2.5 pr-4 font-medium">{labels.colGoogleLeads}</th>
@@ -140,6 +142,13 @@ export function CampaignPerformanceSection(props: CampaignPerformanceSectionProp
                         compareLabel={compareLabel}
                         current={row.whatsappClicks}
                         previous={row.whatsappClicksPrevious}
+                      />
+                    </td>
+                    <td className="py-2.5 pr-4">
+                      <CampaignCompareCell
+                        compareLabel={compareLabel}
+                        current={row.whatsappReplied}
+                        previous={row.whatsappRepliedPrevious}
                       />
                     </td>
                     <td className="py-2.5 pr-4 font-semibold text-neutral-900">

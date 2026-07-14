@@ -10,7 +10,7 @@ type AnalyticsConversionFunnelProps = {
   meaningToggleLabel: string;
   meaningHideLabel: string;
   steps: ConversionFunnelStep[];
-  stepLabels: Record<ConversionFunnelStep['id'], string>;
+  stepLabels: Record<string, string>;
   emptyLabel: string;
   rateFromTopLabel: string;
   rateFromPreviousLabel: string;
@@ -39,7 +39,9 @@ export function AnalyticsConversionFunnel(props: AnalyticsConversionFunnelProps)
           {props.steps.map((step) => (
             <li key={step.id}>
               <div className="flex flex-wrap items-baseline justify-between gap-2 text-sm">
-                <span className="font-medium text-neutral-900">{props.stepLabels[step.id]}</span>
+                <span className="font-medium text-neutral-900">
+                  {props.stepLabels[step.id] ?? step.id}
+                </span>
                 <span className="tabular-nums font-semibold text-neutral-700">{step.count}</span>
               </div>
               <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-neutral-100">

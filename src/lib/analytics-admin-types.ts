@@ -58,6 +58,7 @@ export type OperationalDashboard = {
   landingPages: CountRow[];
   deviceSplit: CountRow[];
   conversionFunnel: ConversionFunnelStep[];
+  leadReplyFunnel: ConversionFunnelStep[];
   quoteAbandon: QuoteAbandonSummary;
   topSearchTerms: CountRow[];
   scrollDepth: CountRow[];

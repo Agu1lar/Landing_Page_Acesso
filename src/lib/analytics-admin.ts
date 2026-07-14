@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { and, count, desc, eq, gte, lte, sql } from 'drizzle-orm';
+import { and, count, desc, eq, gte, lte, ne, sql } from 'drizzle-orm';
 
 import {
   getExecutiveSummary,
@@ -8,8 +8,10 @@ import {
 import { sumAnalyticsDailyForPeriod } from '@/lib/analytics-daily';
 import {
   buildConversionFunnel,
+  buildLeadReplyFunnel,
   summarizeQuoteAbandon,
 } from '@/lib/analytics-funnel';
+import type { LeadReplyFunnelCounts } from '@/lib/analytics-funnel';
 import { isInternalAnalyticsPath } from '@/lib/analytics-internal-paths';
 import { runAnalyticsDashboardStep, parseAnalyticsDashboardFailure } from '@/lib/analytics-dashboard-errors';
 import { isAnalyticsSchemaMissingError, withAnalyticsSchema } from '@/lib/analytics-schema';
@@ -440,6 +442,38 @@ async function countCookieConsentLeads(from: Date, to: Date) {
   });
 }
 
+const EMPTY_LEAD_REPLY_FUNNEL: LeadReplyFunnelCounts = {
+  leads: 0,
+  whatsappReplied: 0,
+  won: 0,
+};
+
+/** Quote leads cohort: total → ChatPro replied → won. */
+async function countLeadReplyFunnel(from: Date, to: Date): Promise<LeadReplyFunnelCounts> {
+  return withAnalyticsSchema(EMPTY_LEAD_REPLY_FUNNEL, async () => {
+    const [row] = await db
+      .select({
+        leads: count(),
+        whatsappReplied: sql<number>`count(*) filter (where ${leadsSchema.whatsappRepliedAt} is not null)`,
+        won: sql<number>`count(*) filter (where ${leadsSchema.status} = 'won')`,
+      })
+      .from(leadsSchema)
+      .where(
+        and(
+          ne(leadsSchema.leadKind, 'cookie_consent'),
+          gte(leadsSchema.createdAt, from),
+          lte(leadsSchema.createdAt, to),
+        ),
+      );
+
+    return {
+      leads: row?.leads ?? 0,
+      whatsappReplied: Number(row?.whatsappReplied ?? 0),
+      won: Number(row?.won ?? 0),
+    };
+  });
+}
+
 const equipmentSlugFromPath = sql<string>`substring(${pageEngagementEventsSchema.pathname} from '/equipamentos/([^/?]+)')`;
 
 async function equipmentConversionTable(from: Date, to: Date) {
@@ -579,6 +613,11 @@ function buildEmptyOperationalDashboard(
       quoteSubmits: 0,
       whatsappClicks: 0,
     }),
+    leadReplyFunnel: buildLeadReplyFunnel({
+      leads: 0,
+      whatsappReplied: 0,
+      won: 0,
+    }),
     quoteAbandon: summarizeQuoteAbandon({
       addToQuote: 0,
       quoteSubmits: 0,
@@ -636,6 +675,7 @@ async function loadOperationalDashboard(
     topEquipmentViewsRows,
     topCategoryFiltersRows,
     executiveSummary,
+    leadReplyFunnelCounts,
   ] = await Promise.all([
     runAnalyticsDashboardStep('daily_current', 'Agregados diários (período)', () =>
       withAnalyticsSchema(EMPTY_DAILY_SUM, () => sumAnalyticsDailyForPeriod(period.dateFrom, period.dateTo)),
@@ -741,6 +781,9 @@ async function loadOperationalDashboard(
         () => getExecutiveSummary(period.from, period.to),
       ),
     ),
+    runAnalyticsDashboardStep('lead_reply_funnel', 'Funil lead → respondeu WhatsApp → ganho', () =>
+      countLeadReplyFunnel(period.from, period.to),
+    ),
   ]);
 
   const pageViews = engagementCurrent.views || dailyCurrent.pageViews;
@@ -801,6 +844,7 @@ async function loadOperationalDashboard(
       quoteSubmits,
       whatsappClicks,
     }),
+    leadReplyFunnel: buildLeadReplyFunnel(leadReplyFunnelCounts),
     quoteAbandon: summarizeQuoteAbandon({
       addToQuote: addToQuoteCount,
       quoteSubmits,
@@ -847,6 +891,11 @@ export async function probeAnalyticsDashboard(
       id: 'cookie_consent_leads',
       label: 'Coluna leads.lead_kind — Google cookies',
       run: () => countCookieConsentLeads(period.from, period.to),
+    },
+    {
+      id: 'lead_reply_funnel',
+      label: 'Funil lead → respondeu WhatsApp → ganho',
+      run: () => countLeadReplyFunnel(period.from, period.to),
     },
     {
       id: 'traffic_by_source',
