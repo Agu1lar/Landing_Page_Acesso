@@ -128,11 +128,7 @@ export type QuoteSubmitEventInput = {
  */
 export function captureQuoteSubmit(input: QuoteSubmitEventInput) {
   const posthog = getPostHog();
-  if (!posthog) {
-    return;
-  }
-
-  posthog.capture('quote_submit', {
+  posthog?.capture('quote_submit', {
     origin: input.origin,
     lead_id: input.leadId,
     cart_line_count: input.cartLineCount,
@@ -149,7 +145,10 @@ export function captureQuoteSubmit(input: QuoteSubmitEventInput) {
     equipment_name: input.equipmentName,
   });
 
+  // Ads conversion must not depend on PostHog being ready.
   captureGoogleAdsLeadConversion({
+    value: 1.0,
+    currency: 'BRL',
     origin: input.origin,
     lead_id: input.leadId,
     cart_line_count: input.cartLineCount,
