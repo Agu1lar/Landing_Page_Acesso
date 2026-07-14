@@ -1,6 +1,6 @@
 import { readStoredAttribution } from '@/lib/attribution';
 import { readStoredVisitorGeo } from '@/lib/visitor-geo';
-import { GA_CONVERSION_EVENTS, captureGaEvent } from '@/lib/google-analytics';
+import { GA_CONVERSION_EVENTS, captureGaEvent, captureGoogleAdsWhatsAppConversion } from '@/lib/google-analytics';
 import { captureWhatsAppClick, type WhatsAppClickInput } from '@/lib/posthog-events';
 
 /**
@@ -15,7 +15,7 @@ function detectDevice() {
 }
 
 /**
- * Sends whatsapp_click to PostHog and persists the event in Neon.
+ * Sends whatsapp_click to PostHog, GA4, Google Ads (optional) and Neon.
  */
 export function trackWhatsAppClick(input: WhatsAppClickInput) {
   captureWhatsAppClick(input);
@@ -24,6 +24,11 @@ export function trackWhatsAppClick(input: WhatsAppClickInput) {
     origin: input.origin,
     equipment_slug: input.equipmentSlug,
     equipment_name: input.equipmentName,
+  });
+
+  captureGoogleAdsWhatsAppConversion({
+    origin: input.origin,
+    equipment_slug: input.equipmentSlug,
   });
 
   if (typeof window === 'undefined') {

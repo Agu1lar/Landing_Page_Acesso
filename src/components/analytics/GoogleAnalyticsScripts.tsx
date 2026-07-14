@@ -1,18 +1,31 @@
 import Script from 'next/script';
-import { getGaMeasurementId } from '@/lib/google-analytics';
+import { getGaMeasurementId, getGoogleAdsId, getGtagBootstrapId } from '@/lib/google-analytics';
 
 /**
  * Loads gtag.js with Consent Mode defaults (denied until user accepts analytics).
+ * Configures GA4 and/or Google Ads when env vars are set.
  */
 export function GoogleAnalyticsScripts() {
-  const measurementId = getGaMeasurementId();
-  if (!measurementId) {
+  const bootstrapId = getGtagBootstrapId();
+  const gaId = getGaMeasurementId();
+  const adsId = getGoogleAdsId();
+  if (!bootstrapId) {
     return null;
   }
 
+  const configLines = [
+    gaId ? `gtag('config', '${gaId}', { send_page_view: false });` : null,
+    adsId ? `gtag('config', '${adsId}');` : null,
+  ]
+    .filter(Boolean)
+    .join('\n          ');
+
   return (
     <>
-      <Script src={`https://www.googletagmanager.com/gtag/js?id=${measurementId}`} strategy="afterInteractive" />
+      <Script
+        src={`https://www.googletagmanager.com/gtag/js?id=${bootstrapId}`}
+        strategy="afterInteractive"
+      />
       <Script id="google-analytics-consent-default" strategy="afterInteractive">
         {`
           window.dataLayer = window.dataLayer || [];
@@ -25,7 +38,7 @@ export function GoogleAnalyticsScripts() {
             wait_for_update: 500
           });
           gtag('js', new Date());
-          gtag('config', '${measurementId}', { send_page_view: false });
+          ${configLines}
         `}
       </Script>
     </>

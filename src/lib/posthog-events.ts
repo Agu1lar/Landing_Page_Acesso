@@ -1,5 +1,5 @@
 import { getPostHog } from '@/lib/posthog-client';
-import { GA_CONVERSION_EVENTS, captureGaEvent } from '@/lib/google-analytics';
+import { GA_CONVERSION_EVENTS, captureGaEvent, captureGoogleAdsLeadConversion } from '@/lib/google-analytics';
 
 export type WhatsAppClickInput = {
   origin: string;
@@ -147,5 +147,11 @@ export function captureQuoteSubmit(input: QuoteSubmitEventInput) {
     cart_line_count: input.cartLineCount,
     equipment_slug: input.equipmentSlug,
     equipment_name: input.equipmentName,
+  });
+
+  captureGoogleAdsLeadConversion({
+    origin: input.origin,
+    lead_id: input.leadId,
+    cart_line_count: input.cartLineCount,
   });
 }

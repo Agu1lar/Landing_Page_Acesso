@@ -46,6 +46,13 @@ export async function GET() {
   const resendConfigured = Boolean(Env.RESEND_API_KEY?.startsWith('re_'));
   const googleClientIdConfigured = Boolean(process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID?.trim());
   const ga4Configured = Boolean(process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim());
+  const googleAdsConfigured = Boolean(process.env.NEXT_PUBLIC_GOOGLE_ADS_ID?.trim());
+  const googleAdsLeadConversionConfigured = Boolean(
+    process.env.NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_LEAD?.trim(),
+  );
+  const googleAdsWhatsAppConversionConfigured = Boolean(
+    process.env.NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_WHATSAPP?.trim(),
+  );
   const posthogConfigured = Boolean(process.env.NEXT_PUBLIC_POSTHOG_KEY?.trim());
   const databaseUsesPooler = Env.DATABASE_URL.includes('-pooler');
   const dashboardSessionConfigured = Boolean(
@@ -87,6 +94,9 @@ export async function GET() {
       ),
     },
     ga4Configured,
+    googleAdsConfigured,
+    googleAdsLeadConversionConfigured,
+    googleAdsWhatsAppConversionConfigured,
     posthogConfigured,
     chatproWebhookConfigured: Boolean(Env.CHATPRO_WEBHOOK_SECRET?.trim()),
     chatproWebhookPath: 'POST /api/webhooks/chatpro?token=…',

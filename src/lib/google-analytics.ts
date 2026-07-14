@@ -1,5 +1,8 @@
 /**
- * Google Analytics 4 + Consent Mode v2 (optional — requires NEXT_PUBLIC_GA_MEASUREMENT_ID).
+ * Google Analytics 4 + Google Ads (gtag) with Consent Mode v2.
+ * GA4: NEXT_PUBLIC_GA_MEASUREMENT_ID (G-…)
+ * Ads: NEXT_PUBLIC_GOOGLE_ADS_ID (AW-…)
+ * Optional conversion labels (full send_to): NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_LEAD / _WHATSAPP
  */
 
 export const GA_CONVERSION_EVENTS = {
@@ -14,12 +17,30 @@ export function getGaMeasurementId() {
   return process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim() || null;
 }
 
+export function getGoogleAdsId() {
+  return process.env.NEXT_PUBLIC_GOOGLE_ADS_ID?.trim() || null;
+}
+
+/** Full `send_to` value, e.g. AW-11323862073/AbCdEfGh */
+export function getGoogleAdsLeadConversionSendTo() {
+  return process.env.NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_LEAD?.trim() || null;
+}
+
+export function getGoogleAdsWhatsAppConversionSendTo() {
+  return process.env.NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_WHATSAPP?.trim() || null;
+}
+
 export function isGoogleAnalyticsConfigured() {
-  return Boolean(getGaMeasurementId());
+  return Boolean(getGaMeasurementId() || getGoogleAdsId());
 }
 
 export function isGoogleAnalyticsConsentGranted() {
   return consentGranted;
+}
+
+/** Primary ID used to load gtag.js (GA4 preferred, else Ads). */
+export function getGtagBootstrapId() {
+  return getGaMeasurementId() || getGoogleAdsId();
 }
 
 function gtag(...args: unknown[]) {
@@ -68,10 +89,10 @@ export function denyGoogleAnalyticsConsent() {
 export type GaEventParams = Record<string, string | number | undefined>;
 
 /**
- * Sends a conversion event to GA4 (only after consent is granted).
+ * Sends an event to GA4 (only after consent is granted).
  */
 export function captureGaEvent(eventName: string, params?: GaEventParams) {
-  if (!consentGranted || !isGoogleAnalyticsConfigured()) {
+  if (!consentGranted || !getGaMeasurementId()) {
     return;
   }
 
@@ -88,10 +109,38 @@ export function captureGaEvent(eventName: string, params?: GaEventParams) {
 }
 
 /**
+ * Fires a Google Ads conversion when a send_to label is configured.
+ */
+export function captureGoogleAdsConversion(sendTo: string | null | undefined, params?: GaEventParams) {
+  if (!consentGranted || !sendTo?.trim()) {
+    return;
+  }
+
+  const cleaned: Record<string, string | number> = { send_to: sendTo.trim() };
+  if (params) {
+    for (const [key, value] of Object.entries(params)) {
+      if (value !== undefined && value !== '') {
+        cleaned[key] = value;
+      }
+    }
+  }
+
+  gtag('event', 'conversion', cleaned);
+}
+
+export function captureGoogleAdsLeadConversion(params?: GaEventParams) {
+  captureGoogleAdsConversion(getGoogleAdsLeadConversionSendTo(), params);
+}
+
+export function captureGoogleAdsWhatsAppConversion(params?: GaEventParams) {
+  captureGoogleAdsConversion(getGoogleAdsWhatsAppConversionSendTo(), params);
+}
+
+/**
  * Sends a page_view to GA4 after consent.
  */
 export function captureGaPageView(pagePath: string, pageTitle?: string) {
-  if (!consentGranted || !isGoogleAnalyticsConfigured()) {
+  if (!consentGranted || !getGaMeasurementId()) {
     return;
   }
 
