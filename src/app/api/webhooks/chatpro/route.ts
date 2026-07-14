@@ -72,7 +72,7 @@ export async function POST(request: Request) {
 
   try {
     const result = await applyChatProReplyToLead(event);
-    return NextResponse.json({ ok: true, event: event.event, ...result });
+    return NextResponse.json({ event: event.event, ...result });
   } catch (error) {
     logger.error('ChatPro webhook falhou ao atualizar lead', {
       message: error instanceof Error ? error.message : String(error),
