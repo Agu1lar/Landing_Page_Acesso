@@ -68,13 +68,15 @@ export async function LeadsTable(props: LeadsTableProps) {
               const activityAt = new Date(leadActivityTimestamp(lead));
               const whatsappStatus = resolveLeadWhatsAppStatus(lead);
               const whatsappLabel =
-                whatsappStatus === 'opened'
-                  ? t('whatsapp_status_opened')
-                  : whatsappStatus === 'blocked'
-                    ? t('whatsapp_status_blocked')
-                    : whatsappStatus === 'not_applicable'
-                      ? t('whatsapp_status_not_applicable')
-                      : t('whatsapp_status_unknown');
+                whatsappStatus === 'replied'
+                  ? t('whatsapp_status_replied')
+                  : whatsappStatus === 'opened'
+                    ? t('whatsapp_status_opened')
+                    : whatsappStatus === 'blocked'
+                      ? t('whatsapp_status_blocked')
+                      : whatsappStatus === 'not_applicable'
+                        ? t('whatsapp_status_not_applicable')
+                        : t('whatsapp_status_unknown');
               return (
                 <tr className="transition-colors hover:bg-neutral-50/80" key={lead.id}>
                   <td className="px-4 py-3 whitespace-nowrap text-neutral-600">

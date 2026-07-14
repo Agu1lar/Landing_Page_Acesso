@@ -88,6 +88,8 @@ export async function GET() {
     },
     ga4Configured,
     posthogConfigured,
+    chatproWebhookConfigured: Boolean(Env.CHATPRO_WEBHOOK_SECRET?.trim()),
+    chatproWebhookPath: 'POST /api/webhooks/chatpro?token=…',
     leadTracking: {
       cookieConsentLeadRequiresGoogleOneTap: true,
       dashboardLoginDoesNotCreateLead: true,

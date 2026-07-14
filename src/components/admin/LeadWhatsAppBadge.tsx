@@ -7,6 +7,7 @@ type LeadWhatsAppBadgeProps = {
 };
 
 const styles: Record<LeadWhatsAppStatus, string> = {
+  replied: 'border-emerald-300 bg-emerald-50 text-emerald-900',
   opened: 'border-green-200 bg-green-50 text-green-800',
   blocked: 'border-amber-200 bg-amber-50 text-amber-900',
   unknown: 'border-neutral-200 bg-neutral-100 text-neutral-700',

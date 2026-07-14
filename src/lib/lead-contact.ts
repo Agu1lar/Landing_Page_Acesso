@@ -19,6 +19,28 @@ export function normalizeLeadPhone(phone: string | null | undefined) {
   return digits;
 }
 
+/**
+ * Stable BR phone key for matching site leads ↔ ChatPro/WhatsApp numbers.
+ * Strips country code 55 and keeps DDD + local (10–11 digits).
+ */
+export function phoneMatchKey(phone: string | null | undefined) {
+  const digits = normalizeLeadPhone(phone);
+  if (!digits) {
+    return null;
+  }
+
+  let local = digits;
+  if (local.startsWith('55') && local.length >= 12) {
+    local = local.slice(2);
+  }
+
+  if (local.length > 11) {
+    local = local.slice(-11);
+  }
+
+  return local.length >= 10 ? local : null;
+}
+
 /** True when two lead rows likely belong to the same person. */
 export function leadsShareContact(a: Pick<LeadRecord, 'email' | 'phone'>, b: Pick<LeadRecord, 'email' | 'phone'>) {
   if (normalizeLeadEmail(a.email) === normalizeLeadEmail(b.email)) {

@@ -64,13 +64,15 @@ export default async function LeadDetailPage(props: LeadDetailPageProps) {
   const intent = scoreLeadIntent(lead);
   const whatsappStatus = resolveLeadWhatsAppStatus(lead);
   const whatsappStatusLabel =
-    whatsappStatus === 'opened'
-      ? t('whatsapp_status_opened')
-      : whatsappStatus === 'blocked'
-        ? t('whatsapp_status_blocked')
-        : whatsappStatus === 'not_applicable'
-          ? t('whatsapp_status_not_applicable')
-          : t('whatsapp_status_unknown');
+    whatsappStatus === 'replied'
+      ? t('whatsapp_status_replied')
+      : whatsappStatus === 'opened'
+        ? t('whatsapp_status_opened')
+        : whatsappStatus === 'blocked'
+          ? t('whatsapp_status_blocked')
+          : whatsappStatus === 'not_applicable'
+            ? t('whatsapp_status_not_applicable')
+            : t('whatsapp_status_unknown');
   const priorityKey =
     intent.tier === 'hot' ? 'priority_hot' : intent.tier === 'warm' ? 'priority_warm' : 'priority_cold';
   let rentalLabel = lead.rentalPeriod ?? '—';

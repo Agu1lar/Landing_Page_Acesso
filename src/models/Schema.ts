@@ -55,6 +55,8 @@ export const leadsSchema = pgTable('leads', {
   geoRegion: varchar('geo_region', { length: 120 }),
   internalNotes: text('internal_notes'),
   whatsappOpened: boolean('whatsapp_opened'),
+  /** Set when ChatPro reports an inbound WhatsApp message from this phone. */
+  whatsappRepliedAt: timestamp('whatsapp_replied_at', { mode: 'date' }),
   lastActivityAt: timestamp('last_activity_at', { mode: 'date' }),
   clientId: integer('client_id'),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),

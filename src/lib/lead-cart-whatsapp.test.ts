@@ -25,15 +25,33 @@ describe('buildLeadCartItemDisplay', () => {
 });
 
 describe('resolveLeadWhatsAppStatus', () => {
+  it('marks ChatPro reply above opened', () => {
+    expect(
+      resolveLeadWhatsAppStatus({
+        leadKind: 'quote',
+        whatsappOpened: true,
+        whatsappRepliedAt: new Date('2026-07-14T12:00:00Z'),
+      }),
+    ).toBe('replied');
+  });
+
   it('marks quote leads with popup success as opened', () => {
     expect(
-      resolveLeadWhatsAppStatus({ leadKind: 'quote', whatsappOpened: true }),
+      resolveLeadWhatsAppStatus({
+        leadKind: 'quote',
+        whatsappOpened: true,
+        whatsappRepliedAt: null,
+      }),
     ).toBe('opened');
   });
 
   it('marks blocked popup as blocked', () => {
     expect(
-      resolveLeadWhatsAppStatus({ leadKind: 'quote', whatsappOpened: false }),
+      resolveLeadWhatsAppStatus({
+        leadKind: 'quote',
+        whatsappOpened: false,
+        whatsappRepliedAt: null,
+      }),
     ).toBe('blocked');
   });
 });
