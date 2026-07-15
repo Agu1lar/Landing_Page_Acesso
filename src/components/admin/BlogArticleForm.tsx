@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, type FormEvent } from 'react';
 import { BlogCoverUpload } from '@/components/admin/BlogCoverUpload';
 import { BlogTagEditor } from '@/components/admin/BlogTagEditor';
 import { AdminPendingButton } from '@/components/admin/AdminPendingButton';
@@ -10,6 +10,12 @@ import { Input } from '@/components/ui/Input';
 import { slugifyEquipmentName } from '@/lib/equipment-slug';
 import { emptyTiptapDoc } from '@/lib/blog-tiptap';
 import type { BlogArticleAdminRow } from '@/types/blog-article';
+import {
+  BLOG_SEO_LIMITS,
+  suggestBlogMetaDescription,
+  suggestBlogMetaTitle,
+  validateBlogSeoField,
+} from '@/validations/blog-admin';
 import type { JSONContent } from '@tiptap/core';
 
 type RelatedLinkRow = {
@@ -31,6 +37,20 @@ function initialRelatedLinks(links: RelatedLinkRow[] | undefined): RelatedLinkRo
   return links;
 }
 
+function hasCustomMetaTitle(article: BlogArticleAdminRow | undefined) {
+  if (!article?.metaTitle) {
+    return false;
+  }
+  return article.metaTitle.trim() !== suggestBlogMetaTitle(article.title).trim();
+}
+
+function hasCustomMetaDescription(article: BlogArticleAdminRow | undefined) {
+  if (!article?.metaDescription) {
+    return false;
+  }
+  return article.metaDescription.trim() !== suggestBlogMetaDescription(article.excerpt).trim();
+}
+
 /**
  * Admin form for creating or editing blog articles.
  */
@@ -42,8 +62,18 @@ export function BlogArticleForm(props: BlogArticleFormProps) {
   const [slug, setSlug] = useState(article?.slug ?? '');
   const [slugManual, setSlugManual] = useState(Boolean(article?.slug));
   const [excerpt, setExcerpt] = useState(article?.excerpt ?? '');
-  const [metaTitle, setMetaTitle] = useState(article?.metaTitle ?? '');
-  const [metaDescription, setMetaDescription] = useState(article?.metaDescription ?? '');
+  const [metaTitle, setMetaTitle] = useState(
+    article?.metaTitle ?? suggestBlogMetaTitle(article?.title ?? ''),
+  );
+  const [metaDescription, setMetaDescription] = useState(
+    article?.metaDescription ?? suggestBlogMetaDescription(article?.excerpt ?? ''),
+  );
+  const [metaTitleTouched, setMetaTitleTouched] = useState(() => hasCustomMetaTitle(article));
+  const [metaDescriptionTouched, setMetaDescriptionTouched] = useState(() =>
+    hasCustomMetaDescription(article),
+  );
+  const [metaTitleError, setMetaTitleError] = useState<string | null>(null);
+  const [metaDescriptionError, setMetaDescriptionError] = useState<string | null>(null);
   const [coverImageUrl, setCoverImageUrl] = useState(article?.coverImageUrl ?? '');
   const [content, setContent] = useState<JSONContent>(article?.content ?? emptyTiptapDoc());
   const [relatedLinks, setRelatedLinks] = useState(() =>
@@ -59,18 +89,52 @@ export function BlogArticleForm(props: BlogArticleFormProps) {
     [relatedLinks],
   );
 
+  const metaDescriptionHint = t('meta_description_count', { count: metaDescription.length });
+  const metaDescriptionTooShort = metaDescription.length < BLOG_SEO_LIMITS.metaDescriptionMin;
+
   const updateTitle = (value: string) => {
     setTitle(value);
     if (!slugManual) {
       setSlug(slugifyEquipmentName(value));
     }
-    if (!metaTitle.trim()) {
-      setMetaTitle(value ? `${value} | Dicas Acesso` : '');
+    if (!metaTitleTouched) {
+      setMetaTitle(suggestBlogMetaTitle(value));
+    }
+  };
+
+  const seoErrorMessage = (field: 'metaTitle' | 'metaDescription', issue: 'too_short' | 'too_long') => {
+    if (field === 'metaTitle') {
+      return issue === 'too_short'
+        ? t('error_meta_title_too_short', { min: BLOG_SEO_LIMITS.metaTitleMin })
+        : t('error_meta_title_too_long', { max: BLOG_SEO_LIMITS.metaTitleMax });
+    }
+
+    return issue === 'too_short'
+      ? t('error_meta_description_too_short', { min: BLOG_SEO_LIMITS.metaDescriptionMin })
+      : t('error_meta_description_too_long', { max: BLOG_SEO_LIMITS.metaDescriptionMax });
+  };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    setMetaTitleError(null);
+    setMetaDescriptionError(null);
+
+    const nextMetaTitleIssue = validateBlogSeoField('metaTitle', metaTitle);
+    const nextMetaDescriptionIssue = validateBlogSeoField('metaDescription', metaDescription);
+
+    if (nextMetaTitleIssue) {
+      setMetaTitleError(seoErrorMessage('metaTitle', nextMetaTitleIssue));
+    }
+    if (nextMetaDescriptionIssue) {
+      setMetaDescriptionError(seoErrorMessage('metaDescription', nextMetaDescriptionIssue));
+    }
+
+    if (nextMetaTitleIssue || nextMetaDescriptionIssue) {
+      event.preventDefault();
     }
   };
 
   return (
-    <form action={props.action} className="space-y-8">
+    <form action={props.action} className="space-y-8" onSubmit={handleSubmit}>
       {article ? <input name="articleId" type="hidden" value={article.id} /> : null}
       {props.returnTo ? <input name="returnTo" type="hidden" value={props.returnTo} /> : null}
       <input name="contentJson" type="hidden" value={contentJson} />
@@ -103,6 +167,9 @@ export function BlogArticleForm(props: BlogArticleFormProps) {
             }}
             value={slug}
           />
+          {article?.status === 'published' ? (
+            <p className="mt-1 text-xs text-amber-700">{t('slug_published_hint')}</p>
+          ) : null}
         </div>
 
         <div>
@@ -113,7 +180,14 @@ export function BlogArticleForm(props: BlogArticleFormProps) {
             className="w-full rounded-lg border border-neutral-200 bg-surface px-3 py-2 text-sm"
             id="excerpt"
             name="excerpt"
-            onChange={(event) => setExcerpt(event.target.value)}
+            onChange={(event) => {
+              const value = event.target.value;
+              setExcerpt(value);
+              if (!metaDescriptionTouched) {
+                setMetaDescription(suggestBlogMetaDescription(value));
+              }
+              setMetaDescriptionError(null);
+            }}
             required
             rows={3}
             value={excerpt}
@@ -125,10 +199,17 @@ export function BlogArticleForm(props: BlogArticleFormProps) {
         <h2 className="font-heading text-lg font-semibold text-neutral-900">{t('section_seo')}</h2>
 
         <Input
+          error={metaTitleError ?? undefined}
+          hint={t('meta_title_hint', { min: BLOG_SEO_LIMITS.metaTitleMin, max: BLOG_SEO_LIMITS.metaTitleMax })}
           id="metaTitle"
           label={t('field_meta_title')}
+          maxLength={BLOG_SEO_LIMITS.metaTitleMax}
           name="metaTitle"
-          onChange={(event) => setMetaTitle(event.target.value)}
+          onChange={(event) => {
+            setMetaTitleTouched(true);
+            setMetaTitle(event.target.value);
+            setMetaTitleError(null);
+          }}
           required
           value={metaTitle}
         />
@@ -138,16 +219,30 @@ export function BlogArticleForm(props: BlogArticleFormProps) {
             {t('field_meta_description')}
           </label>
           <textarea
-            className="w-full rounded-lg border border-neutral-200 bg-surface px-3 py-2 text-sm"
+            aria-describedby="metaDescription-hint"
+            aria-invalid={metaDescriptionError ? true : undefined}
+            className={`w-full rounded-lg border bg-surface px-3 py-2 text-sm ${
+              metaDescriptionError ? 'border-red-500' : 'border-neutral-200'
+            }`}
             id="metaDescription"
+            maxLength={BLOG_SEO_LIMITS.metaDescriptionMax}
             name="metaDescription"
-            onChange={(event) => setMetaDescription(event.target.value)}
+            onChange={(event) => {
+              setMetaDescriptionTouched(true);
+              setMetaDescription(event.target.value);
+              setMetaDescriptionError(null);
+            }}
             required
             rows={3}
             value={metaDescription}
           />
-          <p className="mt-1 text-xs text-neutral-500">
-            {t('meta_description_count', { count: metaDescription.length })}
+          <p
+            className={`mt-1 text-xs ${
+              metaDescriptionError || metaDescriptionTooShort ? 'text-red-600' : 'text-neutral-500'
+            }`}
+            id="metaDescription-hint"
+          >
+            {metaDescriptionError ?? metaDescriptionHint}
           </p>
         </div>
       </section>

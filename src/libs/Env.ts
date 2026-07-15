@@ -20,6 +20,8 @@ export const Env = createEnv({
     WHATSAPPOS_WIDGET_KEY: z.string().min(1).optional(),
     /** Shared secret for ChatPro → /api/webhooks/chatpro (?token= or header). */
     CHATPRO_WEBHOOK_SECRET: z.string().min(16).optional(),
+    /** Bearer token for server-to-server internal APIs. */
+    INTERNAL_API_SECRET: z.string().min(24).optional(),
   },
   client: {
     NEXT_PUBLIC_APP_URL: z.string().optional(),
@@ -50,6 +52,7 @@ export const Env = createEnv({
     WHATSAPPOS_API_URL: process.env.WHATSAPPOS_API_URL,
     WHATSAPPOS_WIDGET_KEY: process.env.WHATSAPPOS_WIDGET_KEY,
     CHATPRO_WEBHOOK_SECRET: process.env.CHATPRO_WEBHOOK_SECRET,
+    INTERNAL_API_SECRET: process.env.INTERNAL_API_SECRET,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
     NEXT_PUBLIC_GOOGLE_CLIENT_ID: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
     NEXT_PUBLIC_LOGGING_LEVEL: process.env.NEXT_PUBLIC_LOGGING_LEVEL,

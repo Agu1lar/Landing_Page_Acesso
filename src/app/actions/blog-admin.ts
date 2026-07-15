@@ -7,6 +7,7 @@ import { adminListFiltersSuffix, returnPathFromFormData } from '@/lib/admin-retu
 import { requireDashboardAccess } from '@/lib/auth-roles';
 import {
   getBlogArticleAdminById,
+  getBlogArticleAdminBySlug,
   isBlogSlugAvailable,
   publishBlogArticleBySlug,
   saveBlogArticle,
@@ -14,6 +15,7 @@ import {
 } from '@/lib/blog-articles-db';
 import {
   BlogAdminFormSchema,
+  isBlogArticleSeoReady,
   parseBlogContentJson,
   parseRelatedLinksJson,
 } from '@/validations/blog-admin';
@@ -23,6 +25,12 @@ function revalidateBlogPaths(slug: string) {
   revalidatePath(`/dicas/${slug}`);
   revalidatePath('/sitemap.xml');
   revalidatePath('/dashboard/dicas');
+}
+
+function redirectToBlogEdit(slug: string, error: 'validation' | 'slug' | 'seo', formData: FormData) {
+  const filters = adminListFiltersSuffix(formData);
+  const base = `/dashboard/dicas/${slug}/edit?error=${error}`;
+  redirect(filters ? `${base}&${filters.slice(1)}` : base);
 }
 
 /**
@@ -37,13 +45,18 @@ export async function saveBlogArticleAction(formData: FormData) {
   const raw = Object.fromEntries(formData.entries());
   const parsed = BlogAdminFormSchema.safeParse(raw);
   if (!parsed.success) {
+    const fallbackSlug = String(raw.slug ?? '').trim();
+    if (fallbackSlug) {
+      redirectToBlogEdit(fallbackSlug, 'validation', formData);
+    }
     redirect('/dashboard/dicas?error=validation');
   }
 
   const articleId = parsed.data.articleId;
+  const existing = articleId ? await getBlogArticleAdminById(articleId) : null;
   const available = await isBlogSlugAvailable(parsed.data.slug, articleId);
   if (!available) {
-    redirect('/dashboard/dicas?error=slug');
+    redirectToBlogEdit(parsed.data.slug, 'slug', formData);
   }
 
   let status: 'draft' | 'published' = 'draft';
@@ -51,9 +64,12 @@ export async function saveBlogArticleAction(formData: FormData) {
     status = 'published';
   } else if (parsed.data.intent === 'unpublish') {
     status = 'draft';
-  } else if (articleId) {
-    const existing = await getBlogArticleAdminById(articleId);
-    status = existing?.status === 'published' ? 'published' : 'draft';
+  } else if (existing) {
+    status = existing.status === 'published' ? 'published' : 'draft';
+  }
+
+  if (status === 'published' && !isBlogArticleSeoReady(parsed.data)) {
+    redirectToBlogEdit(parsed.data.slug, 'seo', formData);
   }
 
   const content = parseBlogContentJson(parsed.data.contentJson);
@@ -84,6 +100,9 @@ export async function saveBlogArticleAction(formData: FormData) {
   });
 
   revalidateBlogPaths(saved.slug);
+  if (existing && existing.slug !== saved.slug) {
+    revalidateBlogPaths(existing.slug);
+  }
   const filters = adminListFiltersSuffix(formData);
   redirect(`/dashboard/dicas/${saved.slug}/edit${filters}`);
 }
@@ -131,6 +150,15 @@ export async function publishBlogArticleAction(formData: FormData) {
   const slug = String(formData.get('slug') ?? '').trim();
   if (!slug) {
     redirect('/dashboard/dicas');
+  }
+
+  const draft = await getBlogArticleAdminBySlug(slug);
+  if (!draft) {
+    redirect('/dashboard/dicas');
+  }
+
+  if (!isBlogArticleSeoReady(draft)) {
+    redirect(`/dashboard/dicas/${slug}/edit?error=seo`);
   }
 
   const article = await publishBlogArticleBySlug(slug, access.userId);

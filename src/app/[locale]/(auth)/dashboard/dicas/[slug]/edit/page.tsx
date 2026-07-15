@@ -15,7 +15,7 @@ import { resolveAppLocale } from '@/utils/locale';
 
 type BlogAdminEditProps = {
   params: Promise<{ locale: string; slug: string }>;
-  searchParams: Promise<{ q?: string; status?: string }>;
+  searchParams: Promise<{ q?: string; status?: string; error?: string }>;
 };
 
 export async function generateMetadata(props: BlogAdminEditProps): Promise<Metadata> {
@@ -55,6 +55,15 @@ export default async function BlogAdminEditPage(props: BlogAdminEditProps) {
     status: searchParams.status,
   });
 
+  const errorMessage =
+    searchParams.error === 'seo'
+      ? t('error_seo_incomplete')
+      : searchParams.error === 'slug'
+        ? t('error_slug_taken')
+        : searchParams.error === 'validation'
+          ? t('error_validation')
+          : null;
+
   return (
     <div className="space-y-8">
       <AdminBackLink href={listPath} label={tCommon('back_to_list')} />
@@ -62,6 +71,11 @@ export default async function BlogAdminEditPage(props: BlogAdminEditProps) {
         description={t('edit_description', { title: article.title })}
         title={t('edit_title')}
       />
+      {errorMessage ? (
+        <p className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700" role="alert">
+          {errorMessage}
+        </p>
+      ) : null}
       <BlogArticleForm
         action={saveBlogArticleAction}
         article={article}

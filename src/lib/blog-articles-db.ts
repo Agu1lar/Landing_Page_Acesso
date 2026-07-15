@@ -5,6 +5,7 @@ import type { InferSelectModel } from 'drizzle-orm';
 import type { JSONContent } from '@tiptap/core';
 import { DICAS_ARTICLES } from '@/data/dicas-articles';
 import { estimateReadingMinutes, sectionsToTiptapDoc } from '@/lib/blog-tiptap';
+import { registerBlogSlugRedirect } from '@/lib/blog-slug-redirects';
 import { db } from '@/libs/DB';
 import { blogArticlesSchema } from '@/models/Schema';
 import type { BlogArticle, BlogArticleAdminRow, BlogArticleStatus } from '@/types/blog-article';
@@ -252,6 +253,19 @@ export async function saveBlogArticle(input: BlogArticleFormInput, updatedBy: st
       .from(blogArticlesSchema)
       .where(eq(blogArticlesSchema.id, articleId))
       .limit(1);
+
+    const slugChanged = existing && existing.slug !== input.slug;
+    const shouldRegisterRedirect =
+      slugChanged
+      && (existing?.status === 'published' || input.status === 'published');
+
+    if (shouldRegisterRedirect && existing) {
+      await registerBlogSlugRedirect({
+        fromSlug: existing.slug,
+        toSlug: input.slug,
+        articleId,
+      });
+    }
 
     const keepPublishedAt =
       input.status === 'published' && existing?.publishedAt

@@ -14,9 +14,24 @@ Instrumentação comercial, reorganização do painel de métricas, geolocaliza�
 
 - **7 abas:** Visão geral, Conversão, Campanhas, Catálogo, Tráfego, Comportamento, Executivo (`?section=`)
 - Funil, abandono de carrinho, scroll, busca, equipamento × conversão
+- Funil comercial de WhatsApp: lead de orçamento → cliente respondeu no WhatsApp (ChatPro) → ganho
 - Aba **Executivo:** série diária, leads por cidade, tops, export CSV
 - Filtros: padrão = mês atual (dia 1 → hoje, Brasília); comparação opcional para % dos KPIs
 - `AnalyticsMetricSection`, `AdminHelpLauncher`, libs em `src/lib/analytics-*.ts`
+
+### WhatsApp confirmado via ChatPro
+
+- `whatsapp_opened`: registra quando o navegador abriu o WhatsApp após o envio do orçamento (`0030_leads_whatsapp_opened.sql`)
+- `whatsapp_replied_at`: registra quando o ChatPro envia webhook de mensagem recebida do cliente (`0034_leads_whatsapp_replied.sql`)
+- Webhook `POST /api/webhooks/chatpro` com segredo `CHATPRO_WEBHOOK_SECRET`
+- Match por telefone normalizado, dentro de janela de 45 dias, ignorando abertura de sessão sem mensagem recebida
+
+### API privada para novas campanhas
+
+- Endpoints somente leitura em `/api/internal/v1/ads-quality/*`
+- Autenticação server-to-server com `INTERNAL_API_SECRET`
+- Contratos para resumo, campanhas e leads redigidos por `campaignPrefix`
+- Base para app externo analisar qualidade comercial sem acessar o banco diretamente
 
 ### Geolocalização (após aceitar analytics)
 

@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/Agu1lar/Landing_Page_Acesso/actions/workflows/CI.yml/badge.svg)](https://github.com/Agu1lar/Landing_Page_Acesso/actions/workflows/CI.yml)
 
-Site da **Acesso Equipamentos** (locação de equipamentos para construção civil). Catálogo público, carrinho de orçamento, envio via **WhatsApp**, leads no **PostgreSQL**, e-mail interno (**Resend**) e painel **Clerk** (`/dashboard`).
+Site da **Acesso Equipamentos** (locação de equipamentos para construção civil). Catálogo público, carrinho de orçamento, envio via **WhatsApp** com confirmação de resposta pelo ChatPro, leads no **PostgreSQL**, e-mail interno (**Resend**) e painel **Clerk** (`/dashboard`).
 
 | Ambiente | URL |
 |----------|-----|
@@ -56,6 +56,7 @@ Variáveis: [.env.example](.env.example) · e-mail leads: `RESEND_*` · analytic
 
 - **Público:** home, catálogo (`/equipamentos`), categorias, fichas, blog (`/dicas`), orçamento, FAQ, contato.
 - **Orçamento:** carrinho multi-item → lead no banco → WhatsApp + e-mail comercial.
+- **Rastreamento comercial:** origem Google Ads/GA4, clique no WhatsApp, abertura do WhatsApp no envio do orçamento e resposta real do cliente via webhook ChatPro.
 - **Admin:** leads (semana + consulta), métricas (`/dashboard/analytics`), CRUD equipamentos com fotos (Blob), CMS de dicas (TipTap).
 - **SEO / migração:** redirects 301 do WordPress (`legacy-redirects.json`), sitemap, JSON-LD, `llms.txt` / `catalog.json`.
 
@@ -85,6 +86,7 @@ Variáveis obrigatórias em **Production:** Clerk, `DATABASE_URL`, `NEXT_PUBLIC_
 | Deploy / preview Vercel | [docs/DEPLOY-PREVIEW-VERCEL.md](docs/DEPLOY-PREVIEW-VERCEL.md) |
 | Clerk e papéis do painel | [docs/CLERK-ACESSO-ADMIN.md](docs/CLERK-ACESSO-ADMIN.md) |
 | GA4 e Google Ads | [docs/GOOGLE-ADS-GA4.md](docs/GOOGLE-ADS-GA4.md) |
+| API interna para app externo | [docs/INTERNAL-ADS-QUALITY-API.md](docs/INTERNAL-ADS-QUALITY-API.md) |
 | Migração SEO WordPress | [docs/MIGRACAO-SEO-WP.md](docs/MIGRACAO-SEO-WP.md) |
 | GEO / IAs (`llms.txt`) | [docs/GEO-AI-SEARCH.md](docs/GEO-AI-SEARCH.md) |
 | Fotos de equipamentos | [docs/SPRINT-9-FOTOS.md](docs/SPRINT-9-FOTOS.md) |
