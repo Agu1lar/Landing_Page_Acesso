@@ -79,7 +79,10 @@ describe('render blog content html', () => {
     });
 
     expect(html).toContain('<figure');
+    expect(html).toContain('aspect-[16/9]');
     expect(html).toContain('src="/blog/exemplo.jpg"');
+    expect(html).toContain('width="1600"');
+    expect(html).toContain('height="900"');
     expect(html).toContain('<figcaption');
     expect(html).toContain('Operador em plataforma elevatória');
   });

@@ -152,30 +152,35 @@ export const CtaButton = Node.create({
 });
 
 const figureClass = 'blog-figure my-10 overflow-hidden rounded-xl border border-neutral-200 bg-neutral-50';
-const figureImageClass = 'm-0 w-full h-auto max-w-full object-cover';
+const figureFrameClass = 'relative aspect-[16/9] w-full bg-neutral-100';
+const figureImageClass = 'absolute inset-0 m-0 h-full w-full object-cover';
 const figureCaptionClass =
   'border-t border-neutral-200 px-4 py-3 text-sm leading-snug text-neutral-600';
 
 /**
  * Inline article images rendered as figure + caption (alt text).
+ * Always reserve 16:9 space so images never collapse (lazy without size).
  */
 export const BlogImage = Image.extend({
   renderHTML({ HTMLAttributes }) {
     const alt = typeof HTMLAttributes.alt === 'string' ? HTMLAttributes.alt.trim() : '';
     const imgAttrs = mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, {
       class: figureImageClass,
-      loading: 'lazy',
+      width: '1600',
+      height: '900',
       decoding: 'async',
     });
 
+    const frame = ['div', { class: figureFrameClass }, ['img', imgAttrs]];
+
     if (!alt) {
-      return ['figure', { class: figureClass }, ['img', imgAttrs]];
+      return ['figure', { class: figureClass }, frame];
     }
 
     return [
       'figure',
       { class: figureClass },
-      ['img', imgAttrs],
+      frame,
       ['figcaption', { class: figureCaptionClass }, alt],
     ];
   },
