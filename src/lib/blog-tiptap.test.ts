@@ -63,4 +63,24 @@ describe('render blog content html', () => {
     expect(html).toContain('Pedir orçamento');
     expect(html).toContain('href="/orcamento"');
   });
+
+  it('renders images as figure with caption from alt', () => {
+    const html = renderBlogContentHtml({
+      type: 'doc',
+      content: [
+        {
+          type: 'image',
+          attrs: {
+            src: '/blog/exemplo.jpg',
+            alt: 'Operador em plataforma elevatória',
+          },
+        },
+      ],
+    });
+
+    expect(html).toContain('<figure');
+    expect(html).toContain('src="/blog/exemplo.jpg"');
+    expect(html).toContain('<figcaption');
+    expect(html).toContain('Operador em plataforma elevatória');
+  });
 });

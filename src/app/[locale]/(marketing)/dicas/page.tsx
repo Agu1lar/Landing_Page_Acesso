@@ -5,6 +5,7 @@ import { JsonLd } from '@/components/seo/JsonLd';
 import { listPublishedBlogArticles } from '@/lib/blog-articles';
 import { buildDicasIndexJsonLd } from '@/lib/json-ld';
 import { buildMarketingMetadata } from '@/lib/seo-metadata';
+import type { BlogArticle } from '@/types/blog-article';
 import { Link } from '@/libs/I18nNavigation';
 import { resolveAppLocale } from '@/utils/locale';
 
@@ -25,6 +26,84 @@ export async function generateMetadata(props: DicasPageProps): Promise<Metadata>
   });
 }
 
+function ArticleCard(props: {
+  article: BlogArticle;
+  readingLabel: string;
+  readMoreLabel: string;
+  featuredLabel: string;
+  featured?: boolean;
+}) {
+  const { article, featured } = props;
+
+  if (featured) {
+    return (
+      <li className="overflow-hidden rounded-2xl border border-neutral-200 bg-surface shadow-sm">
+        <Link className="group block lg:grid lg:grid-cols-2" href={`/dicas/${article.slug}`}>
+          {article.coverImageUrl ? (
+            <div className="relative aspect-[16/10] w-full bg-neutral-100 lg:aspect-auto lg:min-h-[280px]">
+              <Image
+                alt=""
+                className="object-cover transition duration-300 group-hover:scale-[1.02]"
+                fill
+                priority
+                sizes="(max-width: 1024px) 100vw, 560px"
+                src={article.coverImageUrl}
+              />
+            </div>
+          ) : (
+            <div className="min-h-[220px] bg-neutral-100 lg:min-h-[280px]" />
+          )}
+          <div className="flex flex-col justify-center p-6 sm:p-8">
+            <p className="text-xs font-semibold tracking-wide text-primary uppercase">
+              {props.featuredLabel}
+            </p>
+            <p className="mt-2 text-xs font-medium tracking-wide text-neutral-500 uppercase">
+              {props.readingLabel}
+            </p>
+            <h2 className="mt-3 font-heading text-2xl font-bold text-neutral-900 group-hover:text-primary sm:text-3xl">
+              {article.title}
+            </h2>
+            <p className="mt-4 text-base leading-relaxed text-neutral-600">{article.excerpt}</p>
+            <span className="mt-6 text-sm font-semibold text-primary">{props.readMoreLabel}</span>
+          </div>
+        </Link>
+      </li>
+    );
+  }
+
+  return (
+    <li className="overflow-hidden rounded-2xl border border-neutral-200 bg-surface shadow-sm transition hover:border-neutral-300 hover:shadow-md">
+      <Link className="group block h-full" href={`/dicas/${article.slug}`}>
+        {article.coverImageUrl ? (
+          <div className="relative aspect-[16/10] w-full bg-neutral-100">
+            <Image
+              alt=""
+              className="object-cover transition duration-300 group-hover:scale-[1.02]"
+              fill
+              sizes="(max-width: 768px) 100vw, 360px"
+              src={article.coverImageUrl}
+            />
+          </div>
+        ) : null}
+        <div className="p-5 sm:p-6">
+          <p className="text-xs font-medium tracking-wide text-neutral-500 uppercase">
+            {props.readingLabel}
+          </p>
+          <h2 className="mt-2 font-heading text-xl font-bold text-neutral-900 group-hover:text-primary">
+            {article.title}
+          </h2>
+          <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-neutral-600">
+            {article.excerpt}
+          </p>
+          <span className="mt-4 inline-block text-sm font-semibold text-primary">
+            {props.readMoreLabel}
+          </span>
+        </div>
+      </Link>
+    </li>
+  );
+}
+
 export default async function DicasPage(props: DicasPageProps) {
   const locale = resolveAppLocale((await props.params)?.locale);
   setRequestLocale(locale);
@@ -33,51 +112,52 @@ export default async function DicasPage(props: DicasPageProps) {
     namespace: 'DicasPage',
   });
   const articles = await listPublishedBlogArticles();
+  const [featured, ...rest] = articles;
 
   return (
     <>
       <JsonLd data={buildDicasIndexJsonLd(articles)} />
-      <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
-        <h1 className="font-heading text-3xl font-bold text-neutral-900">{t('title')}</h1>
-        <p className="mt-4 text-lg text-neutral-600">{t('intro')}</p>
+      <div className="border-b border-neutral-200 bg-[linear-gradient(180deg,#f8f7f5_0%,#ffffff_72%)]">
+        <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
+          <p className="text-xs font-semibold tracking-wide text-primary uppercase">{t('eyebrow')}</p>
+          <h1 className="mt-2 font-heading text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl">
+            {t('title')}
+          </h1>
+          <p className="mt-4 max-w-2xl text-lg leading-relaxed text-neutral-600">{t('intro')}</p>
+        </div>
+      </div>
 
-        <ul className="mt-10 space-y-6">
-          {articles.map((article) => (
-            <li
-              className="overflow-hidden rounded-[var(--radius-card)] border border-neutral-200 bg-surface shadow-sm"
-              key={article.slug}
-            >
-              {article.coverImageUrl ? (
-                <div className="relative h-44 w-full bg-neutral-100">
-                  <Image
-                    alt=""
-                    className="object-cover"
-                    fill
-                    sizes="(max-width: 768px) 100vw, 768px"
-                    src={article.coverImageUrl}
+      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+        {articles.length === 0 ? (
+          <p className="text-neutral-600">{t('empty')}</p>
+        ) : (
+          <div className="space-y-8">
+            {featured ? (
+              <ul>
+                <ArticleCard
+                  article={featured}
+                  featured
+                  featuredLabel={t('featured_label')}
+                  readMoreLabel={t('read_more')}
+                  readingLabel={t('reading_time', { minutes: featured.readingMinutes })}
+                />
+              </ul>
+            ) : null}
+            {rest.length > 0 ? (
+              <ul className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+                {rest.map((article) => (
+                  <ArticleCard
+                    article={article}
+                    featuredLabel={t('featured_label')}
+                    key={article.slug}
+                    readMoreLabel={t('read_more')}
+                    readingLabel={t('reading_time', { minutes: article.readingMinutes })}
                   />
-                </div>
-              ) : null}
-              <div className="p-6">
-                <p className="text-xs font-medium tracking-wide text-neutral-500 uppercase">
-                  {t('reading_time', { minutes: article.readingMinutes })}
-                </p>
-                <h2 className="mt-2 font-heading text-xl font-bold text-neutral-900">
-                  <Link className="hover:text-primary" href={`/dicas/${article.slug}`}>
-                    {article.title}
-                  </Link>
-                </h2>
-                <p className="mt-3 text-sm leading-relaxed text-neutral-600">{article.excerpt}</p>
-                <Link
-                  className="mt-4 inline-block text-sm font-semibold text-primary hover:underline"
-                  href={`/dicas/${article.slug}`}
-                >
-                  {t('read_more')}
-                </Link>
-              </div>
-            </li>
-          ))}
-        </ul>
+                ))}
+              </ul>
+            ) : null}
+          </div>
+        )}
       </div>
     </>
   );

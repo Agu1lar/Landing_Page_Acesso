@@ -151,6 +151,36 @@ export const CtaButton = Node.create({
   },
 });
 
+const figureClass = 'blog-figure my-10 overflow-hidden rounded-xl border border-neutral-200 bg-neutral-50';
+const figureImageClass = 'm-0 w-full h-auto max-w-full object-cover';
+const figureCaptionClass =
+  'border-t border-neutral-200 px-4 py-3 text-sm leading-snug text-neutral-600';
+
+/**
+ * Inline article images rendered as figure + caption (alt text).
+ */
+export const BlogImage = Image.extend({
+  renderHTML({ HTMLAttributes }) {
+    const alt = typeof HTMLAttributes.alt === 'string' ? HTMLAttributes.alt.trim() : '';
+    const imgAttrs = mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, {
+      class: figureImageClass,
+      loading: 'lazy',
+      decoding: 'async',
+    });
+
+    if (!alt) {
+      return ['figure', { class: figureClass }, ['img', imgAttrs]];
+    }
+
+    return [
+      'figure',
+      { class: figureClass },
+      ['img', imgAttrs],
+      ['figcaption', { class: figureCaptionClass }, alt],
+    ];
+  },
+});
+
 /**
  * Shared TipTap extensions for blog editor and public HTML render.
  */
@@ -164,8 +194,8 @@ export function createBlogTiptapExtensions() {
       openOnClick: false,
       HTMLAttributes: { class: linkClass },
     }),
-    Image.configure({
-      HTMLAttributes: { class: 'rounded-lg max-w-full h-auto my-6' },
+    BlogImage.configure({
+      HTMLAttributes: {},
     }),
     VideoEmbed,
     CtaButton,
