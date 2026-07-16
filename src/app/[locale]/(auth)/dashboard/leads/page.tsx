@@ -2,8 +2,6 @@ import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { AnalyticsWhatsappWeekStrip } from '@/components/admin/AnalyticsWhatsappWeekStrip';
 import { CommercialQueueSection } from '@/components/admin/CommercialQueueSection';
-import { GoogleCookieLeadCallout } from '@/components/admin/GoogleCookieLeadCallout';
-import { GoogleOneTapActiveCallout } from '@/components/admin/GoogleOneTapActiveCallout';
 import { LeadsTable } from '@/components/admin/LeadsTable';
 import { StaleLeadsAlert } from '@/components/admin/StaleLeadsAlert';
 import { AdminCallout } from '@/components/admin/AdminCallout';
@@ -63,7 +61,6 @@ export default async function LeadsAdminPage(props: LeadsPageProps) {
     }),
   ]);
   const contactOrderCounts = await buildContactOrderCounts(weekResult.leads);
-  const googleClientIdConfigured = Boolean(process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID?.trim());
   const weekLabel = formatWeekRangeLabel(weekResult.weekRange);
   const weekOverflow = Math.max(0, weekResult.total - weekResult.leads.length);
 
@@ -100,9 +97,6 @@ export default async function LeadsAdminPage(props: LeadsPageProps) {
           {t('auto_archive_notice', { count: archivedCount })}
         </AdminCallout>
       ) : null}
-
-      <GoogleCookieLeadCallout googleClientIdConfigured={googleClientIdConfigured} />
-      <GoogleOneTapActiveCallout googleClientIdConfigured={googleClientIdConfigured} />
 
       <CommercialQueueSection
         leads={queueResult.leads}
