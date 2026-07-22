@@ -43,11 +43,23 @@ export function getGtagBootstrapId() {
   return getGaMeasurementId() || getGoogleAdsId();
 }
 
+/**
+ * Queues gtag calls even before the afterInteractive shim defines window.gtag.
+ * Dropping early calls left Consent Mode on default denied while consentGranted was true.
+ */
 function gtag(...args: unknown[]) {
-  if (typeof window === 'undefined' || typeof window.gtag !== 'function') {
+  if (typeof window === 'undefined') {
     return;
   }
-  window.gtag(...args);
+
+  if (typeof window.gtag === 'function') {
+    window.gtag(...args);
+    return;
+  }
+
+  const win = window as Window & { dataLayer?: unknown[] };
+  win.dataLayer = win.dataLayer || [];
+  win.dataLayer.push(args);
 }
 
 /**
@@ -116,7 +128,11 @@ export function captureGoogleAdsConversion(sendTo: string | null | undefined, pa
     return;
   }
 
-  const cleaned: Record<string, string | number> = { send_to: sendTo.trim() };
+  const cleaned: Record<string, string | number> = {
+    send_to: sendTo.trim(),
+    // Survive same-tab navigations (e.g. wa.me without target=_blank).
+    transport_type: 'beacon',
+  };
   if (params) {
     for (const [key, value] of Object.entries(params)) {
       if (value !== undefined && value !== '') {
