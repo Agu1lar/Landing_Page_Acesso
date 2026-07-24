@@ -138,7 +138,7 @@ export const BLOG_SEGURANCA_PLATAFORMA_TESOURA = {
   slug: 'prototipo-anti-esmagamento-plataforma-tesoura',
   title: 'Protótipo de segurança anti-esmagamento em plataforma tesoura (ToF + ESP32)',
   excerpt:
-    'Eu, criador deste site da Acesso, conto em primeira pessoa um protótipo meu: sensores ToF no cesto, geometria de FoV e bloqueio só na iminência — com Blender e ESP32.',
+    'Quem montou este site da Acesso Equipamentos também montou este protótipo: sensores ToF no cesto, geometria de FoV e bloqueio só na iminência — com Blender e ESP32.',
   metaTitle: 'Anti-esmagamento em plataforma tesoura | Acesso',
   metaDescription:
     'Protótipo didático de segurança em plataforma tesoura: ToF VL53L1X, ESP32, cobertura do cesto, faixas de alerta e limites de campo. Código aberto no GitHub.',
